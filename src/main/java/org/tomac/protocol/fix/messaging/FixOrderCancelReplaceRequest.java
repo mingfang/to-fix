@@ -29,7 +29,7 @@ public class FixOrderCancelReplaceRequest extends FixInMessage {
 	private short hasSide;
 	byte side = (byte)' ';		
 	private short hasSymbol;
-	byte[] symbol = new byte[6];		
+	byte[] symbol = new byte[8];		
 	private short hasTimeInForce;
 	byte timeInForce = (byte)' ';		
 	private short hasTransactTime;
@@ -69,7 +69,7 @@ public class FixOrderCancelReplaceRequest extends FixInMessage {
 		securityID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 		hasSide = FixUtils.TAG_HAS_NO_VALUE;		
 		hasSymbol = FixUtils.TAG_HAS_NO_VALUE;		
-		symbol = new byte[6];		
+		symbol = new byte[8];		
 		hasTimeInForce = FixUtils.TAG_HAS_NO_VALUE;		
 		hasTransactTime = FixUtils.TAG_HAS_NO_VALUE;		
 		transactTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];		
@@ -1641,7 +1641,7 @@ public class FixOrderCancelReplaceRequest extends FixInMessage {
 	}
 	@Override
 	public FixOrderCancelReplaceRequest clone () {
-		FixOrderCancelReplaceRequest out = (FixOrderCancelReplaceRequest) FixUtils.fixMessagePool.getFixMessage(FixMessageInfo.MessageTypes.ORDERCANCELREPLACEREQUEST_INT);
+		FixOrderCancelReplaceRequest out = new FixOrderCancelReplaceRequest();
 
 		standardHeader.clone(out.standardHeader);
 		standardTrailer.clone(out.standardTrailer);

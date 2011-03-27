@@ -399,7 +399,7 @@ public class FixLogon extends FixInMessage {
 	}
 	@Override
 	public FixLogon clone () {
-		FixLogon out = (FixLogon) FixUtils.fixMessagePool.getFixMessage(FixMessageInfo.MessageTypes.LOGON_INT);
+		FixLogon out = new FixLogon();
 
 		standardHeader.clone(out.standardHeader);
 		standardTrailer.clone(out.standardTrailer);

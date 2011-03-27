@@ -243,7 +243,7 @@ public class FixTestRequest extends FixInMessage {
 	}
 	@Override
 	public FixTestRequest clone () {
-		FixTestRequest out = (FixTestRequest) FixUtils.fixMessagePool.getFixMessage(FixMessageInfo.MessageTypes.TESTREQUEST_INT);
+		FixTestRequest out = new FixTestRequest();
 
 		standardHeader.clone(out.standardHeader);
 		standardTrailer.clone(out.standardTrailer);

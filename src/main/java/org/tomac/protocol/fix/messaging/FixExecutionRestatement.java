@@ -25,7 +25,7 @@ public class FixExecutionRestatement extends FixInMessage {
 	private short hasSide;
 	byte side = (byte)' ';		
 	private short hasSymbol;
-	byte[] symbol = new byte[6];		
+	byte[] symbol = new byte[8];		
 	private short hasClientID;
 	byte[] clientID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 	private short hasExecType;
@@ -53,7 +53,7 @@ public class FixExecutionRestatement extends FixInMessage {
 		hasOrdStatus = FixUtils.TAG_HAS_NO_VALUE;		
 		hasSide = FixUtils.TAG_HAS_NO_VALUE;		
 		hasSymbol = FixUtils.TAG_HAS_NO_VALUE;		
-		symbol = new byte[6];		
+		symbol = new byte[8];		
 		hasClientID = FixUtils.TAG_HAS_NO_VALUE;		
 		clientID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 		hasExecType = FixUtils.TAG_HAS_NO_VALUE;		
@@ -1245,7 +1245,7 @@ public class FixExecutionRestatement extends FixInMessage {
 	}
 	@Override
 	public FixExecutionRestatement clone () {
-		FixExecutionRestatement out = (FixExecutionRestatement) FixUtils.fixMessagePool.getFixMessage(FixMessageInfo.MessageTypes.EXECUTIONRESTATEMENT_INT);
+		FixExecutionRestatement out = new FixExecutionRestatement();
 
 		standardHeader.clone(out.standardHeader);
 		standardTrailer.clone(out.standardTrailer);

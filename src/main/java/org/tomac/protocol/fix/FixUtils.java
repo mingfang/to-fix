@@ -34,8 +34,6 @@ public class FixUtils {
 
 	public static boolean						isNasdaqOMX							= true;
 
-	public static FixMessagePool<FixInMessage>	fixMessagePool						= new FixMessagePool<FixInMessage>();
-
 	private static byte[]						calcCheckSum						= new byte[FixTags.CHECKSUM_LENGTH];
 
 	private static byte[]						currCheckSum						= new byte[FixTags.CHECKSUM_LENGTH];

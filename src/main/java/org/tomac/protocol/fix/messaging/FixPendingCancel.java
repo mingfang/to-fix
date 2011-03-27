@@ -39,7 +39,7 @@ public class FixPendingCancel extends FixInMessage {
 	private short hasSide;
 	byte side = (byte)' ';		
 	private short hasSymbol;
-	byte[] symbol = new byte[6];		
+	byte[] symbol = new byte[8];		
 	private short hasTimeInForce;
 	byte timeInForce = (byte)' ';		
 	private short hasClientID;
@@ -80,7 +80,7 @@ public class FixPendingCancel extends FixInMessage {
 		securityID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 		hasSide = FixUtils.TAG_HAS_NO_VALUE;		
 		hasSymbol = FixUtils.TAG_HAS_NO_VALUE;		
-		symbol = new byte[6];		
+		symbol = new byte[8];		
 		hasTimeInForce = FixUtils.TAG_HAS_NO_VALUE;		
 		hasClientID = FixUtils.TAG_HAS_NO_VALUE;		
 		clientID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
@@ -1825,7 +1825,7 @@ public class FixPendingCancel extends FixInMessage {
 	}
 	@Override
 	public FixPendingCancel clone () {
-		FixPendingCancel out = (FixPendingCancel) FixUtils.fixMessagePool.getFixMessage(FixMessageInfo.MessageTypes.PENDINGCANCEL_INT);
+		FixPendingCancel out = new FixPendingCancel();
 
 		standardHeader.clone(out.standardHeader);
 		standardTrailer.clone(out.standardTrailer);

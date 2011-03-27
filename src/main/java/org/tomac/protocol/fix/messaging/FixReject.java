@@ -543,7 +543,7 @@ public class FixReject extends FixInMessage {
 	}
 	@Override
 	public FixReject clone () {
-		FixReject out = (FixReject) FixUtils.fixMessagePool.getFixMessage(FixMessageInfo.MessageTypes.REJECT_INT);
+		FixReject out = new FixReject();
 
 		standardHeader.clone(out.standardHeader);
 		standardTrailer.clone(out.standardTrailer);

@@ -37,7 +37,7 @@ public class FixOrderReject extends FixInMessage {
 	private short hasSide;
 	byte side = (byte)' ';		
 	private short hasSymbol;
-	byte[] symbol = new byte[6];		
+	byte[] symbol = new byte[8];		
 	private short hasText;
 	byte[] text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];		
 	private short hasTimeInForce;
@@ -90,7 +90,7 @@ public class FixOrderReject extends FixInMessage {
 		securityID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 		hasSide = FixUtils.TAG_HAS_NO_VALUE;		
 		hasSymbol = FixUtils.TAG_HAS_NO_VALUE;		
-		symbol = new byte[6];		
+		symbol = new byte[8];		
 		hasText = FixUtils.TAG_HAS_NO_VALUE;		
 		text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];		
 		hasTimeInForce = FixUtils.TAG_HAS_NO_VALUE;		
@@ -2253,7 +2253,7 @@ public class FixOrderReject extends FixInMessage {
 	}
 	@Override
 	public FixOrderReject clone () {
-		FixOrderReject out = (FixOrderReject) FixUtils.fixMessagePool.getFixMessage(FixMessageInfo.MessageTypes.ORDERREJECT_INT);
+		FixOrderReject out = new FixOrderReject();
 
 		standardHeader.clone(out.standardHeader);
 		standardTrailer.clone(out.standardTrailer);

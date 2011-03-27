@@ -325,7 +325,7 @@ public class FixResendRequest extends FixInMessage {
 	}
 	@Override
 	public FixResendRequest clone () {
-		FixResendRequest out = (FixResendRequest) FixUtils.fixMessagePool.getFixMessage(FixMessageInfo.MessageTypes.RESENDREQUEST_INT);
+		FixResendRequest out = new FixResendRequest();
 
 		standardHeader.clone(out.standardHeader);
 		standardTrailer.clone(out.standardTrailer);

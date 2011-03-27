@@ -16,11 +16,13 @@ import org.tomac.protocol.fix.messaging.FixLogon;
 import org.tomac.protocol.fix.messaging.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.FixMessageListenerImpl;
 import org.tomac.protocol.fix.messaging.FixMessageParser;
+import org.tomac.protocol.fix.messaging.FixMessagePool;
 import org.tomac.protocol.fix.messaging.FixTestRequest;
 
 public class TestFixContainers {
 	TestFixMessageListener listener;
 	FixValidationError err;
+	FixMessagePool<FixInMessage> pool;
 	
 	FixInMessage inMsg;
 	FixMessage outMsg;
@@ -32,6 +34,7 @@ public class TestFixContainers {
 		FixUtils.validateChecksum = false;
 		if ((new String(FixMessageInfo.BEGINSTRING_VALUE).equals("FIX.4.2") ) ) FixUtils.isNasdaqOMX =  true;
 		else FixUtils.isNasdaqOMX = false;
+		pool = new FixMessagePool<FixInMessage>();
 	}
 
 	@After
@@ -63,7 +66,7 @@ public class TestFixContainers {
 			ByteBuffer refBuf = ByteBuffer.wrap(s.getBytes());
 			ByteBuffer parseBuf = ByteBuffer.wrap(s.getBytes());
 
-			inMsg = FixUtils.fixMessagePool.getFixMessage(refBuf, err);
+			inMsg = pool.getFixMessage(refBuf, err);
 
 			assertNotNull(inMsg);
 			assertFalse(err.hasError());
@@ -75,7 +78,8 @@ public class TestFixContainers {
 				assertTrue(l.toString().length() > 0);
 			}
 			
-			parser.parse(parseBuf, listener);
+			parser.parse(parseBuf, err, listener);
+			assertFalse(err.hasError());
 			err.clear();
 		}
 	}
@@ -106,14 +110,15 @@ public class TestFixContainers {
 
 		while(buf.hasRemaining()) {
 			
-			inMsg = FixUtils.fixMessagePool.getFixMessage(buf, err);
+			inMsg = pool.getFixMessage(buf, err);
 
 			assertNotNull(inMsg);
 			assertFalse(inMsg.getLastFixValidationError().hasError());
 
 			ByteBuffer old = buf.duplicate();
 			old.flip();
-			parser.parse(old, listener);
+			parser.parse(old, err, listener);
+			assertFalse(err.hasError());
 
 			err.clear();
 			
@@ -142,7 +147,7 @@ public class TestFixContainers {
 
 			ByteBuffer buf = ByteBuffer.wrap(s.getBytes());
 			
-			inMsg = FixUtils.fixMessagePool.getFixMessage(buf, err);
+			inMsg = pool.getFixMessage(buf, err);
 
 			assertNotNull(inMsg);
 			assertFalse(err.hasError());
@@ -162,7 +167,7 @@ public class TestFixContainers {
 			assertFalse(err.hasError());
 			
 			out.position(0);
-			inMsg = FixUtils.fixMessagePool.getFixMessage(out, err);
+			inMsg = pool.getFixMessage(out, err);
 
 
 			assertFalse(err.hasError());
@@ -192,7 +197,7 @@ public class TestFixContainers {
 
 			ByteBuffer buf = ByteBuffer.wrap(s.getBytes());
 			
-			inMsg = FixUtils.fixMessagePool.getFixMessage(buf, err);
+			inMsg = pool.getFixMessage(buf, err);
 
 			assertNotNull(inMsg);
 			assertFalse(err.hasError());
@@ -212,7 +217,7 @@ public class TestFixContainers {
 			assertFalse(err.hasError());
 			
 			out.position(0);
-			inMsg = FixUtils.fixMessagePool.getFixMessage(out, err);
+			inMsg = pool.getFixMessage(out, err);
 
 			assertNotNull(inMsg);
 			assertFalse(err.hasError());
@@ -237,7 +242,7 @@ public class TestFixContainers {
 
 			ByteBuffer buf = ByteBuffer.wrap(s.getBytes());
 			
-			inMsg = FixUtils.fixMessagePool.getFixMessage(buf, err);
+			inMsg = pool.getFixMessage(buf, err);
 
 			assertNotNull(inMsg);
 			assertTrue(err.hasError());
@@ -259,7 +264,7 @@ public class TestFixContainers {
 
 			ByteBuffer buf = ByteBuffer.wrap(s.getBytes());
 			
-			inMsg = FixUtils.fixMessagePool.getFixMessage(buf, err);
+			inMsg = pool.getFixMessage(buf, err);
 
 			assertNotNull(inMsg);
 			assertFalse(err.hasError());
@@ -279,7 +284,7 @@ public class TestFixContainers {
 			assertFalse(err.hasError());
 			
 			out.position(0);
-			inMsg = FixUtils.fixMessagePool.getFixMessage(out, err);
+			inMsg = pool.getFixMessage(out, err);
 
 			assertNotNull(inMsg);
 			assertFalse(err.hasError());
@@ -311,13 +316,15 @@ public class TestFixContainers {
 			
 			int startPos = buf.position();
 			
-			inMsg = FixUtils.fixMessagePool.getFixMessage(buf, err);
+			inMsg = pool.getFixMessage(buf, err);
 
 			assertNotNull(inMsg);
 			assertFalse(inMsg.getLastFixValidationError().hasError());
 
 			buf.position(startPos);
-			parser.parse(buf, listener);
+			parser.parse(buf, err, listener);
+			assertFalse(err.hasError());
+
 		}
 	}
 

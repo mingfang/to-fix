@@ -29,7 +29,7 @@ public class FixLockedinNotification extends FixInMessage {
 	private short hasSide;
 	byte side = (byte)' ';		
 	private short hasSymbol;
-	byte[] symbol = new byte[6];		
+	byte[] symbol = new byte[8];		
 	private short hasText;
 	byte[] text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];		
 	private short hasTransactTime;
@@ -76,14 +76,14 @@ public class FixLockedinNotification extends FixInMessage {
 	byte[] trdMatchID = new byte[10];		
 	private short hasSecondaryTradeReportRefID;
 	byte[] secondaryTradeReportRefID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
+	private short hasTradeID;
+	byte[] tradeID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 	private short hasTimestampown;
 	byte[] timestampown = new byte[20];		
 	private short hasTimestampcounterpart;
 	byte[] timestampcounterpart = new byte[20];		
 	private short hasClRefID;
 	byte[] clRefID = new byte[15];		
-	private short hasTradeID;
-	byte[] tradeID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 	private short hasSubMktID;
 	byte[] subMktID = new byte[3];		
 	private short hasDisseminationTime;
@@ -115,7 +115,7 @@ public class FixLockedinNotification extends FixInMessage {
 		securityID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 		hasSide = FixUtils.TAG_HAS_NO_VALUE;		
 		hasSymbol = FixUtils.TAG_HAS_NO_VALUE;		
-		symbol = new byte[6];		
+		symbol = new byte[8];		
 		hasText = FixUtils.TAG_HAS_NO_VALUE;		
 		text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];		
 		hasTransactTime = FixUtils.TAG_HAS_NO_VALUE;		
@@ -158,14 +158,14 @@ public class FixLockedinNotification extends FixInMessage {
 		trdMatchID = new byte[10];		
 		hasSecondaryTradeReportRefID = FixUtils.TAG_HAS_NO_VALUE;		
 		secondaryTradeReportRefID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
+		hasTradeID = FixUtils.TAG_HAS_NO_VALUE;		
+		tradeID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 		hasTimestampown = FixUtils.TAG_HAS_NO_VALUE;		
 		timestampown = new byte[20];		
 		hasTimestampcounterpart = FixUtils.TAG_HAS_NO_VALUE;		
 		timestampcounterpart = new byte[20];		
 		hasClRefID = FixUtils.TAG_HAS_NO_VALUE;		
 		clRefID = new byte[15];		
-		hasTradeID = FixUtils.TAG_HAS_NO_VALUE;		
-		tradeID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 		hasSubMktID = FixUtils.TAG_HAS_NO_VALUE;		
 		subMktID = new byte[3];		
 		hasDisseminationTime = FixUtils.TAG_HAS_NO_VALUE;		
@@ -325,6 +325,10 @@ public class FixLockedinNotification extends FixInMessage {
             		hasSecondaryTradeReportRefID = (short) buf.position();		
             		FixMessage.getNext(buf, err);		
                 	break;
+            	case FixTags.TRADEID_INT:		
+            		hasTradeID = (short) buf.position();		
+            		FixMessage.getNext(buf, err);		
+                	break;
             	case FixTags.TIMESTAMPOWN_INT:		
             		hasTimestampown = (short) buf.position();		
             		FixMessage.getNext(buf, err);		
@@ -335,10 +339,6 @@ public class FixLockedinNotification extends FixInMessage {
                 	break;
             	case FixTags.CLREFID_INT:		
             		hasClRefID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
-                	break;
-            	case FixTags.TRADEID_INT:		
-            		hasTradeID = (short) buf.position();		
             		FixMessage.getNext(buf, err);		
                 	break;
             	case FixTags.SUBMKTID_INT:		
@@ -811,6 +811,15 @@ public class FixLockedinNotification extends FixInMessage {
 		
 			out.put(FixUtils.SOH);		
 		}		
+		if (hasTradeID()) {		
+			out.put(FixTags.TRADEID);		
+		
+			out.put((byte) '=');		
+		
+			FixUtils.put(out,tradeID); 		
+		
+			out.put(FixUtils.SOH);		
+		}		
 		if (hasTimestampown()) {		
 			out.put(FixTags.TIMESTAMPOWN);		
 		
@@ -835,15 +844,6 @@ public class FixLockedinNotification extends FixInMessage {
 			out.put((byte) '=');		
 		
 			FixUtils.put(out,clRefID); 		
-		
-			out.put(FixUtils.SOH);		
-		}		
-		if (hasTradeID()) {		
-			out.put(FixTags.TRADEID);		
-		
-			out.put((byte) '=');		
-		
-			FixUtils.put(out,tradeID); 		
 		
 			out.put(FixUtils.SOH);		
 		}		
@@ -1137,6 +1137,12 @@ public class FixLockedinNotification extends FixInMessage {
 	        out.put( (byte)' ' );		
 		}		
 		
+		if (hasTradeID()) {		
+			FixUtils.put(out,tradeID); 		
+		
+	        out.put( (byte)' ' );		
+		}		
+		
 		if (hasTimestampown()) {		
 			FixUtils.put(out,timestampown); 		
 		
@@ -1151,12 +1157,6 @@ public class FixLockedinNotification extends FixInMessage {
 		
 		if (hasClRefID()) {		
 			FixUtils.put(out,clRefID); 		
-		
-	        out.put( (byte)' ' );		
-		}		
-		
-		if (hasTradeID()) {		
-			FixUtils.put(out,tradeID); 		
 		
 	        out.put( (byte)' ' );		
 		}		
@@ -2756,6 +2756,50 @@ public class FixLockedinNotification extends FixInMessage {
 		hasSecondaryTradeReportRefID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
+	public void crackTradeID() {		
+		getTradeID();		
+	}		
+			
+	public byte[] getTradeID() { 		
+		if ( hasTradeID()) {		
+			if (hasTradeID == FixUtils.TAG_HAS_VALUE) {		
+				return tradeID; 		
+			} else {
+
+				buf.position(hasTradeID);
+
+			FixMessage.getTagStringValue(buf, tradeID, 0, tradeID.length, err);
+		
+				if (err.hasError()) {		
+					buf.position(0);		
+					return null;		
+				}		
+			}		
+			hasTradeID = FixUtils.TAG_HAS_VALUE;		
+			buf.position(0);		
+			return tradeID;		
+		} else {		
+			return null; 		
+		}		
+	}		
+			
+	public boolean hasTradeID() { return hasTradeID != FixUtils.TAG_HAS_NO_VALUE; } 		
+
+	public void setTradeID(byte[] src) {		
+		if (src == null ) return;
+		if (hasTradeID()) FixUtils.fillSpace(tradeID);		
+		FixUtils.copy(tradeID, src); 		
+		hasTradeID = FixUtils.TAG_HAS_VALUE;		
+	}
+
+	public void setTradeID(String str) {		
+		if (str == null ) return;
+		if (hasTradeID()) FixUtils.fillSpace(tradeID);		
+		byte[] src = str.getBytes(); 		
+		FixUtils.copy(tradeID, src); 		
+		hasTradeID = FixUtils.TAG_HAS_VALUE;		
+	}		
+			
 	public void crackTimestampown() {		
 		getTimestampown();		
 	}		
@@ -2886,50 +2930,6 @@ public class FixLockedinNotification extends FixInMessage {
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(clRefID, src); 		
 		hasClRefID = FixUtils.TAG_HAS_VALUE;		
-	}		
-			
-	public void crackTradeID() {		
-		getTradeID();		
-	}		
-			
-	public byte[] getTradeID() { 		
-		if ( hasTradeID()) {		
-			if (hasTradeID == FixUtils.TAG_HAS_VALUE) {		
-				return tradeID; 		
-			} else {
-
-				buf.position(hasTradeID);
-
-			FixMessage.getTagStringValue(buf, tradeID, 0, tradeID.length, err);
-		
-				if (err.hasError()) {		
-					buf.position(0);		
-					return null;		
-				}		
-			}		
-			hasTradeID = FixUtils.TAG_HAS_VALUE;		
-			buf.position(0);		
-			return tradeID;		
-		} else {		
-			return null; 		
-		}		
-	}		
-			
-	public boolean hasTradeID() { return hasTradeID != FixUtils.TAG_HAS_NO_VALUE; } 		
-
-	public void setTradeID(byte[] src) {		
-		if (src == null ) return;
-		if (hasTradeID()) FixUtils.fillSpace(tradeID);		
-		FixUtils.copy(tradeID, src); 		
-		hasTradeID = FixUtils.TAG_HAS_VALUE;		
-	}
-
-	public void setTradeID(String str) {		
-		if (str == null ) return;
-		if (hasTradeID()) FixUtils.fillSpace(tradeID);		
-		byte[] src = str.getBytes(); 		
-		FixUtils.copy(tradeID, src); 		
-		hasTradeID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void crackSubMktID() {		
@@ -3225,10 +3225,10 @@ public class FixLockedinNotification extends FixInMessage {
 		if (hasTradeReportType()) s += "TradeReportType(856)= " + new String( FixUtils.trim(getTradeReportType()) ) + "\n" ; 
 		if (hasTrdMatchID()) s += "TrdMatchID(880)= " + new String( FixUtils.trim(getTrdMatchID()) ) + "\n" ; 
 		if (hasSecondaryTradeReportRefID()) s += "SecondaryTradeReportRefID(881)= " + new String( FixUtils.trim(getSecondaryTradeReportRefID()) ) + "\n" ; 
+		if (hasTradeID()) s += "TradeID(1003)= " + new String( FixUtils.trim(getTradeID()) ) + "\n" ; 
 		if (hasTimestampown()) s += "Timestampown(6204)= " + new String( FixUtils.trim(getTimestampown()) ) + "\n" ; 
 		if (hasTimestampcounterpart()) s += "Timestampcounterpart(6205)= " + new String( FixUtils.trim(getTimestampcounterpart()) ) + "\n" ; 
 		if (hasClRefID()) s += "ClRefID(6209)= " + new String( FixUtils.trim(getClRefID()) ) + "\n" ; 
-		if (hasTradeID()) s += "TradeID(1003)= " + new String( FixUtils.trim(getTradeID()) ) + "\n" ; 
 		if (hasSubMktID()) s += "SubMktID(5815)= " + new String( FixUtils.trim(getSubMktID()) ) + "\n" ; 
 		if (hasDisseminationTime()) s += "DisseminationTime(6169)= " + new String( FixUtils.trim(getDisseminationTime()) ) + "\n" ; 
 		if (hasDelayedDisseminationInst()) s += "DelayedDisseminationInst(9855)= " + getDelayedDisseminationInst() + "\n" ; 
@@ -3317,14 +3317,14 @@ public class FixLockedinNotification extends FixInMessage {
 		if (!(!hasTrdMatchID() && !msg.hasTrdMatchID()) && !FixUtils.equals(getTrdMatchID(), msg.getTrdMatchID())) return false;
 		if ((hasSecondaryTradeReportRefID() && !msg.hasSecondaryTradeReportRefID()) || (!hasSecondaryTradeReportRefID() && msg.hasSecondaryTradeReportRefID())) return false;
 		if (!(!hasSecondaryTradeReportRefID() && !msg.hasSecondaryTradeReportRefID()) && !FixUtils.equals(getSecondaryTradeReportRefID(), msg.getSecondaryTradeReportRefID())) return false;
+		if ((hasTradeID() && !msg.hasTradeID()) || (!hasTradeID() && msg.hasTradeID())) return false;
+		if (!(!hasTradeID() && !msg.hasTradeID()) && !FixUtils.equals(getTradeID(), msg.getTradeID())) return false;
 		if ((hasTimestampown() && !msg.hasTimestampown()) || (!hasTimestampown() && msg.hasTimestampown())) return false;
 		if (!(!hasTimestampown() && !msg.hasTimestampown()) && !FixUtils.equals(getTimestampown(), msg.getTimestampown())) return false;
 		if ((hasTimestampcounterpart() && !msg.hasTimestampcounterpart()) || (!hasTimestampcounterpart() && msg.hasTimestampcounterpart())) return false;
 		if (!(!hasTimestampcounterpart() && !msg.hasTimestampcounterpart()) && !FixUtils.equals(getTimestampcounterpart(), msg.getTimestampcounterpart())) return false;
 		if ((hasClRefID() && !msg.hasClRefID()) || (!hasClRefID() && msg.hasClRefID())) return false;
 		if (!(!hasClRefID() && !msg.hasClRefID()) && !FixUtils.equals(getClRefID(), msg.getClRefID())) return false;
-		if ((hasTradeID() && !msg.hasTradeID()) || (!hasTradeID() && msg.hasTradeID())) return false;
-		if (!(!hasTradeID() && !msg.hasTradeID()) && !FixUtils.equals(getTradeID(), msg.getTradeID())) return false;
 		if ((hasSubMktID() && !msg.hasSubMktID()) || (!hasSubMktID() && msg.hasSubMktID())) return false;
 		if (!(!hasSubMktID() && !msg.hasSubMktID()) && !FixUtils.equals(getSubMktID(), msg.getSubMktID())) return false;
 		if ((hasDisseminationTime() && !msg.hasDisseminationTime()) || (!hasDisseminationTime() && msg.hasDisseminationTime())) return false;
@@ -3339,7 +3339,7 @@ public class FixLockedinNotification extends FixInMessage {
 	}
 	@Override
 	public FixLockedinNotification clone () {
-		FixLockedinNotification out = (FixLockedinNotification) FixUtils.fixMessagePool.getFixMessage(FixMessageInfo.MessageTypes.LOCKEDINNOTIFICATION_INT);
+		FixLockedinNotification out = new FixLockedinNotification();
 
 		standardHeader.clone(out.standardHeader);
 		standardTrailer.clone(out.standardTrailer);
@@ -3415,14 +3415,14 @@ public class FixLockedinNotification extends FixInMessage {
 			out.setTrdMatchID(getTrdMatchID());
 		if ( hasSecondaryTradeReportRefID())
 			out.setSecondaryTradeReportRefID(getSecondaryTradeReportRefID());
+		if ( hasTradeID())
+			out.setTradeID(getTradeID());
 		if ( hasTimestampown())
 			out.setTimestampown(getTimestampown());
 		if ( hasTimestampcounterpart())
 			out.setTimestampcounterpart(getTimestampcounterpart());
 		if ( hasClRefID())
 			out.setClRefID(getClRefID());
-		if ( hasTradeID())
-			out.setTradeID(getTradeID());
 		if ( hasSubMktID())
 			out.setSubMktID(getSubMktID());
 		if ( hasDisseminationTime())

@@ -7,6 +7,7 @@ package org.tomac.protocol.fix.messaging;
 // will be deleted upon the next run of the FixMessageGenerator!
 
 import java.nio.ByteBuffer;
+import org.tomac.protocol.fix.FixMessage;
 import org.tomac.protocol.fix.FixValidationError;
 import org.tomac.protocol.fix.FixInMessage;
 import org.tomac.protocol.fix.FixUtils;
@@ -14,138 +15,166 @@ import org.tomac.protocol.fix.FixUtils;
 public class FixMessageParser implements FixMessageInfo
 {
 
-		public FixValidationError err = new FixValidationError();
-
-	public FixInMessage parse( ByteBuffer buf, FixMessageListener l )
+	public void parse( ByteBuffer buf, FixValidationError err, FixMessageListener l )
 	{
 
 		int msgType = FixInMessage.crackMsgType( buf ,err );
+		FixMessagePool<FixMessage> fixMessagePool = new FixMessagePool<FixMessage>();
 
 		// garbled message
-		if (err.hasError()) return null; 
+		if (err.hasError()) return; 
 
         switch( msgType )
         {
 
 		case MessageTypes.ACCEPTEDCANCELREPLACE_INT:
-			FixAcceptedCancelReplace fixAcceptedCancelReplace = FixUtils.fixMessagePool.getFixAcceptedCancelReplace(buf, err);
+			FixAcceptedCancelReplace fixAcceptedCancelReplace = fixMessagePool.getFixAcceptedCancelReplace(buf, err);
 			l.onFixAcceptedCancelReplace(fixAcceptedCancelReplace);
-			return (FixInMessage) fixAcceptedCancelReplace;
+			fixMessagePool.returnFixAcceptedCancelReplace (fixAcceptedCancelReplace);
+			break;
 		case MessageTypes.ACCEPTEDCANCEL_INT:
-			FixAcceptedCancel fixAcceptedCancel = FixUtils.fixMessagePool.getFixAcceptedCancel(buf, err);
+			FixAcceptedCancel fixAcceptedCancel = fixMessagePool.getFixAcceptedCancel(buf, err);
 			l.onFixAcceptedCancel(fixAcceptedCancel);
-			return (FixInMessage) fixAcceptedCancel;
+			fixMessagePool.returnFixAcceptedCancel (fixAcceptedCancel);
+			break;
 		case MessageTypes.APPLICATIONREJECT_INT:
-			FixApplicationReject fixApplicationReject = FixUtils.fixMessagePool.getFixApplicationReject(buf, err);
+			FixApplicationReject fixApplicationReject = fixMessagePool.getFixApplicationReject(buf, err);
 			l.onFixApplicationReject(fixApplicationReject);
-			return (FixInMessage) fixApplicationReject;
+			fixMessagePool.returnFixApplicationReject (fixApplicationReject);
+			break;
 		case MessageTypes.BREAKNOTIFICATION_INT:
-			FixBreakNotification fixBreakNotification = FixUtils.fixMessagePool.getFixBreakNotification(buf, err);
+			FixBreakNotification fixBreakNotification = fixMessagePool.getFixBreakNotification(buf, err);
 			l.onFixBreakNotification(fixBreakNotification);
-			return (FixInMessage) fixBreakNotification;
+			fixMessagePool.returnFixBreakNotification (fixBreakNotification);
+			break;
 		case MessageTypes.BUSINESSREJECT_INT:
-			FixBusinessReject fixBusinessReject = FixUtils.fixMessagePool.getFixBusinessReject(buf, err);
+			FixBusinessReject fixBusinessReject = fixMessagePool.getFixBusinessReject(buf, err);
 			l.onFixBusinessReject(fixBusinessReject);
-			return (FixInMessage) fixBusinessReject;
+			fixMessagePool.returnFixBusinessReject (fixBusinessReject);
+			break;
 		case MessageTypes.CANCELNOTIFICATION_INT:
-			FixCancelNotification fixCancelNotification = FixUtils.fixMessagePool.getFixCancelNotification(buf, err);
+			FixCancelNotification fixCancelNotification = fixMessagePool.getFixCancelNotification(buf, err);
 			l.onFixCancelNotification(fixCancelNotification);
-			return (FixInMessage) fixCancelNotification;
+			fixMessagePool.returnFixCancelNotification (fixCancelNotification);
+			break;
 		case MessageTypes.ENTRYNOTIFICATIONTOALLEGEDFIRM_INT:
-			FixEntryNotificationtoAllegedFirm fixEntryNotificationtoAllegedFirm = FixUtils.fixMessagePool.getFixEntryNotificationtoAllegedFirm(buf, err);
+			FixEntryNotificationtoAllegedFirm fixEntryNotificationtoAllegedFirm = fixMessagePool.getFixEntryNotificationtoAllegedFirm(buf, err);
 			l.onFixEntryNotificationtoAllegedFirm(fixEntryNotificationtoAllegedFirm);
-			return (FixInMessage) fixEntryNotificationtoAllegedFirm;
+			fixMessagePool.returnFixEntryNotificationtoAllegedFirm (fixEntryNotificationtoAllegedFirm);
+			break;
 		case MessageTypes.EXECUTIONREPORTFILL_INT:
-			FixExecutionReportFill fixExecutionReportFill = FixUtils.fixMessagePool.getFixExecutionReportFill(buf, err);
+			FixExecutionReportFill fixExecutionReportFill = fixMessagePool.getFixExecutionReportFill(buf, err);
 			l.onFixExecutionReportFill(fixExecutionReportFill);
-			return (FixInMessage) fixExecutionReportFill;
+			fixMessagePool.returnFixExecutionReportFill (fixExecutionReportFill);
+			break;
 		case MessageTypes.EXECUTIONRESTATEMENT_INT:
-			FixExecutionRestatement fixExecutionRestatement = FixUtils.fixMessagePool.getFixExecutionRestatement(buf, err);
+			FixExecutionRestatement fixExecutionRestatement = fixMessagePool.getFixExecutionRestatement(buf, err);
 			l.onFixExecutionRestatement(fixExecutionRestatement);
-			return (FixInMessage) fixExecutionRestatement;
+			fixMessagePool.returnFixExecutionRestatement (fixExecutionRestatement);
+			break;
 		case MessageTypes.LOCKEDINNOTIFICATION_INT:
-			FixLockedinNotification fixLockedinNotification = FixUtils.fixMessagePool.getFixLockedinNotification(buf, err);
+			FixLockedinNotification fixLockedinNotification = fixMessagePool.getFixLockedinNotification(buf, err);
 			l.onFixLockedinNotification(fixLockedinNotification);
-			return (FixInMessage) fixLockedinNotification;
+			fixMessagePool.returnFixLockedinNotification (fixLockedinNotification);
+			break;
 		case MessageTypes.LOCKEDINTRADEBREAK_INT:
-			FixLockedinTradeBreak fixLockedinTradeBreak = FixUtils.fixMessagePool.getFixLockedinTradeBreak(buf, err);
+			FixLockedinTradeBreak fixLockedinTradeBreak = fixMessagePool.getFixLockedinTradeBreak(buf, err);
 			l.onFixLockedinTradeBreak(fixLockedinTradeBreak);
-			return (FixInMessage) fixLockedinTradeBreak;
+			fixMessagePool.returnFixLockedinTradeBreak (fixLockedinTradeBreak);
+			break;
 		case MessageTypes.ORDERACKNOWLEDGEMENT_INT:
-			FixOrderAcknowledgement fixOrderAcknowledgement = FixUtils.fixMessagePool.getFixOrderAcknowledgement(buf, err);
+			FixOrderAcknowledgement fixOrderAcknowledgement = fixMessagePool.getFixOrderAcknowledgement(buf, err);
 			l.onFixOrderAcknowledgement(fixOrderAcknowledgement);
-			return (FixInMessage) fixOrderAcknowledgement;
+			fixMessagePool.returnFixOrderAcknowledgement (fixOrderAcknowledgement);
+			break;
 		case MessageTypes.ORDERREJECT_INT:
-			FixOrderReject fixOrderReject = FixUtils.fixMessagePool.getFixOrderReject(buf, err);
+			FixOrderReject fixOrderReject = fixMessagePool.getFixOrderReject(buf, err);
 			l.onFixOrderReject(fixOrderReject);
-			return (FixInMessage) fixOrderReject;
+			fixMessagePool.returnFixOrderReject (fixOrderReject);
+			break;
 		case MessageTypes.PENDINGCANCEL_INT:
-			FixPendingCancel fixPendingCancel = FixUtils.fixMessagePool.getFixPendingCancel(buf, err);
+			FixPendingCancel fixPendingCancel = fixMessagePool.getFixPendingCancel(buf, err);
 			l.onFixPendingCancel(fixPendingCancel);
-			return (FixInMessage) fixPendingCancel;
+			fixMessagePool.returnFixPendingCancel (fixPendingCancel);
+			break;
 		case MessageTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM_INT:
-			FixTradeEntryNotificationtoEnteringFirm fixTradeEntryNotificationtoEnteringFirm = FixUtils.fixMessagePool.getFixTradeEntryNotificationtoEnteringFirm(buf, err);
+			FixTradeEntryNotificationtoEnteringFirm fixTradeEntryNotificationtoEnteringFirm = fixMessagePool.getFixTradeEntryNotificationtoEnteringFirm(buf, err);
 			l.onFixTradeEntryNotificationtoEnteringFirm(fixTradeEntryNotificationtoEnteringFirm);
-			return (FixInMessage) fixTradeEntryNotificationtoEnteringFirm;
+			fixMessagePool.returnFixTradeEntryNotificationtoEnteringFirm (fixTradeEntryNotificationtoEnteringFirm);
+			break;
 		case MessageTypes.TRADEREPORTCANCEL_INT:
-			FixTradeReportCancel fixTradeReportCancel = FixUtils.fixMessagePool.getFixTradeReportCancel(buf, err);
+			FixTradeReportCancel fixTradeReportCancel = fixMessagePool.getFixTradeReportCancel(buf, err);
 			l.onFixTradeReportCancel(fixTradeReportCancel);
-			return (FixInMessage) fixTradeReportCancel;
+			fixMessagePool.returnFixTradeReportCancel (fixTradeReportCancel);
+			break;
 		case MessageTypes.TRADEREPORTENTRY_INT:
-			FixTradeReportEntry fixTradeReportEntry = FixUtils.fixMessagePool.getFixTradeReportEntry(buf, err);
+			FixTradeReportEntry fixTradeReportEntry = fixMessagePool.getFixTradeReportEntry(buf, err);
 			l.onFixTradeReportEntry(fixTradeReportEntry);
-			return (FixInMessage) fixTradeReportEntry;
+			fixMessagePool.returnFixTradeReportEntry (fixTradeReportEntry);
+			break;
 		case MessageTypes.HEARTBEAT_INT:
-			FixHeartbeat fixHeartbeat = FixUtils.fixMessagePool.getFixHeartbeat(buf, err);
+			FixHeartbeat fixHeartbeat = fixMessagePool.getFixHeartbeat(buf, err);
 			l.onFixHeartbeat(fixHeartbeat);
-			return (FixInMessage) fixHeartbeat;
+			fixMessagePool.returnFixHeartbeat (fixHeartbeat);
+			break;
 		case MessageTypes.LOGON_INT:
-			FixLogon fixLogon = FixUtils.fixMessagePool.getFixLogon(buf, err);
+			FixLogon fixLogon = fixMessagePool.getFixLogon(buf, err);
 			l.onFixLogon(fixLogon);
-			return (FixInMessage) fixLogon;
+			fixMessagePool.returnFixLogon (fixLogon);
+			break;
 		case MessageTypes.LOGOUT_INT:
-			FixLogout fixLogout = FixUtils.fixMessagePool.getFixLogout(buf, err);
+			FixLogout fixLogout = fixMessagePool.getFixLogout(buf, err);
 			l.onFixLogout(fixLogout);
-			return (FixInMessage) fixLogout;
+			fixMessagePool.returnFixLogout (fixLogout);
+			break;
 		case MessageTypes.ORDERSINGLE_INT:
-			FixOrderSingle fixOrderSingle = FixUtils.fixMessagePool.getFixOrderSingle(buf, err);
+			FixOrderSingle fixOrderSingle = fixMessagePool.getFixOrderSingle(buf, err);
 			l.onFixOrderSingle(fixOrderSingle);
-			return (FixInMessage) fixOrderSingle;
+			fixMessagePool.returnFixOrderSingle (fixOrderSingle);
+			break;
 		case MessageTypes.ORDERCANCELREJECT_INT:
-			FixOrderCancelReject fixOrderCancelReject = FixUtils.fixMessagePool.getFixOrderCancelReject(buf, err);
+			FixOrderCancelReject fixOrderCancelReject = fixMessagePool.getFixOrderCancelReject(buf, err);
 			l.onFixOrderCancelReject(fixOrderCancelReject);
-			return (FixInMessage) fixOrderCancelReject;
+			fixMessagePool.returnFixOrderCancelReject (fixOrderCancelReject);
+			break;
 		case MessageTypes.REJECTEDCANCELREPLACE_INT:
-			FixRejectedCancelReplace fixRejectedCancelReplace = FixUtils.fixMessagePool.getFixRejectedCancelReplace(buf, err);
+			FixRejectedCancelReplace fixRejectedCancelReplace = fixMessagePool.getFixRejectedCancelReplace(buf, err);
 			l.onFixRejectedCancelReplace(fixRejectedCancelReplace);
-			return (FixInMessage) fixRejectedCancelReplace;
+			fixMessagePool.returnFixRejectedCancelReplace (fixRejectedCancelReplace);
+			break;
 		case MessageTypes.ORDERCANCELREPLACEREQUEST_INT:
-			FixOrderCancelReplaceRequest fixOrderCancelReplaceRequest = FixUtils.fixMessagePool.getFixOrderCancelReplaceRequest(buf, err);
+			FixOrderCancelReplaceRequest fixOrderCancelReplaceRequest = fixMessagePool.getFixOrderCancelReplaceRequest(buf, err);
 			l.onFixOrderCancelReplaceRequest(fixOrderCancelReplaceRequest);
-			return (FixInMessage) fixOrderCancelReplaceRequest;
+			fixMessagePool.returnFixOrderCancelReplaceRequest (fixOrderCancelReplaceRequest);
+			break;
 		case MessageTypes.ORDERCANCELREQUEST_INT:
-			FixOrderCancelRequest fixOrderCancelRequest = FixUtils.fixMessagePool.getFixOrderCancelRequest(buf, err);
+			FixOrderCancelRequest fixOrderCancelRequest = fixMessagePool.getFixOrderCancelRequest(buf, err);
 			l.onFixOrderCancelRequest(fixOrderCancelRequest);
-			return (FixInMessage) fixOrderCancelRequest;
+			fixMessagePool.returnFixOrderCancelRequest (fixOrderCancelRequest);
+			break;
 		case MessageTypes.REJECT_INT:
-			FixReject fixReject = FixUtils.fixMessagePool.getFixReject(buf, err);
+			FixReject fixReject = fixMessagePool.getFixReject(buf, err);
 			l.onFixReject(fixReject);
-			return (FixInMessage) fixReject;
+			fixMessagePool.returnFixReject (fixReject);
+			break;
 		case MessageTypes.RESENDREQUEST_INT:
-			FixResendRequest fixResendRequest = FixUtils.fixMessagePool.getFixResendRequest(buf, err);
+			FixResendRequest fixResendRequest = fixMessagePool.getFixResendRequest(buf, err);
 			l.onFixResendRequest(fixResendRequest);
-			return (FixInMessage) fixResendRequest;
+			fixMessagePool.returnFixResendRequest (fixResendRequest);
+			break;
 		case MessageTypes.SEQUENCERESET_INT:
-			FixSequenceReset fixSequenceReset = FixUtils.fixMessagePool.getFixSequenceReset(buf, err);
+			FixSequenceReset fixSequenceReset = fixMessagePool.getFixSequenceReset(buf, err);
 			l.onFixSequenceReset(fixSequenceReset);
-			return (FixInMessage) fixSequenceReset;
+			fixMessagePool.returnFixSequenceReset (fixSequenceReset);
+			break;
 		case MessageTypes.TESTREQUEST_INT:
-			FixTestRequest fixTestRequest = FixUtils.fixMessagePool.getFixTestRequest(buf, err);
+			FixTestRequest fixTestRequest = fixMessagePool.getFixTestRequest(buf, err);
 			l.onFixTestRequest(fixTestRequest);
-			return (FixInMessage) fixTestRequest;
+			fixMessagePool.returnFixTestRequest (fixTestRequest);
+			break;
 		default:
 		l.onUnknownMessageType( buf, msgType );
-		return null;
+		break;
 
 	}
 	}

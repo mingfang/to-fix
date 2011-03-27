@@ -239,7 +239,7 @@ public class FixLogout extends FixInMessage {
 	}
 	@Override
 	public FixLogout clone () {
-		FixLogout out = (FixLogout) FixUtils.fixMessagePool.getFixMessage(FixMessageInfo.MessageTypes.LOGOUT_INT);
+		FixLogout out = new FixLogout();
 
 		standardHeader.clone(out.standardHeader);
 		standardTrailer.clone(out.standardTrailer);

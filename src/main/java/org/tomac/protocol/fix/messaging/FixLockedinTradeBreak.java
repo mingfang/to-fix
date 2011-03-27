@@ -29,7 +29,7 @@ public class FixLockedinTradeBreak extends FixInMessage {
 	private short hasSide;
 	byte side = (byte)' ';		
 	private short hasSymbol;
-	byte[] symbol = new byte[6];		
+	byte[] symbol = new byte[8];		
 	private short hasTransactTime;
 	byte[] transactTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];		
 	private short hasExecType;
@@ -85,7 +85,7 @@ public class FixLockedinTradeBreak extends FixInMessage {
 		securityID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 		hasSide = FixUtils.TAG_HAS_NO_VALUE;		
 		hasSymbol = FixUtils.TAG_HAS_NO_VALUE;		
-		symbol = new byte[6];		
+		symbol = new byte[8];		
 		hasTransactTime = FixUtils.TAG_HAS_NO_VALUE;		
 		transactTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];		
 		hasExecType = FixUtils.TAG_HAS_NO_VALUE;		
@@ -2239,7 +2239,7 @@ public class FixLockedinTradeBreak extends FixInMessage {
 	}
 	@Override
 	public FixLockedinTradeBreak clone () {
-		FixLockedinTradeBreak out = (FixLockedinTradeBreak) FixUtils.fixMessagePool.getFixMessage(FixMessageInfo.MessageTypes.LOCKEDINTRADEBREAK_INT);
+		FixLockedinTradeBreak out = new FixLockedinTradeBreak();
 
 		standardHeader.clone(out.standardHeader);
 		standardTrailer.clone(out.standardTrailer);

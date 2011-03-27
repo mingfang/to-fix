@@ -321,7 +321,7 @@ public class FixSequenceReset extends FixInMessage {
 	}
 	@Override
 	public FixSequenceReset clone () {
-		FixSequenceReset out = (FixSequenceReset) FixUtils.fixMessagePool.getFixMessage(FixMessageInfo.MessageTypes.SEQUENCERESET_INT);
+		FixSequenceReset out = new FixSequenceReset();
 
 		standardHeader.clone(out.standardHeader);
 		standardTrailer.clone(out.standardTrailer);

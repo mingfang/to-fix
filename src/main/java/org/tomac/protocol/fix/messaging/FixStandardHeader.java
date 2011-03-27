@@ -477,7 +477,7 @@ public class FixStandardHeader extends FixGroup {
 		
 	}
 
-	byte[] getBeginString() { 		
+	public byte[] getBeginString() { 		
 		if ( hasBeginString()) {		
 			if (hasBeginString == FixUtils.TAG_HAS_VALUE) {		
 				return beginString; 		
@@ -499,16 +499,16 @@ public class FixStandardHeader extends FixGroup {
 		}		
 	}		
 			
-	boolean hasBeginString() { return hasBeginString != FixUtils.TAG_HAS_NO_VALUE; } 		
+	public boolean hasBeginString() { return hasBeginString != FixUtils.TAG_HAS_NO_VALUE; } 		
 		
-	void setBeginString(byte[] src) {		
+	public void setBeginString(byte[] src) {		
 		if (src == null ) return;
 		if (hasBeginString()) FixUtils.fillSpace(beginString);		
 		FixUtils.copy(beginString, src); 		
 		hasBeginString = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	void setBeginString(String str) {		
+	public void setBeginString(String str) {		
 		if (str == null ) return;
 		if (hasBeginString()) FixUtils.fillSpace(beginString);		
 		byte[] src = str.getBytes(); 		
@@ -516,7 +516,7 @@ public class FixStandardHeader extends FixGroup {
 		hasBeginString = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	long getBodyLength() { 		
+	public long getBodyLength() { 		
 		if ( hasBodyLength()) {		
 			if (hasBodyLength == FixUtils.TAG_HAS_VALUE) {		
 				return bodyLength; 		
@@ -538,21 +538,21 @@ public class FixStandardHeader extends FixGroup {
 		}		
 	}		
 			
-	boolean hasBodyLength() { return hasBodyLength != FixUtils.TAG_HAS_NO_VALUE; } 		
+	public boolean hasBodyLength() { return hasBodyLength != FixUtils.TAG_HAS_NO_VALUE; } 		
 		
 	public void setBodyLength(long src) {		
 		bodyLength = src;
 		hasBodyLength = FixUtils.TAG_HAS_VALUE;		
 	}
 
-	void setBodyLength(byte[] src) {		
+	public void setBodyLength(byte[] src) {		
 		if (src == null ) return;
 		if (hasBodyLength()) bodyLength = FixUtils.TAG_HAS_NO_VALUE;		
 		bodyLength = FixUtils.longValueOf(src, 0, src.length);
 		hasBodyLength = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	void setBodyLength(String str) {		
+	public void setBodyLength(String str) {		
 		if (str == null ) return;
 		if (hasBodyLength()) bodyLength = FixUtils.TAG_HAS_NO_VALUE;		
 		byte[] src = str.getBytes(); 		
@@ -560,7 +560,7 @@ public class FixStandardHeader extends FixGroup {
 		hasBodyLength = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	byte[] getMsgType() { 		
+	public byte[] getMsgType() { 		
 		if ( hasMsgType()) {		
 			if (hasMsgType == FixUtils.TAG_HAS_VALUE) {		
 				return msgType; 		
@@ -582,16 +582,16 @@ public class FixStandardHeader extends FixGroup {
 		}		
 	}		
 			
-	boolean hasMsgType() { return hasMsgType != FixUtils.TAG_HAS_NO_VALUE; } 		
+	public boolean hasMsgType() { return hasMsgType != FixUtils.TAG_HAS_NO_VALUE; } 		
 		
-	void setMsgType(byte[] src) {		
+	public void setMsgType(byte[] src) {		
 		if (src == null ) return;
 		if (hasMsgType()) FixUtils.fillSpace(msgType);		
 		FixUtils.copy(msgType, src); 		
 		hasMsgType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	void setMsgType(String str) {		
+	public void setMsgType(String str) {		
 		if (str == null ) return;
 		if (hasMsgType()) FixUtils.fillSpace(msgType);		
 		byte[] src = str.getBytes(); 		
@@ -599,7 +599,7 @@ public class FixStandardHeader extends FixGroup {
 		hasMsgType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	long getMsgSeqNum() { 		
+	public long getMsgSeqNum() { 		
 		if ( hasMsgSeqNum()) {		
 			if (hasMsgSeqNum == FixUtils.TAG_HAS_VALUE) {		
 				return msgSeqNum; 		
@@ -621,21 +621,21 @@ public class FixStandardHeader extends FixGroup {
 		}		
 	}		
 			
-	boolean hasMsgSeqNum() { return hasMsgSeqNum != FixUtils.TAG_HAS_NO_VALUE; } 		
+	public boolean hasMsgSeqNum() { return hasMsgSeqNum != FixUtils.TAG_HAS_NO_VALUE; } 		
 		
 	public void setMsgSeqNum(long src) {		
 		msgSeqNum = src;
 		hasMsgSeqNum = FixUtils.TAG_HAS_VALUE;		
 	}
 
-	void setMsgSeqNum(byte[] src) {		
+	public void setMsgSeqNum(byte[] src) {		
 		if (src == null ) return;
 		if (hasMsgSeqNum()) msgSeqNum = FixUtils.TAG_HAS_NO_VALUE;		
 		msgSeqNum = FixUtils.longValueOf(src, 0, src.length);
 		hasMsgSeqNum = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	void setMsgSeqNum(String str) {		
+	public void setMsgSeqNum(String str) {		
 		if (str == null ) return;
 		if (hasMsgSeqNum()) msgSeqNum = FixUtils.TAG_HAS_NO_VALUE;		
 		byte[] src = str.getBytes(); 		
@@ -643,7 +643,7 @@ public class FixStandardHeader extends FixGroup {
 		hasMsgSeqNum = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	boolean getPossDupFlag() { 		
+	public boolean getPossDupFlag() { 		
 		if ( hasPossDupFlag()) {		
 			if (hasPossDupFlag == FixUtils.TAG_HAS_VALUE) {		
 				return possDupFlag; 		
@@ -665,21 +665,21 @@ public class FixStandardHeader extends FixGroup {
 		}		
 	}		
 			
-	boolean hasPossDupFlag() { return hasPossDupFlag != FixUtils.TAG_HAS_NO_VALUE; } 		
+	public boolean hasPossDupFlag() { return hasPossDupFlag != FixUtils.TAG_HAS_NO_VALUE; } 		
 		
 	public void setPossDupFlag(boolean src) {		
 		possDupFlag = src;
 		hasPossDupFlag = FixUtils.TAG_HAS_VALUE;		
 	}
 
-	void setPossDupFlag(byte[] src) {		
+	public void setPossDupFlag(byte[] src) {		
 		if (src == null ) return;
 		if (hasPossDupFlag()) possDupFlag = false;		
 		possDupFlag = src[0]==(byte)'Y'?true:false;		
 		hasPossDupFlag = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	void setPossDupFlag(String str) {		
+	public void setPossDupFlag(String str) {		
 		if (str == null ) return;
 		if (hasPossDupFlag()) possDupFlag = false;		
 		byte[] src = str.getBytes(); 		
@@ -687,7 +687,7 @@ public class FixStandardHeader extends FixGroup {
 		hasPossDupFlag = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	byte[] getSenderCompID() { 		
+	public byte[] getSenderCompID() { 		
 		if ( hasSenderCompID()) {		
 			if (hasSenderCompID == FixUtils.TAG_HAS_VALUE) {		
 				return senderCompID; 		
@@ -709,16 +709,16 @@ public class FixStandardHeader extends FixGroup {
 		}		
 	}		
 			
-	boolean hasSenderCompID() { return hasSenderCompID != FixUtils.TAG_HAS_NO_VALUE; } 		
+	public boolean hasSenderCompID() { return hasSenderCompID != FixUtils.TAG_HAS_NO_VALUE; } 		
 		
-	void setSenderCompID(byte[] src) {		
+	public void setSenderCompID(byte[] src) {		
 		if (src == null ) return;
 		if (hasSenderCompID()) FixUtils.fillSpace(senderCompID);		
 		FixUtils.copy(senderCompID, src); 		
 		hasSenderCompID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	void setSenderCompID(String str) {		
+	public void setSenderCompID(String str) {		
 		if (str == null ) return;
 		if (hasSenderCompID()) FixUtils.fillSpace(senderCompID);		
 		byte[] src = str.getBytes(); 		
@@ -726,7 +726,7 @@ public class FixStandardHeader extends FixGroup {
 		hasSenderCompID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	byte[] getSenderSubID() { 		
+	public byte[] getSenderSubID() { 		
 		if ( hasSenderSubID()) {		
 			if (hasSenderSubID == FixUtils.TAG_HAS_VALUE) {		
 				return senderSubID; 		
@@ -748,16 +748,16 @@ public class FixStandardHeader extends FixGroup {
 		}		
 	}		
 			
-	boolean hasSenderSubID() { return hasSenderSubID != FixUtils.TAG_HAS_NO_VALUE; } 		
+	public boolean hasSenderSubID() { return hasSenderSubID != FixUtils.TAG_HAS_NO_VALUE; } 		
 		
-	void setSenderSubID(byte[] src) {		
+	public void setSenderSubID(byte[] src) {		
 		if (src == null ) return;
 		if (hasSenderSubID()) FixUtils.fillSpace(senderSubID);		
 		FixUtils.copy(senderSubID, src); 		
 		hasSenderSubID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	void setSenderSubID(String str) {		
+	public void setSenderSubID(String str) {		
 		if (str == null ) return;
 		if (hasSenderSubID()) FixUtils.fillSpace(senderSubID);		
 		byte[] src = str.getBytes(); 		
@@ -765,7 +765,7 @@ public class FixStandardHeader extends FixGroup {
 		hasSenderSubID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	byte[] getSendingTime() { 		
+	public byte[] getSendingTime() { 		
 		if ( hasSendingTime()) {		
 			if (hasSendingTime == FixUtils.TAG_HAS_VALUE) {		
 				return sendingTime; 		
@@ -787,16 +787,16 @@ public class FixStandardHeader extends FixGroup {
 		}		
 	}		
 			
-	boolean hasSendingTime() { return hasSendingTime != FixUtils.TAG_HAS_NO_VALUE; } 		
+	public boolean hasSendingTime() { return hasSendingTime != FixUtils.TAG_HAS_NO_VALUE; } 		
 		
-	void setSendingTime(byte[] src) {		
+	public void setSendingTime(byte[] src) {		
 		if (src == null ) return;
 		if (hasSendingTime()) FixUtils.fillSpace(sendingTime);		
 		FixUtils.copy(sendingTime, src); 		
 		hasSendingTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	void setSendingTime(String str) {		
+	public void setSendingTime(String str) {		
 		if (str == null ) return;
 		if (hasSendingTime()) FixUtils.fillSpace(sendingTime);		
 		byte[] src = str.getBytes(); 		
@@ -804,7 +804,7 @@ public class FixStandardHeader extends FixGroup {
 		hasSendingTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	byte[] getTargetCompID() { 		
+	public byte[] getTargetCompID() { 		
 		if ( hasTargetCompID()) {		
 			if (hasTargetCompID == FixUtils.TAG_HAS_VALUE) {		
 				return targetCompID; 		
@@ -826,16 +826,16 @@ public class FixStandardHeader extends FixGroup {
 		}		
 	}		
 			
-	boolean hasTargetCompID() { return hasTargetCompID != FixUtils.TAG_HAS_NO_VALUE; } 		
+	public boolean hasTargetCompID() { return hasTargetCompID != FixUtils.TAG_HAS_NO_VALUE; } 		
 		
-	void setTargetCompID(byte[] src) {		
+	public void setTargetCompID(byte[] src) {		
 		if (src == null ) return;
 		if (hasTargetCompID()) FixUtils.fillSpace(targetCompID);		
 		FixUtils.copy(targetCompID, src); 		
 		hasTargetCompID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	void setTargetCompID(String str) {		
+	public void setTargetCompID(String str) {		
 		if (str == null ) return;
 		if (hasTargetCompID()) FixUtils.fillSpace(targetCompID);		
 		byte[] src = str.getBytes(); 		
@@ -843,7 +843,7 @@ public class FixStandardHeader extends FixGroup {
 		hasTargetCompID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	byte[] getTargetSubID() { 		
+	public byte[] getTargetSubID() { 		
 		if ( hasTargetSubID()) {		
 			if (hasTargetSubID == FixUtils.TAG_HAS_VALUE) {		
 				return targetSubID; 		
@@ -865,16 +865,16 @@ public class FixStandardHeader extends FixGroup {
 		}		
 	}		
 			
-	boolean hasTargetSubID() { return hasTargetSubID != FixUtils.TAG_HAS_NO_VALUE; } 		
+	public boolean hasTargetSubID() { return hasTargetSubID != FixUtils.TAG_HAS_NO_VALUE; } 		
 		
-	void setTargetSubID(byte[] src) {		
+	public void setTargetSubID(byte[] src) {		
 		if (src == null ) return;
 		if (hasTargetSubID()) FixUtils.fillSpace(targetSubID);		
 		FixUtils.copy(targetSubID, src); 		
 		hasTargetSubID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	void setTargetSubID(String str) {		
+	public void setTargetSubID(String str) {		
 		if (str == null ) return;
 		if (hasTargetSubID()) FixUtils.fillSpace(targetSubID);		
 		byte[] src = str.getBytes(); 		
@@ -882,7 +882,7 @@ public class FixStandardHeader extends FixGroup {
 		hasTargetSubID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	boolean getPossResend() { 		
+	public boolean getPossResend() { 		
 		if ( hasPossResend()) {		
 			if (hasPossResend == FixUtils.TAG_HAS_VALUE) {		
 				return possResend; 		
@@ -904,21 +904,21 @@ public class FixStandardHeader extends FixGroup {
 		}		
 	}		
 			
-	boolean hasPossResend() { return hasPossResend != FixUtils.TAG_HAS_NO_VALUE; } 		
+	public boolean hasPossResend() { return hasPossResend != FixUtils.TAG_HAS_NO_VALUE; } 		
 		
 	public void setPossResend(boolean src) {		
 		possResend = src;
 		hasPossResend = FixUtils.TAG_HAS_VALUE;		
 	}
 
-	void setPossResend(byte[] src) {		
+	public void setPossResend(byte[] src) {		
 		if (src == null ) return;
 		if (hasPossResend()) possResend = false;		
 		possResend = src[0]==(byte)'Y'?true:false;		
 		hasPossResend = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	void setPossResend(String str) {		
+	public void setPossResend(String str) {		
 		if (str == null ) return;
 		if (hasPossResend()) possResend = false;		
 		byte[] src = str.getBytes(); 		
@@ -926,7 +926,7 @@ public class FixStandardHeader extends FixGroup {
 		hasPossResend = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	byte[] getOnBehalfOfCompID() { 		
+	public byte[] getOnBehalfOfCompID() { 		
 		if ( hasOnBehalfOfCompID()) {		
 			if (hasOnBehalfOfCompID == FixUtils.TAG_HAS_VALUE) {		
 				return onBehalfOfCompID; 		
@@ -948,16 +948,16 @@ public class FixStandardHeader extends FixGroup {
 		}		
 	}		
 			
-	boolean hasOnBehalfOfCompID() { return hasOnBehalfOfCompID != FixUtils.TAG_HAS_NO_VALUE; } 		
+	public boolean hasOnBehalfOfCompID() { return hasOnBehalfOfCompID != FixUtils.TAG_HAS_NO_VALUE; } 		
 		
-	void setOnBehalfOfCompID(byte[] src) {		
+	public void setOnBehalfOfCompID(byte[] src) {		
 		if (src == null ) return;
 		if (hasOnBehalfOfCompID()) FixUtils.fillSpace(onBehalfOfCompID);		
 		FixUtils.copy(onBehalfOfCompID, src); 		
 		hasOnBehalfOfCompID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	void setOnBehalfOfCompID(String str) {		
+	public void setOnBehalfOfCompID(String str) {		
 		if (str == null ) return;
 		if (hasOnBehalfOfCompID()) FixUtils.fillSpace(onBehalfOfCompID);		
 		byte[] src = str.getBytes(); 		
@@ -965,7 +965,7 @@ public class FixStandardHeader extends FixGroup {
 		hasOnBehalfOfCompID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	byte[] getOnBehalfOfSubID() { 		
+	public byte[] getOnBehalfOfSubID() { 		
 		if ( hasOnBehalfOfSubID()) {		
 			if (hasOnBehalfOfSubID == FixUtils.TAG_HAS_VALUE) {		
 				return onBehalfOfSubID; 		
@@ -987,16 +987,16 @@ public class FixStandardHeader extends FixGroup {
 		}		
 	}		
 			
-	boolean hasOnBehalfOfSubID() { return hasOnBehalfOfSubID != FixUtils.TAG_HAS_NO_VALUE; } 		
+	public boolean hasOnBehalfOfSubID() { return hasOnBehalfOfSubID != FixUtils.TAG_HAS_NO_VALUE; } 		
 		
-	void setOnBehalfOfSubID(byte[] src) {		
+	public void setOnBehalfOfSubID(byte[] src) {		
 		if (src == null ) return;
 		if (hasOnBehalfOfSubID()) FixUtils.fillSpace(onBehalfOfSubID);		
 		FixUtils.copy(onBehalfOfSubID, src); 		
 		hasOnBehalfOfSubID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	void setOnBehalfOfSubID(String str) {		
+	public void setOnBehalfOfSubID(String str) {		
 		if (str == null ) return;
 		if (hasOnBehalfOfSubID()) FixUtils.fillSpace(onBehalfOfSubID);		
 		byte[] src = str.getBytes(); 		
@@ -1004,7 +1004,7 @@ public class FixStandardHeader extends FixGroup {
 		hasOnBehalfOfSubID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	byte[] getOrigSendingTime() { 		
+	public byte[] getOrigSendingTime() { 		
 		if ( hasOrigSendingTime()) {		
 			if (hasOrigSendingTime == FixUtils.TAG_HAS_VALUE) {		
 				return origSendingTime; 		
@@ -1026,16 +1026,16 @@ public class FixStandardHeader extends FixGroup {
 		}		
 	}		
 			
-	boolean hasOrigSendingTime() { return hasOrigSendingTime != FixUtils.TAG_HAS_NO_VALUE; } 		
+	public boolean hasOrigSendingTime() { return hasOrigSendingTime != FixUtils.TAG_HAS_NO_VALUE; } 		
 		
-	void setOrigSendingTime(byte[] src) {		
+	public void setOrigSendingTime(byte[] src) {		
 		if (src == null ) return;
 		if (hasOrigSendingTime()) FixUtils.fillSpace(origSendingTime);		
 		FixUtils.copy(origSendingTime, src); 		
 		hasOrigSendingTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	void setOrigSendingTime(String str) {		
+	public void setOrigSendingTime(String str) {		
 		if (str == null ) return;
 		if (hasOrigSendingTime()) FixUtils.fillSpace(origSendingTime);		
 		byte[] src = str.getBytes(); 		
@@ -1043,7 +1043,7 @@ public class FixStandardHeader extends FixGroup {
 		hasOrigSendingTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	byte[] getDeliverToCompID() { 		
+	public byte[] getDeliverToCompID() { 		
 		if ( hasDeliverToCompID()) {		
 			if (hasDeliverToCompID == FixUtils.TAG_HAS_VALUE) {		
 				return deliverToCompID; 		
@@ -1065,16 +1065,16 @@ public class FixStandardHeader extends FixGroup {
 		}		
 	}		
 			
-	boolean hasDeliverToCompID() { return hasDeliverToCompID != FixUtils.TAG_HAS_NO_VALUE; } 		
+	public boolean hasDeliverToCompID() { return hasDeliverToCompID != FixUtils.TAG_HAS_NO_VALUE; } 		
 		
-	void setDeliverToCompID(byte[] src) {		
+	public void setDeliverToCompID(byte[] src) {		
 		if (src == null ) return;
 		if (hasDeliverToCompID()) FixUtils.fillSpace(deliverToCompID);		
 		FixUtils.copy(deliverToCompID, src); 		
 		hasDeliverToCompID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	void setDeliverToCompID(String str) {		
+	public void setDeliverToCompID(String str) {		
 		if (str == null ) return;
 		if (hasDeliverToCompID()) FixUtils.fillSpace(deliverToCompID);		
 		byte[] src = str.getBytes(); 		
@@ -1082,7 +1082,7 @@ public class FixStandardHeader extends FixGroup {
 		hasDeliverToCompID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	byte[] getDeliverToSubID() { 		
+	public byte[] getDeliverToSubID() { 		
 		if ( hasDeliverToSubID()) {		
 			if (hasDeliverToSubID == FixUtils.TAG_HAS_VALUE) {		
 				return deliverToSubID; 		
@@ -1104,16 +1104,16 @@ public class FixStandardHeader extends FixGroup {
 		}		
 	}		
 			
-	boolean hasDeliverToSubID() { return hasDeliverToSubID != FixUtils.TAG_HAS_NO_VALUE; } 		
+	public boolean hasDeliverToSubID() { return hasDeliverToSubID != FixUtils.TAG_HAS_NO_VALUE; } 		
 		
-	void setDeliverToSubID(byte[] src) {		
+	public void setDeliverToSubID(byte[] src) {		
 		if (src == null ) return;
 		if (hasDeliverToSubID()) FixUtils.fillSpace(deliverToSubID);		
 		FixUtils.copy(deliverToSubID, src); 		
 		hasDeliverToSubID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	void setDeliverToSubID(String str) {		
+	public void setDeliverToSubID(String str) {		
 		if (str == null ) return;
 		if (hasDeliverToSubID()) FixUtils.fillSpace(deliverToSubID);		
 		byte[] src = str.getBytes(); 		

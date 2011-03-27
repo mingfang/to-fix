@@ -769,7 +769,7 @@ public class FixRejectedCancelReplace extends FixInMessage {
 	}
 	@Override
 	public FixRejectedCancelReplace clone () {
-		FixRejectedCancelReplace out = (FixRejectedCancelReplace) FixUtils.fixMessagePool.getFixMessage(FixMessageInfo.MessageTypes.REJECTEDCANCELREPLACE_INT);
+		FixRejectedCancelReplace out = new FixRejectedCancelReplace();
 
 		standardHeader.clone(out.standardHeader);
 		standardTrailer.clone(out.standardTrailer);

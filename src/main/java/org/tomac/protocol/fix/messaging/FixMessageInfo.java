@@ -10,7 +10,7 @@ public interface FixMessageInfo
 {
 
 	public static final byte[] BEGINSTRING_VALUE = "FIX.4.2".getBytes();
-	public static final byte[] FLAVOUR = "null".getBytes();
+	public static final byte[] FLAVOUR = "Nordic INET".getBytes();
 
 	public static class MessageTypes
 	{
@@ -77,38 +77,6 @@ public interface FixMessageInfo
 		public static final int TESTREQUEST_INT = 49;
 }
 
-	public class MsgType {
-			public static final byte[] REJECT = "3".getBytes();
-			public static final byte[] ORDER_SINGLE = "D".getBytes();
-			public static final byte[] RESEND_REQUEST = "2".getBytes();
-			public static final byte[] TEST_REQUEST = "1".getBytes();
-			public static final byte[] ORDER_CANCEL_REQUEST = "F".getBytes();
-			public static final byte[] ORDER_CANCELREPLACE_REQUEST = "G".getBytes();
-			public static final byte[] HEARTBEAT = "0".getBytes();
-			public static final byte[] LOGON = "A".getBytes();
-			public static final byte[] LOGOUT = "5".getBytes();
-			public static final byte[] SEQUENCE_RESET = "4".getBytes();
-			public static final byte[] ORDER_CANCEL_REJECT = "9".getBytes();
-			public static final byte[] EXECUTION_REPORT = "8".getBytes();
-		}
-
-	public class PossDupFlag {
-			public static final boolean ORIGINAL_TRANSMISSION = false;
-			public static final boolean POSSIBLE_DUPLICATE = true;
-		}
-
-	public class PossResend {
-			public static final boolean ORIGINAL_TRANSMISSION = false;
-			public static final boolean POSSIBLE_RESEND = true;
-		}
-
-	public class ExecInst {
-			public static final byte[] MARKET_PEG = "P".getBytes();
-			public static final byte[] PRIMARY_PEG = "R".getBytes();
-			public static final byte[] MIDPOINT_PEG = "M".getBytes();
-			public static final byte[] NO_PEG = "N".getBytes();
-		}
-
 	public class ExecTransType {
 			public static final byte FILL = '2';
 			public static final byte PARTIALFILL = '1';
@@ -117,27 +85,19 @@ public interface FixMessageInfo
 			public static final byte REJECT = 'I';
 		}
 
-	public class OrdStatus {
-			public static final byte FILLED = '2';
-			public static final byte PARTIAL_FILL = '1';
-			public static final byte NEW = '0';
-			public static final byte PENDING_CANCEL = '6';
-			public static final byte REPLACED = '5';
-			public static final byte CANCELLED = '4';
-			public static final byte REJECTED = '8';
+	public class HandlInst {
+			public static final byte AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION = '1';
 		}
 
-	public class OrdType {
-			public static final byte LIMIT = '2';
-			public static final byte MARKET = '1';
-			public static final byte PEGGED = 'P';
+	public class TrdRptStatus {
+			public static final byte[] UNANSWEREDA_ONESIDED_TRADE_REPORT_THAT_HAS_NOT_BEEN_LOCKEDIN = "98".getBytes();
+			public static final byte[] A_TRADE_ENTERED_BY_ONE_PARTY_AS_A_TWOPARTY_LOCKEDIN_TRADE = "95".getBytes();
+			public static final byte[] A_TRADE_LOCKEDIN_BY_THE_MATCHING_PROCESS = "92".getBytes();
 		}
 
-	public class Side {
-			public static final byte SELL = '2';
-			public static final byte BUY = '1';
-			public static final byte UNKNOWN = '7';
-			public static final byte CROSS_YOU_WILL_USE_THIS_VALUE_WHEN_A_TRADE_WAS_DONE_INTERNALLY = '8';
+	public class GapFillFlag {
+			public static final boolean SEQUENCE_RESET_IGNORE_MSGSEQNUM = false;
+			public static final boolean GAP_FILL_MESSAGE_MSGSEQNUM_FIELD_VALID = true;
 		}
 
 	public class TimeInForce {
@@ -148,44 +108,71 @@ public interface FixMessageInfo
 			public static final byte FOK_FILL_OR_KILL_PARTIAL_EXECUTIONS_ARE_NOT_ALLOWED_UNLESS_THEY_ = '4';
 		}
 
-	public class ExecType {
-			public static final byte RESTATED = 'D';
-			public static final byte FILLED = '2';
-			public static final byte TRADE_REPORT = 'F';
-			public static final byte PARTIAL_FILL = '1';
-			public static final byte NEW = '0';
-			public static final byte PENDING_CANCEL = '6';
-			public static final byte REPLACED = '5';
-			public static final byte CANCEL = '4';
-			public static final byte REJECTED = '8';
-			public static final byte STATUS = 'I';
+	public class Side {
+			public static final byte SELL = '2';
+			public static final byte BUY = '1';
+			public static final byte UNKNOWN = '7';
+			public static final byte CROSS_YOU_WILL_USE_THIS_VALUE_WHEN_A_TRADE_WAS_DONE_INTERNALLY = '8';
 		}
 
-	public class CrossTradeFlag {
-			public static final byte CLOSING_CROSS = 'C';
-			public static final byte OPENING_CROSS = 'O';
-			public static final byte HALT_CROSS = 'H';
+	public class ExecRestatementReason {
+			public static final long GT_RENEWAL_THIS_WILL_IDENTIFY_THE_EXECUTION_RESTATEMENTS_THAT_AR = 1;
+			public static final long MARKET_EXCHANGE_OPTION_THIS_SHOULD_BE_THE_VALUE_FOR_ALL_EXECUTIO = 8;
 		}
 
-	public class TradeReportRejectReason {
-			public static final byte[] UNAUTHORIZED_TO_REPORT_TRADES = "3".getBytes();
-			public static final byte[] UNKNOWN_INSTRUMENT = "2".getBytes();
-			public static final byte[] INVALID_PARTY_INFORMATION = "1".getBytes();
-			public static final byte[] INCORRECT_DATA_FORMAT_FOR_VALUE = "6".getBytes();
-			public static final byte[] INVALID_TRADE_TYPE = "4".getBytes();
-			public static final byte[] OTHER = "99".getBytes();
+	public class TradeType {
+			public static final byte[] DERIVATIVE_RELATED_TRANSACTION = "49".getBytes();
+			public static final byte[] NONSTANDARD_SETTLEMENT = "48".getBytes();
+			public static final byte[] REGULAR_TRADE = "0".getBytes();
+			public static final byte[] VOLUME_WEIGHTED_AVERAGE_TRADE = "51".getBytes();
+			public static final byte[] EXCHANGE_GRANTED_TRADE = "52".getBytes();
+			public static final byte[] OTC = "54".getBytes();
+			public static final byte[] PREOPENING_TRADE = "99".getBytes();
+			public static final byte[] PORTFOLIO_TRADE = "50".getBytes();
 		}
 
-	public class TrdRptStatus {
-			public static final byte[] UNANSWEREDA_ONESIDED_TRADE_REPORT_THAT_HAS_NOT_BEEN_LOCKEDIN = "98".getBytes();
-			public static final byte[] A_TRADE_ENTERED_BY_ONE_PARTY_AS_A_TWOPARTY_LOCKEDIN_TRADE = "95".getBytes();
-			public static final byte[] A_TRADE_LOCKEDIN_BY_THE_MATCHING_PROCESS = "92".getBytes();
+	public class SessionRejectReason {
+			public static final long UNDEFINED_TAG = 3;
+			public static final long TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE = 2;
+			public static final long SENDINGTIME_ACCURACY_PROBLEM = 10;
+			public static final long REQUIRED_TAG_MISSING = 1;
+			public static final long INVALID_TAG_NUMBER = 0;
+			public static final long DECRYPTION_PROBLEM = 7;
+			public static final long INCORRECT_DATA_FORMAT_FOR_VALUE = 6;
+			public static final long VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG = 5;
+			public static final long TAG_SPECIFIED_WITHOUT_A_VALUE = 4;
+			public static final long COMPID_PROBLEM = 9;
+			public static final long SIGNATURE_PROBLEM = 8;
+			public static final long INVALID_MSGTYPE = 11;
 		}
 
-	public class SecurityDesc {
-			public static final byte[] SYSTEMATIC_INTERNALIZED_OTC = "S".getBytes();
-			public static final byte[] REGULATED_MARKET = "R".getBytes();
-			public static final byte[] OVER_THE_COUNTER_MARKET = "O".getBytes();
+	public class ReversalIndicator {
+			public static final byte[] NOT_A_REVERSAL_DEFAULT = "N".getBytes();
+			public static final byte[] REVERSAL = "Y".getBytes();
+		}
+
+	public class OverrideFlag {
+			public static final byte NO_OVERRIDE_DEFAULT = 'N';
+			public static final byte OVERRIDE = 'Y';
+		}
+
+	public class BreakIndicator {
+			public static final byte SELLER_SUBMITTED_BREAK_REQUEST = 'S';
+			public static final byte BUYER_SUBMITTED_BREAK_REQUEST = 'B';
+			public static final byte TRADE_WAS_BROKEN_THROUGH_MARKET_CENTER = 'L';
+			public static final byte TRADE_WAS_BROKEN_BY_BOTH_THE_BUYER_AND_SELLER = 'X';
+		}
+
+	public class DisplayInst {
+			public static final byte DISPLAY_OVERRIDE_POSTTRADE_ANONYMITY_FUTURE_USE = 'D';
+			public static final byte NONDISPLAY_OVERRIDE_POSTTRADE_ANONYMITY_FUTURE_USE = 'R';
+			public static final byte NONDISPLAY = 'N';
+			public static final byte DISPLAY_ANONYMOUS_AS_PER_MARKET_RULES = 'Y';
+			public static final byte IMBALANCE_ONLY_ONLY_VALID_IF_TAG_9355_IS_PRESENT = 'I';
+		}
+
+	public class ProcessCode {
+			public static final byte REGULAR_DEFAULT = '0';
 		}
 
 	public class PriceType {
@@ -207,6 +194,55 @@ public interface FixMessageInfo
 			public static final byte[] ISSUE_PRICE_STABILIZATION_528P = "C".getBytes();
 		}
 
+	public class LockedInStatus {
+			public static final byte THE_LOCKEDIN_TRADE_IS_EFFECTIVELY_BROKEN_BECAUSE_BOTH_TRADING_PA = 'B';
+			public static final byte THE_TRADE_IS_STILL_MATCHED_BECAUSE_ONLY_ONE_PARTY_TO_THE_TRADE_H = 'M';
+		}
+
+	public class DiscretionInst {
+			public static final byte RELATED_TO_DISPLAYED_PRICE = '0';
+		}
+
+	public class SecurityDesc {
+			public static final byte[] SYSTEMATIC_INTERNALIZED_OTC = "S".getBytes();
+			public static final byte[] REGULATED_MARKET = "R".getBytes();
+			public static final byte[] OVER_THE_COUNTER_MARKET = "O".getBytes();
+		}
+
+	public class OrdStatus {
+			public static final byte FILLED = '2';
+			public static final byte PARTIAL_FILL = '1';
+			public static final byte NEW = '0';
+			public static final byte PENDING_CANCEL = '6';
+			public static final byte REPLACED = '5';
+			public static final byte CANCELLED = '4';
+			public static final byte REJECTED = '8';
+		}
+
+	public class MsgType {
+			public static final byte[] REJECT = "3".getBytes();
+			public static final byte[] ORDER_SINGLE = "D".getBytes();
+			public static final byte[] RESEND_REQUEST = "2".getBytes();
+			public static final byte[] TEST_REQUEST = "1".getBytes();
+			public static final byte[] ORDER_CANCEL_REQUEST = "F".getBytes();
+			public static final byte[] ORDER_CANCELREPLACE_REQUEST = "G".getBytes();
+			public static final byte[] HEARTBEAT = "0".getBytes();
+			public static final byte[] LOGON = "A".getBytes();
+			public static final byte[] LOGOUT = "5".getBytes();
+			public static final byte[] SEQUENCE_RESET = "4".getBytes();
+			public static final byte[] ORDER_CANCEL_REJECT = "9".getBytes();
+			public static final byte[] EXECUTION_REPORT = "8".getBytes();
+		}
+
+	public class CxlRejResponseTo {
+			public static final byte ORDER_CANCELREPLACE_REQUEST = '2';
+			public static final byte ORDER_CANCEL_REQUEST = '1';
+		}
+
+	public class PartyRole {
+			public static final byte[] TRADE_REPORTING_FIRM = "7".getBytes();
+		}
+
 	public class ClearingInstruction {
 			public static final byte[] NO_CLEAR_TWOPARTY_LOCKEDIN_TRADE = "98".getBytes();
 			public static final byte[] NO_CLEAR = "97".getBytes();
@@ -214,121 +250,10 @@ public interface FixMessageInfo
 			public static final byte[] CLEAR_TWOPARTY_LOCKEDIN_TRADE = "11".getBytes();
 		}
 
-	public class TradeType {
-			public static final byte[] DERIVATIVE_RELATED_TRANSACTION = "49".getBytes();
-			public static final byte[] NONSTANDARD_SETTLEMENT = "48".getBytes();
-			public static final byte[] REGULAR_TRADE = "0".getBytes();
-			public static final byte[] VOLUME_WEIGHTED_AVERAGE_TRADE = "51".getBytes();
-			public static final byte[] EXCHANGE_GRANTED_TRADE = "52".getBytes();
-			public static final byte[] OTC = "54".getBytes();
-			public static final byte[] PREOPENING_TRADE = "99".getBytes();
-			public static final byte[] PORTFOLIO_TRADE = "50".getBytes();
-		}
-
-	public class PublishTrdIndicator {
-			public static final byte[] NO_DISSEMINATION_FUTURE_USE = "N".getBytes();
-			public static final byte[] DISSEMINATE_BY_RULES_DEFAULT = "Y".getBytes();
-		}
-
-	public class TradeReportType {
-			public static final byte[] ACCEPT = "2".getBytes();
-			public static final byte[] ALLEGED = "1".getBytes();
-			public static final byte[] SUBMIT = "0".getBytes();
-			public static final byte[] LOCKEDIN_TRADE_BREAK = "7".getBytes();
-			public static final byte[] TRADE_REPORT_CANCEL = "6".getBytes();
-		}
-
-	public class LockedInStatus {
-			public static final byte THE_LOCKEDIN_TRADE_IS_EFFECTIVELY_BROKEN_BECAUSE_BOTH_TRADING_PA = 'B';
-			public static final byte THE_TRADE_IS_STILL_MATCHED_BECAUSE_ONLY_ONE_PARTY_TO_THE_TRADE_H = 'M';
-		}
-
-	public class DelayedDisseminationInst {
-			public static final byte I1200_TOMORROW = '3';
-			public static final byte I180_MINUTES = '2';
-			public static final byte I60_MINUTES = '1';
-			public static final byte UNTIL_END_OF_THIRD_TRADING_DAY = '7';
-			public static final byte UNTIL_END_OF_SECOND_TRADING_DAY = '6';
-			public static final byte UNTIL_END_OF_NEXT_TRADING_DAY = '5';
-			public static final byte UNTIL_END_OF_TRADING_DAY = '4';
-		}
-
-	public class BreakIndicator {
-			public static final byte SELLER_SUBMITTED_BREAK_REQUEST = 'S';
-			public static final byte BUYER_SUBMITTED_BREAK_REQUEST = 'B';
-			public static final byte TRADE_WAS_BROKEN_THROUGH_MARKET_CENTER = 'L';
-			public static final byte TRADE_WAS_BROKEN_BY_BOTH_THE_BUYER_AND_SELLER = 'X';
-		}
-
-	public class ProcessCode {
-			public static final byte REGULAR_DEFAULT = '0';
-		}
-
-	public class ReversalIndicator {
-			public static final byte[] NOT_A_REVERSAL_DEFAULT = "N".getBytes();
-			public static final byte[] REVERSAL = "Y".getBytes();
-		}
-
-	public class ContraOrderRestrictions {
-			public static final byte ACTING_AS_MARKET_MAKER_OR_SPECIALIST_IN_THE_SECURITY_9862P = '5';
-			public static final byte ISSUER_HOLDING_9862A = 'B';
-			public static final byte ISSUE_PRICE_STABILIZATION_9862P = 'C';
-		}
-
-	public class OverrideFlag {
-			public static final byte NO_OVERRIDE_DEFAULT = 'N';
-			public static final byte OVERRIDE = 'Y';
-		}
-
-	public class ContraTradePA {
-			public static final byte PRINCIPAL = 'P';
-			public static final byte AGENT = 'A';
-			public static final byte RISKLESS = 'R';
-		}
-
-	public class DisplayInst {
-			public static final byte DISPLAY_OVERRIDE_POSTTRADE_ANONYMITY_FUTURE_USE = 'D';
-			public static final byte NONDISPLAY_OVERRIDE_POSTTRADE_ANONYMITY_FUTURE_USE = 'R';
-			public static final byte NONDISPLAY = 'N';
-			public static final byte DISPLAY_ANONYMOUS_AS_PER_MARKET_RULES = 'Y';
-			public static final byte IMBALANCE_ONLY_ONLY_VALID_IF_TAG_9355_IS_PRESENT = 'I';
-		}
-
-	public class LiquidityFlag {
-			public static final byte BATS = '3';
-			public static final byte TURQUIOSE = '2';
-			public static final byte EXECUTION_CANCEL = 'E';
-			public static final byte CHIX = '1';
-			public static final byte NORDIC_ADDED_LIQUIDITY = 'A';
-			public static final byte EXECUTED_IN_ONE_OF_THE_AUCTIONS = 'C';
-			public static final byte NORDIC_REMOVED_LIQUIDITY = 'R';
-			public static final byte NURO_REMOVED_LIQUIDITY = 'N';
-			public static final byte INTERNALIZED_DURING_ONE_OF_THE_AUCTIONS = 'Y';
-			public static final byte INTERNALIZED_DURING_THE_CONTINUOUS_MARKET = 'X';
-		}
-
-	public class ExecRestatementReason {
-			public static final long GT_RENEWAL_THIS_WILL_IDENTIFY_THE_EXECUTION_RESTATEMENTS_THAT_AR = 1;
-			public static final long MARKET_EXCHANGE_OPTION_THIS_SHOULD_BE_THE_VALUE_FOR_ALL_EXECUTIO = 8;
-		}
-
-	public class LockedIn {
-			public static final byte MATCHED = 'M';
-		}
-
-	public class InternalExternal {
-			public static final byte EXTERNAL = 'E';
-			public static final byte INTERNAL_DEFAULT = 'I';
-		}
-
-	public class ExecBroker {
-			public static final byte[] ROUTE_TO_NASDAQ_OMX_EUROPE_THEN_POST_TO_NORDIC_BOOK = "NURO".getBytes();
-			public static final byte[] ORDER_IS_NOT_ELIGIBLE_FOR_ROUTING_DEFAULT = "BOOK".getBytes();
-			public static final byte[] ROUTE_TO_ALL_ACCESSIBLE_MARKETS_THEN_POST_TO_THE_NORDIC_BOOK = "SCAN".getBytes();
-		}
-
-	public class DiscretionInst {
-			public static final byte RELATED_TO_DISPLAYED_PRICE = '0';
+	public class CxlRejReason {
+			public static final long BROKER_OPTION = 2;
+			public static final long UNKNOWN_ORDER_ORIGINAL_ORDER_UNACKNOWLEDGED = 1;
+			public static final long TOO_LATE_TO_CANCEL_ORDER_ALREADY_CANCELLED_OR_IS_IN_PENDING_CANC = 0;
 		}
 
 	public class OrdRejReason {
@@ -343,12 +268,103 @@ public interface FixMessageInfo
 			public static final long STALE_ORDER = 8;
 		}
 
-	public class PartyRole {
-			public static final byte[] TRADE_REPORTING_FIRM = "7".getBytes();
+	public class TradeReportType {
+			public static final byte[] ACCEPT = "2".getBytes();
+			public static final byte[] ALLEGED = "1".getBytes();
+			public static final byte[] SUBMIT = "0".getBytes();
+			public static final byte[] LOCKEDIN_TRADE_BREAK = "7".getBytes();
+			public static final byte[] TRADE_REPORT_CANCEL = "6".getBytes();
+		}
+
+	public class PublishTrdIndicator {
+			public static final byte[] NO_DISSEMINATION_FUTURE_USE = "N".getBytes();
+			public static final byte[] DISSEMINATE_BY_RULES_DEFAULT = "Y".getBytes();
+		}
+
+	public class InternalExternal {
+			public static final byte EXTERNAL = 'E';
+			public static final byte INTERNAL_DEFAULT = 'I';
+		}
+
+	public class TradeReportRejectReason {
+			public static final byte[] UNAUTHORIZED_TO_REPORT_TRADES = "3".getBytes();
+			public static final byte[] UNKNOWN_INSTRUMENT = "2".getBytes();
+			public static final byte[] INVALID_PARTY_INFORMATION = "1".getBytes();
+			public static final byte[] INCORRECT_DATA_FORMAT_FOR_VALUE = "6".getBytes();
+			public static final byte[] INVALID_TRADE_TYPE = "4".getBytes();
+			public static final byte[] OTHER = "99".getBytes();
+		}
+
+	public class DelayedDisseminationInst {
+			public static final byte I1200_TOMORROW = '3';
+			public static final byte I180_MINUTES = '2';
+			public static final byte I60_MINUTES = '1';
+			public static final byte UNTIL_END_OF_THIRD_TRADING_DAY = '7';
+			public static final byte UNTIL_END_OF_SECOND_TRADING_DAY = '6';
+			public static final byte UNTIL_END_OF_NEXT_TRADING_DAY = '5';
+			public static final byte UNTIL_END_OF_TRADING_DAY = '4';
 		}
 
 	public class EncryptMethod {
 			public static final long NONE__OTHER = 0;
+		}
+
+	public class ContraTradePA {
+			public static final byte PRINCIPAL = 'P';
+			public static final byte AGENT = 'A';
+			public static final byte RISKLESS = 'R';
+		}
+
+	public class PossResend {
+			public static final boolean ORIGINAL_TRANSMISSION = false;
+			public static final boolean POSSIBLE_RESEND = true;
+		}
+
+	public class ExecInst {
+			public static final byte[] MARKET_PEG = "P".getBytes();
+			public static final byte[] PRIMARY_PEG = "R".getBytes();
+			public static final byte[] MIDPOINT_PEG = "M".getBytes();
+			public static final byte[] NO_PEG = "N".getBytes();
+		}
+
+	public class ContraOrderRestrictions {
+			public static final byte ACTING_AS_MARKET_MAKER_OR_SPECIALIST_IN_THE_SECURITY_9862P = '5';
+			public static final byte ISSUER_HOLDING_9862A = 'B';
+			public static final byte ISSUE_PRICE_STABILIZATION_9862P = 'C';
+		}
+
+	public class ExecType {
+			public static final byte RESTATED = 'D';
+			public static final byte FILLED = '2';
+			public static final byte TRADE_REPORT = 'F';
+			public static final byte PARTIAL_FILL = '1';
+			public static final byte NEW = '0';
+			public static final byte PENDING_CANCEL = '6';
+			public static final byte REPLACED = '5';
+			public static final byte CANCEL = '4';
+			public static final byte REJECTED = '8';
+			public static final byte STATUS = 'I';
+		}
+
+	public class LockedIn {
+			public static final byte MATCHED = 'M';
+		}
+
+	public class PossDupFlag {
+			public static final boolean ORIGINAL_TRANSMISSION = false;
+			public static final boolean POSSIBLE_DUPLICATE = true;
+		}
+
+	public class OrdType {
+			public static final byte LIMIT = '2';
+			public static final byte MARKET = '1';
+			public static final byte PEGGED = 'P';
+		}
+
+	public class CrossTradeFlag {
+			public static final byte CLOSING_CROSS = 'C';
+			public static final byte OPENING_CROSS = 'O';
+			public static final byte HALT_CROSS = 'H';
 		}
 
 	public class ResetSeqNumFlag {
@@ -356,39 +372,23 @@ public interface FixMessageInfo
 			public static final boolean YES_RESET_SEQUENCE_NUMBERS = true;
 		}
 
-	public class HandlInst {
-			public static final byte AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION = '1';
+	public class ExecBroker {
+			public static final byte[] ROUTE_TO_NASDAQ_OMX_EUROPE_THEN_POST_TO_NORDIC_BOOK = "NURO".getBytes();
+			public static final byte[] ORDER_IS_NOT_ELIGIBLE_FOR_ROUTING_DEFAULT = "BOOK".getBytes();
+			public static final byte[] ROUTE_TO_ALL_ACCESSIBLE_MARKETS_THEN_POST_TO_THE_NORDIC_BOOK = "SCAN".getBytes();
 		}
 
-	public class CxlRejReason {
-			public static final long BROKER_OPTION = 2;
-			public static final long UNKNOWN_ORDER_ORIGINAL_ORDER_UNACKNOWLEDGED = 1;
-			public static final long TOO_LATE_TO_CANCEL_ORDER_ALREADY_CANCELLED_OR_IS_IN_PENDING_CANC = 0;
-		}
-
-	public class CxlRejResponseTo {
-			public static final byte ORDER_CANCELREPLACE_REQUEST = '2';
-			public static final byte ORDER_CANCEL_REQUEST = '1';
-		}
-
-	public class SessionRejectReason {
-			public static final long UNDEFINED_TAG = 3;
-			public static final long TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE = 2;
-			public static final long SENDINGTIME_ACCURACY_PROBLEM = 10;
-			public static final long REQUIRED_TAG_MISSING = 1;
-			public static final long INVALID_TAG_NUMBER = 0;
-			public static final long DECRYPTION_PROBLEM = 7;
-			public static final long INCORRECT_DATA_FORMAT_FOR_VALUE = 6;
-			public static final long VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG = 5;
-			public static final long TAG_SPECIFIED_WITHOUT_A_VALUE = 4;
-			public static final long COMPID_PROBLEM = 9;
-			public static final long SIGNATURE_PROBLEM = 8;
-			public static final long INVALID_MSGTYPE = 11;
-		}
-
-	public class GapFillFlag {
-			public static final boolean SEQUENCE_RESET_IGNORE_MSGSEQNUM = false;
-			public static final boolean GAP_FILL_MESSAGE_MSGSEQNUM_FIELD_VALID = true;
+	public class LiquidityFlag {
+			public static final byte BATS = '3';
+			public static final byte TURQUIOSE = '2';
+			public static final byte EXECUTION_CANCEL = 'E';
+			public static final byte CHIX = '1';
+			public static final byte NORDIC_ADDED_LIQUIDITY = 'A';
+			public static final byte EXECUTED_IN_ONE_OF_THE_AUCTIONS = 'C';
+			public static final byte NORDIC_REMOVED_LIQUIDITY = 'R';
+			public static final byte NURO_REMOVED_LIQUIDITY = 'N';
+			public static final byte INTERNALIZED_DURING_ONE_OF_THE_AUCTIONS = 'Y';
+			public static final byte INTERNALIZED_DURING_THE_CONTINUOUS_MARKET = 'X';
 		}
 
 }

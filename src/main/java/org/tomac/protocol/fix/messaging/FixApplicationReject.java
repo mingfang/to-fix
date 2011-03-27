@@ -29,7 +29,7 @@ public class FixApplicationReject extends FixInMessage {
 	private short hasSide;
 	byte side = (byte)' ';		
 	private short hasSymbol;
-	byte[] symbol = new byte[6];		
+	byte[] symbol = new byte[8];		
 	private short hasText;
 	byte[] text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];		
 	private short hasExecType;
@@ -63,7 +63,7 @@ public class FixApplicationReject extends FixInMessage {
 		securityID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 		hasSide = FixUtils.TAG_HAS_NO_VALUE;		
 		hasSymbol = FixUtils.TAG_HAS_NO_VALUE;		
-		symbol = new byte[6];		
+		symbol = new byte[8];		
 		hasText = FixUtils.TAG_HAS_NO_VALUE;		
 		text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];		
 		hasExecType = FixUtils.TAG_HAS_NO_VALUE;		
@@ -1459,7 +1459,7 @@ public class FixApplicationReject extends FixInMessage {
 	}
 	@Override
 	public FixApplicationReject clone () {
-		FixApplicationReject out = (FixApplicationReject) FixUtils.fixMessagePool.getFixMessage(FixMessageInfo.MessageTypes.APPLICATIONREJECT_INT);
+		FixApplicationReject out = new FixApplicationReject();
 
 		standardHeader.clone(out.standardHeader);
 		standardTrailer.clone(out.standardTrailer);

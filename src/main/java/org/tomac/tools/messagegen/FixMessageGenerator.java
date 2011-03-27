@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
 import org.tomac.protocol.fix.FixDataTypes;
+import org.tomac.protocol.fix.FixMessage;
+import org.tomac.protocol.fix.messaging.FixMessagePool;
 import org.tomac.tools.converter.QuickFixComponent;
 import org.tomac.tools.converter.QuickFixField;
 import org.tomac.tools.converter.QuickFixField.QuickFixValue;
@@ -343,7 +345,7 @@ public class FixMessageGenerator {
 		if (isMessage) {
 			out.write("\t@Override\n");
 			out.write("\tpublic " + name + " clone () {\n");
-			out.write("\t\t" + name + " out = (" + name + ") FixUtils.fixMessagePool.getFixMessage(FixMessageInfo.MessageTypes." + name.toUpperCase().replace(dom.type.toUpperCase(), "") + "_INT);\n\n");
+			out.write("\t\t" + name + " out = new " + name + "();\n\n");
 
 			out.write("\t\tstandardHeader.clone(out.standardHeader);\n");
 			out.write("\t\tstandardTrailer.clone(out.standardTrailer);\n");
@@ -548,7 +550,7 @@ public class FixMessageGenerator {
 		out.write("	}\n\n");
 
 		for (final QuickFixField f : c.fields) {
-			out.write("	" + getJavaType(f) + " get" + capFirst(f.name) + "() { 		\n");
+			out.write("	public " + getJavaType(f) + " get" + capFirst(f.name) + "() { 		\n");
 			out.write("		if ( has" + capFirst(f.name) + "()) {		\n");
 			out.write("			if (has" + capFirst(f.name) + " == FixUtils.TAG_HAS_VALUE) {		\n");
 			out.write("				return " + uncapFirst(f.name) + "; 		\n");
@@ -570,7 +572,7 @@ public class FixMessageGenerator {
 			out.write("		}		\n");
 			out.write("	}		\n");
 			out.write("			\n");
-			out.write("	boolean has" + capFirst(f.name) + "() { return has" + capFirst(f.name) + " != FixUtils.TAG_HAS_NO_VALUE; } 		\n");
+			out.write("	public boolean has" + capFirst(f.name) + "() { return has" + capFirst(f.name) + " != FixUtils.TAG_HAS_NO_VALUE; } 		\n");
 			out.write("		\n");
 
 			if (!getJavaType(f).equals("byte[]")) {
@@ -580,14 +582,14 @@ public class FixMessageGenerator {
 				out.write("	}\n\n");
 			}
 
-			out.write("	void set" + capFirst(f.name) + "(byte[] src) {		\n");
+			out.write("	public void set" + capFirst(f.name) + "(byte[] src) {		\n");
 			out.write("		if (src == null ) return;\n");
 			zeroField(f, out);
 			setFieldByteArrayValue(f, out);
 			out.write("		has" + capFirst(f.name) + " = FixUtils.TAG_HAS_VALUE;		\n");
 			out.write("	}		\n");
 			out.write("			\n");
-			out.write("	void set" + capFirst(f.name) + "(String str) {		\n");
+			out.write("	public void set" + capFirst(f.name) + "(String str) {		\n");
 			out.write("		if (str == null ) return;\n");
 			zeroField(f, out);
 			out.write("		byte[] src = str.getBytes(); 		\n");
@@ -1216,6 +1218,7 @@ public class FixMessageGenerator {
 
 		// import ByteBuffer
 		out.write("import java.nio.ByteBuffer;\n");
+		out.write("import " + dom.packageNameBase + ".FixMessage;\n");
 		out.write("import " + dom.packageNameBase + ".FixValidationError;\n");
 		out.write("import " + dom.packageNameBase + ".FixInMessage;\n");
 		out.write("import " + dom.packageNameBase + ".FixUtils;\n\n");
@@ -1223,7 +1226,6 @@ public class FixMessageGenerator {
 		// write out the open to the parser class
 		out.write("public class " + dom.type + "MessageParser implements " + dom.type + "MessageInfo\n{\n\n");
 
-		out.write("		public FixValidationError err = new FixValidationError();\n\n");
 		// create an instance of each message
 		/*
 		 * for( QuickFixMessage m : dom.quickFixMessages ) {
@@ -1234,13 +1236,14 @@ public class FixMessageGenerator {
 		 */
 
 		// crack the msgType of message
-		out.write("\tpublic FixInMessage parse( ByteBuffer buf, " + dom.type + "MessageListener l )\n");
+		out.write("\tpublic void parse( ByteBuffer buf, FixValidationError err, " + dom.type + "MessageListener l )\n");
 		out.write("\t{\n\n");
 
-		out.write("\t\tint msgType = FixInMessage.crackMsgType( buf ,err );\n\n");
+		out.write("\t\tint msgType = FixInMessage.crackMsgType( buf ,err );\n");
+		out.write("\t\tFixMessagePool<FixMessage> fixMessagePool = new FixMessagePool<FixMessage>();\n\n");
 
 		out.write("\t\t// garbled message\n");
-		out.write("\t\tif (err.hasError()) return null; \n\n");
+		out.write("\t\tif (err.hasError()) return; \n\n");
 
 		out.write("        switch( msgType )\n");
 		out.write("        {\n\n");
@@ -1249,15 +1252,15 @@ public class FixMessageGenerator {
 
 			final String name = dom.type.toLowerCase() + m.name;
 			out.write("\t\tcase MessageTypes." + m.name.toUpperCase() + "_INT:\n");
-			out.write("\t\t\t" + capFirst(dom.type.toLowerCase()) + m.name + " " + name + " = FixUtils.fixMessagePool.get" + capFirst(dom.type.toLowerCase()) + m.name + "(buf, err);\n");
+			out.write("\t\t\t" + capFirst(dom.type.toLowerCase()) + m.name + " " + name + " = fixMessagePool.get" + capFirst(dom.type.toLowerCase()) + m.name + "(buf, err);\n");
 			out.write("\t\t\tl.on" + capFirst(dom.type.toLowerCase()) + m.name + "(" + name + ");\n");
-			out.write("\t\t\treturn (FixInMessage) " + name + ";\n");
-
+			out.write("\t\t\tfixMessagePool.return" + capFirst(dom.type.toLowerCase()) + m.name + " (" + name + ");\n");
+			out.write("\t\t\tbreak;\n");
 		}
 
 		out.write("\t\tdefault:\n");
 		out.write("\t\tl.onUnknownMessageType( buf, msgType );\n");
-		out.write("\t\treturn null;\n\n");
+		out.write("\t\tbreak;\n\n");
 
 		out.write("\t}\n");
 		out.write("\t}\n");

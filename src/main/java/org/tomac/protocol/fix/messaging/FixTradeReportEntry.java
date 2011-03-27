@@ -29,7 +29,7 @@ public class FixTradeReportEntry extends FixInMessage {
 	private short hasSide;
 	byte side = (byte)' ';		
 	private short hasSymbol;
-	byte[] symbol = new byte[6];		
+	byte[] symbol = new byte[8];		
 	private short hasTransactTime;
 	byte[] transactTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];		
 	private short hasFutSettDate;
@@ -119,7 +119,7 @@ public class FixTradeReportEntry extends FixInMessage {
 		securityID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 		hasSide = FixUtils.TAG_HAS_NO_VALUE;		
 		hasSymbol = FixUtils.TAG_HAS_NO_VALUE;		
-		symbol = new byte[6];		
+		symbol = new byte[8];		
 		hasTransactTime = FixUtils.TAG_HAS_NO_VALUE;		
 		transactTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];		
 		hasFutSettDate = FixUtils.TAG_HAS_NO_VALUE;		
@@ -3479,7 +3479,7 @@ public class FixTradeReportEntry extends FixInMessage {
 	}
 	@Override
 	public FixTradeReportEntry clone () {
-		FixTradeReportEntry out = (FixTradeReportEntry) FixUtils.fixMessagePool.getFixMessage(FixMessageInfo.MessageTypes.TRADEREPORTENTRY_INT);
+		FixTradeReportEntry out = new FixTradeReportEntry();
 
 		standardHeader.clone(out.standardHeader);
 		standardTrailer.clone(out.standardTrailer);

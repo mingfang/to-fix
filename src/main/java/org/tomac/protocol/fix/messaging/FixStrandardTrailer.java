@@ -90,7 +90,7 @@ public class FixStrandardTrailer extends FixGroup {
 		
 	}
 
-	byte[] getCheckSum() { 		
+	public byte[] getCheckSum() { 		
 		if ( hasCheckSum()) {		
 			if (hasCheckSum == FixUtils.TAG_HAS_VALUE) {		
 				return checkSum; 		
@@ -112,16 +112,16 @@ public class FixStrandardTrailer extends FixGroup {
 		}		
 	}		
 			
-	boolean hasCheckSum() { return hasCheckSum != FixUtils.TAG_HAS_NO_VALUE; } 		
+	public boolean hasCheckSum() { return hasCheckSum != FixUtils.TAG_HAS_NO_VALUE; } 		
 		
-	void setCheckSum(byte[] src) {		
+	public void setCheckSum(byte[] src) {		
 		if (src == null ) return;
 		if (hasCheckSum()) FixUtils.fillSpace(checkSum);		
 		FixUtils.copy(checkSum, src); 		
 		hasCheckSum = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	void setCheckSum(String str) {		
+	public void setCheckSum(String str) {		
 		if (str == null ) return;
 		if (hasCheckSum()) FixUtils.fillSpace(checkSum);		
 		byte[] src = str.getBytes(); 		

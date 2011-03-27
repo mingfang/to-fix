@@ -29,7 +29,7 @@ public class FixCancelNotification extends FixInMessage {
 	private short hasSide;
 	byte side = (byte)' ';		
 	private short hasSymbol;
-	byte[] symbol = new byte[6];		
+	byte[] symbol = new byte[8];		
 	private short hasText;
 	byte[] text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];		
 	private short hasClientID;
@@ -77,7 +77,7 @@ public class FixCancelNotification extends FixInMessage {
 		securityID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 		hasSide = FixUtils.TAG_HAS_NO_VALUE;		
 		hasSymbol = FixUtils.TAG_HAS_NO_VALUE;		
-		symbol = new byte[6];		
+		symbol = new byte[8];		
 		hasText = FixUtils.TAG_HAS_NO_VALUE;		
 		text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];		
 		hasClientID = FixUtils.TAG_HAS_NO_VALUE;		
@@ -1961,7 +1961,7 @@ public class FixCancelNotification extends FixInMessage {
 	}
 	@Override
 	public FixCancelNotification clone () {
-		FixCancelNotification out = (FixCancelNotification) FixUtils.fixMessagePool.getFixMessage(FixMessageInfo.MessageTypes.CANCELNOTIFICATION_INT);
+		FixCancelNotification out = new FixCancelNotification();
 
 		standardHeader.clone(out.standardHeader);
 		standardTrailer.clone(out.standardTrailer);

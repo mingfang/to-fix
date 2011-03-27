@@ -45,7 +45,7 @@ public class FixAcceptedCancel extends FixInMessage {
 	private short hasSide;
 	byte side = (byte)' ';		
 	private short hasSymbol;
-	byte[] symbol = new byte[6];		
+	byte[] symbol = new byte[8];		
 	private short hasText;
 	byte[] text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];		
 	private short hasTimeInForce;
@@ -98,7 +98,7 @@ public class FixAcceptedCancel extends FixInMessage {
 		securityID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 		hasSide = FixUtils.TAG_HAS_NO_VALUE;		
 		hasSymbol = FixUtils.TAG_HAS_NO_VALUE;		
-		symbol = new byte[6];		
+		symbol = new byte[8];		
 		hasText = FixUtils.TAG_HAS_NO_VALUE;		
 		text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];		
 		hasTimeInForce = FixUtils.TAG_HAS_NO_VALUE;		
@@ -2351,7 +2351,7 @@ public class FixAcceptedCancel extends FixInMessage {
 	}
 	@Override
 	public FixAcceptedCancel clone () {
-		FixAcceptedCancel out = (FixAcceptedCancel) FixUtils.fixMessagePool.getFixMessage(FixMessageInfo.MessageTypes.ACCEPTEDCANCEL_INT);
+		FixAcceptedCancel out = new FixAcceptedCancel();
 
 		standardHeader.clone(out.standardHeader);
 		standardTrailer.clone(out.standardTrailer);

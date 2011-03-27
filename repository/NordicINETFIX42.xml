@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<fix major="4" minor="2" servicepack="0" type="FIX">
+<fix major="4" minor="2" servicepack="0" type="FIX" package="org.tomac.protocol.fix.messaging" flavour="Nordic INET">
   <header>
     <field name="BeginString" required="Y"/>
     <field name="BodyLength" required="Y"/>
@@ -328,10 +328,10 @@
       <field name="TradeReportType" required="Y"/>
       <field name="TrdMatchID" required="N"/>
       <field name="SecondaryTradeReportRefID" required="N"/>
+      <field name="TradeID" required="Y"/>
       <field name="Timestampown" required="N"/>
       <field name="Timestampcounterpart" required="N"/>
       <field name="ClRefID" required="N"/>
-      <field name="TradeID" required="Y"/>
       <field name="SubMktID" required="Y"/>
       <field name="DisseminationTime" required="N"/>
       <field name="DelayedDisseminationInst" required="N"/>
@@ -706,8 +706,161 @@
   </trailer>
   <components/>
   <fields>
+    <field name="PegDifference" number="211" type="PRICEOFFSET"/>
+    <field name="ExecTransType" number="20" type="CHAR">
+      <value enum="2" description="FILL"/>
+      <value enum="1" description="PARTIALFILL"/>
+      <value enum="0" description="NEW"/>
+      <value enum="8" description="REJECTED"/>
+      <value enum="I" description="REJECT"/>
+    </field>
+    <field name="HandlInst" number="21" type="CHAR">
+      <value enum="1" description="AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION"/>
+    </field>
+    <field name="TrdRptStatus" number="939" type="STRING">
+      <value enum="98" description="UNANSWEREDA_ONESIDED_TRADE_REPORT_THAT_HAS_NOT_BEEN_LOCKEDIN"/>
+      <value enum="95" description="A_TRADE_ENTERED_BY_ONE_PARTY_AS_A_TWOPARTY_LOCKEDIN_TRADE"/>
+      <value enum="92" description="A_TRADE_LOCKEDIN_BY_THE_MATCHING_PROCESS"/>
+    </field>
     <field name="BeginString" number="8" type="STRING" length="7"/>
-    <field name="BodyLength" number="9" type="INT" length="3"/>
+    <field name="TradeReportID" number="571" type="STRING" length="20"/>
+    <field name="Memo" number="5149" type="STRING" length="10"/>
+    <field name="OrigSendingTime" number="122" type="UTCTIMESTAMP"/>
+    <field name="GapFillFlag" number="123" type="BOOLEAN">
+      <value enum="N" description="SEQUENCE_RESET_IGNORE_MSGSEQNUM"/>
+      <value enum="Y" description="GAP_FILL_MESSAGE_MSGSEQNUM_FIELD_VALID"/>
+    </field>
+    <field name="ExpireTime" number="126" type="UTCTIMESTAMP"/>
+    <field name="ClearingPrice" number="9822" type="PRICE"/>
+    <field name="DeliverToCompID" number="128" type="STRING" length="12"/>
+    <field name="DeliverToSubID" number="129" type="STRING" length="6"/>
+    <field name="DisseminationTime" number="6169" type="UTCTIMESTAMP"/>
+    <field name="TimeInForce" number="59" type="CHAR">
+      <value enum="3" description="IOC_IMMEDIATE_OR_CANCELFAK_FILL_AND_KILL___PARTIAL_EXECUTIONS_AR"/>
+      <value enum="1" description="GTC_GOOD_UNTIL_CANCELLED"/>
+      <value enum="0" description="DAY_DEFAULT"/>
+      <value enum="6" description="GTT_TIME_IS_SPECIFIED_IN_TAG_126_EXPIRETIME"/>
+      <value enum="4" description="FOK_FILL_OR_KILL_PARTIAL_EXECUTIONS_ARE_NOT_ALLOWED_UNLESS_THEY_"/>
+    </field>
+    <field name="Text" number="58" type="STRING"/>
+    <field name="Symbol" number="55" type="STRING" length="8"/>
+    <field name="Side" number="54" type="CHAR">
+      <value enum="2" description="SELL"/>
+      <value enum="1" description="BUY"/>
+      <value enum="7" description="UNKNOWN"/>
+      <value enum="8" description="CROSS_YOU_WILL_USE_THIS_VALUE_WHEN_A_TRADE_WAS_DONE_INTERNALLY"/>
+    </field>
+    <field name="TargetSubID" number="57" type="STRING" length="20"/>
+    <field name="TargetCompID" number="56" type="STRING" length="12"/>
+    <field name="SenderSubID" number="50" type="STRING" length="6"/>
+    <field name="SendingTime" number="52" type="UTCTIMESTAMP"/>
+    <field name="ExecRestatementReason" number="378" type="INT">
+      <value enum="1" description="GT_RENEWAL_THIS_WILL_IDENTIFY_THE_EXECUTION_RESTATEMENTS_THAT_AR"/>
+      <value enum="8" description="MARKET_EXCHANGE_OPTION_THIS_SHOULD_BE_THE_VALUE_FOR_ALL_EXECUTIO"/>
+    </field>
+    <field name="TradeType" number="828" type="STRING">
+      <value enum="49" description="DERIVATIVE_RELATED_TRANSACTION"/>
+      <value enum="48" description="NONSTANDARD_SETTLEMENT"/>
+      <value enum="0" description="REGULAR_TRADE"/>
+      <value enum="51" description="VOLUME_WEIGHTED_AVERAGE_TRADE"/>
+      <value enum="52" description="EXCHANGE_GRANTED_TRADE"/>
+      <value enum="54" description="OTC"/>
+      <value enum="99" description="PREOPENING_TRADE"/>
+      <value enum="50" description="PORTFOLIO_TRADE"/>
+    </field>
+    <field name="RefTagID" number="371" type="INT"/>
+    <field name="SessionRejectReason" number="373" type="INT">
+      <value enum="3" description="UNDEFINED_TAG"/>
+      <value enum="2" description="TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE"/>
+      <value enum="10" description="SENDINGTIME_ACCURACY_PROBLEM"/>
+      <value enum="1" description="REQUIRED_TAG_MISSING"/>
+      <value enum="0" description="INVALID_TAG_NUMBER"/>
+      <value enum="7" description="DECRYPTION_PROBLEM"/>
+      <value enum="6" description="INCORRECT_DATA_FORMAT_FOR_VALUE"/>
+      <value enum="5" description="VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG"/>
+      <value enum="4" description="TAG_SPECIFIED_WITHOUT_A_VALUE"/>
+      <value enum="9" description="COMPID_PROBLEM"/>
+      <value enum="8" description="SIGNATURE_PROBLEM"/>
+      <value enum="11" description="INVALID_MSGTYPE"/>
+    </field>
+    <field name="RefMsgType" number="372" type="STRING"/>
+    <field name="ContraBroker" number="375" type="STRING"/>
+    <field name="SecondaryOrderID" number="198" type="STRING"/>
+    <field name="ReversalIndicator" number="700" type="STRING">
+      <value enum="N" description="NOT_A_REVERSAL_DEFAULT"/>
+      <value enum="Y" description="REVERSAL"/>
+    </field>
+    <field name="OnBehalfOfCompID" number="115" type="STRING" length="12"/>
+    <field name="OnBehalfOfSubID" number="116" type="STRING" length="6"/>
+    <field name="OverrideFlag" number="9854" type="CHAR">
+      <value enum="N" description="NO_OVERRIDE_DEFAULT"/>
+      <value enum="Y" description="OVERRIDE"/>
+    </field>
+    <field name="MinQty" number="110" type="QTY"/>
+    <field name="BreakIndicator" number="9856" type="CHAR">
+      <value enum="S" description="SELLER_SUBMITTED_BREAK_REQUEST"/>
+      <value enum="B" description="BUYER_SUBMITTED_BREAK_REQUEST"/>
+      <value enum="L" description="TRADE_WAS_BROKEN_THROUGH_MARKET_CENTER"/>
+      <value enum="X" description="TRADE_WAS_BROKEN_BY_BOTH_THE_BUYER_AND_SELLER"/>
+    </field>
+    <field name="TestReqID" number="112" type="STRING"/>
+    <field name="DisplayInst" number="9140" type="CHAR">
+      <value enum="D" description="DISPLAY_OVERRIDE_POSTTRADE_ANONYMITY_FUTURE_USE"/>
+      <value enum="R" description="NONDISPLAY_OVERRIDE_POSTTRADE_ANONYMITY_FUTURE_USE"/>
+      <value enum="N" description="NONDISPLAY"/>
+      <value enum="Y" description="DISPLAY_ANONYMOUS_AS_PER_MARKET_RULES"/>
+      <value enum="I" description="IMBALANCE_ONLY_ONLY_VALID_IF_TAG_9355_IS_PRESENT"/>
+    </field>
+    <field name="ProcessCode" number="81" type="CHAR">
+      <value enum="0" description="REGULAR_DEFAULT"/>
+    </field>
+    <field name="BeginSeqNo" number="7" type="INT"/>
+    <field name="PriceType" number="423" type="INT">
+      <value enum="98" description="DECIMAL_UNIT_PRICE"/>
+      <value enum="1" description="PERCENTAGE"/>
+      <value enum="9" description="YIELD"/>
+      <value enum="99" description="CONTRACT_AMOUNT"/>
+    </field>
+    <field name="OrderCapacity" number="528" type="STRING">
+      <value enum="A" description="AGENT_DEFAULT_IF_NOT_ENTERED"/>
+      <value enum="P" description="PRINCIPAL"/>
+      <value enum="R" description="RISKLESS"/>
+    </field>
+    <field name="OrderRestrictions" number="529" type="STRING">
+      <value enum="5" description="ACTING_AS_MARKET_MAKER_OR_SPECIALIST_IN_THE_SECURITY_528P"/>
+      <value enum="B" description="ISSUER_HOLDING_528A"/>
+      <value enum="C" description="ISSUE_PRICE_STABILIZATION_528P"/>
+    </field>
+    <field name="ClearingAccount" number="440" type="STRING" length="12"/>
+    <field name="HeartBtInt" number="108" type="INT"/>
+    <field name="ClientID" number="109" type="STRING"/>
+    <field name="LockedInStatus" number="9847" type="CHAR">
+      <value enum="B" description="THE_LOCKEDIN_TRADE_IS_EFFECTIVELY_BROKEN_BECAUSE_BOTH_TRADING_PA"/>
+      <value enum="M" description="THE_TRADE_IS_STILL_MATCHED_BECAUSE_ONLY_ONE_PARTY_TO_THE_TRADE_H"/>
+    </field>
+    <field name="DiscretionInst" number="388" type="CHAR">
+      <value enum="0" description="RELATED_TO_DISPLAYED_PRICE"/>
+    </field>
+    <field name="DiscretionOffset" number="389" type="PRICEOFFSET"/>
+    <field name="SecurityDesc" number="107" type="STRING">
+      <value enum="S" description="SYSTEMATIC_INTERNALIZED_OTC"/>
+      <value enum="R" description="REGULATED_MARKET"/>
+      <value enum="O" description="OVER_THE_COUNTER_MARKET"/>
+    </field>
+    <field name="OrdStatus" number="39" type="CHAR">
+      <value enum="2" description="FILLED"/>
+      <value enum="1" description="PARTIAL_FILL"/>
+      <value enum="0" description="NEW"/>
+      <value enum="6" description="PENDING_CANCEL"/>
+      <value enum="5" description="REPLACED"/>
+      <value enum="4" description="CANCELLED"/>
+      <value enum="8" description="REJECTED"/>
+    </field>
+    <field name="OrderQty" number="38" type="QTY"/>
+    <field name="LastShares" number="32" type="QTY"/>
+    <field name="LastPx" number="31" type="PRICE"/>
+    <field name="OrderID" number="37" type="STRING" length="32"/>
+    <field name="NoContraBrokers" number="382" type="INT"/>
     <field name="MsgType" number="35" type="STRING" length="2">
       <value enum="3" description="REJECT"/>
       <value enum="D" description="ORDER_SINGLE"/>
@@ -723,82 +876,112 @@
       <value enum="8" description="EXECUTION_REPORT"/>
     </field>
     <field name="MsgSeqNum" number="34" type="INT"/>
-    <field name="PossDupFlag" number="43" type="BOOLEAN">
-      <value enum="N" description="ORIGINAL_TRANSMISSION"/>
-      <value enum="Y" description="POSSIBLE_DUPLICATE"/>
+    <field name="ClearingFirm" number="439" type="STRING" length="4"/>
+    <field name="CxlRejResponseTo" number="434" type="CHAR">
+      <value enum="2" description="ORDER_CANCELREPLACE_REQUEST"/>
+      <value enum="1" description="ORDER_CANCEL_REQUEST"/>
     </field>
-    <field name="SenderCompID" number="49" type="STRING" length="12"/>
-    <field name="SenderSubID" number="50" type="STRING" length="6"/>
-    <field name="SendingTime" number="52" type="UTCTIMESTAMP"/>
-    <field name="TargetCompID" number="56" type="STRING" length="12"/>
-    <field name="TargetSubID" number="57" type="STRING" length="20"/>
+    <field name="TradeID" number="1003" type="STRING"/>
+    <field name="TradeReportRefID" number="572" type="STRING"/>
+    <field name="PartyRole" number="452" type="STRING">
+      <value enum="7" description="TRADE_REPORTING_FIRM"/>
+    </field>
+    <field name="ClearingInstruction" number="577" type="STRING">
+      <value enum="98" description="NO_CLEAR_TWOPARTY_LOCKEDIN_TRADE"/>
+      <value enum="97" description="NO_CLEAR"/>
+      <value enum="0" description="CLEAR"/>
+      <value enum="11" description="CLEAR_TWOPARTY_LOCKEDIN_TRADE"/>
+    </field>
+    <field name="TransactTime" number="60" type="UTCTIMESTAMP"/>
+    <field name="CxlRejReason" number="102" type="INT">
+      <value enum="2" description="BROKER_OPTION"/>
+      <value enum="1" description="UNKNOWN_ORDER_ORIGINAL_ORDER_UNACKNOWLEDGED"/>
+      <value enum="0" description="TOO_LATE_TO_CANCEL_ORDER_ALREADY_CANCELLED_OR_IS_IN_PENDING_CANC"/>
+    </field>
+    <field name="FutSettDate" number="64" type="UTCTIMESTAMP"/>
+    <field name="OrdRejReason" number="103" type="INT">
+      <value enum="3" description="ORDER_EXCEEDS_LIMIT"/>
+      <value enum="2" description="EXCHANGE_CLOSED"/>
+      <value enum="1" description="UNKNOWN_SYMBOL"/>
+      <value enum="0" description="BROKER_OPTION"/>
+      <value enum="7" description="DUPLICATE_OF_A_VERBALLY_COMMUNICATED_ORDER"/>
+      <value enum="6" description="DUPLICATE_ORDER_EG_DUPE_CLORDID"/>
+      <value enum="5" description="UNKNOWN_ORDER"/>
+      <value enum="4" description="TOO_LATE_TO_ENTER"/>
+      <value enum="8" description="STALE_ORDER"/>
+    </field>
+    <field name="SettlBrkrCode" number="174" type="STRING"/>
+    <field name="TradeReportType" number="856" type="STRING">
+      <value enum="2" description="ACCEPT"/>
+      <value enum="1" description="ALLEGED"/>
+      <value enum="0" description="SUBMIT"/>
+      <value enum="7" description="LOCKEDIN_TRADE_BREAK"/>
+      <value enum="6" description="TRADE_REPORT_CANCEL"/>
+    </field>
+    <field name="PublishTrdIndicator" number="852" type="STRING">
+      <value enum="N" description="NO_DISSEMINATION_FUTURE_USE"/>
+      <value enum="Y" description="DISSEMINATE_BY_RULES_DEFAULT"/>
+    </field>
+    <field name="Timestampown" number="6204" type="STRING" length="20"/>
+    <field name="Timestampcounterpart" number="6205" type="STRING" length="20"/>
+    <field name="InternalExternal" number="6206" type="CHAR">
+      <value enum="E" description="EXTERNAL"/>
+      <value enum="I" description="INTERNAL_DEFAULT"/>
+    </field>
+    <field name="AvgPx" number="6" type="PRICE"/>
+    <field name="ClRefID" number="6209" type="STRING" length="15"/>
+    <field name="TradeReportRejectReason" number="751" type="STRING">
+      <value enum="3" description="UNAUTHORIZED_TO_REPORT_TRADES"/>
+      <value enum="2" description="UNKNOWN_INSTRUMENT"/>
+      <value enum="1" description="INVALID_PARTY_INFORMATION"/>
+      <value enum="6" description="INCORRECT_DATA_FORMAT_FOR_VALUE"/>
+      <value enum="4" description="INVALID_TRADE_TYPE"/>
+      <value enum="99" description="OTHER"/>
+    </field>
+    <field name="DelayedDisseminationInst" number="9855" type="CHAR">
+      <value enum="3" description="I1200_TOMORROW"/>
+      <value enum="2" description="I180_MINUTES"/>
+      <value enum="1" description="I60_MINUTES"/>
+      <value enum="7" description="UNTIL_END_OF_THIRD_TRADING_DAY"/>
+      <value enum="6" description="UNTIL_END_OF_SECOND_TRADING_DAY"/>
+      <value enum="5" description="UNTIL_END_OF_NEXT_TRADING_DAY"/>
+      <value enum="4" description="UNTIL_END_OF_TRADING_DAY"/>
+    </field>
+    <field name="EncryptMethod" number="98" type="INT">
+      <value enum="0" description="NONE__OTHER"/>
+    </field>
+    <field name="BrSeqNbr" number="9861" type="STRING" length="10"/>
+    <field name="ContraClearingAcct" number="9863" type="STRING"/>
+    <field name="ContraTradePA" number="9862" type="CHAR">
+      <value enum="P" description="PRINCIPAL"/>
+      <value enum="A" description="AGENT"/>
+      <value enum="R" description="RISKLESS"/>
+    </field>
     <field name="PossResend" number="97" type="BOOLEAN">
       <value enum="N" description="ORIGINAL_TRANSMISSION"/>
       <value enum="Y" description="POSSIBLE_RESEND"/>
     </field>
-    <field name="OnBehalfOfCompID" number="115" type="STRING" length="12"/>
-    <field name="OnBehalfOfSubID" number="116" type="STRING" length="6"/>
-    <field name="OrigSendingTime" number="122" type="UTCTIMESTAMP"/>
-    <field name="DeliverToCompID" number="128" type="STRING" length="12"/>
-    <field name="DeliverToSubID" number="129" type="STRING" length="6"/>
-    <field name="AvgPx" number="6" type="PRICE"/>
     <field name="ClOrdID" number="11" type="STRING" length="20"/>
-    <field name="CumQty" number="14" type="QTY"/>
+    <field name="CheckSum" number="10" type="STRING" length="3"/>
     <field name="Currency" number="15" type="CURRENCY"/>
+    <field name="CumQty" number="14" type="QTY"/>
     <field name="ExecID" number="17" type="STRING"/>
+    <field name="EndSeqNo" number="16" type="INT"/>
+    <field name="ExecRefID" number="19" type="STRING"/>
     <field name="ExecInst" number="18" type="MULTIPLESTRINGVALUE">
       <value enum="P" description="MARKET_PEG"/>
       <value enum="R" description="PRIMARY_PEG"/>
       <value enum="M" description="MIDPOINT_PEG"/>
       <value enum="N" description="NO_PEG"/>
     </field>
-    <field name="ExecRefID" number="19" type="STRING"/>
-    <field name="ExecTransType" number="20" type="CHAR">
-      <value enum="2" description="FILL"/>
-      <value enum="1" description="PARTIALFILL"/>
-      <value enum="0" description="NEW"/>
-      <value enum="8" description="REJECTED"/>
-      <value enum="I" description="REJECT"/>
-    </field>
-    <field name="LastPx" number="31" type="PRICE"/>
-    <field name="LastShares" number="32" type="QTY"/>
-    <field name="OrderID" number="37" type="STRING" length="32"/>
-    <field name="OrderQty" number="38" type="QTY"/>
-    <field name="OrdStatus" number="39" type="CHAR">
-      <value enum="2" description="FILLED"/>
-      <value enum="1" description="PARTIAL_FILL"/>
-      <value enum="0" description="NEW"/>
-      <value enum="6" description="PENDING_CANCEL"/>
-      <value enum="5" description="REPLACED"/>
-      <value enum="4" description="CANCELLED"/>
-      <value enum="8" description="REJECTED"/>
-    </field>
-    <field name="OrdType" number="40" type="CHAR">
-      <value enum="2" description="LIMIT"/>
-      <value enum="1" description="MARKET"/>
-      <value enum="P" description="PEGGED"/>
-    </field>
-    <field name="OrigClOrdID" number="41" type="STRING" length="20"/>
-    <field name="Price" number="44" type="PRICE"/>
-    <field name="SecurityID" number="48" type="STRING"/>
-    <field name="Side" number="54" type="CHAR">
-      <value enum="2" description="SELL"/>
-      <value enum="1" description="BUY"/>
-      <value enum="7" description="UNKNOWN"/>
-      <value enum="8" description="CROSS_YOU_WILL_USE_THIS_VALUE_WHEN_A_TRADE_WAS_DONE_INTERNALLY"/>
-    </field>
-    <field name="Symbol" number="55" type="STRING" length="6"/>
-    <field name="Text" number="58" type="STRING"/>
-    <field name="TimeInForce" number="59" type="CHAR">
-      <value enum="3" description="IOC_IMMEDIATE_OR_CANCELFAK_FILL_AND_KILL___PARTIAL_EXECUTIONS_AR"/>
-      <value enum="1" description="GTC_GOOD_UNTIL_CANCELLED"/>
-      <value enum="0" description="DAY_DEFAULT"/>
-      <value enum="6" description="GTT_TIME_IS_SPECIFIED_IN_TAG_126_EXPIRETIME"/>
-      <value enum="4" description="FOK_FILL_OR_KILL_PARTIAL_EXECUTIONS_ARE_NOT_ALLOWED_UNLESS_THEY_"/>
-    </field>
-    <field name="ClientID" number="109" type="STRING"/>
     <field name="MaxFloor" number="111" type="QTY"/>
-    <field name="ExpireTime" number="126" type="UTCTIMESTAMP"/>
+    <field name="SubMktID" number="5815" type="STRING" length="3"/>
+    <field name="ContraOrderRestrictions" number="5817" type="CHAR">
+      <value enum="5" description="ACTING_AS_MARKET_MAKER_OR_SPECIALIST_IN_THE_SECURITY_9862P"/>
+      <value enum="B" description="ISSUER_HOLDING_9862A"/>
+      <value enum="C" description="ISSUE_PRICE_STABILIZATION_9862P"/>
+    </field>
+    <field name="LeavesQty" number="151" type="QTY"/>
     <field name="ExecType" number="150" type="CHAR">
       <value enum="D" description="RESTATED"/>
       <value enum="2" description="FILLED"/>
@@ -811,145 +994,44 @@
       <value enum="8" description="REJECTED"/>
       <value enum="I" description="STATUS"/>
     </field>
-    <field name="LeavesQty" number="151" type="QTY"/>
-    <field name="ClearingFirm" number="439" type="STRING" length="4"/>
-    <field name="ClearingAccount" number="440" type="STRING" length="12"/>
-    <field name="SubMktID" number="5815" type="STRING" length="3"/>
-    <field name="ClRefID" number="6209" type="STRING" length="15"/>
+    <field name="SecondaryTradeReportRefID" number="881" type="STRING"/>
+    <field name="TrdMatchID" number="880" type="STRING" length="10"/>
+    <field name="LockedIn" number="9857" type="CHAR">
+      <value enum="M" description="MATCHED"/>
+    </field>
+    <field name="NewSeqNo" number="36" type="INT"/>
+    <field name="SecurityID" number="48" type="STRING"/>
+    <field name="SenderCompID" number="49" type="STRING" length="12"/>
+    <field name="Price" number="44" type="PRICE"/>
+    <field name="RefSeqNum" number="45" type="INT"/>
+    <field name="PossDupFlag" number="43" type="BOOLEAN">
+      <value enum="N" description="ORIGINAL_TRANSMISSION"/>
+      <value enum="Y" description="POSSIBLE_DUPLICATE"/>
+    </field>
+    <field name="OrdType" number="40" type="CHAR">
+      <value enum="2" description="LIMIT"/>
+      <value enum="1" description="MARKET"/>
+      <value enum="P" description="PEGGED"/>
+    </field>
+    <field name="OrigClOrdID" number="41" type="STRING" length="20"/>
+    <field name="BodyLength" number="9" type="INT" length="3"/>
     <field name="CrossTradeFlag" number="9355" type="CHAR">
       <value enum="C" description="CLOSING_CROSS"/>
       <value enum="O" description="OPENING_CROSS"/>
       <value enum="H" description="HALT_CROSS"/>
     </field>
-    <field name="BrSeqNbr" number="9861" type="STRING" length="10"/>
-    <field name="MinQty" number="110" type="QTY"/>
-    <field name="TradeReportID" number="571" type="STRING" length="20"/>
-    <field name="TradeReportRejectReason" number="751" type="STRING">
-      <value enum="3" description="UNAUTHORIZED_TO_REPORT_TRADES"/>
-      <value enum="2" description="UNKNOWN_INSTRUMENT"/>
-      <value enum="1" description="INVALID_PARTY_INFORMATION"/>
-      <value enum="6" description="INCORRECT_DATA_FORMAT_FOR_VALUE"/>
-      <value enum="4" description="INVALID_TRADE_TYPE"/>
-      <value enum="99" description="OTHER"/>
+    <field name="ResetSeqNumFlag" number="141" type="BOOLEAN">
+      <value enum="N" description="NO"/>
+      <value enum="Y" description="YES_RESET_SEQUENCE_NUMBERS"/>
     </field>
-    <field name="TrdRptStatus" number="939" type="STRING">
-      <value enum="98" description="UNANSWEREDA_ONESIDED_TRADE_REPORT_THAT_HAS_NOT_BEEN_LOCKEDIN"/>
-      <value enum="95" description="A_TRADE_ENTERED_BY_ONE_PARTY_AS_A_TWOPARTY_LOCKEDIN_TRADE"/>
-      <value enum="92" description="A_TRADE_LOCKEDIN_BY_THE_MATCHING_PROCESS"/>
+    <field name="ExecBroker" number="76" type="STRING">
+      <value enum="NURO" description="ROUTE_TO_NASDAQ_OMX_EUROPE_THEN_POST_TO_NORDIC_BOOK"/>
+      <value enum="BOOK" description="ORDER_IS_NOT_ELIGIBLE_FOR_ROUTING_DEFAULT"/>
+      <value enum="SCAN" description="ROUTE_TO_ALL_ACCESSIBLE_MARKETS_THEN_POST_TO_THE_NORDIC_BOOK"/>
     </field>
-    <field name="TransactTime" number="60" type="UTCTIMESTAMP"/>
-    <field name="FutSettDate" number="64" type="UTCTIMESTAMP"/>
-    <field name="SecurityDesc" number="107" type="STRING">
-      <value enum="S" description="SYSTEMATIC_INTERNALIZED_OTC"/>
-      <value enum="R" description="REGULATED_MARKET"/>
-      <value enum="O" description="OVER_THE_COUNTER_MARKET"/>
-    </field>
-    <field name="NoContraBrokers" number="382" type="INT"/>
-    <field name="ContraBroker" number="375" type="STRING"/>
-    <field name="PriceType" number="423" type="INT">
-      <value enum="98" description="DECIMAL_UNIT_PRICE"/>
-      <value enum="1" description="PERCENTAGE"/>
-      <value enum="9" description="YIELD"/>
-      <value enum="99" description="CONTRACT_AMOUNT"/>
-    </field>
-    <field name="TransBkdTime" number="483" type="STRING"/>
-    <field name="OrderCapacity" number="528" type="STRING">
-      <value enum="A" description="AGENT_DEFAULT_IF_NOT_ENTERED"/>
-      <value enum="P" description="PRINCIPAL"/>
-      <value enum="R" description="RISKLESS"/>
-    </field>
-    <field name="OrderRestrictions" number="529" type="STRING">
-      <value enum="5" description="ACTING_AS_MARKET_MAKER_OR_SPECIALIST_IN_THE_SECURITY_528P"/>
-      <value enum="B" description="ISSUER_HOLDING_528A"/>
-      <value enum="C" description="ISSUE_PRICE_STABILIZATION_528P"/>
-    </field>
-    <field name="TradeReportRefID" number="572" type="STRING"/>
-    <field name="ClearingInstruction" number="577" type="STRING">
-      <value enum="98" description="NO_CLEAR_TWOPARTY_LOCKEDIN_TRADE"/>
-      <value enum="97" description="NO_CLEAR"/>
-      <value enum="0" description="CLEAR"/>
-      <value enum="11" description="CLEAR_TWOPARTY_LOCKEDIN_TRADE"/>
-    </field>
-    <field name="TradeType" number="828" type="STRING">
-      <value enum="49" description="DERIVATIVE_RELATED_TRANSACTION"/>
-      <value enum="48" description="NONSTANDARD_SETTLEMENT"/>
-      <value enum="0" description="REGULAR_TRADE"/>
-      <value enum="51" description="VOLUME_WEIGHTED_AVERAGE_TRADE"/>
-      <value enum="52" description="EXCHANGE_GRANTED_TRADE"/>
-      <value enum="54" description="OTC"/>
-      <value enum="99" description="PREOPENING_TRADE"/>
-      <value enum="50" description="PORTFOLIO_TRADE"/>
-    </field>
-    <field name="PublishTrdIndicator" number="852" type="STRING">
-      <value enum="N" description="NO_DISSEMINATION_FUTURE_USE"/>
-      <value enum="Y" description="DISSEMINATE_BY_RULES_DEFAULT"/>
-    </field>
-    <field name="TradeReportType" number="856" type="STRING">
-      <value enum="2" description="ACCEPT"/>
-      <value enum="1" description="ALLEGED"/>
-      <value enum="0" description="SUBMIT"/>
-      <value enum="7" description="LOCKEDIN_TRADE_BREAK"/>
-      <value enum="6" description="TRADE_REPORT_CANCEL"/>
-    </field>
-    <field name="TrdMatchID" number="880" type="STRING" length="10"/>
-    <field name="SecondaryTradeReportRefID" number="881" type="STRING"/>
-    <field name="TradeID" number="1003" type="STRING"/>
-    <field name="DisseminationTime" number="6169" type="UTCTIMESTAMP"/>
-    <field name="Timestampown" number="6204" type="STRING" length="20"/>
-    <field name="Timestampcounterpart" number="6205" type="STRING" length="20"/>
-    <field name="LockedInStatus" number="9847" type="CHAR">
-      <value enum="B" description="THE_LOCKEDIN_TRADE_IS_EFFECTIVELY_BROKEN_BECAUSE_BOTH_TRADING_PA"/>
-      <value enum="M" description="THE_TRADE_IS_STILL_MATCHED_BECAUSE_ONLY_ONE_PARTY_TO_THE_TRADE_H"/>
-    </field>
-    <field name="DelayedDisseminationInst" number="9855" type="CHAR">
-      <value enum="3" description="I1200_TOMORROW"/>
-      <value enum="2" description="I180_MINUTES"/>
-      <value enum="1" description="I60_MINUTES"/>
-      <value enum="7" description="UNTIL_END_OF_THIRD_TRADING_DAY"/>
-      <value enum="6" description="UNTIL_END_OF_SECOND_TRADING_DAY"/>
-      <value enum="5" description="UNTIL_END_OF_NEXT_TRADING_DAY"/>
-      <value enum="4" description="UNTIL_END_OF_TRADING_DAY"/>
-    </field>
-    <field name="BreakIndicator" number="9856" type="CHAR">
-      <value enum="S" description="SELLER_SUBMITTED_BREAK_REQUEST"/>
-      <value enum="B" description="BUYER_SUBMITTED_BREAK_REQUEST"/>
-      <value enum="L" description="TRADE_WAS_BROKEN_THROUGH_MARKET_CENTER"/>
-      <value enum="X" description="TRADE_WAS_BROKEN_BY_BOTH_THE_BUYER_AND_SELLER"/>
-    </field>
-    <field name="SettlBrkrCode" number="174" type="STRING"/>
-    <field name="ProcessCode" number="81" type="CHAR">
-      <value enum="0" description="REGULAR_DEFAULT"/>
-    </field>
-    <field name="ReversalIndicator" number="700" type="STRING">
-      <value enum="N" description="NOT_A_REVERSAL_DEFAULT"/>
-      <value enum="Y" description="REVERSAL"/>
-    </field>
-    <field name="Memo" number="5149" type="STRING" length="10"/>
-    <field name="ContraOrderRestrictions" number="5817" type="CHAR">
-      <value enum="5" description="ACTING_AS_MARKET_MAKER_OR_SPECIALIST_IN_THE_SECURITY_9862P"/>
-      <value enum="B" description="ISSUER_HOLDING_9862A"/>
-      <value enum="C" description="ISSUE_PRICE_STABILIZATION_9862P"/>
-    </field>
-    <field name="MICCode" number="9292" type="STRING" length="4"/>
-    <field name="ClearingPrice" number="9822" type="PRICE"/>
-    <field name="OverrideFlag" number="9854" type="CHAR">
-      <value enum="N" description="NO_OVERRIDE_DEFAULT"/>
-      <value enum="Y" description="OVERRIDE"/>
-    </field>
-    <field name="ContraTradePA" number="9862" type="CHAR">
-      <value enum="P" description="PRINCIPAL"/>
-      <value enum="A" description="AGENT"/>
-      <value enum="R" description="RISKLESS"/>
-    </field>
-    <field name="ContraClearingAcct" number="9863" type="STRING"/>
     <field name="TradeDate" number="75" type="UTCTIMESTAMP"/>
-    <field name="DisplayInst" number="9140" type="CHAR">
-      <value enum="D" description="DISPLAY_OVERRIDE_POSTTRADE_ANONYMITY_FUTURE_USE"/>
-      <value enum="R" description="NONDISPLAY_OVERRIDE_POSTTRADE_ANONYMITY_FUTURE_USE"/>
-      <value enum="N" description="NONDISPLAY"/>
-      <value enum="Y" description="DISPLAY_ANONYMOUS_AS_PER_MARKET_RULES"/>
-      <value enum="I" description="IMBALANCE_ONLY_ONLY_VALID_IF_TAG_9355_IS_PRESENT"/>
-    </field>
+    <field name="TransBkdTime" number="483" type="STRING"/>
+    <field name="MICCode" number="9292" type="STRING" length="4"/>
     <field name="LiquidityFlag" number="9882" type="CHAR">
       <value enum="3" description="BATS"/>
       <value enum="2" description="TURQUIOSE"/>
@@ -962,87 +1044,5 @@
       <value enum="Y" description="INTERNALIZED_DURING_ONE_OF_THE_AUCTIONS"/>
       <value enum="X" description="INTERNALIZED_DURING_THE_CONTINUOUS_MARKET"/>
     </field>
-    <field name="SecondaryOrderID" number="198" type="STRING"/>
-    <field name="ExecRestatementReason" number="378" type="INT">
-      <value enum="1" description="GT_RENEWAL_THIS_WILL_IDENTIFY_THE_EXECUTION_RESTATEMENTS_THAT_AR"/>
-      <value enum="8" description="MARKET_EXCHANGE_OPTION_THIS_SHOULD_BE_THE_VALUE_FOR_ALL_EXECUTIO"/>
-    </field>
-    <field name="LockedIn" number="9857" type="CHAR">
-      <value enum="M" description="MATCHED"/>
-    </field>
-    <field name="InternalExternal" number="6206" type="CHAR">
-      <value enum="E" description="EXTERNAL"/>
-      <value enum="I" description="INTERNAL_DEFAULT"/>
-    </field>
-    <field name="ExecBroker" number="76" type="STRING">
-      <value enum="NURO" description="ROUTE_TO_NASDAQ_OMX_EUROPE_THEN_POST_TO_NORDIC_BOOK"/>
-      <value enum="BOOK" description="ORDER_IS_NOT_ELIGIBLE_FOR_ROUTING_DEFAULT"/>
-      <value enum="SCAN" description="ROUTE_TO_ALL_ACCESSIBLE_MARKETS_THEN_POST_TO_THE_NORDIC_BOOK"/>
-    </field>
-    <field name="PegDifference" number="211" type="PRICEOFFSET"/>
-    <field name="DiscretionInst" number="388" type="CHAR">
-      <value enum="0" description="RELATED_TO_DISPLAYED_PRICE"/>
-    </field>
-    <field name="DiscretionOffset" number="389" type="PRICEOFFSET"/>
-    <field name="OrdRejReason" number="103" type="INT">
-      <value enum="3" description="ORDER_EXCEEDS_LIMIT"/>
-      <value enum="2" description="EXCHANGE_CLOSED"/>
-      <value enum="1" description="UNKNOWN_SYMBOL"/>
-      <value enum="0" description="BROKER_OPTION"/>
-      <value enum="7" description="DUPLICATE_OF_A_VERBALLY_COMMUNICATED_ORDER"/>
-      <value enum="6" description="DUPLICATE_ORDER_EG_DUPE_CLORDID"/>
-      <value enum="5" description="UNKNOWN_ORDER"/>
-      <value enum="4" description="TOO_LATE_TO_ENTER"/>
-      <value enum="8" description="STALE_ORDER"/>
-    </field>
-    <field name="PartyRole" number="452" type="STRING">
-      <value enum="7" description="TRADE_REPORTING_FIRM"/>
-    </field>
-    <field name="TestReqID" number="112" type="STRING"/>
-    <field name="EncryptMethod" number="98" type="INT">
-      <value enum="0" description="NONE__OTHER"/>
-    </field>
-    <field name="HeartBtInt" number="108" type="INT"/>
-    <field name="ResetSeqNumFlag" number="141" type="BOOLEAN">
-      <value enum="N" description="NO"/>
-      <value enum="Y" description="YES_RESET_SEQUENCE_NUMBERS"/>
-    </field>
-    <field name="HandlInst" number="21" type="CHAR">
-      <value enum="1" description="AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION"/>
-    </field>
-    <field name="CxlRejReason" number="102" type="INT">
-      <value enum="2" description="BROKER_OPTION"/>
-      <value enum="1" description="UNKNOWN_ORDER_ORIGINAL_ORDER_UNACKNOWLEDGED"/>
-      <value enum="0" description="TOO_LATE_TO_CANCEL_ORDER_ALREADY_CANCELLED_OR_IS_IN_PENDING_CANC"/>
-    </field>
-    <field name="CxlRejResponseTo" number="434" type="CHAR">
-      <value enum="2" description="ORDER_CANCELREPLACE_REQUEST"/>
-      <value enum="1" description="ORDER_CANCEL_REQUEST"/>
-    </field>
-    <field name="RefSeqNum" number="45" type="INT"/>
-    <field name="RefTagID" number="371" type="INT"/>
-    <field name="RefMsgType" number="372" type="STRING"/>
-    <field name="SessionRejectReason" number="373" type="INT">
-      <value enum="3" description="UNDEFINED_TAG"/>
-      <value enum="2" description="TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE"/>
-      <value enum="10" description="SENDINGTIME_ACCURACY_PROBLEM"/>
-      <value enum="1" description="REQUIRED_TAG_MISSING"/>
-      <value enum="0" description="INVALID_TAG_NUMBER"/>
-      <value enum="7" description="DECRYPTION_PROBLEM"/>
-      <value enum="6" description="INCORRECT_DATA_FORMAT_FOR_VALUE"/>
-      <value enum="5" description="VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG"/>
-      <value enum="4" description="TAG_SPECIFIED_WITHOUT_A_VALUE"/>
-      <value enum="9" description="COMPID_PROBLEM"/>
-      <value enum="8" description="SIGNATURE_PROBLEM"/>
-      <value enum="11" description="INVALID_MSGTYPE"/>
-    </field>
-    <field name="BeginSeqNo" number="7" type="INT"/>
-    <field name="EndSeqNo" number="16" type="INT"/>
-    <field name="NewSeqNo" number="36" type="INT"/>
-    <field name="GapFillFlag" number="123" type="BOOLEAN">
-      <value enum="N" description="SEQUENCE_RESET_IGNORE_MSGSEQNUM"/>
-      <value enum="Y" description="GAP_FILL_MESSAGE_MSGSEQNUM_FIELD_VALID"/>
-    </field>
-    <field name="CheckSum" number="10" type="STRING" length="3"/>
   </fields>
 </fix>

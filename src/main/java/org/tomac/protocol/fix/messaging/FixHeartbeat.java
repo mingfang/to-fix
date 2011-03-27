@@ -239,7 +239,7 @@ public class FixHeartbeat extends FixInMessage {
 	}
 	@Override
 	public FixHeartbeat clone () {
-		FixHeartbeat out = (FixHeartbeat) FixUtils.fixMessagePool.getFixMessage(FixMessageInfo.MessageTypes.HEARTBEAT_INT);
+		FixHeartbeat out = new FixHeartbeat();
 
 		standardHeader.clone(out.standardHeader);
 		standardTrailer.clone(out.standardTrailer);
