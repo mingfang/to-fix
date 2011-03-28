@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
 import org.tomac.protocol.fix.FixDataTypes;
-import org.tomac.protocol.fix.FixMessage;
-import org.tomac.protocol.fix.messaging.FixMessagePool;
 import org.tomac.tools.converter.QuickFixComponent;
 import org.tomac.tools.converter.QuickFixField;
 import org.tomac.tools.converter.QuickFixField.QuickFixValue;
@@ -655,7 +653,11 @@ public class FixMessageGenerator {
 		out.write("public interface " + dom.type + "MessageInfo\n");
 		out.write("{\n\n");
 		final String servicepack = Integer.valueOf(dom.major) > 4 ? "SP" + dom.servicepack : "";
-		out.write("\tpublic static final byte[] BEGINSTRING_VALUE = \"" + dom.type.toUpperCase() + "." + dom.major + "." + dom.minor + servicepack + "\".getBytes();\n");
+		if (Integer.valueOf(dom.major) < 5) {
+			out.write("\tpublic static final byte[] BEGINSTRING_VALUE = \"" + dom.type.toUpperCase() + "." + dom.major + "." + dom.minor + servicepack + "\".getBytes();\n");
+		} else {
+			out.write("\tpublic static final byte[] BEGINSTRING_VALUE = \"FIXT.1.1\".getBytes();\n");
+		}
 		out.write("\tpublic static final byte[] FLAVOUR = \"" + dom.flavour + "\".getBytes();\n\n");
 
 		out.write("\tpublic static class MessageTypes\n");

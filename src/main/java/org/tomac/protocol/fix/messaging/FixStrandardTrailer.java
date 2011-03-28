@@ -8,6 +8,10 @@ import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.messaging.FixTags;
 		
 public class FixStrandardTrailer extends FixGroup {
+	private short hasSignatureLength;
+	long signatureLength = 0;		
+	private short hasSignature;
+	byte[] signature = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 	private short hasCheckSum;
 	byte[] checkSum = new byte[3];		
 	
@@ -15,6 +19,9 @@ public class FixStrandardTrailer extends FixGroup {
 		super(FixTags.CHECKSUM_INT);
 
 		
+		hasSignatureLength = FixUtils.TAG_HAS_NO_VALUE;		
+		hasSignature = FixUtils.TAG_HAS_NO_VALUE;		
+		signature = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 		hasCheckSum = FixUtils.TAG_HAS_NO_VALUE;		
 		checkSum = new byte[3];		
 		
@@ -23,7 +30,7 @@ public class FixStrandardTrailer extends FixGroup {
 
 	@Override
 	public boolean hasGroup() {
-		if (hasCheckSum()) return true;
+		if (hasSignatureLength()) return true;
 		else return false;
 	}
 
@@ -42,6 +49,14 @@ public class FixStrandardTrailer extends FixGroup {
         while ( buf.hasRemaining() ) {
 
             switch (tag) {		
+            	case FixTags.SIGNATURELENGTH_INT:		
+            		hasSignatureLength = (short) buf.position();		
+            		FixMessage.getNext(buf, err);		
+                	break; 		
+            	case FixTags.SIGNATURE_INT:		
+            		hasSignature = (short) buf.position();		
+            		FixMessage.getNext(buf, err);		
+                	break; 		
             	case FixTags.CHECKSUM_INT:		
             		hasCheckSum = (short) buf.position();		
             		FixMessage.getNext(buf, err);		
@@ -59,11 +74,35 @@ public class FixStrandardTrailer extends FixGroup {
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...
+		hasSignatureLength = FixUtils.TAG_HAS_NO_VALUE;
+		hasSignature = FixUtils.TAG_HAS_NO_VALUE;
 		hasCheckSum = FixUtils.TAG_HAS_NO_VALUE;
 	}
 
 	@Override		
 	public void encode(ByteBuffer out) {
+
+		if (hasSignatureLength()) {		
+			out.put(FixTags.SIGNATURELENGTH);
+
+			out.put((byte) '=');
+
+			FixUtils.put(out, (long)signatureLength);
+		
+			out.put(FixUtils.SOH);
+
+            }
+
+		if (hasSignature()) {		
+			out.put(FixTags.SIGNATURE);
+
+			out.put((byte) '=');
+
+			FixUtils.put(out,signature); 		
+		
+			out.put(FixUtils.SOH);
+
+            }
 
 		if (hasCheckSum()) {		
 			out.put(FixTags.CHECKSUM);
@@ -82,6 +121,18 @@ public class FixStrandardTrailer extends FixGroup {
 	@Override		
 	public void printBuffer(ByteBuffer out) {		
 		
+		if (hasSignatureLength()) {		
+			FixUtils.put(out, (long)signatureLength);
+		
+	        out.put( (byte)' ' );		
+		}		
+		
+		if (hasSignature()) {		
+			FixUtils.put(out,signature); 		
+		
+	        out.put( (byte)' ' );		
+		}		
+		
 		if (hasCheckSum()) {		
 			FixUtils.put(out,checkSum); 		
 		
@@ -90,6 +141,89 @@ public class FixStrandardTrailer extends FixGroup {
 		
 	}
 
+	public long getSignatureLength() { 		
+		if ( hasSignatureLength()) {		
+			if (hasSignatureLength == FixUtils.TAG_HAS_VALUE) {		
+				return signatureLength; 		
+			} else {		
+		
+				buf.position(hasSignatureLength);		
+		
+			signatureLength = FixMessage.getTagIntValue(buf, err);
+		
+				if (err.hasError()) {		
+					buf.position(hasSignatureLength);		
+					return 0;		
+				}		
+			}		
+			hasSignatureLength = FixUtils.TAG_HAS_VALUE;		
+			return signatureLength;		
+		} else {		
+			return 0; 		
+		}		
+	}		
+			
+	public boolean hasSignatureLength() { return hasSignatureLength != FixUtils.TAG_HAS_NO_VALUE; } 		
+		
+	public void setSignatureLength(long src) {		
+		signatureLength = src;
+		hasSignatureLength = FixUtils.TAG_HAS_VALUE;		
+	}
+
+	public void setSignatureLength(byte[] src) {		
+		if (src == null ) return;
+		if (hasSignatureLength()) signatureLength = FixUtils.TAG_HAS_NO_VALUE;		
+		signatureLength = FixUtils.longValueOf(src, 0, src.length);
+		hasSignatureLength = FixUtils.TAG_HAS_VALUE;		
+	}		
+			
+	public void setSignatureLength(String str) {		
+		if (str == null ) return;
+		if (hasSignatureLength()) signatureLength = FixUtils.TAG_HAS_NO_VALUE;		
+		byte[] src = str.getBytes(); 		
+		signatureLength = FixUtils.longValueOf(src, 0, src.length);
+		hasSignatureLength = FixUtils.TAG_HAS_VALUE;		
+	}		
+			
+	public byte[] getSignature() { 		
+		if ( hasSignature()) {		
+			if (hasSignature == FixUtils.TAG_HAS_VALUE) {		
+				return signature; 		
+			} else {		
+		
+				buf.position(hasSignature);		
+		
+			FixMessage.getTagStringValue(buf, signature, 0, signature.length, err);
+		
+				if (err.hasError()) {		
+					buf.position(hasSignature);		
+					return null;		
+				}		
+			}		
+			hasSignature = FixUtils.TAG_HAS_VALUE;		
+			return signature;		
+		} else {		
+			return null; 		
+		}		
+	}		
+			
+	public boolean hasSignature() { return hasSignature != FixUtils.TAG_HAS_NO_VALUE; } 		
+		
+	public void setSignature(byte[] src) {		
+		if (src == null ) return;
+		if (hasSignature()) FixUtils.fillSpace(signature);		
+		FixUtils.copy(signature, src); 		
+		hasSignature = FixUtils.TAG_HAS_VALUE;		
+	}		
+			
+	public void setSignature(String str) {		
+		if (str == null ) return;
+		if (hasSignature()) FixUtils.fillSpace(signature);		
+		byte[] src = str.getBytes(); 		
+		FixUtils.copy(signature, src); 		
+		hasSignature = FixUtils.TAG_HAS_VALUE;		
+	}		
+			
 	public byte[] getCheckSum() { 		
 		if ( hasCheckSum()) {		
 			if (hasCheckSum == FixUtils.TAG_HAS_VALUE) {		
@@ -136,7 +270,9 @@ public class FixStrandardTrailer extends FixGroup {
 	@Override
 	public String toString() {
 		String s = "";
-				if (hasCheckSum()) s += "CheckSum(10)= " + new String( FixUtils.trim(getCheckSum()) ) + "\n" ; 
+				if (hasSignatureLength()) s += "SignatureLength(93)= " + getSignatureLength() + "\n" ; 
+		if (hasSignature()) s += "Signature(89)= " + new String( FixUtils.trim(getSignature()) ) + "\n" ; 
+		if (hasCheckSum()) s += "CheckSum(10)= " + new String( FixUtils.trim(getCheckSum()) ) + "\n" ; 
 
 			return s;
 	}
@@ -147,11 +283,19 @@ public class FixStrandardTrailer extends FixGroup {
 
 		FixStrandardTrailer msg = (FixStrandardTrailer) o;
 
+		if ((hasSignatureLength() && !msg.hasSignatureLength()) || (!hasSignatureLength() && msg.hasSignatureLength())) return false;
+		if (!(!hasSignatureLength() && !msg.hasSignatureLength()) && !(getSignatureLength()==msg.getSignatureLength())) return false;
+		if ((hasSignature() && !msg.hasSignature()) || (!hasSignature() && msg.hasSignature())) return false;
+		if (!(!hasSignature() && !msg.hasSignature()) && !FixUtils.equals(getSignature(), msg.getSignature())) return false;
 		if ((hasCheckSum() && !msg.hasCheckSum()) || (!hasCheckSum() && msg.hasCheckSum())) return false;
 		if (!(!hasCheckSum() && !msg.hasCheckSum()) && !FixUtils.equals(getCheckSum(), msg.getCheckSum())) return false;
 		return true;
 	}
 	public FixStrandardTrailer clone ( FixStrandardTrailer out ) {
+		if ( hasSignatureLength())
+			out.setSignatureLength(getSignatureLength());
+		if ( hasSignature())
+			out.setSignature(getSignature());
 		if ( hasCheckSum())
 			out.setCheckSum(getCheckSum());
 		return out;

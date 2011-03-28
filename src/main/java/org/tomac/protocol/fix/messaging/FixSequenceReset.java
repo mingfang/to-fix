@@ -8,17 +8,17 @@ import org.tomac.protocol.fix.FixInMessage;
 import org.tomac.protocol.fix.FixUtils;
 		
 public class FixSequenceReset extends FixInMessage {
-	private short hasNewSeqNo;
-	long newSeqNo = 0;		
 	private short hasGapFillFlag;
 		boolean gapFillFlag = false;		
+	private short hasNewSeqNo;
+	long newSeqNo = 0;		
 	
 	public FixSequenceReset() {
 		super(FixMessageInfo.MessageTypes.SEQUENCERESET);
 
 
-		hasNewSeqNo = FixUtils.TAG_HAS_NO_VALUE;		
 		hasGapFillFlag = FixUtils.TAG_HAS_NO_VALUE;		
+		hasNewSeqNo = FixUtils.TAG_HAS_NO_VALUE;		
 
 	}
 
@@ -34,12 +34,12 @@ public class FixSequenceReset extends FixInMessage {
         while ( buf.hasRemaining() ) {
 
             switch (tag) {		
-            	case FixTags.NEWSEQNO_INT:		
-            		hasNewSeqNo = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
-                	break;
             	case FixTags.GAPFILLFLAG_INT:		
             		hasGapFillFlag = (short) buf.position();		
+            		FixMessage.getNext(buf, err);		
+                	break;
+            	case FixTags.NEWSEQNO_INT:		
+            		hasNewSeqNo = (short) buf.position();		
             		FixMessage.getNext(buf, err);		
                 	break;
             	default:
@@ -86,21 +86,21 @@ public class FixSequenceReset extends FixInMessage {
 		super.standardHeader.setBodyLength(1000);
 
 		super.standardHeader.encode(out);		
-		if (hasNewSeqNo()) {		
-			out.put(FixTags.NEWSEQNO);		
-		
-			out.put((byte) '=');		
-		
-			FixUtils.put(out, (long)newSeqNo);
-		
-			out.put(FixUtils.SOH);		
-		}		
 		if (hasGapFillFlag()) {		
 			out.put(FixTags.GAPFILLFLAG);		
 		
 			out.put((byte) '=');		
 		
 			out.put(gapFillFlag?(byte)'Y':(byte)'N' );
+		
+			out.put(FixUtils.SOH);		
+		}		
+		if (hasNewSeqNo()) {		
+			out.put(FixTags.NEWSEQNO);		
+		
+			out.put((byte) '=');		
+		
+			FixUtils.put(out, (long)newSeqNo);
 		
 			out.put(FixUtils.SOH);		
 		}		
@@ -145,14 +145,14 @@ public class FixSequenceReset extends FixInMessage {
 					
 		super.standardHeader.encode(out);		
 		
-		if (hasNewSeqNo()) {		
-			FixUtils.put(out, (long)newSeqNo);
+		if (hasGapFillFlag()) {		
+			out.put(gapFillFlag?(byte)'Y':(byte)'N' );
 		
 	        out.put( (byte)' ' );		
 		}		
 		
-		if (hasGapFillFlag()) {		
-			out.put(gapFillFlag?(byte)'Y':(byte)'N' );
+		if (hasNewSeqNo()) {		
+			FixUtils.put(out, (long)newSeqNo);
 		
 	        out.put( (byte)' ' );		
 		}		
@@ -172,55 +172,6 @@ public class FixSequenceReset extends FixInMessage {
 		out.position(endPos);		
 		
 	}			
-			
-	public void crackNewSeqNo() {		
-		getNewSeqNo();		
-	}		
-			
-	public long getNewSeqNo() { 		
-		if ( hasNewSeqNo()) {		
-			if (hasNewSeqNo == FixUtils.TAG_HAS_VALUE) {		
-				return newSeqNo; 		
-			} else {
-
-				buf.position(hasNewSeqNo);
-
-			newSeqNo = FixMessage.getTagIntValue(buf, err);
-		
-				if (err.hasError()) {		
-					buf.position(0);		
-					return 0;		
-				}		
-			}		
-			hasNewSeqNo = FixUtils.TAG_HAS_VALUE;		
-			buf.position(0);		
-			return newSeqNo;		
-		} else {		
-			return 0; 		
-		}		
-	}		
-			
-	public boolean hasNewSeqNo() { return hasNewSeqNo != FixUtils.TAG_HAS_NO_VALUE; } 		
-
-	public void setNewSeqNo(byte[] src) {		
-		if (src == null ) return;
-		if (hasNewSeqNo()) newSeqNo = FixUtils.TAG_HAS_NO_VALUE;		
-		newSeqNo = FixUtils.longValueOf(src, 0, src.length);
-		hasNewSeqNo = FixUtils.TAG_HAS_VALUE;		
-	}
-
-	public void setNewSeqNo(long src) {		
-		newSeqNo = src;
-		hasNewSeqNo = FixUtils.TAG_HAS_VALUE;		
-	}
-
-	public void setNewSeqNo(String str) {		
-		if (str == null ) return;
-		if (hasNewSeqNo()) newSeqNo = FixUtils.TAG_HAS_NO_VALUE;		
-		byte[] src = str.getBytes(); 		
-		newSeqNo = FixUtils.longValueOf(src, 0, src.length);
-		hasNewSeqNo = FixUtils.TAG_HAS_VALUE;		
-	}		
 			
 	public void crackGapFillFlag() {		
 		getGapFillFlag();		
@@ -271,6 +222,55 @@ public class FixSequenceReset extends FixInMessage {
 		hasGapFillFlag = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
+	public void crackNewSeqNo() {		
+		getNewSeqNo();		
+	}		
+			
+	public long getNewSeqNo() { 		
+		if ( hasNewSeqNo()) {		
+			if (hasNewSeqNo == FixUtils.TAG_HAS_VALUE) {		
+				return newSeqNo; 		
+			} else {
+
+				buf.position(hasNewSeqNo);
+
+			newSeqNo = FixMessage.getTagIntValue(buf, err);
+		
+				if (err.hasError()) {		
+					buf.position(0);		
+					return 0;		
+				}		
+			}		
+			hasNewSeqNo = FixUtils.TAG_HAS_VALUE;		
+			buf.position(0);		
+			return newSeqNo;		
+		} else {		
+			return 0; 		
+		}		
+	}		
+			
+	public boolean hasNewSeqNo() { return hasNewSeqNo != FixUtils.TAG_HAS_NO_VALUE; } 		
+
+	public void setNewSeqNo(byte[] src) {		
+		if (src == null ) return;
+		if (hasNewSeqNo()) newSeqNo = FixUtils.TAG_HAS_NO_VALUE;		
+		newSeqNo = FixUtils.longValueOf(src, 0, src.length);
+		hasNewSeqNo = FixUtils.TAG_HAS_VALUE;		
+	}
+
+	public void setNewSeqNo(long src) {		
+		newSeqNo = src;
+		hasNewSeqNo = FixUtils.TAG_HAS_VALUE;		
+	}
+
+	public void setNewSeqNo(String str) {		
+		if (str == null ) return;
+		if (hasNewSeqNo()) newSeqNo = FixUtils.TAG_HAS_NO_VALUE;		
+		byte[] src = str.getBytes(); 		
+		newSeqNo = FixUtils.longValueOf(src, 0, src.length);
+		hasNewSeqNo = FixUtils.TAG_HAS_VALUE;		
+	}		
+			
 	/**
 	 * If you use toString for any other purpose than administrative printout.
 	 * You will burn in hell!
@@ -282,24 +282,39 @@ public class FixSequenceReset extends FixInMessage {
 					if (standardHeader.hasBeginString()) s += "BeginString(8)= " + new String( FixUtils.trim(standardHeader.getBeginString()) ) + "\n" ; 
 		if (standardHeader.hasBodyLength()) s += "BodyLength(9)= " + standardHeader.getBodyLength() + "\n" ; 
 		if (standardHeader.hasMsgType()) s += "MsgType(35)= " + new String( FixUtils.trim(standardHeader.getMsgType()) ) + "\n" ; 
-		if (standardHeader.hasMsgSeqNum()) s += "MsgSeqNum(34)= " + standardHeader.getMsgSeqNum() + "\n" ; 
-		if (standardHeader.hasPossDupFlag()) s += "PossDupFlag(43)= " + standardHeader.getPossDupFlag() + "\n" ; 
 		if (standardHeader.hasSenderCompID()) s += "SenderCompID(49)= " + new String( FixUtils.trim(standardHeader.getSenderCompID()) ) + "\n" ; 
-		if (standardHeader.hasSenderSubID()) s += "SenderSubID(50)= " + new String( FixUtils.trim(standardHeader.getSenderSubID()) ) + "\n" ; 
-		if (standardHeader.hasSendingTime()) s += "SendingTime(52)= " + new String( FixUtils.trim(standardHeader.getSendingTime()) ) + "\n" ; 
 		if (standardHeader.hasTargetCompID()) s += "TargetCompID(56)= " + new String( FixUtils.trim(standardHeader.getTargetCompID()) ) + "\n" ; 
-		if (standardHeader.hasTargetSubID()) s += "TargetSubID(57)= " + new String( FixUtils.trim(standardHeader.getTargetSubID()) ) + "\n" ; 
-		if (standardHeader.hasPossResend()) s += "PossResend(97)= " + standardHeader.getPossResend() + "\n" ; 
 		if (standardHeader.hasOnBehalfOfCompID()) s += "OnBehalfOfCompID(115)= " + new String( FixUtils.trim(standardHeader.getOnBehalfOfCompID()) ) + "\n" ; 
-		if (standardHeader.hasOnBehalfOfSubID()) s += "OnBehalfOfSubID(116)= " + new String( FixUtils.trim(standardHeader.getOnBehalfOfSubID()) ) + "\n" ; 
-		if (standardHeader.hasOrigSendingTime()) s += "OrigSendingTime(122)= " + new String( FixUtils.trim(standardHeader.getOrigSendingTime()) ) + "\n" ; 
 		if (standardHeader.hasDeliverToCompID()) s += "DeliverToCompID(128)= " + new String( FixUtils.trim(standardHeader.getDeliverToCompID()) ) + "\n" ; 
+		if (standardHeader.hasSecureDataLen()) s += "SecureDataLen(90)= " + standardHeader.getSecureDataLen() + "\n" ; 
+		if (standardHeader.hasSecureData()) s += "SecureData(91)= " + new String( FixUtils.trim(standardHeader.getSecureData()) ) + "\n" ; 
+		if (standardHeader.hasMsgSeqNum()) s += "MsgSeqNum(34)= " + standardHeader.getMsgSeqNum() + "\n" ; 
+		if (standardHeader.hasSenderSubID()) s += "SenderSubID(50)= " + new String( FixUtils.trim(standardHeader.getSenderSubID()) ) + "\n" ; 
+		if (standardHeader.hasSenderLocationID()) s += "SenderLocationID(142)= " + new String( FixUtils.trim(standardHeader.getSenderLocationID()) ) + "\n" ; 
+		if (standardHeader.hasTargetSubID()) s += "TargetSubID(57)= " + new String( FixUtils.trim(standardHeader.getTargetSubID()) ) + "\n" ; 
+		if (standardHeader.hasTargetLocationID()) s += "TargetLocationID(143)= " + new String( FixUtils.trim(standardHeader.getTargetLocationID()) ) + "\n" ; 
+		if (standardHeader.hasOnBehalfOfSubID()) s += "OnBehalfOfSubID(116)= " + new String( FixUtils.trim(standardHeader.getOnBehalfOfSubID()) ) + "\n" ; 
+		if (standardHeader.hasOnBehalfOfLocationID()) s += "OnBehalfOfLocationID(144)= " + new String( FixUtils.trim(standardHeader.getOnBehalfOfLocationID()) ) + "\n" ; 
 		if (standardHeader.hasDeliverToSubID()) s += "DeliverToSubID(129)= " + new String( FixUtils.trim(standardHeader.getDeliverToSubID()) ) + "\n" ; 
+		if (standardHeader.hasDeliverToLocationID()) s += "DeliverToLocationID(145)= " + new String( FixUtils.trim(standardHeader.getDeliverToLocationID()) ) + "\n" ; 
+		if (standardHeader.hasPossDupFlag()) s += "PossDupFlag(43)= " + standardHeader.getPossDupFlag() + "\n" ; 
+		if (standardHeader.hasPossResend()) s += "PossResend(97)= " + standardHeader.getPossResend() + "\n" ; 
+		if (standardHeader.hasSendingTime()) s += "SendingTime(52)= " + new String( FixUtils.trim(standardHeader.getSendingTime()) ) + "\n" ; 
+		if (standardHeader.hasOrigSendingTime()) s += "OrigSendingTime(122)= " + new String( FixUtils.trim(standardHeader.getOrigSendingTime()) ) + "\n" ; 
+		if (standardHeader.hasXmlDataLen()) s += "XmlDataLen(212)= " + standardHeader.getXmlDataLen() + "\n" ; 
+		if (standardHeader.hasXmlData()) s += "XmlData(213)= " + new String( FixUtils.trim(standardHeader.getXmlData()) ) + "\n" ; 
+		if (standardHeader.hasMessageEncoding()) s += "MessageEncoding(347)= " + new String( FixUtils.trim(standardHeader.getMessageEncoding()) ) + "\n" ; 
+		if (standardHeader.hasLastMsgSeqNumProcessed()) s += "LastMsgSeqNumProcessed(369)= " + standardHeader.getLastMsgSeqNumProcessed() + "\n" ; 
+		if (standardHeader.hasApplVerID()) s += "ApplVerID(1128)= " + new String( FixUtils.trim(standardHeader.getApplVerID()) ) + "\n" ; 
+		if (standardHeader.hasCstmApplVerID()) s += "CstmApplVerID(1129)= " + new String( FixUtils.trim(standardHeader.getCstmApplVerID()) ) + "\n" ; 
+		if (standardHeader.hasApplExtID()) s += "ApplExtID(1156)= " + standardHeader.getApplExtID() + "\n" ; 
 
-					if (hasNewSeqNo()) s += "NewSeqNo(36)= " + getNewSeqNo() + "\n" ; 
-		if (hasGapFillFlag()) s += "GapFillFlag(123)= " + getGapFillFlag() + "\n" ; 
+					if (hasGapFillFlag()) s += "GapFillFlag(123)= " + getGapFillFlag() + "\n" ; 
+		if (hasNewSeqNo()) s += "NewSeqNo(36)= " + getNewSeqNo() + "\n" ; 
 
-					if (standardTrailer.hasCheckSum()) s += "CheckSum(10)= " + new String( FixUtils.trim(standardTrailer.getCheckSum()) ) + "\n" ; 
+					if (standardTrailer.hasSignatureLength()) s += "SignatureLength(93)= " + standardTrailer.getSignatureLength() + "\n" ; 
+		if (standardTrailer.hasSignature()) s += "Signature(89)= " + new String( FixUtils.trim(standardTrailer.getSignature()) ) + "\n" ; 
+		if (standardTrailer.hasCheckSum()) s += "CheckSum(10)= " + new String( FixUtils.trim(standardTrailer.getCheckSum()) ) + "\n" ; 
 
 		} catch(Exception e) {  };
 			return s;
@@ -313,10 +328,10 @@ public class FixSequenceReset extends FixInMessage {
 
 		if (!standardHeader.equals(msg.standardHeader)) return false;
 
-		if ((hasNewSeqNo() && !msg.hasNewSeqNo()) || (!hasNewSeqNo() && msg.hasNewSeqNo())) return false;
-		if (!(!hasNewSeqNo() && !msg.hasNewSeqNo()) && !(getNewSeqNo()==msg.getNewSeqNo())) return false;
 		if ((hasGapFillFlag() && !msg.hasGapFillFlag()) || (!hasGapFillFlag() && msg.hasGapFillFlag())) return false;
 		if (!(!hasGapFillFlag() && !msg.hasGapFillFlag()) && !(getGapFillFlag()==msg.getGapFillFlag())) return false;
+		if ((hasNewSeqNo() && !msg.hasNewSeqNo()) || (!hasNewSeqNo() && msg.hasNewSeqNo())) return false;
+		if (!(!hasNewSeqNo() && !msg.hasNewSeqNo()) && !(getNewSeqNo()==msg.getNewSeqNo())) return false;
 		return true;
 	}
 	@Override
@@ -329,10 +344,10 @@ public class FixSequenceReset extends FixInMessage {
 	}
 
 	public FixSequenceReset clone ( FixSequenceReset out ) {
-		if ( hasNewSeqNo())
-			out.setNewSeqNo(getNewSeqNo());
 		if ( hasGapFillFlag())
 			out.setGapFillFlag(getGapFillFlag());
+		if ( hasNewSeqNo())
+			out.setNewSeqNo(getNewSeqNo());
 		return out;
 	}
 

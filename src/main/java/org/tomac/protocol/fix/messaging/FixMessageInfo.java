@@ -9,345 +9,560 @@ package org.tomac.protocol.fix.messaging;
 public interface FixMessageInfo
 {
 
-	public static final byte[] BEGINSTRING_VALUE = "FIX.4.2".getBytes();
-	public static final byte[] FLAVOUR = "Nordic INET".getBytes();
+	public static final byte[] BEGINSTRING_VALUE = "FIXT.1.1".getBytes();
+	public static final byte[] FLAVOUR = " fixprotocol.org FIX.5.0SP2".getBytes();
 
 	public static class MessageTypes
 	{
 		public static final byte[] UNKNOWN         = "U0".getBytes();
-		public static final byte[] ACCEPTEDCANCELREPLACE = "8".getBytes();
-		public static final byte[] ACCEPTEDCANCEL = "8".getBytes();
-		public static final byte[] APPLICATIONREJECT = "8".getBytes();
-		public static final byte[] BREAKNOTIFICATION = "8".getBytes();
-		public static final byte[] BUSINESSREJECT = "8".getBytes();
-		public static final byte[] CANCELNOTIFICATION = "8".getBytes();
-		public static final byte[] ENTRYNOTIFICATIONTOALLEGEDFIRM = "8".getBytes();
-		public static final byte[] EXECUTIONREPORTFILL = "8".getBytes();
-		public static final byte[] EXECUTIONRESTATEMENT = "8".getBytes();
-		public static final byte[] LOCKEDINNOTIFICATION = "8".getBytes();
-		public static final byte[] LOCKEDINTRADEBREAK = "8".getBytes();
-		public static final byte[] ORDERACKNOWLEDGEMENT = "8".getBytes();
-		public static final byte[] ORDERREJECT = "8".getBytes();
-		public static final byte[] PENDINGCANCEL = "8".getBytes();
-		public static final byte[] TRADEENTRYNOTIFICATIONTOENTERINGFIRM = "8".getBytes();
-		public static final byte[] TRADEREPORTCANCEL = "8".getBytes();
-		public static final byte[] TRADEREPORTENTRY = "8".getBytes();
 		public static final byte[] HEARTBEAT = "0".getBytes();
-		public static final byte[] LOGON = "A".getBytes();
-		public static final byte[] LOGOUT = "5".getBytes();
-		public static final byte[] ORDERSINGLE = "D".getBytes();
-		public static final byte[] ORDERCANCELREJECT = "9".getBytes();
-		public static final byte[] REJECTEDCANCELREPLACE = "9".getBytes();
-		public static final byte[] ORDERCANCELREPLACEREQUEST = "G".getBytes();
-		public static final byte[] ORDERCANCELREQUEST = "F".getBytes();
-		public static final byte[] REJECT = "3".getBytes();
-		public static final byte[] RESENDREQUEST = "2".getBytes();
-		public static final byte[] SEQUENCERESET = "4".getBytes();
 		public static final byte[] TESTREQUEST = "1".getBytes();
+		public static final byte[] RESENDREQUEST = "2".getBytes();
+		public static final byte[] REJECT = "3".getBytes();
+		public static final byte[] SEQUENCERESET = "4".getBytes();
+		public static final byte[] LOGOUT = "5".getBytes();
+		public static final byte[] IOI = "6".getBytes();
+		public static final byte[] ADVERTISEMENT = "7".getBytes();
+		public static final byte[] EXECUTIONREPORT = "8".getBytes();
+		public static final byte[] ORDERCANCELREJECT = "9".getBytes();
+		public static final byte[] LOGON = "A".getBytes();
+		public static final byte[] NEWS = "B".getBytes();
+		public static final byte[] EMAIL = "C".getBytes();
+		public static final byte[] NEWORDERSINGLE = "D".getBytes();
+		public static final byte[] NEWORDERLIST = "E".getBytes();
+		public static final byte[] ORDERCANCELREQUEST = "F".getBytes();
+		public static final byte[] ORDERCANCELREPLACEREQUEST = "G".getBytes();
+		public static final byte[] ORDERSTATUSREQUEST = "H".getBytes();
+		public static final byte[] ALLOCATIONINSTRUCTION = "J".getBytes();
+		public static final byte[] LISTCANCELREQUEST = "K".getBytes();
+		public static final byte[] LISTEXECUTE = "L".getBytes();
+		public static final byte[] LISTSTATUSREQUEST = "M".getBytes();
+		public static final byte[] LISTSTATUS = "N".getBytes();
+		public static final byte[] ALLOCATIONINSTRUCTIONACK = "P".getBytes();
+		public static final byte[] DONTKNOWTRADEDK = "Q".getBytes();
+		public static final byte[] QUOTEREQUEST = "R".getBytes();
+		public static final byte[] QUOTE = "S".getBytes();
+		public static final byte[] SETTLEMENTINSTRUCTIONS = "T".getBytes();
+		public static final byte[] MARKETDATAREQUEST = "V".getBytes();
+		public static final byte[] MARKETDATASNAPSHOTFULLREFRESH = "W".getBytes();
+		public static final byte[] MARKETDATAINCREMENTALREFRESH = "X".getBytes();
+		public static final byte[] MARKETDATAREQUESTREJECT = "Y".getBytes();
+		public static final byte[] QUOTECANCEL = "Z".getBytes();
+		public static final byte[] QUOTESTATUSREQUEST = "a".getBytes();
+		public static final byte[] MASSQUOTEACKNOWLEDGEMENT = "b".getBytes();
+		public static final byte[] SECURITYDEFINITIONREQUEST = "c".getBytes();
+		public static final byte[] SECURITYDEFINITION = "d".getBytes();
+		public static final byte[] SECURITYSTATUSREQUEST = "e".getBytes();
+		public static final byte[] SECURITYSTATUS = "f".getBytes();
+		public static final byte[] TRADINGSESSIONSTATUSREQUEST = "g".getBytes();
+		public static final byte[] TRADINGSESSIONSTATUS = "h".getBytes();
+		public static final byte[] MASSQUOTE = "i".getBytes();
+		public static final byte[] BUSINESSMESSAGEREJECT = "j".getBytes();
+		public static final byte[] BIDREQUEST = "k".getBytes();
+		public static final byte[] BIDRESPONSE = "l".getBytes();
+		public static final byte[] LISTSTRIKEPRICE = "m".getBytes();
+		public static final byte[] REGISTRATIONINSTRUCTIONS = "o".getBytes();
+		public static final byte[] REGISTRATIONINSTRUCTIONSRESPONSE = "p".getBytes();
+		public static final byte[] ORDERMASSCANCELREQUEST = "q".getBytes();
+		public static final byte[] ORDERMASSCANCELREPORT = "r".getBytes();
+		public static final byte[] NEWORDERCROSS = "s".getBytes();
+		public static final byte[] CROSSORDERCANCELREPLACEREQUEST = "t".getBytes();
+		public static final byte[] CROSSORDERCANCELREQUEST = "u".getBytes();
+		public static final byte[] SECURITYTYPEREQUEST = "v".getBytes();
+		public static final byte[] SECURITYTYPES = "w".getBytes();
+		public static final byte[] SECURITYLISTREQUEST = "x".getBytes();
+		public static final byte[] SECURITYLIST = "y".getBytes();
+		public static final byte[] DERIVATIVESECURITYLISTREQUEST = "z".getBytes();
+		public static final byte[] DERIVATIVESECURITYLIST = "AA".getBytes();
+		public static final byte[] NEWORDERMULTILEG = "AB".getBytes();
+		public static final byte[] MULTILEGORDERCANCELREPLACE = "AC".getBytes();
+		public static final byte[] TRADECAPTUREREPORTREQUEST = "AD".getBytes();
+		public static final byte[] TRADECAPTUREREPORT = "AE".getBytes();
+		public static final byte[] ORDERMASSSTATUSREQUEST = "AF".getBytes();
+		public static final byte[] QUOTEREQUESTREJECT = "AG".getBytes();
+		public static final byte[] RFQREQUEST = "AH".getBytes();
+		public static final byte[] QUOTESTATUSREPORT = "AI".getBytes();
+		public static final byte[] QUOTERESPONSE = "AJ".getBytes();
+		public static final byte[] CONFIRMATION = "AK".getBytes();
+		public static final byte[] POSITIONMAINTENANCEREQUEST = "AL".getBytes();
+		public static final byte[] POSITIONMAINTENANCEREPORT = "AM".getBytes();
+		public static final byte[] REQUESTFORPOSITIONS = "AN".getBytes();
+		public static final byte[] REQUESTFORPOSITIONSACK = "AO".getBytes();
+		public static final byte[] POSITIONREPORT = "AP".getBytes();
+		public static final byte[] TRADECAPTUREREPORTREQUESTACK = "AQ".getBytes();
+		public static final byte[] TRADECAPTUREREPORTACK = "AR".getBytes();
+		public static final byte[] ALLOCATIONREPORT = "AS".getBytes();
+		public static final byte[] ALLOCATIONREPORTACK = "AT".getBytes();
+		public static final byte[] CONFIRMATION_ACK = "AU".getBytes();
+		public static final byte[] SETTLEMENTINSTRUCTIONREQUEST = "AV".getBytes();
+		public static final byte[] ASSIGNMENTREPORT = "AW".getBytes();
+		public static final byte[] COLLATERALREQUEST = "AX".getBytes();
+		public static final byte[] COLLATERALASSIGNMENT = "AY".getBytes();
+		public static final byte[] COLLATERALRESPONSE = "AZ".getBytes();
+		public static final byte[] COLLATERALREPORT = "BA".getBytes();
+		public static final byte[] COLLATERALINQUIRY = "BB".getBytes();
+		public static final byte[] NETWORKCOUNTERPARTYSYSTEMSTATUSREQUEST = "BC".getBytes();
+		public static final byte[] NETWORKCOUNTERPARTYSYSTEMSTATUSRESPONSE = "BD".getBytes();
+		public static final byte[] USERREQUEST = "BE".getBytes();
+		public static final byte[] USERRESPONSE = "BF".getBytes();
+		public static final byte[] COLLATERALINQUIRYACK = "BG".getBytes();
+		public static final byte[] CONFIRMATIONREQUEST = "BH".getBytes();
+		public static final byte[] CONTRARYINTENTIONREPORT = "BO".getBytes();
+		public static final byte[] SECURITYDEFINITIONUPDATEREPORT = "BP".getBytes();
+		public static final byte[] SECURITYLISTUPDATEREPORT = "BK".getBytes();
+		public static final byte[] ADJUSTEDPOSITIONREPORT = "BL".getBytes();
+		public static final byte[] ALLOCATIONINSTRUCTIONALERT = "BM".getBytes();
+		public static final byte[] EXECUTIONACKNOWLEDGEMENT = "BN".getBytes();
+		public static final byte[] TRADINGSESSIONLIST = "BJ".getBytes();
+		public static final byte[] TRADINGSESSIONLISTREQUEST = "BI".getBytes();
+		public static final byte[] SETTLEMENTOBLIGATIONREPORT = "BQ".getBytes();
+		public static final byte[] DERIVATIVESECURITYLISTUPDATEREPORT = "BR".getBytes();
+		public static final byte[] TRADINGSESSIONLISTUPDATEREPORT = "BS".getBytes();
+		public static final byte[] MARKETDEFINITIONREQUEST = "BT".getBytes();
+		public static final byte[] MARKETDEFINITION = "BU".getBytes();
+		public static final byte[] MARKETDEFINITIONUPDATEREPORT = "BV".getBytes();
+		public static final byte[] USERNOTIFICATION = "CB".getBytes();
+		public static final byte[] ORDERMASSACTIONREPORT = "BZ".getBytes();
+		public static final byte[] ORDERMASSACTIONREQUEST = "CA".getBytes();
+		public static final byte[] APPLICATIONMESSAGEREQUEST = "BW".getBytes();
+		public static final byte[] APPLICATIONMESSAGEREQUESTACK = "BX".getBytes();
+		public static final byte[] APPLICATIONMESSAGEREPORT = "BY".getBytes();
+		public static final byte[] STREAMASSIGNMENTREQUEST = "CC".getBytes();
+		public static final byte[] STREAMASSIGNMENTREPORT = "CD".getBytes();
+		public static final byte[] STREAMASSIGNMENTREPORTACK = "CE".getBytes();
+		public static final byte[] PARTYDETAILSLISTREQUEST = "CF".getBytes();
+		public static final byte[] PARTYDETAILSLISTREPORT = "CG".getBytes();
 
 		public static final int UNKNOWN_INT         = 21808;
-		public static final int ACCEPTEDCANCELREPLACE_INT = 14389;
-		public static final int ACCEPTEDCANCEL_INT = 14388;
-		public static final int APPLICATIONREJECT_INT = 3686729;
-		public static final int BREAKNOTIFICATION_INT = 3699767;
-		public static final int BUSINESSREJECT_INT = 14409;
-		public static final int CANCELNOTIFICATION_INT = 3699766;
-		public static final int ENTRYNOTIFICATIONTOALLEGEDFIRM_INT = 3699761;
-		public static final int EXECUTIONREPORTFILL_INT = 14385;
-		public static final int EXECUTIONRESTATEMENT_INT = 14404;
-		public static final int LOCKEDINNOTIFICATION_INT = 3699762;
-		public static final int LOCKEDINTRADEBREAK_INT = 3691575;
-		public static final int ORDERACKNOWLEDGEMENT_INT = 14384;
-		public static final int ORDERREJECT_INT = 14392;
-		public static final int PENDINGCANCEL_INT = 14390;
-		public static final int TRADEENTRYNOTIFICATIONTOENTERINGFIRM_INT = 3699760;
-		public static final int TRADEREPORTCANCEL_INT = 3691574;
-		public static final int TRADEREPORTENTRY_INT = 3691568;
 		public static final int HEARTBEAT_INT = 48;
-		public static final int LOGON_INT = 65;
-		public static final int LOGOUT_INT = 53;
-		public static final int ORDERSINGLE_INT = 68;
-		public static final int ORDERCANCELREJECT_INT = 14641;
-		public static final int REJECTEDCANCELREPLACE_INT = 57;
-		public static final int ORDERCANCELREPLACEREQUEST_INT = 71;
-		public static final int ORDERCANCELREQUEST_INT = 70;
-		public static final int REJECT_INT = 51;
-		public static final int RESENDREQUEST_INT = 50;
-		public static final int SEQUENCERESET_INT = 52;
 		public static final int TESTREQUEST_INT = 49;
+		public static final int RESENDREQUEST_INT = 50;
+		public static final int REJECT_INT = 51;
+		public static final int SEQUENCERESET_INT = 52;
+		public static final int LOGOUT_INT = 53;
+		public static final int IOI_INT = 54;
+		public static final int ADVERTISEMENT_INT = 55;
+		public static final int EXECUTIONREPORT_INT = 56;
+		public static final int ORDERCANCELREJECT_INT = 57;
+		public static final int LOGON_INT = 65;
+		public static final int NEWS_INT = 66;
+		public static final int EMAIL_INT = 67;
+		public static final int NEWORDERSINGLE_INT = 68;
+		public static final int NEWORDERLIST_INT = 69;
+		public static final int ORDERCANCELREQUEST_INT = 70;
+		public static final int ORDERCANCELREPLACEREQUEST_INT = 71;
+		public static final int ORDERSTATUSREQUEST_INT = 72;
+		public static final int ALLOCATIONINSTRUCTION_INT = 74;
+		public static final int LISTCANCELREQUEST_INT = 75;
+		public static final int LISTEXECUTE_INT = 76;
+		public static final int LISTSTATUSREQUEST_INT = 77;
+		public static final int LISTSTATUS_INT = 78;
+		public static final int ALLOCATIONINSTRUCTIONACK_INT = 80;
+		public static final int DONTKNOWTRADEDK_INT = 81;
+		public static final int QUOTEREQUEST_INT = 82;
+		public static final int QUOTE_INT = 83;
+		public static final int SETTLEMENTINSTRUCTIONS_INT = 84;
+		public static final int MARKETDATAREQUEST_INT = 86;
+		public static final int MARKETDATASNAPSHOTFULLREFRESH_INT = 87;
+		public static final int MARKETDATAINCREMENTALREFRESH_INT = 88;
+		public static final int MARKETDATAREQUESTREJECT_INT = 89;
+		public static final int QUOTECANCEL_INT = 90;
+		public static final int QUOTESTATUSREQUEST_INT = 97;
+		public static final int MASSQUOTEACKNOWLEDGEMENT_INT = 98;
+		public static final int SECURITYDEFINITIONREQUEST_INT = 99;
+		public static final int SECURITYDEFINITION_INT = 100;
+		public static final int SECURITYSTATUSREQUEST_INT = 101;
+		public static final int SECURITYSTATUS_INT = 102;
+		public static final int TRADINGSESSIONSTATUSREQUEST_INT = 103;
+		public static final int TRADINGSESSIONSTATUS_INT = 104;
+		public static final int MASSQUOTE_INT = 105;
+		public static final int BUSINESSMESSAGEREJECT_INT = 106;
+		public static final int BIDREQUEST_INT = 107;
+		public static final int BIDRESPONSE_INT = 108;
+		public static final int LISTSTRIKEPRICE_INT = 109;
+		public static final int REGISTRATIONINSTRUCTIONS_INT = 111;
+		public static final int REGISTRATIONINSTRUCTIONSRESPONSE_INT = 112;
+		public static final int ORDERMASSCANCELREQUEST_INT = 113;
+		public static final int ORDERMASSCANCELREPORT_INT = 114;
+		public static final int NEWORDERCROSS_INT = 115;
+		public static final int CROSSORDERCANCELREPLACEREQUEST_INT = 116;
+		public static final int CROSSORDERCANCELREQUEST_INT = 117;
+		public static final int SECURITYTYPEREQUEST_INT = 118;
+		public static final int SECURITYTYPES_INT = 119;
+		public static final int SECURITYLISTREQUEST_INT = 120;
+		public static final int SECURITYLIST_INT = 121;
+		public static final int DERIVATIVESECURITYLISTREQUEST_INT = 122;
+		public static final int DERIVATIVESECURITYLIST_INT = 16705;
+		public static final int NEWORDERMULTILEG_INT = 16706;
+		public static final int MULTILEGORDERCANCELREPLACE_INT = 16707;
+		public static final int TRADECAPTUREREPORTREQUEST_INT = 16708;
+		public static final int TRADECAPTUREREPORT_INT = 16709;
+		public static final int ORDERMASSSTATUSREQUEST_INT = 16710;
+		public static final int QUOTEREQUESTREJECT_INT = 16711;
+		public static final int RFQREQUEST_INT = 16712;
+		public static final int QUOTESTATUSREPORT_INT = 16713;
+		public static final int QUOTERESPONSE_INT = 16714;
+		public static final int CONFIRMATION_INT = 16715;
+		public static final int POSITIONMAINTENANCEREQUEST_INT = 16716;
+		public static final int POSITIONMAINTENANCEREPORT_INT = 16717;
+		public static final int REQUESTFORPOSITIONS_INT = 16718;
+		public static final int REQUESTFORPOSITIONSACK_INT = 16719;
+		public static final int POSITIONREPORT_INT = 16720;
+		public static final int TRADECAPTUREREPORTREQUESTACK_INT = 16721;
+		public static final int TRADECAPTUREREPORTACK_INT = 16722;
+		public static final int ALLOCATIONREPORT_INT = 16723;
+		public static final int ALLOCATIONREPORTACK_INT = 16724;
+		public static final int CONFIRMATION_ACK_INT = 16725;
+		public static final int SETTLEMENTINSTRUCTIONREQUEST_INT = 16726;
+		public static final int ASSIGNMENTREPORT_INT = 16727;
+		public static final int COLLATERALREQUEST_INT = 16728;
+		public static final int COLLATERALASSIGNMENT_INT = 16729;
+		public static final int COLLATERALRESPONSE_INT = 16730;
+		public static final int COLLATERALREPORT_INT = 16961;
+		public static final int COLLATERALINQUIRY_INT = 16962;
+		public static final int NETWORKCOUNTERPARTYSYSTEMSTATUSREQUEST_INT = 16963;
+		public static final int NETWORKCOUNTERPARTYSYSTEMSTATUSRESPONSE_INT = 16964;
+		public static final int USERREQUEST_INT = 16965;
+		public static final int USERRESPONSE_INT = 16966;
+		public static final int COLLATERALINQUIRYACK_INT = 16967;
+		public static final int CONFIRMATIONREQUEST_INT = 16968;
+		public static final int CONTRARYINTENTIONREPORT_INT = 16975;
+		public static final int SECURITYDEFINITIONUPDATEREPORT_INT = 16976;
+		public static final int SECURITYLISTUPDATEREPORT_INT = 16971;
+		public static final int ADJUSTEDPOSITIONREPORT_INT = 16972;
+		public static final int ALLOCATIONINSTRUCTIONALERT_INT = 16973;
+		public static final int EXECUTIONACKNOWLEDGEMENT_INT = 16974;
+		public static final int TRADINGSESSIONLIST_INT = 16970;
+		public static final int TRADINGSESSIONLISTREQUEST_INT = 16969;
+		public static final int SETTLEMENTOBLIGATIONREPORT_INT = 16977;
+		public static final int DERIVATIVESECURITYLISTUPDATEREPORT_INT = 16978;
+		public static final int TRADINGSESSIONLISTUPDATEREPORT_INT = 16979;
+		public static final int MARKETDEFINITIONREQUEST_INT = 16980;
+		public static final int MARKETDEFINITION_INT = 16981;
+		public static final int MARKETDEFINITIONUPDATEREPORT_INT = 16982;
+		public static final int USERNOTIFICATION_INT = 17218;
+		public static final int ORDERMASSACTIONREPORT_INT = 16986;
+		public static final int ORDERMASSACTIONREQUEST_INT = 17217;
+		public static final int APPLICATIONMESSAGEREQUEST_INT = 16983;
+		public static final int APPLICATIONMESSAGEREQUESTACK_INT = 16984;
+		public static final int APPLICATIONMESSAGEREPORT_INT = 16985;
+		public static final int STREAMASSIGNMENTREQUEST_INT = 17219;
+		public static final int STREAMASSIGNMENTREPORT_INT = 17220;
+		public static final int STREAMASSIGNMENTREPORTACK_INT = 17221;
+		public static final int PARTYDETAILSLISTREQUEST_INT = 17222;
+		public static final int PARTYDETAILSLISTREPORT_INT = 17223;
 }
 
+	public class AdvSide {
+			public static final byte TRADE = 'T';
+			public static final byte SELL = 'S';
+			public static final byte BUY = 'B';
+			public static final byte CROSS = 'X';
+		}
+
+	public class AdvTransType {
+			public static final byte[] REPLACE = "R".getBytes();
+			public static final byte[] CANCEL = "C".getBytes();
+			public static final byte[] NEW = "N".getBytes();
+		}
+
+	public class CommType {
+			public static final byte ABSOLUTE_TOTAL_MONETARY_AMOUNT = '3';
+			public static final byte PERCENT = '2';
+			public static final byte PER_UNIT_IMPLYING_SHARES_PAR_CURRENCY_ETC = '1';
+			public static final byte POINTS_PER_BOND_OR_CONTRACT_SUPPLY_CONTRACTMULTIPLIER_231_IN_THE = '6';
+			public static final byte PERCENTAGE_WAIVED__ENHANCED_UNITS_FOR_CIV_BUY_ORDERS = '5';
+			public static final byte PERCENTAGE_WAIVED__CASH_DISCOUNT_FOR_CIV_BUY_ORDERS = '4';
+		}
+
+	public class ExecInst {
+			public static final byte[] GO_ALONG = "3".getBytes();
+			public static final byte[] WORK = "2".getBytes();
+			public static final byte[] NOT_HELD = "1".getBytes();
+			public static final byte[] STAY_ON_OFFER_SIDE = "0".getBytes();
+			public static final byte[] STRICT_SCALE = "7".getBytes();
+			public static final byte[] PARTICIPANT_DONT_INITIATE = "6".getBytes();
+			public static final byte[] HELD = "5".getBytes();
+			public static final byte[] OVER_THE_DAY = "4".getBytes();
+			public static final byte[] STAY_ON_BID_SIDE = "9".getBytes();
+			public static final byte[] TRY_TO_SCALE = "8".getBytes();
+			public static final byte[] PERCENT_OF_VOLUME_INDICATES_THAT_THE_SENDER_DOES_NOT_WANT_TO_BE_ = "D".getBytes();
+			public static final byte[] DO_NOT_INCREASE__DNI = "E".getBytes();
+			public static final byte[] DO_NOT_REDUCE__DNR = "F".getBytes();
+			public static final byte[] ALL_OR_NONE__AON = "G".getBytes();
+			public static final byte[] NO_CROSS_CROSS_IS_FORBIDDEN = "A".getBytes();
+			public static final byte[] OK_TO_CROSS = "B".getBytes();
+			public static final byte[] CALL_FIRST = "C".getBytes();
+			public static final byte[] LAST_PEG_LAST_SALE = "L".getBytes();
+			public static final byte[] MIDPRICE_PEG_MIDPRICE_OF_INSIDE_QUOTE = "M".getBytes();
+			public static final byte[] NONNEGOTIABLE = "N".getBytes();
+			public static final byte[] OPENING_PEG = "O".getBytes();
+			public static final byte[] REINSTATE_ON_SYSTEM_FAILURE_MUTUALLY_EXCLUSIVE_WITH_Q_AND_L = "H".getBytes();
+			public static final byte[] INSTITUTIONS_ONLY = "I".getBytes();
+			public static final byte[] REINSTATE_ON_TRADING_HALT_MUTUALLY_EXCLUSIVE_WITH_K_AND_M = "J".getBytes();
+			public static final byte[] CANCEL_ON_TRADING_HALT_MUTUALLY_EXCLUSIVE_WITH_J_AND_M = "K".getBytes();
+			public static final byte[] CUSTOMER_DISPLAY_INSTRUCTION_RULE_11AC114 = "U".getBytes();
+			public static final byte[] FIXED_PEG_TO_LOCAL_BEST_BID_OR_OFFER_AT_TIME_OF_ORDER = "T".getBytes();
+			public static final byte[] PEG_TO_VWAP = "W".getBytes();
+			public static final byte[] NETTING_FOR_FOREX = "V".getBytes();
+			public static final byte[] CANCEL_ON_SYSTEM_FAILURE_MUTUALLY_EXCLUSIVE_WITH_H_AND_L = "Q".getBytes();
+			public static final byte[] MARKET_PEG = "P".getBytes();
+			public static final byte[] SUSPEND = "S".getBytes();
+			public static final byte[] PRIMARY_PEG_PRIMARY_MARKET__BUY_AT_BIDSELL_AT_OFFER = "R".getBytes();
+			public static final byte[] TRY_TO_STOP = "Y".getBytes();
+			public static final byte[] TRADE_ALONG = "X".getBytes();
+			public static final byte[] CANCEL_IF_NOT_BEST = "Z".getBytes();
+			public static final byte[] INTERMARKET_SWEEP = "f".getBytes();
+			public static final byte[] EXTERNAL_ROUTING_ALLOWED = "g".getBytes();
+			public static final byte[] PEG_TO_LIMIT_PRICE = "d".getBytes();
+			public static final byte[] WORK_TO_TARGET_STRATEGY = "e".getBytes();
+			public static final byte[] STRICT_LIMIT_NO_PRICE_IMPROVEMENT = "b".getBytes();
+			public static final byte[] IGNORE_PRICE_VALIDITY_CHECKS = "c".getBytes();
+			public static final byte[] TRAILING_STOP_PEG = "a".getBytes();
+			public static final byte[] REINSTATE_ON_CONNECTION_LOSS_MUTUALLY_EXCLUSIVE_WITH_O_AND_P = "n".getBytes();
+			public static final byte[] CANCEL_ON_CONNECTION_LOSS_MUTUALLY_EXCLUSIVE_WITH_N_AND_P = "o".getBytes();
+			public static final byte[] SUSPEND_ON_SYSTEM_FAILURE_MUTUALLY_EXCLUSIVE_WITH_H_AND_Q = "l".getBytes();
+			public static final byte[] SUSPEND_ON_TRADING_HALT_MUTUALLY_EXCLUSIVE_WITH_J_AND_K = "m".getBytes();
+			public static final byte[] SINGLE_EXECUTION_REQUESTED_FOR_BLOCK_TRADE = "j".getBytes();
+			public static final byte[] BEST_EXECUTION = "k".getBytes();
+			public static final byte[] EXTERNAL_ROUTING_NOT_ALLOWED = "h".getBytes();
+			public static final byte[] IMBALANCE_ONLY = "i".getBytes();
+			public static final byte[] EXECUTE_AS_FX_NEUTRAL = "t".getBytes();
+			public static final byte[] EXECUTE_AS_DURATION_NEUTRAL = "s".getBytes();
+			public static final byte[] EXECUTE_AS_DELTA_NEUTRAL_USING_VOLATILITY_PROVIDED = "r".getBytes();
+			public static final byte[] RELEASE_FROM_SUSPENSION_MUTUALLY_EXCLUSIVE_WITH_S = "q".getBytes();
+			public static final byte[] SUSPEND_ON_CONNECTION_LOSS_MUTUALLY_EXCLUSIVE_WITH_N_AND_O = "p".getBytes();
+		}
+
 	public class ExecTransType {
-			public static final byte FILL = '2';
-			public static final byte PARTIALFILL = '1';
+			public static final byte STATUS = '3';
+			public static final byte CORRECT = '2';
+			public static final byte CANCEL = '1';
 			public static final byte NEW = '0';
-			public static final byte REJECTED = '8';
-			public static final byte REJECT = 'I';
 		}
 
 	public class HandlInst {
+			public static final byte MANUAL_ORDER_BEST_EXECUTION = '3';
+			public static final byte AUTOMATED_EXECUTION_ORDER_PUBLIC_BROKER_INTERVENTION_OK = '2';
 			public static final byte AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION = '1';
 		}
 
-	public class TrdRptStatus {
-			public static final byte[] UNANSWEREDA_ONESIDED_TRADE_REPORT_THAT_HAS_NOT_BEEN_LOCKEDIN = "98".getBytes();
-			public static final byte[] A_TRADE_ENTERED_BY_ONE_PARTY_AS_A_TWOPARTY_LOCKEDIN_TRADE = "95".getBytes();
-			public static final byte[] A_TRADE_LOCKEDIN_BY_THE_MATCHING_PROCESS = "92".getBytes();
+	public class SecurityIDSource {
+			public static final byte[] VALOREN = "D".getBytes();
+			public static final byte[] SICOVAM = "E".getBytes();
+			public static final byte[] BELGIAN = "F".getBytes();
+			public static final byte[] COMMON_CLEARSTREAM_AND_EUROCLEAR = "G".getBytes();
+			public static final byte[] BLOOMBERG_SYMBOL = "A".getBytes();
+			public static final byte[] WERTPAPIER = "B".getBytes();
+			public static final byte[] DUTCH = "C".getBytes();
+			public static final byte[] LETTER_OF_CREDIT = "L".getBytes();
+			public static final byte[] MARKETPLACEASSIGNED_IDENTIFIER = "M".getBytes();
+			public static final byte[] CLEARING_HOUSE__CLEARING_ORGANIZATION = "H".getBytes();
+			public static final byte[] ISDAFPML_PRODUCT_SPECIFICATION_XML_IN_ENCODEDSECURITYDESC = "I".getBytes();
+			public static final byte[] OPTION_PRICE_REPORTING_AUTHORITY = "J".getBytes();
+			public static final byte[] ISDAFPML_PRODUCT_URL_URL_IN_SECURITYID = "K".getBytes();
+			public static final byte[] QUIK = "3".getBytes();
+			public static final byte[] SEDOL = "2".getBytes();
+			public static final byte[] CUSIP = "1".getBytes();
+			public static final byte[] ISO_COUNTRY_CODE = "7".getBytes();
+			public static final byte[] ISO_CURRENCY_CODE = "6".getBytes();
+			public static final byte[] RIC_CODE = "5".getBytes();
+			public static final byte[] ISIN_NUMBER = "4".getBytes();
+			public static final byte[] CONSOLIDATED_TAPE_ASSOCIATION_CTA_SYMBOL_SIAC_CTSCQS_LINE_FORMAT = "9".getBytes();
+			public static final byte[] EXCHANGE_SYMBOL = "8".getBytes();
 		}
 
-	public class GapFillFlag {
-			public static final boolean SEQUENCE_RESET_IGNORE_MSGSEQNUM = false;
-			public static final boolean GAP_FILL_MESSAGE_MSGSEQNUM_FIELD_VALID = true;
+	public class IOIQltyInd {
+			public static final byte LOW = 'L';
+			public static final byte MEDIUM = 'M';
+			public static final byte HIGH = 'H';
 		}
 
-	public class TimeInForce {
-			public static final byte IOC_IMMEDIATE_OR_CANCELFAK_FILL_AND_KILL___PARTIAL_EXECUTIONS_AR = '3';
-			public static final byte GTC_GOOD_UNTIL_CANCELLED = '1';
-			public static final byte DAY_DEFAULT = '0';
-			public static final byte GTT_TIME_IS_SPECIFIED_IN_TAG_126_EXPIRETIME = '6';
-			public static final byte FOK_FILL_OR_KILL_PARTIAL_EXECUTIONS_ARE_NOT_ALLOWED_UNLESS_THEY_ = '4';
+	public class IOIQty {
+			public static final byte[] UNDISCLOSED_QUANTITY = "U".getBytes();
+			public static final byte[] I1000000000 = "0".getBytes();
+			public static final byte[] SMALL = "S".getBytes();
+			public static final byte[] LARGE = "L".getBytes();
+			public static final byte[] MEDIUM = "M".getBytes();
 		}
 
-	public class Side {
-			public static final byte SELL = '2';
-			public static final byte BUY = '1';
-			public static final byte UNKNOWN = '7';
-			public static final byte CROSS_YOU_WILL_USE_THIS_VALUE_WHEN_A_TRADE_WAS_DONE_INTERNALLY = '8';
+	public class IOITransType {
+			public static final byte REPLACE = 'R';
+			public static final byte CANCEL = 'C';
+			public static final byte NEW = 'N';
 		}
 
-	public class ExecRestatementReason {
-			public static final long GT_RENEWAL_THIS_WILL_IDENTIFY_THE_EXECUTION_RESTATEMENTS_THAT_AR = 1;
-			public static final long MARKET_EXCHANGE_OPTION_THIS_SHOULD_BE_THE_VALUE_FOR_ALL_EXECUTIO = 8;
-		}
-
-	public class TradeType {
-			public static final byte[] DERIVATIVE_RELATED_TRANSACTION = "49".getBytes();
-			public static final byte[] NONSTANDARD_SETTLEMENT = "48".getBytes();
-			public static final byte[] REGULAR_TRADE = "0".getBytes();
-			public static final byte[] VOLUME_WEIGHTED_AVERAGE_TRADE = "51".getBytes();
-			public static final byte[] EXCHANGE_GRANTED_TRADE = "52".getBytes();
-			public static final byte[] OTC = "54".getBytes();
-			public static final byte[] PREOPENING_TRADE = "99".getBytes();
-			public static final byte[] PORTFOLIO_TRADE = "50".getBytes();
-		}
-
-	public class SessionRejectReason {
-			public static final long UNDEFINED_TAG = 3;
-			public static final long TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE = 2;
-			public static final long SENDINGTIME_ACCURACY_PROBLEM = 10;
-			public static final long REQUIRED_TAG_MISSING = 1;
-			public static final long INVALID_TAG_NUMBER = 0;
-			public static final long DECRYPTION_PROBLEM = 7;
-			public static final long INCORRECT_DATA_FORMAT_FOR_VALUE = 6;
-			public static final long VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG = 5;
-			public static final long TAG_SPECIFIED_WITHOUT_A_VALUE = 4;
-			public static final long COMPID_PROBLEM = 9;
-			public static final long SIGNATURE_PROBLEM = 8;
-			public static final long INVALID_MSGTYPE = 11;
-		}
-
-	public class ReversalIndicator {
-			public static final byte[] NOT_A_REVERSAL_DEFAULT = "N".getBytes();
-			public static final byte[] REVERSAL = "Y".getBytes();
-		}
-
-	public class OverrideFlag {
-			public static final byte NO_OVERRIDE_DEFAULT = 'N';
-			public static final byte OVERRIDE = 'Y';
-		}
-
-	public class BreakIndicator {
-			public static final byte SELLER_SUBMITTED_BREAK_REQUEST = 'S';
-			public static final byte BUYER_SUBMITTED_BREAK_REQUEST = 'B';
-			public static final byte TRADE_WAS_BROKEN_THROUGH_MARKET_CENTER = 'L';
-			public static final byte TRADE_WAS_BROKEN_BY_BOTH_THE_BUYER_AND_SELLER = 'X';
-		}
-
-	public class DisplayInst {
-			public static final byte DISPLAY_OVERRIDE_POSTTRADE_ANONYMITY_FUTURE_USE = 'D';
-			public static final byte NONDISPLAY_OVERRIDE_POSTTRADE_ANONYMITY_FUTURE_USE = 'R';
-			public static final byte NONDISPLAY = 'N';
-			public static final byte DISPLAY_ANONYMOUS_AS_PER_MARKET_RULES = 'Y';
-			public static final byte IMBALANCE_ONLY_ONLY_VALID_IF_TAG_9355_IS_PRESENT = 'I';
-		}
-
-	public class ProcessCode {
-			public static final byte REGULAR_DEFAULT = '0';
-		}
-
-	public class PriceType {
-			public static final long DECIMAL_UNIT_PRICE = 98;
-			public static final long PERCENTAGE = 1;
-			public static final long YIELD = 9;
-			public static final long CONTRACT_AMOUNT = 99;
-		}
-
-	public class OrderCapacity {
-			public static final byte[] AGENT_DEFAULT_IF_NOT_ENTERED = "A".getBytes();
-			public static final byte[] PRINCIPAL = "P".getBytes();
-			public static final byte[] RISKLESS = "R".getBytes();
-		}
-
-	public class OrderRestrictions {
-			public static final byte[] ACTING_AS_MARKET_MAKER_OR_SPECIALIST_IN_THE_SECURITY_528P = "5".getBytes();
-			public static final byte[] ISSUER_HOLDING_528A = "B".getBytes();
-			public static final byte[] ISSUE_PRICE_STABILIZATION_528P = "C".getBytes();
-		}
-
-	public class LockedInStatus {
-			public static final byte THE_LOCKEDIN_TRADE_IS_EFFECTIVELY_BROKEN_BECAUSE_BOTH_TRADING_PA = 'B';
-			public static final byte THE_TRADE_IS_STILL_MATCHED_BECAUSE_ONLY_ONE_PARTY_TO_THE_TRADE_H = 'M';
-		}
-
-	public class DiscretionInst {
-			public static final byte RELATED_TO_DISPLAYED_PRICE = '0';
-		}
-
-	public class SecurityDesc {
-			public static final byte[] SYSTEMATIC_INTERNALIZED_OTC = "S".getBytes();
-			public static final byte[] REGULATED_MARKET = "R".getBytes();
-			public static final byte[] OVER_THE_COUNTER_MARKET = "O".getBytes();
-		}
-
-	public class OrdStatus {
-			public static final byte FILLED = '2';
-			public static final byte PARTIAL_FILL = '1';
-			public static final byte NEW = '0';
-			public static final byte PENDING_CANCEL = '6';
-			public static final byte REPLACED = '5';
-			public static final byte CANCELLED = '4';
-			public static final byte REJECTED = '8';
+	public class LastCapacity {
+			public static final byte CROSS_AS_PRINCIPAL = '3';
+			public static final byte CROSS_AS_AGENT = '2';
+			public static final byte AGENT = '1';
+			public static final byte PRINCIPAL = '4';
 		}
 
 	public class MsgType {
 			public static final byte[] REJECT = "3".getBytes();
-			public static final byte[] ORDER_SINGLE = "D".getBytes();
-			public static final byte[] RESEND_REQUEST = "2".getBytes();
-			public static final byte[] TEST_REQUEST = "1".getBytes();
-			public static final byte[] ORDER_CANCEL_REQUEST = "F".getBytes();
-			public static final byte[] ORDER_CANCELREPLACE_REQUEST = "G".getBytes();
+			public static final byte[] RESENDREQUEST = "2".getBytes();
+			public static final byte[] TESTREQUEST = "1".getBytes();
 			public static final byte[] HEARTBEAT = "0".getBytes();
-			public static final byte[] LOGON = "A".getBytes();
+			public static final byte[] ADVERTISEMENT = "7".getBytes();
+			public static final byte[] IOI = "6".getBytes();
 			public static final byte[] LOGOUT = "5".getBytes();
-			public static final byte[] SEQUENCE_RESET = "4".getBytes();
-			public static final byte[] ORDER_CANCEL_REJECT = "9".getBytes();
-			public static final byte[] EXECUTION_REPORT = "8".getBytes();
+			public static final byte[] SEQUENCERESET = "4".getBytes();
+			public static final byte[] ORDERCANCELREJECT = "9".getBytes();
+			public static final byte[] EXECUTIONREPORT = "8".getBytes();
+			public static final byte[] NEWORDERSINGLE = "D".getBytes();
+			public static final byte[] NEWORDERLIST = "E".getBytes();
+			public static final byte[] ORDERCANCELREQUEST = "F".getBytes();
+			public static final byte[] ORDERCANCELREPLACEREQUEST = "G".getBytes();
+			public static final byte[] LOGON = "A".getBytes();
+			public static final byte[] NEWS = "B".getBytes();
+			public static final byte[] EMAIL = "C".getBytes();
+			public static final byte[] LISTEXECUTE = "L".getBytes();
+			public static final byte[] LISTSTATUSREQUEST = "M".getBytes();
+			public static final byte[] LISTSTATUS = "N".getBytes();
+			public static final byte[] ORDERSTATUSREQUEST = "H".getBytes();
+			public static final byte[] ALLOCATIONINSTRUCTION = "J".getBytes();
+			public static final byte[] LISTCANCELREQUEST = "K".getBytes();
+			public static final byte[] SETTLEMENTINSTRUCTIONS = "T".getBytes();
+			public static final byte[] MARKETDATASNAPSHOTFULLREFRESH = "W".getBytes();
+			public static final byte[] MARKETDATAREQUEST = "V".getBytes();
+			public static final byte[] DONTKNOWTRADEDK = "Q".getBytes();
+			public static final byte[] ALLOCATIONINSTRUCTIONACK = "P".getBytes();
+			public static final byte[] QUOTE = "S".getBytes();
+			public static final byte[] QUOTEREQUEST = "R".getBytes();
+			public static final byte[] MARKETDATAREQUESTREJECT = "Y".getBytes();
+			public static final byte[] MARKETDATAINCREMENTALREFRESH = "X".getBytes();
+			public static final byte[] QUOTECANCEL = "Z".getBytes();
+			public static final byte[] SECURITYSTATUS = "f".getBytes();
+			public static final byte[] TRADINGSESSIONSTATUSREQUEST = "g".getBytes();
+			public static final byte[] SECURITYDEFINITION = "d".getBytes();
+			public static final byte[] SECURITYSTATUSREQUEST = "e".getBytes();
+			public static final byte[] MASSQUOTEACKNOWLEDGEMENT = "b".getBytes();
+			public static final byte[] SECURITYDEFINITIONREQUEST = "c".getBytes();
+			public static final byte[] QUOTESTATUSREQUEST = "a".getBytes();
+			public static final byte[] XML_NON_FIX = "n".getBytes();
+			public static final byte[] REGISTRATIONINSTRUCTIONS = "o".getBytes();
+			public static final byte[] BIDRESPONSE = "l".getBytes();
+			public static final byte[] LISTSTRIKEPRICE = "m".getBytes();
+			public static final byte[] BUSINESSMESSAGEREJECT = "j".getBytes();
+			public static final byte[] BIDREQUEST = "k".getBytes();
+			public static final byte[] TRADINGSESSIONSTATUS = "h".getBytes();
+			public static final byte[] MASSQUOTE = "i".getBytes();
+			public static final byte[] SECURITYTYPES = "w".getBytes();
+			public static final byte[] SECURITYTYPEREQUEST = "v".getBytes();
+			public static final byte[] CROSSORDERCANCELREQUEST = "u".getBytes();
+			public static final byte[] CROSSORDERCANCELREPLACEREQUEST = "t".getBytes();
+			public static final byte[] NEWORDERCROSS = "s".getBytes();
+			public static final byte[] ORDERMASSCANCELREPORT = "r".getBytes();
+			public static final byte[] ORDERMASSCANCELREQUEST = "q".getBytes();
+			public static final byte[] REGISTRATIONINSTRUCTIONSRESPONSE = "p".getBytes();
+			public static final byte[] DERIVATIVESECURITYLISTREQUEST = "z".getBytes();
+			public static final byte[] SECURITYLIST = "y".getBytes();
+			public static final byte[] SECURITYLISTREQUEST = "x".getBytes();
+			public static final byte[] ALLOCATIONREPORTACK = "AT".getBytes();
+			public static final byte[] ALLOCATIONREPORT = "AS".getBytes();
+			public static final byte[] TRADECAPTUREREPORTACK = "AR".getBytes();
+			public static final byte[] TRADECAPTUREREPORTREQUESTACK = "AQ".getBytes();
+			public static final byte[] COLLATERALREQUEST = "AX".getBytes();
+			public static final byte[] ASSIGNMENTREPORT = "AW".getBytes();
+			public static final byte[] SETTLEMENTINSTRUCTIONREQUEST = "AV".getBytes();
+			public static final byte[] CONFIRMATION_ACK = "AU".getBytes();
+			public static final byte[] COLLATERALRESPONSE = "AZ".getBytes();
+			public static final byte[] COLLATERALASSIGNMENT = "AY".getBytes();
+			public static final byte[] COLLATERALREPORT = "BA".getBytes();
+			public static final byte[] MULTILEGORDERCANCELREPLACE = "AC".getBytes();
+			public static final byte[] TRADECAPTUREREPORTREQUEST = "AD".getBytes();
+			public static final byte[] DERIVATIVESECURITYLIST = "AA".getBytes();
+			public static final byte[] NEWORDERMULTILEG = "AB".getBytes();
+			public static final byte[] QUOTEREQUESTREJECT = "AG".getBytes();
+			public static final byte[] RFQREQUEST = "AH".getBytes();
+			public static final byte[] TRADECAPTUREREPORT = "AE".getBytes();
+			public static final byte[] ORDERMASSSTATUSREQUEST = "AF".getBytes();
+			public static final byte[] CONFIRMATION = "AK".getBytes();
+			public static final byte[] POSITIONMAINTENANCEREQUEST = "AL".getBytes();
+			public static final byte[] QUOTESTATUSREPORT = "AI".getBytes();
+			public static final byte[] QUOTERESPONSE = "AJ".getBytes();
+			public static final byte[] REQUESTFORPOSITIONSACK = "AO".getBytes();
+			public static final byte[] POSITIONREPORT = "AP".getBytes();
+			public static final byte[] POSITIONMAINTENANCEREPORT = "AM".getBytes();
+			public static final byte[] REQUESTFORPOSITIONS = "AN".getBytes();
+			public static final byte[] APPLICATIONMESSAGEREQUEST = "BW".getBytes();
+			public static final byte[] MARKETDEFINITIONUPDATEREPORT = "BV".getBytes();
+			public static final byte[] APPLICATIONMESSAGEREPORT = "BY".getBytes();
+			public static final byte[] APPLICATIONMESSAGEREQUESTACK = "BX".getBytes();
+			public static final byte[] TRADINGSESSIONLISTUPDATEREPORT = "BS".getBytes();
+			public static final byte[] DERIVATIVESECURITYLISTUPDATEREPORT = "BR".getBytes();
+			public static final byte[] MARKETDEFINITION = "BU".getBytes();
+			public static final byte[] MARKETDEFINITIONREQUEST = "BT".getBytes();
+			public static final byte[] USERNOTIFICATION = "CB".getBytes();
+			public static final byte[] ORDERMASSACTIONREQUEST = "CA".getBytes();
+			public static final byte[] ORDERMASSACTIONREPORT = "BZ".getBytes();
+			public static final byte[] USERRESPONSE = "BF".getBytes();
+			public static final byte[] COLLATERALINQUIRYACK = "BG".getBytes();
+			public static final byte[] CONFIRMATIONREQUEST = "BH".getBytes();
+			public static final byte[] TRADINGSESSIONLISTREQUEST = "BI".getBytes();
+			public static final byte[] COLLATERALINQUIRY = "BB".getBytes();
+			public static final byte[] NETWORKCOUNTERPARTYSYSTEMSTATUSREQUEST = "BC".getBytes();
+			public static final byte[] NETWORKCOUNTERPARTYSYSTEMSTATUSRESPONSE = "BD".getBytes();
+			public static final byte[] USERREQUEST = "BE".getBytes();
+			public static final byte[] EXECUTIONACKNOWLEDGEMENT = "BN".getBytes();
+			public static final byte[] CONTRARYINTENTIONREPORT = "BO".getBytes();
+			public static final byte[] SECURITYDEFINITIONUPDATEREPORT = "BP".getBytes();
+			public static final byte[] SETTLEMENTOBLIGATIONREPORT = "BQ".getBytes();
+			public static final byte[] TRADINGSESSIONLIST = "BJ".getBytes();
+			public static final byte[] SECURITYLISTUPDATEREPORT = "BK".getBytes();
+			public static final byte[] ADJUSTEDPOSITIONREPORT = "BL".getBytes();
+			public static final byte[] ALLOCATIONINSTRUCTIONALERT = "BM".getBytes();
+			public static final byte[] PARTYDETAILSLISTREPORT = "CG".getBytes();
+			public static final byte[] STREAMASSIGNMENTREPORTACK = "CE".getBytes();
+			public static final byte[] PARTYDETAILSLISTREQUEST = "CF".getBytes();
+			public static final byte[] STREAMASSIGNMENTREQUEST = "CC".getBytes();
+			public static final byte[] STREAMASSIGNMENTREPORT = "CD".getBytes();
 		}
 
-	public class CxlRejResponseTo {
-			public static final byte ORDER_CANCELREPLACE_REQUEST = '2';
-			public static final byte ORDER_CANCEL_REQUEST = '1';
-		}
-
-	public class PartyRole {
-			public static final byte[] TRADE_REPORTING_FIRM = "7".getBytes();
-		}
-
-	public class ClearingInstruction {
-			public static final byte[] NO_CLEAR_TWOPARTY_LOCKEDIN_TRADE = "98".getBytes();
-			public static final byte[] NO_CLEAR = "97".getBytes();
-			public static final byte[] CLEAR = "0".getBytes();
-			public static final byte[] CLEAR_TWOPARTY_LOCKEDIN_TRADE = "11".getBytes();
-		}
-
-	public class CxlRejReason {
-			public static final long BROKER_OPTION = 2;
-			public static final long UNKNOWN_ORDER_ORIGINAL_ORDER_UNACKNOWLEDGED = 1;
-			public static final long TOO_LATE_TO_CANCEL_ORDER_ALREADY_CANCELLED_OR_IS_IN_PENDING_CANC = 0;
-		}
-
-	public class OrdRejReason {
-			public static final long ORDER_EXCEEDS_LIMIT = 3;
-			public static final long EXCHANGE_CLOSED = 2;
-			public static final long UNKNOWN_SYMBOL = 1;
-			public static final long BROKER_OPTION = 0;
-			public static final long DUPLICATE_OF_A_VERBALLY_COMMUNICATED_ORDER = 7;
-			public static final long DUPLICATE_ORDER_EG_DUPE_CLORDID = 6;
-			public static final long UNKNOWN_ORDER = 5;
-			public static final long TOO_LATE_TO_ENTER = 4;
-			public static final long STALE_ORDER = 8;
-		}
-
-	public class TradeReportType {
-			public static final byte[] ACCEPT = "2".getBytes();
-			public static final byte[] ALLEGED = "1".getBytes();
-			public static final byte[] SUBMIT = "0".getBytes();
-			public static final byte[] LOCKEDIN_TRADE_BREAK = "7".getBytes();
-			public static final byte[] TRADE_REPORT_CANCEL = "6".getBytes();
-		}
-
-	public class PublishTrdIndicator {
-			public static final byte[] NO_DISSEMINATION_FUTURE_USE = "N".getBytes();
-			public static final byte[] DISSEMINATE_BY_RULES_DEFAULT = "Y".getBytes();
-		}
-
-	public class InternalExternal {
-			public static final byte EXTERNAL = 'E';
-			public static final byte INTERNAL_DEFAULT = 'I';
-		}
-
-	public class TradeReportRejectReason {
-			public static final byte[] UNAUTHORIZED_TO_REPORT_TRADES = "3".getBytes();
-			public static final byte[] UNKNOWN_INSTRUMENT = "2".getBytes();
-			public static final byte[] INVALID_PARTY_INFORMATION = "1".getBytes();
-			public static final byte[] INCORRECT_DATA_FORMAT_FOR_VALUE = "6".getBytes();
-			public static final byte[] INVALID_TRADE_TYPE = "4".getBytes();
-			public static final byte[] OTHER = "99".getBytes();
-		}
-
-	public class DelayedDisseminationInst {
-			public static final byte I1200_TOMORROW = '3';
-			public static final byte I180_MINUTES = '2';
-			public static final byte I60_MINUTES = '1';
-			public static final byte UNTIL_END_OF_THIRD_TRADING_DAY = '7';
-			public static final byte UNTIL_END_OF_SECOND_TRADING_DAY = '6';
-			public static final byte UNTIL_END_OF_NEXT_TRADING_DAY = '5';
-			public static final byte UNTIL_END_OF_TRADING_DAY = '4';
-		}
-
-	public class EncryptMethod {
-			public static final long NONE__OTHER = 0;
-		}
-
-	public class ContraTradePA {
-			public static final byte PRINCIPAL = 'P';
-			public static final byte AGENT = 'A';
-			public static final byte RISKLESS = 'R';
-		}
-
-	public class PossResend {
-			public static final boolean ORIGINAL_TRANSMISSION = false;
-			public static final boolean POSSIBLE_RESEND = true;
-		}
-
-	public class ExecInst {
-			public static final byte[] MARKET_PEG = "P".getBytes();
-			public static final byte[] PRIMARY_PEG = "R".getBytes();
-			public static final byte[] MIDPOINT_PEG = "M".getBytes();
-			public static final byte[] NO_PEG = "N".getBytes();
-		}
-
-	public class ContraOrderRestrictions {
-			public static final byte ACTING_AS_MARKET_MAKER_OR_SPECIALIST_IN_THE_SECURITY_9862P = '5';
-			public static final byte ISSUER_HOLDING_9862A = 'B';
-			public static final byte ISSUE_PRICE_STABILIZATION_9862P = 'C';
-		}
-
-	public class ExecType {
-			public static final byte RESTATED = 'D';
+	public class OrdStatus {
+			public static final byte ACCEPTED_FOR_BIDDING = 'D';
+			public static final byte PENDING_REPLACE_IE_RESULT_OF_ORDER_CANCELREPLACE_REQUEST = 'E';
+			public static final byte PENDING_NEW = 'A';
+			public static final byte CALCULATED = 'B';
+			public static final byte EXPIRED = 'C';
+			public static final byte DONE_FOR_DAY = '3';
 			public static final byte FILLED = '2';
-			public static final byte TRADE_REPORT = 'F';
-			public static final byte PARTIAL_FILL = '1';
+			public static final byte PARTIALLY_FILLED = '1';
 			public static final byte NEW = '0';
-			public static final byte PENDING_CANCEL = '6';
-			public static final byte REPLACED = '5';
-			public static final byte CANCEL = '4';
+			public static final byte STOPPED = '7';
+			public static final byte PENDING_CANCEL_IE_RESULT_OF_ORDER_CANCEL_REQUEST = '6';
+			public static final byte REPLACED_NO_LONGER_USED = '5';
+			public static final byte CANCELED = '4';
+			public static final byte SUSPENDED = '9';
 			public static final byte REJECTED = '8';
-			public static final byte STATUS = 'I';
 		}
 
-	public class LockedIn {
-			public static final byte MATCHED = 'M';
+	public class OrdType {
+			public static final byte PREVIOUSLY_QUOTED = 'D';
+			public static final byte PREVIOUSLY_INDICATED = 'E';
+			public static final byte FOREX_LIMIT_NO_LONGER_USED = 'F';
+			public static final byte FOREX_SWAP = 'G';
+			public static final byte ON_CLOSE_NO_LONGER_USED = 'A';
+			public static final byte LIMIT_ON_CLOSE_NO_LONGER_USED = 'B';
+			public static final byte FOREX_MARKET_NO_LONGER_USED = 'C';
+			public static final byte PREVIOUS_FUND_VALUATION_POINT_HISTORIC_PRICING_FOR_CIV = 'L';
+			public static final byte NEXT_FUND_VALUATION_POINT_FORWARD_PRICING_FOR_CIV = 'M';
+			public static final byte FOREX_PREVIOUSLY_QUOTED_NO_LONGER_USED = 'H';
+			public static final byte FUNARI_LIMIT_DAY_ORDER_WITH_UNEXECUTED_PORTION_HANDLES_AS_MARKET = 'I';
+			public static final byte MARKET_IF_TOUCHED_MIT = 'J';
+			public static final byte MARKET_WITH_LEFT_OVER_AS_LIMIT_MARKET_ORDER_WITH_UNEXECUTED_QUAN = 'K';
+			public static final byte STOP__STOP_LOSS = '3';
+			public static final byte LIMIT = '2';
+			public static final byte MARKET = '1';
+			public static final byte COUNTERORDER_SELECTION = 'Q';
+			public static final byte LIMIT_OR_BETTER = '7';
+			public static final byte PEGGED = 'P';
+			public static final byte WITH_OR_WITHOUT = '6';
+			public static final byte MARKET_ON_CLOSE_NO_LONGER_USED = '5';
+			public static final byte STOP_LIMIT = '4';
+			public static final byte ON_BASIS = '9';
+			public static final byte LIMIT_WITH_OR_WITHOUT = '8';
 		}
 
 	public class PossDupFlag {
@@ -355,16 +570,250 @@ public interface FixMessageInfo
 			public static final boolean POSSIBLE_DUPLICATE = true;
 		}
 
-	public class OrdType {
-			public static final byte LIMIT = '2';
-			public static final byte MARKET = '1';
-			public static final byte PEGGED = 'P';
+	public class Side {
+			public static final byte SUBSCRIBE_EG_CIV = 'D';
+			public static final byte REDEEM_EG_CIV = 'E';
+			public static final byte LEND_FINANCING__IDENTIFIES_DIRECTION_OF_COLLATERAL = 'F';
+			public static final byte BORROW_FINANCING__IDENTIFIES_DIRECTION_OF_COLLATERAL = 'G';
+			public static final byte CROSS_SHORT_EXEMPT = 'A';
+			public static final byte AS_DEFINED_FOR_USE_WITH_MULTILEG_INSTRUMENTS = 'B';
+			public static final byte OPPOSITE_FOR_USE_WITH_MULTILEG_INSTRUMENTS = 'C';
+			public static final byte BUY_MINUS = '3';
+			public static final byte SELL = '2';
+			public static final byte BUY = '1';
+			public static final byte UNDISCLOSED_VALID_FOR_IOI_AND_LIST_ORDER_MESSAGES_ONLY = '7';
+			public static final byte SELL_SHORT_EXEMPT = '6';
+			public static final byte SELL_SHORT = '5';
+			public static final byte SELL_PLUS = '4';
+			public static final byte CROSS_SHORT = '9';
+			public static final byte CROSS_ORDERS_WHERE_COUNTERPARTY_IS_AN_EXCHANGE_VALID_FOR_ALL_MES = '8';
 		}
 
-	public class CrossTradeFlag {
-			public static final byte CLOSING_CROSS = 'C';
-			public static final byte OPENING_CROSS = 'O';
-			public static final byte HALT_CROSS = 'H';
+	public class TimeInForce {
+			public static final byte IMMEDIATE_OR_CANCEL_IOC = '3';
+			public static final byte AT_THE_OPENING_OPG = '2';
+			public static final byte GOOD_TILL_CANCEL_GTC = '1';
+			public static final byte DAY_OR_SESSION = '0';
+			public static final byte AT_THE_CLOSE = '7';
+			public static final byte GOOD_TILL_DATE_GTD = '6';
+			public static final byte GOOD_TILL_CROSSING_GTX = '5';
+			public static final byte FILL_OR_KILL_FOK = '4';
+			public static final byte AT_CROSSING = '9';
+			public static final byte GOOD_THROUGH_CROSSING = '8';
+		}
+
+	public class Urgency {
+			public static final byte BACKGROUND = '2';
+			public static final byte FLASH = '1';
+			public static final byte NORMAL = '0';
+		}
+
+	public class SettlType {
+			public static final byte[] T2 = "3".getBytes();
+			public static final byte[] NEXT_DAY_TOM__T1 = "2".getBytes();
+			public static final byte[] CASH_TOD__T0 = "1".getBytes();
+			public static final byte[] REGULAR__FX_SPOT_SETTLEMENT_T1_OR_T2_DEPENDING_ON_CURRENCY = "0".getBytes();
+			public static final byte[] WHEN_AND_IF_ISSUED = "7".getBytes();
+			public static final byte[] FUTURE = "6".getBytes();
+			public static final byte[] BROKEN_DATE__FOR_FX_EXPRESSING_NONSTANDARD_TENOR_SETTLDATE_64_MU = "B".getBytes();
+			public static final byte[] T4 = "5".getBytes();
+			public static final byte[] FX_SPOT_NEXT_SETTLEMENT_SPOT1_AKA_NEXT_DAY = "C".getBytes();
+			public static final byte[] T3 = "4".getBytes();
+			public static final byte[] T5 = "9".getBytes();
+			public static final byte[] SELLERS_OPTION = "8".getBytes();
+		}
+
+	public class SymbolSfx {
+			public static final byte[] EUCP_WITH_LUMPSUM_INTEREST_RATHER_THAN_DISCOUNT_PRICE = "CD".getBytes();
+			public static final byte[] WHEN_ISSUED_FOR_A_SECURITY_TO_BE_REISSUED_UNDER_AN_OLD_CUSIP_OR_ = "WI".getBytes();
+		}
+
+	public class AllocTransType {
+			public static final byte PRELIMINARY_WITHOUT_MISCFEES_AND_NETMONEY_REMOVEDREPLACED = '3';
+			public static final byte CANCEL = '2';
+			public static final byte REPLACE = '1';
+			public static final byte NEW = '0';
+			public static final byte REVERSAL = '6';
+			public static final byte CALCULATED_WITHOUT_PRELIMINARY_SENT_UNSOLICITED_BY_BROKER_INCLUD = '5';
+			public static final byte CALCULATED_INCLUDES_MISCFEES_AND_NETMONEY_REMOVEDREPLACED = '4';
+		}
+
+	public class PositionEffect {
+			public static final byte DEFAULT = 'D';
+			public static final byte FIFO = 'F';
+			public static final byte ROLLED = 'R';
+			public static final byte CLOSE = 'C';
+			public static final byte CLOSE_BUT_NOTIFY_ON_OPEN = 'N';
+			public static final byte OPEN = 'O';
+		}
+
+	public class ProcessCode {
+			public static final byte STEPOUT = '3';
+			public static final byte STEPIN = '2';
+			public static final byte SOFT_DOLLAR = '1';
+			public static final byte REGULAR = '0';
+			public static final byte PLAN_SPONSOR = '6';
+			public static final byte SOFTDOLLAR_STEPOUT = '5';
+			public static final byte SOFTDOLLAR_STEPIN = '4';
+		}
+
+	public class AllocStatus {
+			public static final long RECEIVED_RECEIVED_NOT_YET_PROCESSED = 3;
+			public static final long ACCOUNT_LEVEL_REJECT = 2;
+			public static final long BLOCK_LEVEL_REJECT = 1;
+			public static final long ACCEPTED_SUCCESSFULLY_PROCESSED = 0;
+			public static final long REVERSED = 7;
+			public static final long ALLOCATION_PENDING = 6;
+			public static final long REJECTED_BY_INTERMEDIARY = 5;
+			public static final long INCOMPLETE = 4;
+		}
+
+	public class AllocRejCode {
+			public static final long WAREHOUSE_REQUEST_REJECTED = 13;
+			public static final long MISMATCHED_DATA = 11;
+			public static final long UNKNOWN_CLORDID = 12;
+			public static final long UNKNOWN_EXECUTING_BROKER_MNEMONIC = 3;
+			public static final long INCORRECT_AVERAGEG_PRICE = 2;
+			public static final long INCORRECT_QUANTITY = 1;
+			public static final long UNKNOWN_OR_STALE_EXECID = 10;
+			public static final long UNKNOWN_ACCOUNTS = 0;
+			public static final long OTHER_FURTHER_IN_TEXT_58 = 7;
+			public static final long UNKNOWN_LISTID_66 = 6;
+			public static final long UNKNOWN_ORDERID_37 = 5;
+			public static final long COMMISSION_DIFFERENCE = 4;
+			public static final long CALCULATION_DIFFERENCE = 9;
+			public static final long INCORRECT_ALLOCATED_QUANTITY = 8;
+			public static final long OTHER = 99;
+		}
+
+	public class EmailType {
+			public static final byte ADMIN_REPLY = '2';
+			public static final byte REPLY = '1';
+			public static final byte NEW = '0';
+		}
+
+	public class PossResend {
+			public static final boolean ORIGINAL_TRANSMISSION = false;
+			public static final boolean POSSIBLE_RESEND = true;
+		}
+
+	public class EncryptMethod {
+			public static final long PKCS__DES_PROPRIETARY = 3;
+			public static final long DES_ECB_MODE = 2;
+			public static final long PKCS_PROPRIETARY = 1;
+			public static final long NONE__OTHER = 0;
+			public static final long PEM__DESMD5_SEE_APP_NOTE_ON_FIX_WEB_SITE = 6;
+			public static final long PGP__DESMD5_SEE_APP_NOTE_ON_FIX_WEB_SITE = 5;
+			public static final long PGP__DES_DEFUNCT = 4;
+		}
+
+	public class CxlRejReason {
+			public static final long ORDER_ALREADY_IN_PENDING_CANCEL_OR_PENDING_REPLACE_STATUS = 3;
+			public static final long BROKER__EXCHANGE_OPTION = 2;
+			public static final long UNKNOWN_ORDER = 1;
+			public static final long TOO_LATE_TO_CANCEL = 0;
+			public static final long PRICE_EXCEEDS_CURRENT_PRICE = 7;
+			public static final long DUPLICATE_CLORDID_11_RECEIVED = 6;
+			public static final long ORIGORDMODTIME_586_DID_NOT_MATCH_LAST_TRANSACTTIME_60_OF_ORDER = 5;
+			public static final long UNABLE_TO_PROCESS_ORDER_MASS_CANCEL_REQUEST = 4;
+			public static final long INVALID_PRICE_INCREMENT = 18;
+			public static final long PRICE_EXCEEDS_CURRENT_PRICE_BAND = 8;
+			public static final long OTHER = 99;
+		}
+
+	public class OrdRejReason {
+			public static final long INVALID_PRICE_INCREMENT = 18;
+			public static final long UNKNOWN_ACCOUNTS = 15;
+			public static final long PRICE_EXCEEDS_CURRENT_PRICE_BAND = 16;
+			public static final long INCORRECT_QUANTITY = 13;
+			public static final long INCORRECT_ALLOCATED_QUANTITY = 14;
+			public static final long UNSUPPORTED_ORDER_CHARACTERISTIC = 11;
+			public static final long SURVEILLENCE_OPTION = 12;
+			public static final long ORDER_EXCEEDS_LIMIT = 3;
+			public static final long EXCHANGE_CLOSED = 2;
+			public static final long UNKNOWN_SYMBOL = 1;
+			public static final long INVALID_INVESTOR_ID = 10;
+			public static final long BROKER__EXCHANGE_OPTION = 0;
+			public static final long DUPLICATE_OF_A_VERBALLY_COMMUNICATED_ORDER = 7;
+			public static final long DUPLICATE_ORDER_EG_DUPE_CLORDID = 6;
+			public static final long UNKNOWN_ORDER = 5;
+			public static final long TOO_LATE_TO_ENTER = 4;
+			public static final long TRADE_ALONG_REQUIRED = 9;
+			public static final long STALE_ORDER = 8;
+			public static final long OTHER = 99;
+		}
+
+	public class IOIQualifier {
+			public static final byte VWAP_VOLUME_WEIGHTED_AVERAGE_PRICE = 'D';
+			public static final byte ALL_OR_NONE_AON = 'A';
+			public static final byte MARKET_ON_CLOSE_MOC_HELD_TO_CLOSE = 'B';
+			public static final byte AT_THE_CLOSE_AROUNDNOT_HELD_TO_CLOSE = 'C';
+			public static final byte LIMIT = 'L';
+			public static final byte MORE_BEHIND = 'M';
+			public static final byte AT_THE_OPEN = 'O';
+			public static final byte IN_TOUCH_WITH = 'I';
+			public static final byte THROUGH_THE_DAY = 'T';
+			public static final byte INDICATION__WORKING_AWAY = 'W';
+			public static final byte VERSUS = 'V';
+			public static final byte AT_THE_MARKET_PREVIOUSLY_CALLED_CURRENT_QUOTE = 'Q';
+			public static final byte TAKING_A_POSITION = 'P';
+			public static final byte PORTFOLIO_SHOWN = 'S';
+			public static final byte READY_TO_TRADE = 'R';
+			public static final byte AT_THE_MIDPOINT = 'Y';
+			public static final byte CROSSING_OPPORTUNITY = 'X';
+			public static final byte PREOPEN = 'Z';
+		}
+
+	public class ReportToExch {
+			public static final boolean INDICATES_THE_PARTY_SENDING_MESSAGE_WILL_REPORT_TRADE = false;
+			public static final boolean INDICATES_THE_PARTY_RECEIVING_MESSAGE_MUST_REPORT_TRADE = true;
+		}
+
+	public class LocateReqd {
+			public static final boolean INDICATES_THE_BROKER_IS_NOT_REQUIRED_TO_LOCATE = false;
+			public static final boolean INDICATES_THE_BROKER_IS_RESPONSIBLE_FOR_LOCATING_THE_STOCK = true;
+		}
+
+	public class ForexReq {
+			public static final boolean DO_NOT_EXECUTE_FOREX_AFTER_SECURITY_TRADE = false;
+			public static final boolean EXECUTE_FOREX_AFTER_SECURITY_TRADE = true;
+		}
+
+	public class GapFillFlag {
+			public static final boolean SEQUENCE_RESET_IGNORE_MSG_SEQ_NUM_NA_FOR_FIXML__NOT_USED = false;
+			public static final boolean GAP_FILL_MESSAGE_MSG_SEQ_NUM_FIELD_VALID = true;
+		}
+
+	public class DKReason {
+			public static final byte NO_MATCHING_ORDER = 'D';
+			public static final byte PRICE_EXCEEDS_LIMIT = 'E';
+			public static final byte CALCULATION_DIFFERENCE = 'F';
+			public static final byte UNKNOWN_SYMBOL = 'A';
+			public static final byte WRONG_SIDE = 'B';
+			public static final byte QUANTITY_EXCEEDS_ORDER = 'C';
+			public static final byte OTHER = 'Z';
+		}
+
+	public class IOINaturalFlag {
+			public static final boolean NOT_NATURAL = false;
+			public static final boolean NATURAL = true;
+		}
+
+	public class MiscFeeType {
+			public static final byte[] TRANSFER_FEE = "13".getBytes();
+			public static final byte[] SECURITY_LENDING = "14".getBytes();
+			public static final byte[] CONVERSION = "11".getBytes();
+			public static final byte[] AGENT = "12".getBytes();
+			public static final byte[] LOCAL_COMMISSION = "3".getBytes();
+			public static final byte[] TAX = "2".getBytes();
+			public static final byte[] REGULATORY_EG_SEC = "1".getBytes();
+			public static final byte[] PER_TRANSACTION = "10".getBytes();
+			public static final byte[] OTHER = "7".getBytes();
+			public static final byte[] LEVY = "6".getBytes();
+			public static final byte[] STAMP = "5".getBytes();
+			public static final byte[] EXCHANGE_FEES = "4".getBytes();
+			public static final byte[] CONSUMPTION_TAX = "9".getBytes();
+			public static final byte[] MARKUP = "8".getBytes();
 		}
 
 	public class ResetSeqNumFlag {
@@ -372,23 +821,3449 @@ public interface FixMessageInfo
 			public static final boolean YES_RESET_SEQUENCE_NUMBERS = true;
 		}
 
-	public class ExecBroker {
-			public static final byte[] ROUTE_TO_NASDAQ_OMX_EUROPE_THEN_POST_TO_NORDIC_BOOK = "NURO".getBytes();
-			public static final byte[] ORDER_IS_NOT_ELIGIBLE_FOR_ROUTING_DEFAULT = "BOOK".getBytes();
-			public static final byte[] ROUTE_TO_ALL_ACCESSIBLE_MARKETS_THEN_POST_TO_THE_NORDIC_BOOK = "SCAN".getBytes();
+	public class ExecType {
+			public static final byte RESTATED_EXECUTION_REPORT_SENT_UNSOLICITED_BY_SELLSIDE_WITH_EXEC = 'D';
+			public static final byte PENDING_REPLACE_EG_RESULT_OF_ORDER_CANCELREPLACE_REQUEST = 'E';
+			public static final byte TRADE_PARTIAL_FILL_OR_FILL = 'F';
+			public static final byte TRADE_CORRECT = 'G';
+			public static final byte PENDING_NEW = 'A';
+			public static final byte CALCULATED = 'B';
+			public static final byte EXPIRED = 'C';
+			public static final byte TRIGGERED_OR_ACTIVATED_BY_SYSTEM = 'L';
+			public static final byte TRADE_CANCEL = 'H';
+			public static final byte ORDER_STATUS = 'I';
+			public static final byte TRADE_IN_A_CLEARING_HOLD = 'J';
+			public static final byte TRADE_HAS_BEEN_RELEASED_TO_CLEARING = 'K';
+			public static final byte DONE_FOR_DAY = '3';
+			public static final byte NEW = '0';
+			public static final byte STOPPED = '7';
+			public static final byte PENDING_CANCEL_EG_RESULT_OF_ORDER_CANCEL_REQUEST = '6';
+			public static final byte REPLACED = '5';
+			public static final byte CANCELED = '4';
+			public static final byte SUSPENDED = '9';
+			public static final byte REJECTED = '8';
 		}
 
-	public class LiquidityFlag {
-			public static final byte BATS = '3';
-			public static final byte TURQUIOSE = '2';
-			public static final byte EXECUTION_CANCEL = 'E';
-			public static final byte CHIX = '1';
-			public static final byte NORDIC_ADDED_LIQUIDITY = 'A';
-			public static final byte EXECUTED_IN_ONE_OF_THE_AUCTIONS = 'C';
-			public static final byte NORDIC_REMOVED_LIQUIDITY = 'R';
-			public static final byte NURO_REMOVED_LIQUIDITY = 'N';
-			public static final byte INTERNALIZED_DURING_ONE_OF_THE_AUCTIONS = 'Y';
-			public static final byte INTERNALIZED_DURING_THE_CONTINUOUS_MARKET = 'X';
+	public class SettlCurrFxRateCalc {
+			public static final byte DIVIDE = 'D';
+			public static final byte MULTIPLY = 'M';
+		}
+
+	public class SettlInstMode {
+			public static final byte SPECIFIC_ALLOCATION_ACCOUNT_STANDING_REPLACED = '3';
+			public static final byte SPECIFIC_ALLOCATION_ACCOUNT_OVERRIDING_REPLACED = '2';
+			public static final byte STANDING_INSTRUCTIONS_PROVIDED = '1';
+			public static final byte DEFAULT_REPLACED = '0';
+			public static final byte REQUEST_REJECT = '5';
+			public static final byte SPECIFIC_ORDER_FOR_A_SINGLE_ACCOUNT_FOR_CIV = '4';
+		}
+
+	public class SettlInstTransType {
+			public static final byte RESTATE = 'T';
+			public static final byte REPLACE = 'R';
+			public static final byte CANCEL = 'C';
+			public static final byte NEW = 'N';
+		}
+
+	public class SettlInstSource {
+			public static final byte INVESTOR_EG_CIV_USE = '3';
+			public static final byte INSTITUTIONS_INSTRUCTIONS = '2';
+			public static final byte BROKERS_INSTRUCTIONS = '1';
+		}
+
+	public class SettlLocation {
+			public static final byte[] EURO_CLEAR = "EUR".getBytes();
+			public static final byte[] PHYSICAL = "PNY".getBytes();
+			public static final byte[] CEDEL = "CED".getBytes();
+			public static final byte[] DEPOSITORY_TRUST_COMPANY = "DTC".getBytes();
+			public static final byte[] PARTICIPANT_TRUST_COMPANY = "PTC".getBytes();
+			public static final byte[] FEDERAL_BOOK_ENTRY = "FED".getBytes();
+			public static final byte[] LOCAL_MARKET_SETTLE_LOCATION = "ISO_Country_Code".getBytes();
+		}
+
+	public class SecurityType {
+			public static final byte[] CORP_MORTGAGEBACKED_SECURITIES = "CMBS".getBytes();
+			public static final byte[] VARIABLE_RATE_DEMAND_NOTE = "VRDN".getBytes();
+			public static final byte[] TERM_LIQUIDITY_NOTE = "TLQN".getBytes();
+			public static final byte[] PFANDBRIEFE_ = "PFAND".getBytes();
+			public static final byte[] FEDERAL_AGENCY_COUPON = "FAC".getBytes();
+			public static final byte[] CASH = "CASH".getBytes();
+			public static final byte[] TAX_EXEMPT_COMMERCIAL_PAPER = "TECP".getBytes();
+			public static final byte[] MUTUAL_FUND = "MF".getBytes();
+			public static final byte[] DEPOSIT_NOTES = "DN".getBytes();
+			public static final byte[] EURO_CORPORATE_FLOATING_RATE_NOTES = "EUFRN".getBytes();
+			public static final byte[] TAX_REVENUE_ANTICIPATION_NOTE = "TRAN".getBytes();
+			public static final byte[] REVOLVERTERM_LOAN = "RVLVTRM".getBytes();
+			public static final byte[] US_CORPORATE_FLOATING_RATE_NOTES = "FRN".getBytes();
+			public static final byte[] REVENUE_BONDS = "REV".getBytes();
+			public static final byte[] OPTIONS_ON_PHYSICAL__USE_NOT_RECOMMENDED = "OOP".getBytes();
+			public static final byte[] REVENUE_ANTICIPATION_NOTE = "RAN".getBytes();
+			public static final byte[] EURO_CERTIFICATE_OF_DEPOSIT = "EUCD".getBytes();
+			public static final byte[] WITHDRAWN = "WITHDRN".getBytes();
+			public static final byte[] EURO_COMMERCIAL_PAPER = "EUCP".getBytes();
+			public static final byte[] TAX_ANTICIPATION_NOTE = "TAN".getBytes();
+			public static final byte[] FX_SWAP = "FXSWAP".getBytes();
+			public static final byte[] MANDATORY_TENDER = "MT".getBytes();
+			public static final byte[] BUY_SELLBACK = "BUYSELL".getBytes();
+			public static final byte[] OPTIONS_ON_COMBO = "OOC".getBytes();
+			public static final byte[] FX_SPOT = "FXSPOT".getBytes();
+			public static final byte[] OPTIONS_ON_FUTURES = "OOF".getBytes();
+			public static final byte[] IOETTE_MORTGAGE = "IET".getBytes();
+			public static final byte[] TO_BE_ANNOUNCED = "TBA".getBytes();
+			public static final byte[] WILDCARD_ENTRY_FOR_USE_ON_SECURITY_DEFINITION_REQUEST = "?".getBytes();
+			public static final byte[] LETTER_OF_CREDIT = "LOFC".getBytes();
+			public static final byte[] DUAL_CURRENCY = "DUAL".getBytes();
+			public static final byte[] US_TREASURY_BILL_DEPRECATED_VALUE_USE_TBILL = "USTB".getBytes();
+			public static final byte[] FUTURE = "FUT".getBytes();
+			public static final byte[] LIQUIDITY_NOTE = "LQN".getBytes();
+			public static final byte[] NONDELIVERABLE_FORWARD = "FXNDF".getBytes();
+			public static final byte[] BRIDGE_LOAN = "BRIDGE".getBytes();
+			public static final byte[] TREASURY_INFLATION_PROTECTED_SECURITIES = "TIPS".getBytes();
+			public static final byte[] CREDIT_DEFAULT_SWAP = "CDS".getBytes();
+			public static final byte[] US_TREASURY_NOTE = "TNOTE".getBytes();
+			public static final byte[] US_TREASURY_BILL = "TBILL".getBytes();
+			public static final byte[] CANADIAN_MORTGAGE_BONDS = "CMB".getBytes();
+			public static final byte[] CANADIAN_MONEY_MARKETS = "CAMM".getBytes();
+			public static final byte[] USD_SUPRANATIONAL_COUPONS_ = "SUPRA".getBytes();
+			public static final byte[] BANK_DEPOSITORY_NOTE = "BDN".getBytes();
+			public static final byte[] EXTENDED_COMM_NOTE = "XCN".getBytes();
+			public static final byte[] ASSETBACKED_SECURITIES = "ABS".getBytes();
+			public static final byte[] RETIRED = "RETIRED".getBytes();
+			public static final byte[] SECURITIES_LOAN = "SECLOAN".getBytes();
+			public static final byte[] US_TREASURY_NOTE_DEPRECATED_VALUE_USE_TNOTE = "UST".getBytes();
+			public static final byte[] DEFAULTED = "DEFLTED".getBytes();
+			public static final byte[] COLLATERALIZED_MORTGAGE_OBLIGATION = "CMO".getBytes();
+			public static final byte[] NO_SECURITY_TYPE = "NONE".getBytes();
+			public static final byte[] SPECIAL_ASSESSMENT = "SPCLA".getBytes();
+			public static final byte[] PROMISSORY_NOTE = "PN".getBytes();
+			public static final byte[] FX_FORWARD = "FXFWD".getBytes();
+			public static final byte[] GENERAL_OBLIGATION_BONDS = "GO".getBytes();
+			public static final byte[] CORPORATE_BOND = "CORP".getBytes();
+			public static final byte[] MEDIUM_TERM_NOTES = "MTN".getBytes();
+			public static final byte[] DEBTOR_IN_POSSESSION = "DINP".getBytes();
+			public static final byte[] PRINCIPAL_STRIP_FROM_A_NONCALLABLE_BOND_OR_NOTE = "TPRN".getBytes();
+			public static final byte[] TERM_LOAN = "TERM".getBytes();
+			public static final byte[] FORWARD = "FORWARD".getBytes();
+			public static final byte[] MORTGAGEBACKED_SECURITIES = "MBS".getBytes();
+			public static final byte[] SPECIAL_TAX = "SPCLT".getBytes();
+			public static final byte[] SECURITIES_PLEDGE = "SECPLEDGE".getBytes();
+			public static final byte[] SPECIAL_OBLIGATION = "SPCLO".getBytes();
+			public static final byte[] REVOLVER_LOAN = "RVLV".getBytes();
+			public static final byte[] FOREIGN_EXCHANGE_CONTRACT = "FOR".getBytes();
+			public static final byte[] CANADIAN_PROVINCIAL_BONDS = "PROV".getBytes();
+			public static final byte[] INTEREST_STRIP_FROM_ANY_BOND_OR_NOTE = "TINT".getBytes();
+			public static final byte[] CANADIAN_TREASURY_NOTES = "CAN".getBytes();
+			public static final byte[] SECURED_LIQUIDITY_NOTE = "SLQN".getBytes();
+			public static final byte[] BILL_OF_EXCHANGES = "BOX".getBytes();
+			public static final byte[] YANKEE_CERTIFICATE_OF_DEPOSIT = "YCD".getBytes();
+			public static final byte[] INTEREST_RATE_SWAP = "IRS".getBytes();
+			public static final byte[] REPURCHASE = "REPO".getBytes();
+			public static final byte[] BANKERS_ACCEPTANCE = "BA".getBytes();
+			public static final byte[] REPLACED = "REPLACD".getBytes();
+			public static final byte[] WARRANT = "WAR".getBytes();
+			public static final byte[] MATURED = "MATURED".getBytes();
+			public static final byte[] CANADIAN_TREASURY_BILLS = "CTB".getBytes();
+			public static final byte[] YANKEE_CORPORATE_BOND = "YANK".getBytes();
+			public static final byte[] PREFERRED_STOCK = "PS".getBytes();
+			public static final byte[] SHORT_TERM_LOAN_NOTE = "STN".getBytes();
+			public static final byte[] OTHER_ANTICIPATION_NOTES_BAN_GAN_ETC = "AN".getBytes();
+			public static final byte[] PRINCIPAL_STRIP_OF_A_CALLABLE_BOND_OR_NOTE = "TCAL".getBytes();
+			public static final byte[] CORPORATE_PRIVATE_PLACEMENT = "CPP".getBytes();
+			public static final byte[] PLAZOS_FIJOS = "PZFJ".getBytes();
+			public static final byte[] TIME_DEPOSIT = "TD".getBytes();
+			public static final byte[] MULTILEG_INSTRUMENT = "MLEG".getBytes();
+			public static final byte[] PRIVATE_EXPORT_FUNDING_ = "PEF".getBytes();
+			public static final byte[] TAXABLE_MUNICIPAL_CP = "TMCP".getBytes();
+			public static final byte[] CONVERTIBLE_BOND = "CB".getBytes();
+			public static final byte[] BRADY_BOND = "BRADY".getBytes();
+			public static final byte[] OPTION = "OPT".getBytes();
+			public static final byte[] AMENDED__RESTATED = "AMENDED".getBytes();
+			public static final byte[] OVERNIGHT = "ONITE".getBytes();
+			public static final byte[] STRUCTURED_NOTES = "STRUCT".getBytes();
+			public static final byte[] EURO_CORPORATE_BOND = "EUCORP".getBytes();
+			public static final byte[] MORTGAGE_INTEREST_ONLY = "MIO".getBytes();
+			public static final byte[] BANK_NOTES = "BN".getBytes();
+			public static final byte[] FEDERAL_AGENCY_DISCOUNT_NOTE = "FADN".getBytes();
+			public static final byte[] TREASURY_BILL__NON_US = "TB".getBytes();
+			public static final byte[] US_TREASURY_BOND = "TBOND".getBytes();
+			public static final byte[] EURO_SUPRANATIONAL_COUPONS_ = "EUSUPRA".getBytes();
+			public static final byte[] MISCELLANEOUS_PASSTHROUGH = "MPT".getBytes();
+			public static final byte[] EURO_SOVEREIGNS_ = "EUSOV".getBytes();
+			public static final byte[] COMMON_STOCK = "CS".getBytes();
+			public static final byte[] INDEXED_LINKED = "XLINKD".getBytes();
+			public static final byte[] CERTIFICATE_OF_DEPOSIT = "CD".getBytes();
+			public static final byte[] MORTGAGE_PRIVATE_PLACEMENT = "MPP".getBytes();
+			public static final byte[] SWING_LINE_FACILITY = "SWING".getBytes();
+			public static final byte[] TAX_ALLOCATION = "TAXA".getBytes();
+			public static final byte[] MORTGAGE_PRINCIPAL_ONLY = "MPO".getBytes();
+			public static final byte[] COMMERCIAL_PAPER = "CP".getBytes();
+			public static final byte[] CERTIFICATE_OF_OBLIGATION = "COFO".getBytes();
+			public static final byte[] CERTIFICATE_OF_PARTICIPATION = "COFP".getBytes();
+			public static final byte[] CALL_LOANS = "CL".getBytes();
+		}
+
+	public class StandInstDbType {
+			public static final long A_GLOBAL_CUSTODIAN_STANDINSTDBNAME_70_MUST_BE_PROVIDED = 3;
+			public static final long THOMSON_ALERT = 2;
+			public static final long DTC_SID = 1;
+			public static final long OTHER = 0;
+			public static final long ACCOUNTNET = 4;
+		}
+
+	public class SettlDeliveryType {
+			public static final long HOLD_IN_CUSTODY = 3;
+			public static final long TRIPARTY = 2;
+			public static final long FREE_DELIVER_IF_SELL_OR_RECEIVE_IF_BUY_FREE = 1;
+			public static final long VERSUS_PAYMENT_DELIVER_IF_SELL_OR_RECEIVE_IF_BUY_VS_AGAINST_PAYM = 0;
+		}
+
+	public class AllocLinkType {
+			public static final long FX_SWAP = 1;
+			public static final long FX_NETTING = 0;
+		}
+
+	public class PutOrCall {
+			public static final long CALL = 1;
+			public static final long PUT = 0;
+		}
+
+	public class CoveredOrUncovered {
+			public static final long UNCOVERED = 1;
+			public static final long COVERED = 0;
+		}
+
+	public class CustomerOrFirm {
+			public static final long FIRM = 1;
+			public static final long CUSTOMER = 0;
+		}
+
+	public class NotifyBrokerOfCredit {
+			public static final boolean DETAILS_SHOULT_NOT_BE_COMMUNICATED = false;
+			public static final boolean DETAILS_SHOULD_BE_COMMUNICATED = true;
+		}
+
+	public class AllocHandlInst {
+			public static final long FORWARD_AND_MATCH = 3;
+			public static final long FORWARD = 2;
+			public static final long MATCH = 1;
+		}
+
+	public class RoutingType {
+			public static final long BLOCK_FIRM = 3;
+			public static final long TARGET_LIST = 2;
+			public static final long TARGET_FIRM = 1;
+			public static final long BLOCK_LIST = 4;
+		}
+
+	public class Benchmark {
+			public static final byte OLD5 = '3';
+			public static final byte I5YR = '2';
+			public static final byte CURVE = '1';
+			public static final byte OLD30 = '7';
+			public static final byte I30YR = '6';
+			public static final byte OLD10 = '5';
+			public static final byte I10YR = '4';
+			public static final byte I6MOLIBOR = '9';
+			public static final byte I3MOLIBOR = '8';
+		}
+
+	public class BenchmarkCurveName {
+			public static final byte[] SONIA = "SONIA".getBytes();
+			public static final byte[] TREASURY = "Treasury".getBytes();
+			public static final byte[] OTHER = "OTHER".getBytes();
+			public static final byte[] LIBOR_LONDON_INTERBANK_OFFER = "LIBOR".getBytes();
+			public static final byte[] PFANDBRIEFE = "Pfandbriefe".getBytes();
+			public static final byte[] SWAP = "SWAP".getBytes();
+			public static final byte[] LIBID = "LIBID".getBytes();
+			public static final byte[] MUNIAAA = "MuniAAA".getBytes();
+			public static final byte[] EURIBOR = "Euribor".getBytes();
+			public static final byte[] EUREPO = "EUREPO".getBytes();
+			public static final byte[] FUTURESWAP = "FutureSWAP".getBytes();
+			public static final byte[] EONIA = "EONIA".getBytes();
+		}
+
+	public class StipulationType {
+			public static final byte[] YEAR_OR_YEARMONTH_OF_ISSUE_EX_234200209 = "ISSUE".getBytes();
+			public static final byte[] ALTERNATIVE_MINIMUM_TAX_YN = "AMT".getBytes();
+			public static final byte[] MARKET_SECTOR = "SECTOR".getBytes();
+			public static final byte[] THE_MINIMUM_RESIDUAL_OFFER_QUANTITY = "LEAVEQTY".getBytes();
+			public static final byte[] INSURED_YN = "INSURED".getBytes();
+			public static final byte[] PAYMENT_FREQUENCY_CALENDAR = "PAYFREQ".getBytes();
+			public static final byte[] PERCENT_OF_BMA_PREPAYMENT_CURVE = "PSA".getBytes();
+			public static final byte[] SUBSTITUTIONS_LEFT_REPO = "SUBSLEFT".getBytes();
+			public static final byte[] WEIGHTED_AVERAGE_LOAN_AGE__VALUE_IN_MONTHS_EXACT_OR_RANGE = "WALA".getBytes();
+			public static final byte[] GEOGRAPHICS_AND__RANGE_EX_234CA_080_MINIMUM_OF_80_CALIFORNIA_ASS = "GEOG".getBytes();
+			public static final byte[] PRICING_FREQUENCY = "PRICEFREQ".getBytes();
+			public static final byte[] LOT_VARIANCE_VALUE_IN_PERCENT_MAXIMUM_OVER_OR_UNDERALLOCATION_AL = "LOTVAR".getBytes();
+			public static final byte[] MATURITY_YEAR_AND_MONTH = "MAT".getBytes();
+			public static final byte[] PRINCIPAL_OF_ROLLING_OR_CLOSING_TRADE = "REFPRIN".getBytes();
+			public static final byte[] EXPLICIT_LOT_IDENTIFIER = "LOT".getBytes();
+			public static final byte[] AVERAGE_FICO_SCORE = "AVFICO".getBytes();
+			public static final byte[] FINAL_CPR_OF_HOME_EQUITY_PREPAYMENT_CURVE = "HEP".getBytes();
+			public static final byte[] MAXIMUM_ORDER_SIZE = "MAXORDQTY".getBytes();
+			public static final byte[] MAXIMUM_SUBSTITUTIONS_REPO = "MAXSUBS".getBytes();
+			public static final byte[] ORDER_QUANTITY_INCREMENT = "ORDRINCR".getBytes();
+			public static final byte[] WEIGHTED_AVERAGE_LIFE_COUPON__VALUE_IN_PERCENT_EXACT_OR_RANGE = "WAL".getBytes();
+			public static final byte[] WEIGHTED_AVERAGE_MATURITY__VALUE_IN_MONTHS_EXACT_OR_RANGE = "WAM".getBytes();
+			public static final byte[] MINIMUM_INCREMENT = "MININCR".getBytes();
+			public static final byte[] LOOKBACK_DAYS = "LOOKBACK".getBytes();
+			public static final byte[] PRODUCTION_YEAR = "PROD".getBytes();
+			public static final byte[] YIELD_RANGE = "YIELD".getBytes();
+			public static final byte[] TYPE_OF_REDEMPTION__VALUES_ARE_NONCALLABLE_PREFUNDED_ESCROWEDTOM = "REDEMPTION".getBytes();
+			public static final byte[] REFERENCE_TO_ROLLING_OR_CLOSING_TRADE = "REFTRADE".getBytes();
+			public static final byte[] TRADERS_CREDIT = "TRADERCREDIT".getBytes();
+			public static final byte[] TRADE_VARIANCE_VALUE_IN_PERCENT_MAXIMUM_OVER_OR_UNDERALLOCATION_ = "TRDVAR".getBytes();
+			public static final byte[] CALL_PROTECTION = "PROTECT".getBytes();
+			public static final byte[] SECURITY_TYPE_INCLUDED_OR_EXCLUDED = "SECTYPE".getBytes();
+			public static final byte[] SINGLE_MONTHLY_MORTALITY = "SMM".getBytes();
+			public static final byte[] AVERAGE_LOAN_SIZE = "AVSIZE".getBytes();
+			public static final byte[] COUPON_RANGE = "COUPON".getBytes();
+			public static final byte[] RATING_SOURCE_AND_RANGE = "RATING".getBytes();
+			public static final byte[] YIELD_TO_MATURITY_WHEN_YIELDTYPE235_AND_YIELD236_SHOW_A_DIFFEREN = "YTM".getBytes();
+			public static final byte[] INTEREST_OF_ROLLING_OR_CLOSING_TRADE = "REFINT".getBytes();
+			public static final byte[] AUTO_REINVESTMENT_AT_RATE_OR_BETTER = "AUTOREINV".getBytes();
+			public static final byte[] CONSTANT_PREPAYMENT_PENALTY = "CPP".getBytes();
+			public static final byte[] PRICE_RANGE = "PRICE".getBytes();
+			public static final byte[] VALUATION_DISCOUNT = "HAIRCUT".getBytes();
+			public static final byte[] POOL_IDENTIFIER = "POOL".getBytes();
+			public static final byte[] CONSTANT_PREPAYMENT_RATE = "CPR".getBytes();
+			public static final byte[] MINIMUM_DENOMINATION = "MINDNOM".getBytes();
+			public static final byte[] CONSTANT_PREPAYMENT_YIELD = "CPY".getBytes();
+			public static final byte[] POOLS_PER_TRADE = "PPT".getBytes();
+			public static final byte[] PURPOSE = "PURPOSE".getBytes();
+			public static final byte[] ISSUE_SIZE_RANGE = "ISSUESIZE".getBytes();
+			public static final byte[] BANK_QUALIFIED_YN = "BANKQUAL".getBytes();
+			public static final byte[] OFFER_QUANTITY_TO_BE_SHOWN_TO_INTERNAL_BROKERS = "INTERNALQTY".getBytes();
+			public static final byte[] RESTRICTED_YN = "RESTRICTED".getBytes();
+			public static final byte[] STRUCTURE = "STRUCT".getBytes();
+			public static final byte[] BROKER_SALES_CREDIT_OVERRIDE = "SALESCREDITOVR".getBytes();
+			public static final byte[] PRIMARY_OR_SECONDARY_MARKET_INDICATOR = "PRIMARY".getBytes();
+			public static final byte[] BROKERS_SALES_CREDIT = "BROKERCREDIT".getBytes();
+			public static final byte[] POOLS_PER_LOT = "PPL".getBytes();
+			public static final byte[] FREEFORM_TEXT = "TEXT".getBytes();
+			public static final byte[] POOLS_PER_MILLION = "PPM".getBytes();
+			public static final byte[] SUBSTITUTIONS_FREQUENCY_REPO = "SUBSFREQ".getBytes();
+			public static final byte[] NUMBER_OF_PIECES = "PIECES".getBytes();
+			public static final byte[] PERCENT_OF_PROSPECTUS_PREPAYMENT_CURVE = "PPC".getBytes();
+			public static final byte[] WEIGHTED_AVERAGE_COUPON__VALUE_IN_PERCENT_EXACT_OR_RANGE_PLUS_GR = "WAC".getBytes();
+			public static final byte[] TYPE_OF_ROLL_TRADE = "ROLLTYPE".getBytes();
+			public static final byte[] DISCOUNT_RATE_WHEN_PRICE_IS_DENOMINATED_IN_PERCENT_OF_PAR = "DISCOUNT".getBytes();
+			public static final byte[] WHOLE_POOL_YN = "WHOLE".getBytes();
+			public static final byte[] ISSUERS_TICKER = "ISSUER".getBytes();
+			public static final byte[] ABSOLUTE_PREPAYMENT_SPEED = "ABS".getBytes();
+			public static final byte[] CUSTOM_STARTEND_DATE = "CUSTOMDATE".getBytes();
+			public static final byte[] AVAILABLE_OFFER_QUANTITY_TO_BE_SHOWN_TO_THE_STREET = "AVAILQTY".getBytes();
+			public static final byte[] BENCHMARK_PRICE_SOURCE = "PXSOURCE".getBytes();
+			public static final byte[] MAXIMUM_LOAN_BALANCE = "MAXBAL".getBytes();
+			public static final byte[] BARGAIN_CONDITIONS_SEE_STIPULATIONVALUE_234_FOR_VALUES = "BGNCON".getBytes();
+			public static final byte[] POOLS_MAXIMUM = "PMAX".getBytes();
+			public static final byte[] PERCENT_OF_MANUFACTURED_HOUSING_PREPAYMENT_CURVE = "MHP".getBytes();
+			public static final byte[] ISO_CURRENCY_CODE = "CURRENCY".getBytes();
+			public static final byte[] MATURITY_RANGE = "MATURITY".getBytes();
+			public static final byte[] MINIMUM_QUANTITY = "MINQTY".getBytes();
+			public static final byte[] MONTHLY_PREPAYMENT_RATE = "MPR".getBytes();
+			public static final byte[] OFFER_PRICE_TO_BE_SHOWN_TO_INTERNAL_BROKERS = "INTERNALPX".getBytes();
+		}
+
+	public class YieldType {
+			public static final byte[] TAX_EQUIVALENT_YIELD = "TAXEQUIV".getBytes();
+			public static final byte[] CLOSING_YIELD_MOST_RECENT_MONTH = "LASTMONTH".getBytes();
+			public static final byte[] MARK_TO_MARKET_YIELD = "MARK".getBytes();
+			public static final byte[] SEMIANNUAL_YIELD = "SEMIANNUAL".getBytes();
+			public static final byte[] CLOSING_YIELD_MOST_RECENT_QUARTER = "LASTQUARTER".getBytes();
+			public static final byte[] YIELD_TO_NEXT_REFUND_SINKING_FUND_BONDS = "NEXTREFUND".getBytes();
+			public static final byte[] BOOK_YIELD = "BOOK".getBytes();
+			public static final byte[] YIELD_TO_TENDER_DATE = "TENDER".getBytes();
+			public static final byte[] CLOSING_YIELD_MOST_RECENT_YEAR = "LASTYEAR".getBytes();
+			public static final byte[] YIELD_TO_LONGEST_AVERAGE_LIFE = "LONGAVGLIFE".getBytes();
+			public static final byte[] PREVIOUS_CLOSE_YIELD = "PREVCLOSE".getBytes();
+			public static final byte[] TRUE_YIELD = "TRUE".getBytes();
+			public static final byte[] YIELD_TO_WORST = "WORST".getBytes();
+			public static final byte[] CURRENT_YIELD = "CURRENT".getBytes();
+			public static final byte[] COMPOUND_YIELD = "COMPOUND".getBytes();
+			public static final byte[] YIELD_CHANGE_SINCE_CLOSE = "CHANGE".getBytes();
+			public static final byte[] AFTER_TAX_YIELD_MUNICIPALS = "AFTERTAX".getBytes();
+			public static final byte[] TRUE_GROSS_YIELD = "GROSS".getBytes();
+			public static final byte[] ANNUAL_YIELD = "ANNUAL".getBytes();
+			public static final byte[] OPEN_AVERAGE_YIELD = "OPENAVG".getBytes();
+			public static final byte[] PROCEEDS_YIELD = "PROCEEDS".getBytes();
+			public static final byte[] YIELD_TO_SHORTEST_AVERAGE_LIFE = "SHORTAVGLIFE".getBytes();
+			public static final byte[] MOST_RECENT_CLOSING_YIELD = "LASTCLOSE".getBytes();
+			public static final byte[] CLOSING_YIELD = "CLOSE".getBytes();
+			public static final byte[] YIELD_TO_AVG_MATURITY = "AVGMATURITY".getBytes();
+			public static final byte[] YIELD_AT_ISSUE_MUNICIPALS = "ATISSUE".getBytes();
+			public static final byte[] YIELD_VALUE_OF_132 = "VALUE1_32".getBytes();
+			public static final byte[] GVNT_EQUIVALENT_YIELD = "GOVTEQUIV".getBytes();
+			public static final byte[] YIELD_TO_NEXT_CALL = "CALL".getBytes();
+			public static final byte[] YIELD_TO_MATURITY = "MATURITY".getBytes();
+			public static final byte[] YIELD_WITH_INFLATION_ASSUMPTION = "INFLATION".getBytes();
+			public static final byte[] INVERSE_FLOATER_BOND_YIELD = "INVERSEFLOATER".getBytes();
+			public static final byte[] SIMPLE_YIELD = "SIMPLE".getBytes();
+			public static final byte[] YIELD_TO_NEXT_PUT = "PUT".getBytes();
+		}
+
+	public class TradedFlatSwitch {
+			public static final boolean NOT_TRADED_FLAT = false;
+			public static final boolean TRADED_FLAT = true;
+		}
+
+	public class SubscriptionRequestType {
+			public static final byte DISABLE_PREVIOUS_SNAPSHOT__UPDATE_REQUEST_UNSUBSCRIBE = '2';
+			public static final byte SNAPSHOT__UPDATES_SUBSCRIBE = '1';
+			public static final byte SNAPSHOT = '0';
+		}
+
+	public class MDUpdateType {
+			public static final long INCREMENTAL_REFRESH = 1;
+			public static final long FULL_REFRESH = 0;
+		}
+
+	public class AggregatedBook {
+			public static final boolean BOOK_ENTRIES_SHOULD_NOT_BE_AGGREGATED = false;
+			public static final boolean BOOK_ENTRIES_TO_BE_AGGREGATED = true;
+		}
+
+	public class MDEntryType {
+			public static final byte COMPOSITE_UNDERLYING_PRICE = 'D';
+			public static final byte SIMULATED_SELL_PRICE = 'E';
+			public static final byte SIMULATED_BUY_PRICE = 'F';
+			public static final byte MARGIN_RATE = 'G';
+			public static final byte IMBALANCE = 'A';
+			public static final byte TRADE_VOLUME = 'B';
+			public static final byte OPEN_INTEREST = 'C';
+			public static final byte SETTLE_LOW_PRICE = 'L';
+			public static final byte PRIOR_SETTLE_PRICE = 'M';
+			public static final byte SESSION_HIGH_BID = 'N';
+			public static final byte SESSION_LOW_OFFER = 'O';
+			public static final byte MID_PRICE = 'H';
+			public static final byte EMPTY_BOOK = 'J';
+			public static final byte SETTLE_HIGH_PRICE = 'K';
+			public static final byte DAILY_VALUE_ADJUSTMENT_FOR_SHORT_POSITIONS = 'U';
+			public static final byte CUMULATIVE_VALUE_ADJUSTMENT_FOR_LONG_POSITIONS = 'T';
+			public static final byte FIXING_PRICE = 'W';
+			public static final byte CUMULATIVE_VALUE_ADJUSTMENT_FOR_SHORT_POSITIONS = 'V';
+			public static final byte AUCTION_CLEARING_PRICE = 'Q';
+			public static final byte EARLY_PRICES = 'P';
+			public static final byte SWAP_VALUE_FACTOR_SVP_FOR_SWAPS_CLEARED_THROUGH_A_CENTRAL_COUNTE = 'S';
+			public static final byte DAILY_VALUE_ADJUSTMENT_FOR_LONG_POSITIONS = 'R';
+			public static final byte RECOVERY_RATE = 'Y';
+			public static final byte CASH_RATE = 'X';
+			public static final byte RECOVERY_RATE_FOR_LONG = 'Z';
+			public static final byte RECOVERY_RATE_FOR_SHORT = 'a';
+			public static final byte INDEX_VALUE = '3';
+			public static final byte TRADE = '2';
+			public static final byte OFFER = '1';
+			public static final byte BID = '0';
+			public static final byte TRADING_SESSION_HIGH_PRICE = '7';
+			public static final byte SETTLEMENT_PRICE = '6';
+			public static final byte CLOSING_PRICE = '5';
+			public static final byte OPENING_PRICE = '4';
+			public static final byte TRADING_SESSION_VWAP_PRICE = '9';
+			public static final byte TRADING_SESSION_LOW_PRICE = '8';
+		}
+
+	public class TickDirection {
+			public static final byte ZEROMINUS_TICK = '3';
+			public static final byte MINUS_TICK = '2';
+			public static final byte ZEROPLUS_TICK = '1';
+			public static final byte PLUS_TICK = '0';
+		}
+
+	public class QuoteCondition {
+			public static final byte[] REST_OF_BOOK_VWAP = "3".getBytes();
+			public static final byte[] RESTRICTED = "2".getBytes();
+			public static final byte[] NO_ACTIVE_SAM = "1".getBytes();
+			public static final byte[] RESERVED_SAM = "0".getBytes();
+			public static final byte[] FLAT_CURVE = "7".getBytes();
+			public static final byte[] FULL_CURVE = "6".getBytes();
+			public static final byte[] MEDIAN_PRICE = "5".getBytes();
+			public static final byte[] BETTER_PRICES_IN_CONDITIONAL_ORDERS = "4".getBytes();
+			public static final byte[] CONSOLIDATED_BEST = "D".getBytes();
+			public static final byte[] LOCKED = "E".getBytes();
+			public static final byte[] CROSSED = "F".getBytes();
+			public static final byte[] DEPTH = "G".getBytes();
+			public static final byte[] OPENACTIVE = "A".getBytes();
+			public static final byte[] CLOSEDINACTIVE = "B".getBytes();
+			public static final byte[] EXCHANGE_BEST = "C".getBytes();
+			public static final byte[] MANUALSLOW_QUOTE = "L".getBytes();
+			public static final byte[] DEPTH_ON_OFFER = "M".getBytes();
+			public static final byte[] DEPTH_ON_BID = "N".getBytes();
+			public static final byte[] CLOSING = "O".getBytes();
+			public static final byte[] FAST_TRADING = "H".getBytes();
+			public static final byte[] NONFIRM = "I".getBytes();
+			public static final byte[] OUTRIGHT_PRICE = "J".getBytes();
+			public static final byte[] IMPLIED_PRICE = "K".getBytes();
+			public static final byte[] ADDITIONAL_INFO = "U".getBytes();
+			public static final byte[] NEWS_PENDING = "T".getBytes();
+			public static final byte[] RESUME = "W".getBytes();
+			public static final byte[] ADDITIONAL_INFO_DUE_TO_RELATED = "V".getBytes();
+			public static final byte[] TRADING_RANGE = "Q".getBytes();
+			public static final byte[] NEWS_DISSEMINATION = "P".getBytes();
+			public static final byte[] DUE_TO_RELATED = "S".getBytes();
+			public static final byte[] ORDER_INFLUX = "R".getBytes();
+			public static final byte[] VOLUME_ALERT = "Y".getBytes();
+			public static final byte[] VIEW_OF_COMMON = "X".getBytes();
+			public static final byte[] ORDER_IMBALANCE = "Z".getBytes();
+			public static final byte[] FAST_MARKET_ETH = "f".getBytes();
+			public static final byte[] INACTIVE_ETH = "g".getBytes();
+			public static final byte[] AUTOMATIC_EXECUTION = "d".getBytes();
+			public static final byte[] AUTOMATIC_EXECUTION_ETH = "e".getBytes();
+			public static final byte[] NO_OPEN__NO_RESUME = "b".getBytes();
+			public static final byte[] REGULAR_ETH = "c".getBytes();
+			public static final byte[] EQUIPMENT_CHANGEOVER = "a".getBytes();
+			public static final byte[] TRADING_RESUME = "n".getBytes();
+			public static final byte[] OUT_OF_SEQUENCE = "o".getBytes();
+			public static final byte[] DUE_TO_NEWS_DISSEMINATION = "l".getBytes();
+			public static final byte[] DUE_TO_NEWS_PENDING = "m".getBytes();
+			public static final byte[] HALT = "j".getBytes();
+			public static final byte[] HALT_ETH = "k".getBytes();
+			public static final byte[] ROTATION = "h".getBytes();
+			public static final byte[] ROTATION_ETH = "i".getBytes();
+			public static final byte[] OPENING_SAM = "w".getBytes();
+			public static final byte[] PREOPENING_SAM = "v".getBytes();
+			public static final byte[] FROZEN_SAM = "u".getBytes();
+			public static final byte[] FORBIDDEN_SAM = "t".getBytes();
+			public static final byte[] END_OF_DAY_SAM = "s".getBytes();
+			public static final byte[] BID_OFFER_SPECIALIST = "r".getBytes();
+			public static final byte[] OFFER_SPECIALIST = "q".getBytes();
+			public static final byte[] BID_SPECIALIST = "p".getBytes();
+			public static final byte[] SUSPENDED_SAM = "z".getBytes();
+			public static final byte[] SURVEILLANCE_SAM = "y".getBytes();
+			public static final byte[] OPEN_SAM = "x".getBytes();
+		}
+
+	public class TradeCondition {
+			public static final byte[] BURST_BASKET = "AT".getBytes();
+			public static final byte[] BASKET_INDEX = "AS".getBytes();
+			public static final byte[] FORM_T = "AR".getBytes();
+			public static final byte[] AUTOMATIC_EXECUTION = "AQ".getBytes();
+			public static final byte[] OUTSIDE_SPREAD = "AV".getBytes();
+			public static final byte[] MULT_ASSET_CLASS_MULTILEG_TRADE = "3".getBytes();
+			public static final byte[] STRADDLE = "AC".getBytes();
+			public static final byte[] MARKETPLACE_ENTERED_TRADE = "2".getBytes();
+			public static final byte[] STRADDLE_ETH = "AD".getBytes();
+			public static final byte[] IMPLIED_TRADE = "1".getBytes();
+			public static final byte[] SPREAD = "AA".getBytes();
+			public static final byte[] SPREAD_ETH = "AB".getBytes();
+			public static final byte[] CANCEL = "0".getBytes();
+			public static final byte[] REGULAR_ETH = "AG".getBytes();
+			public static final byte[] COMBO = "AH".getBytes();
+			public static final byte[] STOPPED = "AE".getBytes();
+			public static final byte[] MULTILEGTOMULTILEG_TRADE = "4".getBytes();
+			public static final byte[] STOPPED_ETH = "AF".getBytes();
+			public static final byte[] PRIOR_REFERENCE_PRICE = "AK".getBytes();
+			public static final byte[] STOPPED_SOLD_LAST = "AL".getBytes();
+			public static final byte[] COMBO_ETH = "AI".getBytes();
+			public static final byte[] OFFICIAL_CLOSING_PRICE = "AJ".getBytes();
+			public static final byte[] CROSSED_DUPLICATE_ENUMERATION__USE_X_INSTEAD = "AO".getBytes();
+			public static final byte[] FAST_MARKET = "AP".getBytes();
+			public static final byte[] STOPPED_OUT_OF_SEQUENCE = "AM".getBytes();
+			public static final byte[] OFFICAL_CLOSING_PRICE_DUPLICATE_ENUMERATION__USE_AJ_INSTEAD = "AN".getBytes();
+			public static final byte[] NEXT_DAY_ONLYMARKET = "D".getBytes();
+			public static final byte[] OPENINGREOPENING_TRADE_DETAIL = "E".getBytes();
+			public static final byte[] INTRADAY_TRADE_DETAIL = "F".getBytes();
+			public static final byte[] RULE_127_TRADE_NYSE = "G".getBytes();
+			public static final byte[] CASH_ONLY_MARKET = "A".getBytes();
+			public static final byte[] AVERAGE_PRICE_TRADE = "B".getBytes();
+			public static final byte[] CASH_TRADE_SAME_DAY_CLEARING = "C".getBytes();
+			public static final byte[] SELLER = "L".getBytes();
+			public static final byte[] SOLD_OUT_OF_SEQUENCE = "M".getBytes();
+			public static final byte[] STOPPED_STOCK_GUARANTEE_OF_PRICE_BUT_DOES_NOT_EXECUTE_THE_ORDER = "N".getBytes();
+			public static final byte[] RULE_155_TRADE_AMEX = "H".getBytes();
+			public static final byte[] SOLD_LAST_LATE_REPORTING = "I".getBytes();
+			public static final byte[] NEXT_DAY_TRADE_NEXT_DAY_CLEARING = "J".getBytes();
+			public static final byte[] OPENED_LATE_REPORT_OF_OPENED_TRADE = "K".getBytes();
+			public static final byte[] EXCHANGE_LAST = "U".getBytes();
+			public static final byte[] CONVERTED_PRICE_INDICATOR = "T".getBytes();
+			public static final byte[] EXPIT = "W".getBytes();
+			public static final byte[] FINAL_PRICE_OF_SESSION = "V".getBytes();
+			public static final byte[] IMBALANCE_MORE_SELLERS_CANNOT_BE_USED_IN_COMBINATION_WITH_P = "Q".getBytes();
+			public static final byte[] IMBALANCE_MORE_BUYERS_CANNOT_BE_USED_IN_COMBINATION_WITH_Q = "P".getBytes();
+			public static final byte[] BARGAIN_CONDITION_LSE = "S".getBytes();
+			public static final byte[] OPENING_PRICE = "R".getBytes();
+			public static final byte[] TRADES_RESULTING_FROM_MANUALSLOW_QUOTE = "Y".getBytes();
+			public static final byte[] CROSSED = "X".getBytes();
+			public static final byte[] TRADES_RESULTING_FROM_INTERMARKET_SWEEP = "Z".getBytes();
+			public static final byte[] BUNCHED_SALE = "f".getBytes();
+			public static final byte[] SPLIT_TRADE = "g".getBytes();
+			public static final byte[] BUNCHED = "d".getBytes();
+			public static final byte[] DISTRIBUTION = "e".getBytes();
+			public static final byte[] DIRECT_PLUS = "b".getBytes();
+			public static final byte[] ACQUISITION = "c".getBytes();
+			public static final byte[] VOLUME_ONLY = "a".getBytes();
+			public static final byte[] CANCEL_LAST = "n".getBytes();
+			public static final byte[] SOLD_LAST_SALE = "o".getBytes();
+			public static final byte[] CANCEL_LAST_ETH = "l".getBytes();
+			public static final byte[] SOLD_LAST_SALE_ETH = "m".getBytes();
+			public static final byte[] CANCEL_STOPPED_ETH = "j".getBytes();
+			public static final byte[] OUT_OF_SEQUENCE_ETH = "k".getBytes();
+			public static final byte[] CANCEL_STOPPED = "h".getBytes();
+			public static final byte[] CANCEL_ETH = "i".getBytes();
+			public static final byte[] REOPEN = "w".getBytes();
+			public static final byte[] AUTO_EXECUTION_ETH = "v".getBytes();
+			public static final byte[] LATE_OPEN_ETH = "u".getBytes();
+			public static final byte[] CANCEL_ONLY_ETH = "t".getBytes();
+			public static final byte[] CANCEL_ONLY = "s".getBytes();
+			public static final byte[] OPENED_SALE_ETH = "r".getBytes();
+			public static final byte[] CANCEL_OPEN_ETH = "q".getBytes();
+			public static final byte[] CANCEL_OPEN = "p".getBytes();
+			public static final byte[] ADJUSTED_ETH = "z".getBytes();
+			public static final byte[] ADJUSTED = "y".getBytes();
+			public static final byte[] REOPEN_ETH = "x".getBytes();
+		}
+
+	public class MDUpdateAction {
+			public static final byte DELETE_THRU = '3';
+			public static final byte DELETE = '2';
+			public static final byte CHANGE = '1';
+			public static final byte NEW = '0';
+			public static final byte OVERLAY = '5';
+			public static final byte DELETE_FROM = '4';
+		}
+
+	public class MDReqRejReason {
+			public static final byte INSUFFICIENT_CREDIT = 'D';
+			public static final byte UNSUPPORTED_SCOPE = 'A';
+			public static final byte UNSUPPORTED_OPENCLOSESETTLEFLAG = 'B';
+			public static final byte UNSUPPORTED_MDIMPLICITDELETE = 'C';
+			public static final byte INSUFFICIENT_PERMISSIONS = '3';
+			public static final byte INSUFFICIENT_BANDWIDTH = '2';
+			public static final byte DUPLICATE_MDREQID = '1';
+			public static final byte UNKNOWN_SYMBOL = '0';
+			public static final byte UNSUPPORTED_AGGREGATEDBOOK = '7';
+			public static final byte UNSUPPORTED_MDUPDATETYPE = '6';
+			public static final byte UNSUPPORTED_MARKETDEPTH = '5';
+			public static final byte UNSUPPORTED_SUBSCRIPTIONREQUESTTYPE = '4';
+			public static final byte UNSUPPORTED_TRADINGSESSIONID = '9';
+			public static final byte UNSUPPORTED_MDENTRYTYPE = '8';
+		}
+
+	public class DeleteReason {
+			public static final byte ERROR = '1';
+			public static final byte CANCELLATION__TRADE_BUST = '0';
+		}
+
+	public class OpenCloseSettlFlag {
+			public static final byte[] EXPECTED_ENTRY = "3".getBytes();
+			public static final byte[] DELIVERY_SETTLEMENT_ENTRY = "2".getBytes();
+			public static final byte[] SESSION_OPEN__CLOSE__SETTLEMENT_ENTRY = "1".getBytes();
+			public static final byte[] DAILY_OPEN__CLOSE__SETTLEMENT_ENTRY = "0".getBytes();
+			public static final byte[] THEORETICAL_PRICE_VALUE = "5".getBytes();
+			public static final byte[] ENTRY_FROM_PREVIOUS_BUSINESS_DAY = "4".getBytes();
+		}
+
+	public class FinancialStatus {
+			public static final byte[] RESTRICTED = "3".getBytes();
+			public static final byte[] PENDING_DELISTING = "2".getBytes();
+			public static final byte[] BANKRUPT = "1".getBytes();
+		}
+
+	public class CorporateAction {
+			public static final byte[] NEW = "D".getBytes();
+			public static final byte[] EXINTEREST = "E".getBytes();
+			public static final byte[] CASH_DIVIDEND = "F".getBytes();
+			public static final byte[] STOCK_DIVIDEND = "G".getBytes();
+			public static final byte[] EXDIVIDEND = "A".getBytes();
+			public static final byte[] EXDISTRIBUTION = "B".getBytes();
+			public static final byte[] EXRIGHTS = "C".getBytes();
+			public static final byte[] LIQUIDATION_REORGANIZATION = "L".getBytes();
+			public static final byte[] MERGER_REORGANIZATION = "M".getBytes();
+			public static final byte[] RIGHTS_OFFERING = "N".getBytes();
+			public static final byte[] SHAREHOLDER_MEETING = "O".getBytes();
+			public static final byte[] NONINTEGER_STOCK_SPLIT = "H".getBytes();
+			public static final byte[] REVERSE_STOCK_SPLIT = "I".getBytes();
+			public static final byte[] STANDARDINTEGER_STOCK_SPLIT = "J".getBytes();
+			public static final byte[] POSITION_CONSOLIDATION = "K".getBytes();
+			public static final byte[] CUSIP__NAME_CHANGE = "U".getBytes();
+			public static final byte[] SYMBOL_CONVERSION = "T".getBytes();
+			public static final byte[] SUCCESSION_EVENT = "W".getBytes();
+			public static final byte[] LEAP_ROLLOVER = "V".getBytes();
+			public static final byte[] TENDER_OFFER = "Q".getBytes();
+			public static final byte[] SPINOFF = "P".getBytes();
+			public static final byte[] SPECIAL_ACTION = "S".getBytes();
+			public static final byte[] WARRANT = "R".getBytes();
+		}
+
+	public class QuoteStatus {
+			public static final long PENDING_END_TRADE = 19;
+			public static final long CANCELED = 17;
+			public static final long UNSOLICITED_QUOTE_REPLENISHMENT = 18;
+			public static final long CANCELED_DUE_TO_CROSS_MARKET = 15;
+			public static final long ACTIVE = 16;
+			public static final long CROSS_MARKET_WARNING = 13;
+			public static final long CANCELED_DUE_TO_LOCK_MARKET = 14;
+			public static final long PASS = 11;
+			public static final long LOCKED_MARKET_WARNING = 12;
+			public static final long CANCELED_FOR_UNDERLYING = 3;
+			public static final long TOO_LATE_TO_END = 20;
+			public static final long CANCELED_FOR_SECURITY_TYPES = 2;
+			public static final long CANCEL_FOR_SYMBOLS = 1;
+			public static final long PENDING = 10;
+			public static final long ACCEPTED = 0;
+			public static final long EXPIRED = 7;
+			public static final long REMOVED_FROM_MARKET = 6;
+			public static final long REJECTED = 5;
+			public static final long CANCELED_ALL = 4;
+			public static final long QUOTE_NOT_FOUND = 9;
+			public static final long QUERY = 8;
+		}
+
+	public class QuoteCancelType {
+			public static final long CANCEL_FOR_UNDERLYING_SECURITY = 3;
+			public static final long CANCEL_FOR_SECURITY_TYPES = 2;
+			public static final long CANCEL_FOR_ONE_OR_MORE_SECURITIES = 1;
+			public static final long CANCEL_FOR_SECURITY_ISSUER = 7;
+			public static final long CANCEL_BY_QUOTETYPE537 = 6;
+			public static final long CANCEL_QUOTE_SPECIFIED_IN_QUOTEID = 5;
+			public static final long CANCEL_ALL_QUOTES = 4;
+			public static final long CANCEL_FOR_ISSUER_OF_UNDERLYING_SECURITY = 8;
+		}
+
+	public class QuoteRejectReason {
+			public static final long INVALID_OR_UNKNOWN_ISSUER_OF_UNDERLYING_SECURITY = 13;
+			public static final long QUOTE_LOCKED__UNABLE_TO_UPDATECANCEL = 11;
+			public static final long INVALID_OR_UNKNOWN_SECURITY_ISSUER = 12;
+			public static final long QUOTE_REQUEST_EXCEEDS_LIMIT = 3;
+			public static final long EXCHANGE_SECURITY_CLOSED = 2;
+			public static final long UNKNOWN_SYMBOL_SECURITY = 1;
+			public static final long PRICE_EXCEEDS_CURRENT_PRICE_BAND = 10;
+			public static final long INVALID_BIDASK_SPREAD = 7;
+			public static final long DUPLICATE_QUOTE = 6;
+			public static final long UNKNOWN_QUOTE = 5;
+			public static final long TOO_LATE_TO_ENTER = 4;
+			public static final long NOT_AUTHORIZED_TO_QUOTE_SECURITY = 9;
+			public static final long INVALID_PRICE = 8;
+			public static final long OTHER = 99;
+		}
+
+	public class QuoteResponseLevel {
+			public static final long SUMMARY_ACKNOWLEDGEMENT = 3;
+			public static final long ACKNOWLEDGE_EACH_QUOTE_MESSAGE = 2;
+			public static final long ACKNOWLEDGE_ONLY_NEGATIVE_OR_ERRONEOUS_QUOTES = 1;
+			public static final long NO_ACKNOWLEDGEMENT = 0;
+		}
+
+	public class QuoteRequestType {
+			public static final long AUTOMATIC = 2;
+			public static final long MANUAL = 1;
+		}
+
+	public class SecurityRequestType {
+			public static final long REQUEST_LIST_SECURITIES_CAN_BE_QUALIFIED_WITH_SYMBOL_SECURITYTYP = 3;
+			public static final long REQUEST_LIST_SECURITY_TYPES = 2;
+			public static final long REQUEST_SECURITY_IDENTITY_FOR_THE_SPECIFICATIONS_PROVIDED_NAME_O = 1;
+			public static final long REQUEST_SECURITY_IDENTITY_AND_SPECIFICATIONS = 0;
+			public static final long TRADINGSESSIONID = 7;
+			public static final long PRODUCT = 6;
+			public static final long SECURITYTYPE_AND_OR_CFICODE = 5;
+			public static final long SYMBOL = 4;
+			public static final long MARKETID_OR_MARKETID__MARKETSEGMENTID = 9;
+			public static final long ALL_SECURITIES = 8;
+		}
+
+	public class SecurityResponseType {
+			public static final long LIST_OF_SECURITY_TYPES_RETURNED_PER_REQUEST = 3;
+			public static final long ACCEPT_SECURITY_PROPOSAL_WITH_REVISIONS_AS_INDICATED_IN_THE_MESS = 2;
+			public static final long ACCEPT_SECURITY_PROPOSAL_ASIS = 1;
+			public static final long CANNOT_MATCH_SELECTION_CRITERIA = 6;
+			public static final long REJECT_SECURITY_PROPOSAL = 5;
+			public static final long LIST_OF_SECURITIES_RETURNED_PER_REQUEST = 4;
+		}
+
+	public class UnsolicitedIndicator {
+			public static final boolean MESSAGE_IS_BEING_SENT_AS_A_RESULT_OF_A_PRIOR_REQUEST = false;
+			public static final boolean MESSAGE_IS_BEING_SENT_UNSOLICITED = true;
+		}
+
+	public class SecurityTradingStatus {
+			public static final long NOT_TRADED_ON_THIS_MARKET = 19;
+			public static final long READY_TO_TRADE_START_OF_SESSION = 17;
+			public static final long NOT_AVAILABLE_FOR_TRADING_END_OF_SESSION = 18;
+			public static final long NEW_PRICE_INDICATION = 15;
+			public static final long TRADE_DISSEMINATION_TIME = 16;
+			public static final long NO_MARKET_ON_CLOSE_IMBALANCE = 13;
+			public static final long ITS_PREOPENING = 14;
+			public static final long NOT_ASSIGNED = 11;
+			public static final long NO_MARKET_IMBALANCE = 12;
+			public static final long PREOPEN = 21;
+			public static final long UNKNOWN_OR_INVALID = 20;
+			public static final long OPENING_ROTATION = 22;
+			public static final long FAST_MARKET = 23;
+			public static final long PRECROSS__SYSTEM_IS_IN_A_PRECROSS_STATE_ALLOWING_MARKET_TO_RESPO = 24;
+			public static final long CROSS__SYSTEM_HAS_CROSSED_A_PERCENTAGE_OF_THE_ORDERS_AND_ALLOWS_ = 25;
+			public static final long POSTCLOSE = 26;
+			public static final long RESUME = 3;
+			public static final long TRADING_HALT = 2;
+			public static final long MARKET_ON_CLOSE_IMBALANCE_SELL = 10;
+			public static final long OPENING_DELAY = 1;
+			public static final long MARKET_IMBALANCE_BUY = 7;
+			public static final long TRADING_RANGE_INDICATION = 6;
+			public static final long PRICE_INDICATION = 5;
+			public static final long NO_OPEN__NO_RESUME = 4;
+			public static final long MARKET_ON_CLOSE_IMBALANCE_BUY = 9;
+			public static final long MARKET_IMBALANCE_SELL = 8;
+		}
+
+	public class HaltReason {
+			public static final long ADDITIONAL_INFORMATION = 3;
+			public static final long ORDER_IMBALANCE = 2;
+			public static final long ORDER_INFLUX = 1;
+			public static final long NEWS_DISSEMINATION = 0;
+			public static final long EQUIPMENT_CHANGEOVER = 5;
+			public static final long NEWS_PENDING = 4;
+		}
+
+	public class InViewOfCommon {
+			public static final boolean HALT_WAS_NOT_RELATED_TO_A_HALT_OF_THE_COMMON_STOCK = false;
+			public static final boolean HALT_WAS_DUE_TO_COMMON_STOCK_BEING_HALTED = true;
+		}
+
+	public class DueToRelated {
+			public static final boolean HALT_WAS_NOT_RELATED_TO_A_HALT_OF_THE_RELATED_SECURITY = false;
+			public static final boolean HALT_WAS_DUE_TO_RELATED_SECURITY_BEING_HALTED = true;
+		}
+
+	public class Adjustment {
+			public static final long CORRECTION = 3;
+			public static final long ERROR = 2;
+			public static final long CANCEL = 1;
+		}
+
+	public class TradingSessionID {
+			public static final byte[] MORNING = "3".getBytes();
+			public static final byte[] HALFDAY = "2".getBytes();
+			public static final byte[] DAY = "1".getBytes();
+			public static final byte[] AFTERHOURS = "6".getBytes();
+			public static final byte[] EVENING = "5".getBytes();
+			public static final byte[] AFTERNOON = "4".getBytes();
+		}
+
+	public class TradSesMethod {
+			public static final long TWO_PARTY = 3;
+			public static final long OPEN_OUTCRY = 2;
+			public static final long ELECTRONIC = 1;
+		}
+
+	public class TradSesMode {
+			public static final long PRODUCTION = 3;
+			public static final long SIMULATED = 2;
+			public static final long TESTING = 1;
+		}
+
+	public class TradSesStatus {
+			public static final long CLOSED = 3;
+			public static final long OPEN = 2;
+			public static final long HALTED = 1;
+			public static final long UNKNOWN = 0;
+			public static final long REQUEST_REJECTED = 6;
+			public static final long PRECLOSE = 5;
+			public static final long PREOPEN = 4;
+		}
+
+	public class SessionRejectReason {
+			public static final long NON_DATA_VALUE_INCLUDES_FIELD_DELIMITER_SOH_CHARACTER = 17;
+			public static final long INVALIDUNSUPPORTED_APPLICATION_VERSION = 18;
+			public static final long REPEATING_GROUP_FIELDS_OUT_OF_ORDER = 15;
+			public static final long INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP = 16;
+			public static final long TAG_APPEARS_MORE_THAN_ONCE = 13;
+			public static final long TAG_SPECIFIED_OUT_OF_REQUIRED_ORDER = 14;
+			public static final long INVALID_MSGTYPE = 11;
+			public static final long XML_VALIDATION_ERROR = 12;
+			public static final long UNDEFINED_TAG = 3;
+			public static final long TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE = 2;
+			public static final long REQUIRED_TAG_MISSING = 1;
+			public static final long SENDINGTIME_ACCURACY_PROBLEM = 10;
+			public static final long INVALID_TAG_NUMBER = 0;
+			public static final long DECRYPTION_PROBLEM = 7;
+			public static final long INCORRECT_DATA_FORMAT_FOR_VALUE = 6;
+			public static final long VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG = 5;
+			public static final long TAG_SPECIFIED_WITHOUT_A_VALUE = 4;
+			public static final long COMPID_PROBLEM = 9;
+			public static final long SIGNATURE_PROBLEM = 8;
+			public static final long OTHER = 99;
+		}
+
+	public class BidRequestTransType {
+			public static final byte CANCEL = 'C';
+			public static final byte NEW = 'N';
+		}
+
+	public class SolicitedFlag {
+			public static final boolean WAS_NOT_SOLICITED = false;
+			public static final boolean WAS_SOLICITED = true;
+		}
+
+	public class ExecRestatementReason {
+			public static final long PEG_REFRESH = 11;
+			public static final long REPRICING_OF_ORDER = 3;
+			public static final long VERBAL_CHANGE = 2;
+			public static final long GT_RENEWAL__RESTATEMENT_NO_CORPORATE_ACTION = 1;
+			public static final long WAREHOUSE_RECAP = 10;
+			public static final long GT_CORPORATE_ACTION = 0;
+			public static final long CANCEL_ON_SYSTEM_FAILURE = 7;
+			public static final long CANCEL_ON_TRADING_HALT = 6;
+			public static final long PARTIAL_DECLINE_OF_ORDERQTY_EG_EXCHANGE_INITIATED_PARTIAL_CANCEL = 5;
+			public static final long BROKER_OPTION = 4;
+			public static final long CANCELED_NOT_BEST = 9;
+			public static final long MARKET_EXCHANGE_OPTION = 8;
+			public static final long OTHER = 99;
+		}
+
+	public class BusinessRejectReason {
+			public static final long UNSUPPORTED_MESSAGE_TYPE = 3;
+			public static final long UNKNOWN_SECURITY = 2;
+			public static final long UNKNOWN_ID = 1;
+			public static final long OTHER = 0;
+			public static final long DELIVERTO_FIRM_NOT_AVAILABLE_AT_THIS_TIME = 7;
+			public static final long NOT_AUTHORIZED = 6;
+			public static final long CONDITIONALLY_REQUIRED_FIELD_MISSING = 5;
+			public static final long APPLICATION_NOT_AVAILABLE = 4;
+			public static final long INVALID_PRICE_INCREMENT = 18;
+		}
+
+	public class MsgDirection {
+			public static final byte SEND = 'S';
+			public static final byte RECEIVE = 'R';
+		}
+
+	public class DiscretionInst {
+			public static final byte RELATED_TO_LOCAL_PRIMARY_PRICE = '3';
+			public static final byte RELATED_TO_PRIMARY_PRICE = '2';
+			public static final byte RELATED_TO_MARKET_PRICE = '1';
+			public static final byte RELATED_TO_DISPLAYED_PRICE = '0';
+			public static final byte AVERAGE_PRICE_GUARANTEE = '7';
+			public static final byte RELATED_TO_VWAP = '6';
+			public static final byte RELATED_TO_LAST_TRADE_PRICE = '5';
+			public static final byte RELATED_TO_MIDPOINT_PRICE = '4';
+		}
+
+	public class BidType {
+			public static final long NO_BIDDING_PROCESS = 3;
+			public static final long DISCLOSED_SYTLE_EG_JAPANESE = 2;
+			public static final long NON_DISCLOSED_STYLE_EG_USEUROPEAN = 1;
+		}
+
+	public class BidDescriptorType {
+			public static final long INDEX = 3;
+			public static final long COUNTRY = 2;
+			public static final long SECTOR = 1;
+		}
+
+	public class SideValueInd {
+			public static final long SIDE_VALUE_2 = 2;
+			public static final long SIDE_VALUE_1 = 1;
+		}
+
+	public class LiquidityIndType {
+			public static final long NORMAL_MARKET_SIZE = 3;
+			public static final long I20DAY_MOVING_AVERAGE = 2;
+			public static final long I5DAY_MOVING_AVERAGE = 1;
+			public static final long OTHER = 4;
+		}
+
+	public class ExchangeForPhysical {
+			public static final boolean FALSE = false;
+			public static final boolean TRUE = true;
+		}
+
+	public class ProgRptReqs {
+			public static final long REALTIME_EXECUTION_REPORTS_TO_BE_DISCOURAGE = 3;
+			public static final long SELLSIDE_PERIODICALLY_SENDS_STATUS_USING_LIST_STATUS_PERIOD_OPTI = 2;
+			public static final long BUYSIDE_EXPLICITLY_REQUESTS_STATUS_USING_STATUE_REQUEST_DEFAULT_ = 1;
+		}
+
+	public class IncTaxInd {
+			public static final long GROSS = 2;
+			public static final long NET = 1;
+		}
+
+	public class BidTradeType {
+			public static final byte VWAP_GUARANTEE = 'G';
+			public static final byte AGENCY = 'A';
+			public static final byte RISK_TRADE = 'R';
+			public static final byte GUARANTEED_CLOSE = 'J';
+		}
+
+	public class BasisPxType {
+			public static final byte OPEN = 'D';
+			public static final byte VWAP_THROUGH_A_MORNING_SESSION_EXCEPT_YORI_AN_OPENING_AUCTION = 'A';
+			public static final byte VWAP_THROUGH_AN_AFTERNOON_SESSION_EXCEPT_YORI_AN_OPENING_AUCTION = 'B';
+			public static final byte STRIKE = 'C';
+			public static final byte CLOSING_PRICE = '3';
+			public static final byte CLOSING_PRICE_AT_MORNINGN_SESSION = '2';
+			public static final byte VWAP_THROUGH_A_MORNING_SESSION = '7';
+			public static final byte VWAP_THROUGH_A_DAY = '6';
+			public static final byte SQ = '5';
+			public static final byte CURRENT_PRICE = '4';
+			public static final byte VWAP_THROUGH_A_DAY_EXCEPT_YORI_AN_OPENING_AUCTION = '9';
+			public static final byte VWAP_THROUGH_AN_AFTERNOON_SESSION = '8';
+			public static final byte OTHERS = 'Z';
+		}
+
+	public class PriceType {
+			public static final long PRODUCT_TICKS_IN_ONETWENTYEIGHTS = 19;
+			public static final long PRODUCT_TICKS_IN_THIRTYSECONDS = 17;
+			public static final long PRODUCT_TICKS_IN_SIXTYFORTHS = 18;
+			public static final long PRODUCT_TICKS_IN_EIGHTS = 15;
+			public static final long PRODUCT_TICKS_IN_SIXTEENTHS = 16;
+			public static final long PRODUCT_TICKS_IN_HALFS = 13;
+			public static final long PRODUCT_TICKS_IN_FOURTHS = 14;
+			public static final long VARIABLE_CABINET_TRADE_PRICE_PRIMARILY_FOR_LISTED_FUTURES_AND_OP = 11;
+			public static final long FIXED_AMOUNT_ABSOLUTE_VALUE = 3;
+			public static final long PER_UNIT_IE_PER_SHARE_OR_CONTRACT = 2;
+			public static final long PERCENTAGE_IE_PERCENT_OF_PAR_OFTEN_CALLED_DOLLAR_PRICE_FOR_FIXED = 1;
+			public static final long FIXED_CABINET_TRADE_PRICE_PRIMARILY_FOR_LISTED_FUTURES_AND_OPTIO = 10;
+			public static final long TED_PRICE = 7;
+			public static final long SPREAD_BASIS_POINTS_SPREAD = 6;
+			public static final long PREMIUM__PERCENTAGE_POINTS_OVER_PAR = 5;
+			public static final long DISCOUNT__PERCENTAGE_POINTS_BELOW_PAR = 4;
+			public static final long YIELD = 9;
+			public static final long TED_YIELD = 8;
+		}
+
+	public class GTBookingInst {
+			public static final long ACCUMULATE_UNTIL_VERBALLLY_NOTIFIED_OTHERWISE = 2;
+			public static final long ACCUMULATE_EXECTUIONS_UNTIL_FORDER_IS_FILLED_OR_EXPIRES = 1;
+			public static final long BOOK_OUT_ALL_TRADES_ON_DAY_OF_EXECUTION = 0;
+		}
+
+	public class ListStatusType {
+			public static final long TIMED = 3;
+			public static final long RESPONSE = 2;
+			public static final long ACK = 1;
+			public static final long ALERT = 6;
+			public static final long ALL_DONE = 5;
+			public static final long EXEC_STARTED = 4;
+		}
+
+	public class NetGrossInd {
+			public static final long GROSS = 2;
+			public static final long NET = 1;
+		}
+
+	public class ListOrderStatus {
+			public static final long EXECUTING = 3;
+			public static final long RECEIVED_FOR_EXECUTION = 2;
+			public static final long IN_BIDDING_PROCESS = 1;
+			public static final long REJECT = 7;
+			public static final long ALL_DONE = 6;
+			public static final long ALERT = 5;
+			public static final long CANCELLING = 4;
+		}
+
+	public class ListExecInstType {
+			public static final byte EXCHANGESWITCH_CIV_ORDER__SELL_DRIVEN = '3';
+			public static final byte WAIT_FOR_EXECUT_INSTRUCTION_IE_A_LIST_EXECUT_MESSAGE_OR_PHONE_CA = '2';
+			public static final byte IMMEDIATE = '1';
+			public static final byte EXCHANGESWITCH_CIV_ORDER__BUY_DRIVEN_CASH_WITHDRAW_IE_ADDITIONAL = '5';
+			public static final byte EXCHANGESWITCH_CIV_ORDER__BUY_DRIVEN_CASH_TOPUP_IE_ADDITIONAL_CA = '4';
+		}
+
+	public class CxlRejResponseTo {
+			public static final byte ORDER_CANCELREPLACE_REQUEST = '2';
+			public static final byte ORDER_CANCEL_REQUEST = '1';
+		}
+
+	public class MultiLegReportingType {
+			public static final byte MULTILEG_SECURITY = '3';
+			public static final byte INDIVIDUAL_LEG_OF_A_MULTILEG_SECURITY = '2';
+			public static final byte SINGLE_SECURITY_DEFAULT_IF_NOT_SPECIFIED = '1';
+		}
+
+	public class PartyIDSource {
+			public static final byte PROPRIETARY__CUSTOM_CODE = 'D';
+			public static final byte ISO_COUNTRY_CODE = 'E';
+			public static final byte SETTLEMENT_ENTITY_LOCATION_NOTE_IF_LOCAL_MARKET_SETTLEMENT_USE_E = 'F';
+			public static final byte MIC_ISO_10383__MARKET_IDENTIFICER_CODE_SEE_APPENDIX_6C = 'G';
+			public static final byte AUSTRALIAN_TAX_FILE_NUMBER = 'A';
+			public static final byte BIC_BANK_IDENTIFICATION_CODE__SWIFT_MANAGED_CODE_ISO9362__SEE_AP = 'B';
+			public static final byte GENERALLY_ACCEPTED_MARKET_PARTICIPANT_IDENTIFIER_EG_NASD_MNEMONI = 'C';
+			public static final byte CSD_PARTICIPANTMEMBER_CODE_EG_EUROCLEAR_DTC_CREST_OR_KASSENVEREI = 'H';
+			public static final byte DIRECTED_BROKER_THREE_CHARACTER_ACRONYM_AS_DEFINED_IN_ISITC_ETC_ = 'I';
+			public static final byte TAIWANESE_TRADING_ACCT = '3';
+			public static final byte TAIWANESE_QUALIFIED_FOREIGN_INVESTOR_ID_QFIIFID = '2';
+			public static final byte KOREAN_INVESTOR_ID = '1';
+			public static final byte US_SOCIAL_SECURITY_NUMBER = '7';
+			public static final byte UK_NATIONAL_INSURANCE_OR_PENSION_NUMBER = '6';
+			public static final byte CHINESE_INVESTOR_ID = '5';
+			public static final byte MALAYSIAN_CENTRAL_DEPOSITORY_MCD_NUMBER = '4';
+			public static final byte AUSTRALIAN_BUSINESS_NUMBER = '9';
+			public static final byte US_EMPLOYER_OR_TAX_ID_NUMBER = '8';
+		}
+
+	public class PartyRole {
+			public static final long PRIME_BROKER_PROVIDING_GENERAL_TRADE_SERVICES = 79;
+			public static final long ALLOCATION_ENTITY = 78;
+			public static final long MARKET_DATA_MARKET = 77;
+			public static final long LIQUIDITY_PROVIDER = 35;
+			public static final long ENTERING_TRADER = 36;
+			public static final long INTERESTED_PARTY = 33;
+			public static final long REGULATORY_BODY = 34;
+			public static final long CONTRA_INVESTOR_ID = 39;
+			public static final long CONTRA_TRADER = 37;
+			public static final long POSITION_ACCOUNT = 38;
+			public static final long INTERNAL_CARRY_ACCOUNT = 43;
+			public static final long CONTRA_EXCHANGE = 42;
+			public static final long CONTRA_POSITION_ACCOUNT = 41;
+			public static final long TRANSFER_TO_FIRM = 40;
+			public static final long CENTRAL_REGISTRATION_DEPOSITORY_CRD = 82;
+			public static final long CLEARING_ACCOUNT = 83;
+			public static final long STEPOUT_FIRM_PRIME_BROKER = 80;
+			public static final long BROKERCLEARINGID = 81;
+			public static final long ACCEPTABLE_SETTLING_COUNTERPARTY = 84;
+			public static final long UNACCEPTABLE_SETTLING_COUNTERPARTY = 85;
+			public static final long INVESTMENT_FIRM = 67;
+			public static final long MARKET_MAKER = 66;
+			public static final long HOME_COMPETENT_AUTHORITY_HOME_CA = 69;
+			public static final long HOST_COMPETENT_AUTHORITY_HOST_CA = 68;
+			public static final long EXCHANGE = 22;
+			public static final long CUSTOMER_ACCOUNT = 24;
+			public static final long CORRESPONDENT_CLEARING_ORGANIZATION = 25;
+			public static final long CORRESPONDENT_BROKER = 26;
+			public static final long BUYERSELLER_RECEIVERDELIVERER = 27;
+			public static final long CUSTODIAN = 28;
+			public static final long INTERMEDIARY = 29;
+			public static final long CLIENT_ID_FORMERLY_FIX_42_CLIENTID = 3;
+			public static final long BROKER_OF_CREDIT_FORMERLY_FIX_42_BROKEROFCREDIT = 2;
+			public static final long EXECUTING_FIRM_FORMERLY_FIX_42_EXECBROKER = 1;
+			public static final long AGENT = 30;
+			public static final long ENTERING_FIRM = 7;
+			public static final long INTRODUCING_FIRM = 6;
+			public static final long BENEFICIARY = 32;
+			public static final long INVESTOR_ID = 5;
+			public static final long SUBCUSTODIAN = 31;
+			public static final long CLEARING_FIRM_FORMERLY_FIX_42_CLEARINGFIRM = 4;
+			public static final long COMPETENT_AUTHORITY_OF_THE_MOST_RELEVANT_MARKET_IN_TERMS_OF_LIQU = 70;
+			public static final long COMPETENT_AUTHORITY_OF_THE_TRANSACTION_EXECUTION_VENUE_CATV = 71;
+			public static final long FUND_MANAGER_CLIENT_ID_FOR_CIV = 9;
+			public static final long REPORTING_INTERMEDIARY_MEDIUMVENDOR_VIA_WHICH_REPORT_HAS_BEEN_PU = 72;
+			public static final long LOCATE__LENDING_FIRM_FOR_SHORTSALES = 8;
+			public static final long EXECUTION_VENUE = 73;
+			public static final long MARKET_DATA_ENTRY_ORIGINATOR = 74;
+			public static final long LOCATION_ID = 75;
+			public static final long DESK_ID = 76;
+			public static final long EXECUTING_UNIT = 59;
+			public static final long ENTERING_UNIT = 58;
+			public static final long UNACCEPTABLE_COUNTERPARTY = 57;
+			public static final long ACCEPTABLE_COUNTERPARTY = 56;
+			public static final long SPONSORING_FIRM = 19;
+			public static final long SESSION_ID = 55;
+			public static final long CONTRA_FIRM = 17;
+			public static final long CONTRA_CLEARING_FIRM = 18;
+			public static final long CORRESPONDANT_CLEARING_FIRM = 15;
+			public static final long EXECUTING_SYSTEM = 16;
+			public static final long ORDER_ORIGINATION_FIRM_EG_BUYSIDE_FIRM = 13;
+			public static final long GIVEUP_CLEARING_FIRM_FIRM_TO_WHICH_TRADE_IS_GIVEN_UP = 14;
+			public static final long ORDER_ORIGINATION_TRADER_ASSOCIATED_WITH_ORDER_ORIGINATION_FIRM_ = 11;
+			public static final long EXECUTING_TRADER_ASSOCIATED_WITH_EXECUTING_FIRM__ACTUALLY_EXECUT = 12;
+			public static final long CLEARING_ORGANIZATION = 21;
+			public static final long UNDERLYING_CONTRA_FIRM = 20;
+			public static final long MULTILATERAL_TRADING_FACILITY_MTF = 64;
+			public static final long REGULATED_MARKET_RM = 65;
+			public static final long REPORT_ORIGINATOR = 62;
+			public static final long SYSTEMATIC_INTERNALISER_SI = 63;
+			public static final long INTRODUCING_BROKER = 60;
+			public static final long QUOTE_ORIGINATOR = 61;
+			public static final long ASSET_MANAGER = 49;
+			public static final long CLAIMING_ACCOUNT = 48;
+			public static final long SECONDARY_ACCOUNT_NUMBER = 45;
+			public static final long ORDER_ENTRY_OPERATOR_ID = 44;
+			public static final long THIRD_PARTY_ALLOCATION_FIRM = 47;
+			public static final long FOREIGN_FIRM = 46;
+			public static final long SETTLEMENT_LOCATION_FORMERLY_FIX_42_SETTLLOCATION = 10;
+			public static final long PLEDGEE_ACCOUNT = 51;
+			public static final long LARGE_TRADER_REPORTABLE_ACCOUNT = 52;
+			public static final long TRADER_MNEMONIC = 53;
+			public static final long SENDER_LOCATION = 54;
+			public static final long PLEDGOR_ACCOUNT = 50;
+		}
+
+	public class Product {
+			public static final long FINANCING = 13;
+			public static final long MUNICIPAL = 11;
+			public static final long OTHER = 12;
+			public static final long CORPORATE = 3;
+			public static final long COMMODITY = 2;
+			public static final long AGENCY = 1;
+			public static final long MORTGAGE = 10;
+			public static final long INDEX = 7;
+			public static final long GOVERNMENT = 6;
+			public static final long EQUITY = 5;
+			public static final long CURRENCY = 4;
+			public static final long MONEYMARKET = 9;
+			public static final long LOAN = 8;
+		}
+
+	public class TestMessageIndicator {
+			public static final boolean FALES_PRODUCTION = false;
+			public static final boolean TRUE_TEST = true;
+		}
+
+	public class QuantityType {
+			public static final long CURRENTFACE = 3;
+			public static final long BONDS = 2;
+			public static final long SHARES = 1;
+			public static final long OTHER = 7;
+			public static final long CONTRACTS = 6;
+			public static final long CURRENCY = 5;
+			public static final long ORIGINALFACE = 4;
+			public static final long PAR = 8;
+		}
+
+	public class RoundingDirection {
+			public static final byte ROUND_UP = '2';
+			public static final byte ROUND_DOWN = '1';
+			public static final byte ROUND_TO_NEAREST = '0';
+		}
+
+	public class DistribPaymentMethod {
+			public static final long EUROCLEAR = 3;
+			public static final long NSCC = 2;
+			public static final long BPAY = 10;
+			public static final long CREST = 1;
+			public static final long FED_WIRE = 7;
+			public static final long TELEGRAPHIC_TRANSFER = 6;
+			public static final long CHEQUE = 5;
+			public static final long CLEARSTREAM = 4;
+			public static final long ACH_CREDIT = 9;
+			public static final long DIRECT_CREDIT_BECS_BACS = 8;
+			public static final long HIGH_VALUE_CLEARING_SYSTEM_HVACS = 11;
+			public static final long REINVEST_IN_FUND = 12;
+		}
+
+	public class CancellationRights {
+			public static final byte NO__WAIVER_AGREEMENT = 'M';
+			public static final byte NO__EXECUTION_ONLY = 'N';
+			public static final byte NO__INSTITUTIONAL = 'O';
+			public static final byte YES = 'Y';
+		}
+
+	public class MoneyLaunderingStatus {
+			public static final byte EXEMPT__AUTHORISED_CREDIT_OR_FINANCIAL_INSTITUTION = '3';
+			public static final byte EXEMPT__CLIENT_MONEY_TYPE_EXEMPTION = '2';
+			public static final byte EXEMPT__BELOW_THE_LIMIT = '1';
+			public static final byte NOT_CHECKED = 'N';
+			public static final byte PASSED = 'Y';
+		}
+
+	public class ExecPriceType {
+			public static final byte CREATION_PRICE_PLUS_ADJUSTMENT_PERCENT = 'D';
+			public static final byte CREATION_PRICE_PLUS_ADJUSTMENT_AMOUNT = 'E';
+			public static final byte OFFER_PRICE_MINUS_ADJUSTMENT_AMOUNT = 'Q';
+			public static final byte OFFER_PRICE_MINUS_ADJUSTMENT_PERCENT = 'P';
+			public static final byte SINGLE_PRICE = 'S';
+			public static final byte BID_PRICE = 'B';
+			public static final byte CREATION_PRICE = 'C';
+			public static final byte OFFER_PRICE = 'O';
+		}
+
+	public class TradeReportTransType {
+			public static final long RELEASE = 3;
+			public static final long REPLACE = 2;
+			public static final long CANCEL = 1;
+			public static final long NEW = 0;
+			public static final long CANCEL_DUE_TO_BACK_OUT_OF_TRADE = 5;
+			public static final long REVERSE = 4;
+		}
+
+	public class PaymentMethod {
+			public static final long HIGH_VALUE_CLEARING_SYSTEM_HVACS = 15;
+			public static final long ACH_CREDIT = 13;
+			public static final long BPAY = 14;
+			public static final long CREDIT_CARD = 11;
+			public static final long ACH_DEBIT = 12;
+			public static final long EUROCLEAR = 3;
+			public static final long NSCC = 2;
+			public static final long CREST = 1;
+			public static final long DIRECT_CREDIT_BECS = 10;
+			public static final long FED_WIRE = 7;
+			public static final long TELEGRAPHIC_TRANSFER = 6;
+			public static final long CHEQUE = 5;
+			public static final long CLEARSTREAM = 4;
+			public static final long DIRECT_DEBIT_BECS = 9;
+			public static final long DEBIT_CARD = 8;
+		}
+
+	public class TaxAdvantageType {
+			public static final long PROFIT_SHARING_PLAN_US = 19;
+			public static final long INDIVIDUAL_RETIREMENT_ACCOUNT__ROLLOVER_US = 17;
+			public static final long KEOGH_US = 18;
+			public static final long DEFINED_CONTRIBUTION_PLAN_US = 15;
+			public static final long INDIVIDUAL_RETIREMENT_ACCOUNT_US = 16;
+			public static final long NONFUND_PROTOTYPE_IRA_US = 13;
+			public static final long NONFUND_QUALIFIED_PLAN_US = 14;
+			public static final long EMPLOYER__PRIOR_YEAR_US = 11;
+			public static final long EMPLOYER__CURRENT_YEAR_US = 12;
+			public static final long SELFDIRECTED_IRA_US = 21;
+			public static final long I401K_US = 20;
+			public static final long I403B_US = 22;
+			public static final long I457_US = 23;
+			public static final long ROTH_IRA_FUND_PROTOTYPE_US = 24;
+			public static final long ROTH_IRA_NONPROTOTYPE_US = 25;
+			public static final long ROTH_CONVERSION_IRA_FUND_PROTOTYPE_US = 26;
+			public static final long ROTH_CONVERSION_IRA_NONPROTOTYPE_US = 27;
+			public static final long EDUCATION_IRA_FUND_PROTOTYPE_US = 28;
+			public static final long EDUCATION_IRA_NONPROTOTYPE_US = 29;
+			public static final long MINI_CASH_ISA_UK = 3;
+			public static final long TESSA_UK = 2;
+			public static final long EMPLOYEE__CURRENT_YEAR_US = 10;
+			public static final long MAXI_ISA_UK = 1;
+			public static final long NONENOT_APPLICABLE_DEFAULT = 0;
+			public static final long PRIOR_YEAR_PAYMENT_US = 7;
+			public static final long CURRENT_YEAR_PAYMENT_US = 6;
+			public static final long MINI_INSURANCE_ISA_UK = 5;
+			public static final long MINI_STOCKS_AND_SHARES_ISA_UK = 4;
+			public static final long EMPLOYEE__PRIOR_YEAR_US = 9;
+			public static final long ASSET_TRANSFER_US = 8;
+			public static final long OTHER = 999;
+		}
+
+	public class FundRenewWaiv {
+			public static final byte NO = 'N';
+			public static final byte YES = 'Y';
+		}
+
+	public class RegistStatus {
+			public static final byte ACCEPTED = 'A';
+			public static final byte REJECTED = 'R';
+			public static final byte REMINDER__IE_REGISTRATION_INSTRUCTIONS_ARE_STILL_OUTSTANDING = 'N';
+			public static final byte HELD = 'H';
+		}
+
+	public class RegistRejReasonCode {
+			public static final long INVALIDUNACCEPTABLE_CASH_DISTRIB_AGENT_CODE = 17;
+			public static final long INVALIDUNACCEPTABLE_CASH_DISTRIB_AGENT_ACCT_NUM = 18;
+			public static final long INVALIDUNACCEPTABLE_DISTRIB_PAYMENT_METHOD = 15;
+			public static final long INVALIDUNACCEPTABLE_CASH_DISTRIB_AGENT_ACCT_NAME = 16;
+			public static final long INVALIDUNACCEPTABLE_NO_DISTRIB_INSTNS = 13;
+			public static final long INVALIDUNACCEPTABLE_DISTRIB_PERCENTAGE = 14;
+			public static final long INVALIDUNACCEPTABLE_DATE_OF_BIRTH = 11;
+			public static final long INVALIDUNACCEPTABLE_INVESTOR_COUNTRY_OF_RESIDENCE = 12;
+			public static final long INVALIDUNACCEPTABLE_OWNERSHIP_TYPE = 3;
+			public static final long INVALIDUNACCEPTABLE_TAX_EXEMPT_TYPE = 2;
+			public static final long INVALIDUNACCEPTABLE_ACCOUNT_TYPE = 1;
+			public static final long INVALIDUNACEEPTABLE_INVESTOR_ID_SOURCE = 10;
+			public static final long INVALIDUNACCEPTABLE_MAILING_DETAILS = 7;
+			public static final long INVALIDUNACCEPTABLE_REG_DETAILS = 6;
+			public static final long INVALIDUNACCEPTABLE_REG_SEQ_NO = 5;
+			public static final long INVALIDUNACCEPTABLE_NO_REG_DETAILS = 4;
+			public static final long INVALIDUNACCEPTABLE_INVESTOR_ID = 9;
+			public static final long INVALIDUNACCEPTABLE_MAILING_INSTRUCTIONS = 8;
+			public static final long OTHER = 99;
+		}
+
+	public class RegistTransType {
+			public static final byte CANCEL = '2';
+			public static final byte REPLACE = '1';
+			public static final byte NEW = '0';
+		}
+
+	public class OwnershipType {
+			public static final byte TENANTS_IN_COMMON = 'T';
+			public static final byte JOINT_TRUSTEES = '2';
+			public static final byte JOINT_INVESTORS = 'J';
+		}
+
+	public class ContAmtType {
+			public static final long NET_SETTLEMENT_AMOUNT = 15;
+			public static final long FUNDBASED_RENEWAL_COMMISSION_AMOUNT_BASED_ON_ORDER_VALUE = 13;
+			public static final long FUNDBASED_RENEWAL_COMMISSION_AMOUNT_BASED_ON_PROJECTED_FUND_VALU = 14;
+			public static final long FUNDBASED_RENEWAL_COMMISSION_PERCENT_AKA_TRAIL_COMMISSION = 11;
+			public static final long PROJECTED_FUND_VALUE_IE_FOR_INVESTMENTS_INTENDED_TO_REALISE_OR_E = 12;
+			public static final long INITIAL_CHARGE_AMOUNT = 3;
+			public static final long COMMISSION_PERCENT_ACTUAL = 2;
+			public static final long COMMISSION_AMOUNT_ACTUAL = 1;
+			public static final long EXIT_CHARGE_PERCENT = 10;
+			public static final long DILUTION_LEVY_AMOUNT = 7;
+			public static final long DISCOUNT_PERCENT = 6;
+			public static final long DISCOUNT_AMOUNT = 5;
+			public static final long INITIAL_CHARGE_PERCENT = 4;
+			public static final long EXIT_CHARGE_AMOUNT = 9;
+			public static final long DILUTION_LEVY_PERCENT = 8;
+		}
+
+	public class OwnerType {
+			public static final long NOMINEE = 13;
+			public static final long NONPROFIT_ORGANIZATION = 11;
+			public static final long CORPORATE_BODY = 12;
+			public static final long PRIVATE_COMPANY = 3;
+			public static final long PUBLIC_COMPANY = 2;
+			public static final long INDIVIDUAL_INVESTOR = 1;
+			public static final long NETWORKING_SUBACCOUNT = 10;
+			public static final long CUSTODIAN_UNDER_GIFTS_TO_MINORS_ACT = 7;
+			public static final long PENSION_PLAN = 6;
+			public static final long COMPANY_TRUSTEE = 5;
+			public static final long INDIVIDUAL_TRUSTEE = 4;
+			public static final long FIDUCIARIES = 9;
+			public static final long TRUSTS = 8;
+		}
+
+	public class OrderCapacity {
+			public static final byte AGENT_FOR_OTHER_MEMBER = 'W';
+			public static final byte PROPRIETARY = 'G';
+			public static final byte PRINCIPAL_NOTE_FOR_CMS_PURPOSES_PRINCIPAL_INCLUDES_PROPRIETARY = 'P';
+			public static final byte AGENCY = 'A';
+			public static final byte RISKLESS_PRINCIPAL = 'R';
+			public static final byte INDIVIDUAL = 'I';
+		}
+
+	public class OrderRestrictions {
+			public static final byte[] NONALGORITHMIC = "D".getBytes();
+			public static final byte[] ALGORITHMIC = "E".getBytes();
+			public static final byte[] CROSS = "F".getBytes();
+			public static final byte[] RISKLESS_ARBITRAGE = "A".getBytes();
+			public static final byte[] ISSUER_HOLDING = "B".getBytes();
+			public static final byte[] ISSUE_PRICE_STABILIZATION = "C".getBytes();
+			public static final byte[] NONINDEX_ARBITRAGE = "3".getBytes();
+			public static final byte[] INDEX_ARBITRAGE = "2".getBytes();
+			public static final byte[] PROGRAM_TRADE = "1".getBytes();
+			public static final byte[] FOREIGN_ENTITY_OF_FOREIGN_GOVERNMENT_OR_REGULATORY_JURISDICTION = "7".getBytes();
+			public static final byte[] ACTING_AS_MARKET_MAKER_OR_SPECIALIST_IN_THE_UNDERLYING_SECURITY_ = "6".getBytes();
+			public static final byte[] ACTING_AS_MARKET_MAKER_OR_SPECIALIST_IN_THE_SECURITY = "5".getBytes();
+			public static final byte[] COMPETING_MARKET_MAKER = "4".getBytes();
+			public static final byte[] EXTERNAL_INTERCONNECTED_MARKET_LINKAGE = "9".getBytes();
+			public static final byte[] EXTERNAL_MARKET_PARTICIPANT = "8".getBytes();
+		}
+
+	public class MassCancelRequestType {
+			public static final byte CANCEL_ORDERS_FOR_A_PRODUCT = '3';
+			public static final byte CANCEL_ORDERS_FOR_AN_UNDERLYING_SECURITY = '2';
+			public static final byte CANCEL_ORDERS_FOR_A_SECURITY = '1';
+			public static final byte CANCEL_ALL_ORDERS = '7';
+			public static final byte CANCEL_ORDERS_FOR_A_SECURITY_GROUP = 'A';
+			public static final byte CANCEL_ORDERS_FOR_A_TRADING_SESSION = '6';
+			public static final byte CANCEL_FOR_SECURITY_ISSUER = 'B';
+			public static final byte CANCEL_ORDERS_FOR_A_SECURITYTYPE = '5';
+			public static final byte CANCEL_FOR_ISSUER_OF_UNDERLYING_SECURITY = 'C';
+			public static final byte CANCEL_ORDERS_FOR_A_CFICODE = '4';
+			public static final byte CANCEL_ORDERS_FOR_A_MARKET_SEGMENT = '9';
+			public static final byte CANCEL_ORDERS_FOR_A_MARKET = '8';
+		}
+
+	public class MassCancelResponse {
+			public static final byte CANCEL_ORDERS_FOR_A_SECURITY_GROUP = 'A';
+			public static final byte CANCEL_ORDERS_FOR_A_SECURITIES_ISSUER = 'B';
+			public static final byte CANCEL_ORDERS_FOR_ISSUER_OF_UNDERLYING_SECURITY = 'C';
+			public static final byte CANCEL_ORDERS_FOR_A_PRODUCT = '3';
+			public static final byte CANCEL_ORDERS_FOR_AN_UNDERLYING_SECURITY = '2';
+			public static final byte CANCEL_ORDERS_FOR_A_SECURITY = '1';
+			public static final byte CANCEL_REQUEST_REJECTED__SEE_MASSCANCELREJECTREASON_532 = '0';
+			public static final byte CANCEL_ALL_ORDERS = '7';
+			public static final byte CANCEL_ORDERS_FOR_A_TRADING_SESSION = '6';
+			public static final byte CANCEL_ORDERS_FOR_A_SECURITYTYPE = '5';
+			public static final byte CANCEL_ORDERS_FOR_A_CFICODE = '4';
+			public static final byte CANCEL_ORDERS_FOR_A_MARKET_SEGMENT = '9';
+			public static final byte CANCEL_ORDERS_FOR_A_MARKET = '8';
+		}
+
+	public class MassCancelRejectReason {
+			public static final long INVALID_OR_UNKNOWN_ISSUER_OF_UNDERLYING_SECURITY = 11;
+			public static final long INVALID_OR_UNKNOWN_PRODUCT = 3;
+			public static final long INVALID_OR_UNKOWN_UNDERLYING_SECURITY = 2;
+			public static final long INVALID_OR_UNKNOWN_SECURITY = 1;
+			public static final long INVALID_OR_UNKNOWN_SECURITY_ISSUER = 10;
+			public static final long MASS_CANCEL_NOT_SUPPORTED = 0;
+			public static final long INVALID_OR_UNKNOWN_MARKET = 7;
+			public static final long INVALID_OR_UNKNOWN_TRADING_SESSION = 6;
+			public static final long INVALID_OR_UNKNOWN_SECURITYTYPE = 5;
+			public static final long INVALID_OR_UNKNOWN_CFICODE = 4;
+			public static final long INVALID_OR_UNKNOWN_SECURITY_GROUP = 9;
+			public static final long INVALID_OR_UNKOWN_MARKET_SEGMENT = 8;
+			public static final long OTHER = 99;
+		}
+
+	public class QuoteType {
+			public static final long COUNTER_TRADEABLE = 3;
+			public static final long RESTRICTED_TRADEABLE = 2;
+			public static final long TRADEABLE = 1;
+			public static final long INDICATIVE = 0;
+		}
+
+	public class CashMargin {
+			public static final byte MARGIN_CLOSE = '3';
+			public static final byte MARGIN_OPEN = '2';
+			public static final byte CASH = '1';
+		}
+
+	public class Scope {
+			public static final byte[] GLOBAL = "3".getBytes();
+			public static final byte[] NATIONAL = "2".getBytes();
+			public static final byte[] LOCAL_MARKET_EXCHANGE_ECN_ATS = "1".getBytes();
+		}
+
+	public class MDImplicitDelete {
+			public static final boolean SERVER_MUST_SEND_AN_EXPLICIT_DELETE_FOR_BIDS_OR_OFFERS_FALLING_O = false;
+			public static final boolean CLIENT_HAS_RESPONSIBILITY_FOR_IMPLICITLY_DELETING_BIDS_OR_OFFERS = true;
+		}
+
+	public class CrossType {
+			public static final long CROSS_ONE_SIDE__CROSS_TRADE_WHICH_IS_PARTIALLY_EXECUTED_WITH_THE = 3;
+			public static final long CROSS_IOC__CROSS_TRADE_WHICH_IS_EXECUTED_PARTIALLY_AND_THE_REST_ = 2;
+			public static final long CROSS_AON__CROSS_TRADE_WHICH_IS_EXECUTED_COMPLETELY_OR_NOT_BOTH_ = 1;
+			public static final long CROSS_SAME_PRICE__CROSS_TRADE_IS_EXECUTED_WITH_EXISTING_ORDERS_W = 4;
+		}
+
+	public class CrossPrioritization {
+			public static final long SELL_SIDE_IS_PRIORITIZED = 2;
+			public static final long BUY_SIDE_IS_PRIORITIZED = 1;
+			public static final long NONE = 0;
+		}
+
+	public class NoSides {
+			public static final long BOTH_SIDES = 2;
+			public static final long ONE_SIDE = 1;
+		}
+
+	public class SecurityListRequestType {
+			public static final long TRADINGSESSIONID = 3;
+			public static final long PRODUCT = 2;
+			public static final long SECURITYTYPE_ANDOR_CFICODE = 1;
+			public static final long SYMBOL = 0;
+			public static final long MARKETID_OR_MARKETID__MARKETSEGMENTID = 5;
+			public static final long ALL_SECURITIES = 4;
+		}
+
+	public class SecurityRequestResult {
+			public static final long NOT_AUTHORIZED_TO_RETRIEVE_INSTRUMENT_DATA = 3;
+			public static final long NO_INSTRUMENTS_FOUND_THAT_MATCH_SELECTION_CRITERIA = 2;
+			public static final long INVALID_OR_UNSUPPORTED_REQUEST = 1;
+			public static final long VALID_REQUEST = 0;
+			public static final long REQUEST_FOR_INSTRUMENT_DATA_NOT_SUPPORTED = 5;
+			public static final long INSTRUMENT_DATA_TEMPORARILY_UNAVAILABLE = 4;
+		}
+
+	public class MultiLegRptTypeReq {
+			public static final long REPORT_BY_INSTRUMENT_LEGS_BELONGING_TO_THE_MULTILEG_SECURITY_ONL = 2;
+			public static final long REPORT_BY_MULTILEG_SECURITY_AND_BY_INSTRUMENT_LEGS_BELONGING_TO_ = 1;
+			public static final long REPORT_BY_MULITLEG_SECURITY_ONLY_DO_NOT_REPORT_LEGS = 0;
+		}
+
+	public class TradSesStatusRejReason {
+			public static final long UNKNOWN_OR_INVALID_TRADINGSESSIONID = 1;
+			public static final long OTHER = 99;
+		}
+
+	public class TradeRequestType {
+			public static final long UNREPORTED_TRADES_THAT_MATCH_CRITERIA = 3;
+			public static final long UNMATCHED_TRADES_THAT_MATCH_CRITERIA = 2;
+			public static final long MATCHED_TRADES_MATCHING_CRITERIA_PROVIDED_ON_REQUEST_PARTIES_EXE = 1;
+			public static final long ALL_TRADES = 0;
+			public static final long ADVISORIES_THAT_MATCH_CRITERIA = 4;
+		}
+
+	public class PreviouslyReported {
+			public static final boolean NOT_REPORTED_TO_COUNTERPARTY = false;
+			public static final boolean PERVIOUSLY_REPORTED_TO_COUNTERPARTY = true;
+		}
+
+	public class MatchStatus {
+			public static final byte ADVISORY_OR_ALERT = '2';
+			public static final byte UNCOMPARED_UNMATCHED_OR_UNAFFIRMED = '1';
+			public static final byte COMPARED_MATCHED_OR_AFFIRMED = '0';
+		}
+
+	public class MatchType {
+			public static final byte[] _PRICE_TRADE_TYPE_AND_SPECIAL_TRADE_INDICATOR_PLUS_FOUR_BADGES = "A2".getBytes();
+			public static final byte[] _PRICE_TRADE_TYPE_AND_SPECIAL_TRADE_INDICATOR_PLUS_FOUR_BADGES_A = "A1".getBytes();
+			public static final byte[] ACT_M6_MATCH = "M6".getBytes();
+			public static final byte[] _PRICE_TRADE_TYPE_AND_SPECIAL_TRADE_INDICATOR_PLUS_TWO_BADGES = "A4".getBytes();
+			public static final byte[] ACT_DEFAULT_AFTER_M2 = "M5".getBytes();
+			public static final byte[] _PRICE_TRADE_TYPE_AND_SPECIAL_TRADE_INDICATOR_PLUS_TWO_BADGES_AN = "A3".getBytes();
+			public static final byte[] _PRICE_TRADETYPE_AND_SPECIAL_TRADE_INDICATOR_PLUS_EXECUTION_TIME = "A5".getBytes();
+			public static final byte[] SUMMARIZED_MATCH_USING_A2_EXACT_MATCH_CRITERIA_EXCEPT_QUANTITY_I = "S2".getBytes();
+			public static final byte[] SUMMARIZED_MATCH_USING_A1_EXACT_MATCH_CRITERIA_EXCEPT_QUANTITY_I = "S1".getBytes();
+			public static final byte[] ACT_DEFAULT_TRADE = "M4".getBytes();
+			public static final byte[] ACT_ACCEPTED_TRADE = "M3".getBytes();
+			public static final byte[] SUMMARIZED_MATCH_MINUS_BADGES_AND_TIMES_ACT_M2_MATCH = "M2".getBytes();
+			public static final byte[] _PRICE_TRADE_TYPE_AND_SPECIAL_TRADE_INDICATOR_MINUS_BADGES_AND_T = "M1".getBytes();
+			public static final byte[] COMPARED_RECORDS_RESULTING_FROM_STAMPED_ADVISORIES_OR_SPECIALIST = "AQ".getBytes();
+			public static final byte[] OCS_LOCKED_IN_NONACT = "MT".getBytes();
+			public static final byte[] SUMMARIZED_MATCH_USING_A3_EXACT_MATCH_CRITERIA_EXCEPT_QUANTITY_I = "S3".getBytes();
+			public static final byte[] CONFIRMED_TRADE_REPORT_REPORTING_FROM_RECOGNIZED_MARKETS = "3".getBytes();
+			public static final byte[] SUMMARIZED_MATCH_USING_A4_EXACT_MATCH_CRITERIA_EXCEPT_QUANTITY_I = "S4".getBytes();
+			public static final byte[] TWOPARTY_TRADE_REPORT_PRIVATELY_NEGOTIATED_TRADE = "2".getBytes();
+			public static final byte[] SUMMARIZED_MATCH_USING_A5_EXACT_MATCH_CRITERIA_EXCEPT_QUANTITY_I = "S5".getBytes();
+			public static final byte[] ONEPARTY_TRADE_REPORT_PRIVATELY_NEGOTIATED_TRADE = "1".getBytes();
+			public static final byte[] CALL_AUCTION = "7".getBytes();
+			public static final byte[] COUNTERORDER_SELECTION = "6".getBytes();
+			public static final byte[] CROSS_AUCTION = "5".getBytes();
+			public static final byte[] AUTOMATCH = "4".getBytes();
+			public static final byte[] ISSUINGBUY_BACK_AUCTION = "8".getBytes();
+		}
+
+	public class OddLot {
+			public static final boolean TREAT_AS_ROUND_LOT_DEFAULT = false;
+			public static final boolean TREAT_AS_ODD_LOT = true;
+		}
+
+	public class ClearingInstruction {
+			public static final long SELF_CLEARING = 13;
+			public static final long QUALIFIED_SERVICE_REPRESENTATIVE_QSR = 11;
+			public static final long CUSTOMER_TRADE = 12;
+			public static final long EX_CLEARING = 3;
+			public static final long BILATERAL_NETTING_ONLY = 2;
+			public static final long EXCLUDE_FROM_ALL_NETTING = 1;
+			public static final long AUTOMATIC_GIVEUP_MODE_TRADE_GIVEUP_TO_THE_GIVEUP_DESTINATION_NUM = 10;
+			public static final long PROCESS_NORMALLY = 0;
+			public static final long EXCLUDE_FROM_CENTRAL_COUNTERPARTY = 7;
+			public static final long CLEAR_AGAINST_CENTRAL_COUNTERPARTY = 6;
+			public static final long MULTILATERAL_NETTING = 5;
+			public static final long SPECIAL_TRADE = 4;
+			public static final long AUTOMATIC_POSTING_MODE_TRADE_POSTING_TO_THE_POSITION_ACCOUNT_NUM = 9;
+			public static final long MANUAL_MODE_PREPOSTING_ANDOR_PREGIVEUP = 8;
+		}
+
+	public class AccountType {
+			public static final long HOUSE_TRADER = 3;
+			public static final long ACCOUNT_IS_CARRIED_ON_NONCUSTOMER_SIDE_OF_BOOKS = 2;
+			public static final long ACCOUNT_IS_CARRIED_ON_CUSTOMER_SIDE_OF_THE_BOOKS = 1;
+			public static final long ACCOUNT_IS_HOUSE_TRADER_AND_IS_CROSS_MARGINED = 7;
+			public static final long ACCOUNT_IS_CARRIED_ON_NONCUSTOMER_SIDE_OF_BOOKS_AND_IS_CROSS_MAR = 6;
+			public static final long FLOOR_TRADER = 4;
+			public static final long JOINT_BACK_OFFICE_ACCOUNT_JBO = 8;
+		}
+
+	public class CustOrderCapacity {
+			public static final long MEMBER_TRADING_FOR_ANOTHER_MEMBER = 3;
+			public static final long CLEARING_FIRM_TRADING_FOR_ITS_PROPRIETARY_ACCOUNT = 2;
+			public static final long MEMBER_TRADING_FOR_THEIR_OWN_ACCOUNT = 1;
+			public static final long ALL_OTHER = 4;
+		}
+
+	public class MassStatusReqType {
+			public static final long STATUS_FOR_ORDERS_FOR_A_PRODUCT = 3;
+			public static final long STATUS_FOR_ORDERS_FOR_AN_UNDERLYING_SECURITY = 2;
+			public static final long STATUS_FOR_ISSUER_OF_UNDERLYING_SECURITY = 10;
+			public static final long STATUS_FOR_ORDERS_FOR_A_SECURITY = 1;
+			public static final long STATUS_FOR_ALL_ORDERS = 7;
+			public static final long STATUS_FOR_ORDERS_FOR_A_TRADING_SESSION = 6;
+			public static final long STATUS_FOR_ORDERS_FOR_A_SECURITYTYPE = 5;
+			public static final long STATUS_FOR_ORDERS_FOR_A_CFICODE = 4;
+			public static final long STATUS_FOR_SECURITY_ISSUER = 9;
+			public static final long STATUS_FOR_ORDERS_FOR_A_PARTYID = 8;
+		}
+
+	public class DayBookingInst {
+			public static final byte ACCUMULATE = '2';
+			public static final byte SPEAK_WITH_ORDER_INITIATOR_BEFORE_BOOKING_SPEAK_FIRST = '1';
+			public static final byte CAN_TRIGGER_BOOKING_WITHOUT_REFERENCE_TO_THE_ORDER_INITIATOR_AUT = '0';
+		}
+
+	public class BookingUnit {
+			public static final byte AGGREGATE_EXECUTIONS_FOR_THIS_SYMBOL_SIDE_AND_SETTLEMENT_DATE = '2';
+			public static final byte AGGREGATE_PARTIAL_EXECUTIONS_ON_THIS_ORDER_AND_BOOK_ONE_TRADE_PE = '1';
+			public static final byte EACH_PARTIAL_EXECUTION_IS_A_BOOKABLE_UNIT = '0';
+		}
+
+	public class PreallocMethod {
+			public static final byte DO_NOT_PRORATA__DISCUSS_FIRST = '1';
+			public static final byte PRORATA = '0';
+		}
+
+	public class TradingSessionSubID {
+			public static final byte[] CONTINUOUS_TRADING = "3".getBytes();
+			public static final byte[] OPENING_OR_OPENING_AUCTION = "2".getBytes();
+			public static final byte[] PRETRADING = "1".getBytes();
+			public static final byte[] QUIESCENT = "7".getBytes();
+			public static final byte[] INTRADAY_AUCTION = "6".getBytes();
+			public static final byte[] POSTTRADING = "5".getBytes();
+			public static final byte[] CLOSING_OR_CLOSING_AUCTION = "4".getBytes();
+		}
+
+	public class AllocType {
+			public static final long COMPLETE_GROUP = 13;
+			public static final long REVERSAL_PENDING = 14;
+			public static final long ACCEPT_PENDING = 11;
+			public static final long INCOMPLETE_GROUP = 12;
+			public static final long SELLSIDE_CALCULATED_USING_PRELIMINARY_INCLUDES_MISCFEES_AND_NETM = 3;
+			public static final long PRELIMINARY_WITHOUT_MISCFEES_AND_NETMONEY = 2;
+			public static final long CALCULATED_INCLUDES_MISCFEES_AND_NETMONEY = 1;
+			public static final long REJECT = 10;
+			public static final long WAREHOUSE_INSTRUCTION = 7;
+			public static final long BUYSIDE_READYTOBOOK__COMBINED_SET_OF_ORDERS_REPLACED = 6;
+			public static final long READYTOBOOK__SINGLE_ORDER = 5;
+			public static final long SELLSIDE_CALCULATED_WITHOUT_PRELIMINARY_SENT_UNSOLICITED_BY_SELL = 4;
+			public static final long ACCEPT = 9;
+			public static final long REQUEST_TO_INTERMEDIARY = 8;
+		}
+
+	public class ClearingFeeIndicator {
+			public static final byte[] EQUITY_MEMBER_AND_CLEARING_MEMBER = "E".getBytes();
+			public static final byte[] FULL_AND_ASSOCIATE_MEMBER_TRADING_FOR_OWN_ACCOUNT_AND_AS_FLOOR_B = "F".getBytes();
+			public static final byte[] CBOE_MEMBER = "B".getBytes();
+			public static final byte[] NONMEMBER_AND_CUSTOMER = "C".getBytes();
+			public static final byte[] LESSEE_106F_EMPLOYEES = "L".getBytes();
+			public static final byte[] ALL_OTHER_OWNERSHIP_TYPES = "M".getBytes();
+			public static final byte[] I106H_AND_106J_FIRMS = "H".getBytes();
+			public static final byte[] GIM_IDEM_AND_COM_MEMBERSHIP_INTEREST_HOLDERS = "I".getBytes();
+			public static final byte[] I3RD_YEAR_DELEGATE_TRADING_FOR_OWN_ACCOUNT = "3".getBytes();
+			public static final byte[] I2ND_YEAR_DELEGATE_TRADING_FOR_OWN_ACCOUNT = "2".getBytes();
+			public static final byte[] I1ST_YEAR_DELEGATE_TRADING_FOR_OWN_ACCOUNT = "1".getBytes();
+			public static final byte[] I5TH_YEAR_DELEGATE_TRADING_FOR_OWN_ACCOUNT = "5".getBytes();
+			public static final byte[] I4TH_YEAR_DELEGATE_TRADING_FOR_OWN_ACCOUNT = "4".getBytes();
+			public static final byte[] I6TH_YEAR_DELEGATE_TRADING_FOR_OWN_ACCOUNT = "9".getBytes();
+		}
+
+	public class WorkingIndicator {
+			public static final boolean ORDER_HAS_BEEN_ACCEPTED_BUT_NOT_YET_IN_A_WORKING_STATE = false;
+			public static final boolean ORDER_IS_CURRENTLY_BEING_WORKED = true;
+		}
+
+	public class PriorityIndicator {
+			public static final long LOST_PRIORITY_AS_RESULT_OF_ORDER_CHANGE = 1;
+			public static final long PRIORITY_UNCHANGED = 0;
+		}
+
+	public class LegalConfirm {
+			public static final boolean DOES_NOT_CONSITUTE_A_LEGAL_CONFIRM = false;
+			public static final boolean LEGAL_CONFIRM = true;
+		}
+
+	public class SecDefStatus {
+			public static final long UNAUTHORIZED_REQUEST = 3;
+			public static final long REJECTED = 2;
+			public static final long APPROVED_ACCEPTED = 1;
+			public static final long PENDING_APPROVAL = 0;
+			public static final long INVALID_DEFINITION_REQUEST = 4;
+		}
+
+	public class QuoteRequestRejectReason {
+			public static final long QUOTE_REQUEST_EXCEEDS_LIMIT = 3;
+			public static final long EXCHANGE_SECURITY_CLOSED = 2;
+			public static final long PASS = 10;
+			public static final long UNKNOWN_SYMBOL_SECURITY = 1;
+			public static final long NO_MATCH_FOR_INQUIRY = 7;
+			public static final long NOT_AUTHORIZED_TO_REQUEST_QUOTE = 6;
+			public static final long INVALID_PRICE = 5;
+			public static final long TOO_LATE_TO_ENTER = 4;
+			public static final long NO_INVENTORY = 9;
+			public static final long NO_MARKET_FOR_INSTRUMENT = 8;
+			public static final long OTHER = 99;
+			public static final long INSUFFICIENT_CREDIT = 11;
+		}
+
+	public class AcctIDSource {
+			public static final long TFM_GSPTA = 3;
+			public static final long SID_CODE = 2;
+			public static final long BIC = 1;
+			public static final long DTCC_CODE = 5;
+			public static final long OMGEO_ALERT_ID = 4;
+			public static final long OTHER_CUSTOM_OR_PROPRIETARY = 99;
+		}
+
+	public class ConfirmStatus {
+			public static final long MISSING_SETTLEMENT_INSTRUCTIONS = 3;
+			public static final long MISMATCHED_ACCOUNT = 2;
+			public static final long RECEIVED = 1;
+			public static final long REQUEST_REJECTED = 5;
+			public static final long CONFIRMED = 4;
+		}
+
+	public class ConfirmTransType {
+			public static final long CANCEL = 2;
+			public static final long REPLACE = 1;
+			public static final long NEW = 0;
+		}
+
+	public class DeliveryForm {
+			public static final long BEARER = 2;
+			public static final long BOOK_ENTRY_DEFAULT = 1;
+		}
+
+	public class LegSwapType {
+			public static final long MODIFIED_DURATION = 2;
+			public static final long PAR_FOR_PAR = 1;
+			public static final long PROCEEDS = 5;
+			public static final long RISK = 4;
+		}
+
+	public class QuotePriceType {
+			public static final long FIXED_AMOUNT_ABSOLUTE_VALUE = 3;
+			public static final long PER_SHARE_EG_CENTS_PER_SHARE = 2;
+			public static final long YIELD = 10;
+			public static final long PERCENT_PERCENT_OF_PAR = 1;
+			public static final long TED_PRICE = 7;
+			public static final long SPREAD__BASIS_POINTS_RELATIVE_TO_BENCHMARK = 6;
+			public static final long PREMIUM__PERCENTAGE_POINTS_OVER_PAR = 5;
+			public static final long DISCOUNT__PERCENTAGE_POINTS_BELOW_PAR = 4;
+			public static final long YIELD_SPREAD_SWAPS = 9;
+			public static final long TED_YIELD = 8;
+		}
+
+	public class QuoteRespType {
+			public static final long EXPIRED = 3;
+			public static final long COUNTER = 2;
+			public static final long HITLIFT = 1;
+			public static final long END_TRADE = 7;
+			public static final long PASS = 6;
+			public static final long DONE_AWAY = 5;
+			public static final long COVER = 4;
+			public static final long TIMED_OUT = 8;
+		}
+
+	public class PosType {
+			public static final byte[] NET_DELTA_QTY = "DLT".getBytes();
+			public static final byte[] INTEGRAL_SPLIT = "SPL".getBytes();
+			public static final byte[] DELIVERY_QTY = "DLV".getBytes();
+			public static final byte[] ASOF_TRADE_QTY = "ASF".getBytes();
+			public static final byte[] CREDIT_EVENT_ADJUSTMENT = "CEA".getBytes();
+			public static final byte[] TRANSACTION_QUANTITY = "TQ".getBytes();
+			public static final byte[] TRANSFER_TRADE_QTY = "TRF".getBytes();
+			public static final byte[] CROSS_MARGIN_QTY = "XM".getBytes();
+			public static final byte[] CORPORATE_ACTION_ADJUSTMENT = "CAA".getBytes();
+			public static final byte[] ELECTRONIC_TRADE_QTY = "ETR".getBytes();
+			public static final byte[] DELIVERY_NOTICE_QTY = "DN".getBytes();
+			public static final byte[] PIT_TRADE_QTY = "PIT".getBytes();
+			public static final byte[] PRIVATELY_NEGOTIATED_TRADE_QTY_NONREGULATED = "PNTN".getBytes();
+			public static final byte[] ALLOCATION_TRADE_QTY = "ALC".getBytes();
+			public static final byte[] ENDOFDAY_QTY = "FIN".getBytes();
+			public static final byte[] TRANSACTION_FROM_ASSIGNMENT = "TA".getBytes();
+			public static final byte[] OPTION_ASSIGNMENT = "AS".getBytes();
+			public static final byte[] STARTOFDAY_QTY = "SOD".getBytes();
+			public static final byte[] OPTION_EXERCISE_QTY = "EX".getBytes();
+			public static final byte[] RECEIVE_QUANTITY = "RCV".getBytes();
+			public static final byte[] EXCHANGE_FOR_PHYSICAL_QTY = "EP".getBytes();
+			public static final byte[] TOTAL_TRANSACTION_QTY = "TOT".getBytes();
+			public static final byte[] SUCCESSION_EVENT_ADJUSTMENT = "SEA".getBytes();
+			public static final byte[] INTERSPREAD_QTY = "IES".getBytes();
+			public static final byte[] TRANSACTION_FROM_EXERCISE = "TX".getBytes();
+			public static final byte[] INTRASPREAD_QTY = "IAS".getBytes();
+			public static final byte[] ADJUSTMENT_QTY = "PA".getBytes();
+		}
+
+	public class PosQtyStatus {
+			public static final long REJECTED = 2;
+			public static final long ACCEPTED = 1;
+			public static final long SUBMITTED = 0;
+		}
+
+	public class PosAmtType {
+			public static final byte[] INCREMENTAL_MARKTOMARKET_AMOUNT = "IMTM".getBytes();
+			public static final byte[] INCREMENTAL_ACCRUED_COUPON = "IACPN".getBytes();
+			public static final byte[] COMPENSATION_AMOUNT = "DLV".getBytes();
+			public static final byte[] COLLATERALIZED_MARK_TO_MARKET = "CMTM".getBytes();
+			public static final byte[] TOTAL_COLLATERALIZED_AMOUNT = "COLAT".getBytes();
+			public static final byte[] COUPON_AMOUNT = "CPN".getBytes();
+			public static final byte[] INCREMENTAL_COLLATERALIZED_MARK_TO_MARKET = "ICMTM".getBytes();
+			public static final byte[] PREMIUM_AMOUNT = "PREM".getBytes();
+			public static final byte[] FINAL_MARKTOMARKET_AMOUNT = "FMTM".getBytes();
+			public static final byte[] CASH_AMOUNT_CORPORATE_EVENT = "CASH".getBytes();
+			public static final byte[] CASH_RESIDUAL_AMOUNT = "CRES".getBytes();
+			public static final byte[] ACCRUED_COUPON_AMOUNT = "ACPN".getBytes();
+			public static final byte[] TOTAL_BANKED_AMOUNT = "BANK".getBytes();
+			public static final byte[] VALUE_ADJUSTED_AMOUNT = "VADJ".getBytes();
+			public static final byte[] TRADE_VARIATION_AMOUNT = "TVAR".getBytes();
+			public static final byte[] SETTLEMENT_VALUE = "SETL".getBytes();
+			public static final byte[] STARTOFDAY_MARKTOMARKET_AMOUNT = "SMTM".getBytes();
+			public static final byte[] INITIAL_TRADE_COUPON_AMOUNT = "ICPN".getBytes();
+		}
+
+	public class PosTransType {
+			public static final long POSITION_ADJUSTMENT = 3;
+			public static final long DO_NOT_EXERCISE = 2;
+			public static final long EXERCISE = 1;
+			public static final long LARGE_TRADER_SUBMISSION = 6;
+			public static final long PLEDGE = 5;
+			public static final long POSITION_CHANGE_SUBMISSIONMARGIN_DISPOSITION = 4;
+		}
+
+	public class PosMaintAction {
+			public static final long CANCEL__USED_TO_REMOVE_THE_OVERALL_TRANSACTION_OR_SPECIFIC_ADD_M = 3;
+			public static final long REPLACE__USED_TO_OVERRIDE_THE_OVERALL_TRANSACTION_QUANTITY_OR_SP = 2;
+			public static final long NEW__USED_TO_INCREMENT_THE_OVERALL_TRANSACTION_QUANTITY = 1;
+			public static final long REVERSE__USED_TO_COMPLETELLY_BACKOUT_THE_TRANSACTION_SUCH_THAT_T = 4;
+		}
+
+	public class SettlSessID {
+			public static final byte[] ELECTRONIC_TRADING_HOURS = "ETH".getBytes();
+			public static final byte[] INTRADAY = "ITD".getBytes();
+			public static final byte[] REGULAR_TRADING_HOURS = "RTH".getBytes();
+			public static final byte[] END_OF_DAY = "EOD".getBytes();
+		}
+
+	public class AdjustmentType {
+			public static final long FINAL = 3;
+			public static final long DELTA_MINUS = 2;
+			public static final long DELTA_PLUS = 1;
+			public static final long PROCESS_REQUEST_AS_MARGIN_DISPOSITION = 0;
+		}
+
+	public class PosMaintStatus {
+			public static final long COMPLETED = 3;
+			public static final long REJECTED = 2;
+			public static final long ACCEPTED_WITH_WARNINGS = 1;
+			public static final long ACCEPTED = 0;
+			public static final long COMPLETED_WITH_WARNINGS = 4;
+		}
+
+	public class PosMaintResult {
+			public static final long REJECTED = 1;
+			public static final long SUCCESSFUL_COMPLETION__NO_WARNINGS_OR_ERRORS = 0;
+			public static final long OTHER = 99;
+		}
+
+	public class PosReqType {
+			public static final long ASSIGNMENTS = 3;
+			public static final long EXERCISES = 2;
+			public static final long TRADES = 1;
+			public static final long POSITIONS = 0;
+			public static final long DELTA_POSITIONS = 6;
+			public static final long BACKOUT_MESSAGE = 5;
+			public static final long SETTLEMENT_ACTIVITY = 4;
+		}
+
+	public class ResponseTransportType {
+			public static final long OUT_OF_BAND__PREARRANGED_OUTOFBAND_DELIVERY_MECHANIZM_IE_FTP_HTT = 1;
+			public static final long INBAND__TRANSPORT_THE_REQUEST_WAS_SENT_OVER_DEFAULT = 0;
+		}
+
+	public class PosReqResult {
+			public static final long NOT_AUTHORIZED_TO_REQUEST_POSITIONS = 3;
+			public static final long NO_POSITIONS_FOUND_THAT_MATCH_CRITERIA = 2;
+			public static final long INVALID_OR_UNSUPPORTED_REQUEST = 1;
+			public static final long VALID_REQUEST = 0;
+			public static final long REQUEST_FOR_POSITION_NOT_SUPPORTED = 4;
+			public static final long OTHER_USE_TEXT_58_IN_CONJUNCTION_WITH_THIS_CODE_FOR_AN_EXPLAINAT = 99;
+		}
+
+	public class PosReqStatus {
+			public static final long REJECTED = 2;
+			public static final long COMPLETED_WITH_WARNINGS = 1;
+			public static final long COMPLETED = 0;
+		}
+
+	public class SettlPriceType {
+			public static final long THEORETICAL = 2;
+			public static final long FINAL = 1;
+		}
+
+	public class AssignmentMethod {
+			public static final byte PRORATA = 'P';
+			public static final byte RANDOM = 'R';
+		}
+
+	public class ExerciseMethod {
+			public static final byte AUTOMATIC = 'A';
+			public static final byte MANUAL = 'M';
+		}
+
+	public class TradeRequestResult {
+			public static final long INVALID_PARTIES = 3;
+			public static final long INVALID_TYPE_OF_TRADE_REQUESTED = 2;
+			public static final long INVALID_OR_UNKNOWN_INSTRUMENT = 1;
+			public static final long SUCCESSFUL_DEFAULT = 0;
+			public static final long INVALID_DESTINATION_REQUESTED = 5;
+			public static final long INVALID_TRANSPORT_TYPE_REQUESTED = 4;
+			public static final long NOT_AUTHORIZED = 9;
+			public static final long TRADEREQUESTTYPE_NOT_SUPPORTED = 8;
+			public static final long OTHER = 99;
+		}
+
+	public class TradeRequestStatus {
+			public static final long REJECTED = 2;
+			public static final long COMPLETED = 1;
+			public static final long ACCEPTED = 0;
+		}
+
+	public class TradeReportRejectReason {
+			public static final long UNAUTHORIZED_TO_REPORT_TRADES = 3;
+			public static final long UNKNOWN_INSTRUMENT = 2;
+			public static final long INVALID_PARTY_ONFORMATION = 1;
+			public static final long SUCCESSFUL_DEFAULT = 0;
+			public static final long INVALID_TRADE_TYPE = 4;
+			public static final long OTHER = 99;
+		}
+
+	public class SideMultiLegReportingType {
+			public static final long MULTILEG_SECURITY = 3;
+			public static final long INDIVIDUAL_LEG_OF_A_MULTILEG_SECURITY = 2;
+			public static final long SINGLE_SECURITY_DEFAULT_IF_NOT_SPECIFIED = 1;
+		}
+
+	public class TrdRegTimestampType {
+			public static final long TIME_OUT = 3;
+			public static final long TIME_IN = 2;
+			public static final long EXECUTION_TIME = 1;
+			public static final long SUBMISSION_TO_CLEARING = 7;
+			public static final long DESK_RECEIPT = 6;
+			public static final long BROKER_EXECUTION = 5;
+			public static final long BROKER_RECEIPT = 4;
+		}
+
+	public class ConfirmType {
+			public static final long CONFIRMATION_REQUEST_REJECTED_REASON_CAN_BE_STATED_IN_TEXT_58_FI = 3;
+			public static final long CONFIRMATION = 2;
+			public static final long STATUS = 1;
+		}
+
+	public class ConfirmRejReason {
+			public static final long MISSING_SETTLEMENT_INSTRUCTIONS = 2;
+			public static final long MISMATCHED_ACCOUNT = 1;
+			public static final long OTHER = 99;
+		}
+
+	public class BookingType {
+			public static final long TOTAL_RETURN_SWAP = 2;
+			public static final long CFD_CONTRACT_FOR_DIFFERENCE = 1;
+			public static final long REGULAR_BOOKING = 0;
+		}
+
+	public class AllocSettlInstType {
+			public static final long SSI_DB_IDS_PROVIDED = 3;
+			public static final long FULL_DETAILS_PROVIDED = 2;
+			public static final long DERIVE_FROM_PARAMETERS_PROVIDED = 1;
+			public static final long USE_DEFAULT_INSTRUCTIONS = 0;
+			public static final long PHONE_FOR_INSTRUCTIONS = 4;
+		}
+
+	public class DlvyInstType {
+			public static final byte SECURITIES = 'S';
+			public static final byte CASH = 'C';
+		}
+
+	public class TerminationType {
+			public static final long FLEXIBLE = 3;
+			public static final long TERM = 2;
+			public static final long OVERNIGHT = 1;
+			public static final long OPEN = 4;
+		}
+
+	public class SettlInstReqRejCode {
+			public static final long NO_MATCHING_SETTLEMENT_INSTRUCTIONS_FOUND = 2;
+			public static final long UNKNOWN_ACCOUNT = 1;
+			public static final long UNABLE_TO_PROCESS_REQUEST = 0;
+			public static final long OTHER = 99;
+		}
+
+	public class AllocReportType {
+			public static final long SELLSIDE_CALCULATED_USING_PRELIMINARY_INCLUDES_MISCFEES_AND_NETM = 3;
+			public static final long PRELIMINARY_REQUEST_TO_INTERMEDIARY = 2;
+			public static final long REJECT = 10;
+			public static final long WAREHOUSE_RECAP = 5;
+			public static final long SELLSIDE_CALCULATED_WITHOUT_PRELIMINARY_SENT_UNSOLICITED_BY_SELL = 4;
+			public static final long ACCEPT = 9;
+			public static final long REQUEST_TO_INTERMEDIARY = 8;
+			public static final long REVERSE_PENDING = 14;
+			public static final long ACCEPT_PENDING = 11;
+			public static final long COMPLETE = 12;
+		}
+
+	public class AllocCancReplaceReason {
+			public static final long CHANGE_IN_UNDERLYING_ORDER_DETAILS = 2;
+			public static final long ORIGINAL_DETAILS_INCOMPLETEINCORRECT = 1;
+			public static final long OTHER = 99;
+		}
+
+	public class AllocAccountType {
+			public static final long HOUSE_TRADER = 3;
+			public static final long ACCOUNT_IS_CARRIED_ON_NONCUSTOMER_SIDE_OF_BOOKS = 2;
+			public static final long ACCOUNT_IS_CARRIED_PN_CUSTOMER_SIDE_OF_BOOKS = 1;
+			public static final long ACCOUNT_IS_HOUSE_TRADER_AND_IS_CROSS_MARGINED = 7;
+			public static final long ACCOUNT_IS_CARRIED_ON_NONCUSTOMER_SIDE_OF_BOOKS_AND_IS_CROSS_MAR = 6;
+			public static final long FLOOR_TRADER = 4;
+			public static final long JOINT_BACK_OFFICE_ACCOUNT_JBO = 8;
+		}
+
+	public class PartySubIDType {
+			public static final long FUND_ACCOUNT_NAME = 19;
+			public static final long CSD_PARTICIPANT_MEMBER_CODE = 17;
+			public static final long REGISTERED_ADDRESS = 18;
+			public static final long CURRENCY_DELIVERY_IDENTIFIER = 33;
+			public static final long CASH_ACCOUNT_NUMBER_FOR_SETTLEMENT_INSTRUCTIONS = 15;
+			public static final long BIC = 16;
+			public static final long REGULATORY_STATUS_FOR_CONFIRMATION_PURPOSES = 13;
+			public static final long REGISTRATION_NAME_FOR_SETTLEMENT_INSTRUCTIONS = 14;
+			public static final long REGISTRATION_NUMBER_FOR_SETTLEMENT_INSTRUCTIONS_AND_CONFIRMATION = 11;
+			public static final long REGISTERED_ADDRESS_FOR_CONFIRMATION_PURPOSES = 12;
+			public static final long FAX_NUMBER = 21;
+			public static final long TELEX_NUMBER = 20;
+			public static final long SECURITIES_ACCOUNT_NAME = 22;
+			public static final long CASH_ACCOUNT_NAME = 23;
+			public static final long DEPARTMENT = 24;
+			public static final long LOCATION_DESK = 25;
+			public static final long POSITION_ACCOUNT_TYPE = 26;
+			public static final long SECURITY_LOCATE_ID = 27;
+			public static final long MARKET_MAKER = 28;
+			public static final long ELIGIBLE_COUNTERPARTY = 29;
+			public static final long SYSTEM = 3;
+			public static final long PERSON = 2;
+			public static final long SECURITIES_ACCOUNT_NUMBER_FOR_SETTLEMENT_INSTRUCTIONS = 10;
+			public static final long FIRM = 1;
+			public static final long PROFESSIONAL_CLIENT = 30;
+			public static final long PHONE_NUMBER = 7;
+			public static final long POSTAL_ADDRESS = 6;
+			public static final long EXECUTION_VENUE = 32;
+			public static final long FULL_LEGAL_NAME_OF_FIRM = 5;
+			public static final long LOCATION = 31;
+			public static final long APPLICATION = 4;
+			public static final long CONTACT_NAME = 9;
+			public static final long EMAIL_ADDRESS = 8;
+		}
+
+	public class AllocIntermedReqType {
+			public static final long PENDING_REVERSAL = 3;
+			public static final long PENDING_RELEASE = 2;
+			public static final long PENDING_ACCEPT = 1;
+			public static final long ACCOUNT_LEVEL_REJECT = 6;
+			public static final long BLOCK_LEVEL_REJECT = 5;
+			public static final long ACCEPT = 4;
+		}
+
+	public class ApplQueueResolution {
+			public static final long END_SESSION = 3;
+			public static final long OVERLAY_LAST = 2;
+			public static final long QUEUE_FLUSHED = 1;
+			public static final long NO_ACTION_TAKEN = 0;
+		}
+
+	public class ApplQueueAction {
+			public static final long END_SESSION = 3;
+			public static final long OVERLAY_LAST = 2;
+			public static final long QUEUE_FLUSHED = 1;
+			public static final long NO_ACTION_TAKEN = 0;
+		}
+
+	public class AvgPxIndicator {
+			public static final long LAST_TRADE_IS_THE_AVERAGE_PRICE_GROUP_IDENTIFIED_BY_THE_TRADELIN = 2;
+			public static final long TRADE_IS_PART_OF_AN_AVERAGE_PRICE_GROUP_IDENTIFIED_BY_THE_TRADEL = 1;
+			public static final long NO_AVERAGE_PRICING = 0;
+		}
+
+	public class TradeAllocIndicator {
+			public static final long ALLOCATION_GIVEUP_EXECUTOR = 3;
+			public static final long USE_ALLOCATION_PROVIDED_WITH_THE_TRADE = 2;
+			public static final long ALLOCATION_REQUIRED_GIVEUP_TRADE_ALLOCATION_INFORMATION_NOT_PROV = 1;
+			public static final long ALLOCATION_NOT_REQUIRED = 0;
+			public static final long ALLOCATION_TO_CLAIM_ACCOUNT = 5;
+			public static final long ALLOCATION_FROM_EXECUTOR = 4;
+		}
+
+	public class ExpirationCycle {
+			public static final long TRADING_ELIGIBILITY_EXPIRATION_SPECIFIED_IN_THE_DATE_AND_TIME_FI = 2;
+			public static final long EXPIRE_ON_TRADING_SESSION_OPEN = 1;
+			public static final long EXPIRE_ON_TRADING_SESSION_CLOSE_DEFAULT = 0;
+		}
+
+	public class TrdType {
+			public static final long SPECIAL_EX_CAPITAL_REPAYMENTS_XP = 35;
+			public static final long SPECIAL_CUM_BONUS_CB = 36;
+			public static final long SPECIAL_EX_RIGHTS_XR = 33;
+			public static final long SPECIAL_CUM_CAPITAL_REPAYMENTS_CP = 34;
+			public static final long WORKED_PRINCIPAL_TRADE_UKSPECIFIC = 39;
+			public static final long SPECIAL_EX_BONUS_XB = 37;
+			public static final long BLOCK_TRADE_SAME_AS_LARGE_TRADE = 38;
+			public static final long PROROGATION_BUY__EURONEXT_PARIS_ONLY_IS_USED_TO_DEFER_SETTLEMENT = 43;
+			public static final long PORTFOLIO_TRANSFER = 42;
+			public static final long NAME_CHANGE = 41;
+			public static final long BLOCK_TRADES__AFTER_MARKET = 40;
+			public static final long PRIVATELY_NEGOTIATED_TRADES = 22;
+			public static final long SUBSTITUTION_OF_FUTURES_FOR_FORWARDS = 23;
+			public static final long ERROR_TRADE = 24;
+			public static final long SPECIAL_CUM_DIVIDEND_CD = 25;
+			public static final long SPECIAL_EX_DIVIDEND_XD = 26;
+			public static final long SPECIAL_CUM_COUPON_CC = 27;
+			public static final long SPECIAL_EX_COUPON_XC = 28;
+			public static final long CASH_SETTLEMENT_CS = 29;
+			public static final long TRANSFER = 3;
+			public static final long EFP_EXCHANGE_FOR_PHYSICAL = 2;
+			public static final long BLOCK_TRADE = 1;
+			public static final long REGULAR_TRADE = 0;
+			public static final long BUNCHED_TRADE = 7;
+			public static final long SPECIAL_PRICE_USUALLY_NET_OR_ALLIN_PRICE_SP = 30;
+			public static final long WEIGHTED_AVERAGE_PRICE_TRADE = 6;
+			public static final long T_TRADE = 5;
+			public static final long SPECIAL_CUM_RIGHTS_CR = 32;
+			public static final long LATE_TRADE = 4;
+			public static final long GUARANTEED_DELIVERY_GD = 31;
+			public static final long PRIOR_REFERENCE_PRICE_TRADE = 9;
+			public static final long LATE_BUNCHED_TRADE = 8;
+			public static final long OPTION_INTERIM_TRADE = 19;
+			public static final long EXCHANGE_BASIS_FACILITY_EBF = 55;
+			public static final long FUTURES_LARGE_ORDER_EXECUTION = 17;
+			public static final long EXCHANGE_OF_FUTURES_FOR_FUTURES_EXTERNAL_MARKET_EFF = 18;
+			public static final long TRADING_AT_SETTLEMENT = 15;
+			public static final long ALL_OR_NONE = 16;
+			public static final long EXCHANGE_OF_FUTURES_FOR_IN_MARKET_FUTURES_EFM__EG_FULL_SIZED_FOR = 13;
+			public static final long EXCHANGE_OF_OPTIONS_FOR_OPTIONS_EOO = 14;
+			public static final long EXCHANGE_FOR_RISK_EFR = 11;
+			public static final long EXCHANGE_FOR_SWAP_EFS_ = 12;
+			public static final long OPTION_CABINET_TRADE = 20;
+			public static final long DERIVATIVE_RELATED_TRANSACTION = 49;
+			public static final long NONSTANDARD_SETTLEMENT = 48;
+			public static final long OPTION_EXERCISE = 45;
+			public static final long PROROGATION_SELL__SEE_PROROGATION_BUY = 44;
+			public static final long FINANCING_TRANSACTION_INCLUDES_REPO_AND_STOCK_LENDING = 47;
+			public static final long DELTA_NEUTRAL_TRANSACTION = 46;
+			public static final long AFTER_HOURS_TRADE = 10;
+			public static final long VOLUME_WEIGHTED_AVERAGE_TRADE = 51;
+			public static final long EXCHANGE_GRANTED_TRADE = 52;
+			public static final long REPURCHASE_AGREEMENT = 53;
+			public static final long OTC = 54;
+			public static final long PORTFOLIO_TRADE = 50;
+		}
+
+	public class TrdSubType {
+			public static final long N_NONPROTECTED_PORTFOLIO_TRANSACTION_OR_A_FULLY_DISCLOSED_PORTFO = 19;
+			public static final long OTC_QUOTE = 35;
+			public static final long LC_CORRECTION_SUBMITTED_MORE_THAN_THREE_DAYS_AFTER_PUBLICATION_O = 17;
+			public static final long CONVERTED_SWAP = 36;
+			public static final long M_TRANSACTION_OTHER_THAN_A_TRANSACTION_RESULTING_FROM_A_STOCK_SW = 18;
+			public static final long OFF_HOURS_TRADE = 33;
+			public static final long B_TRANSACTION_BETWEEN_TWO_MEMBER_FIRMS_WHERE_NEITHER_MEMBER_FIRM = 15;
+			public static final long ON_HOURS_TRADE = 34;
+			public static final long K_TRANSACTION_USING_BLOCK_TRADE_FACILITY = 16;
+			public static final long LARGE_IN_SCALE_L = 39;
+			public static final long AI_AUTOMATED_INPUT_FACILITY_DISABLED_IN_RESPONSE_TO_AN_EXCHANGE_ = 14;
+			public static final long CROSSED_TRADE_X = 37;
+			public static final long ACATS = 11;
+			public static final long INTERIM_PROTECTED_TRADE_I = 38;
+			public static final long NR_NONRISK_TRANSACTION_IN_A_SEATS_SECURITY_OTHER_THAN_AN_AIM_SEC = 21;
+			public static final long NM__I_TRANSACTION_WHERE_EXCHANGE_HAS_GRANTED_PERMISSION_FOR_NONP = 20;
+			public static final long P_PROTECTED_PORTFOLIO_TRANSACTION_OR_A_WORKED_PRINCIPAL_AGREEMEN = 22;
+			public static final long PA_PROTECTED_TRANSACTION_NOTIFICATION = 23;
+			public static final long PC_CONTRA_TRADE_FOR_TRANSACTION_WHICH_TOOK_PLACE_ON_A_PREVIOUS_D = 24;
+			public static final long PN_WORKED_PRINCIPAL_NOTIFICATION_FOR_A_PORTFOLIO_TRANSACTION_WHI = 25;
+			public static final long R__I_RISKLESS_PRINCIPAL_TRANSACTION_BETWEEN_NONMEMBERS_WHERE_THE = 26;
+			public static final long RO_TRANSACTION_WHICH_RESULTED_FROM_THE_EXERCISE_OF_A_TRADITIONAL = 27;
+			public static final long RT_RISK_TRANSACTION_IN_A_SEATS_SECURITY_EXCLUDING_AIM_SECURITY_R = 28;
+			public static final long SW_TRANSACTIONS_RESULTING_FROM_STOCK_SWAP_OR_A_STOCK_SWITCH_ONE_ = 29;
+			public static final long REJECT_FOR_SUBMITTING_SIDE = 3;
+			public static final long EXTERNAL_TRANSFER_OR_TRANSFER_OF_ACCOUNT = 2;
+			public static final long TRANSACTION_FROM_ASSIGNMENT = 10;
+			public static final long INTERNAL_TRANSFER_OR_ADJUSTMENT = 1;
+			public static final long CMTA = 0;
+			public static final long T_IF_REPORTING_A_SINGLE_PROTECTED_TRANSACTION = 30;
+			public static final long DIFFERENTIAL_SPREAD = 7;
+			public static final long ONSET_DUE_TO_AN_ALLOCATION = 6;
+			public static final long WT_WORKED_PRINCIPAL_TRANSACTION_OTHER_THAN_A_PORTFOLIO_TRANSACTI = 32;
+			public static final long OFFSET_DUE_TO_AN_ALLOCATION = 5;
+			public static final long WN_WORKED_PRINCIPAL_NOTIFICATION_FOR_A_SINGLE_ORDER_BOOK_SECURIT = 31;
+			public static final long ADVISORY_FOR_CONTRA_SIDE = 4;
+			public static final long TRANSACTION_FROM_EXERCISE = 9;
+			public static final long IMPLIED_SPREAD_LEG_EXECUTED_AGAINST_AN_OUTRIGHT = 8;
+		}
+
+	public class PegMoveType {
+			public static final long FIXED = 1;
+			public static final long FLOATING_DEFAULT = 0;
+		}
+
+	public class PegOffsetType {
+			public static final long PRICE_TIER__LEVEL = 3;
+			public static final long TICKS = 2;
+			public static final long BASIS_POINTS = 1;
+			public static final long PRICE_DEFAULT = 0;
+		}
+
+	public class PegLimitType {
+			public static final long OR_WORSE__FOR_A_BUY_THE_PEG_LIMIT_IS_A_MINIMUM_AND_FOR_A_SELL_TH = 2;
+			public static final long STRICT__LIMIT_IS_A_STRICT_LIMIT = 1;
+			public static final long OR_BETTER_DEFAULT__PRICE_IMPROVEMENT_ALLOWED = 0;
+		}
+
+	public class PegRoundDirection {
+			public static final long MORE_PASSIVE__ON_A_BUY_ORDER_ROUND_DOWN_TO_THE_NEAREST_TICK_ON_A = 2;
+			public static final long MORE_AGGRESSIVE__ON_A_BUY_ORDER_ROUND_THE_PRICE_UP_TO_THE_NEARES = 1;
+		}
+
+	public class PegScope {
+			public static final long GLOBAL = 3;
+			public static final long NATIONAL = 2;
+			public static final long LOCAL_EXCHANGE_ECN_ATS = 1;
+			public static final long NATIONAL_EXCLUDING_LOCAL = 4;
+		}
+
+	public class DiscretionMoveType {
+			public static final long FIXED = 1;
+			public static final long FLOATING_DEFAULT = 0;
+		}
+
+	public class DiscretionOffsetType {
+			public static final long PRICE_TIER__LEVEL = 3;
+			public static final long TICKS = 2;
+			public static final long BASIS_POINTS = 1;
+			public static final long PRICE_DEFAULT = 0;
+		}
+
+	public class DiscretionLimitType {
+			public static final long OR_WORSE__FOR_A_BUY_THE_DISCRETION_PRICE_IS_A_MINIMUM_AND_FOR_A_ = 2;
+			public static final long STRICT__LIMIT_IS_A_STRICT_LIMIT = 1;
+			public static final long OR_BETTER_DEFAULT__PRICE_IMPROVEMENT_ALLOWED = 0;
+		}
+
+	public class DiscretionRoundDirection {
+			public static final long MORE_PASSIVE__ON_A_BUY_ORDER_ROUND_DOWN_TO_THE_NEAREST_TICK_ON_A = 2;
+			public static final long MORE_AGGRESSIVE__ON_A_BUY_ORDER_ROUND_THE_PRICE_UP_TO_THE_NEARES = 1;
+		}
+
+	public class DiscretionScope {
+			public static final long GLOBAL = 3;
+			public static final long NATIONAL = 2;
+			public static final long LOCAL_EXCHANGE_ECN_ATS = 1;
+			public static final long NATIONAL_EXCLUDING_LOCAL = 4;
+		}
+
+	public class TargetStrategy {
+			public static final long MININIZE_MARKET_IMPACT = 3;
+			public static final long PARTICIPATE_IE_AIM_TO_BE_X_PERCENT_OF_THE_MARKET_VOLUME = 2;
+			public static final long VWAP = 1;
+		}
+
+	public class LastLiquidityInd {
+			public static final long LIQUIDITY_ROUTED_OUT = 3;
+			public static final long REMOVED_LIQUIDITY = 2;
+			public static final long ADDED_LIQUIDITY = 1;
+			public static final long AUCTION = 4;
+		}
+
+	public class PublishTrdIndicator {
+			public static final boolean DO_NOT_REPORT_TRADE = false;
+			public static final boolean REPORT_TRADE = true;
+		}
+
+	public class ShortSaleReason {
+			public static final long SELLING_CUSTOMER_SOLD_SHORT_EXEMPT = 3;
+			public static final long SELLING_CUSTOMER_SOLD_SHORT = 2;
+			public static final long DEALER_SOLD_SHORT_EXEMPT = 1;
+			public static final long DEALER_SOLD_SHORT = 0;
+			public static final long QSR_OR_AGU_CONTRA_SIDE_SOLD_SHORT_EXEMPT = 5;
+			public static final long QUALIFIED_SERVICE_REPRESENTATIVE_QSR_OR_AUTOMATIC_GIVEUP_AGU_CON = 4;
+		}
+
+	public class QtyType {
+			public static final long UNITS_OF_MEASURE_PER_TIME_UNIT_IF_USED__MUST_SPECIFY_UNITOFMEASU = 2;
+			public static final long CONTRACTS_IF_USED__MUST_SPECIFY_CONTRACTMULTIPLIER_TAG_231 = 1;
+			public static final long UNITS_SHARES_PAR_CURRENCY = 0;
+		}
+
+	public class TradeReportType {
+			public static final long ALLEGED_LOCKEDIN_TRADE_BREAK = 15;
+			public static final long ALLEGED_NOWAS = 13;
+			public static final long ALLEGED_TRADE_REPORT_CANCEL = 14;
+			public static final long ALLEGED_NEW = 11;
+			public static final long ALLEGED_ADDENDUM = 12;
+			public static final long DECLINE = 3;
+			public static final long ACCEPT = 2;
+			public static final long ALLEGED = 1;
+			public static final long PENDED = 10;
+			public static final long SUBMIT = 0;
+			public static final long LOCKEDIN_TRADE_BREAK = 7;
+			public static final long TRADE_REPORT_CANCEL = 6;
+			public static final long NOWAS = 5;
+			public static final long ADDENDUM = 4;
+			public static final long INVALID_CMTA = 9;
+			public static final long DEFAULTED = 8;
+		}
+
+	public class AllocNoOrdersType {
+			public static final long EXPLICIT_LIST_PROVIDED = 1;
+			public static final long NOT_SPECIFIED = 0;
+		}
+
+	public class EventType {
+			public static final long POSITION_REMOVAL_DATE = 19;
+			public static final long FIRST_INTENT_DATE = 17;
+			public static final long LAST_INTENT_DATE = 18;
+			public static final long INITIAL_INVENTORY_DUE_DATE = 15;
+			public static final long FINAL_INVENTORY_DUE_DATE = 16;
+			public static final long FIRST_DELIVERY_DATE = 13;
+			public static final long LAST_DELIVERY_DATE = 14;
+			public static final long SWAP_NEXT_START_DATE = 11;
+			public static final long SWAP_NEXT_ROLL_DATE = 12;
+			public static final long TENDER = 3;
+			public static final long CALL = 2;
+			public static final long PUT = 1;
+			public static final long SWAP_ROLL_DATE = 10;
+			public static final long LAST_ELIGIBLE_TRADE_DATE = 7;
+			public static final long INACTIVIATION = 6;
+			public static final long ACTIVATION = 5;
+			public static final long SINKING_FUND_CALL = 4;
+			public static final long SWAP_END_DATE = 9;
+			public static final long SWAP_START_DATE = 8;
+			public static final long OTHER = 99;
+		}
+
+	public class InstrAttribType {
+			public static final long SUBJECT_TO_ALTERNATIVE_MINIMUM_TAX = 19;
+			public static final long TAXABLE = 17;
+			public static final long INDEXED = 18;
+			public static final long IN_DEFAULT = 15;
+			public static final long UNRATED = 16;
+			public static final long ESCROWED_TO_REDEMPTION_DATE__CALLABLE_SUPPLY_REDEMPTION_DATE_IN_ = 13;
+			public static final long PREREFUNDED = 14;
+			public static final long CALLABLE_PUTTABLE = 11;
+			public static final long ESCROWED_TO_MATURITY = 12;
+			public static final long CALLABLE_BELOW_MATURITY_VALUE = 21;
+			public static final long ORIGINAL_ISSUE_DISCOUNT_PRICE_SUPPLY_PRICE_IN_THE_INSTRATTRIBVAL = 20;
+			public static final long TEXT_SUPPLY_THE_TEXT_OF_THE_ATTRIBUTE_OR_DISCLAIMER_IN_THE_INSTR = 99;
+			public static final long CALLABLE_WITHOUT_NOTICE_BY_MAIL_TO_HOLDER_UNLESS_REGISTERED = 22;
+			public static final long PRICE_TICK_RULES_FOR_SECURITY = 23;
+			public static final long TRADE_TYPE_ELIGIBILITY_DETAILS_FOR_SECURITY = 24;
+			public static final long INSTRUMENT_DENOMINATOR = 25;
+			public static final long INSTRUMENT_NUMERATOR = 26;
+			public static final long INSTRUMENT_PRICE_PRECISION = 27;
+			public static final long INSTRUMENT_STRIKE_PRICE = 28;
+			public static final long TRADEABLE_INDICATOR = 29;
+			public static final long INTEREST_BEARING_FOR_EURO_COMMERCIAL_PAPER_WHEN_NOT_ISSUED_AT_DI = 3;
+			public static final long ZERO_COUPON = 2;
+			public static final long ORIGINAL_ISSUE_DISCOUNT = 10;
+			public static final long FLAT_SECURITIES_PAY_INTEREST_ON_A_CURRENT_BASIS_BUT_ARE_TRADED_W = 1;
+			public static final long STEPPED_COUPON = 7;
+			public static final long LESS_FEE_FOR_PUT = 6;
+			public static final long VARIABLE_RATE = 5;
+			public static final long NO_PERIODIC_PAYMENTS = 4;
+			public static final long WHEN_AND_IF_ISSUED = 9;
+			public static final long COUPON_PERIOD_IF_NOT_SEMIANNUAL_SUPPLY_REDEMPTION_DATE_IN_THE_IN = 8;
+		}
+
+	public class CPProgram {
+			public static final long I42 = 2;
+			public static final long I3A3 = 1;
+			public static final long OTHER = 99;
+		}
+
+	public class MiscFeeBasis {
+			public static final long PERCENTAGE = 2;
+			public static final long PER_UNIT = 1;
+			public static final long ABSOLUTE = 0;
+		}
+
+	public class LastFragment {
+			public static final boolean NOT_LAST_MESSAGE = false;
+			public static final boolean LAST_MESSAGE = true;
+		}
+
+	public class CollAsgnReason {
+			public static final long MARGIN_DEFICIENCY = 3;
+			public static final long TIME_WARNING = 2;
+			public static final long SCHEDULED = 1;
+			public static final long INITIAL = 0;
+			public static final long ADVERSE_TAX_EVENT = 7;
+			public static final long EVENT_OF_DEFAULT = 6;
+			public static final long FORWARD_COLLATERAL_DEMAND = 5;
+			public static final long MARGIN_EXCESS = 4;
+		}
+
+	public class CollInquiryQualifier {
+			public static final long SUBSTITUTION_ELIGIBLE = 3;
+			public static final long COLLATERAL_INSTRUMENT = 2;
+			public static final long GC_INSTRUMENT = 1;
+			public static final long TRADE_DATE = 0;
+			public static final long OUTSTANDING_TRADES_TODAY__END_DATE = 7;
+			public static final long FULLY_ASSIGNED = 6;
+			public static final long PARTIALLY_ASSIGNED = 5;
+			public static final long NOT_ASSIGNED = 4;
+		}
+
+	public class CollAsgnTransType {
+			public static final long RELEASE = 3;
+			public static final long CANCEL = 2;
+			public static final long REPLACE = 1;
+			public static final long NEW = 0;
+			public static final long REVERSE = 4;
+		}
+
+	public class CollAsgnRespType {
+			public static final long REJECTED = 3;
+			public static final long DECLINED = 2;
+			public static final long ACCEPTED = 1;
+			public static final long RECEIVED = 0;
+		}
+
+	public class CollAsgnRejectReason {
+			public static final long INSUFFICIENT_COLLATERAL = 3;
+			public static final long UNAUTHORIZED_TRANSACTION = 2;
+			public static final long UNKNOWN_OR_INVALID_INSTRUMENT = 1;
+			public static final long UNKNOWN_DEAL_ORDER__TRADE = 0;
+			public static final long EXCESSIVE_SUBSTITUTION = 5;
+			public static final long INVALID_TYPE_OF_COLLATERAL = 4;
+			public static final long OTHER = 99;
+		}
+
+	public class CollStatus {
+			public static final long ASSIGNED_ACCEPTED = 3;
+			public static final long ASSIGNMENT_PROPOSED = 2;
+			public static final long PARTIALLY_ASSIGNED = 1;
+			public static final long UNASSIGNED = 0;
+			public static final long CHALLENGED = 4;
+		}
+
+	public class LastRptRequested {
+			public static final boolean NOT_LAST_MESSAGE = false;
+			public static final boolean LAST_MESSAGE = true;
+		}
+
+	public class DeliveryType {
+			public static final long HOLD_IN_CUSTODY = 3;
+			public static final long TRIPARTY = 2;
+			public static final long FREE_DELIVER_IF_SELL_OR_RECEIVE_IF_BUY_FREE = 1;
+			public static final long VERSUS_PAYMENT_DELIVER_IF_SELL_OR_RECEIVE_IF_BUY_VS_AGAINST_PAYM = 0;
+		}
+
+	public class UserRequestType {
+			public static final long CHANGE_PASSWORD_FOR_USER = 3;
+			public static final long LOG_OFF_USER = 2;
+			public static final long LOG_ON_USER = 1;
+			public static final long REQUEST_INDIVIDUAL_USER_STATUS = 4;
+		}
+
+	public class UserStatus {
+			public static final long USER_NOT_RECOGNISED = 3;
+			public static final long NOT_LOGGED_IN = 2;
+			public static final long LOGGED_IN = 1;
+			public static final long FORCED_USER_LOGOUT_BY_EXCHANGE = 7;
+			public static final long OTHER = 6;
+			public static final long PASSWORD_CHANGED = 5;
+			public static final long PASSWORD_INCORRECT = 4;
+			public static final long SESSION_SHUTDOWN_WARNING = 8;
+		}
+
+	public class StatusValue {
+			public static final long NOT_CONNECTED__DOWN_EXPECTED_DOWN = 3;
+			public static final long NOT_CONNECTED__DOWN_EXPECTED_UP = 2;
+			public static final long CONNECTED = 1;
+			public static final long IN_PROCESS = 4;
+		}
+
+	public class NetworkRequestType {
+			public static final long SUBSCRIBE = 2;
+			public static final long SNAPSHOT = 1;
+			public static final long STOP_SUBSCRIBING = 4;
+			public static final long LEVEL_OF_DETAIL_THEN_NOCOMPIDS_BECOMES_REQUIRED = 8;
+		}
+
+	public class NetworkStatusResponseType {
+			public static final long INCREMENTAL_UPDATE = 2;
+			public static final long FULL = 1;
+		}
+
+	public class TrdRptStatus {
+			public static final long ACCEPTED_WITH_ERRORS = 3;
+			public static final long REJECTED = 1;
+			public static final long ACCEPTED = 0;
+		}
+
+	public class AffirmStatus {
+			public static final long AFFIRMED = 3;
+			public static final long CONFIRM_REJECTED_IE_NOT_AFFIRMED = 2;
+			public static final long RECEIVED = 1;
+		}
+
+	public class CollAction {
+			public static final long REMOVE = 2;
+			public static final long ADD = 1;
+			public static final long RETAIN = 0;
+		}
+
+	public class CollInquiryStatus {
+			public static final long COMPLETED_WITH_WARNINGS = 3;
+			public static final long COMPLETED = 2;
+			public static final long ACCEPTED_WITH_WARNINGS = 1;
+			public static final long ACCEPTED = 0;
+			public static final long REJECTED = 4;
+		}
+
+	public class CollInquiryResult {
+			public static final long INVALID_PARTIES = 3;
+			public static final long INVALID_OR_UNKNOWN_COLLATERAL_TYPE = 2;
+			public static final long INVALID_OR_UNKNOWN_INSTRUMENT = 1;
+			public static final long SUCCESSFUL_DEFAULT = 0;
+			public static final long NO_COLLATERAL_FOUND_FOR_THE_ORDER_SPECIFIED = 7;
+			public static final long NO_COLLATERAL_FOUND_FOR_THE_TRADE_SPECIFIED = 6;
+			public static final long INVALID_DESTINATION_REQUESTED = 5;
+			public static final long INVALID_TRANSPORT_TYPE_REQUESTED = 4;
+			public static final long UNAUTHORIZED_FOR_COLLATERAL_INQUIRY = 9;
+			public static final long COLLATERAL_INQUIRY_TYPE_NOT_SUPPORTED = 8;
+			public static final long OTHER_FURTHER_INFORMATION_IN_TEXT_58_FIELD = 99;
+		}
+
+	public class StrategyParameterType {
+			public static final long UTCTIMESTAMP = 19;
+			public static final long EXCHANGE = 17;
+			public static final long MONTHYEAR = 18;
+			public static final long MULTIPLECHARVALUE = 15;
+			public static final long CURRENCY = 16;
+			public static final long BOOLEAN = 13;
+			public static final long STRING = 14;
+			public static final long PERCENTAGE = 11;
+			public static final long CHAR = 12;
+			public static final long LOCALMKTDATE = 21;
+			public static final long UTCTIMEONLY = 20;
+			public static final long UTCDATEONLY = 22;
+			public static final long DATA = 23;
+			public static final long MULTIPLESTRINGVALUE = 24;
+			public static final long COUNTRY = 25;
+			public static final long LANGUAGE = 26;
+			public static final long TZTIMEONLY = 27;
+			public static final long TZTIMESTAMP = 28;
+			public static final long TENOR = 29;
+			public static final long NUMINGROUP = 3;
+			public static final long LENGTH = 2;
+			public static final long AMT = 10;
+			public static final long INT = 1;
+			public static final long QTY = 7;
+			public static final long FLOAT = 6;
+			public static final long TAGNUM = 5;
+			public static final long SEQNUM = 4;
+			public static final long PRICEOFFSET = 9;
+			public static final long PRICE = 8;
+		}
+
+	public class SecurityStatus {
+			public static final byte[] INACTIVE = "2".getBytes();
+			public static final byte[] ACTIVE = "1".getBytes();
+		}
+
+	public class UnderlyingCashType {
+			public static final byte[] DIFF = "DIFF".getBytes();
+			public static final byte[] FIXED = "FIXED".getBytes();
+		}
+
+	public class UnderlyingSettlementType {
+			public static final long T1 = 2;
+			public static final long T4 = 5;
+			public static final long T3 = 4;
+		}
+
+	public class SecurityUpdateAction {
+			public static final byte DELETE = 'D';
+			public static final byte ADD = 'A';
+			public static final byte MODIFY = 'M';
+		}
+
+	public class ExpirationQtyType {
+			public static final long FINAL_WILL_BE_EXERCISED = 3;
+			public static final long NON_AUTO_EXERCISE = 2;
+			public static final long AUTO_EXERCISE = 1;
+			public static final long DIFFERENCE = 5;
+			public static final long CONTRARY_INTENTION = 4;
+		}
+
+	public class IndividualAllocType {
+			public static final long THIRD_PARTY_ALLOCATION = 2;
+			public static final long SUB_ALLOCATE = 1;
+		}
+
+	public class UnitOfMeasure {
+			public static final byte[] TONS_US = "tn".getBytes();
+			public static final byte[] GALLONS = "Gal".getBytes();
+			public static final byte[] BUSHELS = "Bu".getBytes();
+			public static final byte[] MEGAWATT_HOURS = "MWh".getBytes();
+			public static final byte[] ONE_MILLION_BTU = "MMBtu".getBytes();
+			public static final byte[] ALLOWANCES = "Alw".getBytes();
+			public static final byte[] MILLION_BARRELS = "MMbbl".getBytes();
+			public static final byte[] METRIC_TONS_AKA_TONNE = "t".getBytes();
+			public static final byte[] BARRELS = "Bbl".getBytes();
+			public static final byte[] US_DOLLARS = "USD".getBytes();
+			public static final byte[] TROY_OUNCES = "oz_tr".getBytes();
+			public static final byte[] POUNDS = "lbs".getBytes();
+			public static final byte[] BILLION_CUBIC_FEET = "Bcf".getBytes();
+		}
+
+	public class TimeUnit {
+			public static final byte[] DAY = "D".getBytes();
+			public static final byte[] SECOND = "S".getBytes();
+			public static final byte[] YEAR = "Yr".getBytes();
+			public static final byte[] HOUR = "H".getBytes();
+			public static final byte[] MONTH = "Mo".getBytes();
+			public static final byte[] WEEK = "Wk".getBytes();
+			public static final byte[] MINUTE = "Min".getBytes();
+		}
+
+	public class AllocMethod {
+			public static final long MANUAL = 3;
+			public static final long GUARANTOR = 2;
+			public static final long AUTOMATIC = 1;
+		}
+
+	public class AsOfIndicator {
+			public static final byte TRUE__TRADE_IS_AN_ASOF_TRADE = '1';
+			public static final byte FALSE__TRADE_IS_NOT_AN_ASOF_TRADE = '0';
+		}
+
+	public class MDBookType {
+			public static final long ORDER_DEPTH = 3;
+			public static final long PRICE_DEPTH = 2;
+			public static final long TOP_OF_BOOK = 1;
+		}
+
+	public class MDOriginType {
+			public static final long CROSS = 2;
+			public static final long OFFBOOK = 1;
+			public static final long BOOK = 0;
+		}
+
+	public class CustOrderHandlingInst {
+			public static final byte[] EXCHANGE_FOR_PHYSICAL_TRANSACTION = "E.W".getBytes();
+			public static final byte[] STOP_STOCK_TRANSACTION = "S.W".getBytes();
+			public static final byte[] LIMIT_ON_OPEN = "LOO".getBytes();
+			public static final byte[] TIME_ORDER = "TMO".getBytes();
+			public static final byte[] MARKET_ON_OPEN = "MOO".getBytes();
+			public static final byte[] PEGGED = "PEG".getBytes();
+			public static final byte[] MINIMUM_QUANTITY = "MQT".getBytes();
+			public static final byte[] IMBALANCE_ONLY = "IO".getBytes();
+			public static final byte[] IMMEDIATE_OR_CANCEL = "IOC".getBytes();
+			public static final byte[] WORK = "WRK".getBytes();
+			public static final byte[] MARKET_ON_CLOSE = "MOC".getBytes();
+			public static final byte[] MARKET_AT_OPEN = "MAO".getBytes();
+			public static final byte[] ALL_OR_NONE = "AON".getBytes();
+			public static final byte[] DIRECTED_ORDER = "DIR".getBytes();
+			public static final byte[] TRAILING_STOP = "TS".getBytes();
+			public static final byte[] SCALE = "SCL".getBytes();
+			public static final byte[] LIMIT_ON_CLOSE = "LOC".getBytes();
+			public static final byte[] NOT_HELD = "NH".getBytes();
+			public static final byte[] CASH_NOT_HELD = "CNH".getBytes();
+			public static final byte[] RESERVE_SIZE_ORDER = "RSV".getBytes();
+			public static final byte[] FILL_OR_KILL = "FOK".getBytes();
+			public static final byte[] OVER_THE_DAY = "OVD".getBytes();
+			public static final byte[] MARKET_AT_CLOSE = "MAC".getBytes();
+			public static final byte[] ADDON_ORDER = "ADD".getBytes();
+		}
+
+	public class OrderHandlingInstSource {
+			public static final long NASD_OATS = 1;
+		}
+
+	public class DeskType {
+			public static final byte[] PROGRAM_TRADING = "PT".getBytes();
+			public static final byte[] DERIVATIVES = "D".getBytes();
+			public static final byte[] TRADING = "T".getBytes();
+			public static final byte[] ARBITRAGE = "AR".getBytes();
+			public static final byte[] INTERNATIONAL = "IN".getBytes();
+			public static final byte[] AGENCY = "A".getBytes();
+			public static final byte[] SALES = "S".getBytes();
+			public static final byte[] PROPRIETARY = "PR".getBytes();
+			public static final byte[] PREFERRED_TRADING = "PF".getBytes();
+			public static final byte[] INSTITUTIONAL = "IS".getBytes();
+			public static final byte[] OTHER = "O".getBytes();
+		}
+
+	public class DeskTypeSource {
+			public static final long NASD_OATS = 1;
+		}
+
+	public class DeskOrderHandlingInst {
+			public static final byte[] EXCHANGE_FOR_PHYSICAL_TRANSACTION = "E.W".getBytes();
+			public static final byte[] STOP_STOCK_TRANSACTION = "S.W".getBytes();
+			public static final byte[] LIMIT_ON_OPEN = "LOO".getBytes();
+			public static final byte[] TIME_ORDER = "TMO".getBytes();
+			public static final byte[] MARKET_ON_OPEN = "MOO".getBytes();
+			public static final byte[] PEGGED = "PEG".getBytes();
+			public static final byte[] MINIMUM_QUANTITY = "MQT".getBytes();
+			public static final byte[] IMBALANCE_ONLY = "IO".getBytes();
+			public static final byte[] IMMEDIATE_OR_CANCEL = "IOC".getBytes();
+			public static final byte[] WORK = "WRK".getBytes();
+			public static final byte[] MARKET_ON_CLOSE = "MOC".getBytes();
+			public static final byte[] MARKET_AT_OPEN = "MAO".getBytes();
+			public static final byte[] ALL_OR_NONE = "AON".getBytes();
+			public static final byte[] DIRECTED_ORDER = "DIR".getBytes();
+			public static final byte[] TRAILING_STOP = "TS".getBytes();
+			public static final byte[] SCALE = "SCL".getBytes();
+			public static final byte[] LIMIT_ON_CLOSE = "LOC".getBytes();
+			public static final byte[] NOT_HELD = "NH".getBytes();
+			public static final byte[] CASH_NOT_HELD = "CNH".getBytes();
+			public static final byte[] RESERVE_SIZE_ORDER = "RSV".getBytes();
+			public static final byte[] FILL_OR_KILL = "FOK".getBytes();
+			public static final byte[] OVER_THE_DAY = "OVD".getBytes();
+			public static final byte[] MARKET_AT_CLOSE = "MAC".getBytes();
+			public static final byte[] ADDON_ORDER = "ADD".getBytes();
+		}
+
+	public class ExecAckStatus {
+			public static final byte DONT_KNOW__REJECTED = '2';
+			public static final byte ACCEPTED = '1';
+			public static final byte RECEIVED_NOT_YET_PROCESSED = '0';
+		}
+
+	public class CollApplType {
+			public static final long GENERAL = 1;
+			public static final long SPECIFIC_DEPOSIT = 0;
+		}
+
+	public class UnderlyingFXRateCalc {
+			public static final byte DIVIDE = 'D';
+			public static final byte MULTIPLY = 'M';
+		}
+
+	public class AllocPositionEffect {
+			public static final byte FIFO = 'F';
+			public static final byte ROLLED = 'R';
+			public static final byte CLOSE = 'C';
+			public static final byte OPEN = 'O';
+		}
+
+	public class DealingCapacity {
+			public static final byte PRINCIPAL = 'P';
+			public static final byte AGENT = 'A';
+			public static final byte RISKLESS_PRINCIPAL = 'R';
+		}
+
+	public class AggressorIndicator {
+			public static final boolean ORDER_INITIATOR_IS_PASSIVE = false;
+			public static final boolean ORDER_INITIATOR_IS_AGGRESSOR = true;
+		}
+
+	public class MDQuoteType {
+			public static final long COUNTER = 3;
+			public static final long RESTRICTED_TRADEABLE = 2;
+			public static final long TRADEABLE = 1;
+			public static final long INDICATIVE = 0;
+			public static final long INDICATIVE_AND_TRADEABLE = 4;
+		}
+
+	public class RefOrderIDSource {
+			public static final byte QUOTEENTRYID299 = '3';
+			public static final byte MDENTRYID278 = '2';
+			public static final byte ORDERID37 = '1';
+			public static final byte SECONDARYORDERID198 = '0';
+			public static final byte ORIGINAL_ORDER_ID = '4';
+		}
+
+	public class DisplayWhen {
+			public static final byte EXHAUST_WHEN_DISPLAYQTY__0 = '2';
+			public static final byte IMMEDIATE_AFTER_EACH_FILL = '1';
+		}
+
+	public class DisplayMethod {
+			public static final byte RANDOM_RANDOMIZE_VALUE = '3';
+			public static final byte NEW_USE_REFRESHQTY = '2';
+			public static final byte INITIAL_USE_ORIGINAL_DISPLAYQTY = '1';
+			public static final byte UNDISCLOSED_INVISIBLE_ORDER = '4';
+		}
+
+	public class PriceProtectionScope {
+			public static final byte GLOBAL_ACROSS_ALL_MARKETS = '3';
+			public static final byte NATIONAL_ACROSS_ALL_NATIONAL_MARKETS = '2';
+			public static final byte LOCAL_EXCHANGE_ECN_ATS = '1';
+			public static final byte NONE = '0';
+		}
+
+	public class LotType {
+			public static final byte BLOCK_LOT = '3';
+			public static final byte ROUND_LOT = '2';
+			public static final byte ODD_LOT = '1';
+			public static final byte ROUND_LOT_BASED_UPON_UNITOFMEASURE996 = '4';
+		}
+
+	public class PegPriceType {
+			public static final long OPENING_PEG = 3;
+			public static final long MIDPRICE_PEG_MIDPRICE_OF_INSIDE_QUOTE = 2;
+			public static final long LAST_PEG_LAST_SALE = 1;
+			public static final long PEG_TO_VWAP = 7;
+			public static final long PRIMARY_PEG_PRIMARY_MARKET__BUY_AT_BID_OR_SELL_AT_OFFER = 5;
+			public static final long MARKET_PEG = 4;
+			public static final long PEG_TO_LIMIT_PRICE = 9;
+			public static final long TRAILING_STOP_PEG = 8;
+		}
+
+	public class TriggerType {
+			public static final byte NEXT_AUCTION = '3';
+			public static final byte SPECIFIED_TRADING_SESSION = '2';
+			public static final byte PARTIAL_EXECUTION = '1';
+			public static final byte PRICE_MOVEMENT = '4';
+		}
+
+	public class TriggerAction {
+			public static final byte CANCEL = '3';
+			public static final byte MODIFY = '2';
+			public static final byte ACTIVATE = '1';
+		}
+
+	public class TriggerPriceType {
+			public static final byte BEST_BID = '3';
+			public static final byte LAST_TRADE = '2';
+			public static final byte BEST_OFFER = '1';
+			public static final byte BEST_MID = '6';
+			public static final byte BEST_OFFER_OR_LAST_TRADE = '5';
+			public static final byte BEST_BID_OR_LAST_TRADE = '4';
+		}
+
+	public class TriggerPriceTypeScope {
+			public static final byte GLOBAL_ACROSS_ALL_MARKETS = '3';
+			public static final byte NATIONAL_ACROSS_ALL_NATIONAL_MARKETS = '2';
+			public static final byte LOCAL_EXCHANGE_ECN_ATS = '1';
+			public static final byte NONE = '0';
+		}
+
+	public class TriggerPriceDirection {
+			public static final byte TRIGGER_IF_THE_PRICE_OF_THE_SPECIFIED_TYPE_GOES_DOWN_TO_OR_THROU = 'D';
+			public static final byte TRIGGER_IF_THE_PRICE_OF_THE_SPECIFIED_TYPE_GOES_UP_TO_OR_THROUGH = 'U';
+		}
+
+	public class TriggerOrderType {
+			public static final byte LIMIT = '2';
+			public static final byte MARKET = '1';
+		}
+
+	public class OrderCategory {
+			public static final byte PRIVATELY_NEGOTIATED_TRADE = '3';
+			public static final byte QUOTE = '2';
+			public static final byte ORDER = '1';
+			public static final byte IMPLIED_ORDER = '7';
+			public static final byte QUOTE_REQUEST = '6';
+			public static final byte LINKED_ORDER = '5';
+			public static final byte MULTILEG_ORDER = '4';
+			public static final byte STREAMING_PRICE_QUOTE = '9';
+			public static final byte CROSS_ORDER = '8';
+		}
+
+	public class TradeHandlingInstr {
+			public static final byte ONEPARTY_REPORT_FOR_PASS_THROUGH = '3';
+			public static final byte ONEPARTY_REPORT_FOR_MATCHING = '2';
+			public static final byte TWOPARTY_REPORT = '1';
+			public static final byte TRADE_CONFIRMATION = '0';
+			public static final byte TWO_PARTY_REPORT_FOR_CLAIM = '5';
+			public static final byte AUTOMATED_FLOOR_ORDER_ROUTING = '4';
+		}
+
+	public class ApplVerID {
+			public static final byte[] FIX41 = "3".getBytes();
+			public static final byte[] FIX40 = "2".getBytes();
+			public static final byte[] FIX30 = "1".getBytes();
+			public static final byte[] FIX27 = "0".getBytes();
+			public static final byte[] FIX50 = "7".getBytes();
+			public static final byte[] FIX44 = "6".getBytes();
+			public static final byte[] FIX43 = "5".getBytes();
+			public static final byte[] FIX42 = "4".getBytes();
+			public static final byte[] FIX50SP2 = "9".getBytes();
+			public static final byte[] FIX50SP1 = "8".getBytes();
+		}
+
+	public class ExDestinationIDSource {
+			public static final byte PROPRIETARY__CUSTOM_CODE = 'D';
+			public static final byte ISO_COUNTRY_CODE = 'E';
+			public static final byte MIC_ISO_10383__MARKET_IDENTIFIER_CODE = 'G';
+			public static final byte BIC_BANK_IDENTIFICATION_CODE_ISO_9362 = 'B';
+			public static final byte GENERALLY_ACCEPTED_MARKET_PARTICIPANT_IDENTIFIER_EG_NASD_MNEMONI = 'C';
+		}
+
+	public class ImpliedMarketIndicator {
+			public static final long BOTH_IMPLIEDIN_AND_IMPLIEDOUT = 3;
+			public static final long IMPLIEDOUT__THE_EXISTENCE_OF_THE_UNDERLYING_LEGS_ARE_IMPLIED_BY_ = 2;
+			public static final long IMPLIEDIN__THE_EXISTENCE_OF_A_MULTILEG_INSTRUMENT_IS_IMPLIED_BY_ = 1;
+			public static final long NOT_IMPLIED = 0;
+		}
+
+	public class SettlObligMode {
+			public static final long FINAL = 2;
+			public static final long PRELIMINARY = 1;
+		}
+
+	public class SettlObligTransType {
+			public static final byte RESTATE = 'T';
+			public static final byte REPLACE = 'R';
+			public static final byte CANCEL = 'C';
+			public static final byte NEW = 'N';
+		}
+
+	public class SettlObligSource {
+			public static final byte INVESTOR = '3';
+			public static final byte INSTRUCTIONS_FOR_INSTITUTION = '2';
+			public static final byte INSTRUCTIONS_OF_BROKER = '1';
+		}
+
+	public class QuoteEntryStatus {
+			public static final long ACCEPTED = 0;
+			public static final long EXPIRED = 7;
+			public static final long REMOVED_FROM_MARKET = 6;
+			public static final long REJECTED = 5;
+			public static final long CANCELED_DUE_TO_CROSS_MARKET = 15;
+			public static final long ACTIVE = 16;
+			public static final long CROSS_MARKET_WARNING = 13;
+			public static final long CANCELED_DUE_TO_LOCK_MARKET = 14;
+			public static final long LOCKED_MARKET_WARNING = 12;
+		}
+
+	public class RespondentType {
+			public static final long ALL_MARKET_MAKERS = 3;
+			public static final long SPECIFIED_MARKET_PARTICIPANTS = 2;
+			public static final long ALL_MARKET_PARTICIPANTS = 1;
+			public static final long PRIMARY_MARKET_MAKERS = 4;
+		}
+
+	public class SecurityTradingEvent {
+			public static final long PRICE_VOLATILITY_INTERRUPTION = 3;
+			public static final long TRADING_RESUMES_AFTER_HALT = 2;
+			public static final long ORDER_IMBALANCE_AUCTION_IS_EXTENDED = 1;
+			public static final long CHANGE_OF_BOOK_TYPE = 7;
+			public static final long CHANGE_OF_SECURITY_TRADING_STATUS = 6;
+			public static final long CHANGE_OF_TRADING_SUBSESSION = 5;
+			public static final long CHANGE_OF_TRADING_SESSION = 4;
+			public static final long CHANGE_OF_MARKET_DEPTH = 8;
+		}
+
+	public class StatsType {
+			public static final long AVERAGE_PRICE_VWAP_TWAP__ = 3;
+			public static final long HIGH__LOW_PRICE = 2;
+			public static final long EXCHANGE_LAST = 1;
+			public static final long TURNOVER_PRICE__QTY = 4;
+		}
+
+	public class MDSecSizeType {
+			public static final long CUSTOMER = 1;
+		}
+
+	public class SettlMethod {
+			public static final byte PHYSICAL_SETTLEMENT_REQUIRED = 'P';
+			public static final byte CASH_SETTLEMENT_REQUIRED = 'C';
+		}
+
+	public class ExerciseStyle {
+			public static final long BERMUDA = 2;
+			public static final long AMERICAN = 1;
+			public static final long EUROPEAN = 0;
+		}
+
+	public class PriceQuoteMethod {
+			public static final byte[] PERCENT_OF_PAR = "PCTPAR".getBytes();
+			public static final byte[] STANDARD_MONEY_PER_UNIT_OF_A_PHYSICAL = "STD".getBytes();
+			public static final byte[] INTEREST_RATE_INDEX = "INT".getBytes();
+			public static final byte[] INDEX = "INX".getBytes();
+		}
+
+	public class ValuationMethod {
+			public static final byte[] FUTURES_STYLE_MARKTOMARKET = "FUT".getBytes();
+			public static final byte[] FUTURES_STYLE_WITH_AN_ATTACHED_CASH_ADJUSTMENT = "FUTDA".getBytes();
+			public static final byte[] CDS_IN_DELIVERY__USE_RECOVERY_RATE_TO_CALCULATE_OBLIGATION = "CDSD".getBytes();
+			public static final byte[] CDS_STYLE_COLLATERALIZATION_OF_MARKET_TO_MARKET_AND_COUPON = "CDS".getBytes();
+			public static final byte[] PREMIUM_STYLE = "EQTY".getBytes();
+		}
+
+	public class ListMethod {
+			public static final long USER_REQUESTED = 1;
+			public static final long PRELISTED_ONLY = 0;
+		}
+
+	public class TickRuleType {
+			public static final long TRADED_AS_A_SPREAD_LEG = 3;
+			public static final long FIXED = 2;
+			public static final long VARIABLE = 1;
+			public static final long REGULAR = 0;
+			public static final long SETTLED_AS_A_SPREAD_LEG = 4;
+		}
+
+	public class MaturityMonthYearIncrementUnits {
+			public static final long YEARS = 3;
+			public static final long WEEKS = 2;
+			public static final long DAYS = 1;
+			public static final long MONTHS = 0;
+		}
+
+	public class MaturityMonthYearFormat {
+			public static final long YEARMONTHWEEK = 2;
+			public static final long YEARMONTHDAY = 1;
+			public static final long YEARMONTH_ONLY_DEFAULT = 0;
+		}
+
+	public class PriceLimitType {
+			public static final long PERCENTAGE = 2;
+			public static final long TICKS = 1;
+			public static final long PRICE = 0;
+		}
+
+	public class DerivativeSecurityListRequestType {
+			public static final long TRADINGSESSIONID = 3;
+			public static final long PRODUCT = 2;
+			public static final long SECURITYTYPE_AND_OR_CFICODE = 1;
+			public static final long SYMBOL = 0;
+			public static final long UNDERLYING_PRODUCT = 7;
+			public static final long UNDERLYING_SECURITYTYPE_AND_OR_CFICODE = 6;
+			public static final long UNDELYINGSYMBOL = 5;
+			public static final long ALL_SECURITIES = 4;
+			public static final long MARKETID_OR_MARKETID__MARKETSEGMENTID = 8;
+		}
+
+	public class MarketUpdateAction {
+			public static final byte DELETE = 'D';
+			public static final byte ADD = 'A';
+			public static final byte MODIFY = 'M';
+		}
+
+	public class SessionStatus {
+			public static final long NEW_SESSION_PASSWORD_DOES_NOT_COMPLY_WITH_POLICY = 3;
+			public static final long SESSION_PASSWORD_DUE_TO_EXPIRE = 2;
+			public static final long SESSION_PASSWORD_CHANGED = 1;
+			public static final long SESSION_ACTIVE = 0;
+			public static final long LOGONS_ARE_NOT_ALLOWED_AT_THIS_TIME = 7;
+			public static final long ACCOUNT_LOCKED = 6;
+			public static final long INVALID_USERNAME_OR_PASSWORD = 5;
+			public static final long SESSION_LOGOUT_COMPLETE = 4;
+			public static final long PASSWORD_EXPIRED = 8;
+		}
+
+	public class TradSesEvent {
+			public static final long CHANGE_OF_TRADING_STATUS = 3;
+			public static final long CHANGE_OF_TRADING_SUBSESSION = 2;
+			public static final long CHANGE_OF_TRADING_SESSION = 1;
+			public static final long TRADING_RESUMES_AFTER_HALT = 0;
+		}
+
+	public class MassActionType {
+			public static final long CANCEL_ORDERS = 3;
+			public static final long RELEASE_ORDERS_FROM_SUSPENSION = 2;
+			public static final long SUSPEND_ORDERS = 1;
+		}
+
+	public class MassActionScope {
+			public static final long ALL_ORDERS_FOR_A_PRODUCT = 3;
+			public static final long ALL_ORDERS_FOR_AN_UNDERLYING_SECURITY = 2;
+			public static final long ALL_ORDERS_FOR_A_SECURITY_GROUP = 10;
+			public static final long ALL_ORDERS_FOR_A_SECURITY = 1;
+			public static final long ALL_ORDERS = 7;
+			public static final long ALL_ORDERS_FOR_A_TRADING_SESSION = 6;
+			public static final long ALL_ORDERS_FOR_A_SECURITYTYPE = 5;
+			public static final long ALL_ORDERS_FOR_A_CFICODE = 4;
+			public static final long ALL_ORDERS_FOR_A_MARKET_SEGMENT = 9;
+			public static final long ALL_ORDERS_FOR_A_MARKET = 8;
+			public static final long CANCEL_FOR_SECURITY_ISSUER = 11;
+			public static final long CANCEL_FOR_ISSUER_OF_UNDERLYING_SECURITY = 12;
+		}
+
+	public class MassActionResponse {
+			public static final long ACCEPTED = 1;
+			public static final long REJECTED__SEE_MASSACTIONREJECTREASON1376 = 0;
+		}
+
+	public class MassActionRejectReason {
+			public static final long INVALID_OR_UNKNOWN_ISSUER_OF_UNDERLYING_SECURITY = 11;
+			public static final long INVALID_OR_UNKNOWN_PRODUCT = 3;
+			public static final long INVALID_OR_UNKNOWN_UNDERLYING_SECURITY = 2;
+			public static final long INVALID_OR_UNKNOWN_SECURITY = 1;
+			public static final long INVALID_OR_UNKNOWN_SECURITY_ISSUER = 10;
+			public static final long MASS_ACTION_NOT_SUPPORTED = 0;
+			public static final long INVALID_OR_UNKNOWN_MARKET = 7;
+			public static final long INVALID_OR_UNKNOWN_TRADING_SESSION = 6;
+			public static final long INVALID_OR_UNKNOWN_SECURITYTYPE = 5;
+			public static final long INVALID_OR_UNKNOWN_CFICODE = 4;
+			public static final long INVALID_OR_UNKNOWN_SECURITY_GROUP = 9;
+			public static final long INVALID_OR_UNKNOWN_MARKET_SEGMENT = 8;
+			public static final long OTHER = 99;
+		}
+
+	public class MultilegModel {
+			public static final long USERDEFINED_NONSECURITIZED_MULTILEG = 2;
+			public static final long USERDEFINED_MULTLEG_SECURITY = 1;
+			public static final long PREDEFINED_MULTILEG_SECURITY = 0;
+		}
+
+	public class MultilegPriceMethod {
+			public static final long INDIVIDUAL = 3;
+			public static final long YIELD_DIFFERENCE = 2;
+			public static final long REVERSED_NET_PRICE = 1;
+			public static final long NET_PRICE = 0;
+			public static final long MULTIPLIED_PRICE = 5;
+			public static final long CONTRACT_WEIGHTED_AVERAGE_PRICE = 4;
+		}
+
+	public class ContingencyType {
+			public static final long ONE_UPDATES_THE_OTHER_OUO__ABSOLUTE_QUANTITY_REDUCTION = 3;
+			public static final long ONE_TRIGGERS_THE_OTHER_OTO = 2;
+			public static final long ONE_CANCELS_THE_OTHER_OCO = 1;
+			public static final long ONE_UPDATES_THE_OTHER_OUO__PROPORTIONAL_QUANTITY_REDUCTION = 4;
+		}
+
+	public class ListRejectReason {
+			public static final long EXCHANGE_CLOSED = 2;
+			public static final long BROKER__EXCHANGE_OPTION = 0;
+			public static final long DUPLICATE_ORDER_EG_DUPE_CLORDID = 6;
+			public static final long UNKNOWN_ORDER = 5;
+			public static final long TOO_LATE_TO_ENTER = 4;
+			public static final long OTHER = 99;
+			public static final long UNSUPPORTED_ORDER_CHARACTERISTIC = 11;
+		}
+
+	public class TradePublishIndicator {
+			public static final long DEFERRED_PUBLICATION = 2;
+			public static final long PUBLISH_TRADE = 1;
+			public static final long DO_NOT_PUBLISH_TRADE = 0;
+		}
+
+	public class ApplReqType {
+			public static final long REQUEST_VALID_SET_OF_APPLICATIONS = 3;
+			public static final long REQUEST_FOR_THE_LAST_APPLLASTSEQNUM_PUBLISHED_FOR_THE_SPECIFIED_ = 2;
+			public static final long SUBSCRIPTION_TO_THE_SPECIFIED_APPLICATIONS = 1;
+			public static final long RETRANSMISSION_OF_APPLICATION_MESSAGES_FOR_THE_SPECIFIED_APPLICA = 0;
+			public static final long CANCEL_RETRANSMISSION_AND_UNSUBSCRIBE_TO_THE_SPECIFIED_APPLICATI = 6;
+			public static final long CANCEL_RETRANSMISSION = 5;
+			public static final long UNSUBSCRIBE_TO_THE_SPECIFIED_APPLICATIONS = 4;
+		}
+
+	public class ApplResponseType {
+			public static final long MESSAGES_NOT_AVAILABLE = 2;
+			public static final long APPLICATION_DOES_NOT_EXIST = 1;
+			public static final long REQUEST_SUCCESSFULLY_PROCESSED = 0;
+		}
+
+	public class ApplResponseError {
+			public static final long USER_NOT_AUTHORIZED_FOR_APPLICATION = 2;
+			public static final long MESSAGES_REQUESTED_ARE_NOT_AVAILABLE = 1;
+			public static final long APPLICATION_DOES_NOT_EXIST = 0;
+		}
+
+	public class ApplReportType {
+			public static final long APPLICATION_MESSAGE_RESEND_COMPLETED = 3;
+			public static final long HEARTBEAT_MESSAGE_INDICATING_THAT_APPLICATION_IDENTIFIED_BY_REFA = 2;
+			public static final long REPORTS_THAT_THE_LAST_MESSAGE_HAS_BEEN_SENT_FOR_THE_APPLIDS_REFE = 1;
+			public static final long RESET_APPLSEQNUM_TO_NEW_VALUE_SPECIFIED_IN_APPLNEWSEQNUM1399 = 0;
+		}
+
+	public class OrderDelayUnit {
+			public static final long MILLISECONDS = 3;
+			public static final long HUNDREDTHS_OF_A_SECOND = 2;
+			public static final long MINUTES = 10;
+			public static final long TENTHS_OF_A_SECOND = 1;
+			public static final long SECONDS_DEFAULT_IF_NOT_SPECIFIED = 0;
+			public static final long NANOSECONDS = 5;
+			public static final long MICROSECONDS = 4;
+			public static final long YEARS = 15;
+			public static final long WEEKS = 13;
+			public static final long MONTHS = 14;
+			public static final long HOURS = 11;
+			public static final long DAYS = 12;
+		}
+
+	public class VenueType {
+			public static final byte ELECTRONIC = 'E';
+			public static final byte PIT = 'P';
+			public static final byte EXPIT = 'X';
+		}
+
+	public class RefOrdIDReason {
+			public static final long ORDER_CHANGED = 2;
+			public static final long PARTIAL_FILL_REMAINING = 1;
+			public static final long GTC_FROM_PREVIOUS_DAY = 0;
+		}
+
+	public class OrigCustOrderCapacity {
+			public static final long MEMBER_TRADING_FOR_ANOTHER_MEMBER = 3;
+			public static final long CLEARING_FIRM_TRADING_FOR_ITS_PROPRIETARY_ACCOUNT = 2;
+			public static final long MEMBER_TRADING_FOR_THEIR_OWN_ACCOUNT = 1;
+			public static final long ALL_OTHER = 4;
+		}
+
+	public class ModelType {
+			public static final long PROPRIETARY_USER_SUPPLIED_MODEL = 1;
+			public static final long UTILITY_PROVIDED_STANDARD_MODEL = 0;
+		}
+
+	public class ContractMultiplierUnit {
+			public static final long DAYS = 2;
+			public static final long HOURS = 1;
+			public static final long SHARES = 0;
+		}
+
+	public class FlowScheduleType {
+			public static final long NERC_EASTERN_PEAK = 3;
+			public static final long NERC_CALENDARALL_DAYS_IN_MONTH = 2;
+			public static final long NERC_WESTERN_OFFPEAK = 1;
+			public static final long NERC_EASTERN_OFFPEAK = 0;
+			public static final long NERC_WESTERN_PEAK = 4;
+		}
+
+	public class RateSource {
+			public static final long TELERATE = 2;
+			public static final long REUTERS = 1;
+			public static final long BLOOMBERG = 0;
+			public static final long OTHER = 99;
+		}
+
+	public class RateSourceType {
+			public static final long SECONDARY = 1;
+			public static final long PRIMARY = 0;
+		}
+
+	public class RestructuringType {
+			public static final byte[] NO_RESTRUCTURING_SPECIFIED = "XR".getBytes();
+			public static final byte[] FULL_RESTRUCTURING = "FR".getBytes();
+			public static final byte[] MODIFIED_MOD_RESTRUCTURING = "MM".getBytes();
+			public static final byte[] MODIFIED_RESTRUCTURING = "MR".getBytes();
+		}
+
+	public class Seniority {
+			public static final byte[] SENIOR_SECURED = "SD".getBytes();
+			public static final byte[] SENIOR = "SR".getBytes();
+			public static final byte[] SUBORDINATED = "SB".getBytes();
+		}
+
+	public class SecurityListType {
+			public static final long MARKET__MARKET_SEGMENT_LIST = 3;
+			public static final long TRADING_LIST = 2;
+			public static final long INDUSTRY_CLASSIFICATION = 1;
+			public static final long NEWSPAPER_LIST = 4;
+		}
+
+	public class SecurityListTypeSource {
+			public static final long GICS_GLOBAL_INDUSTRY_CLASSIFICATION_STANDARD_PUBLISHED_BY_STANDA = 3;
+			public static final long NAICS_NORTH_AMERICAN_INDUSTRY_CLASSIFICATION_SYSTEM_REPLACED_SIC = 2;
+			public static final long ICB_INDUSTRY_CLASSIFICATION_BENCHMARK_PUBLISHED_BY_DOW_JONES_AND = 1;
+		}
+
+	public class NewsCategory {
+			public static final long TECHNICAL_NEWS = 3;
+			public static final long FINANCIAL_MARKET_NEWS = 2;
+			public static final long MARKETPLACE_NEWS = 1;
+			public static final long COMPANY_NEWS = 0;
+			public static final long OTHER_NEWS = 99;
+		}
+
+	public class NewsRefType {
+			public static final long COMPLIMENTARY = 2;
+			public static final long OTHER_LANGUAGE = 1;
+			public static final long REPLACEMENT = 0;
+		}
+
+	public class StrikePriceDeterminationMethod {
+			public static final long STRIKE_SET_TO_AVERAGE_OF_UNDERLYING_SETTLEMENT_PRICE_ACROSS_THE_ = 3;
+			public static final long STRIKE_SET_AT_EXPIRATION_TO_UNDERLYING_OR_OTHER_VALUE_LOOKBACK_F = 2;
+			public static final long FIXED_STRIKE = 1;
+			public static final long STRIKE_SET_TO_OPTIMAL_VALUE = 4;
+		}
+
+	public class StrikePriceBoundaryMethod {
+			public static final long EQUAL_TO_THE_UNDERLYING_PRICE_IS_INTHEMONEYITM = 3;
+			public static final long LESS_THAN_OR_EQUAL_TO_THE_UNDERLYING_PRICE_IS_INTHEMONEYITM = 2;
+			public static final long LESS_THAN_UNDERLYING_PRICE_IS_INTHEMONEY_ITM = 1;
+			public static final long GREATER_THAN_UNDERLYING_IS_INTHEMONEYITM = 5;
+			public static final long GREATER_THAN_OR_EQUAL_TO_UNDERLYING_PRICE_IS_INTHEMONEYITM = 4;
+		}
+
+	public class UnderlyingPriceDeterminationMethod {
+			public static final long OPTIMAL_VALUE_LOOKBACK = 3;
+			public static final long SPECIAL_REFERENCE = 2;
+			public static final long REGULAR = 1;
+			public static final long AVERAGE_VALUE_ASIAN_OPTION = 4;
+		}
+
+	public class OptPayoutType {
+			public static final long BINARY = 3;
+			public static final long CAPPED = 2;
+			public static final long VANILLA = 1;
+		}
+
+	public class ComplexEventType {
+			public static final long KNOCKIN_UP = 3;
+			public static final long TRIGGER = 2;
+			public static final long CAPPED = 1;
+			public static final long UNDERLYING = 7;
+			public static final long KNOCKOUT_DOWN = 6;
+			public static final long KNOCKOUT_UP = 5;
+			public static final long KOCKIN_DOWN = 4;
+			public static final long ROLLING_BARRIER = 9;
+			public static final long RESET_BARRIER = 8;
+		}
+
+	public class ComplexEventPriceBoundaryMethod {
+			public static final long EQUAL_TO_COMPLEXEVENTPRICE1486 = 3;
+			public static final long LESS_THAN_OR_EQUAL_TO_COMPLEXEVENTPRICE1486 = 2;
+			public static final long LESS_THAN_COMPLEXEVENTPRICE1486 = 1;
+			public static final long GREATER_THAN_COMPLEXEVENTPRICE1486 = 5;
+			public static final long GREATER_THAN_OR_EQUAL_TO_COMPLEXEVENTPRICE1486 = 4;
+		}
+
+	public class ComplexEventPriceTimeType {
+			public static final long SPECIFIED_DATETIME = 3;
+			public static final long IMMEDIATE_AT_ANY_TIME = 2;
+			public static final long EXPIRATION = 1;
+		}
+
+	public class ComplexEventCondition {
+			public static final long OR = 2;
+			public static final long AND = 1;
+		}
+
+	public class StreamAsgnReqType {
+			public static final long STREAM_ASSIGNMENT_FOR_EXISTING_CUSTOMERS = 2;
+			public static final long STREAM_ASSIGNMENT_FOR_NEW_CUSTOMERS = 1;
+		}
+
+	public class StreamAsgnRejReason {
+			public static final long NO_AVAILABLE_STREAM = 3;
+			public static final long UNKNOWN_OR_INVALID_CURRENCY_PAIR = 2;
+			public static final long EXCEEDS_MAXIMUM_SIZE = 1;
+			public static final long UNKNOWN_CLIENT = 0;
+			public static final long OTHER = 99;
+		}
+
+	public class StreamAsgnAckType {
+			public static final long ASSIGNMENT_REJECTED = 1;
+			public static final long ASSIGNMENT_ACCEPTED = 0;
+		}
+
+	public class StreamAsgnType {
+			public static final long TERMINATEUNASSIGN = 3;
+			public static final long REJECTED = 2;
+			public static final long ASSIGNMENT = 1;
+		}
+
+	public class PartyListResponseType {
+			public static final long INCLUDE_RISK_LIMIT_INFORMATION = 3;
+			public static final long INCLUDE_INFORMATION_ON_RELATED_PARTIES = 2;
+			public static final long RETURN_ONLY_PARTY_INFORMATION_EXCLUDES_INFORMATION_LIKE_RISK_LIM = 1;
+			public static final long RETURN_ALL_AVAILABLE_INFORMATION_ON_PARTIES_AND_RELATED_PARTIES_ = 0;
+		}
+
+	public class PartyDetailsRequestResult {
+			public static final long UNSUPPORTED_PARTYLISTRESPONSETYPE = 3;
+			public static final long NO_PARTIES_OR_PARTY_DETAILS_FOUND_THAT_MATCH_SELECTION_CRITERIA = 2;
+			public static final long INVALID_OR_UNSUPPORTED_REQUEST = 1;
+			public static final long VALID_REQUEST = 0;
+			public static final long REQUEST_FOR_PARTIES_DATA_NOT_SUPPORTED = 6;
+			public static final long PARTIES_OR_PARTY_DETAILS_DATA_TEMPORARILY_UNAVAILABLE = 5;
+			public static final long NOT_AUTHORIZED_TO_RETRIEVE_PARTIES_OR_PARTY_DETAILS_DATA = 4;
+			public static final long OTHER_FURTHER_INFORMATION_IN_TEXT_58_FIELD = 99;
+		}
+
+	public class PartyRelationship {
+			public static final long INVESTS_FOR = 19;
+			public static final long BENEFICIAL_OWNER_OF = 35;
+			public static final long PROVIDES_QUOTES_TO = 17;
+			public static final long OWNED_BY_BENEFICIAL = 36;
+			public static final long REQUESTS_QUOTES_FROM = 18;
+			public static final long LEGAL__TITLED_OWNER_OF = 33;
+			public static final long ENTERS_TRADES_FOR = 15;
+			public static final long OWNED_BY_LEGAL__TITLE = 34;
+			public static final long ENTERS_TRADES_THROUGH = 16;
+			public static final long CARRIES_POSITIONS_FOR = 13;
+			public static final long POSTS_TRADES_TO = 14;
+			public static final long PROVIDES_MARKETPLACE_FOR = 11;
+			public static final long PARTICIPANT_OF_MARKETPLACE = 12;
+			public static final long BROKERS_TRADES_FOR = 21;
+			public static final long INVESTS_THROUGH = 20;
+			public static final long BROKERS_TRADES_THROUGH = 22;
+			public static final long PROVIDES_TRADING_SERVICES_FOR = 23;
+			public static final long USES_TRADING_SERVICES_OF = 24;
+			public static final long APPROVES_OF = 25;
+			public static final long APPROVED_BY = 26;
+			public static final long PARENT_FIRM_FOR = 27;
+			public static final long SUBSIDIARY_OF = 28;
+			public static final long REGULATORY_OWNER_OF = 29;
+			public static final long TRADES_FOR = 3;
+			public static final long CLEARS_THROUGH = 2;
+			public static final long HAS_MEMBERS = 10;
+			public static final long CLEARS_FOR = 1;
+			public static final long IS_ALSO = 0;
+			public static final long OWNED_BY_REGULATORY = 30;
+			public static final long PROVIDES_GUARANTEE_FOR = 7;
+			public static final long SPONSORED_THROUGH = 6;
+			public static final long IS_CONTROLLED_BY = 32;
+			public static final long SPONSORS = 5;
+			public static final long CONTROLS = 31;
+			public static final long TRADES_THROUGH = 4;
+			public static final long MEMBER_OF = 9;
+			public static final long IS_GUARANTEED_BY = 8;
+		}
+
+	public class RiskLimitType {
+			public static final long EXPOSURE = 3;
+			public static final long NET_LIMIT = 2;
+			public static final long GROSS_LIMIT = 1;
+			public static final long SHORT_LIMIT = 5;
+			public static final long LONG_LIMIT = 4;
+		}
+
+	public class RiskInstrumentOperator {
+			public static final long EXCLUDE = 2;
+			public static final long INCLUDE = 1;
 		}
 
 }
