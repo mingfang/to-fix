@@ -216,7 +216,7 @@ public class TestFixContainers {
 
 			assertNotNull(inMsg);
 			assertTrue(err.hasError());
-			assertEquals(err.sessionRejectReason, FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING);
+			assertEquals(err.sessionRejectReason, (int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING);
 
 		}
 	}
