@@ -1,0 +1,51 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.tomac</groupId>
+	<artifactId>to-fix</artifactId>
+	<packaging>jar</packaging>
+	<version>1.0-SNAPSHOT</version>
+	<name>to-fix</name>
+	<description>FIX Repository to QuickFix XML is a FIX Repository XML (from fixprotocol.org) to QuickFix formatted XML converter.</description>
+	<url>http://www.tomac.org</url>
+	<licenses>
+		<license>
+			<name>The GNU Lesser General Public License, Version 3</name>
+			<url>http://www.gnu.org/copyleft/lesser.html</url>
+		</license>
+	</licenses>
+	<scm>
+		<connection>scm:svn:http://to-fix/svn/trunk/</connection>
+		<developerConnection>scm:svn:https://to-fix/svn/trunk/</developerConnection>
+		<url>http://to-fix/svn/trunk</url>
+	</scm>
+	<dependencies>
+		<dependency>
+			<groupId>org.tomac</groupId>
+			<artifactId>fix-repository-to-quickfix-xml</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.0</version>
+			<type>jar</type>
+			<scope>test</scope>
+			<optional>true</optional>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.0.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
