@@ -26,8 +26,8 @@ public class FixQuoteRequestReject extends FixInMessage {
 	long encodedTextLen = 0;		
 	private short hasEncodedText;
 	byte[] encodedText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];		
-	FixRootParties[] rootParties;
-	FixQuotReqRjctGrp[] quotReqRjctGrp;
+	public FixRootParties[] rootParties;
+	public FixQuotReqRjctGrp[] quotReqRjctGrp;
 	
 	public FixQuoteRequestReject() {
 		super(FixMessageInfo.MessageTypes.QUOTEREQUESTREJECT);
@@ -118,11 +118,12 @@ public class FixQuoteRequestReject extends FixInMessage {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !rootParties[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return;
         					}
         					count++;
         					repeatingGroupTag = rootParties[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -137,11 +138,12 @@ public class FixQuoteRequestReject extends FixInMessage {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !quotReqRjctGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return;
         					}
         					count++;
         					repeatingGroupTag = quotReqRjctGrp[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -157,6 +159,8 @@ public class FixQuoteRequestReject extends FixInMessage {
 
 			}
 
+        		if (err.hasError()) return;
+
             	tag = FixMessage.getTag(buf, err);		
         		if (err.hasError()) break;
 
@@ -164,7 +168,9 @@ public class FixQuoteRequestReject extends FixInMessage {
 
 	}		
 
-	private boolean hasRequiredTags(FixValidationError err) {
+	public boolean hasRequiredTags(FixValidationError err) {
+		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
+
 		if (!hasQuoteReqID()) { 
 			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag QuoteReqID missing", FixTags.QUOTEREQID_INT, FixMessageInfo.MessageTypes.QUOTEREQUESTREJECT);
 			return false;
@@ -173,6 +179,9 @@ public class FixQuoteRequestReject extends FixInMessage {
 			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag QuoteRequestRejectReason missing", FixTags.QUOTEREQUESTREJECTREASON_INT, FixMessageInfo.MessageTypes.QUOTEREQUESTREJECT);
 			return false;
 		}
+		for (int i = 0; i< FixUtils.FIX_MAX_NOINGROUP; i++) { if (quotReqRjctGrp[i].hasGroup()) quotReqRjctGrp[i].hasRequiredTags(err); if (err.hasError()) return false; }
+		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
+
 		return true;
 	}
 	@Override		
@@ -186,7 +195,12 @@ public class FixQuoteRequestReject extends FixInMessage {
 		int startPos = out.position();
 		super.standardHeader.setBodyLength(1000);
 
-		super.standardHeader.encode(out);		
+		// if this is the standardHeader for an out-bound message wee need to set default tags
+		if (buf == null) {
+			super.standardHeader.setBeginString(FixMessageInfo.BEGINSTRING_VALUE);
+		}
+
+		super.standardHeader.encode(out);
 		if (hasQuoteReqID()) {		
 			out.put(FixTags.QUOTEREQID);		
 		
@@ -268,6 +282,29 @@ public class FixQuoteRequestReject extends FixInMessage {
 		
 			out.put(FixUtils.SOH);		
 		}		
+		
+		if (FixUtils.getNoInGroup(rootParties)>0) {
+			out.put(FixTags.NOROOTPARTYIDS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(rootParties));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixRootParties fixRootParties : rootParties) if (fixRootParties.hasGroup()) fixRootParties.encode(out);
+		if (FixUtils.getNoInGroup(quotReqRjctGrp)>0) {
+			out.put(FixTags.NORELATEDSYM);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(quotReqRjctGrp));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixQuotReqRjctGrp fixQuotReqRjctGrp : quotReqRjctGrp) if (fixQuotReqRjctGrp.hasGroup()) fixQuotReqRjctGrp.encode(out);
 		
 		// set body length
 
@@ -811,6 +848,9 @@ public class FixQuoteRequestReject extends FixInMessage {
 					if (standardHeader.hasBeginString()) s += "BeginString(8)= " + new String( FixUtils.trim(standardHeader.getBeginString()) ) + "\n" ; 
 		if (standardHeader.hasBodyLength()) s += "BodyLength(9)= " + standardHeader.getBodyLength() + "\n" ; 
 		if (standardHeader.hasMsgType()) s += "MsgType(35)= " + new String( FixUtils.trim(standardHeader.getMsgType()) ) + "\n" ; 
+		if (standardHeader.hasApplVerID()) s += "ApplVerID(1128)= " + new String( FixUtils.trim(standardHeader.getApplVerID()) ) + "\n" ; 
+		if (standardHeader.hasCstmApplVerID()) s += "CstmApplVerID(1129)= " + new String( FixUtils.trim(standardHeader.getCstmApplVerID()) ) + "\n" ; 
+		if (standardHeader.hasApplExtID()) s += "ApplExtID(1156)= " + standardHeader.getApplExtID() + "\n" ; 
 		if (standardHeader.hasSenderCompID()) s += "SenderCompID(49)= " + new String( FixUtils.trim(standardHeader.getSenderCompID()) ) + "\n" ; 
 		if (standardHeader.hasTargetCompID()) s += "TargetCompID(56)= " + new String( FixUtils.trim(standardHeader.getTargetCompID()) ) + "\n" ; 
 		if (standardHeader.hasOnBehalfOfCompID()) s += "OnBehalfOfCompID(115)= " + new String( FixUtils.trim(standardHeader.getOnBehalfOfCompID()) ) + "\n" ; 
@@ -834,9 +874,6 @@ public class FixQuoteRequestReject extends FixInMessage {
 		if (standardHeader.hasXmlData()) s += "XmlData(213)= " + new String( FixUtils.trim(standardHeader.getXmlData()) ) + "\n" ; 
 		if (standardHeader.hasMessageEncoding()) s += "MessageEncoding(347)= " + new String( FixUtils.trim(standardHeader.getMessageEncoding()) ) + "\n" ; 
 		if (standardHeader.hasLastMsgSeqNumProcessed()) s += "LastMsgSeqNumProcessed(369)= " + standardHeader.getLastMsgSeqNumProcessed() + "\n" ; 
-		if (standardHeader.hasApplVerID()) s += "ApplVerID(1128)= " + new String( FixUtils.trim(standardHeader.getApplVerID()) ) + "\n" ; 
-		if (standardHeader.hasCstmApplVerID()) s += "CstmApplVerID(1129)= " + new String( FixUtils.trim(standardHeader.getCstmApplVerID()) ) + "\n" ; 
-		if (standardHeader.hasApplExtID()) s += "ApplExtID(1156)= " + standardHeader.getApplExtID() + "\n" ; 
 
 					if (hasQuoteReqID()) s += "QuoteReqID(131)= " + new String( FixUtils.trim(getQuoteReqID()) ) + "\n" ; 
 		if (hasRFQReqID()) s += "RFQReqID(644)= " + new String( FixUtils.trim(getRFQReqID()) ) + "\n" ; 

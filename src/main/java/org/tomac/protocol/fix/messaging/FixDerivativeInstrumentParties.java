@@ -14,11 +14,16 @@ public class FixDerivativeInstrumentParties extends FixGroup {
 	byte[] derivativeInstrumentPartyIDSource = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 	private short hasDerivativeInstrumentPartyRole;
 	long derivativeInstrumentPartyRole = 0;		
-		FixDerivativeInstrumentPartySubIDsGrp[] derivativeInstrumentPartySubIDsGrp;
+		public FixDerivativeInstrumentPartySubIDsGrp[] derivativeInstrumentPartySubIDsGrp;
 	
 	public FixDerivativeInstrumentParties() {
+		this(false);
+	}
+
+	public FixDerivativeInstrumentParties(boolean isRequired) {
 		super(FixTags.DERIVATIVEINSTRUMENTPARTYID_INT);
 
+		this.isRequired = isRequired;
 		
 		hasDerivativeInstrumentPartyID = FixUtils.TAG_HAS_NO_VALUE;		
 		derivativeInstrumentPartyID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
@@ -72,11 +77,12 @@ public class FixDerivativeInstrumentParties extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !derivativeInstrumentPartySubIDsGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = derivativeInstrumentPartySubIDsGrp[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -89,9 +95,13 @@ public class FixDerivativeInstrumentParties extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...
@@ -137,7 +147,17 @@ public class FixDerivativeInstrumentParties extends FixGroup {
 
             }
 
-		for (FixDerivativeInstrumentPartySubIDsGrp fixDerivativeInstrumentPartySubIDsGrp : derivativeInstrumentPartySubIDsGrp) fixDerivativeInstrumentPartySubIDsGrp.encode(out);
+		if (FixUtils.getNoInGroup(derivativeInstrumentPartySubIDsGrp)>0) {
+			out.put(FixTags.NODERIVATIVEINSTRUMENTPARTYSUBIDS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(derivativeInstrumentPartySubIDsGrp));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixDerivativeInstrumentPartySubIDsGrp fixDerivativeInstrumentPartySubIDsGrp : derivativeInstrumentPartySubIDsGrp) if (fixDerivativeInstrumentPartySubIDsGrp.hasGroup()) fixDerivativeInstrumentPartySubIDsGrp.encode(out);
 	}
 
 			

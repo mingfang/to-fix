@@ -22,8 +22,13 @@ public class FixCompIDStatGrp extends FixGroup {
 	byte[] statusText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];		
 	
 	public FixCompIDStatGrp() {
+		this(false);
+	}
+
+	public FixCompIDStatGrp(boolean isRequired) {
 		super(FixTags.REFCOMPID_INT);
 
+		this.isRequired = isRequired;
 		
 		hasRefCompID = FixUtils.TAG_HAS_NO_VALUE;		
 		refCompID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
@@ -92,9 +97,21 @@ public class FixCompIDStatGrp extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		if (!hasRefCompID()) { 
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag RefCompID missing", FixTags.REFCOMPID_INT);
+			return false;
+		}
+		if (!hasStatusValue()) { 
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag StatusValue missing", FixTags.STATUSVALUE_INT);
+			return false;
+		}
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...

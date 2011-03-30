@@ -34,13 +34,13 @@ public class FixNews extends FixInMessage {
 	long rawDataLength = 0;		
 	private short hasRawData;
 	byte[] rawData = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
-	FixApplicationSequenceControl applicationSequenceControl;
-	FixNewsRefGrp[] newsRefGrp;
-	FixRoutingGrp[] routingGrp;
-	FixInstrmtGrp[] instrmtGrp;
-	FixInstrmtLegGrp[] instrmtLegGrp;
-	FixUndInstrmtGrp[] undInstrmtGrp;
-	FixLinesOfTextGrp[] linesOfTextGrp;
+	public FixApplicationSequenceControl applicationSequenceControl;
+	public FixNewsRefGrp[] newsRefGrp;
+	public FixRoutingGrp[] routingGrp;
+	public FixInstrmtGrp[] instrmtGrp;
+	public FixInstrmtLegGrp[] instrmtLegGrp;
+	public FixUndInstrmtGrp[] undInstrmtGrp;
+	public FixLinesOfTextGrp[] linesOfTextGrp;
 	
 	public FixNews() {
 		super(FixMessageInfo.MessageTypes.NEWS);
@@ -169,11 +169,12 @@ public class FixNews extends FixInMessage {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !newsRefGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return;
         					}
         					count++;
         					repeatingGroupTag = newsRefGrp[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -188,11 +189,12 @@ public class FixNews extends FixInMessage {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !routingGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return;
         					}
         					count++;
         					repeatingGroupTag = routingGrp[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -207,11 +209,12 @@ public class FixNews extends FixInMessage {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !instrmtGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return;
         					}
         					count++;
         					repeatingGroupTag = instrmtGrp[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -226,11 +229,12 @@ public class FixNews extends FixInMessage {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !instrmtLegGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return;
         					}
         					count++;
         					repeatingGroupTag = instrmtLegGrp[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -245,11 +249,12 @@ public class FixNews extends FixInMessage {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !undInstrmtGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return;
         					}
         					count++;
         					repeatingGroupTag = undInstrmtGrp[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -264,11 +269,12 @@ public class FixNews extends FixInMessage {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !linesOfTextGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return;
         					}
         					count++;
         					repeatingGroupTag = linesOfTextGrp[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -284,6 +290,8 @@ public class FixNews extends FixInMessage {
 
 			}
 
+        		if (err.hasError()) return;
+
             	tag = FixMessage.getTag(buf, err);		
         		if (err.hasError()) break;
 
@@ -291,11 +299,16 @@ public class FixNews extends FixInMessage {
 
 	}		
 
-	private boolean hasRequiredTags(FixValidationError err) {
+	public boolean hasRequiredTags(FixValidationError err) {
+		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
+
 		if (!hasHeadline()) { 
 			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag Headline missing", FixTags.HEADLINE_INT, FixMessageInfo.MessageTypes.NEWS);
 			return false;
 		}
+		for (int i = 0; i< FixUtils.FIX_MAX_NOINGROUP; i++) { if (linesOfTextGrp[i].hasGroup()) linesOfTextGrp[i].hasRequiredTags(err); if (err.hasError()) return false; }
+		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
+
 		return true;
 	}
 	@Override		
@@ -309,7 +322,12 @@ public class FixNews extends FixInMessage {
 		int startPos = out.position();
 		super.standardHeader.setBodyLength(1000);
 
-		super.standardHeader.encode(out);		
+		// if this is the standardHeader for an out-bound message wee need to set default tags
+		if (buf == null) {
+			super.standardHeader.setBeginString(FixMessageInfo.BEGINSTRING_VALUE);
+		}
+
+		super.standardHeader.encode(out);
 		if (hasNewsID()) {		
 			out.put(FixTags.NEWSID);		
 		
@@ -427,6 +445,74 @@ public class FixNews extends FixInMessage {
 		
 			out.put(FixUtils.SOH);		
 		}		
+		
+		applicationSequenceControl.encode(out);
+		if (FixUtils.getNoInGroup(newsRefGrp)>0) {
+			out.put(FixTags.NONEWSREFIDS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(newsRefGrp));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixNewsRefGrp fixNewsRefGrp : newsRefGrp) if (fixNewsRefGrp.hasGroup()) fixNewsRefGrp.encode(out);
+		if (FixUtils.getNoInGroup(routingGrp)>0) {
+			out.put(FixTags.NOROUTINGIDS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(routingGrp));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixRoutingGrp fixRoutingGrp : routingGrp) if (fixRoutingGrp.hasGroup()) fixRoutingGrp.encode(out);
+		if (FixUtils.getNoInGroup(instrmtGrp)>0) {
+			out.put(FixTags.NORELATEDSYM);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(instrmtGrp));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixInstrmtGrp fixInstrmtGrp : instrmtGrp) if (fixInstrmtGrp.hasGroup()) fixInstrmtGrp.encode(out);
+		if (FixUtils.getNoInGroup(instrmtLegGrp)>0) {
+			out.put(FixTags.NOLEGS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(instrmtLegGrp));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixInstrmtLegGrp fixInstrmtLegGrp : instrmtLegGrp) if (fixInstrmtLegGrp.hasGroup()) fixInstrmtLegGrp.encode(out);
+		if (FixUtils.getNoInGroup(undInstrmtGrp)>0) {
+			out.put(FixTags.NOUNDERLYINGS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(undInstrmtGrp));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixUndInstrmtGrp fixUndInstrmtGrp : undInstrmtGrp) if (fixUndInstrmtGrp.hasGroup()) fixUndInstrmtGrp.encode(out);
+		if (FixUtils.getNoInGroup(linesOfTextGrp)>0) {
+			out.put(FixTags.NOLINESOFTEXT);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(linesOfTextGrp));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixLinesOfTextGrp fixLinesOfTextGrp : linesOfTextGrp) if (fixLinesOfTextGrp.hasGroup()) fixLinesOfTextGrp.encode(out);
 		
 		// set body length
 
@@ -1167,6 +1253,9 @@ public class FixNews extends FixInMessage {
 					if (standardHeader.hasBeginString()) s += "BeginString(8)= " + new String( FixUtils.trim(standardHeader.getBeginString()) ) + "\n" ; 
 		if (standardHeader.hasBodyLength()) s += "BodyLength(9)= " + standardHeader.getBodyLength() + "\n" ; 
 		if (standardHeader.hasMsgType()) s += "MsgType(35)= " + new String( FixUtils.trim(standardHeader.getMsgType()) ) + "\n" ; 
+		if (standardHeader.hasApplVerID()) s += "ApplVerID(1128)= " + new String( FixUtils.trim(standardHeader.getApplVerID()) ) + "\n" ; 
+		if (standardHeader.hasCstmApplVerID()) s += "CstmApplVerID(1129)= " + new String( FixUtils.trim(standardHeader.getCstmApplVerID()) ) + "\n" ; 
+		if (standardHeader.hasApplExtID()) s += "ApplExtID(1156)= " + standardHeader.getApplExtID() + "\n" ; 
 		if (standardHeader.hasSenderCompID()) s += "SenderCompID(49)= " + new String( FixUtils.trim(standardHeader.getSenderCompID()) ) + "\n" ; 
 		if (standardHeader.hasTargetCompID()) s += "TargetCompID(56)= " + new String( FixUtils.trim(standardHeader.getTargetCompID()) ) + "\n" ; 
 		if (standardHeader.hasOnBehalfOfCompID()) s += "OnBehalfOfCompID(115)= " + new String( FixUtils.trim(standardHeader.getOnBehalfOfCompID()) ) + "\n" ; 
@@ -1190,9 +1279,6 @@ public class FixNews extends FixInMessage {
 		if (standardHeader.hasXmlData()) s += "XmlData(213)= " + new String( FixUtils.trim(standardHeader.getXmlData()) ) + "\n" ; 
 		if (standardHeader.hasMessageEncoding()) s += "MessageEncoding(347)= " + new String( FixUtils.trim(standardHeader.getMessageEncoding()) ) + "\n" ; 
 		if (standardHeader.hasLastMsgSeqNumProcessed()) s += "LastMsgSeqNumProcessed(369)= " + standardHeader.getLastMsgSeqNumProcessed() + "\n" ; 
-		if (standardHeader.hasApplVerID()) s += "ApplVerID(1128)= " + new String( FixUtils.trim(standardHeader.getApplVerID()) ) + "\n" ; 
-		if (standardHeader.hasCstmApplVerID()) s += "CstmApplVerID(1129)= " + new String( FixUtils.trim(standardHeader.getCstmApplVerID()) ) + "\n" ; 
-		if (standardHeader.hasApplExtID()) s += "ApplExtID(1156)= " + standardHeader.getApplExtID() + "\n" ; 
 
 					if (hasNewsID()) s += "NewsID(1472)= " + new String( FixUtils.trim(getNewsID()) ) + "\n" ; 
 		if (hasNewsCategory()) s += "NewsCategory(1473)= " + getNewsCategory() + "\n" ; 

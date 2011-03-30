@@ -16,8 +16,13 @@ public class FixSecurityXML extends FixGroup {
 	byte[] securityXMLSchema = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 	
 	public FixSecurityXML() {
+		this(false);
+	}
+
+	public FixSecurityXML(boolean isRequired) {
 		super(FixTags.SECURITYXML_INT);
 
+		this.isRequired = isRequired;
 		
 		hasSecurityXMLLen = FixUtils.TAG_HAS_NO_VALUE;		
 		hasSecurityXML = FixUtils.TAG_HAS_NO_VALUE;		
@@ -68,9 +73,13 @@ public class FixSecurityXML extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...

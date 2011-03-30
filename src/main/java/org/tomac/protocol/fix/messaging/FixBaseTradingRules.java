@@ -28,13 +28,18 @@ public class FixBaseTradingRules extends FixGroup {
 	long multilegPriceMethod = 0;		
 	private short hasPriceType;
 	long priceType = 0;		
-		FixTickRules[] tickRules;
-		FixLotTypeRules[] lotTypeRules;
-		FixPriceLimits priceLimits;
+		public FixTickRules[] tickRules;
+		public FixLotTypeRules[] lotTypeRules;
+		public FixPriceLimits priceLimits;
 	
 	public FixBaseTradingRules() {
+		this(false);
+	}
+
+	public FixBaseTradingRules(boolean isRequired) {
 		super(FixTags.EXPIRATIONCYCLE_INT);
 
+		this.isRequired = isRequired;
 		
 		hasExpirationCycle = FixUtils.TAG_HAS_NO_VALUE;		
 		hasMinTradeVol = FixUtils.TAG_HAS_NO_VALUE;		
@@ -125,11 +130,12 @@ public class FixBaseTradingRules extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !tickRules[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = tickRules[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -144,11 +150,12 @@ public class FixBaseTradingRules extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !lotTypeRules[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = lotTypeRules[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -165,9 +172,13 @@ public class FixBaseTradingRules extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...
@@ -299,8 +310,28 @@ public class FixBaseTradingRules extends FixGroup {
 
             }
 
-		for (FixTickRules fixTickRules : tickRules) fixTickRules.encode(out);
-		for (FixLotTypeRules fixLotTypeRules : lotTypeRules) fixLotTypeRules.encode(out);
+		if (FixUtils.getNoInGroup(tickRules)>0) {
+			out.put(FixTags.NOTICKRULES);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(tickRules));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixTickRules fixTickRules : tickRules) if (fixTickRules.hasGroup()) fixTickRules.encode(out);
+		if (FixUtils.getNoInGroup(lotTypeRules)>0) {
+			out.put(FixTags.NOLOTTYPERULES);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(lotTypeRules));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixLotTypeRules fixLotTypeRules : lotTypeRules) if (fixLotTypeRules.hasGroup()) fixLotTypeRules.encode(out);
 		priceLimits.encode(out);
 	}
 

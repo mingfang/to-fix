@@ -16,12 +16,17 @@ public class FixRelationshipRiskLimits extends FixGroup {
 	byte[] relationshipRiskLimitCurrency = new byte[FixUtils.CURRENCY_LENGTH];		
 	private short hasRelationshipRiskLimitPlatform;
 	byte[] relationshipRiskLimitPlatform = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
-		FixRelationshipRiskInstrumentScope[] relationshipRiskInstrumentScope;
-		FixRelationshipRiskWarningLevels[] relationshipRiskWarningLevels;
+		public FixRelationshipRiskInstrumentScope[] relationshipRiskInstrumentScope;
+		public FixRelationshipRiskWarningLevels[] relationshipRiskWarningLevels;
 	
 	public FixRelationshipRiskLimits() {
+		this(false);
+	}
+
+	public FixRelationshipRiskLimits(boolean isRequired) {
 		super(FixTags.RELATIONSHIPRISKLIMITTYPE_INT);
 
+		this.isRequired = isRequired;
 		
 		hasRelationshipRiskLimitType = FixUtils.TAG_HAS_NO_VALUE;		
 		hasRelationshipRiskLimitAmount = FixUtils.TAG_HAS_NO_VALUE;		
@@ -82,11 +87,12 @@ public class FixRelationshipRiskLimits extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !relationshipRiskInstrumentScope[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = relationshipRiskInstrumentScope[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -101,11 +107,12 @@ public class FixRelationshipRiskLimits extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !relationshipRiskWarningLevels[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = relationshipRiskWarningLevels[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -118,9 +125,13 @@ public class FixRelationshipRiskLimits extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...
@@ -179,8 +190,28 @@ public class FixRelationshipRiskLimits extends FixGroup {
 
             }
 
-		for (FixRelationshipRiskInstrumentScope fixRelationshipRiskInstrumentScope : relationshipRiskInstrumentScope) fixRelationshipRiskInstrumentScope.encode(out);
-		for (FixRelationshipRiskWarningLevels fixRelationshipRiskWarningLevels : relationshipRiskWarningLevels) fixRelationshipRiskWarningLevels.encode(out);
+		if (FixUtils.getNoInGroup(relationshipRiskInstrumentScope)>0) {
+			out.put(FixTags.NORELATIONSHIPRISKINSTRUMENTS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(relationshipRiskInstrumentScope));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixRelationshipRiskInstrumentScope fixRelationshipRiskInstrumentScope : relationshipRiskInstrumentScope) if (fixRelationshipRiskInstrumentScope.hasGroup()) fixRelationshipRiskInstrumentScope.encode(out);
+		if (FixUtils.getNoInGroup(relationshipRiskWarningLevels)>0) {
+			out.put(FixTags.NORELATIONSHIPRISKWARNINGLEVELS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(relationshipRiskWarningLevels));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixRelationshipRiskWarningLevels fixRelationshipRiskWarningLevels : relationshipRiskWarningLevels) if (fixRelationshipRiskWarningLevels.hasGroup()) fixRelationshipRiskWarningLevels.encode(out);
 	}
 
 			

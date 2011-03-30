@@ -22,8 +22,13 @@ public class FixMaturityRules extends FixGroup {
 	long maturityMonthYearIncrement = 0;		
 	
 	public FixMaturityRules() {
+		this(false);
+	}
+
+	public FixMaturityRules(boolean isRequired) {
 		super(FixTags.MATURITYRULEID_INT);
 
+		this.isRequired = isRequired;
 		
 		hasMaturityRuleID = FixUtils.TAG_HAS_NO_VALUE;		
 		maturityRuleID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
@@ -90,9 +95,13 @@ public class FixMaturityRules extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...

@@ -72,17 +72,17 @@ public class FixCollateralRequest extends FixInMessage {
 	long encodedTextLen = 0;		
 	private short hasEncodedText;
 	byte[] encodedText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];		
-	FixParties[] parties;
-	FixExecCollGrp[] execCollGrp;
-	FixTrdCollGrp[] trdCollGrp;
-	FixInstrument instrument;
-	FixFinancingDetails financingDetails;
-	FixInstrmtLegGrp[] instrmtLegGrp;
-	FixUndInstrmtCollGrp[] undInstrmtCollGrp;
-	FixTrdRegTimestamps[] trdRegTimestamps;
-	FixMiscFeesGrp[] miscFeesGrp;
-	FixSpreadOrBenchmarkCurveData spreadOrBenchmarkCurveData;
-	FixStipulations[] stipulations;
+	public FixParties[] parties;
+	public FixExecCollGrp[] execCollGrp;
+	public FixTrdCollGrp[] trdCollGrp;
+	public FixInstrument instrument;
+	public FixFinancingDetails financingDetails;
+	public FixInstrmtLegGrp[] instrmtLegGrp;
+	public FixUndInstrmtCollGrp[] undInstrmtCollGrp;
+	public FixTrdRegTimestamps[] trdRegTimestamps;
+	public FixMiscFeesGrp[] miscFeesGrp;
+	public FixSpreadOrBenchmarkCurveData spreadOrBenchmarkCurveData;
+	public FixStipulations[] stipulations;
 	
 	public FixCollateralRequest() {
 		super(FixMessageInfo.MessageTypes.COLLATERALREQUEST);
@@ -316,11 +316,12 @@ public class FixCollateralRequest extends FixInMessage {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !parties[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return;
         					}
         					count++;
         					repeatingGroupTag = parties[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -335,11 +336,12 @@ public class FixCollateralRequest extends FixInMessage {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !execCollGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return;
         					}
         					count++;
         					repeatingGroupTag = execCollGrp[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -354,11 +356,12 @@ public class FixCollateralRequest extends FixInMessage {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !trdCollGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return;
         					}
         					count++;
         					repeatingGroupTag = trdCollGrp[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -381,11 +384,12 @@ public class FixCollateralRequest extends FixInMessage {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !instrmtLegGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return;
         					}
         					count++;
         					repeatingGroupTag = instrmtLegGrp[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -400,11 +404,12 @@ public class FixCollateralRequest extends FixInMessage {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !undInstrmtCollGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return;
         					}
         					count++;
         					repeatingGroupTag = undInstrmtCollGrp[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -419,11 +424,12 @@ public class FixCollateralRequest extends FixInMessage {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !trdRegTimestamps[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return;
         					}
         					count++;
         					repeatingGroupTag = trdRegTimestamps[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -438,11 +444,12 @@ public class FixCollateralRequest extends FixInMessage {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !miscFeesGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return;
         					}
         					count++;
         					repeatingGroupTag = miscFeesGrp[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -461,11 +468,12 @@ public class FixCollateralRequest extends FixInMessage {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !stipulations[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return;
         					}
         					count++;
         					repeatingGroupTag = stipulations[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -481,6 +489,8 @@ public class FixCollateralRequest extends FixInMessage {
 
 			}
 
+        		if (err.hasError()) return;
+
             	tag = FixMessage.getTag(buf, err);		
         		if (err.hasError()) break;
 
@@ -488,7 +498,9 @@ public class FixCollateralRequest extends FixInMessage {
 
 	}		
 
-	private boolean hasRequiredTags(FixValidationError err) {
+	public boolean hasRequiredTags(FixValidationError err) {
+		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
+
 		if (!hasCollReqID()) { 
 			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag CollReqID missing", FixTags.COLLREQID_INT, FixMessageInfo.MessageTypes.COLLATERALREQUEST);
 			return false;
@@ -501,6 +513,8 @@ public class FixCollateralRequest extends FixInMessage {
 			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag TransactTime missing", FixTags.TRANSACTTIME_INT, FixMessageInfo.MessageTypes.COLLATERALREQUEST);
 			return false;
 		}
+		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
+
 		return true;
 	}
 	@Override		
@@ -514,7 +528,12 @@ public class FixCollateralRequest extends FixInMessage {
 		int startPos = out.position();
 		super.standardHeader.setBodyLength(1000);
 
-		super.standardHeader.encode(out);		
+		// if this is the standardHeader for an out-bound message wee need to set default tags
+		if (buf == null) {
+			super.standardHeader.setBeginString(FixMessageInfo.BEGINSTRING_VALUE);
+		}
+
+		super.standardHeader.encode(out);
 		if (hasCollReqID()) {		
 			out.put(FixTags.COLLREQID);		
 		
@@ -803,6 +822,98 @@ public class FixCollateralRequest extends FixInMessage {
 		
 			out.put(FixUtils.SOH);		
 		}		
+		
+		if (FixUtils.getNoInGroup(parties)>0) {
+			out.put(FixTags.NOPARTYIDS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(parties));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixParties fixParties : parties) if (fixParties.hasGroup()) fixParties.encode(out);
+		if (FixUtils.getNoInGroup(execCollGrp)>0) {
+			out.put(FixTags.NOEXECS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(execCollGrp));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixExecCollGrp fixExecCollGrp : execCollGrp) if (fixExecCollGrp.hasGroup()) fixExecCollGrp.encode(out);
+		if (FixUtils.getNoInGroup(trdCollGrp)>0) {
+			out.put(FixTags.NOTRADES);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(trdCollGrp));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixTrdCollGrp fixTrdCollGrp : trdCollGrp) if (fixTrdCollGrp.hasGroup()) fixTrdCollGrp.encode(out);
+		instrument.encode(out);
+		financingDetails.encode(out);
+		if (FixUtils.getNoInGroup(instrmtLegGrp)>0) {
+			out.put(FixTags.NOLEGS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(instrmtLegGrp));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixInstrmtLegGrp fixInstrmtLegGrp : instrmtLegGrp) if (fixInstrmtLegGrp.hasGroup()) fixInstrmtLegGrp.encode(out);
+		if (FixUtils.getNoInGroup(undInstrmtCollGrp)>0) {
+			out.put(FixTags.NOUNDERLYINGS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(undInstrmtCollGrp));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixUndInstrmtCollGrp fixUndInstrmtCollGrp : undInstrmtCollGrp) if (fixUndInstrmtCollGrp.hasGroup()) fixUndInstrmtCollGrp.encode(out);
+		if (FixUtils.getNoInGroup(trdRegTimestamps)>0) {
+			out.put(FixTags.NOTRDREGTIMESTAMPS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(trdRegTimestamps));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixTrdRegTimestamps fixTrdRegTimestamps : trdRegTimestamps) if (fixTrdRegTimestamps.hasGroup()) fixTrdRegTimestamps.encode(out);
+		if (FixUtils.getNoInGroup(miscFeesGrp)>0) {
+			out.put(FixTags.NOMISCFEES);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(miscFeesGrp));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixMiscFeesGrp fixMiscFeesGrp : miscFeesGrp) if (fixMiscFeesGrp.hasGroup()) fixMiscFeesGrp.encode(out);
+		spreadOrBenchmarkCurveData.encode(out);
+		if (FixUtils.getNoInGroup(stipulations)>0) {
+			out.put(FixTags.NOSTIPULATIONS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(stipulations));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixStipulations fixStipulations : stipulations) if (fixStipulations.hasGroup()) fixStipulations.encode(out);
 		
 		// set body length
 
@@ -2548,6 +2659,9 @@ public class FixCollateralRequest extends FixInMessage {
 					if (standardHeader.hasBeginString()) s += "BeginString(8)= " + new String( FixUtils.trim(standardHeader.getBeginString()) ) + "\n" ; 
 		if (standardHeader.hasBodyLength()) s += "BodyLength(9)= " + standardHeader.getBodyLength() + "\n" ; 
 		if (standardHeader.hasMsgType()) s += "MsgType(35)= " + new String( FixUtils.trim(standardHeader.getMsgType()) ) + "\n" ; 
+		if (standardHeader.hasApplVerID()) s += "ApplVerID(1128)= " + new String( FixUtils.trim(standardHeader.getApplVerID()) ) + "\n" ; 
+		if (standardHeader.hasCstmApplVerID()) s += "CstmApplVerID(1129)= " + new String( FixUtils.trim(standardHeader.getCstmApplVerID()) ) + "\n" ; 
+		if (standardHeader.hasApplExtID()) s += "ApplExtID(1156)= " + standardHeader.getApplExtID() + "\n" ; 
 		if (standardHeader.hasSenderCompID()) s += "SenderCompID(49)= " + new String( FixUtils.trim(standardHeader.getSenderCompID()) ) + "\n" ; 
 		if (standardHeader.hasTargetCompID()) s += "TargetCompID(56)= " + new String( FixUtils.trim(standardHeader.getTargetCompID()) ) + "\n" ; 
 		if (standardHeader.hasOnBehalfOfCompID()) s += "OnBehalfOfCompID(115)= " + new String( FixUtils.trim(standardHeader.getOnBehalfOfCompID()) ) + "\n" ; 
@@ -2571,9 +2685,6 @@ public class FixCollateralRequest extends FixInMessage {
 		if (standardHeader.hasXmlData()) s += "XmlData(213)= " + new String( FixUtils.trim(standardHeader.getXmlData()) ) + "\n" ; 
 		if (standardHeader.hasMessageEncoding()) s += "MessageEncoding(347)= " + new String( FixUtils.trim(standardHeader.getMessageEncoding()) ) + "\n" ; 
 		if (standardHeader.hasLastMsgSeqNumProcessed()) s += "LastMsgSeqNumProcessed(369)= " + standardHeader.getLastMsgSeqNumProcessed() + "\n" ; 
-		if (standardHeader.hasApplVerID()) s += "ApplVerID(1128)= " + new String( FixUtils.trim(standardHeader.getApplVerID()) ) + "\n" ; 
-		if (standardHeader.hasCstmApplVerID()) s += "CstmApplVerID(1129)= " + new String( FixUtils.trim(standardHeader.getCstmApplVerID()) ) + "\n" ; 
-		if (standardHeader.hasApplExtID()) s += "ApplExtID(1156)= " + standardHeader.getApplExtID() + "\n" ; 
 
 					if (hasCollReqID()) s += "CollReqID(894)= " + new String( FixUtils.trim(getCollReqID()) ) + "\n" ; 
 		if (hasCollAsgnReason()) s += "CollAsgnReason(895)= " + getCollAsgnReason() + "\n" ; 

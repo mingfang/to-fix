@@ -18,8 +18,13 @@ public class FixCommissionData extends FixGroup {
 	byte fundRenewWaiv = (byte)' ';		
 	
 	public FixCommissionData() {
+		this(false);
+	}
+
+	public FixCommissionData(boolean isRequired) {
 		super(FixTags.COMMISSION_INT);
 
+		this.isRequired = isRequired;
 		
 		hasCommission = FixUtils.TAG_HAS_NO_VALUE;		
 		hasCommType = FixUtils.TAG_HAS_NO_VALUE;		
@@ -74,9 +79,13 @@ public class FixCommissionData extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...

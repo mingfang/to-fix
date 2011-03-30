@@ -12,8 +12,13 @@ public class FixQuotQualGrp extends FixGroup {
 	byte quoteQualifier = (byte)' ';		
 	
 	public FixQuotQualGrp() {
+		this(false);
+	}
+
+	public FixQuotQualGrp(boolean isRequired) {
 		super(FixTags.QUOTEQUALIFIER_INT);
 
+		this.isRequired = isRequired;
 		
 		hasQuoteQualifier = FixUtils.TAG_HAS_NO_VALUE;		
 		
@@ -52,9 +57,13 @@ public class FixQuotQualGrp extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...

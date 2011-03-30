@@ -148,19 +148,24 @@ public class FixMDIncGrp extends FixGroup {
 	long mDEntrySpotRate = 0;		
 	private short hasMDEntryForwardPoints;
 	long mDEntryForwardPoints = 0;		
-		FixInstrument instrument;
-		FixUndInstrmtGrp[] undInstrmtGrp;
-		FixInstrmtLegGrp[] instrmtLegGrp;
-		FixYieldData yieldData;
-		FixSpreadOrBenchmarkCurveData spreadOrBenchmarkCurveData;
-		FixRateSource[] rateSource;
-		FixSecSizesGrp[] secSizesGrp;
-		FixParties[] parties;
-		FixStatsIndGrp[] statsIndGrp;
+		public FixInstrument instrument;
+		public FixUndInstrmtGrp[] undInstrmtGrp;
+		public FixInstrmtLegGrp[] instrmtLegGrp;
+		public FixYieldData yieldData;
+		public FixSpreadOrBenchmarkCurveData spreadOrBenchmarkCurveData;
+		public FixRateSource[] rateSource;
+		public FixSecSizesGrp[] secSizesGrp;
+		public FixParties[] parties;
+		public FixStatsIndGrp[] statsIndGrp;
 	
 	public FixMDIncGrp() {
+		this(false);
+	}
+
+	public FixMDIncGrp(boolean isRequired) {
 		super(FixTags.MDUPDATEACTION_INT);
 
+		this.isRequired = isRequired;
 		
 		hasMDUpdateAction = FixUtils.TAG_HAS_NO_VALUE;		
 		hasDeleteReason = FixUtils.TAG_HAS_NO_VALUE;		
@@ -599,11 +604,12 @@ public class FixMDIncGrp extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !undInstrmtGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = undInstrmtGrp[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -618,11 +624,12 @@ public class FixMDIncGrp extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !instrmtLegGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = instrmtLegGrp[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -645,11 +652,12 @@ public class FixMDIncGrp extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !rateSource[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = rateSource[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -664,11 +672,12 @@ public class FixMDIncGrp extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !secSizesGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = secSizesGrp[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -683,11 +692,12 @@ public class FixMDIncGrp extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !parties[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = parties[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -702,11 +712,12 @@ public class FixMDIncGrp extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !statsIndGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = statsIndGrp[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -719,9 +730,17 @@ public class FixMDIncGrp extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		if (!hasMDUpdateAction()) { 
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag MDUpdateAction missing", FixTags.MDUPDATEACTION_INT);
+			return false;
+		}
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...
@@ -1580,14 +1599,74 @@ public class FixMDIncGrp extends FixGroup {
             }
 
 		instrument.encode(out);
-		for (FixUndInstrmtGrp fixUndInstrmtGrp : undInstrmtGrp) fixUndInstrmtGrp.encode(out);
-		for (FixInstrmtLegGrp fixInstrmtLegGrp : instrmtLegGrp) fixInstrmtLegGrp.encode(out);
+		if (FixUtils.getNoInGroup(undInstrmtGrp)>0) {
+			out.put(FixTags.NOUNDERLYINGS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(undInstrmtGrp));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixUndInstrmtGrp fixUndInstrmtGrp : undInstrmtGrp) if (fixUndInstrmtGrp.hasGroup()) fixUndInstrmtGrp.encode(out);
+		if (FixUtils.getNoInGroup(instrmtLegGrp)>0) {
+			out.put(FixTags.NOLEGS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(instrmtLegGrp));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixInstrmtLegGrp fixInstrmtLegGrp : instrmtLegGrp) if (fixInstrmtLegGrp.hasGroup()) fixInstrmtLegGrp.encode(out);
 		yieldData.encode(out);
 		spreadOrBenchmarkCurveData.encode(out);
-		for (FixRateSource fixRateSource : rateSource) fixRateSource.encode(out);
-		for (FixSecSizesGrp fixSecSizesGrp : secSizesGrp) fixSecSizesGrp.encode(out);
-		for (FixParties fixParties : parties) fixParties.encode(out);
-		for (FixStatsIndGrp fixStatsIndGrp : statsIndGrp) fixStatsIndGrp.encode(out);
+		if (FixUtils.getNoInGroup(rateSource)>0) {
+			out.put(FixTags.NORATESOURCES);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(rateSource));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixRateSource fixRateSource : rateSource) if (fixRateSource.hasGroup()) fixRateSource.encode(out);
+		if (FixUtils.getNoInGroup(secSizesGrp)>0) {
+			out.put(FixTags.NOOFSECSIZES);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(secSizesGrp));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixSecSizesGrp fixSecSizesGrp : secSizesGrp) if (fixSecSizesGrp.hasGroup()) fixSecSizesGrp.encode(out);
+		if (FixUtils.getNoInGroup(parties)>0) {
+			out.put(FixTags.NOPARTYIDS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(parties));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixParties fixParties : parties) if (fixParties.hasGroup()) fixParties.encode(out);
+		if (FixUtils.getNoInGroup(statsIndGrp)>0) {
+			out.put(FixTags.NOSTATSINDICATORS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(statsIndGrp));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixStatsIndGrp fixStatsIndGrp : statsIndGrp) if (fixStatsIndGrp.hasGroup()) fixStatsIndGrp.encode(out);
 	}
 
 			

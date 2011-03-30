@@ -14,11 +14,16 @@ public class FixContextParties extends FixGroup {
 	byte contextPartyIDSource = (byte)' ';		
 	private short hasContextPartyRole;
 	long contextPartyRole = 0;		
-		FixContextPtysSubGrp[] contextPtysSubGrp;
+		public FixContextPtysSubGrp[] contextPtysSubGrp;
 	
 	public FixContextParties() {
+		this(false);
+	}
+
+	public FixContextParties(boolean isRequired) {
 		super(FixTags.CONTEXTPARTYID_INT);
 
+		this.isRequired = isRequired;
 		
 		hasContextPartyID = FixUtils.TAG_HAS_NO_VALUE;		
 		contextPartyID = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];		
@@ -71,11 +76,12 @@ public class FixContextParties extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !contextPtysSubGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = contextPtysSubGrp[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -88,9 +94,13 @@ public class FixContextParties extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...
@@ -136,7 +146,17 @@ public class FixContextParties extends FixGroup {
 
             }
 
-		for (FixContextPtysSubGrp fixContextPtysSubGrp : contextPtysSubGrp) fixContextPtysSubGrp.encode(out);
+		if (FixUtils.getNoInGroup(contextPtysSubGrp)>0) {
+			out.put(FixTags.NOCONTEXTPARTYSUBIDS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(contextPtysSubGrp));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixContextPtysSubGrp fixContextPtysSubGrp : contextPtysSubGrp) if (fixContextPtysSubGrp.hasGroup()) fixContextPtysSubGrp.encode(out);
 	}
 
 			

@@ -14,8 +14,13 @@ public class FixAttrbGrp extends FixGroup {
 	byte[] instrAttribValue = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 	
 	public FixAttrbGrp() {
+		this(false);
+	}
+
+	public FixAttrbGrp(boolean isRequired) {
 		super(FixTags.INSTRATTRIBTYPE_INT);
 
+		this.isRequired = isRequired;
 		
 		hasInstrAttribType = FixUtils.TAG_HAS_NO_VALUE;		
 		hasInstrAttribValue = FixUtils.TAG_HAS_NO_VALUE;		
@@ -60,9 +65,13 @@ public class FixAttrbGrp extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...

@@ -14,8 +14,13 @@ public class FixTrdCollGrp extends FixGroup {
 	byte[] secondaryTradeReportID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 	
 	public FixTrdCollGrp() {
+		this(false);
+	}
+
+	public FixTrdCollGrp(boolean isRequired) {
 		super(FixTags.TRADEREPORTID_INT);
 
+		this.isRequired = isRequired;
 		
 		hasTradeReportID = FixUtils.TAG_HAS_NO_VALUE;		
 		tradeReportID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
@@ -61,9 +66,13 @@ public class FixTrdCollGrp extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...

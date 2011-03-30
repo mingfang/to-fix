@@ -26,8 +26,13 @@ public class FixRgstDistInstGrp extends FixGroup {
 	byte[] cashDistribAgentAcctName = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 	
 	public FixRgstDistInstGrp() {
+		this(false);
+	}
+
+	public FixRgstDistInstGrp(boolean isRequired) {
 		super(FixTags.DISTRIBPAYMENTMETHOD_INT);
 
+		this.isRequired = isRequired;
 		
 		hasDistribPaymentMethod = FixUtils.TAG_HAS_NO_VALUE;		
 		hasDistribPercentage = FixUtils.TAG_HAS_NO_VALUE;		
@@ -107,9 +112,13 @@ public class FixRgstDistInstGrp extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...

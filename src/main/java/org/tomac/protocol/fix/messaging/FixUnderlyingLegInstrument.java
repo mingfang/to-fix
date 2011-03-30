@@ -38,11 +38,16 @@ public class FixUnderlyingLegInstrument extends FixGroup {
 	byte[] underlyingLegSecurityExchange = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 	private short hasUnderlyingLegSecurityDesc;
 	byte[] underlyingLegSecurityDesc = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
-		FixUnderlyingLegSecurityAltIDGrp[] underlyingLegSecurityAltIDGrp;
+		public FixUnderlyingLegSecurityAltIDGrp[] underlyingLegSecurityAltIDGrp;
 	
 	public FixUnderlyingLegInstrument() {
+		this(false);
+	}
+
+	public FixUnderlyingLegInstrument(boolean isRequired) {
 		super(FixTags.UNDERLYINGLEGSYMBOL_INT);
 
+		this.isRequired = isRequired;
 		
 		hasUnderlyingLegSymbol = FixUtils.TAG_HAS_NO_VALUE;		
 		underlyingLegSymbol = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
@@ -166,11 +171,12 @@ public class FixUnderlyingLegInstrument extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !underlyingLegSecurityAltIDGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = underlyingLegSecurityAltIDGrp[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -183,9 +189,13 @@ public class FixUnderlyingLegInstrument extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...
@@ -375,7 +385,17 @@ public class FixUnderlyingLegInstrument extends FixGroup {
 
             }
 
-		for (FixUnderlyingLegSecurityAltIDGrp fixUnderlyingLegSecurityAltIDGrp : underlyingLegSecurityAltIDGrp) fixUnderlyingLegSecurityAltIDGrp.encode(out);
+		if (FixUtils.getNoInGroup(underlyingLegSecurityAltIDGrp)>0) {
+			out.put(FixTags.NOUNDERLYINGLEGSECURITYALTID);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(underlyingLegSecurityAltIDGrp));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixUnderlyingLegSecurityAltIDGrp fixUnderlyingLegSecurityAltIDGrp : underlyingLegSecurityAltIDGrp) if (fixUnderlyingLegSecurityAltIDGrp.hasGroup()) fixUnderlyingLegSecurityAltIDGrp.encode(out);
 	}
 
 			

@@ -14,8 +14,13 @@ public class FixRoutingGrp extends FixGroup {
 	byte[] routingID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 	
 	public FixRoutingGrp() {
+		this(false);
+	}
+
+	public FixRoutingGrp(boolean isRequired) {
 		super(FixTags.ROUTINGTYPE_INT);
 
+		this.isRequired = isRequired;
 		
 		hasRoutingType = FixUtils.TAG_HAS_NO_VALUE;		
 		hasRoutingID = FixUtils.TAG_HAS_NO_VALUE;		
@@ -60,9 +65,13 @@ public class FixRoutingGrp extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...

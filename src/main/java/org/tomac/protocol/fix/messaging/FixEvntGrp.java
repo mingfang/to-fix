@@ -20,8 +20,13 @@ public class FixEvntGrp extends FixGroup {
 	byte[] eventText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];		
 	
 	public FixEvntGrp() {
+		this(false);
+	}
+
+	public FixEvntGrp(boolean isRequired) {
 		super(FixTags.EVENTTYPE_INT);
 
+		this.isRequired = isRequired;
 		
 		hasEventType = FixUtils.TAG_HAS_NO_VALUE;		
 		hasEventDate = FixUtils.TAG_HAS_NO_VALUE;		
@@ -83,9 +88,13 @@ public class FixEvntGrp extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...

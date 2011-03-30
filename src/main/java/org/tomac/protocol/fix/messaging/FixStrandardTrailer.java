@@ -16,8 +16,13 @@ public class FixStrandardTrailer extends FixGroup {
 	byte[] checkSum = new byte[3];		
 	
 	public FixStrandardTrailer() {
+		this(false);
+	}
+
+	public FixStrandardTrailer(boolean isRequired) {
 		super(FixTags.CHECKSUM_INT);
 
+		this.isRequired = isRequired;
 		
 		hasSignatureLength = FixUtils.TAG_HAS_NO_VALUE;		
 		hasSignature = FixUtils.TAG_HAS_NO_VALUE;		
@@ -68,9 +73,17 @@ public class FixStrandardTrailer extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		if (!hasCheckSum()) { 
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag CheckSum missing", FixTags.CHECKSUM_INT);
+			return false;
+		}
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...

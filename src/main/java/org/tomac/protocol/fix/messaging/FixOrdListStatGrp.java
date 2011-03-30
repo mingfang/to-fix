@@ -36,8 +36,13 @@ public class FixOrdListStatGrp extends FixGroup {
 	byte[] encodedText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];		
 	
 	public FixOrdListStatGrp() {
+		this(false);
+	}
+
+	public FixOrdListStatGrp(boolean isRequired) {
 		super(FixTags.CLORDID_INT);
 
+		this.isRequired = isRequired;
 		
 		hasClOrdID = FixUtils.TAG_HAS_NO_VALUE;		
 		clOrdID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
@@ -141,9 +146,33 @@ public class FixOrdListStatGrp extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		if (!hasCumQty()) { 
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag CumQty missing", FixTags.CUMQTY_INT);
+			return false;
+		}
+		if (!hasOrdStatus()) { 
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag OrdStatus missing", FixTags.ORDSTATUS_INT);
+			return false;
+		}
+		if (!hasLeavesQty()) { 
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag LeavesQty missing", FixTags.LEAVESQTY_INT);
+			return false;
+		}
+		if (!hasCxlQty()) { 
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag CxlQty missing", FixTags.CXLQTY_INT);
+			return false;
+		}
+		if (!hasAvgPx()) { 
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag AvgPx missing", FixTags.AVGPX_INT);
+			return false;
+		}
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...

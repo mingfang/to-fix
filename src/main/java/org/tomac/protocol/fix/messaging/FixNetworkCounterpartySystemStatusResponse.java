@@ -16,7 +16,7 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixInMessage {
 	byte[] networkResponseID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 	private short hasLastNetworkResponseID;
 	byte[] lastNetworkResponseID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
-	FixCompIDStatGrp[] compIDStatGrp;
+	public FixCompIDStatGrp[] compIDStatGrp;
 	
 	public FixNetworkCounterpartySystemStatusResponse() {
 		super(FixMessageInfo.MessageTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSRESPONSE);
@@ -79,11 +79,12 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixInMessage {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !compIDStatGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return;
         					}
         					count++;
         					repeatingGroupTag = compIDStatGrp[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -99,6 +100,8 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixInMessage {
 
 			}
 
+        		if (err.hasError()) return;
+
             	tag = FixMessage.getTag(buf, err);		
         		if (err.hasError()) break;
 
@@ -106,7 +109,9 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixInMessage {
 
 	}		
 
-	private boolean hasRequiredTags(FixValidationError err) {
+	public boolean hasRequiredTags(FixValidationError err) {
+		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
+
 		if (!hasNetworkStatusResponseType()) { 
 			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag NetworkStatusResponseType missing", FixTags.NETWORKSTATUSRESPONSETYPE_INT, FixMessageInfo.MessageTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSRESPONSE);
 			return false;
@@ -115,6 +120,9 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixInMessage {
 			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag NetworkResponseID missing", FixTags.NETWORKRESPONSEID_INT, FixMessageInfo.MessageTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSRESPONSE);
 			return false;
 		}
+		for (int i = 0; i< FixUtils.FIX_MAX_NOINGROUP; i++) { if (compIDStatGrp[i].hasGroup()) compIDStatGrp[i].hasRequiredTags(err); if (err.hasError()) return false; }
+		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
+
 		return true;
 	}
 	@Override		
@@ -128,7 +136,12 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixInMessage {
 		int startPos = out.position();
 		super.standardHeader.setBodyLength(1000);
 
-		super.standardHeader.encode(out);		
+		// if this is the standardHeader for an out-bound message wee need to set default tags
+		if (buf == null) {
+			super.standardHeader.setBeginString(FixMessageInfo.BEGINSTRING_VALUE);
+		}
+
+		super.standardHeader.encode(out);
 		if (hasNetworkStatusResponseType()) {		
 			out.put(FixTags.NETWORKSTATUSRESPONSETYPE);		
 		
@@ -165,6 +178,18 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixInMessage {
 		
 			out.put(FixUtils.SOH);		
 		}		
+		
+		if (FixUtils.getNoInGroup(compIDStatGrp)>0) {
+			out.put(FixTags.NOCOMPIDS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(compIDStatGrp));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixCompIDStatGrp fixCompIDStatGrp : compIDStatGrp) if (fixCompIDStatGrp.hasGroup()) fixCompIDStatGrp.encode(out);
 		
 		// set body length
 
@@ -438,6 +463,9 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixInMessage {
 					if (standardHeader.hasBeginString()) s += "BeginString(8)= " + new String( FixUtils.trim(standardHeader.getBeginString()) ) + "\n" ; 
 		if (standardHeader.hasBodyLength()) s += "BodyLength(9)= " + standardHeader.getBodyLength() + "\n" ; 
 		if (standardHeader.hasMsgType()) s += "MsgType(35)= " + new String( FixUtils.trim(standardHeader.getMsgType()) ) + "\n" ; 
+		if (standardHeader.hasApplVerID()) s += "ApplVerID(1128)= " + new String( FixUtils.trim(standardHeader.getApplVerID()) ) + "\n" ; 
+		if (standardHeader.hasCstmApplVerID()) s += "CstmApplVerID(1129)= " + new String( FixUtils.trim(standardHeader.getCstmApplVerID()) ) + "\n" ; 
+		if (standardHeader.hasApplExtID()) s += "ApplExtID(1156)= " + standardHeader.getApplExtID() + "\n" ; 
 		if (standardHeader.hasSenderCompID()) s += "SenderCompID(49)= " + new String( FixUtils.trim(standardHeader.getSenderCompID()) ) + "\n" ; 
 		if (standardHeader.hasTargetCompID()) s += "TargetCompID(56)= " + new String( FixUtils.trim(standardHeader.getTargetCompID()) ) + "\n" ; 
 		if (standardHeader.hasOnBehalfOfCompID()) s += "OnBehalfOfCompID(115)= " + new String( FixUtils.trim(standardHeader.getOnBehalfOfCompID()) ) + "\n" ; 
@@ -461,9 +489,6 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixInMessage {
 		if (standardHeader.hasXmlData()) s += "XmlData(213)= " + new String( FixUtils.trim(standardHeader.getXmlData()) ) + "\n" ; 
 		if (standardHeader.hasMessageEncoding()) s += "MessageEncoding(347)= " + new String( FixUtils.trim(standardHeader.getMessageEncoding()) ) + "\n" ; 
 		if (standardHeader.hasLastMsgSeqNumProcessed()) s += "LastMsgSeqNumProcessed(369)= " + standardHeader.getLastMsgSeqNumProcessed() + "\n" ; 
-		if (standardHeader.hasApplVerID()) s += "ApplVerID(1128)= " + new String( FixUtils.trim(standardHeader.getApplVerID()) ) + "\n" ; 
-		if (standardHeader.hasCstmApplVerID()) s += "CstmApplVerID(1129)= " + new String( FixUtils.trim(standardHeader.getCstmApplVerID()) ) + "\n" ; 
-		if (standardHeader.hasApplExtID()) s += "ApplExtID(1156)= " + standardHeader.getApplExtID() + "\n" ; 
 
 					if (hasNetworkStatusResponseType()) s += "NetworkStatusResponseType(937)= " + getNetworkStatusResponseType() + "\n" ; 
 		if (hasNetworkRequestID()) s += "NetworkRequestID(933)= " + new String( FixUtils.trim(getNetworkRequestID()) ) + "\n" ; 

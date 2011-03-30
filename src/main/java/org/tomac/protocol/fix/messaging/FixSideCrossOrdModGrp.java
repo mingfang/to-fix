@@ -72,14 +72,19 @@ public class FixSideCrossOrdModGrp extends FixGroup {
 	byte[] sideComplianceID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 	private short hasSideTimeInForce;
 	byte[] sideTimeInForce = new byte[FixUtils.UTCTIMESTAMP_LENGTH];		
-		FixParties[] parties;
-		FixPreAllocGrp[] preAllocGrp;
-		FixOrderQtyData orderQtyData;
-		FixCommissionData commissionData;
+		public FixParties[] parties;
+		public FixPreAllocGrp[] preAllocGrp;
+		public FixOrderQtyData orderQtyData;
+		public FixCommissionData commissionData;
 	
 	public FixSideCrossOrdModGrp() {
+		this(false);
+	}
+
+	public FixSideCrossOrdModGrp(boolean isRequired) {
 		super(FixTags.SIDE_INT);
 
+		this.isRequired = isRequired;
 		
 		hasSide = FixUtils.TAG_HAS_NO_VALUE;		
 		hasOrigClOrdID = FixUtils.TAG_HAS_NO_VALUE;		
@@ -132,7 +137,7 @@ public class FixSideCrossOrdModGrp extends FixGroup {
 		for (int i= 0; i<FixUtils.FIX_MAX_NOINGROUP; i++) parties[i] = new FixParties();
 		preAllocGrp = new FixPreAllocGrp[FixUtils.FIX_MAX_NOINGROUP];
 		for (int i= 0; i<FixUtils.FIX_MAX_NOINGROUP; i++) preAllocGrp[i] = new FixPreAllocGrp();
-		orderQtyData = new FixOrderQtyData();
+		orderQtyData = new FixOrderQtyData(true);
 		commissionData = new FixCommissionData();
 		
 	}		
@@ -295,11 +300,12 @@ public class FixSideCrossOrdModGrp extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !parties[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = parties[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -314,11 +320,12 @@ public class FixSideCrossOrdModGrp extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !preAllocGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = preAllocGrp[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -339,9 +346,22 @@ public class FixSideCrossOrdModGrp extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		if (!hasSide()) { 
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag Side missing", FixTags.SIDE_INT);
+			return false;
+		}
+		if (!hasClOrdID()) { 
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag ClOrdID missing", FixTags.CLORDID_INT);
+			return false;
+		}
+		if (orderQtyData.isRequired) orderQtyData.hasRequiredTags(err); if (err.hasError()) return false;
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...
@@ -738,8 +758,28 @@ public class FixSideCrossOrdModGrp extends FixGroup {
 
             }
 
-		for (FixParties fixParties : parties) fixParties.encode(out);
-		for (FixPreAllocGrp fixPreAllocGrp : preAllocGrp) fixPreAllocGrp.encode(out);
+		if (FixUtils.getNoInGroup(parties)>0) {
+			out.put(FixTags.NOPARTYIDS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(parties));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixParties fixParties : parties) if (fixParties.hasGroup()) fixParties.encode(out);
+		if (FixUtils.getNoInGroup(preAllocGrp)>0) {
+			out.put(FixTags.NOALLOCS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(preAllocGrp));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixPreAllocGrp fixPreAllocGrp : preAllocGrp) if (fixPreAllocGrp.hasGroup()) fixPreAllocGrp.encode(out);
 		orderQtyData.encode(out);
 		commissionData.encode(out);
 	}

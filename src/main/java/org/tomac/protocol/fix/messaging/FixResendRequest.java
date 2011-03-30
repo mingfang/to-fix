@@ -60,6 +60,8 @@ public class FixResendRequest extends FixInMessage {
 
 			}
 
+        		if (err.hasError()) return;
+
             	tag = FixMessage.getTag(buf, err);		
         		if (err.hasError()) break;
 
@@ -67,7 +69,9 @@ public class FixResendRequest extends FixInMessage {
 
 	}		
 
-	private boolean hasRequiredTags(FixValidationError err) {
+	public boolean hasRequiredTags(FixValidationError err) {
+		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
+
 		if (!hasBeginSeqNo()) { 
 			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag BeginSeqNo missing", FixTags.BEGINSEQNO_INT, FixMessageInfo.MessageTypes.RESENDREQUEST);
 			return false;
@@ -76,6 +80,8 @@ public class FixResendRequest extends FixInMessage {
 			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag EndSeqNo missing", FixTags.ENDSEQNO_INT, FixMessageInfo.MessageTypes.RESENDREQUEST);
 			return false;
 		}
+		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
+
 		return true;
 	}
 	@Override		
@@ -89,7 +95,12 @@ public class FixResendRequest extends FixInMessage {
 		int startPos = out.position();
 		super.standardHeader.setBodyLength(1000);
 
-		super.standardHeader.encode(out);		
+		// if this is the standardHeader for an out-bound message wee need to set default tags
+		if (buf == null) {
+			super.standardHeader.setBeginString(FixMessageInfo.BEGINSTRING_VALUE);
+		}
+
+		super.standardHeader.encode(out);
 		if (hasBeginSeqNo()) {		
 			out.put(FixTags.BEGINSEQNO);		
 		
@@ -108,6 +119,7 @@ public class FixResendRequest extends FixInMessage {
 		
 			out.put(FixUtils.SOH);		
 		}		
+		
 		
 		// set body length
 
@@ -286,6 +298,9 @@ public class FixResendRequest extends FixInMessage {
 					if (standardHeader.hasBeginString()) s += "BeginString(8)= " + new String( FixUtils.trim(standardHeader.getBeginString()) ) + "\n" ; 
 		if (standardHeader.hasBodyLength()) s += "BodyLength(9)= " + standardHeader.getBodyLength() + "\n" ; 
 		if (standardHeader.hasMsgType()) s += "MsgType(35)= " + new String( FixUtils.trim(standardHeader.getMsgType()) ) + "\n" ; 
+		if (standardHeader.hasApplVerID()) s += "ApplVerID(1128)= " + new String( FixUtils.trim(standardHeader.getApplVerID()) ) + "\n" ; 
+		if (standardHeader.hasCstmApplVerID()) s += "CstmApplVerID(1129)= " + new String( FixUtils.trim(standardHeader.getCstmApplVerID()) ) + "\n" ; 
+		if (standardHeader.hasApplExtID()) s += "ApplExtID(1156)= " + standardHeader.getApplExtID() + "\n" ; 
 		if (standardHeader.hasSenderCompID()) s += "SenderCompID(49)= " + new String( FixUtils.trim(standardHeader.getSenderCompID()) ) + "\n" ; 
 		if (standardHeader.hasTargetCompID()) s += "TargetCompID(56)= " + new String( FixUtils.trim(standardHeader.getTargetCompID()) ) + "\n" ; 
 		if (standardHeader.hasOnBehalfOfCompID()) s += "OnBehalfOfCompID(115)= " + new String( FixUtils.trim(standardHeader.getOnBehalfOfCompID()) ) + "\n" ; 
@@ -309,9 +324,6 @@ public class FixResendRequest extends FixInMessage {
 		if (standardHeader.hasXmlData()) s += "XmlData(213)= " + new String( FixUtils.trim(standardHeader.getXmlData()) ) + "\n" ; 
 		if (standardHeader.hasMessageEncoding()) s += "MessageEncoding(347)= " + new String( FixUtils.trim(standardHeader.getMessageEncoding()) ) + "\n" ; 
 		if (standardHeader.hasLastMsgSeqNumProcessed()) s += "LastMsgSeqNumProcessed(369)= " + standardHeader.getLastMsgSeqNumProcessed() + "\n" ; 
-		if (standardHeader.hasApplVerID()) s += "ApplVerID(1128)= " + new String( FixUtils.trim(standardHeader.getApplVerID()) ) + "\n" ; 
-		if (standardHeader.hasCstmApplVerID()) s += "CstmApplVerID(1129)= " + new String( FixUtils.trim(standardHeader.getCstmApplVerID()) ) + "\n" ; 
-		if (standardHeader.hasApplExtID()) s += "ApplExtID(1156)= " + standardHeader.getApplExtID() + "\n" ; 
 
 					if (hasBeginSeqNo()) s += "BeginSeqNo(7)= " + getBeginSeqNo() + "\n" ; 
 		if (hasEndSeqNo()) s += "EndSeqNo(16)= " + getEndSeqNo() + "\n" ; 

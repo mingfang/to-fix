@@ -6,6 +6,7 @@ abstract public class FixGroup {
 	private final int				keyTag;
 	protected java.nio.ByteBuffer	buf;
 	protected FixValidationError	err;
+	public boolean isRequired = false;
 
 	protected FixGroup(final int keyTag) {
 		this.keyTag = keyTag;

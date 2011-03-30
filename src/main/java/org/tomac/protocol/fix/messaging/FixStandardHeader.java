@@ -14,6 +14,12 @@ public class FixStandardHeader extends FixGroup {
 	long bodyLength = 0;		
 	private short hasMsgType;
 	byte[] msgType = new byte[2];		
+	private short hasApplVerID;
+	byte[] applVerID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
+	private short hasCstmApplVerID;
+	byte[] cstmApplVerID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
+	private short hasApplExtID;
+	long applExtID = 0;		
 	private short hasSenderCompID;
 	byte[] senderCompID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 	private short hasTargetCompID;
@@ -60,16 +66,16 @@ public class FixStandardHeader extends FixGroup {
 	byte[] messageEncoding = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 	private short hasLastMsgSeqNumProcessed;
 	long lastMsgSeqNumProcessed = 0;		
-	private short hasApplVerID;
-	byte[] applVerID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
-	private short hasCstmApplVerID;
-	byte[] cstmApplVerID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
-	private short hasApplExtID;
-	long applExtID = 0;		
+		public FixHopGrp[] hopGrp;
 	
 	public FixStandardHeader() {
+		this(false);
+	}
+
+	public FixStandardHeader(boolean isRequired) {
 		super(FixTags.BEGINSTRING_INT);
 
+		this.isRequired = isRequired;
 		System.arraycopy( msgType, 0, this.msgType, 0, msgType.length );
 		
 		hasBeginString = FixUtils.TAG_HAS_NO_VALUE;		
@@ -77,6 +83,11 @@ public class FixStandardHeader extends FixGroup {
 		hasBodyLength = FixUtils.TAG_HAS_NO_VALUE;		
 		hasMsgType = FixUtils.TAG_HAS_NO_VALUE;		
 		msgType = new byte[2];		
+		hasApplVerID = FixUtils.TAG_HAS_NO_VALUE;		
+		applVerID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
+		hasCstmApplVerID = FixUtils.TAG_HAS_NO_VALUE;		
+		cstmApplVerID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
+		hasApplExtID = FixUtils.TAG_HAS_NO_VALUE;		
 		hasSenderCompID = FixUtils.TAG_HAS_NO_VALUE;		
 		senderCompID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 		hasTargetCompID = FixUtils.TAG_HAS_NO_VALUE;		
@@ -117,11 +128,8 @@ public class FixStandardHeader extends FixGroup {
 		hasMessageEncoding = FixUtils.TAG_HAS_NO_VALUE;		
 		messageEncoding = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 		hasLastMsgSeqNumProcessed = FixUtils.TAG_HAS_NO_VALUE;		
-		hasApplVerID = FixUtils.TAG_HAS_NO_VALUE;		
-		applVerID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
-		hasCstmApplVerID = FixUtils.TAG_HAS_NO_VALUE;		
-		cstmApplVerID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
-		hasApplExtID = FixUtils.TAG_HAS_NO_VALUE;		
+		hopGrp = new FixHopGrp[FixUtils.FIX_MAX_NOINGROUP];
+		for (int i= 0; i<FixUtils.FIX_MAX_NOINGROUP; i++) hopGrp[i] = new FixHopGrp();
 		
 	}		
 			
@@ -157,6 +165,18 @@ public class FixStandardHeader extends FixGroup {
                 	break; 		
             	case FixTags.MSGTYPE_INT:		
             		hasMsgType = (short) buf.position();		
+            		FixMessage.getNext(buf, err);		
+                	break; 		
+            	case FixTags.APPLVERID_INT:		
+            		hasApplVerID = (short) buf.position();		
+            		FixMessage.getNext(buf, err);		
+                	break; 		
+            	case FixTags.CSTMAPPLVERID_INT:		
+            		hasCstmApplVerID = (short) buf.position();		
+            		FixMessage.getNext(buf, err);		
+                	break; 		
+            	case FixTags.APPLEXTID_INT:		
+            		hasApplExtID = (short) buf.position();		
             		FixMessage.getNext(buf, err);		
                 	break; 		
             	case FixTags.SENDERCOMPID_INT:		
@@ -251,34 +271,76 @@ public class FixStandardHeader extends FixGroup {
             		hasLastMsgSeqNumProcessed = (short) buf.position();		
             		FixMessage.getNext(buf, err);		
                 	break; 		
-            	case FixTags.APPLVERID_INT:		
-            		hasApplVerID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
-                	break; 		
-            	case FixTags.CSTMAPPLVERID_INT:		
-            		hasCstmApplVerID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
-                	break; 		
-            	case FixTags.APPLEXTID_INT:		
-            		hasApplExtID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
-                	break; 		
             	default:
-            		return tag;
+        			if ( tag == FixTags.NOHOPS_INT ) {
+        				int count = 0;
+        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				if (err.hasError()) break;
 
+        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				if (err.hasError()) break;
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
+        				while ( count < noInGroupNumber ) {
+        					if ( !hopGrp[count].isKeyTag(repeatingGroupTag) ) {
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
+        					}
+        					count++;
+        					repeatingGroupTag = hopGrp[count].setBuffer( repeatingGroupTag, buf, err);	
+        					if (err.hasError()) break; 		
+        				}
+        				if (err.hasError()) break;
+                		else { tag = repeatingGroupTag; continue; }
+            		} else { return tag; }
             }
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		if (!hasBeginString()) { 
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag BeginString missing", FixTags.BEGINSTRING_INT);
+			return false;
+		}
+		if (!hasBodyLength()) { 
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag BodyLength missing", FixTags.BODYLENGTH_INT);
+			return false;
+		}
+		if (!hasMsgType()) { 
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag MsgType missing", FixTags.MSGTYPE_INT);
+			return false;
+		}
+		if (!hasSenderCompID()) { 
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag SenderCompID missing", FixTags.SENDERCOMPID_INT);
+			return false;
+		}
+		if (!hasTargetCompID()) { 
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag TargetCompID missing", FixTags.TARGETCOMPID_INT);
+			return false;
+		}
+		if (!hasMsgSeqNum()) { 
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag MsgSeqNum missing", FixTags.MSGSEQNUM_INT);
+			return false;
+		}
+		if (!hasSendingTime()) { 
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag SendingTime missing", FixTags.SENDINGTIME_INT);
+			return false;
+		}
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...
 		hasBeginString = FixUtils.TAG_HAS_NO_VALUE;
 		hasBodyLength = FixUtils.TAG_HAS_NO_VALUE;
 		hasMsgType = FixUtils.TAG_HAS_NO_VALUE;
+		hasApplVerID = FixUtils.TAG_HAS_NO_VALUE;
+		hasCstmApplVerID = FixUtils.TAG_HAS_NO_VALUE;
+		hasApplExtID = FixUtils.TAG_HAS_NO_VALUE;
 		hasSenderCompID = FixUtils.TAG_HAS_NO_VALUE;
 		hasTargetCompID = FixUtils.TAG_HAS_NO_VALUE;
 		hasOnBehalfOfCompID = FixUtils.TAG_HAS_NO_VALUE;
@@ -302,9 +364,7 @@ public class FixStandardHeader extends FixGroup {
 		hasXmlData = FixUtils.TAG_HAS_NO_VALUE;
 		hasMessageEncoding = FixUtils.TAG_HAS_NO_VALUE;
 		hasLastMsgSeqNumProcessed = FixUtils.TAG_HAS_NO_VALUE;
-		hasApplVerID = FixUtils.TAG_HAS_NO_VALUE;
-		hasCstmApplVerID = FixUtils.TAG_HAS_NO_VALUE;
-		hasApplExtID = FixUtils.TAG_HAS_NO_VALUE;
+		for (FixHopGrp fixHopGrp : hopGrp) fixHopGrp.clear();
 	}
 
 	@Override		
@@ -338,6 +398,39 @@ public class FixStandardHeader extends FixGroup {
 			out.put((byte) '=');
 
 			FixUtils.put(out,msgType); 		
+		
+			out.put(FixUtils.SOH);
+
+            }
+
+		if (hasApplVerID()) {		
+			out.put(FixTags.APPLVERID);
+
+			out.put((byte) '=');
+
+			FixUtils.put(out,applVerID); 		
+		
+			out.put(FixUtils.SOH);
+
+            }
+
+		if (hasCstmApplVerID()) {		
+			out.put(FixTags.CSTMAPPLVERID);
+
+			out.put((byte) '=');
+
+			FixUtils.put(out,cstmApplVerID); 		
+		
+			out.put(FixUtils.SOH);
+
+            }
+
+		if (hasApplExtID()) {		
+			out.put(FixTags.APPLEXTID);
+
+			out.put((byte) '=');
+
+			FixUtils.put(out, (long)applExtID);
 		
 			out.put(FixUtils.SOH);
 
@@ -596,39 +689,17 @@ public class FixStandardHeader extends FixGroup {
 
             }
 
-		if (hasApplVerID()) {		
-			out.put(FixTags.APPLVERID);
+		if (FixUtils.getNoInGroup(hopGrp)>0) {
+			out.put(FixTags.NOHOPS);
 
-			out.put((byte) '=');
+			out.put((byte) '=' );
 
-			FixUtils.put(out,applVerID); 		
-		
+			FixUtils.put(out, FixUtils.getNoInGroup(hopGrp));
+
 			out.put(FixUtils.SOH);
 
-            }
-
-		if (hasCstmApplVerID()) {		
-			out.put(FixTags.CSTMAPPLVERID);
-
-			out.put((byte) '=');
-
-			FixUtils.put(out,cstmApplVerID); 		
-		
-			out.put(FixUtils.SOH);
-
-            }
-
-		if (hasApplExtID()) {		
-			out.put(FixTags.APPLEXTID);
-
-			out.put((byte) '=');
-
-			FixUtils.put(out, (long)applExtID);
-		
-			out.put(FixUtils.SOH);
-
-            }
-
+		}
+		for (FixHopGrp fixHopGrp : hopGrp) if (fixHopGrp.hasGroup()) fixHopGrp.encode(out);
 	}
 
 			
@@ -649,6 +720,24 @@ public class FixStandardHeader extends FixGroup {
 		
 		if (hasMsgType()) {		
 			FixUtils.put(out,msgType); 		
+		
+	        out.put( (byte)' ' );		
+		}		
+		
+		if (hasApplVerID()) {		
+			FixUtils.put(out,applVerID); 		
+		
+	        out.put( (byte)' ' );		
+		}		
+		
+		if (hasCstmApplVerID()) {		
+			FixUtils.put(out,cstmApplVerID); 		
+		
+	        out.put( (byte)' ' );		
+		}		
+		
+		if (hasApplExtID()) {		
+			FixUtils.put(out, (long)applExtID);
 		
 	        out.put( (byte)' ' );		
 		}		
@@ -791,24 +880,7 @@ public class FixStandardHeader extends FixGroup {
 	        out.put( (byte)' ' );		
 		}		
 		
-		if (hasApplVerID()) {		
-			FixUtils.put(out,applVerID); 		
-		
-	        out.put( (byte)' ' );		
-		}		
-		
-		if (hasCstmApplVerID()) {		
-			FixUtils.put(out,cstmApplVerID); 		
-		
-	        out.put( (byte)' ' );		
-		}		
-		
-		if (hasApplExtID()) {		
-			FixUtils.put(out, (long)applExtID);
-		
-	        out.put( (byte)' ' );		
-		}		
-		
+		for (FixHopGrp fixHopGrp : hopGrp) fixHopGrp.printBuffer(out);
 	}
 
 	public byte[] getBeginString() { 		
@@ -931,6 +1003,128 @@ public class FixStandardHeader extends FixGroup {
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(msgType, src); 		
 		hasMsgType = FixUtils.TAG_HAS_VALUE;		
+	}		
+			
+	public byte[] getApplVerID() { 		
+		if ( hasApplVerID()) {		
+			if (hasApplVerID == FixUtils.TAG_HAS_VALUE) {		
+				return applVerID; 		
+			} else {		
+		
+				buf.position(hasApplVerID);		
+		
+			FixMessage.getTagStringValue(buf, applVerID, 0, applVerID.length, err);
+		
+				if (err.hasError()) {		
+					buf.position(hasApplVerID);		
+					return null;		
+				}		
+			}		
+			hasApplVerID = FixUtils.TAG_HAS_VALUE;		
+			return applVerID;		
+		} else {		
+			return null; 		
+		}		
+	}		
+			
+	public boolean hasApplVerID() { return hasApplVerID != FixUtils.TAG_HAS_NO_VALUE; } 		
+		
+	public void setApplVerID(byte[] src) {		
+		if (src == null ) return;
+		if (hasApplVerID()) FixUtils.fillSpace(applVerID);		
+		FixUtils.copy(applVerID, src); 		
+		hasApplVerID = FixUtils.TAG_HAS_VALUE;		
+	}		
+			
+	public void setApplVerID(String str) {		
+		if (str == null ) return;
+		if (hasApplVerID()) FixUtils.fillSpace(applVerID);		
+		byte[] src = str.getBytes(); 		
+		FixUtils.copy(applVerID, src); 		
+		hasApplVerID = FixUtils.TAG_HAS_VALUE;		
+	}		
+			
+	public byte[] getCstmApplVerID() { 		
+		if ( hasCstmApplVerID()) {		
+			if (hasCstmApplVerID == FixUtils.TAG_HAS_VALUE) {		
+				return cstmApplVerID; 		
+			} else {		
+		
+				buf.position(hasCstmApplVerID);		
+		
+			FixMessage.getTagStringValue(buf, cstmApplVerID, 0, cstmApplVerID.length, err);
+		
+				if (err.hasError()) {		
+					buf.position(hasCstmApplVerID);		
+					return null;		
+				}		
+			}		
+			hasCstmApplVerID = FixUtils.TAG_HAS_VALUE;		
+			return cstmApplVerID;		
+		} else {		
+			return null; 		
+		}		
+	}		
+			
+	public boolean hasCstmApplVerID() { return hasCstmApplVerID != FixUtils.TAG_HAS_NO_VALUE; } 		
+		
+	public void setCstmApplVerID(byte[] src) {		
+		if (src == null ) return;
+		if (hasCstmApplVerID()) FixUtils.fillSpace(cstmApplVerID);		
+		FixUtils.copy(cstmApplVerID, src); 		
+		hasCstmApplVerID = FixUtils.TAG_HAS_VALUE;		
+	}		
+			
+	public void setCstmApplVerID(String str) {		
+		if (str == null ) return;
+		if (hasCstmApplVerID()) FixUtils.fillSpace(cstmApplVerID);		
+		byte[] src = str.getBytes(); 		
+		FixUtils.copy(cstmApplVerID, src); 		
+		hasCstmApplVerID = FixUtils.TAG_HAS_VALUE;		
+	}		
+			
+	public long getApplExtID() { 		
+		if ( hasApplExtID()) {		
+			if (hasApplExtID == FixUtils.TAG_HAS_VALUE) {		
+				return applExtID; 		
+			} else {		
+		
+				buf.position(hasApplExtID);		
+		
+			applExtID = FixMessage.getTagIntValue(buf, err);
+		
+				if (err.hasError()) {		
+					buf.position(hasApplExtID);		
+					return 0;		
+				}		
+			}		
+			hasApplExtID = FixUtils.TAG_HAS_VALUE;		
+			return applExtID;		
+		} else {		
+			return 0; 		
+		}		
+	}		
+			
+	public boolean hasApplExtID() { return hasApplExtID != FixUtils.TAG_HAS_NO_VALUE; } 		
+		
+	public void setApplExtID(long src) {		
+		applExtID = src;
+		hasApplExtID = FixUtils.TAG_HAS_VALUE;		
+	}
+
+	public void setApplExtID(byte[] src) {		
+		if (src == null ) return;
+		if (hasApplExtID()) applExtID = FixUtils.TAG_HAS_NO_VALUE;		
+		applExtID = FixUtils.longValueOf(src, 0, src.length);
+		hasApplExtID = FixUtils.TAG_HAS_VALUE;		
+	}		
+			
+	public void setApplExtID(String str) {		
+		if (str == null ) return;
+		if (hasApplExtID()) applExtID = FixUtils.TAG_HAS_NO_VALUE;		
+		byte[] src = str.getBytes(); 		
+		applExtID = FixUtils.longValueOf(src, 0, src.length);
+		hasApplExtID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public byte[] getSenderCompID() { 		
@@ -1860,128 +2054,6 @@ public class FixStandardHeader extends FixGroup {
 		hasLastMsgSeqNumProcessed = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
-	public byte[] getApplVerID() { 		
-		if ( hasApplVerID()) {		
-			if (hasApplVerID == FixUtils.TAG_HAS_VALUE) {		
-				return applVerID; 		
-			} else {		
-		
-				buf.position(hasApplVerID);		
-		
-			FixMessage.getTagStringValue(buf, applVerID, 0, applVerID.length, err);
-		
-				if (err.hasError()) {		
-					buf.position(hasApplVerID);		
-					return null;		
-				}		
-			}		
-			hasApplVerID = FixUtils.TAG_HAS_VALUE;		
-			return applVerID;		
-		} else {		
-			return null; 		
-		}		
-	}		
-			
-	public boolean hasApplVerID() { return hasApplVerID != FixUtils.TAG_HAS_NO_VALUE; } 		
-		
-	public void setApplVerID(byte[] src) {		
-		if (src == null ) return;
-		if (hasApplVerID()) FixUtils.fillSpace(applVerID);		
-		FixUtils.copy(applVerID, src); 		
-		hasApplVerID = FixUtils.TAG_HAS_VALUE;		
-	}		
-			
-	public void setApplVerID(String str) {		
-		if (str == null ) return;
-		if (hasApplVerID()) FixUtils.fillSpace(applVerID);		
-		byte[] src = str.getBytes(); 		
-		FixUtils.copy(applVerID, src); 		
-		hasApplVerID = FixUtils.TAG_HAS_VALUE;		
-	}		
-			
-	public byte[] getCstmApplVerID() { 		
-		if ( hasCstmApplVerID()) {		
-			if (hasCstmApplVerID == FixUtils.TAG_HAS_VALUE) {		
-				return cstmApplVerID; 		
-			} else {		
-		
-				buf.position(hasCstmApplVerID);		
-		
-			FixMessage.getTagStringValue(buf, cstmApplVerID, 0, cstmApplVerID.length, err);
-		
-				if (err.hasError()) {		
-					buf.position(hasCstmApplVerID);		
-					return null;		
-				}		
-			}		
-			hasCstmApplVerID = FixUtils.TAG_HAS_VALUE;		
-			return cstmApplVerID;		
-		} else {		
-			return null; 		
-		}		
-	}		
-			
-	public boolean hasCstmApplVerID() { return hasCstmApplVerID != FixUtils.TAG_HAS_NO_VALUE; } 		
-		
-	public void setCstmApplVerID(byte[] src) {		
-		if (src == null ) return;
-		if (hasCstmApplVerID()) FixUtils.fillSpace(cstmApplVerID);		
-		FixUtils.copy(cstmApplVerID, src); 		
-		hasCstmApplVerID = FixUtils.TAG_HAS_VALUE;		
-	}		
-			
-	public void setCstmApplVerID(String str) {		
-		if (str == null ) return;
-		if (hasCstmApplVerID()) FixUtils.fillSpace(cstmApplVerID);		
-		byte[] src = str.getBytes(); 		
-		FixUtils.copy(cstmApplVerID, src); 		
-		hasCstmApplVerID = FixUtils.TAG_HAS_VALUE;		
-	}		
-			
-	public long getApplExtID() { 		
-		if ( hasApplExtID()) {		
-			if (hasApplExtID == FixUtils.TAG_HAS_VALUE) {		
-				return applExtID; 		
-			} else {		
-		
-				buf.position(hasApplExtID);		
-		
-			applExtID = FixMessage.getTagIntValue(buf, err);
-		
-				if (err.hasError()) {		
-					buf.position(hasApplExtID);		
-					return 0;		
-				}		
-			}		
-			hasApplExtID = FixUtils.TAG_HAS_VALUE;		
-			return applExtID;		
-		} else {		
-			return 0; 		
-		}		
-	}		
-			
-	public boolean hasApplExtID() { return hasApplExtID != FixUtils.TAG_HAS_NO_VALUE; } 		
-		
-	public void setApplExtID(long src) {		
-		applExtID = src;
-		hasApplExtID = FixUtils.TAG_HAS_VALUE;		
-	}
-
-	public void setApplExtID(byte[] src) {		
-		if (src == null ) return;
-		if (hasApplExtID()) applExtID = FixUtils.TAG_HAS_NO_VALUE;		
-		applExtID = FixUtils.longValueOf(src, 0, src.length);
-		hasApplExtID = FixUtils.TAG_HAS_VALUE;		
-	}		
-			
-	public void setApplExtID(String str) {		
-		if (str == null ) return;
-		if (hasApplExtID()) applExtID = FixUtils.TAG_HAS_NO_VALUE;		
-		byte[] src = str.getBytes(); 		
-		applExtID = FixUtils.longValueOf(src, 0, src.length);
-		hasApplExtID = FixUtils.TAG_HAS_VALUE;		
-	}		
-			
 	/**
 	 * If you use toString for any other purpose than administrative printout.
 	 * You will burn in hell!
@@ -1992,6 +2064,9 @@ public class FixStandardHeader extends FixGroup {
 				if (hasBeginString()) s += "BeginString(8)= " + new String( FixUtils.trim(getBeginString()) ) + "\n" ; 
 		if (hasBodyLength()) s += "BodyLength(9)= " + getBodyLength() + "\n" ; 
 		if (hasMsgType()) s += "MsgType(35)= " + new String( FixUtils.trim(getMsgType()) ) + "\n" ; 
+		if (hasApplVerID()) s += "ApplVerID(1128)= " + new String( FixUtils.trim(getApplVerID()) ) + "\n" ; 
+		if (hasCstmApplVerID()) s += "CstmApplVerID(1129)= " + new String( FixUtils.trim(getCstmApplVerID()) ) + "\n" ; 
+		if (hasApplExtID()) s += "ApplExtID(1156)= " + getApplExtID() + "\n" ; 
 		if (hasSenderCompID()) s += "SenderCompID(49)= " + new String( FixUtils.trim(getSenderCompID()) ) + "\n" ; 
 		if (hasTargetCompID()) s += "TargetCompID(56)= " + new String( FixUtils.trim(getTargetCompID()) ) + "\n" ; 
 		if (hasOnBehalfOfCompID()) s += "OnBehalfOfCompID(115)= " + new String( FixUtils.trim(getOnBehalfOfCompID()) ) + "\n" ; 
@@ -2015,10 +2090,8 @@ public class FixStandardHeader extends FixGroup {
 		if (hasXmlData()) s += "XmlData(213)= " + new String( FixUtils.trim(getXmlData()) ) + "\n" ; 
 		if (hasMessageEncoding()) s += "MessageEncoding(347)= " + new String( FixUtils.trim(getMessageEncoding()) ) + "\n" ; 
 		if (hasLastMsgSeqNumProcessed()) s += "LastMsgSeqNumProcessed(369)= " + getLastMsgSeqNumProcessed() + "\n" ; 
-		if (hasApplVerID()) s += "ApplVerID(1128)= " + new String( FixUtils.trim(getApplVerID()) ) + "\n" ; 
-		if (hasCstmApplVerID()) s += "CstmApplVerID(1129)= " + new String( FixUtils.trim(getCstmApplVerID()) ) + "\n" ; 
-		if (hasApplExtID()) s += "ApplExtID(1156)= " + getApplExtID() + "\n" ; 
 
+		for (FixHopGrp fixHopGrp : hopGrp) fixHopGrp.toString();
 			return s;
 	}
 
@@ -2028,12 +2101,20 @@ public class FixStandardHeader extends FixGroup {
 
 		FixStandardHeader msg = (FixStandardHeader) o;
 
+		for (FixHopGrp fixHopGrp : hopGrp)
+			if (!fixHopGrp.equals(msg.hopGrp)) return false;
 		if ((hasBeginString() && !msg.hasBeginString()) || (!hasBeginString() && msg.hasBeginString())) return false;
 		if (!(!hasBeginString() && !msg.hasBeginString()) && !FixUtils.equals(getBeginString(), msg.getBeginString())) return false;
 		if ((hasBodyLength() && !msg.hasBodyLength()) || (!hasBodyLength() && msg.hasBodyLength())) return false;
 		if (!(!hasBodyLength() && !msg.hasBodyLength()) && !(getBodyLength()==msg.getBodyLength())) return false;
 		if ((hasMsgType() && !msg.hasMsgType()) || (!hasMsgType() && msg.hasMsgType())) return false;
 		if (!(!hasMsgType() && !msg.hasMsgType()) && !FixUtils.equals(getMsgType(), msg.getMsgType())) return false;
+		if ((hasApplVerID() && !msg.hasApplVerID()) || (!hasApplVerID() && msg.hasApplVerID())) return false;
+		if (!(!hasApplVerID() && !msg.hasApplVerID()) && !FixUtils.equals(getApplVerID(), msg.getApplVerID())) return false;
+		if ((hasCstmApplVerID() && !msg.hasCstmApplVerID()) || (!hasCstmApplVerID() && msg.hasCstmApplVerID())) return false;
+		if (!(!hasCstmApplVerID() && !msg.hasCstmApplVerID()) && !FixUtils.equals(getCstmApplVerID(), msg.getCstmApplVerID())) return false;
+		if ((hasApplExtID() && !msg.hasApplExtID()) || (!hasApplExtID() && msg.hasApplExtID())) return false;
+		if (!(!hasApplExtID() && !msg.hasApplExtID()) && !(getApplExtID()==msg.getApplExtID())) return false;
 		if ((hasSenderCompID() && !msg.hasSenderCompID()) || (!hasSenderCompID() && msg.hasSenderCompID())) return false;
 		if (!(!hasSenderCompID() && !msg.hasSenderCompID()) && !FixUtils.equals(getSenderCompID(), msg.getSenderCompID())) return false;
 		if ((hasTargetCompID() && !msg.hasTargetCompID()) || (!hasTargetCompID() && msg.hasTargetCompID())) return false;
@@ -2080,12 +2161,6 @@ public class FixStandardHeader extends FixGroup {
 		if (!(!hasMessageEncoding() && !msg.hasMessageEncoding()) && !FixUtils.equals(getMessageEncoding(), msg.getMessageEncoding())) return false;
 		if ((hasLastMsgSeqNumProcessed() && !msg.hasLastMsgSeqNumProcessed()) || (!hasLastMsgSeqNumProcessed() && msg.hasLastMsgSeqNumProcessed())) return false;
 		if (!(!hasLastMsgSeqNumProcessed() && !msg.hasLastMsgSeqNumProcessed()) && !(getLastMsgSeqNumProcessed()==msg.getLastMsgSeqNumProcessed())) return false;
-		if ((hasApplVerID() && !msg.hasApplVerID()) || (!hasApplVerID() && msg.hasApplVerID())) return false;
-		if (!(!hasApplVerID() && !msg.hasApplVerID()) && !FixUtils.equals(getApplVerID(), msg.getApplVerID())) return false;
-		if ((hasCstmApplVerID() && !msg.hasCstmApplVerID()) || (!hasCstmApplVerID() && msg.hasCstmApplVerID())) return false;
-		if (!(!hasCstmApplVerID() && !msg.hasCstmApplVerID()) && !FixUtils.equals(getCstmApplVerID(), msg.getCstmApplVerID())) return false;
-		if ((hasApplExtID() && !msg.hasApplExtID()) || (!hasApplExtID() && msg.hasApplExtID())) return false;
-		if (!(!hasApplExtID() && !msg.hasApplExtID()) && !(getApplExtID()==msg.getApplExtID())) return false;
 		return true;
 	}
 	public FixStandardHeader clone ( FixStandardHeader out ) {
@@ -2095,6 +2170,12 @@ public class FixStandardHeader extends FixGroup {
 			out.setBodyLength(getBodyLength());
 		if ( hasMsgType())
 			out.setMsgType(getMsgType());
+		if ( hasApplVerID())
+			out.setApplVerID(getApplVerID());
+		if ( hasCstmApplVerID())
+			out.setCstmApplVerID(getCstmApplVerID());
+		if ( hasApplExtID())
+			out.setApplExtID(getApplExtID());
 		if ( hasSenderCompID())
 			out.setSenderCompID(getSenderCompID());
 		if ( hasTargetCompID())
@@ -2141,12 +2222,13 @@ public class FixStandardHeader extends FixGroup {
 			out.setMessageEncoding(getMessageEncoding());
 		if ( hasLastMsgSeqNumProcessed())
 			out.setLastMsgSeqNumProcessed(getLastMsgSeqNumProcessed());
-		if ( hasApplVerID())
-			out.setApplVerID(getApplVerID());
-		if ( hasCstmApplVerID())
-			out.setCstmApplVerID(getCstmApplVerID());
-		if ( hasApplExtID())
-			out.setApplExtID(getApplExtID());
+		int count = 0;
+		count = 0;
+		for (FixHopGrp fixHopGrp : hopGrp) {
+			if (!fixHopGrp.hasGroup()) continue;
+			out.hopGrp[count] = fixHopGrp.clone( out.hopGrp[count] );
+			count++;
+		}
 		return out;
 	}
 

@@ -12,8 +12,13 @@ public class FixPartyListResponseTypeGrp extends FixGroup {
 	long partyListResponseType = 0;		
 	
 	public FixPartyListResponseTypeGrp() {
+		this(false);
+	}
+
+	public FixPartyListResponseTypeGrp(boolean isRequired) {
 		super(FixTags.PARTYLISTRESPONSETYPE_INT);
 
+		this.isRequired = isRequired;
 		
 		hasPartyListResponseType = FixUtils.TAG_HAS_NO_VALUE;		
 		
@@ -52,9 +57,17 @@ public class FixPartyListResponseTypeGrp extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		if (!hasPartyListResponseType()) { 
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag PartyListResponseType missing", FixTags.PARTYLISTRESPONSETYPE_INT);
+			return false;
+		}
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...

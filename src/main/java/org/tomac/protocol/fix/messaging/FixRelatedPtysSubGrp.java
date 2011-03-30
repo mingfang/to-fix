@@ -14,8 +14,13 @@ public class FixRelatedPtysSubGrp extends FixGroup {
 	long relatedPartySubIDType = 0;		
 	
 	public FixRelatedPtysSubGrp() {
+		this(false);
+	}
+
+	public FixRelatedPtysSubGrp(boolean isRequired) {
 		super(FixTags.RELATEDPARTYSUBID_INT);
 
+		this.isRequired = isRequired;
 		
 		hasRelatedPartySubID = FixUtils.TAG_HAS_NO_VALUE;		
 		relatedPartySubID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
@@ -60,9 +65,13 @@ public class FixRelatedPtysSubGrp extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...

@@ -52,11 +52,16 @@ public class FixTrdSessLstGrp extends FixGroup {
 	byte[] encodedText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];		
 	private short hasTransactTime;
 	byte[] transactTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];		
-		FixTradingSessionRules tradingSessionRules;
+		public FixTradingSessionRules tradingSessionRules;
 	
 	public FixTrdSessLstGrp() {
+		this(false);
+	}
+
+	public FixTrdSessLstGrp(boolean isRequired) {
 		super(FixTags.TRADINGSESSIONID_INT);
 
+		this.isRequired = isRequired;
 		
 		hasTradingSessionID = FixUtils.TAG_HAS_NO_VALUE;		
 		tradingSessionID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
@@ -218,9 +223,21 @@ public class FixTrdSessLstGrp extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		if (!hasTradingSessionID()) { 
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag TradingSessionID missing", FixTags.TRADINGSESSIONID_INT);
+			return false;
+		}
+		if (!hasTradSesStatus()) { 
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag TradSesStatus missing", FixTags.TRADSESSTATUS_INT);
+			return false;
+		}
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...

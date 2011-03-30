@@ -7,6 +7,7 @@ import org.tomac.protocol.fix.messaging.FixStandardHeader;
 import org.tomac.protocol.fix.messaging.FixStrandardTrailer;
 
 public abstract class FixMessage {
+	
 	public static int getNext(final ByteBuffer buf, final FixValidationError err) {
 		int c = 0;
 
@@ -204,6 +205,7 @@ public abstract class FixMessage {
 	FixMessage(final byte[] msgType) {
 		standardTrailer = new FixStrandardTrailer();
 		standardHeader = new FixStandardHeader();
+		standardHeader.setMsgType(msgType);
 		this.msgType = FixMessage.getTagAsInt(msgType, msgType.length);
 		digitsBuf = new byte[FixUtils.FIX_MAX_DIGITS];
 	}

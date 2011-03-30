@@ -20,8 +20,13 @@ public class FixContraGrp extends FixGroup {
 	byte[] contraLegRefID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 	
 	public FixContraGrp() {
+		this(false);
+	}
+
+	public FixContraGrp(boolean isRequired) {
 		super(FixTags.CONTRABROKER_INT);
 
+		this.isRequired = isRequired;
 		
 		hasContraBroker = FixUtils.TAG_HAS_NO_VALUE;		
 		contraBroker = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
@@ -84,9 +89,13 @@ public class FixContraGrp extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...

@@ -14,11 +14,16 @@ public class FixNestedParties3 extends FixGroup {
 	byte nested3PartyIDSource = (byte)' ';		
 	private short hasNested3PartyRole;
 	long nested3PartyRole = 0;		
-		FixNstdPtys3SubGrp[] nstdPtys3SubGrp;
+		public FixNstdPtys3SubGrp[] nstdPtys3SubGrp;
 	
 	public FixNestedParties3() {
+		this(false);
+	}
+
+	public FixNestedParties3(boolean isRequired) {
 		super(FixTags.NESTED3PARTYID_INT);
 
+		this.isRequired = isRequired;
 		
 		hasNested3PartyID = FixUtils.TAG_HAS_NO_VALUE;		
 		nested3PartyID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
@@ -71,11 +76,12 @@ public class FixNestedParties3 extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !nstdPtys3SubGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = nstdPtys3SubGrp[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -88,9 +94,13 @@ public class FixNestedParties3 extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...
@@ -136,7 +146,17 @@ public class FixNestedParties3 extends FixGroup {
 
             }
 
-		for (FixNstdPtys3SubGrp fixNstdPtys3SubGrp : nstdPtys3SubGrp) fixNstdPtys3SubGrp.encode(out);
+		if (FixUtils.getNoInGroup(nstdPtys3SubGrp)>0) {
+			out.put(FixTags.NONESTED3PARTYSUBIDS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(nstdPtys3SubGrp));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixNstdPtys3SubGrp fixNstdPtys3SubGrp : nstdPtys3SubGrp) if (fixNstdPtys3SubGrp.hasGroup()) fixNstdPtys3SubGrp.encode(out);
 	}
 
 			

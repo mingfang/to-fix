@@ -14,8 +14,13 @@ public class FixRiskWarningLevels extends FixGroup {
 	byte[] riskWarningLevelName = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 	
 	public FixRiskWarningLevels() {
+		this(false);
+	}
+
+	public FixRiskWarningLevels(boolean isRequired) {
 		super(FixTags.RISKWARNINGLEVELPERCENT_INT);
 
+		this.isRequired = isRequired;
 		
 		hasRiskWarningLevelPercent = FixUtils.TAG_HAS_NO_VALUE;		
 		hasRiskWarningLevelName = FixUtils.TAG_HAS_NO_VALUE;		
@@ -60,9 +65,13 @@ public class FixRiskWarningLevels extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...

@@ -18,8 +18,13 @@ public class FixPriceLimits extends FixGroup {
 	long tradingReferencePrice = 0;		
 	
 	public FixPriceLimits() {
+		this(false);
+	}
+
+	public FixPriceLimits(boolean isRequired) {
 		super(FixTags.PRICELIMITTYPE_INT);
 
+		this.isRequired = isRequired;
 		
 		hasPriceLimitType = FixUtils.TAG_HAS_NO_VALUE;		
 		hasLowLimitPrice = FixUtils.TAG_HAS_NO_VALUE;		
@@ -73,9 +78,13 @@ public class FixPriceLimits extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...

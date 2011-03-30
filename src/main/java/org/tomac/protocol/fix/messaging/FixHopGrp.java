@@ -16,8 +16,13 @@ public class FixHopGrp extends FixGroup {
 	long hopRefID = 0;		
 	
 	public FixHopGrp() {
+		this(false);
+	}
+
+	public FixHopGrp(boolean isRequired) {
 		super(FixTags.HOPCOMPID_INT);
 
+		this.isRequired = isRequired;
 		
 		hasHopCompID = FixUtils.TAG_HAS_NO_VALUE;		
 		hopCompID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
@@ -68,9 +73,13 @@ public class FixHopGrp extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...

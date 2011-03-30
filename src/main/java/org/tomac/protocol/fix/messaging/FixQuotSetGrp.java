@@ -16,12 +16,17 @@ public class FixQuotSetGrp extends FixGroup {
 	long totNoQuoteEntries = 0;		
 	private short hasLastFragment;
 		boolean lastFragment = false;		
-		FixUnderlyingInstrument underlyingInstrument;
-		FixQuotEntryGrp[] quotEntryGrp;
+		public FixUnderlyingInstrument underlyingInstrument;
+		public FixQuotEntryGrp[] quotEntryGrp;
 	
 	public FixQuotSetGrp() {
+		this(false);
+	}
+
+	public FixQuotSetGrp(boolean isRequired) {
 		super(FixTags.QUOTESETID_INT);
 
+		this.isRequired = isRequired;
 		
 		hasQuoteSetID = FixUtils.TAG_HAS_NO_VALUE;		
 		quoteSetID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
@@ -31,7 +36,7 @@ public class FixQuotSetGrp extends FixGroup {
 		hasLastFragment = FixUtils.TAG_HAS_NO_VALUE;		
 		underlyingInstrument = new FixUnderlyingInstrument();
 		quotEntryGrp = new FixQuotEntryGrp[FixUtils.FIX_MAX_NOINGROUP];
-		for (int i= 0; i<FixUtils.FIX_MAX_NOINGROUP; i++) quotEntryGrp[i] = new FixQuotEntryGrp();
+		for (int i= 0; i<FixUtils.FIX_MAX_NOINGROUP; i++) quotEntryGrp[i] = new FixQuotEntryGrp(true);
 		
 	}		
 			
@@ -85,11 +90,12 @@ public class FixQuotSetGrp extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !quotEntryGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = quotEntryGrp[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -102,9 +108,22 @@ public class FixQuotSetGrp extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		if (!hasQuoteSetID()) { 
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag QuoteSetID missing", FixTags.QUOTESETID_INT);
+			return false;
+		}
+		if (!hasTotNoQuoteEntries()) { 
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag TotNoQuoteEntries missing", FixTags.TOTNOQUOTEENTRIES_INT);
+			return false;
+		}
+		for (int i = 0; i< FixUtils.FIX_MAX_NOINGROUP; i++) { if (quotEntryGrp[i].hasGroup()) quotEntryGrp[i].hasRequiredTags(err); if (err.hasError()) return false; }
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...
@@ -164,7 +183,17 @@ public class FixQuotSetGrp extends FixGroup {
             }
 
 		underlyingInstrument.encode(out);
-		for (FixQuotEntryGrp fixQuotEntryGrp : quotEntryGrp) fixQuotEntryGrp.encode(out);
+		if (FixUtils.getNoInGroup(quotEntryGrp)>0) {
+			out.put(FixTags.NOQUOTEENTRIES);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(quotEntryGrp));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixQuotEntryGrp fixQuotEntryGrp : quotEntryGrp) if (fixQuotEntryGrp.hasGroup()) fixQuotEntryGrp.encode(out);
 	}
 
 			

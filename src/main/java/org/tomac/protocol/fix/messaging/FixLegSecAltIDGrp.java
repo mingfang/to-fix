@@ -16,8 +16,13 @@ public class FixLegSecAltIDGrp extends FixGroup {
 	byte[] legSecurityAltIDSource = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 	
 	public FixLegSecAltIDGrp() {
+		this(false);
+	}
+
+	public FixLegSecAltIDGrp(boolean isRequired) {
 		super(FixTags.NOLEGSECURITYALTID_INT);
 
+		this.isRequired = isRequired;
 		
 		hasNoLegSecurityAltID = FixUtils.TAG_HAS_NO_VALUE;		
 		noLegSecurityAltID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
@@ -69,9 +74,13 @@ public class FixLegSecAltIDGrp extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...

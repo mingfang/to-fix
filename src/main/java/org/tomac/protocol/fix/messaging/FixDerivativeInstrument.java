@@ -120,14 +120,19 @@ public class FixDerivativeInstrument extends FixGroup {
 	byte[] derivativeEncodedSecurityDesc = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 	private short hasDerivativeContractSettlMonth;
 	byte[] derivativeContractSettlMonth = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
-		FixDerivativeSecurityAltIDGrp[] derivativeSecurityAltIDGrp;
-		FixDerivativeSecurityXML derivativeSecurityXML;
-		FixDerivativeEventsGrp[] derivativeEventsGrp;
-		FixDerivativeInstrumentParties[] derivativeInstrumentParties;
+		public FixDerivativeSecurityAltIDGrp[] derivativeSecurityAltIDGrp;
+		public FixDerivativeSecurityXML derivativeSecurityXML;
+		public FixDerivativeEventsGrp[] derivativeEventsGrp;
+		public FixDerivativeInstrumentParties[] derivativeInstrumentParties;
 	
 	public FixDerivativeInstrument() {
+		this(false);
+	}
+
+	public FixDerivativeInstrument(boolean isRequired) {
 		super(FixTags.DERIVATIVESYMBOL_INT);
 
+		this.isRequired = isRequired;
 		
 		hasDerivativeSymbol = FixUtils.TAG_HAS_NO_VALUE;		
 		derivativeSymbol = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
@@ -480,11 +485,12 @@ public class FixDerivativeInstrument extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !derivativeSecurityAltIDGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = derivativeSecurityAltIDGrp[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -503,11 +509,12 @@ public class FixDerivativeInstrument extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !derivativeEventsGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = derivativeEventsGrp[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -522,11 +529,12 @@ public class FixDerivativeInstrument extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !derivativeInstrumentParties[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = derivativeInstrumentParties[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -539,9 +547,13 @@ public class FixDerivativeInstrument extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...
@@ -1226,10 +1238,40 @@ public class FixDerivativeInstrument extends FixGroup {
 
             }
 
-		for (FixDerivativeSecurityAltIDGrp fixDerivativeSecurityAltIDGrp : derivativeSecurityAltIDGrp) fixDerivativeSecurityAltIDGrp.encode(out);
+		if (FixUtils.getNoInGroup(derivativeSecurityAltIDGrp)>0) {
+			out.put(FixTags.NODERIVATIVESECURITYALTID);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(derivativeSecurityAltIDGrp));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixDerivativeSecurityAltIDGrp fixDerivativeSecurityAltIDGrp : derivativeSecurityAltIDGrp) if (fixDerivativeSecurityAltIDGrp.hasGroup()) fixDerivativeSecurityAltIDGrp.encode(out);
 		derivativeSecurityXML.encode(out);
-		for (FixDerivativeEventsGrp fixDerivativeEventsGrp : derivativeEventsGrp) fixDerivativeEventsGrp.encode(out);
-		for (FixDerivativeInstrumentParties fixDerivativeInstrumentParties : derivativeInstrumentParties) fixDerivativeInstrumentParties.encode(out);
+		if (FixUtils.getNoInGroup(derivativeEventsGrp)>0) {
+			out.put(FixTags.NODERIVATIVEEVENTS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(derivativeEventsGrp));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixDerivativeEventsGrp fixDerivativeEventsGrp : derivativeEventsGrp) if (fixDerivativeEventsGrp.hasGroup()) fixDerivativeEventsGrp.encode(out);
+		if (FixUtils.getNoInGroup(derivativeInstrumentParties)>0) {
+			out.put(FixTags.NODERIVATIVEINSTRUMENTPARTIES);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(derivativeInstrumentParties));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixDerivativeInstrumentParties fixDerivativeInstrumentParties : derivativeInstrumentParties) if (fixDerivativeInstrumentParties.hasGroup()) fixDerivativeInstrumentParties.encode(out);
 	}
 
 			

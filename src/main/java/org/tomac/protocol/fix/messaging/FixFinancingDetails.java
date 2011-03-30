@@ -28,8 +28,13 @@ public class FixFinancingDetails extends FixGroup {
 	long marginRatio = 0;		
 	
 	public FixFinancingDetails() {
+		this(false);
+	}
+
+	public FixFinancingDetails(boolean isRequired) {
 		super(FixTags.AGREEMENTDESC_INT);
 
+		this.isRequired = isRequired;
 		
 		hasAgreementDesc = FixUtils.TAG_HAS_NO_VALUE;		
 		agreementDesc = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
@@ -114,9 +119,13 @@ public class FixFinancingDetails extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...

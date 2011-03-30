@@ -22,8 +22,13 @@ public class FixYieldData extends FixGroup {
 	long yieldRedemptionPriceType = 0;		
 	
 	public FixYieldData() {
+		this(false);
+	}
+
+	public FixYieldData(boolean isRequired) {
 		super(FixTags.YIELDTYPE_INT);
 
+		this.isRequired = isRequired;
 		
 		hasYieldType = FixUtils.TAG_HAS_NO_VALUE;		
 		yieldType = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
@@ -90,9 +95,13 @@ public class FixYieldData extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...

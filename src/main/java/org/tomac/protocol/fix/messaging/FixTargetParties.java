@@ -16,8 +16,13 @@ public class FixTargetParties extends FixGroup {
 	long targetPartyRole = 0;		
 	
 	public FixTargetParties() {
+		this(false);
+	}
+
+	public FixTargetParties(boolean isRequired) {
 		super(FixTags.TARGETPARTYID_INT);
 
+		this.isRequired = isRequired;
 		
 		hasTargetPartyID = FixUtils.TAG_HAS_NO_VALUE;		
 		targetPartyID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
@@ -67,9 +72,13 @@ public class FixTargetParties extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...

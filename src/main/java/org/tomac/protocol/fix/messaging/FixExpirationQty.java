@@ -14,8 +14,13 @@ public class FixExpirationQty extends FixGroup {
 	long expQty = 0;		
 	
 	public FixExpirationQty() {
+		this(false);
+	}
+
+	public FixExpirationQty(boolean isRequired) {
 		super(FixTags.EXPIRATIONQTYTYPE_INT);
 
+		this.isRequired = isRequired;
 		
 		hasExpirationQtyType = FixUtils.TAG_HAS_NO_VALUE;		
 		hasExpQty = FixUtils.TAG_HAS_NO_VALUE;		
@@ -59,9 +64,13 @@ public class FixExpirationQty extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...

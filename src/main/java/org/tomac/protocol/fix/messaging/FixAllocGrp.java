@@ -66,15 +66,20 @@ public class FixAllocGrp extends FixGroup {
 	byte[] clearingFeeIndicator = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 	private short hasAllocSettlInstType;
 	long allocSettlInstType = 0;		
-		FixNestedParties[] nestedParties;
-		FixCommissionData commissionData;
-		FixMiscFeesGrp[] miscFeesGrp;
-		FixClrInstGrp[] clrInstGrp;
-		FixSettlInstructionsData settlInstructionsData;
+		public FixNestedParties[] nestedParties;
+		public FixCommissionData commissionData;
+		public FixMiscFeesGrp[] miscFeesGrp;
+		public FixClrInstGrp[] clrInstGrp;
+		public FixSettlInstructionsData settlInstructionsData;
 	
 	public FixAllocGrp() {
+		this(false);
+	}
+
+	public FixAllocGrp(boolean isRequired) {
 		super(FixTags.ALLOCACCOUNT_INT);
 
+		this.isRequired = isRequired;
 		
 		hasAllocAccount = FixUtils.TAG_HAS_NO_VALUE;		
 		allocAccount = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
@@ -271,11 +276,12 @@ public class FixAllocGrp extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !nestedParties[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = nestedParties[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -294,11 +300,12 @@ public class FixAllocGrp extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !miscFeesGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = miscFeesGrp[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -313,11 +320,12 @@ public class FixAllocGrp extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !clrInstGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = clrInstGrp[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -334,9 +342,13 @@ public class FixAllocGrp extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...
@@ -698,10 +710,40 @@ public class FixAllocGrp extends FixGroup {
 
             }
 
-		for (FixNestedParties fixNestedParties : nestedParties) fixNestedParties.encode(out);
+		if (FixUtils.getNoInGroup(nestedParties)>0) {
+			out.put(FixTags.NONESTEDPARTYIDS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(nestedParties));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixNestedParties fixNestedParties : nestedParties) if (fixNestedParties.hasGroup()) fixNestedParties.encode(out);
 		commissionData.encode(out);
-		for (FixMiscFeesGrp fixMiscFeesGrp : miscFeesGrp) fixMiscFeesGrp.encode(out);
-		for (FixClrInstGrp fixClrInstGrp : clrInstGrp) fixClrInstGrp.encode(out);
+		if (FixUtils.getNoInGroup(miscFeesGrp)>0) {
+			out.put(FixTags.NOMISCFEES);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(miscFeesGrp));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixMiscFeesGrp fixMiscFeesGrp : miscFeesGrp) if (fixMiscFeesGrp.hasGroup()) fixMiscFeesGrp.encode(out);
+		if (FixUtils.getNoInGroup(clrInstGrp)>0) {
+			out.put(FixTags.NOCLEARINGINSTRUCTIONS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(clrInstGrp));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixClrInstGrp fixClrInstGrp : clrInstGrp) if (fixClrInstGrp.hasGroup()) fixClrInstGrp.encode(out);
 		settlInstructionsData.encode(out);
 	}
 

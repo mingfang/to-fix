@@ -16,8 +16,13 @@ public class FixCpctyConfGrp extends FixGroup {
 	long orderCapacityQty = 0;		
 	
 	public FixCpctyConfGrp() {
+		this(false);
+	}
+
+	public FixCpctyConfGrp(boolean isRequired) {
 		super(FixTags.ORDERCAPACITY_INT);
 
+		this.isRequired = isRequired;
 		
 		hasOrderCapacity = FixUtils.TAG_HAS_NO_VALUE;		
 		hasOrderRestrictions = FixUtils.TAG_HAS_NO_VALUE;		
@@ -67,9 +72,21 @@ public class FixCpctyConfGrp extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		if (!hasOrderCapacity()) { 
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag OrderCapacity missing", FixTags.ORDERCAPACITY_INT);
+			return false;
+		}
+		if (!hasOrderCapacityQty()) { 
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag OrderCapacityQty missing", FixTags.ORDERCAPACITYQTY_INT);
+			return false;
+		}
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...

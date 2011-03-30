@@ -24,8 +24,13 @@ public class FixDiscretionInstructions extends FixGroup {
 	long discretionScope = 0;		
 	
 	public FixDiscretionInstructions() {
+		this(false);
+	}
+
+	public FixDiscretionInstructions(boolean isRequired) {
 		super(FixTags.DISCRETIONINST_INT);
 
+		this.isRequired = isRequired;
 		
 		hasDiscretionInst = FixUtils.TAG_HAS_NO_VALUE;		
 		hasDiscretionOffsetValue = FixUtils.TAG_HAS_NO_VALUE;		
@@ -94,9 +99,13 @@ public class FixDiscretionInstructions extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...

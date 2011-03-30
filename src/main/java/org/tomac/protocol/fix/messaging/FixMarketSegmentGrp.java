@@ -12,12 +12,17 @@ public class FixMarketSegmentGrp extends FixGroup {
 	byte[] marketID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 	private short hasMarketSegmentID;
 	byte[] marketSegmentID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
-		FixSecurityTradingRules securityTradingRules;
-		FixStrikeRules[] strikeRules;
+		public FixSecurityTradingRules securityTradingRules;
+		public FixStrikeRules[] strikeRules;
 	
 	public FixMarketSegmentGrp() {
+		this(false);
+	}
+
+	public FixMarketSegmentGrp(boolean isRequired) {
 		super(FixTags.MARKETID_INT);
 
+		this.isRequired = isRequired;
 		
 		hasMarketID = FixUtils.TAG_HAS_NO_VALUE;		
 		marketID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
@@ -71,11 +76,12 @@ public class FixMarketSegmentGrp extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !strikeRules[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = strikeRules[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -88,9 +94,13 @@ public class FixMarketSegmentGrp extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...
@@ -126,7 +136,17 @@ public class FixMarketSegmentGrp extends FixGroup {
             }
 
 		securityTradingRules.encode(out);
-		for (FixStrikeRules fixStrikeRules : strikeRules) fixStrikeRules.encode(out);
+		if (FixUtils.getNoInGroup(strikeRules)>0) {
+			out.put(FixTags.NOSTRIKERULES);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(strikeRules));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixStrikeRules fixStrikeRules : strikeRules) if (fixStrikeRules.hasGroup()) fixStrikeRules.encode(out);
 	}
 
 			

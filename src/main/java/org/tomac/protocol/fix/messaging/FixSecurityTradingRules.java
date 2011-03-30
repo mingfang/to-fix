@@ -8,13 +8,18 @@ import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.messaging.FixTags;
 		
 public class FixSecurityTradingRules extends FixGroup {
-		FixBaseTradingRules baseTradingRules;
-		FixTradingSessionRulesGrp[] tradingSessionRulesGrp;
-		FixNestedInstrumentAttribute[] nestedInstrumentAttribute;
+		public FixBaseTradingRules baseTradingRules;
+		public FixTradingSessionRulesGrp[] tradingSessionRulesGrp;
+		public FixNestedInstrumentAttribute[] nestedInstrumentAttribute;
 	
 	public FixSecurityTradingRules() {
+		this(false);
+	}
+
+	public FixSecurityTradingRules(boolean isRequired) {
 		super(FixTags.EXPIRATIONCYCLE_INT);
 
+		this.isRequired = isRequired;
 		
 		baseTradingRules = new FixBaseTradingRules();
 		tradingSessionRulesGrp = new FixTradingSessionRulesGrp[FixUtils.FIX_MAX_NOINGROUP];
@@ -58,11 +63,12 @@ public class FixSecurityTradingRules extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !tradingSessionRulesGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = tradingSessionRulesGrp[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -77,11 +83,12 @@ public class FixSecurityTradingRules extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !nestedInstrumentAttribute[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = nestedInstrumentAttribute[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -94,9 +101,13 @@ public class FixSecurityTradingRules extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...
@@ -109,8 +120,28 @@ public class FixSecurityTradingRules extends FixGroup {
 	public void encode(ByteBuffer out) {
 
 		baseTradingRules.encode(out);
-		for (FixTradingSessionRulesGrp fixTradingSessionRulesGrp : tradingSessionRulesGrp) fixTradingSessionRulesGrp.encode(out);
-		for (FixNestedInstrumentAttribute fixNestedInstrumentAttribute : nestedInstrumentAttribute) fixNestedInstrumentAttribute.encode(out);
+		if (FixUtils.getNoInGroup(tradingSessionRulesGrp)>0) {
+			out.put(FixTags.NOTRADINGSESSIONRULES);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(tradingSessionRulesGrp));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixTradingSessionRulesGrp fixTradingSessionRulesGrp : tradingSessionRulesGrp) if (fixTradingSessionRulesGrp.hasGroup()) fixTradingSessionRulesGrp.encode(out);
+		if (FixUtils.getNoInGroup(nestedInstrumentAttribute)>0) {
+			out.put(FixTags.NONESTEDINSTRATTRIB);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(nestedInstrumentAttribute));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixNestedInstrumentAttribute fixNestedInstrumentAttribute : nestedInstrumentAttribute) if (fixNestedInstrumentAttribute.hasGroup()) fixNestedInstrumentAttribute.encode(out);
 	}
 
 			

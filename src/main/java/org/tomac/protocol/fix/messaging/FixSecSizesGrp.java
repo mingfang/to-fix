@@ -14,8 +14,13 @@ public class FixSecSizesGrp extends FixGroup {
 	long mDSecSize = 0;		
 	
 	public FixSecSizesGrp() {
+		this(false);
+	}
+
+	public FixSecSizesGrp(boolean isRequired) {
 		super(FixTags.MDSECSIZETYPE_INT);
 
+		this.isRequired = isRequired;
 		
 		hasMDSecSizeType = FixUtils.TAG_HAS_NO_VALUE;		
 		hasMDSecSize = FixUtils.TAG_HAS_NO_VALUE;		
@@ -59,9 +64,13 @@ public class FixSecSizesGrp extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...

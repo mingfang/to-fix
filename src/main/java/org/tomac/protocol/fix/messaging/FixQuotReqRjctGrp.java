@@ -54,20 +54,25 @@ public class FixQuotReqRjctGrp extends FixGroup {
 	long price = 0;		
 	private short hasPrice2;
 	long price2 = 0;		
-		FixInstrument instrument;
-		FixFinancingDetails financingDetails;
-		FixUndInstrmtGrp[] undInstrmtGrp;
-		FixOrderQtyData orderQtyData;
-		FixStipulations[] stipulations;
-		FixQuotReqLegsGrp[] quotReqLegsGrp;
-		FixQuotQualGrp[] quotQualGrp;
-		FixSpreadOrBenchmarkCurveData spreadOrBenchmarkCurveData;
-		FixYieldData yieldData;
-		FixParties[] parties;
+		public FixInstrument instrument;
+		public FixFinancingDetails financingDetails;
+		public FixUndInstrmtGrp[] undInstrmtGrp;
+		public FixOrderQtyData orderQtyData;
+		public FixStipulations[] stipulations;
+		public FixQuotReqLegsGrp[] quotReqLegsGrp;
+		public FixQuotQualGrp[] quotQualGrp;
+		public FixSpreadOrBenchmarkCurveData spreadOrBenchmarkCurveData;
+		public FixYieldData yieldData;
+		public FixParties[] parties;
 	
 	public FixQuotReqRjctGrp() {
+		this(false);
+	}
+
+	public FixQuotReqRjctGrp(boolean isRequired) {
 		super(FixTags.SYMBOL_INT);
 
+		this.isRequired = isRequired;
 		
 		hasPrevClosePx = FixUtils.TAG_HAS_NO_VALUE;		
 		hasQuoteRequestType = FixUtils.TAG_HAS_NO_VALUE;		
@@ -102,7 +107,7 @@ public class FixQuotReqRjctGrp extends FixGroup {
 		hasPriceType = FixUtils.TAG_HAS_NO_VALUE;		
 		hasPrice = FixUtils.TAG_HAS_NO_VALUE;		
 		hasPrice2 = FixUtils.TAG_HAS_NO_VALUE;		
-		instrument = new FixInstrument();
+		instrument = new FixInstrument(true);
 		financingDetails = new FixFinancingDetails();
 		undInstrmtGrp = new FixUndInstrmtGrp[FixUtils.FIX_MAX_NOINGROUP];
 		for (int i= 0; i<FixUtils.FIX_MAX_NOINGROUP; i++) undInstrmtGrp[i] = new FixUndInstrmtGrp();
@@ -250,11 +255,12 @@ public class FixQuotReqRjctGrp extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !undInstrmtGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = undInstrmtGrp[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -273,11 +279,12 @@ public class FixQuotReqRjctGrp extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !stipulations[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = stipulations[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -292,11 +299,12 @@ public class FixQuotReqRjctGrp extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !quotReqLegsGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = quotReqLegsGrp[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -311,11 +319,12 @@ public class FixQuotReqRjctGrp extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !quotQualGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = quotQualGrp[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -338,11 +347,12 @@ public class FixQuotReqRjctGrp extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !parties[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = parties[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -355,9 +365,14 @@ public class FixQuotReqRjctGrp extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		if (instrument.isRequired) instrument.hasRequiredTags(err); if (err.hasError()) return false;
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...
@@ -654,14 +669,64 @@ public class FixQuotReqRjctGrp extends FixGroup {
 
 		instrument.encode(out);
 		financingDetails.encode(out);
-		for (FixUndInstrmtGrp fixUndInstrmtGrp : undInstrmtGrp) fixUndInstrmtGrp.encode(out);
+		if (FixUtils.getNoInGroup(undInstrmtGrp)>0) {
+			out.put(FixTags.NOUNDERLYINGS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(undInstrmtGrp));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixUndInstrmtGrp fixUndInstrmtGrp : undInstrmtGrp) if (fixUndInstrmtGrp.hasGroup()) fixUndInstrmtGrp.encode(out);
 		orderQtyData.encode(out);
-		for (FixStipulations fixStipulations : stipulations) fixStipulations.encode(out);
-		for (FixQuotReqLegsGrp fixQuotReqLegsGrp : quotReqLegsGrp) fixQuotReqLegsGrp.encode(out);
-		for (FixQuotQualGrp fixQuotQualGrp : quotQualGrp) fixQuotQualGrp.encode(out);
+		if (FixUtils.getNoInGroup(stipulations)>0) {
+			out.put(FixTags.NOSTIPULATIONS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(stipulations));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixStipulations fixStipulations : stipulations) if (fixStipulations.hasGroup()) fixStipulations.encode(out);
+		if (FixUtils.getNoInGroup(quotReqLegsGrp)>0) {
+			out.put(FixTags.NOLEGS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(quotReqLegsGrp));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixQuotReqLegsGrp fixQuotReqLegsGrp : quotReqLegsGrp) if (fixQuotReqLegsGrp.hasGroup()) fixQuotReqLegsGrp.encode(out);
+		if (FixUtils.getNoInGroup(quotQualGrp)>0) {
+			out.put(FixTags.NOQUOTEQUALIFIERS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(quotQualGrp));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixQuotQualGrp fixQuotQualGrp : quotQualGrp) if (fixQuotQualGrp.hasGroup()) fixQuotQualGrp.encode(out);
 		spreadOrBenchmarkCurveData.encode(out);
 		yieldData.encode(out);
-		for (FixParties fixParties : parties) fixParties.encode(out);
+		if (FixUtils.getNoInGroup(parties)>0) {
+			out.put(FixTags.NOPARTYIDS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(parties));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixParties fixParties : parties) if (fixParties.hasGroup()) fixParties.encode(out);
 	}
 
 			

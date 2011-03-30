@@ -18,8 +18,13 @@ public class FixTrdCapDtGrp extends FixGroup {
 	byte[] transactTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];		
 	
 	public FixTrdCapDtGrp() {
+		this(false);
+	}
+
+	public FixTrdCapDtGrp(boolean isRequired) {
 		super(FixTags.NODATES_INT);
 
+		this.isRequired = isRequired;
 		
 		hasNoDates = FixUtils.TAG_HAS_NO_VALUE;		
 		hasTradeDate = FixUtils.TAG_HAS_NO_VALUE;		
@@ -76,9 +81,13 @@ public class FixTrdCapDtGrp extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...

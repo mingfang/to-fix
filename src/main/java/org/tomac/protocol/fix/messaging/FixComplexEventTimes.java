@@ -14,8 +14,13 @@ public class FixComplexEventTimes extends FixGroup {
 	byte[] complexEventEndTime = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 	
 	public FixComplexEventTimes() {
+		this(false);
+	}
+
+	public FixComplexEventTimes(boolean isRequired) {
 		super(FixTags.COMPLEXEVENTSTARTTIME_INT);
 
+		this.isRequired = isRequired;
 		
 		hasComplexEventStartTime = FixUtils.TAG_HAS_NO_VALUE;		
 		complexEventStartTime = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
@@ -61,9 +66,13 @@ public class FixComplexEventTimes extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...

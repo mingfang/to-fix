@@ -14,14 +14,19 @@ public class FixRelatedPartyDetail extends FixGroup {
 	byte relatedPartyIDSource = (byte)' ';		
 	private short hasRelatedPartyRole;
 	long relatedPartyRole = 0;		
-		FixRelatedPtysSubGrp[] relatedPtysSubGrp;
-		FixRelatedPartyAltIDs[] relatedPartyAltIDs;
-		FixRelatedContextParties[] relatedContextParties;
-		FixRelationshipRiskLimits[] relationshipRiskLimits;
+		public FixRelatedPtysSubGrp[] relatedPtysSubGrp;
+		public FixRelatedPartyAltIDs[] relatedPartyAltIDs;
+		public FixRelatedContextParties[] relatedContextParties;
+		public FixRelationshipRiskLimits[] relationshipRiskLimits;
 	
 	public FixRelatedPartyDetail() {
+		this(false);
+	}
+
+	public FixRelatedPartyDetail(boolean isRequired) {
 		super(FixTags.RELATEDPARTYID_INT);
 
+		this.isRequired = isRequired;
 		
 		hasRelatedPartyID = FixUtils.TAG_HAS_NO_VALUE;		
 		relatedPartyID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
@@ -80,11 +85,12 @@ public class FixRelatedPartyDetail extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !relatedPtysSubGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = relatedPtysSubGrp[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -99,11 +105,12 @@ public class FixRelatedPartyDetail extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !relatedPartyAltIDs[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = relatedPartyAltIDs[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -118,11 +125,12 @@ public class FixRelatedPartyDetail extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !relatedContextParties[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = relatedContextParties[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -137,11 +145,12 @@ public class FixRelatedPartyDetail extends FixGroup {
 
         				int repeatingGroupTag = FixMessage.getTag(buf, err);
         				if (err.hasError()) break;
-        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag); break; }
+        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
+        							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !relationshipRiskLimits[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "no in group tag missing", tag);
-        						break;
+        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						return repeatingGroupTag;
         					}
         					count++;
         					repeatingGroupTag = relationshipRiskLimits[count].setBuffer( repeatingGroupTag, buf, err);	
@@ -154,9 +163,13 @@ public class FixRelatedPartyDetail extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...
@@ -205,10 +218,50 @@ public class FixRelatedPartyDetail extends FixGroup {
 
             }
 
-		for (FixRelatedPtysSubGrp fixRelatedPtysSubGrp : relatedPtysSubGrp) fixRelatedPtysSubGrp.encode(out);
-		for (FixRelatedPartyAltIDs fixRelatedPartyAltIDs : relatedPartyAltIDs) fixRelatedPartyAltIDs.encode(out);
-		for (FixRelatedContextParties fixRelatedContextParties : relatedContextParties) fixRelatedContextParties.encode(out);
-		for (FixRelationshipRiskLimits fixRelationshipRiskLimits : relationshipRiskLimits) fixRelationshipRiskLimits.encode(out);
+		if (FixUtils.getNoInGroup(relatedPtysSubGrp)>0) {
+			out.put(FixTags.NORELATEDPARTYSUBIDS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(relatedPtysSubGrp));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixRelatedPtysSubGrp fixRelatedPtysSubGrp : relatedPtysSubGrp) if (fixRelatedPtysSubGrp.hasGroup()) fixRelatedPtysSubGrp.encode(out);
+		if (FixUtils.getNoInGroup(relatedPartyAltIDs)>0) {
+			out.put(FixTags.NORELATEDPARTYALTIDS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(relatedPartyAltIDs));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixRelatedPartyAltIDs fixRelatedPartyAltIDs : relatedPartyAltIDs) if (fixRelatedPartyAltIDs.hasGroup()) fixRelatedPartyAltIDs.encode(out);
+		if (FixUtils.getNoInGroup(relatedContextParties)>0) {
+			out.put(FixTags.NORELATEDCONTEXTPARTYIDS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(relatedContextParties));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixRelatedContextParties fixRelatedContextParties : relatedContextParties) if (fixRelatedContextParties.hasGroup()) fixRelatedContextParties.encode(out);
+		if (FixUtils.getNoInGroup(relationshipRiskLimits)>0) {
+			out.put(FixTags.NORELATIONSHIPRISKLIMITS);
+
+			out.put((byte) '=' );
+
+			FixUtils.put(out, FixUtils.getNoInGroup(relationshipRiskLimits));
+
+			out.put(FixUtils.SOH);
+
+		}
+		for (FixRelationshipRiskLimits fixRelationshipRiskLimits : relationshipRiskLimits) if (fixRelationshipRiskLimits.hasGroup()) fixRelationshipRiskLimits.encode(out);
 	}
 
 			

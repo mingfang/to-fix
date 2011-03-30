@@ -22,11 +22,16 @@ public class FixStrmAsgnRptInstrmtGrp extends FixGroup {
 	long encodedTextLen = 0;		
 	private short hasEncodedText;
 	byte[] encodedText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];		
-		FixInstrument instrument;
+		public FixInstrument instrument;
 	
 	public FixStrmAsgnRptInstrmtGrp() {
+		this(false);
+	}
+
+	public FixStrmAsgnRptInstrmtGrp(boolean isRequired) {
 		super(FixTags.SYMBOL_INT);
 
+		this.isRequired = isRequired;
 		
 		hasSettlType = FixUtils.TAG_HAS_NO_VALUE;		
 		settlType = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
@@ -103,9 +108,13 @@ public class FixStrmAsgnRptInstrmtGrp extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...

@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
 import org.tomac.protocol.fix.FixDataTypes;
+import org.tomac.protocol.fix.FixUtils;
+import org.tomac.protocol.fix.messaging.FixMessageInfo;
 import org.tomac.tools.converter.QuickFixComponent;
 import org.tomac.tools.converter.QuickFixField;
 import org.tomac.tools.converter.QuickFixField.QuickFixValue;
@@ -407,19 +409,24 @@ public class FixMessageGenerator {
 		for (final QuickFixComponent cc : c.components) {
 			final QuickFixComponent ccc = dom.quickFixNamedComponents.get(cc.name);
 			if (ccc.isRepeating)
-				out.write("		Fix" + ccc.name + "[] " + uncapFirst(ccc.name) + ";\n");
+				out.write("		public Fix" + ccc.name + "[] " + uncapFirst(ccc.name) + ";\n");
 			else
-				out.write("		Fix" + ccc.name + " " + uncapFirst(ccc.name) + ";\n");
+				out.write("		public Fix" + ccc.name + " " + uncapFirst(ccc.name) + ";\n");
 		}
 
 		out.write("	\n");
 
 		// The constructor
 		out.write("	public " + name + "() {\n");
+		out.write("		this(false);\n");
+		out.write("	}\n\n");
+		
+		out.write("	public " + name + "(boolean isRequired) {\n");
 		if (c.name.equals("trailer")) // special case. Trailer CheckSum is last field but always the key tag.
 			out.write("		super(FixTags." + "CheckSum".toUpperCase() + "_INT);\n\n");
 		else
 			out.write("		super(FixTags." + getKeyTagForComponent(dom, c.keyTag).toUpperCase() + "_INT);\n\n");
+		out.write("		this.isRequired = isRequired;\n");
 		if (c.msgId.equals("StandardHeader"))
 			out.write("		System.arraycopy( msgType, 0, this.msgType, 0, msgType.length );\n");
 		out.write("		\n");
@@ -432,9 +439,15 @@ public class FixMessageGenerator {
 			final QuickFixComponent ccc = dom.quickFixNamedComponents.get(cc.name);
 			if (ccc.isRepeating) {
 				out.write("		" + uncapFirst(ccc.name) + " = new Fix" + ccc.name + "[FixUtils.FIX_MAX_NOINGROUP];\n");
-				out.write("		for (int i= 0; i<FixUtils.FIX_MAX_NOINGROUP; i++) " + uncapFirst(ccc.name) + "[i] = new Fix" + ccc.name + "();\n");
+				if (cc.reqd.equals("Y"))
+					out.write("		for (int i= 0; i<FixUtils.FIX_MAX_NOINGROUP; i++) " + uncapFirst(ccc.name) + "[i] = new Fix" + ccc.name + "(true);\n");
+				else
+					out.write("		for (int i= 0; i<FixUtils.FIX_MAX_NOINGROUP; i++) " + uncapFirst(ccc.name) + "[i] = new Fix" + ccc.name + "();\n");
 			} else
-				out.write("		" + uncapFirst(ccc.name) + " = new Fix" + ccc.name + "();\n");
+				if (cc.reqd.equals("Y"))
+					out.write("		" + uncapFirst(ccc.name) + " = new Fix" + ccc.name + "(true);\n");
+				else
+					out.write("		" + uncapFirst(ccc.name) + " = new Fix" + ccc.name + "();\n");
 		}
 
 		out.write("		\n");
@@ -484,9 +497,13 @@ public class FixMessageGenerator {
 		out.write("            }\n\n");
 		out.write("            tag = FixMessage.getTag(buf, err);\n");
 		out.write("            if (err.hasError()) return tag; // what to do now? \n");
+		out.write("            if (isKeyTag(tag)) return tag; // next in repeating group\n");
+
 		out.write("        }		\n");
 		out.write("        return tag;\n");
 		out.write("    }		\n");
+
+		genHasRequiredTags(false, dom, out, c.name, c.fields, c.components);
 
 		out.write("	@Override\n");
 		out.write("	public void clear() {\n");
@@ -517,10 +534,18 @@ public class FixMessageGenerator {
 		}
 		for (final QuickFixComponent nnc : c.components) {
 			final QuickFixComponent nc = dom.quickFixNamedComponents.get(nnc.name);
-			if (nc.isRepeating)
-				out.write("		for (Fix" + nc.name + " fix" + nc.name + " : " + uncapFirst(nc.name) + ") fix" + nc.name + ".encode(out);\n");
-			else
+			if (nc.isRepeating) {
+				out.write("		if (FixUtils.getNoInGroup(" + uncapFirst(nc.name) + ")>0) {\n");
+				out.write("			out.put(FixTags." + nc.noInGroupTag.toUpperCase() + ");\n\n");
+				out.write("			out.put((byte) '=' );\n\n");
+				out.write("			FixUtils.put(out, FixUtils.getNoInGroup(" + uncapFirst(nc.name) + "));\n\n");
+				out.write("			out.put(FixUtils.SOH);\n\n");
+				out.write("		}\n");
+				out.write("		for (Fix" + nc.name + " fix" + nc.name + " : " + uncapFirst(nc.name) + ") if (fix" + nc.name + ".hasGroup()) fix" + nc.name + ".encode(out);\n");
+			}
+			else {
 				out.write("		" + uncapFirst(nc.name) + ".encode(out);\n");
+			}
 		}
 
 		out.write("	}\n\n");
@@ -822,9 +847,9 @@ public class FixMessageGenerator {
 		}
 		for (final QuickFixComponent c : m.components)
 			if (c.isRepeating)
-				out.write("	Fix" + c.name + "[] " + uncapFirst(c.name) + ";\n");
+				out.write("	public Fix" + c.name + "[] " + uncapFirst(c.name) + ";\n");
 			else
-				out.write("	Fix" + c.name + " " + uncapFirst(c.name) + ";\n");
+				out.write("	public Fix" + c.name + " " + uncapFirst(c.name) + ";\n");
 
 		out.write("	\n");
 		out.write("	public " + name + "() {\n");
@@ -883,22 +908,14 @@ public class FixMessageGenerator {
 			out.write("                		else break; //Ugha\n");
 			out.write("					}\n\n");
 			out.write("\t\t\t}\n\n");
+			
+			out.write("        		if (err.hasError()) return;\n\n");
 			out.write("            	tag = FixMessage.getTag(buf, err);		\n");
 			out.write("        		if (err.hasError()) break;\n\n");
 			out.write("\t\t}\n\n");
 			out.write("\t}		\n\n");
 
-			out.write("\tprivate boolean hasRequiredTags(FixValidationError err) {\n");
-			for (final QuickFixField f : m.fields)
-				if (f.reqd.equalsIgnoreCase("Y")) {
-					out.write("\t\tif (!has" + capFirst(f.name) + "()) { \n");
-					out.write("\t\t\terr.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, \"requirde tag " + capFirst(f.name) + " missing\", FixTags." + f.name.toUpperCase() + "_INT, FixMessageInfo.MessageTypes."
-							+ m.name.toUpperCase() + ");\n");
-					out.write("\t\t\treturn false;\n");
-					out.write("\t\t}\n");
-				}
-			out.write("\t\treturn true;\n");
-			out.write("\t}\n");
+			genHasRequiredTags(true, dom, out, m.name, m.fields, m.components);
 
 			out.write("	@Override		\n");
 			out.write("	public void getAll() {		\n");
@@ -911,7 +928,12 @@ public class FixMessageGenerator {
 		out.write("		int startPos = out.position();\n");
 		out.write("		super.standardHeader.setBodyLength(1000);\n\n");
 
-		out.write("		super.standardHeader.encode(out);		\n");
+		out.write("		// if this is the standardHeader for an out-bound message wee need to set default tags\n");
+		out.write("		if (buf == null) {\n");
+		out.write("			super.standardHeader.setBeginString(FixMessageInfo.BEGINSTRING_VALUE);\n");
+		out.write("		}\n\n");
+		
+		out.write("		super.standardHeader.encode(out);\n");
 
 		for (final QuickFixField f : m.fields) {
 			out.write("		if (has" + capFirst(f.name) + "()) {		\n");
@@ -925,6 +947,23 @@ public class FixMessageGenerator {
 			out.write("		}		\n");
 		}
 		out.write("		\n");
+		
+		for (final QuickFixComponent cc : m.components) {
+			final QuickFixComponent c = dom.quickFixNamedComponents.get(cc.name);
+			if (c.isRepeating) {
+				out.write("		if (FixUtils.getNoInGroup(" + uncapFirst(c.name) + ")>0) {\n");
+				out.write("			out.put(FixTags." + c.noInGroupTag.toUpperCase() + ");\n\n");
+				out.write("			out.put((byte) '=' );\n\n");
+				out.write("			FixUtils.put(out, FixUtils.getNoInGroup(" + uncapFirst(c.name) + "));\n\n");
+				out.write("			out.put(FixUtils.SOH);\n\n");
+				out.write("		}\n");
+				out.write("		for (Fix" + c.name + " fix" + c.name + " : " + uncapFirst(c.name) + ") if (fix" + c.name + ".hasGroup()) fix" + c.name + ".encode(out);\n");
+			} else {
+				out.write("		"+  uncapFirst(c.name) + ".encode(out);\n");
+			}
+		}
+		out.write("		\n");
+		
 		out.write("		// set body length\n\n");
 		out.write("		int endPos = out.position();\n\n");
 		out.write("		super.standardHeader.setBodyLength(endPos - FixUtils.FIX_MESSAGE_START);\n\n");
@@ -1076,6 +1115,40 @@ public class FixMessageGenerator {
 
 		// done. close out the file
 		out.close();
+	}
+	
+	private void genHasRequiredTags(boolean isMessage, FixMessageDom dom, OutputStreamWriter out, String messageName, ArrayList<QuickFixField> fields, ArrayList<QuickFixComponent> components) throws IOException {
+		out.write("\tpublic boolean hasRequiredTags(FixValidationError err) {\n");
+		if (isMessage) {
+			out.write("		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; \n\n");
+		}
+		for (final QuickFixField f : fields) {
+			if (f.reqd.equalsIgnoreCase("Y")) {
+				out.write("\t\tif (!has" + capFirst(f.name) + "()) { \n");
+				if (isMessage)
+					out.write("\t\t\terr.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, \"requirde tag " + capFirst(f.name) + " missing\", FixTags." + f.name.toUpperCase() + "_INT, FixMessageInfo.MessageTypes."
+						+ messageName.toUpperCase() + ");\n");
+				else 
+					out.write("\t\t\terr.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, \"requirde tag " + capFirst(f.name) + " missing\", FixTags." + f.name.toUpperCase() + "_INT);\n");
+				out.write("\t\t\treturn false;\n");
+				out.write("\t\t}\n");
+			}
+		}
+		for (final QuickFixComponent cc : components) {
+			final QuickFixComponent c = dom.quickFixNamedComponents.get(cc.name);
+			if (c.isRepeating && cc.reqd != null && cc.reqd.equalsIgnoreCase("Y")) {
+				out.write("		for (int i = 0; i< FixUtils.FIX_MAX_NOINGROUP; i++) { if ("+  uncapFirst(c.name) + "[i].hasGroup()) "+  uncapFirst(c.name) + "[i].hasRequiredTags(err); if (err.hasError()) return false; }\n");
+			} else if (!c.isRepeating && cc.reqd.equalsIgnoreCase("Y")) {
+				out.write("		if ("+  uncapFirst(c.name) + ".isRequired) "+  uncapFirst(c.name) + ".hasRequiredTags(err); if (err.hasError()) return false;\n");
+			}
+		}
+
+		if (isMessage) {
+			out.write("		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; \n\n");
+		}
+		out.write("\t\treturn true;\n");
+		out.write("\t}\n");
+		
 	}
 
 	public void genMessagePool(final FixMessageDom dom, final OutputStreamWriter out) throws IOException {
@@ -1611,11 +1684,18 @@ public class FixMessageGenerator {
 				out.write("        				if (err.hasError()) break;\n\n");
 				out.write("        				int repeatingGroupTag = FixMessage.getTag(buf, err);\n");
 				out.write("        				if (err.hasError()) break;\n");
-				out.write("        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, \"no in group count exceeding max\", tag); break; }\n");
+				out.write("        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, \"no in group count exceeding max\", tag);\n");
+				if (components.size() == 0 || isMessage)
+					out.write("        							return; }\n");
+				else
+					out.write("        							return repeatingGroupTag; }\n");
 				out.write("        				while ( count < noInGroupNumber ) {\n");
 				out.write("        					if ( !" + uncapFirst(c.name) + "[count].isKeyTag(repeatingGroupTag) ) {\n");
-				out.write("        						err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, \"no in group tag missing\", tag);\n");
-				out.write("        						break;\n");
+				out.write("        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, \"no in group tag missing\", repeatingGroupTag);\n");
+				if (components.size() == 0 || isMessage)
+					out.write("        						return;\n");
+				else
+					out.write("        						return repeatingGroupTag;\n");
 				out.write("        					}\n");
 				out.write("        					count++;\n");
 				out.write("        					repeatingGroupTag = " + uncapFirst(c.name) + "[count].setBuffer( repeatingGroupTag, buf, err);	\n");

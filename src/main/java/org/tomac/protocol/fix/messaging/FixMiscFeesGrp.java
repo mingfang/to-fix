@@ -18,8 +18,13 @@ public class FixMiscFeesGrp extends FixGroup {
 	long miscFeeBasis = 0;		
 	
 	public FixMiscFeesGrp() {
+		this(false);
+	}
+
+	public FixMiscFeesGrp(boolean isRequired) {
 		super(FixTags.MISCFEEAMT_INT);
 
+		this.isRequired = isRequired;
 		
 		hasMiscFeeAmt = FixUtils.TAG_HAS_NO_VALUE;		
 		hasMiscFeeCurr = FixUtils.TAG_HAS_NO_VALUE;		
@@ -75,9 +80,13 @@ public class FixMiscFeesGrp extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...

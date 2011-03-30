@@ -12,8 +12,13 @@ public class FixExecCollGrp extends FixGroup {
 	byte[] execID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
 	
 	public FixExecCollGrp() {
+		this(false);
+	}
+
+	public FixExecCollGrp(boolean isRequired) {
 		super(FixTags.EXECID_INT);
 
+		this.isRequired = isRequired;
 		
 		hasExecID = FixUtils.TAG_HAS_NO_VALUE;		
 		execID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];		
@@ -53,9 +58,13 @@ public class FixExecCollGrp extends FixGroup {
 
             tag = FixMessage.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
+            if (isKeyTag(tag)) return tag; // next in repeating group
         }		
         return tag;
     }		
+	public boolean hasRequiredTags(FixValidationError err) {
+		return true;
+	}
 	@Override
 	public void clear() {
 		// just set the length to header + trailer but still we set it...
