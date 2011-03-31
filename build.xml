@@ -3,14 +3,14 @@
     <!--this file was created by Eclipse Runnable JAR Export Wizard-->
     <!--ANT 1.7 is required                                        -->
     <target name="create_run_jar">
-        <jar destfile="target/to-fix-FixMessageGenerator-1.0.jar" filesetmanifest="mergewithoutmain">
+        <jar destfile="C:/Users/seto/Desktop/src/to-fix/target/to-fix-FixMessageGenerator-1.0.jar" filesetmanifest="mergewithoutmain">
             <manifest>
                 <attribute name="Main-Class" value="org.tomac.tools.messagegen.FixMessageGenerator"/>
                 <attribute name="Class-Path" value="."/>
             </manifest>
             <fileset dir="C:/Users/seto/Desktop/src/to-fix/bin"/>
-            <zipfileset excludes="META-INF/*.SF" src="src/main/resources/dom4j-1.6.1.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="src/main/resources/fix-repository-to-quickfix-xml-1.0.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="lib/dom4j-1.6.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="lib/fix-repository-to-quickfix-xml-1.0.jar"/>
         </jar>
     </target>
 </project>

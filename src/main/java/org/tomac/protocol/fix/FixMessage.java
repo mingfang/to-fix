@@ -170,7 +170,7 @@ public abstract class FixMessage {
 
 	public FixStrandardTrailer	standardTrailer;
 
-	private static byte[]		digitsBuf;
+	private static byte[]		digitsBuf = new byte[FixUtils.FIX_MAX_DIGITS];
 
 	public static int getTag(final ByteBuffer buf, final FixValidationError err) {
 		int count = 0;
@@ -207,7 +207,6 @@ public abstract class FixMessage {
 		standardHeader = new FixStandardHeader();
 		standardHeader.setMsgType(msgType);
 		this.msgType = FixMessage.getTagAsInt(msgType, msgType.length);
-		digitsBuf = new byte[FixUtils.FIX_MAX_DIGITS];
 	}
 
 	public void clear() {

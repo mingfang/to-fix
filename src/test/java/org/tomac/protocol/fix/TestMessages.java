@@ -1,18 +1,16 @@
 package org.tomac.protocol.fix;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import java.math.BigDecimal;
 import java.nio.ByteBuffer;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.tomac.protocol.fix.messaging.FixAllocGrp;
 import org.tomac.protocol.fix.messaging.FixExecutionReport;
 import org.tomac.protocol.fix.messaging.FixIOI;
 import org.tomac.protocol.fix.messaging.FixLogon;
@@ -239,7 +237,7 @@ public class TestMessages {
         order.parties[0].setPartyIDSource(
                 FixMessageInfo.PartyIDSource.GENERALLY_ACCEPTED_MARKET_PARTICIPANT_IDENTIFIER_EG_NASD_MNEMONI);
         order.parties[0].setPartyRole(11);
-        order.encode(out); // TODO not encoding groups, not included in message length
+        order.encode(out); 
         assertTrue(new String(out.array()).indexOf("453=1\001448=TraderName") != -1);
     }
 
@@ -273,7 +271,7 @@ public class TestMessages {
         news.instrmtGrp[0].instrument.setSecurityIDSource("SECID_SOURCE");
 
         news.encode(out);
-        // TODO we send wath-ever, nothing is stopping us now!
+        // TODO we send whatever, nothing is stopping us now!
     }
 
     @Test
@@ -281,7 +279,7 @@ public class TestMessages {
         final FixNews news = new FixNews();
         news.setHeadline("Test");
         news.encode(out);
-        // TODO we send wath-ever, nothing is stopping us now!
+        // TODO we send whatever, nothing is stopping us now!
     }
 
     /**

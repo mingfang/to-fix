@@ -97,6 +97,7 @@ public class FixUtils {
 		// CheckSum and trailer
 		if (!err.hasError() && validateChecksum) {
 
+			// TODO validate length or sett erro and return
 			generateCheckSum(calcCheckSum, buf, buf.position(), length + buf.position());
 
 			buf.position(length + buf.position());
