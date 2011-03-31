@@ -412,12 +412,13 @@ public class FixUtils {
 		return ret;
 	}
 	
-	public static int getNoInGroup(FixGroup[] group) {
+	public static int getNoInGroup(FixGroup[] groups) {
 		int i = 0;
-		for (i = group.length - 1; i > 0; i--) {
-			if (group[i].hasGroup()) break;
+		for (FixGroup group : groups) {
+			if (!group.hasGroup()) break;
+			i++;
 		}
-		return i + 1;
+		return i;
 	}
 	
 	
