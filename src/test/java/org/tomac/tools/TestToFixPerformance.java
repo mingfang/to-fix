@@ -27,7 +27,7 @@ public class TestToFixPerformance {
 	final int ITERATIONS = 100000;
 	final int DO_SAMPLE_DATA = 100;
 	// discard data > 7000 due to grabage collection distortions and jvm warmup
-	final long DISCARD_LEVEL = 7000; 
+	final long DISCARD_LEVEL = 7000L; 
 	FixValidationError err;
 	FixMessageParser parser;
 	FixMessageListenerImpl listener;

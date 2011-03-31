@@ -38,6 +38,30 @@
 			<scope>test</scope>
 			<optional>true</optional>
 		</dependency>
+		<dependency>
+			<groupId>quickfixj</groupId>
+			<artifactId>quickfixj-core</artifactId>
+			<version>1.5.0</version>
+			<scope>system</scope>
+			<optional>true</optional>
+			<systemPath>${user.home}/Desktop/src/to-fix/lib/quickfixj-core-1.5.0.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>quickfixj</groupId>
+			<artifactId>quickfixj-msg-fix50</artifactId>
+			<version>1.5.0</version>
+			<scope>system</scope>
+			<optional>true</optional>
+			<systemPath>${user.home}/Desktop/src/to-fix/lib/quickfixj-msg-fix50-1.5.0.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>quickfixj</groupId>
+			<artifactId>quickfixj-msg-fixt11</artifactId>
+			<version>1.5.0</version>
+			<scope>system</scope>
+			<optional>true</optional>
+			<systemPath>${user.home}/Desktop/src/to-fix/lib/quickfixj-msg-fixt11-1.5.0.jar</systemPath>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

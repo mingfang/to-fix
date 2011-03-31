@@ -14,12 +14,20 @@ import org.tomac.protocol.fix.FixUtils;
 
 public class FixMessageParser implements FixMessageInfo
 {
+        private FixMessagePool<FixMessage> fixMessagePool;
+
+        public FixMessageParser(FixMessagePool<FixMessage> fixMessagePool) {
+		this.fixMessagePool = fixMessagePool;
+        }
+
+        public FixMessageParser() {
+		fixMessagePool = new FixMessagePool<FixMessage>();
+        }
 
 	public void parse( ByteBuffer buf, FixValidationError err, FixMessageListener l )
 	{
 
 		int msgType = FixInMessage.crackMsgType( buf ,err );
-		FixMessagePool<FixMessage> fixMessagePool = new FixMessagePool<FixMessage>();
 
 		// garbled message
 		if (err.hasError()) return; 

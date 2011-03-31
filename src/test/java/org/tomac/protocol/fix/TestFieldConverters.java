@@ -62,17 +62,17 @@ public class TestFieldConverters {
         assertEquals("-0.1", FixUtils.FixFloatConverter.convert(-10));
         assertEquals("-0.01", FixUtils.FixFloatConverter.convert(-1));
         assertEquals("0.0", FixUtils.FixFloatConverter.convert(0));
-        assertEquals(4532, FixUtils.FixFloatConverter.convert("45.32".getBytes()), 0);
-        assertEquals(4532, FixUtils.FixFloatConverter.convert("45.3200".getBytes()), 0);
-        assertEquals(340244000, FixUtils.FixFloatConverter.convert("0003402440.00".getBytes()), 0);
-        assertEquals(4532, FixUtils.FixFloatConverter.convert("45.32".getBytes()), 0);
-        assertEquals(120100, FixUtils.FixFloatConverter.convert("1201".getBytes()), 0);
-        assertEquals(0, FixUtils.FixFloatConverter.convert("0.0".getBytes()), 0);
-        assertEquals(4532, FixUtils.FixFloatConverter.convert("0045.32".getBytes()), 0);
-        assertEquals(0, FixUtils.FixFloatConverter.convert("0.".getBytes()), 0);
-        assertEquals(0, FixUtils.FixFloatConverter.convert(".0".getBytes()), 0);
-        assertEquals(6, FixUtils.FixFloatConverter.convert("000.06".getBytes()), 0);
-        assertEquals(6, FixUtils.FixFloatConverter.convert("0.0600".getBytes()), 0);
+        assertEquals(4532L, FixUtils.FixFloatConverter.convert("45.32".getBytes()), 0);
+        assertEquals(4532L, FixUtils.FixFloatConverter.convert("45.3200".getBytes()), 0);
+        assertEquals(340244000L, FixUtils.FixFloatConverter.convert("0003402440.00".getBytes()), 0);
+        assertEquals(4532L, FixUtils.FixFloatConverter.convert("45.32".getBytes()), 0);
+        assertEquals(120100L, FixUtils.FixFloatConverter.convert("1201".getBytes()), 0);
+        assertEquals(0L, FixUtils.FixFloatConverter.convert("0.0".getBytes()), 0);
+        assertEquals(4532L, FixUtils.FixFloatConverter.convert("0045.32".getBytes()), 0);
+        assertEquals(0L, FixUtils.FixFloatConverter.convert("0.".getBytes()), 0);
+        assertEquals(0L, FixUtils.FixFloatConverter.convert(".0".getBytes()), 0);
+        assertEquals(6L, FixUtils.FixFloatConverter.convert("000.06".getBytes()), 0);
+        assertEquals(6L, FixUtils.FixFloatConverter.convert("0.0600".getBytes()), 0);
 
         try {
         	FixUtils.FixFloatConverter.convert("abc".getBytes());
@@ -83,7 +83,7 @@ public class TestFieldConverters {
         	fail();
         } catch (Exception e) {};
         long val = FixUtils.FixFloatConverter.convert(".".getBytes());
-        assertEquals(0,val);
+        assertEquals(0L,val);
         
         assertEquals("1.5", FixUtils.FixFloatConverter.convert(1500, 3));
         assertEquals("45.0", FixUtils.FixFloatConverter.convert(4500000, 5));
@@ -99,9 +99,9 @@ public class TestFieldConverters {
         assertEquals("a", FixUtils.CharConverter.convert('a'));
         assertEquals("1", FixUtils.CharConverter.convert('1'));
         assertEquals("F", FixUtils.CharConverter.convert('F'));
-        assertEquals('a', FixUtils.CharConverter.convert("a"));
-        assertEquals('1', FixUtils.CharConverter.convert("1"));
-        assertEquals('F', FixUtils.CharConverter.convert("F"));
+        assertEquals((byte)'a', FixUtils.CharConverter.convert("a"));
+        assertEquals((byte)'1', FixUtils.CharConverter.convert("1"));
+        assertEquals((byte)'F', FixUtils.CharConverter.convert("F"));
         try {
             FixUtils.CharConverter.convert("a1");
             fail();
