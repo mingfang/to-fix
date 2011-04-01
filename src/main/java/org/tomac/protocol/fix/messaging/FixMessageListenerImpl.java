@@ -8,10 +8,14 @@ package org.tomac.protocol.fix.messaging;
 
 import java.nio.ByteBuffer;
 
+import org.tomac.protocol.fix.FixValidationError;
 import org.tomac.protocol.fix.FixInMessage;
 
 public class FixMessageListenerImpl implements FixMessageListener 
 {
+
+    @Override
+    public void onFixValidationError ( FixValidationError err) {}
 
     @Override
     public void onUnknownMessageType( ByteBuffer msg, int msgType ) {}

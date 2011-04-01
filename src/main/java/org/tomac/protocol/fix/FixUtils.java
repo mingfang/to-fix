@@ -528,7 +528,7 @@ public class FixUtils {
 		
 	}
 
-	class UtcTimestampConverter {
+	public class UtcTimestampConverter {
 		private SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd-HH:mm:ss.SSS");
 
 		public UtcTimestampConverter() {
@@ -546,7 +546,7 @@ public class FixUtils {
 		
 	}
 
-	class UtcTimeOnlyConverter {
+	public class UtcTimeOnlyConverter {
 		private SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss.SSS");
 
 		UtcTimeOnlyConverter() {
@@ -563,7 +563,7 @@ public class FixUtils {
 		
 	}
 
-	class UtcDateOnlyConverter {
+	public class UtcDateOnlyConverter {
 		private SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
 
 		UtcDateOnlyConverter() {

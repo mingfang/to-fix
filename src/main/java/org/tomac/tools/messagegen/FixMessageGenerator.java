@@ -11,6 +11,7 @@ import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
 import org.tomac.protocol.fix.FixDataTypes;
 import org.tomac.protocol.fix.FixUtils;
+import org.tomac.protocol.fix.FixValidationError;
 import org.tomac.protocol.fix.messaging.FixMessageInfo;
 import org.tomac.tools.converter.QuickFixComponent;
 import org.tomac.tools.converter.QuickFixField;
@@ -774,12 +775,14 @@ public class FixMessageGenerator {
 
 		// import ByteBuffer
 		out.write("import java.nio.ByteBuffer;\n\n");
+		out.write("import " + dom.packageNameBase + ".FixValidationError;\n");
 		out.write("import " + dom.packageNameBase + ".FixInMessage;\n\n");
 
 		// write out the open to the interface
 		out.write("public interface " + dom.type + "MessageListener\n{\n\n");
 
 		// write out a handler for unknown message types
+		out.write("    public void onFixValidationError ( FixValidationError err);\n\n");
 		out.write("    public void onUnknownMessageType( ByteBuffer msg, int msgType );\n\n");
 
 		// write out each callback
@@ -802,10 +805,14 @@ public class FixMessageGenerator {
 
 		// import ByteBuffer
 		out.write("import java.nio.ByteBuffer;\n\n");
+		out.write("import " + dom.packageNameBase + ".FixValidationError;\n");
 		out.write("import " + dom.packageNameBase + ".FixInMessage;\n\n");
 
 		// write out the open to the interface
 		out.write("public class " + dom.type + "MessageListenerImpl implements FixMessageListener \n{\n\n");
+
+		out.write("    @Override\n");
+		out.write("    public void onFixValidationError ( FixValidationError err) {}\n\n");
 
 		// write out a handler for unknown message types
 		out.write("    @Override\n");
@@ -1301,21 +1308,23 @@ public class FixMessageGenerator {
 		// write out the open to the parser class
 		out.write("public class " + dom.type + "MessageParser implements " + dom.type + "MessageInfo\n{\n\n");
 
-		// create an instance of each message
-		/*
-		 * for( QuickFixMessage m : dom.quickFixMessages ) {
-		 * 
-		 * // don't write out convenience parent classes if( m.direction != null && m.direction.equalsIgnoreCase("Out") ) continue;
-		 * 
-		 * out.write( "\t\tpublic " + dom.type + "In" + m.name + " " + dom.type.toLowerCase() + "In" + m.name + " = new " + dom.type + "In" + m.name + "();\n\n" ); }
-		 */
+		out.write("\tprivate FixMessagePool<FixMessage> fixMessagePool;\n\n");
+
+		out.write("\tpublic FixMessageParser(FixMessagePool<FixMessage> fixMessagePool) {\n");
+		out.write("\t\tthis.fixMessagePool = fixMessagePool;\n");
+		out.write("\t}\n\n");
+
+		out.write("\tpublic FixMessageParser() {\n");
+		out.write("\t\tfixMessagePool = new FixMessagePool<FixMessage>();\n");
+		out.write("\t}\n\n");
+
+		
 
 		// crack the msgType of message
 		out.write("\tpublic void parse( ByteBuffer buf, FixValidationError err, " + dom.type + "MessageListener l )\n");
 		out.write("\t{\n\n");
 
 		out.write("\t\tint msgType = FixInMessage.crackMsgType( buf ,err );\n");
-		out.write("\t\tFixMessagePool<FixMessage> fixMessagePool = new FixMessagePool<FixMessage>();\n\n");
 
 		out.write("\t\t// garbled message\n");
 		out.write("\t\tif (err.hasError()) return; \n\n");
@@ -1328,7 +1337,11 @@ public class FixMessageGenerator {
 			final String name = dom.type.toLowerCase() + m.name;
 			out.write("\t\tcase MessageTypes." + m.name.toUpperCase() + "_INT:\n");
 			out.write("\t\t\t" + capFirst(dom.type.toLowerCase()) + m.name + " " + name + " = fixMessagePool.get" + capFirst(dom.type.toLowerCase()) + m.name + "(buf, err);\n");
-			out.write("\t\t\tl.on" + capFirst(dom.type.toLowerCase()) + m.name + "(" + name + ");\n");
+			out.write("\t\t\tif(err.hasError()) {\n");
+			out.write("\t\t\t\tl.onFixValidationError(err);\n");
+			out.write("\t\t\t} else {\n");
+			out.write("\t\t\t\tl.on" + capFirst(dom.type.toLowerCase()) + m.name + "(" + name + ");\n");
+			out.write("\t\t\t}\n");
 			out.write("\t\t\tfixMessagePool.return" + capFirst(dom.type.toLowerCase()) + m.name + " (" + name + ");\n");
 			out.write("\t\t\tbreak;\n");
 		}
