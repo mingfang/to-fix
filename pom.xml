@@ -38,7 +38,7 @@
 			<scope>test</scope>
 			<optional>true</optional>
 		</dependency>
-		<dependency>
+		<!-- dependency>
 			<groupId>quickfixj</groupId>
 			<artifactId>quickfixj-core</artifactId>
 			<version>1.5.0</version>
@@ -61,7 +61,7 @@
 			<scope>system</scope>
 			<optional>true</optional>
 			<systemPath>${user.home}/Desktop/src/to-fix/lib/quickfixj-msg-fixt11-1.5.0.jar</systemPath>
-		</dependency>
+		</dependency-->
 	</dependencies>
 	<build>
 		<plugins>

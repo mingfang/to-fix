@@ -1,5 +1,14 @@
 package org.tomac.tools;
 
+/**
+ * To run quickfix performance tests, 
+ * 1. download the quickfixj jars from quickfixj.org and place them in lib
+ * 2. In eclipse add the project dependencies, and if you use maven uncomment the quickfix section in the pom.xml
+ * 3. uncomment the sections below, and update the pom.xml including qucik fix libs. 
+ *
+ */
+
+/*
 import static org.junit.Assert.*;
 
 import org.junit.Before;
@@ -10,15 +19,16 @@ import quickfix.ConfigError;
 import quickfix.DataDictionary;
 import quickfix.Message;
 import quickfix.fix50.MarketDataSnapshotFullRefresh;
-
+*/
 
 public class TestQuickFixPerformance  {
+	/*
 	DataDictionary sessDictionary;
 	DataDictionary appDictionary;
 	final int ITERATIONS = 100000;
 	final int DO_SAMPLE_DATA = 100;
 	// discard data > 7000 due to grabage collection distortions and jvm warmup
-	final long DISCARD_LEVEL = 7000; 
+	final long DISCARD_LEVEL = 7000L;
 	
 	@Before
 	public void setUp() {
@@ -146,5 +156,5 @@ public class TestQuickFixPerformance  {
 		System.out.println(sampleTime / sampleCount + "\t" + 
 				sampleCount * DO_SAMPLE_DATA + "\t" + cumTime / ITERATIONS + "\t" + ITERATIONS);
     }
-	
+	*/
 }
