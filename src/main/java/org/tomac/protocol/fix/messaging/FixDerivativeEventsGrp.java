@@ -431,9 +431,7 @@ public class FixDerivativeEventsGrp extends FixGroup {
 		if ((hasDerivativeEventType() && !msg.hasDerivativeEventType()) || (!hasDerivativeEventType() && msg.hasDerivativeEventType())) return false;
 		if (!(!hasDerivativeEventType() && !msg.hasDerivativeEventType()) && !(getDerivativeEventType()==msg.getDerivativeEventType())) return false;
 		if ((hasDerivativeEventDate() && !msg.hasDerivativeEventDate()) || (!hasDerivativeEventDate() && msg.hasDerivativeEventDate())) return false;
-		if (!(!hasDerivativeEventDate() && !msg.hasDerivativeEventDate()) ) return false;
 		if ((hasDerivativeEventTime() && !msg.hasDerivativeEventTime()) || (!hasDerivativeEventTime() && msg.hasDerivativeEventTime())) return false;
-		if (!(!hasDerivativeEventTime() && !msg.hasDerivativeEventTime()) ) return false;
 		if ((hasDerivativeEventPx() && !msg.hasDerivativeEventPx()) || (!hasDerivativeEventPx() && msg.hasDerivativeEventPx())) return false;
 		if (!(!hasDerivativeEventPx() && !msg.hasDerivativeEventPx()) && !(getDerivativeEventPx()==msg.getDerivativeEventPx())) return false;
 		if ((hasDerivativeEventText() && !msg.hasDerivativeEventText()) || (!hasDerivativeEventText() && msg.hasDerivativeEventText())) return false;

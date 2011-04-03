@@ -2386,10 +2386,10 @@ public class FixSideCrossOrdModGrp extends FixGroup {
 
 		FixSideCrossOrdModGrp msg = (FixSideCrossOrdModGrp) o;
 
-		for (FixParties fixParties : parties)
-			if (!fixParties.equals(msg.parties)) return false;
-		for (FixPreAllocGrp fixPreAllocGrp : preAllocGrp)
-			if (!fixPreAllocGrp.equals(msg.preAllocGrp)) return false;
+		for (int i = 0; i < parties.length; i++)
+			if (!parties[i].equals(msg.parties[i])) return false;
+		for (int i = 0; i < preAllocGrp.length; i++)
+			if (!preAllocGrp[i].equals(msg.preAllocGrp[i])) return false;
 		if (!orderQtyData.equals(msg.orderQtyData)) return false;
 		if (!commissionData.equals(msg.commissionData)) return false;
 		if ((hasSide() && !msg.hasSide()) || (!hasSide() && msg.hasSide())) return false;
@@ -2403,9 +2403,7 @@ public class FixSideCrossOrdModGrp extends FixGroup {
 		if ((hasClOrdLinkID() && !msg.hasClOrdLinkID()) || (!hasClOrdLinkID() && msg.hasClOrdLinkID())) return false;
 		if (!(!hasClOrdLinkID() && !msg.hasClOrdLinkID()) && !FixUtils.equals(getClOrdLinkID(), msg.getClOrdLinkID())) return false;
 		if ((hasTradeOriginationDate() && !msg.hasTradeOriginationDate()) || (!hasTradeOriginationDate() && msg.hasTradeOriginationDate())) return false;
-		if (!(!hasTradeOriginationDate() && !msg.hasTradeOriginationDate()) ) return false;
 		if ((hasTradeDate() && !msg.hasTradeDate()) || (!hasTradeDate() && msg.hasTradeDate())) return false;
-		if (!(!hasTradeDate() && !msg.hasTradeDate()) ) return false;
 		if ((hasAccount() && !msg.hasAccount()) || (!hasAccount() && msg.hasAccount())) return false;
 		if (!(!hasAccount() && !msg.hasAccount()) && !FixUtils.equals(getAccount(), msg.getAccount())) return false;
 		if ((hasAcctIDSource() && !msg.hasAcctIDSource()) || (!hasAcctIDSource() && msg.hasAcctIDSource())) return false;
@@ -2455,7 +2453,6 @@ public class FixSideCrossOrdModGrp extends FixGroup {
 		if ((hasSideComplianceID() && !msg.hasSideComplianceID()) || (!hasSideComplianceID() && msg.hasSideComplianceID())) return false;
 		if (!(!hasSideComplianceID() && !msg.hasSideComplianceID()) && !FixUtils.equals(getSideComplianceID(), msg.getSideComplianceID())) return false;
 		if ((hasSideTimeInForce() && !msg.hasSideTimeInForce()) || (!hasSideTimeInForce() && msg.hasSideTimeInForce())) return false;
-		if (!(!hasSideTimeInForce() && !msg.hasSideTimeInForce()) ) return false;
 		return true;
 	}
 	public FixSideCrossOrdModGrp clone ( FixSideCrossOrdModGrp out ) {

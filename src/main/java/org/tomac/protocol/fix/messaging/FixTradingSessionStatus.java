@@ -1629,15 +1629,10 @@ public class FixTradingSessionStatus extends FixInMessage {
 		if ((hasTradSesStatusRejReason() && !msg.hasTradSesStatusRejReason()) || (!hasTradSesStatusRejReason() && msg.hasTradSesStatusRejReason())) return false;
 		if (!(!hasTradSesStatusRejReason() && !msg.hasTradSesStatusRejReason()) && !(getTradSesStatusRejReason()==msg.getTradSesStatusRejReason())) return false;
 		if ((hasTradSesStartTime() && !msg.hasTradSesStartTime()) || (!hasTradSesStartTime() && msg.hasTradSesStartTime())) return false;
-		if (!(!hasTradSesStartTime() && !msg.hasTradSesStartTime()) ) return false;
 		if ((hasTradSesOpenTime() && !msg.hasTradSesOpenTime()) || (!hasTradSesOpenTime() && msg.hasTradSesOpenTime())) return false;
-		if (!(!hasTradSesOpenTime() && !msg.hasTradSesOpenTime()) ) return false;
 		if ((hasTradSesPreCloseTime() && !msg.hasTradSesPreCloseTime()) || (!hasTradSesPreCloseTime() && msg.hasTradSesPreCloseTime())) return false;
-		if (!(!hasTradSesPreCloseTime() && !msg.hasTradSesPreCloseTime()) ) return false;
 		if ((hasTradSesCloseTime() && !msg.hasTradSesCloseTime()) || (!hasTradSesCloseTime() && msg.hasTradSesCloseTime())) return false;
-		if (!(!hasTradSesCloseTime() && !msg.hasTradSesCloseTime()) ) return false;
 		if ((hasTradSesEndTime() && !msg.hasTradSesEndTime()) || (!hasTradSesEndTime() && msg.hasTradSesEndTime())) return false;
-		if (!(!hasTradSesEndTime() && !msg.hasTradSesEndTime()) ) return false;
 		if ((hasTotalVolumeTraded() && !msg.hasTotalVolumeTraded()) || (!hasTotalVolumeTraded() && msg.hasTotalVolumeTraded())) return false;
 		if (!(!hasTotalVolumeTraded() && !msg.hasTotalVolumeTraded()) && !(getTotalVolumeTraded()==msg.getTotalVolumeTraded())) return false;
 		if ((hasText() && !msg.hasText()) || (!hasText() && msg.hasText())) return false;

@@ -5759,15 +5759,15 @@ public class FixInstrument extends FixGroup {
 
 		FixInstrument msg = (FixInstrument) o;
 
-		for (FixSecAltIDGrp fixSecAltIDGrp : secAltIDGrp)
-			if (!fixSecAltIDGrp.equals(msg.secAltIDGrp)) return false;
+		for (int i = 0; i < secAltIDGrp.length; i++)
+			if (!secAltIDGrp[i].equals(msg.secAltIDGrp[i])) return false;
 		if (!securityXML.equals(msg.securityXML)) return false;
-		for (FixEvntGrp fixEvntGrp : evntGrp)
-			if (!fixEvntGrp.equals(msg.evntGrp)) return false;
-		for (FixInstrumentParties fixInstrumentParties : instrumentParties)
-			if (!fixInstrumentParties.equals(msg.instrumentParties)) return false;
-		for (FixComplexEvents fixComplexEvents : complexEvents)
-			if (!fixComplexEvents.equals(msg.complexEvents)) return false;
+		for (int i = 0; i < evntGrp.length; i++)
+			if (!evntGrp[i].equals(msg.evntGrp[i])) return false;
+		for (int i = 0; i < instrumentParties.length; i++)
+			if (!instrumentParties[i].equals(msg.instrumentParties[i])) return false;
+		for (int i = 0; i < complexEvents.length; i++)
+			if (!complexEvents[i].equals(msg.complexEvents[i])) return false;
 		if ((hasSymbol() && !msg.hasSymbol()) || (!hasSymbol() && msg.hasSymbol())) return false;
 		if (!(!hasSymbol() && !msg.hasSymbol()) && !FixUtils.equals(getSymbol(), msg.getSymbol())) return false;
 		if ((hasSymbolSfx() && !msg.hasSymbolSfx()) || (!hasSymbolSfx() && msg.hasSymbolSfx())) return false;
@@ -5791,7 +5791,6 @@ public class FixInstrument extends FixGroup {
 		if ((hasMaturityMonthYear() && !msg.hasMaturityMonthYear()) || (!hasMaturityMonthYear() && msg.hasMaturityMonthYear())) return false;
 		if (!(!hasMaturityMonthYear() && !msg.hasMaturityMonthYear()) && !FixUtils.equals(getMaturityMonthYear(), msg.getMaturityMonthYear())) return false;
 		if ((hasMaturityDate() && !msg.hasMaturityDate()) || (!hasMaturityDate() && msg.hasMaturityDate())) return false;
-		if (!(!hasMaturityDate() && !msg.hasMaturityDate()) ) return false;
 		if ((hasSecurityStatus() && !msg.hasSecurityStatus()) || (!hasSecurityStatus() && msg.hasSecurityStatus())) return false;
 		if (!(!hasSecurityStatus() && !msg.hasSecurityStatus()) && !FixUtils.equals(getSecurityStatus(), msg.getSecurityStatus())) return false;
 		if ((hasSettleOnOpenFlag() && !msg.hasSettleOnOpenFlag()) || (!hasSettleOnOpenFlag() && msg.hasSettleOnOpenFlag())) return false;
@@ -5799,9 +5798,7 @@ public class FixInstrument extends FixGroup {
 		if ((hasInstrmtAssignmentMethod() && !msg.hasInstrmtAssignmentMethod()) || (!hasInstrmtAssignmentMethod() && msg.hasInstrmtAssignmentMethod())) return false;
 		if (!(!hasInstrmtAssignmentMethod() && !msg.hasInstrmtAssignmentMethod()) && !(getInstrmtAssignmentMethod()==msg.getInstrmtAssignmentMethod())) return false;
 		if ((hasMaturityTime() && !msg.hasMaturityTime()) || (!hasMaturityTime() && msg.hasMaturityTime())) return false;
-		if (!(!hasMaturityTime() && !msg.hasMaturityTime()) ) return false;
 		if ((hasCouponPaymentDate() && !msg.hasCouponPaymentDate()) || (!hasCouponPaymentDate() && msg.hasCouponPaymentDate())) return false;
-		if (!(!hasCouponPaymentDate() && !msg.hasCouponPaymentDate()) ) return false;
 		if ((hasRestructuringType() && !msg.hasRestructuringType()) || (!hasRestructuringType() && msg.hasRestructuringType())) return false;
 		if (!(!hasRestructuringType() && !msg.hasRestructuringType()) && !FixUtils.equals(getRestructuringType(), msg.getRestructuringType())) return false;
 		if ((hasSeniority() && !msg.hasSeniority()) || (!hasSeniority() && msg.hasSeniority())) return false;
@@ -5815,7 +5812,6 @@ public class FixInstrument extends FixGroup {
 		if ((hasDetachmentPoint() && !msg.hasDetachmentPoint()) || (!hasDetachmentPoint() && msg.hasDetachmentPoint())) return false;
 		if (!(!hasDetachmentPoint() && !msg.hasDetachmentPoint()) && !(getDetachmentPoint()==msg.getDetachmentPoint())) return false;
 		if ((hasIssueDate() && !msg.hasIssueDate()) || (!hasIssueDate() && msg.hasIssueDate())) return false;
-		if (!(!hasIssueDate() && !msg.hasIssueDate()) ) return false;
 		if ((hasRepoCollateralSecurityType() && !msg.hasRepoCollateralSecurityType()) || (!hasRepoCollateralSecurityType() && msg.hasRepoCollateralSecurityType())) return false;
 		if (!(!hasRepoCollateralSecurityType() && !msg.hasRepoCollateralSecurityType()) && !(getRepoCollateralSecurityType()==msg.getRepoCollateralSecurityType())) return false;
 		if ((hasRepurchaseTerm() && !msg.hasRepurchaseTerm()) || (!hasRepurchaseTerm() && msg.hasRepurchaseTerm())) return false;
@@ -5835,7 +5831,6 @@ public class FixInstrument extends FixGroup {
 		if ((hasLocaleOfIssue() && !msg.hasLocaleOfIssue()) || (!hasLocaleOfIssue() && msg.hasLocaleOfIssue())) return false;
 		if (!(!hasLocaleOfIssue() && !msg.hasLocaleOfIssue()) && !FixUtils.equals(getLocaleOfIssue(), msg.getLocaleOfIssue())) return false;
 		if ((hasRedemptionDate() && !msg.hasRedemptionDate()) || (!hasRedemptionDate() && msg.hasRedemptionDate())) return false;
-		if (!(!hasRedemptionDate() && !msg.hasRedemptionDate()) ) return false;
 		if ((hasStrikePrice() && !msg.hasStrikePrice()) || (!hasStrikePrice() && msg.hasStrikePrice())) return false;
 		if (!(!hasStrikePrice() && !msg.hasStrikePrice()) && !(getStrikePrice()==msg.getStrikePrice())) return false;
 		if ((hasStrikeCurrency() && !msg.hasStrikeCurrency()) || (!hasStrikeCurrency() && msg.hasStrikeCurrency())) return false;
@@ -5927,9 +5922,7 @@ public class FixInstrument extends FixGroup {
 		if ((hasCPRegType() && !msg.hasCPRegType()) || (!hasCPRegType() && msg.hasCPRegType())) return false;
 		if (!(!hasCPRegType() && !msg.hasCPRegType()) && !FixUtils.equals(getCPRegType(), msg.getCPRegType())) return false;
 		if ((hasDatedDate() && !msg.hasDatedDate()) || (!hasDatedDate() && msg.hasDatedDate())) return false;
-		if (!(!hasDatedDate() && !msg.hasDatedDate()) ) return false;
 		if ((hasInterestAccrualDate() && !msg.hasInterestAccrualDate()) || (!hasInterestAccrualDate() && msg.hasInterestAccrualDate())) return false;
-		if (!(!hasInterestAccrualDate() && !msg.hasInterestAccrualDate()) ) return false;
 		return true;
 	}
 	public FixInstrument clone ( FixInstrument out ) {

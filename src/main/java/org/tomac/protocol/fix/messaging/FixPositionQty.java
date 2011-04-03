@@ -468,8 +468,8 @@ public class FixPositionQty extends FixGroup {
 
 		FixPositionQty msg = (FixPositionQty) o;
 
-		for (FixNestedParties fixNestedParties : nestedParties)
-			if (!fixNestedParties.equals(msg.nestedParties)) return false;
+		for (int i = 0; i < nestedParties.length; i++)
+			if (!nestedParties[i].equals(msg.nestedParties[i])) return false;
 		if ((hasPosType() && !msg.hasPosType()) || (!hasPosType() && msg.hasPosType())) return false;
 		if (!(!hasPosType() && !msg.hasPosType()) && !FixUtils.equals(getPosType(), msg.getPosType())) return false;
 		if ((hasLongQty() && !msg.hasLongQty()) || (!hasLongQty() && msg.hasLongQty())) return false;
@@ -479,7 +479,6 @@ public class FixPositionQty extends FixGroup {
 		if ((hasPosQtyStatus() && !msg.hasPosQtyStatus()) || (!hasPosQtyStatus() && msg.hasPosQtyStatus())) return false;
 		if (!(!hasPosQtyStatus() && !msg.hasPosQtyStatus()) && !(getPosQtyStatus()==msg.getPosQtyStatus())) return false;
 		if ((hasQuantityDate() && !msg.hasQuantityDate()) || (!hasQuantityDate() && msg.hasQuantityDate())) return false;
-		if (!(!hasQuantityDate() && !msg.hasQuantityDate()) ) return false;
 		return true;
 	}
 	public FixPositionQty clone ( FixPositionQty out ) {

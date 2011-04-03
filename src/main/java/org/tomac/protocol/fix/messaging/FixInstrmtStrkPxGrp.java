@@ -750,8 +750,8 @@ public class FixInstrmtStrkPxGrp extends FixGroup {
 		FixInstrmtStrkPxGrp msg = (FixInstrmtStrkPxGrp) o;
 
 		if (!instrument.equals(msg.instrument)) return false;
-		for (FixUndInstrmtGrp fixUndInstrmtGrp : undInstrmtGrp)
-			if (!fixUndInstrmtGrp.equals(msg.undInstrmtGrp)) return false;
+		for (int i = 0; i < undInstrmtGrp.length; i++)
+			if (!undInstrmtGrp[i].equals(msg.undInstrmtGrp[i])) return false;
 		if ((hasPrevClosePx() && !msg.hasPrevClosePx()) || (!hasPrevClosePx() && msg.hasPrevClosePx())) return false;
 		if (!(!hasPrevClosePx() && !msg.hasPrevClosePx()) && !(getPrevClosePx()==msg.getPrevClosePx())) return false;
 		if ((hasClOrdID() && !msg.hasClOrdID()) || (!hasClOrdID() && msg.hasClOrdID())) return false;

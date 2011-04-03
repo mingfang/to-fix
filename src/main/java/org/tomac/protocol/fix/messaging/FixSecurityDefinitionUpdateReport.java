@@ -1206,7 +1206,6 @@ public class FixSecurityDefinitionUpdateReport extends FixInMessage {
 		if ((hasSecurityResponseType() && !msg.hasSecurityResponseType()) || (!hasSecurityResponseType() && msg.hasSecurityResponseType())) return false;
 		if (!(!hasSecurityResponseType() && !msg.hasSecurityResponseType()) && !(getSecurityResponseType()==msg.getSecurityResponseType())) return false;
 		if ((hasClearingBusinessDate() && !msg.hasClearingBusinessDate()) || (!hasClearingBusinessDate() && msg.hasClearingBusinessDate())) return false;
-		if (!(!hasClearingBusinessDate() && !msg.hasClearingBusinessDate()) ) return false;
 		if ((hasSecurityUpdateAction() && !msg.hasSecurityUpdateAction()) || (!hasSecurityUpdateAction() && msg.hasSecurityUpdateAction())) return false;
 		if (!(!hasSecurityUpdateAction() && !msg.hasSecurityUpdateAction()) && !(getSecurityUpdateAction()==msg.getSecurityUpdateAction())) return false;
 		if ((hasCorporateAction() && !msg.hasCorporateAction()) || (!hasCorporateAction() && msg.hasCorporateAction())) return false;
@@ -1220,7 +1219,6 @@ public class FixSecurityDefinitionUpdateReport extends FixInMessage {
 		if ((hasEncodedText() && !msg.hasEncodedText()) || (!hasEncodedText() && msg.hasEncodedText())) return false;
 		if (!(!hasEncodedText() && !msg.hasEncodedText()) && !FixUtils.equals(getEncodedText(), msg.getEncodedText())) return false;
 		if ((hasTransactTime() && !msg.hasTransactTime()) || (!hasTransactTime() && msg.hasTransactTime())) return false;
-		if (!(!hasTransactTime() && !msg.hasTransactTime()) ) return false;
 		return true;
 	}
 	@Override

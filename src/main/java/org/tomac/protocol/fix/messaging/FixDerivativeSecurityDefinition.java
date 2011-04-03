@@ -174,10 +174,10 @@ public class FixDerivativeSecurityDefinition extends FixGroup {
 		FixDerivativeSecurityDefinition msg = (FixDerivativeSecurityDefinition) o;
 
 		if (!derivativeInstrument.equals(msg.derivativeInstrument)) return false;
-		for (FixDerivativeInstrumentAttribute fixDerivativeInstrumentAttribute : derivativeInstrumentAttribute)
-			if (!fixDerivativeInstrumentAttribute.equals(msg.derivativeInstrumentAttribute)) return false;
-		for (FixMarketSegmentGrp fixMarketSegmentGrp : marketSegmentGrp)
-			if (!fixMarketSegmentGrp.equals(msg.marketSegmentGrp)) return false;
+		for (int i = 0; i < derivativeInstrumentAttribute.length; i++)
+			if (!derivativeInstrumentAttribute[i].equals(msg.derivativeInstrumentAttribute[i])) return false;
+		for (int i = 0; i < marketSegmentGrp.length; i++)
+			if (!marketSegmentGrp[i].equals(msg.marketSegmentGrp[i])) return false;
 		return true;
 	}
 	public FixDerivativeSecurityDefinition clone ( FixDerivativeSecurityDefinition out ) {

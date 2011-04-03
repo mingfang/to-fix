@@ -1420,7 +1420,6 @@ public class FixSecurityList extends FixInMessage {
 		if ((hasSecurityReportID() && !msg.hasSecurityReportID()) || (!hasSecurityReportID() && msg.hasSecurityReportID())) return false;
 		if (!(!hasSecurityReportID() && !msg.hasSecurityReportID()) && !(getSecurityReportID()==msg.getSecurityReportID())) return false;
 		if ((hasClearingBusinessDate() && !msg.hasClearingBusinessDate()) || (!hasClearingBusinessDate() && msg.hasClearingBusinessDate())) return false;
-		if (!(!hasClearingBusinessDate() && !msg.hasClearingBusinessDate()) ) return false;
 		if ((hasSecurityListID() && !msg.hasSecurityListID()) || (!hasSecurityListID() && msg.hasSecurityListID())) return false;
 		if (!(!hasSecurityListID() && !msg.hasSecurityListID()) && !FixUtils.equals(getSecurityListID(), msg.getSecurityListID())) return false;
 		if ((hasSecurityListRefID() && !msg.hasSecurityListRefID()) || (!hasSecurityListRefID() && msg.hasSecurityListRefID())) return false;
@@ -1442,7 +1441,6 @@ public class FixSecurityList extends FixInMessage {
 		if ((hasSecurityRequestResult() && !msg.hasSecurityRequestResult()) || (!hasSecurityRequestResult() && msg.hasSecurityRequestResult())) return false;
 		if (!(!hasSecurityRequestResult() && !msg.hasSecurityRequestResult()) && !(getSecurityRequestResult()==msg.getSecurityRequestResult())) return false;
 		if ((hasTransactTime() && !msg.hasTransactTime()) || (!hasTransactTime() && msg.hasTransactTime())) return false;
-		if (!(!hasTransactTime() && !msg.hasTransactTime()) ) return false;
 		if ((hasTotNoRelatedSym() && !msg.hasTotNoRelatedSym()) || (!hasTotNoRelatedSym() && msg.hasTotNoRelatedSym())) return false;
 		if (!(!hasTotNoRelatedSym() && !msg.hasTotNoRelatedSym()) && !(getTotNoRelatedSym()==msg.getTotNoRelatedSym())) return false;
 		if ((hasMarketID() && !msg.hasMarketID()) || (!hasMarketID() && msg.hasMarketID())) return false;

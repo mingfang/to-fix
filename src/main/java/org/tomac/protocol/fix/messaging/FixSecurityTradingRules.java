@@ -174,10 +174,10 @@ public class FixSecurityTradingRules extends FixGroup {
 		FixSecurityTradingRules msg = (FixSecurityTradingRules) o;
 
 		if (!baseTradingRules.equals(msg.baseTradingRules)) return false;
-		for (FixTradingSessionRulesGrp fixTradingSessionRulesGrp : tradingSessionRulesGrp)
-			if (!fixTradingSessionRulesGrp.equals(msg.tradingSessionRulesGrp)) return false;
-		for (FixNestedInstrumentAttribute fixNestedInstrumentAttribute : nestedInstrumentAttribute)
-			if (!fixNestedInstrumentAttribute.equals(msg.nestedInstrumentAttribute)) return false;
+		for (int i = 0; i < tradingSessionRulesGrp.length; i++)
+			if (!tradingSessionRulesGrp[i].equals(msg.tradingSessionRulesGrp[i])) return false;
+		for (int i = 0; i < nestedInstrumentAttribute.length; i++)
+			if (!nestedInstrumentAttribute[i].equals(msg.nestedInstrumentAttribute[i])) return false;
 		return true;
 	}
 	public FixSecurityTradingRules clone ( FixSecurityTradingRules out ) {

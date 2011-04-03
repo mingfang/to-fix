@@ -4896,12 +4896,12 @@ public class FixUnderlyingInstrument extends FixGroup {
 
 		FixUnderlyingInstrument msg = (FixUnderlyingInstrument) o;
 
-		for (FixUndSecAltIDGrp fixUndSecAltIDGrp : undSecAltIDGrp)
-			if (!fixUndSecAltIDGrp.equals(msg.undSecAltIDGrp)) return false;
-		for (FixUnderlyingStipulations fixUnderlyingStipulations : underlyingStipulations)
-			if (!fixUnderlyingStipulations.equals(msg.underlyingStipulations)) return false;
-		for (FixUndlyInstrumentParties fixUndlyInstrumentParties : undlyInstrumentParties)
-			if (!fixUndlyInstrumentParties.equals(msg.undlyInstrumentParties)) return false;
+		for (int i = 0; i < undSecAltIDGrp.length; i++)
+			if (!undSecAltIDGrp[i].equals(msg.undSecAltIDGrp[i])) return false;
+		for (int i = 0; i < underlyingStipulations.length; i++)
+			if (!underlyingStipulations[i].equals(msg.underlyingStipulations[i])) return false;
+		for (int i = 0; i < undlyInstrumentParties.length; i++)
+			if (!undlyInstrumentParties[i].equals(msg.undlyInstrumentParties[i])) return false;
 		if ((hasUnderlyingSymbol() && !msg.hasUnderlyingSymbol()) || (!hasUnderlyingSymbol() && msg.hasUnderlyingSymbol())) return false;
 		if (!(!hasUnderlyingSymbol() && !msg.hasUnderlyingSymbol()) && !FixUtils.equals(getUnderlyingSymbol(), msg.getUnderlyingSymbol())) return false;
 		if ((hasUnderlyingSymbolSfx() && !msg.hasUnderlyingSymbolSfx()) || (!hasUnderlyingSymbolSfx() && msg.hasUnderlyingSymbolSfx())) return false;
@@ -4921,11 +4921,8 @@ public class FixUnderlyingInstrument extends FixGroup {
 		if ((hasUnderlyingMaturityMonthYear() && !msg.hasUnderlyingMaturityMonthYear()) || (!hasUnderlyingMaturityMonthYear() && msg.hasUnderlyingMaturityMonthYear())) return false;
 		if (!(!hasUnderlyingMaturityMonthYear() && !msg.hasUnderlyingMaturityMonthYear()) && !FixUtils.equals(getUnderlyingMaturityMonthYear(), msg.getUnderlyingMaturityMonthYear())) return false;
 		if ((hasUnderlyingMaturityDate() && !msg.hasUnderlyingMaturityDate()) || (!hasUnderlyingMaturityDate() && msg.hasUnderlyingMaturityDate())) return false;
-		if (!(!hasUnderlyingMaturityDate() && !msg.hasUnderlyingMaturityDate()) ) return false;
 		if ((hasUnderlyingMaturityTime() && !msg.hasUnderlyingMaturityTime()) || (!hasUnderlyingMaturityTime() && msg.hasUnderlyingMaturityTime())) return false;
-		if (!(!hasUnderlyingMaturityTime() && !msg.hasUnderlyingMaturityTime()) ) return false;
 		if ((hasUnderlyingCouponPaymentDate() && !msg.hasUnderlyingCouponPaymentDate()) || (!hasUnderlyingCouponPaymentDate() && msg.hasUnderlyingCouponPaymentDate())) return false;
-		if (!(!hasUnderlyingCouponPaymentDate() && !msg.hasUnderlyingCouponPaymentDate()) ) return false;
 		if ((hasUnderlyingRestructuringType() && !msg.hasUnderlyingRestructuringType()) || (!hasUnderlyingRestructuringType() && msg.hasUnderlyingRestructuringType())) return false;
 		if (!(!hasUnderlyingRestructuringType() && !msg.hasUnderlyingRestructuringType()) && !FixUtils.equals(getUnderlyingRestructuringType(), msg.getUnderlyingRestructuringType())) return false;
 		if ((hasUnderlyingSeniority() && !msg.hasUnderlyingSeniority()) || (!hasUnderlyingSeniority() && msg.hasUnderlyingSeniority())) return false;
@@ -4939,7 +4936,6 @@ public class FixUnderlyingInstrument extends FixGroup {
 		if ((hasUnderlyingDetachmentPoint() && !msg.hasUnderlyingDetachmentPoint()) || (!hasUnderlyingDetachmentPoint() && msg.hasUnderlyingDetachmentPoint())) return false;
 		if (!(!hasUnderlyingDetachmentPoint() && !msg.hasUnderlyingDetachmentPoint()) && !(getUnderlyingDetachmentPoint()==msg.getUnderlyingDetachmentPoint())) return false;
 		if ((hasUnderlyingIssueDate() && !msg.hasUnderlyingIssueDate()) || (!hasUnderlyingIssueDate() && msg.hasUnderlyingIssueDate())) return false;
-		if (!(!hasUnderlyingIssueDate() && !msg.hasUnderlyingIssueDate()) ) return false;
 		if ((hasUnderlyingRepoCollateralSecurityType() && !msg.hasUnderlyingRepoCollateralSecurityType()) || (!hasUnderlyingRepoCollateralSecurityType() && msg.hasUnderlyingRepoCollateralSecurityType())) return false;
 		if (!(!hasUnderlyingRepoCollateralSecurityType() && !msg.hasUnderlyingRepoCollateralSecurityType()) && !(getUnderlyingRepoCollateralSecurityType()==msg.getUnderlyingRepoCollateralSecurityType())) return false;
 		if ((hasUnderlyingRepurchaseTerm() && !msg.hasUnderlyingRepurchaseTerm()) || (!hasUnderlyingRepurchaseTerm() && msg.hasUnderlyingRepurchaseTerm())) return false;
@@ -4959,7 +4955,6 @@ public class FixUnderlyingInstrument extends FixGroup {
 		if ((hasUnderlyingLocaleOfIssue() && !msg.hasUnderlyingLocaleOfIssue()) || (!hasUnderlyingLocaleOfIssue() && msg.hasUnderlyingLocaleOfIssue())) return false;
 		if (!(!hasUnderlyingLocaleOfIssue() && !msg.hasUnderlyingLocaleOfIssue()) && !FixUtils.equals(getUnderlyingLocaleOfIssue(), msg.getUnderlyingLocaleOfIssue())) return false;
 		if ((hasUnderlyingRedemptionDate() && !msg.hasUnderlyingRedemptionDate()) || (!hasUnderlyingRedemptionDate() && msg.hasUnderlyingRedemptionDate())) return false;
-		if (!(!hasUnderlyingRedemptionDate() && !msg.hasUnderlyingRedemptionDate()) ) return false;
 		if ((hasUnderlyingStrikePrice() && !msg.hasUnderlyingStrikePrice()) || (!hasUnderlyingStrikePrice() && msg.hasUnderlyingStrikePrice())) return false;
 		if (!(!hasUnderlyingStrikePrice() && !msg.hasUnderlyingStrikePrice()) && !(getUnderlyingStrikePrice()==msg.getUnderlyingStrikePrice())) return false;
 		if ((hasUnderlyingStrikeCurrency() && !msg.hasUnderlyingStrikeCurrency()) || (!hasUnderlyingStrikeCurrency() && msg.hasUnderlyingStrikeCurrency())) return false;

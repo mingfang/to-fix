@@ -266,8 +266,8 @@ public class FixInstrumentExtension extends FixGroup {
 
 		FixInstrumentExtension msg = (FixInstrumentExtension) o;
 
-		for (FixAttrbGrp fixAttrbGrp : attrbGrp)
-			if (!fixAttrbGrp.equals(msg.attrbGrp)) return false;
+		for (int i = 0; i < attrbGrp.length; i++)
+			if (!attrbGrp[i].equals(msg.attrbGrp[i])) return false;
 		if ((hasDeliveryForm() && !msg.hasDeliveryForm()) || (!hasDeliveryForm() && msg.hasDeliveryForm())) return false;
 		if (!(!hasDeliveryForm() && !msg.hasDeliveryForm()) && !(getDeliveryForm()==msg.getDeliveryForm())) return false;
 		if ((hasPctAtRisk() && !msg.hasPctAtRisk()) || (!hasPctAtRisk() && msg.hasPctAtRisk())) return false;

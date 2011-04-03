@@ -816,9 +816,7 @@ public class FixDerivativeSecurityList extends FixInMessage {
 		if ((hasSecurityRequestResult() && !msg.hasSecurityRequestResult()) || (!hasSecurityRequestResult() && msg.hasSecurityRequestResult())) return false;
 		if (!(!hasSecurityRequestResult() && !msg.hasSecurityRequestResult()) && !(getSecurityRequestResult()==msg.getSecurityRequestResult())) return false;
 		if ((hasClearingBusinessDate() && !msg.hasClearingBusinessDate()) || (!hasClearingBusinessDate() && msg.hasClearingBusinessDate())) return false;
-		if (!(!hasClearingBusinessDate() && !msg.hasClearingBusinessDate()) ) return false;
 		if ((hasTransactTime() && !msg.hasTransactTime()) || (!hasTransactTime() && msg.hasTransactTime())) return false;
-		if (!(!hasTransactTime() && !msg.hasTransactTime()) ) return false;
 		if ((hasTotNoRelatedSym() && !msg.hasTotNoRelatedSym()) || (!hasTotNoRelatedSym() && msg.hasTotNoRelatedSym())) return false;
 		if (!(!hasTotNoRelatedSym() && !msg.hasTotNoRelatedSym()) && !(getTotNoRelatedSym()==msg.getTotNoRelatedSym())) return false;
 		if ((hasLastFragment() && !msg.hasLastFragment()) || (!hasLastFragment() && msg.hasLastFragment())) return false;

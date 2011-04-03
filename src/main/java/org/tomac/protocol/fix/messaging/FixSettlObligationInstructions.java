@@ -1054,10 +1054,10 @@ public class FixSettlObligationInstructions extends FixGroup {
 		FixSettlObligationInstructions msg = (FixSettlObligationInstructions) o;
 
 		if (!instrument.equals(msg.instrument)) return false;
-		for (FixParties fixParties : parties)
-			if (!fixParties.equals(msg.parties)) return false;
-		for (FixSettlDetails fixSettlDetails : settlDetails)
-			if (!fixSettlDetails.equals(msg.settlDetails)) return false;
+		for (int i = 0; i < parties.length; i++)
+			if (!parties[i].equals(msg.parties[i])) return false;
+		for (int i = 0; i < settlDetails.length; i++)
+			if (!settlDetails[i].equals(msg.settlDetails[i])) return false;
 		if ((hasNetGrossInd() && !msg.hasNetGrossInd()) || (!hasNetGrossInd() && msg.hasNetGrossInd())) return false;
 		if (!(!hasNetGrossInd() && !msg.hasNetGrossInd()) && !(getNetGrossInd()==msg.getNetGrossInd())) return false;
 		if ((hasSettlObligID() && !msg.hasSettlObligID()) || (!hasSettlObligID() && msg.hasSettlObligID())) return false;
@@ -1077,13 +1077,9 @@ public class FixSettlObligationInstructions extends FixGroup {
 		if ((hasSettlCurrFxRate() && !msg.hasSettlCurrFxRate()) || (!hasSettlCurrFxRate() && msg.hasSettlCurrFxRate())) return false;
 		if (!(!hasSettlCurrFxRate() && !msg.hasSettlCurrFxRate()) && !(getSettlCurrFxRate()==msg.getSettlCurrFxRate())) return false;
 		if ((hasSettlDate() && !msg.hasSettlDate()) || (!hasSettlDate() && msg.hasSettlDate())) return false;
-		if (!(!hasSettlDate() && !msg.hasSettlDate()) ) return false;
 		if ((hasEffectiveTime() && !msg.hasEffectiveTime()) || (!hasEffectiveTime() && msg.hasEffectiveTime())) return false;
-		if (!(!hasEffectiveTime() && !msg.hasEffectiveTime()) ) return false;
 		if ((hasExpireTime() && !msg.hasExpireTime()) || (!hasExpireTime() && msg.hasExpireTime())) return false;
-		if (!(!hasExpireTime() && !msg.hasExpireTime()) ) return false;
 		if ((hasLastUpdateTime() && !msg.hasLastUpdateTime()) || (!hasLastUpdateTime() && msg.hasLastUpdateTime())) return false;
-		if (!(!hasLastUpdateTime() && !msg.hasLastUpdateTime()) ) return false;
 		return true;
 	}
 	public FixSettlObligationInstructions clone ( FixSettlObligationInstructions out ) {

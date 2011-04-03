@@ -579,10 +579,10 @@ public class FixInstrmtMDReqGrp extends FixGroup {
 		FixInstrmtMDReqGrp msg = (FixInstrmtMDReqGrp) o;
 
 		if (!instrument.equals(msg.instrument)) return false;
-		for (FixUndInstrmtGrp fixUndInstrmtGrp : undInstrmtGrp)
-			if (!fixUndInstrmtGrp.equals(msg.undInstrmtGrp)) return false;
-		for (FixInstrmtLegGrp fixInstrmtLegGrp : instrmtLegGrp)
-			if (!fixInstrmtLegGrp.equals(msg.instrmtLegGrp)) return false;
+		for (int i = 0; i < undInstrmtGrp.length; i++)
+			if (!undInstrmtGrp[i].equals(msg.undInstrmtGrp[i])) return false;
+		for (int i = 0; i < instrmtLegGrp.length; i++)
+			if (!instrmtLegGrp[i].equals(msg.instrmtLegGrp[i])) return false;
 		if ((hasCurrency() && !msg.hasCurrency()) || (!hasCurrency() && msg.hasCurrency())) return false;
 		if (!(!hasCurrency() && !msg.hasCurrency()) && !FixUtils.equals(getCurrency(), msg.getCurrency())) return false;
 		if ((hasQuoteType() && !msg.hasQuoteType()) || (!hasQuoteType() && msg.hasQuoteType())) return false;
@@ -590,7 +590,6 @@ public class FixInstrmtMDReqGrp extends FixGroup {
 		if ((hasSettlType() && !msg.hasSettlType()) || (!hasSettlType() && msg.hasSettlType())) return false;
 		if (!(!hasSettlType() && !msg.hasSettlType()) && !FixUtils.equals(getSettlType(), msg.getSettlType())) return false;
 		if ((hasSettlDate() && !msg.hasSettlDate()) || (!hasSettlDate() && msg.hasSettlDate())) return false;
-		if (!(!hasSettlDate() && !msg.hasSettlDate()) ) return false;
 		if ((hasMDEntrySize() && !msg.hasMDEntrySize()) || (!hasMDEntrySize() && msg.hasMDEntrySize())) return false;
 		if (!(!hasMDEntrySize() && !msg.hasMDEntrySize()) && !(getMDEntrySize()==msg.getMDEntrySize())) return false;
 		if ((hasMDStreamID() && !msg.hasMDStreamID()) || (!hasMDStreamID() && msg.hasMDStreamID())) return false;

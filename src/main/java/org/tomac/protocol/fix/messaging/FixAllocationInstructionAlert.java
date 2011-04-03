@@ -4809,7 +4809,6 @@ public class FixAllocationInstructionAlert extends FixInMessage {
 		if ((hasLastMkt() && !msg.hasLastMkt()) || (!hasLastMkt() && msg.hasLastMkt())) return false;
 		if (!(!hasLastMkt() && !msg.hasLastMkt()) && !FixUtils.equals(getLastMkt(), msg.getLastMkt())) return false;
 		if ((hasTradeOriginationDate() && !msg.hasTradeOriginationDate()) || (!hasTradeOriginationDate() && msg.hasTradeOriginationDate())) return false;
-		if (!(!hasTradeOriginationDate() && !msg.hasTradeOriginationDate()) ) return false;
 		if ((hasTradingSessionID() && !msg.hasTradingSessionID()) || (!hasTradingSessionID() && msg.hasTradingSessionID())) return false;
 		if (!(!hasTradingSessionID() && !msg.hasTradingSessionID()) && !FixUtils.equals(getTradingSessionID(), msg.getTradingSessionID())) return false;
 		if ((hasTradingSessionSubID() && !msg.hasTradingSessionSubID()) || (!hasTradingSessionSubID() && msg.hasTradingSessionSubID())) return false;
@@ -4825,13 +4824,10 @@ public class FixAllocationInstructionAlert extends FixInMessage {
 		if ((hasAvgPxPrecision() && !msg.hasAvgPxPrecision()) || (!hasAvgPxPrecision() && msg.hasAvgPxPrecision())) return false;
 		if (!(!hasAvgPxPrecision() && !msg.hasAvgPxPrecision()) && !(getAvgPxPrecision()==msg.getAvgPxPrecision())) return false;
 		if ((hasTradeDate() && !msg.hasTradeDate()) || (!hasTradeDate() && msg.hasTradeDate())) return false;
-		if (!(!hasTradeDate() && !msg.hasTradeDate()) ) return false;
 		if ((hasTransactTime() && !msg.hasTransactTime()) || (!hasTransactTime() && msg.hasTransactTime())) return false;
-		if (!(!hasTransactTime() && !msg.hasTransactTime()) ) return false;
 		if ((hasSettlType() && !msg.hasSettlType()) || (!hasSettlType() && msg.hasSettlType())) return false;
 		if (!(!hasSettlType() && !msg.hasSettlType()) && !FixUtils.equals(getSettlType(), msg.getSettlType())) return false;
 		if ((hasSettlDate() && !msg.hasSettlDate()) || (!hasSettlDate() && msg.hasSettlDate())) return false;
-		if (!(!hasSettlDate() && !msg.hasSettlDate()) ) return false;
 		if ((hasBookingType() && !msg.hasBookingType()) || (!hasBookingType() && msg.hasBookingType())) return false;
 		if (!(!hasBookingType() && !msg.hasBookingType()) && !(getBookingType()==msg.getBookingType())) return false;
 		if ((hasGrossTradeAmt() && !msg.hasGrossTradeAmt()) || (!hasGrossTradeAmt() && msg.hasGrossTradeAmt())) return false;
@@ -4877,7 +4873,6 @@ public class FixAllocationInstructionAlert extends FixInMessage {
 		if ((hasAvgPxIndicator() && !msg.hasAvgPxIndicator()) || (!hasAvgPxIndicator() && msg.hasAvgPxIndicator())) return false;
 		if (!(!hasAvgPxIndicator() && !msg.hasAvgPxIndicator()) && !(getAvgPxIndicator()==msg.getAvgPxIndicator())) return false;
 		if ((hasClearingBusinessDate() && !msg.hasClearingBusinessDate()) || (!hasClearingBusinessDate() && msg.hasClearingBusinessDate())) return false;
-		if (!(!hasClearingBusinessDate() && !msg.hasClearingBusinessDate()) ) return false;
 		if ((hasTrdType() && !msg.hasTrdType()) || (!hasTrdType() && msg.hasTrdType())) return false;
 		if (!(!hasTrdType() && !msg.hasTrdType()) && !(getTrdType()==msg.getTrdType())) return false;
 		if ((hasTrdSubType() && !msg.hasTrdSubType()) || (!hasTrdSubType() && msg.hasTrdSubType())) return false;

@@ -2101,12 +2101,10 @@ public class FixStandardHeader extends FixGroup {
 
 		FixStandardHeader msg = (FixStandardHeader) o;
 
-		for (FixHopGrp fixHopGrp : hopGrp)
-			if (!fixHopGrp.equals(msg.hopGrp)) return false;
+		for (int i = 0; i < hopGrp.length; i++)
+			if (!hopGrp[i].equals(msg.hopGrp[i])) return false;
 		if ((hasBeginString() && !msg.hasBeginString()) || (!hasBeginString() && msg.hasBeginString())) return false;
 		if (!(!hasBeginString() && !msg.hasBeginString()) && !FixUtils.equals(getBeginString(), msg.getBeginString())) return false;
-		if ((hasBodyLength() && !msg.hasBodyLength()) || (!hasBodyLength() && msg.hasBodyLength())) return false;
-		if (!(!hasBodyLength() && !msg.hasBodyLength()) && !(getBodyLength()==msg.getBodyLength())) return false;
 		if ((hasMsgType() && !msg.hasMsgType()) || (!hasMsgType() && msg.hasMsgType())) return false;
 		if (!(!hasMsgType() && !msg.hasMsgType()) && !FixUtils.equals(getMsgType(), msg.getMsgType())) return false;
 		if ((hasApplVerID() && !msg.hasApplVerID()) || (!hasApplVerID() && msg.hasApplVerID())) return false;
@@ -2150,9 +2148,7 @@ public class FixStandardHeader extends FixGroup {
 		if ((hasPossResend() && !msg.hasPossResend()) || (!hasPossResend() && msg.hasPossResend())) return false;
 		if (!(!hasPossResend() && !msg.hasPossResend()) && !(getPossResend()==msg.getPossResend())) return false;
 		if ((hasSendingTime() && !msg.hasSendingTime()) || (!hasSendingTime() && msg.hasSendingTime())) return false;
-		if (!(!hasSendingTime() && !msg.hasSendingTime()) ) return false;
 		if ((hasOrigSendingTime() && !msg.hasOrigSendingTime()) || (!hasOrigSendingTime() && msg.hasOrigSendingTime())) return false;
-		if (!(!hasOrigSendingTime() && !msg.hasOrigSendingTime()) ) return false;
 		if ((hasXmlDataLen() && !msg.hasXmlDataLen()) || (!hasXmlDataLen() && msg.hasXmlDataLen())) return false;
 		if (!(!hasXmlDataLen() && !msg.hasXmlDataLen()) && !(getXmlDataLen()==msg.getXmlDataLen())) return false;
 		if ((hasXmlData() && !msg.hasXmlData()) || (!hasXmlData() && msg.hasXmlData())) return false;

@@ -1317,7 +1317,6 @@ public class FixNews extends FixInMessage {
 		if ((hasLanguageCode() && !msg.hasLanguageCode()) || (!hasLanguageCode() && msg.hasLanguageCode())) return false;
 		if (!(!hasLanguageCode() && !msg.hasLanguageCode()) && !FixUtils.equals(getLanguageCode(), msg.getLanguageCode())) return false;
 		if ((hasOrigTime() && !msg.hasOrigTime()) || (!hasOrigTime() && msg.hasOrigTime())) return false;
-		if (!(!hasOrigTime() && !msg.hasOrigTime()) ) return false;
 		if ((hasUrgency() && !msg.hasUrgency()) || (!hasUrgency() && msg.hasUrgency())) return false;
 		if (!(!hasUrgency() && !msg.hasUrgency()) && !(getUrgency()==msg.getUrgency())) return false;
 		if ((hasHeadline() && !msg.hasHeadline()) || (!hasHeadline() && msg.hasHeadline())) return false;

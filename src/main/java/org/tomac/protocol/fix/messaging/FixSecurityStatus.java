@@ -2225,7 +2225,6 @@ public class FixSecurityStatus extends FixInMessage {
 		if ((hasLastPx() && !msg.hasLastPx()) || (!hasLastPx() && msg.hasLastPx())) return false;
 		if (!(!hasLastPx() && !msg.hasLastPx()) && !(getLastPx()==msg.getLastPx())) return false;
 		if ((hasTransactTime() && !msg.hasTransactTime()) || (!hasTransactTime() && msg.hasTransactTime())) return false;
-		if (!(!hasTransactTime() && !msg.hasTransactTime()) ) return false;
 		if ((hasAdjustment() && !msg.hasAdjustment()) || (!hasAdjustment() && msg.hasAdjustment())) return false;
 		if (!(!hasAdjustment() && !msg.hasAdjustment()) && !(getAdjustment()==msg.getAdjustment())) return false;
 		if ((hasFirstPx() && !msg.hasFirstPx()) || (!hasFirstPx() && msg.hasFirstPx())) return false;

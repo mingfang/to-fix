@@ -4575,9 +4575,7 @@ public class FixQuote extends FixInMessage {
 		if ((hasSettlType() && !msg.hasSettlType()) || (!hasSettlType() && msg.hasSettlType())) return false;
 		if (!(!hasSettlType() && !msg.hasSettlType()) && !FixUtils.equals(getSettlType(), msg.getSettlType())) return false;
 		if ((hasSettlDate() && !msg.hasSettlDate()) || (!hasSettlDate() && msg.hasSettlDate())) return false;
-		if (!(!hasSettlDate() && !msg.hasSettlDate()) ) return false;
 		if ((hasSettlDate2() && !msg.hasSettlDate2()) || (!hasSettlDate2() && msg.hasSettlDate2())) return false;
-		if (!(!hasSettlDate2() && !msg.hasSettlDate2()) ) return false;
 		if ((hasOrderQty2() && !msg.hasOrderQty2()) || (!hasOrderQty2() && msg.hasOrderQty2())) return false;
 		if (!(!hasOrderQty2() && !msg.hasOrderQty2()) && !(getOrderQty2()==msg.getOrderQty2())) return false;
 		if ((hasCurrency() && !msg.hasCurrency()) || (!hasCurrency() && msg.hasCurrency())) return false;
@@ -4609,7 +4607,6 @@ public class FixQuote extends FixInMessage {
 		if ((hasMinQty() && !msg.hasMinQty()) || (!hasMinQty() && msg.hasMinQty())) return false;
 		if (!(!hasMinQty() && !msg.hasMinQty()) && !(getMinQty()==msg.getMinQty())) return false;
 		if ((hasValidUntilTime() && !msg.hasValidUntilTime()) || (!hasValidUntilTime() && msg.hasValidUntilTime())) return false;
-		if (!(!hasValidUntilTime() && !msg.hasValidUntilTime()) ) return false;
 		if ((hasBidSpotRate() && !msg.hasBidSpotRate()) || (!hasBidSpotRate() && msg.hasBidSpotRate())) return false;
 		if (!(!hasBidSpotRate() && !msg.hasBidSpotRate()) && !(getBidSpotRate()==msg.getBidSpotRate())) return false;
 		if ((hasOfferSpotRate() && !msg.hasOfferSpotRate()) || (!hasOfferSpotRate() && msg.hasOfferSpotRate())) return false;
@@ -4631,7 +4628,6 @@ public class FixQuote extends FixInMessage {
 		if ((hasOfferYield() && !msg.hasOfferYield()) || (!hasOfferYield() && msg.hasOfferYield())) return false;
 		if (!(!hasOfferYield() && !msg.hasOfferYield()) && !(getOfferYield()==msg.getOfferYield())) return false;
 		if ((hasTransactTime() && !msg.hasTransactTime()) || (!hasTransactTime() && msg.hasTransactTime())) return false;
-		if (!(!hasTransactTime() && !msg.hasTransactTime()) ) return false;
 		if ((hasOrdType() && !msg.hasOrdType()) || (!hasOrdType() && msg.hasOrdType())) return false;
 		if (!(!hasOrdType() && !msg.hasOrdType()) && !(getOrdType()==msg.getOrdType())) return false;
 		if ((hasBidForwardPoints2() && !msg.hasBidForwardPoints2()) || (!hasBidForwardPoints2() && msg.hasBidForwardPoints2())) return false;

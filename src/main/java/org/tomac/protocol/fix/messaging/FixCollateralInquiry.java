@@ -2761,7 +2761,6 @@ public class FixCollateralInquiry extends FixInMessage {
 		if ((hasSecondaryClOrdID() && !msg.hasSecondaryClOrdID()) || (!hasSecondaryClOrdID() && msg.hasSecondaryClOrdID())) return false;
 		if (!(!hasSecondaryClOrdID() && !msg.hasSecondaryClOrdID()) && !FixUtils.equals(getSecondaryClOrdID(), msg.getSecondaryClOrdID())) return false;
 		if ((hasSettlDate() && !msg.hasSettlDate()) || (!hasSettlDate() && msg.hasSettlDate())) return false;
-		if (!(!hasSettlDate() && !msg.hasSettlDate()) ) return false;
 		if ((hasQuantity() && !msg.hasQuantity()) || (!hasQuantity() && msg.hasQuantity())) return false;
 		if (!(!hasQuantity() && !msg.hasQuantity()) && !(getQuantity()==msg.getQuantity())) return false;
 		if ((hasQtyType() && !msg.hasQtyType()) || (!hasQtyType() && msg.hasQtyType())) return false;
@@ -2797,7 +2796,6 @@ public class FixCollateralInquiry extends FixInMessage {
 		if ((hasSettlSessSubID() && !msg.hasSettlSessSubID()) || (!hasSettlSessSubID() && msg.hasSettlSessSubID())) return false;
 		if (!(!hasSettlSessSubID() && !msg.hasSettlSessSubID()) && !FixUtils.equals(getSettlSessSubID(), msg.getSettlSessSubID())) return false;
 		if ((hasClearingBusinessDate() && !msg.hasClearingBusinessDate()) || (!hasClearingBusinessDate() && msg.hasClearingBusinessDate())) return false;
-		if (!(!hasClearingBusinessDate() && !msg.hasClearingBusinessDate()) ) return false;
 		if ((hasText() && !msg.hasText()) || (!hasText() && msg.hasText())) return false;
 		if (!(!hasText() && !msg.hasText()) && !FixUtils.equals(getText(), msg.getText())) return false;
 		if ((hasEncodedTextLen() && !msg.hasEncodedTextLen()) || (!hasEncodedTextLen() && msg.hasEncodedTextLen())) return false;

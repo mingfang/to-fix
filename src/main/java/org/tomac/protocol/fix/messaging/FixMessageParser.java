@@ -15,7 +15,7 @@ import org.tomac.protocol.fix.FixUtils;
 public class FixMessageParser implements FixMessageInfo
 {
 
-	private FixMessagePool<FixMessage> fixMessagePool;
+	public FixMessagePool<FixMessage> fixMessagePool;
 
 	public FixMessageParser(FixMessagePool<FixMessage> fixMessagePool) {
 		this.fixMessagePool = fixMessagePool;
@@ -28,6 +28,12 @@ public class FixMessageParser implements FixMessageInfo
 	public void parse( ByteBuffer buf, FixValidationError err, FixMessageListener l )
 	{
 
+		parse( 0, buf, err, l );
+	}
+
+	public void parse( long connectorID, ByteBuffer buf, FixValidationError err, FixMessageListener l )
+	{
+
 		int msgType = FixInMessage.crackMsgType( buf ,err );
 		// garbled message
 		if (err.hasError()) return; 
@@ -37,6 +43,7 @@ public class FixMessageParser implements FixMessageInfo
 
 		case MessageTypes.HEARTBEAT_INT:
 			FixHeartbeat fixHeartbeat = fixMessagePool.getFixHeartbeat(buf, err);
+			fixHeartbeat.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -46,6 +53,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.TESTREQUEST_INT:
 			FixTestRequest fixTestRequest = fixMessagePool.getFixTestRequest(buf, err);
+			fixTestRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -55,6 +63,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.RESENDREQUEST_INT:
 			FixResendRequest fixResendRequest = fixMessagePool.getFixResendRequest(buf, err);
+			fixResendRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -64,6 +73,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.REJECT_INT:
 			FixReject fixReject = fixMessagePool.getFixReject(buf, err);
+			fixReject.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -73,6 +83,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.SEQUENCERESET_INT:
 			FixSequenceReset fixSequenceReset = fixMessagePool.getFixSequenceReset(buf, err);
+			fixSequenceReset.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -82,6 +93,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.LOGOUT_INT:
 			FixLogout fixLogout = fixMessagePool.getFixLogout(buf, err);
+			fixLogout.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -91,6 +103,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.IOI_INT:
 			FixIOI fixIOI = fixMessagePool.getFixIOI(buf, err);
+			fixIOI.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -100,6 +113,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ADVERTISEMENT_INT:
 			FixAdvertisement fixAdvertisement = fixMessagePool.getFixAdvertisement(buf, err);
+			fixAdvertisement.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -109,6 +123,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.EXECUTIONREPORT_INT:
 			FixExecutionReport fixExecutionReport = fixMessagePool.getFixExecutionReport(buf, err);
+			fixExecutionReport.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -118,6 +133,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ORDERCANCELREJECT_INT:
 			FixOrderCancelReject fixOrderCancelReject = fixMessagePool.getFixOrderCancelReject(buf, err);
+			fixOrderCancelReject.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -127,6 +143,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.LOGON_INT:
 			FixLogon fixLogon = fixMessagePool.getFixLogon(buf, err);
+			fixLogon.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -136,6 +153,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.NEWS_INT:
 			FixNews fixNews = fixMessagePool.getFixNews(buf, err);
+			fixNews.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -145,6 +163,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.EMAIL_INT:
 			FixEmail fixEmail = fixMessagePool.getFixEmail(buf, err);
+			fixEmail.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -154,6 +173,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.NEWORDERSINGLE_INT:
 			FixNewOrderSingle fixNewOrderSingle = fixMessagePool.getFixNewOrderSingle(buf, err);
+			fixNewOrderSingle.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -163,6 +183,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.NEWORDERLIST_INT:
 			FixNewOrderList fixNewOrderList = fixMessagePool.getFixNewOrderList(buf, err);
+			fixNewOrderList.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -172,6 +193,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ORDERCANCELREQUEST_INT:
 			FixOrderCancelRequest fixOrderCancelRequest = fixMessagePool.getFixOrderCancelRequest(buf, err);
+			fixOrderCancelRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -181,6 +203,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ORDERCANCELREPLACEREQUEST_INT:
 			FixOrderCancelReplaceRequest fixOrderCancelReplaceRequest = fixMessagePool.getFixOrderCancelReplaceRequest(buf, err);
+			fixOrderCancelReplaceRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -190,6 +213,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ORDERSTATUSREQUEST_INT:
 			FixOrderStatusRequest fixOrderStatusRequest = fixMessagePool.getFixOrderStatusRequest(buf, err);
+			fixOrderStatusRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -199,6 +223,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ALLOCATIONINSTRUCTION_INT:
 			FixAllocationInstruction fixAllocationInstruction = fixMessagePool.getFixAllocationInstruction(buf, err);
+			fixAllocationInstruction.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -208,6 +233,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.LISTCANCELREQUEST_INT:
 			FixListCancelRequest fixListCancelRequest = fixMessagePool.getFixListCancelRequest(buf, err);
+			fixListCancelRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -217,6 +243,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.LISTEXECUTE_INT:
 			FixListExecute fixListExecute = fixMessagePool.getFixListExecute(buf, err);
+			fixListExecute.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -226,6 +253,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.LISTSTATUSREQUEST_INT:
 			FixListStatusRequest fixListStatusRequest = fixMessagePool.getFixListStatusRequest(buf, err);
+			fixListStatusRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -235,6 +263,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.LISTSTATUS_INT:
 			FixListStatus fixListStatus = fixMessagePool.getFixListStatus(buf, err);
+			fixListStatus.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -244,6 +273,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ALLOCATIONINSTRUCTIONACK_INT:
 			FixAllocationInstructionAck fixAllocationInstructionAck = fixMessagePool.getFixAllocationInstructionAck(buf, err);
+			fixAllocationInstructionAck.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -253,6 +283,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.DONTKNOWTRADEDK_INT:
 			FixDontKnowTradeDK fixDontKnowTradeDK = fixMessagePool.getFixDontKnowTradeDK(buf, err);
+			fixDontKnowTradeDK.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -262,6 +293,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.QUOTEREQUEST_INT:
 			FixQuoteRequest fixQuoteRequest = fixMessagePool.getFixQuoteRequest(buf, err);
+			fixQuoteRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -271,6 +303,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.QUOTE_INT:
 			FixQuote fixQuote = fixMessagePool.getFixQuote(buf, err);
+			fixQuote.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -280,6 +313,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.SETTLEMENTINSTRUCTIONS_INT:
 			FixSettlementInstructions fixSettlementInstructions = fixMessagePool.getFixSettlementInstructions(buf, err);
+			fixSettlementInstructions.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -289,6 +323,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.MARKETDATAREQUEST_INT:
 			FixMarketDataRequest fixMarketDataRequest = fixMessagePool.getFixMarketDataRequest(buf, err);
+			fixMarketDataRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -298,6 +333,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.MARKETDATASNAPSHOTFULLREFRESH_INT:
 			FixMarketDataSnapshotFullRefresh fixMarketDataSnapshotFullRefresh = fixMessagePool.getFixMarketDataSnapshotFullRefresh(buf, err);
+			fixMarketDataSnapshotFullRefresh.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -307,6 +343,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.MARKETDATAINCREMENTALREFRESH_INT:
 			FixMarketDataIncrementalRefresh fixMarketDataIncrementalRefresh = fixMessagePool.getFixMarketDataIncrementalRefresh(buf, err);
+			fixMarketDataIncrementalRefresh.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -316,6 +353,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.MARKETDATAREQUESTREJECT_INT:
 			FixMarketDataRequestReject fixMarketDataRequestReject = fixMessagePool.getFixMarketDataRequestReject(buf, err);
+			fixMarketDataRequestReject.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -325,6 +363,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.QUOTECANCEL_INT:
 			FixQuoteCancel fixQuoteCancel = fixMessagePool.getFixQuoteCancel(buf, err);
+			fixQuoteCancel.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -334,6 +373,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.QUOTESTATUSREQUEST_INT:
 			FixQuoteStatusRequest fixQuoteStatusRequest = fixMessagePool.getFixQuoteStatusRequest(buf, err);
+			fixQuoteStatusRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -343,6 +383,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.MASSQUOTEACKNOWLEDGEMENT_INT:
 			FixMassQuoteAcknowledgement fixMassQuoteAcknowledgement = fixMessagePool.getFixMassQuoteAcknowledgement(buf, err);
+			fixMassQuoteAcknowledgement.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -352,6 +393,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.SECURITYDEFINITIONREQUEST_INT:
 			FixSecurityDefinitionRequest fixSecurityDefinitionRequest = fixMessagePool.getFixSecurityDefinitionRequest(buf, err);
+			fixSecurityDefinitionRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -361,6 +403,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.SECURITYDEFINITION_INT:
 			FixSecurityDefinition fixSecurityDefinition = fixMessagePool.getFixSecurityDefinition(buf, err);
+			fixSecurityDefinition.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -370,6 +413,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.SECURITYSTATUSREQUEST_INT:
 			FixSecurityStatusRequest fixSecurityStatusRequest = fixMessagePool.getFixSecurityStatusRequest(buf, err);
+			fixSecurityStatusRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -379,6 +423,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.SECURITYSTATUS_INT:
 			FixSecurityStatus fixSecurityStatus = fixMessagePool.getFixSecurityStatus(buf, err);
+			fixSecurityStatus.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -388,6 +433,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.TRADINGSESSIONSTATUSREQUEST_INT:
 			FixTradingSessionStatusRequest fixTradingSessionStatusRequest = fixMessagePool.getFixTradingSessionStatusRequest(buf, err);
+			fixTradingSessionStatusRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -397,6 +443,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.TRADINGSESSIONSTATUS_INT:
 			FixTradingSessionStatus fixTradingSessionStatus = fixMessagePool.getFixTradingSessionStatus(buf, err);
+			fixTradingSessionStatus.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -406,6 +453,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.MASSQUOTE_INT:
 			FixMassQuote fixMassQuote = fixMessagePool.getFixMassQuote(buf, err);
+			fixMassQuote.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -415,6 +463,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.BUSINESSMESSAGEREJECT_INT:
 			FixBusinessMessageReject fixBusinessMessageReject = fixMessagePool.getFixBusinessMessageReject(buf, err);
+			fixBusinessMessageReject.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -424,6 +473,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.BIDREQUEST_INT:
 			FixBidRequest fixBidRequest = fixMessagePool.getFixBidRequest(buf, err);
+			fixBidRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -433,6 +483,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.BIDRESPONSE_INT:
 			FixBidResponse fixBidResponse = fixMessagePool.getFixBidResponse(buf, err);
+			fixBidResponse.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -442,6 +493,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.LISTSTRIKEPRICE_INT:
 			FixListStrikePrice fixListStrikePrice = fixMessagePool.getFixListStrikePrice(buf, err);
+			fixListStrikePrice.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -451,6 +503,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.REGISTRATIONINSTRUCTIONS_INT:
 			FixRegistrationInstructions fixRegistrationInstructions = fixMessagePool.getFixRegistrationInstructions(buf, err);
+			fixRegistrationInstructions.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -460,6 +513,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.REGISTRATIONINSTRUCTIONSRESPONSE_INT:
 			FixRegistrationInstructionsResponse fixRegistrationInstructionsResponse = fixMessagePool.getFixRegistrationInstructionsResponse(buf, err);
+			fixRegistrationInstructionsResponse.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -469,6 +523,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ORDERMASSCANCELREQUEST_INT:
 			FixOrderMassCancelRequest fixOrderMassCancelRequest = fixMessagePool.getFixOrderMassCancelRequest(buf, err);
+			fixOrderMassCancelRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -478,6 +533,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ORDERMASSCANCELREPORT_INT:
 			FixOrderMassCancelReport fixOrderMassCancelReport = fixMessagePool.getFixOrderMassCancelReport(buf, err);
+			fixOrderMassCancelReport.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -487,6 +543,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.NEWORDERCROSS_INT:
 			FixNewOrderCross fixNewOrderCross = fixMessagePool.getFixNewOrderCross(buf, err);
+			fixNewOrderCross.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -496,6 +553,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.CROSSORDERCANCELREPLACEREQUEST_INT:
 			FixCrossOrderCancelReplaceRequest fixCrossOrderCancelReplaceRequest = fixMessagePool.getFixCrossOrderCancelReplaceRequest(buf, err);
+			fixCrossOrderCancelReplaceRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -505,6 +563,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.CROSSORDERCANCELREQUEST_INT:
 			FixCrossOrderCancelRequest fixCrossOrderCancelRequest = fixMessagePool.getFixCrossOrderCancelRequest(buf, err);
+			fixCrossOrderCancelRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -514,6 +573,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.SECURITYTYPEREQUEST_INT:
 			FixSecurityTypeRequest fixSecurityTypeRequest = fixMessagePool.getFixSecurityTypeRequest(buf, err);
+			fixSecurityTypeRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -523,6 +583,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.SECURITYTYPES_INT:
 			FixSecurityTypes fixSecurityTypes = fixMessagePool.getFixSecurityTypes(buf, err);
+			fixSecurityTypes.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -532,6 +593,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.SECURITYLISTREQUEST_INT:
 			FixSecurityListRequest fixSecurityListRequest = fixMessagePool.getFixSecurityListRequest(buf, err);
+			fixSecurityListRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -541,6 +603,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.SECURITYLIST_INT:
 			FixSecurityList fixSecurityList = fixMessagePool.getFixSecurityList(buf, err);
+			fixSecurityList.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -550,6 +613,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.DERIVATIVESECURITYLISTREQUEST_INT:
 			FixDerivativeSecurityListRequest fixDerivativeSecurityListRequest = fixMessagePool.getFixDerivativeSecurityListRequest(buf, err);
+			fixDerivativeSecurityListRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -559,6 +623,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.DERIVATIVESECURITYLIST_INT:
 			FixDerivativeSecurityList fixDerivativeSecurityList = fixMessagePool.getFixDerivativeSecurityList(buf, err);
+			fixDerivativeSecurityList.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -568,6 +633,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.NEWORDERMULTILEG_INT:
 			FixNewOrderMultileg fixNewOrderMultileg = fixMessagePool.getFixNewOrderMultileg(buf, err);
+			fixNewOrderMultileg.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -577,6 +643,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.MULTILEGORDERCANCELREPLACE_INT:
 			FixMultilegOrderCancelReplace fixMultilegOrderCancelReplace = fixMessagePool.getFixMultilegOrderCancelReplace(buf, err);
+			fixMultilegOrderCancelReplace.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -586,6 +653,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.TRADECAPTUREREPORTREQUEST_INT:
 			FixTradeCaptureReportRequest fixTradeCaptureReportRequest = fixMessagePool.getFixTradeCaptureReportRequest(buf, err);
+			fixTradeCaptureReportRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -595,6 +663,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.TRADECAPTUREREPORT_INT:
 			FixTradeCaptureReport fixTradeCaptureReport = fixMessagePool.getFixTradeCaptureReport(buf, err);
+			fixTradeCaptureReport.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -604,6 +673,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ORDERMASSSTATUSREQUEST_INT:
 			FixOrderMassStatusRequest fixOrderMassStatusRequest = fixMessagePool.getFixOrderMassStatusRequest(buf, err);
+			fixOrderMassStatusRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -613,6 +683,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.QUOTEREQUESTREJECT_INT:
 			FixQuoteRequestReject fixQuoteRequestReject = fixMessagePool.getFixQuoteRequestReject(buf, err);
+			fixQuoteRequestReject.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -622,6 +693,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.RFQREQUEST_INT:
 			FixRFQRequest fixRFQRequest = fixMessagePool.getFixRFQRequest(buf, err);
+			fixRFQRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -631,6 +703,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.QUOTESTATUSREPORT_INT:
 			FixQuoteStatusReport fixQuoteStatusReport = fixMessagePool.getFixQuoteStatusReport(buf, err);
+			fixQuoteStatusReport.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -640,6 +713,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.QUOTERESPONSE_INT:
 			FixQuoteResponse fixQuoteResponse = fixMessagePool.getFixQuoteResponse(buf, err);
+			fixQuoteResponse.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -649,6 +723,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.CONFIRMATION_INT:
 			FixConfirmation fixConfirmation = fixMessagePool.getFixConfirmation(buf, err);
+			fixConfirmation.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -658,6 +733,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.POSITIONMAINTENANCEREQUEST_INT:
 			FixPositionMaintenanceRequest fixPositionMaintenanceRequest = fixMessagePool.getFixPositionMaintenanceRequest(buf, err);
+			fixPositionMaintenanceRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -667,6 +743,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.POSITIONMAINTENANCEREPORT_INT:
 			FixPositionMaintenanceReport fixPositionMaintenanceReport = fixMessagePool.getFixPositionMaintenanceReport(buf, err);
+			fixPositionMaintenanceReport.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -676,6 +753,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.REQUESTFORPOSITIONS_INT:
 			FixRequestForPositions fixRequestForPositions = fixMessagePool.getFixRequestForPositions(buf, err);
+			fixRequestForPositions.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -685,6 +763,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.REQUESTFORPOSITIONSACK_INT:
 			FixRequestForPositionsAck fixRequestForPositionsAck = fixMessagePool.getFixRequestForPositionsAck(buf, err);
+			fixRequestForPositionsAck.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -694,6 +773,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.POSITIONREPORT_INT:
 			FixPositionReport fixPositionReport = fixMessagePool.getFixPositionReport(buf, err);
+			fixPositionReport.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -703,6 +783,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.TRADECAPTUREREPORTREQUESTACK_INT:
 			FixTradeCaptureReportRequestAck fixTradeCaptureReportRequestAck = fixMessagePool.getFixTradeCaptureReportRequestAck(buf, err);
+			fixTradeCaptureReportRequestAck.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -712,6 +793,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.TRADECAPTUREREPORTACK_INT:
 			FixTradeCaptureReportAck fixTradeCaptureReportAck = fixMessagePool.getFixTradeCaptureReportAck(buf, err);
+			fixTradeCaptureReportAck.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -721,6 +803,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ALLOCATIONREPORT_INT:
 			FixAllocationReport fixAllocationReport = fixMessagePool.getFixAllocationReport(buf, err);
+			fixAllocationReport.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -730,6 +813,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ALLOCATIONREPORTACK_INT:
 			FixAllocationReportAck fixAllocationReportAck = fixMessagePool.getFixAllocationReportAck(buf, err);
+			fixAllocationReportAck.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -739,6 +823,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.CONFIRMATION_ACK_INT:
 			FixConfirmation_Ack fixConfirmation_Ack = fixMessagePool.getFixConfirmation_Ack(buf, err);
+			fixConfirmation_Ack.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -748,6 +833,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.SETTLEMENTINSTRUCTIONREQUEST_INT:
 			FixSettlementInstructionRequest fixSettlementInstructionRequest = fixMessagePool.getFixSettlementInstructionRequest(buf, err);
+			fixSettlementInstructionRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -757,6 +843,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ASSIGNMENTREPORT_INT:
 			FixAssignmentReport fixAssignmentReport = fixMessagePool.getFixAssignmentReport(buf, err);
+			fixAssignmentReport.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -766,6 +853,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.COLLATERALREQUEST_INT:
 			FixCollateralRequest fixCollateralRequest = fixMessagePool.getFixCollateralRequest(buf, err);
+			fixCollateralRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -775,6 +863,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.COLLATERALASSIGNMENT_INT:
 			FixCollateralAssignment fixCollateralAssignment = fixMessagePool.getFixCollateralAssignment(buf, err);
+			fixCollateralAssignment.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -784,6 +873,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.COLLATERALRESPONSE_INT:
 			FixCollateralResponse fixCollateralResponse = fixMessagePool.getFixCollateralResponse(buf, err);
+			fixCollateralResponse.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -793,6 +883,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.COLLATERALREPORT_INT:
 			FixCollateralReport fixCollateralReport = fixMessagePool.getFixCollateralReport(buf, err);
+			fixCollateralReport.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -802,6 +893,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.COLLATERALINQUIRY_INT:
 			FixCollateralInquiry fixCollateralInquiry = fixMessagePool.getFixCollateralInquiry(buf, err);
+			fixCollateralInquiry.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -811,6 +903,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSREQUEST_INT:
 			FixNetworkCounterpartySystemStatusRequest fixNetworkCounterpartySystemStatusRequest = fixMessagePool.getFixNetworkCounterpartySystemStatusRequest(buf, err);
+			fixNetworkCounterpartySystemStatusRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -820,6 +913,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSRESPONSE_INT:
 			FixNetworkCounterpartySystemStatusResponse fixNetworkCounterpartySystemStatusResponse = fixMessagePool.getFixNetworkCounterpartySystemStatusResponse(buf, err);
+			fixNetworkCounterpartySystemStatusResponse.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -829,6 +923,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.USERREQUEST_INT:
 			FixUserRequest fixUserRequest = fixMessagePool.getFixUserRequest(buf, err);
+			fixUserRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -838,6 +933,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.USERRESPONSE_INT:
 			FixUserResponse fixUserResponse = fixMessagePool.getFixUserResponse(buf, err);
+			fixUserResponse.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -847,6 +943,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.COLLATERALINQUIRYACK_INT:
 			FixCollateralInquiryAck fixCollateralInquiryAck = fixMessagePool.getFixCollateralInquiryAck(buf, err);
+			fixCollateralInquiryAck.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -856,6 +953,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.CONFIRMATIONREQUEST_INT:
 			FixConfirmationRequest fixConfirmationRequest = fixMessagePool.getFixConfirmationRequest(buf, err);
+			fixConfirmationRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -865,6 +963,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.CONTRARYINTENTIONREPORT_INT:
 			FixContraryIntentionReport fixContraryIntentionReport = fixMessagePool.getFixContraryIntentionReport(buf, err);
+			fixContraryIntentionReport.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -874,6 +973,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.SECURITYDEFINITIONUPDATEREPORT_INT:
 			FixSecurityDefinitionUpdateReport fixSecurityDefinitionUpdateReport = fixMessagePool.getFixSecurityDefinitionUpdateReport(buf, err);
+			fixSecurityDefinitionUpdateReport.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -883,6 +983,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.SECURITYLISTUPDATEREPORT_INT:
 			FixSecurityListUpdateReport fixSecurityListUpdateReport = fixMessagePool.getFixSecurityListUpdateReport(buf, err);
+			fixSecurityListUpdateReport.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -892,6 +993,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ADJUSTEDPOSITIONREPORT_INT:
 			FixAdjustedPositionReport fixAdjustedPositionReport = fixMessagePool.getFixAdjustedPositionReport(buf, err);
+			fixAdjustedPositionReport.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -901,6 +1003,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ALLOCATIONINSTRUCTIONALERT_INT:
 			FixAllocationInstructionAlert fixAllocationInstructionAlert = fixMessagePool.getFixAllocationInstructionAlert(buf, err);
+			fixAllocationInstructionAlert.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -910,6 +1013,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.EXECUTIONACKNOWLEDGEMENT_INT:
 			FixExecutionAcknowledgement fixExecutionAcknowledgement = fixMessagePool.getFixExecutionAcknowledgement(buf, err);
+			fixExecutionAcknowledgement.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -919,6 +1023,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.TRADINGSESSIONLIST_INT:
 			FixTradingSessionList fixTradingSessionList = fixMessagePool.getFixTradingSessionList(buf, err);
+			fixTradingSessionList.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -928,6 +1033,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.TRADINGSESSIONLISTREQUEST_INT:
 			FixTradingSessionListRequest fixTradingSessionListRequest = fixMessagePool.getFixTradingSessionListRequest(buf, err);
+			fixTradingSessionListRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -937,6 +1043,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.SETTLEMENTOBLIGATIONREPORT_INT:
 			FixSettlementObligationReport fixSettlementObligationReport = fixMessagePool.getFixSettlementObligationReport(buf, err);
+			fixSettlementObligationReport.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -946,6 +1053,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.DERIVATIVESECURITYLISTUPDATEREPORT_INT:
 			FixDerivativeSecurityListUpdateReport fixDerivativeSecurityListUpdateReport = fixMessagePool.getFixDerivativeSecurityListUpdateReport(buf, err);
+			fixDerivativeSecurityListUpdateReport.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -955,6 +1063,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.TRADINGSESSIONLISTUPDATEREPORT_INT:
 			FixTradingSessionListUpdateReport fixTradingSessionListUpdateReport = fixMessagePool.getFixTradingSessionListUpdateReport(buf, err);
+			fixTradingSessionListUpdateReport.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -964,6 +1073,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.MARKETDEFINITIONREQUEST_INT:
 			FixMarketDefinitionRequest fixMarketDefinitionRequest = fixMessagePool.getFixMarketDefinitionRequest(buf, err);
+			fixMarketDefinitionRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -973,6 +1083,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.MARKETDEFINITION_INT:
 			FixMarketDefinition fixMarketDefinition = fixMessagePool.getFixMarketDefinition(buf, err);
+			fixMarketDefinition.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -982,6 +1093,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.MARKETDEFINITIONUPDATEREPORT_INT:
 			FixMarketDefinitionUpdateReport fixMarketDefinitionUpdateReport = fixMessagePool.getFixMarketDefinitionUpdateReport(buf, err);
+			fixMarketDefinitionUpdateReport.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -991,6 +1103,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.USERNOTIFICATION_INT:
 			FixUserNotification fixUserNotification = fixMessagePool.getFixUserNotification(buf, err);
+			fixUserNotification.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -1000,6 +1113,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ORDERMASSACTIONREPORT_INT:
 			FixOrderMassActionReport fixOrderMassActionReport = fixMessagePool.getFixOrderMassActionReport(buf, err);
+			fixOrderMassActionReport.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -1009,6 +1123,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ORDERMASSACTIONREQUEST_INT:
 			FixOrderMassActionRequest fixOrderMassActionRequest = fixMessagePool.getFixOrderMassActionRequest(buf, err);
+			fixOrderMassActionRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -1018,6 +1133,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.APPLICATIONMESSAGEREQUEST_INT:
 			FixApplicationMessageRequest fixApplicationMessageRequest = fixMessagePool.getFixApplicationMessageRequest(buf, err);
+			fixApplicationMessageRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -1027,6 +1143,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.APPLICATIONMESSAGEREQUESTACK_INT:
 			FixApplicationMessageRequestAck fixApplicationMessageRequestAck = fixMessagePool.getFixApplicationMessageRequestAck(buf, err);
+			fixApplicationMessageRequestAck.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -1036,6 +1153,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.APPLICATIONMESSAGEREPORT_INT:
 			FixApplicationMessageReport fixApplicationMessageReport = fixMessagePool.getFixApplicationMessageReport(buf, err);
+			fixApplicationMessageReport.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -1045,6 +1163,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.STREAMASSIGNMENTREQUEST_INT:
 			FixStreamAssignmentRequest fixStreamAssignmentRequest = fixMessagePool.getFixStreamAssignmentRequest(buf, err);
+			fixStreamAssignmentRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -1054,6 +1173,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.STREAMASSIGNMENTREPORT_INT:
 			FixStreamAssignmentReport fixStreamAssignmentReport = fixMessagePool.getFixStreamAssignmentReport(buf, err);
+			fixStreamAssignmentReport.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -1063,6 +1183,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.STREAMASSIGNMENTREPORTACK_INT:
 			FixStreamAssignmentReportACK fixStreamAssignmentReportACK = fixMessagePool.getFixStreamAssignmentReportACK(buf, err);
+			fixStreamAssignmentReportACK.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -1072,6 +1193,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.PARTYDETAILSLISTREQUEST_INT:
 			FixPartyDetailsListRequest fixPartyDetailsListRequest = fixMessagePool.getFixPartyDetailsListRequest(buf, err);
+			fixPartyDetailsListRequest.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -1081,6 +1203,7 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.PARTYDETAILSLISTREPORT_INT:
 			FixPartyDetailsListReport fixPartyDetailsListReport = fixMessagePool.getFixPartyDetailsListReport(buf, err);
+			fixPartyDetailsListReport.sessionID = l.getSessionID( connectorID, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {

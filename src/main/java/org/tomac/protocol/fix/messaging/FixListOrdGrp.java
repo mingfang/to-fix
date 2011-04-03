@@ -5233,18 +5233,18 @@ public class FixListOrdGrp extends FixGroup {
 
 		FixListOrdGrp msg = (FixListOrdGrp) o;
 
-		for (FixParties fixParties : parties)
-			if (!fixParties.equals(msg.parties)) return false;
-		for (FixPreAllocGrp fixPreAllocGrp : preAllocGrp)
-			if (!fixPreAllocGrp.equals(msg.preAllocGrp)) return false;
+		for (int i = 0; i < parties.length; i++)
+			if (!parties[i].equals(msg.parties[i])) return false;
+		for (int i = 0; i < preAllocGrp.length; i++)
+			if (!preAllocGrp[i].equals(msg.preAllocGrp[i])) return false;
 		if (!displayInstruction.equals(msg.displayInstruction)) return false;
-		for (FixTrdgSesGrp fixTrdgSesGrp : trdgSesGrp)
-			if (!fixTrdgSesGrp.equals(msg.trdgSesGrp)) return false;
+		for (int i = 0; i < trdgSesGrp.length; i++)
+			if (!trdgSesGrp[i].equals(msg.trdgSesGrp[i])) return false;
 		if (!instrument.equals(msg.instrument)) return false;
-		for (FixUndInstrmtGrp fixUndInstrmtGrp : undInstrmtGrp)
-			if (!fixUndInstrmtGrp.equals(msg.undInstrmtGrp)) return false;
-		for (FixStipulations fixStipulations : stipulations)
-			if (!fixStipulations.equals(msg.stipulations)) return false;
+		for (int i = 0; i < undInstrmtGrp.length; i++)
+			if (!undInstrmtGrp[i].equals(msg.undInstrmtGrp[i])) return false;
+		for (int i = 0; i < stipulations.length; i++)
+			if (!stipulations[i].equals(msg.stipulations[i])) return false;
 		if (!orderQtyData.equals(msg.orderQtyData)) return false;
 		if (!triggeringInstruction.equals(msg.triggeringInstruction)) return false;
 		if (!spreadOrBenchmarkCurveData.equals(msg.spreadOrBenchmarkCurveData)) return false;
@@ -5252,8 +5252,8 @@ public class FixListOrdGrp extends FixGroup {
 		if (!commissionData.equals(msg.commissionData)) return false;
 		if (!pegInstructions.equals(msg.pegInstructions)) return false;
 		if (!discretionInstructions.equals(msg.discretionInstructions)) return false;
-		for (FixStrategyParametersGrp fixStrategyParametersGrp : strategyParametersGrp)
-			if (!fixStrategyParametersGrp.equals(msg.strategyParametersGrp)) return false;
+		for (int i = 0; i < strategyParametersGrp.length; i++)
+			if (!strategyParametersGrp[i].equals(msg.strategyParametersGrp[i])) return false;
 		if ((hasClOrdID() && !msg.hasClOrdID()) || (!hasClOrdID() && msg.hasClOrdID())) return false;
 		if (!(!hasClOrdID() && !msg.hasClOrdID()) && !FixUtils.equals(getClOrdID(), msg.getClOrdID())) return false;
 		if ((hasSecondaryClOrdID() && !msg.hasSecondaryClOrdID()) || (!hasSecondaryClOrdID() && msg.hasSecondaryClOrdID())) return false;
@@ -5265,9 +5265,7 @@ public class FixListOrdGrp extends FixGroup {
 		if ((hasSettlInstMode() && !msg.hasSettlInstMode()) || (!hasSettlInstMode() && msg.hasSettlInstMode())) return false;
 		if (!(!hasSettlInstMode() && !msg.hasSettlInstMode()) && !(getSettlInstMode()==msg.getSettlInstMode())) return false;
 		if ((hasTradeOriginationDate() && !msg.hasTradeOriginationDate()) || (!hasTradeOriginationDate() && msg.hasTradeOriginationDate())) return false;
-		if (!(!hasTradeOriginationDate() && !msg.hasTradeOriginationDate()) ) return false;
 		if ((hasTradeDate() && !msg.hasTradeDate()) || (!hasTradeDate() && msg.hasTradeDate())) return false;
-		if (!(!hasTradeDate() && !msg.hasTradeDate()) ) return false;
 		if ((hasAccount() && !msg.hasAccount()) || (!hasAccount() && msg.hasAccount())) return false;
 		if (!(!hasAccount() && !msg.hasAccount()) && !FixUtils.equals(getAccount(), msg.getAccount())) return false;
 		if ((hasAcctIDSource() && !msg.hasAcctIDSource()) || (!hasAcctIDSource() && msg.hasAcctIDSource())) return false;
@@ -5285,7 +5283,6 @@ public class FixListOrdGrp extends FixGroup {
 		if ((hasSettlType() && !msg.hasSettlType()) || (!hasSettlType() && msg.hasSettlType())) return false;
 		if (!(!hasSettlType() && !msg.hasSettlType()) && !FixUtils.equals(getSettlType(), msg.getSettlType())) return false;
 		if ((hasSettlDate() && !msg.hasSettlDate()) || (!hasSettlDate() && msg.hasSettlDate())) return false;
-		if (!(!hasSettlDate() && !msg.hasSettlDate()) ) return false;
 		if ((hasCashMargin() && !msg.hasCashMargin()) || (!hasCashMargin() && msg.hasCashMargin())) return false;
 		if (!(!hasCashMargin() && !msg.hasCashMargin()) && !(getCashMargin()==msg.getCashMargin())) return false;
 		if ((hasClearingFeeIndicator() && !msg.hasClearingFeeIndicator()) || (!hasClearingFeeIndicator() && msg.hasClearingFeeIndicator())) return false;
@@ -5317,7 +5314,6 @@ public class FixListOrdGrp extends FixGroup {
 		if ((hasLocateReqd() && !msg.hasLocateReqd()) || (!hasLocateReqd() && msg.hasLocateReqd())) return false;
 		if (!(!hasLocateReqd() && !msg.hasLocateReqd()) && !(getLocateReqd()==msg.getLocateReqd())) return false;
 		if ((hasTransactTime() && !msg.hasTransactTime()) || (!hasTransactTime() && msg.hasTransactTime())) return false;
-		if (!(!hasTransactTime() && !msg.hasTransactTime()) ) return false;
 		if ((hasQtyType() && !msg.hasQtyType()) || (!hasQtyType() && msg.hasQtyType())) return false;
 		if (!(!hasQtyType() && !msg.hasQtyType()) && !(getQtyType()==msg.getQtyType())) return false;
 		if ((hasOrdType() && !msg.hasOrdType()) || (!hasOrdType() && msg.hasOrdType())) return false;
@@ -5347,11 +5343,8 @@ public class FixListOrdGrp extends FixGroup {
 		if ((hasTimeInForce() && !msg.hasTimeInForce()) || (!hasTimeInForce() && msg.hasTimeInForce())) return false;
 		if (!(!hasTimeInForce() && !msg.hasTimeInForce()) && !(getTimeInForce()==msg.getTimeInForce())) return false;
 		if ((hasEffectiveTime() && !msg.hasEffectiveTime()) || (!hasEffectiveTime() && msg.hasEffectiveTime())) return false;
-		if (!(!hasEffectiveTime() && !msg.hasEffectiveTime()) ) return false;
 		if ((hasExpireDate() && !msg.hasExpireDate()) || (!hasExpireDate() && msg.hasExpireDate())) return false;
-		if (!(!hasExpireDate() && !msg.hasExpireDate()) ) return false;
 		if ((hasExpireTime() && !msg.hasExpireTime()) || (!hasExpireTime() && msg.hasExpireTime())) return false;
-		if (!(!hasExpireTime() && !msg.hasExpireTime()) ) return false;
 		if ((hasGTBookingInst() && !msg.hasGTBookingInst()) || (!hasGTBookingInst() && msg.hasGTBookingInst())) return false;
 		if (!(!hasGTBookingInst() && !msg.hasGTBookingInst()) && !(getGTBookingInst()==msg.getGTBookingInst())) return false;
 		if ((hasOrderCapacity() && !msg.hasOrderCapacity()) || (!hasOrderCapacity() && msg.hasOrderCapacity())) return false;
@@ -5375,7 +5368,6 @@ public class FixListOrdGrp extends FixGroup {
 		if ((hasEncodedText() && !msg.hasEncodedText()) || (!hasEncodedText() && msg.hasEncodedText())) return false;
 		if (!(!hasEncodedText() && !msg.hasEncodedText()) && !FixUtils.equals(getEncodedText(), msg.getEncodedText())) return false;
 		if ((hasSettlDate2() && !msg.hasSettlDate2()) || (!hasSettlDate2() && msg.hasSettlDate2())) return false;
-		if (!(!hasSettlDate2() && !msg.hasSettlDate2()) ) return false;
 		if ((hasOrderQty2() && !msg.hasOrderQty2()) || (!hasOrderQty2() && msg.hasOrderQty2())) return false;
 		if (!(!hasOrderQty2() && !msg.hasOrderQty2()) && !(getOrderQty2()==msg.getOrderQty2())) return false;
 		if ((hasPrice2() && !msg.hasPrice2()) || (!hasPrice2() && msg.hasPrice2())) return false;

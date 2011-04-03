@@ -1571,7 +1571,6 @@ public class FixOrderMassActionReport extends FixInMessage {
 		if ((hasSide() && !msg.hasSide()) || (!hasSide() && msg.hasSide())) return false;
 		if (!(!hasSide() && !msg.hasSide()) && !(getSide()==msg.getSide())) return false;
 		if ((hasTransactTime() && !msg.hasTransactTime()) || (!hasTransactTime() && msg.hasTransactTime())) return false;
-		if (!(!hasTransactTime() && !msg.hasTransactTime()) ) return false;
 		if ((hasText() && !msg.hasText()) || (!hasText() && msg.hasText())) return false;
 		if (!(!hasText() && !msg.hasText()) && !FixUtils.equals(getText(), msg.getText())) return false;
 		if ((hasEncodedTextLen() && !msg.hasEncodedTextLen()) || (!hasEncodedTextLen() && msg.hasEncodedTextLen())) return false;

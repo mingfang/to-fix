@@ -495,7 +495,6 @@ public class FixTrdRegTimestamps extends FixGroup {
 		FixTrdRegTimestamps msg = (FixTrdRegTimestamps) o;
 
 		if ((hasTrdRegTimestamp() && !msg.hasTrdRegTimestamp()) || (!hasTrdRegTimestamp() && msg.hasTrdRegTimestamp())) return false;
-		if (!(!hasTrdRegTimestamp() && !msg.hasTrdRegTimestamp()) ) return false;
 		if ((hasTrdRegTimestampType() && !msg.hasTrdRegTimestampType()) || (!hasTrdRegTimestampType() && msg.hasTrdRegTimestampType())) return false;
 		if (!(!hasTrdRegTimestampType() && !msg.hasTrdRegTimestampType()) && !(getTrdRegTimestampType()==msg.getTrdRegTimestampType())) return false;
 		if ((hasTrdRegTimestampOrigin() && !msg.hasTrdRegTimestampOrigin()) || (!hasTrdRegTimestampOrigin() && msg.hasTrdRegTimestampOrigin())) return false;

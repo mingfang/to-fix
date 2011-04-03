@@ -435,10 +435,10 @@ public class FixRelationshipRiskLimits extends FixGroup {
 
 		FixRelationshipRiskLimits msg = (FixRelationshipRiskLimits) o;
 
-		for (FixRelationshipRiskInstrumentScope fixRelationshipRiskInstrumentScope : relationshipRiskInstrumentScope)
-			if (!fixRelationshipRiskInstrumentScope.equals(msg.relationshipRiskInstrumentScope)) return false;
-		for (FixRelationshipRiskWarningLevels fixRelationshipRiskWarningLevels : relationshipRiskWarningLevels)
-			if (!fixRelationshipRiskWarningLevels.equals(msg.relationshipRiskWarningLevels)) return false;
+		for (int i = 0; i < relationshipRiskInstrumentScope.length; i++)
+			if (!relationshipRiskInstrumentScope[i].equals(msg.relationshipRiskInstrumentScope[i])) return false;
+		for (int i = 0; i < relationshipRiskWarningLevels.length; i++)
+			if (!relationshipRiskWarningLevels[i].equals(msg.relationshipRiskWarningLevels[i])) return false;
 		if ((hasRelationshipRiskLimitType() && !msg.hasRelationshipRiskLimitType()) || (!hasRelationshipRiskLimitType() && msg.hasRelationshipRiskLimitType())) return false;
 		if (!(!hasRelationshipRiskLimitType() && !msg.hasRelationshipRiskLimitType()) && !(getRelationshipRiskLimitType()==msg.getRelationshipRiskLimitType())) return false;
 		if ((hasRelationshipRiskLimitAmount() && !msg.hasRelationshipRiskLimitAmount()) || (!hasRelationshipRiskLimitAmount() && msg.hasRelationshipRiskLimitAmount())) return false;

@@ -185,10 +185,10 @@ public class FixQuotCxlEntriesGrp extends FixGroup {
 
 		if (!instrument.equals(msg.instrument)) return false;
 		if (!financingDetails.equals(msg.financingDetails)) return false;
-		for (FixUndInstrmtGrp fixUndInstrmtGrp : undInstrmtGrp)
-			if (!fixUndInstrmtGrp.equals(msg.undInstrmtGrp)) return false;
-		for (FixInstrmtLegGrp fixInstrmtLegGrp : instrmtLegGrp)
-			if (!fixInstrmtLegGrp.equals(msg.instrmtLegGrp)) return false;
+		for (int i = 0; i < undInstrmtGrp.length; i++)
+			if (!undInstrmtGrp[i].equals(msg.undInstrmtGrp[i])) return false;
+		for (int i = 0; i < instrmtLegGrp.length; i++)
+			if (!instrmtLegGrp[i].equals(msg.instrmtLegGrp[i])) return false;
 		return true;
 	}
 	public FixQuotCxlEntriesGrp clone ( FixQuotCxlEntriesGrp out ) {

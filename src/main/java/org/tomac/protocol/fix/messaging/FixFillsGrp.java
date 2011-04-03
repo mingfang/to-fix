@@ -402,8 +402,8 @@ public class FixFillsGrp extends FixGroup {
 
 		FixFillsGrp msg = (FixFillsGrp) o;
 
-		for (FixNestedParties4 fixNestedParties4 : nestedParties4)
-			if (!fixNestedParties4.equals(msg.nestedParties4)) return false;
+		for (int i = 0; i < nestedParties4.length; i++)
+			if (!nestedParties4[i].equals(msg.nestedParties4[i])) return false;
 		if ((hasFillExecID() && !msg.hasFillExecID()) || (!hasFillExecID() && msg.hasFillExecID())) return false;
 		if (!(!hasFillExecID() && !msg.hasFillExecID()) && !FixUtils.equals(getFillExecID(), msg.getFillExecID())) return false;
 		if ((hasFillPx() && !msg.hasFillPx()) || (!hasFillPx() && msg.hasFillPx())) return false;

@@ -433,7 +433,6 @@ public class FixSecTypesGrp extends FixGroup {
 		if ((hasCFICode() && !msg.hasCFICode()) || (!hasCFICode() && msg.hasCFICode())) return false;
 		if (!(!hasCFICode() && !msg.hasCFICode()) && !FixUtils.equals(getCFICode(), msg.getCFICode())) return false;
 		if ((hasTransactTime() && !msg.hasTransactTime()) || (!hasTransactTime() && msg.hasTransactTime())) return false;
-		if (!(!hasTransactTime() && !msg.hasTransactTime()) ) return false;
 		return true;
 	}
 	public FixSecTypesGrp clone ( FixSecTypesGrp out ) {

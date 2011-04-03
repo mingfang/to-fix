@@ -4122,12 +4122,12 @@ public class FixMDFullGrp extends FixGroup {
 
 		if (!yieldData.equals(msg.yieldData)) return false;
 		if (!spreadOrBenchmarkCurveData.equals(msg.spreadOrBenchmarkCurveData)) return false;
-		for (FixRateSource fixRateSource : rateSource)
-			if (!fixRateSource.equals(msg.rateSource)) return false;
-		for (FixSecSizesGrp fixSecSizesGrp : secSizesGrp)
-			if (!fixSecSizesGrp.equals(msg.secSizesGrp)) return false;
-		for (FixParties fixParties : parties)
-			if (!fixParties.equals(msg.parties)) return false;
+		for (int i = 0; i < rateSource.length; i++)
+			if (!rateSource[i].equals(msg.rateSource[i])) return false;
+		for (int i = 0; i < secSizesGrp.length; i++)
+			if (!secSizesGrp[i].equals(msg.secSizesGrp[i])) return false;
+		for (int i = 0; i < parties.length; i++)
+			if (!parties[i].equals(msg.parties[i])) return false;
 		if ((hasMDEntryType() && !msg.hasMDEntryType()) || (!hasMDEntryType() && msg.hasMDEntryType())) return false;
 		if (!(!hasMDEntryType() && !msg.hasMDEntryType()) && !(getMDEntryType()==msg.getMDEntryType())) return false;
 		if ((hasMDEntryID() && !msg.hasMDEntryID()) || (!hasMDEntryID() && msg.hasMDEntryID())) return false;
@@ -4147,9 +4147,7 @@ public class FixMDFullGrp extends FixGroup {
 		if ((hasLotType() && !msg.hasLotType()) || (!hasLotType() && msg.hasLotType())) return false;
 		if (!(!hasLotType() && !msg.hasLotType()) && !(getLotType()==msg.getLotType())) return false;
 		if ((hasMDEntryDate() && !msg.hasMDEntryDate()) || (!hasMDEntryDate() && msg.hasMDEntryDate())) return false;
-		if (!(!hasMDEntryDate() && !msg.hasMDEntryDate()) ) return false;
 		if ((hasMDEntryTime() && !msg.hasMDEntryTime()) || (!hasMDEntryTime() && msg.hasMDEntryTime())) return false;
-		if (!(!hasMDEntryTime() && !msg.hasMDEntryTime()) ) return false;
 		if ((hasTickDirection() && !msg.hasTickDirection()) || (!hasTickDirection() && msg.hasTickDirection())) return false;
 		if (!(!hasTickDirection() && !msg.hasTickDirection()) && !(getTickDirection()==msg.getTickDirection())) return false;
 		if ((hasMDMkt() && !msg.hasMDMkt()) || (!hasMDMkt() && msg.hasMDMkt())) return false;
@@ -4177,9 +4175,7 @@ public class FixMDFullGrp extends FixGroup {
 		if ((hasTimeInForce() && !msg.hasTimeInForce()) || (!hasTimeInForce() && msg.hasTimeInForce())) return false;
 		if (!(!hasTimeInForce() && !msg.hasTimeInForce()) && !(getTimeInForce()==msg.getTimeInForce())) return false;
 		if ((hasExpireDate() && !msg.hasExpireDate()) || (!hasExpireDate() && msg.hasExpireDate())) return false;
-		if (!(!hasExpireDate() && !msg.hasExpireDate()) ) return false;
 		if ((hasExpireTime() && !msg.hasExpireTime()) || (!hasExpireTime() && msg.hasExpireTime())) return false;
-		if (!(!hasExpireTime() && !msg.hasExpireTime()) ) return false;
 		if ((hasMinQty() && !msg.hasMinQty()) || (!hasMinQty() && msg.hasMinQty())) return false;
 		if (!(!hasMinQty() && !msg.hasMinQty()) && !(getMinQty()==msg.getMinQty())) return false;
 		if ((hasExecInst() && !msg.hasExecInst()) || (!hasExecInst() && msg.hasExecInst())) return false;
@@ -4227,7 +4223,6 @@ public class FixMDFullGrp extends FixGroup {
 		if ((hasSettlType() && !msg.hasSettlType()) || (!hasSettlType() && msg.hasSettlType())) return false;
 		if (!(!hasSettlType() && !msg.hasSettlType()) && !FixUtils.equals(getSettlType(), msg.getSettlType())) return false;
 		if ((hasSettlDate() && !msg.hasSettlDate()) || (!hasSettlDate() && msg.hasSettlDate())) return false;
-		if (!(!hasSettlDate() && !msg.hasSettlDate()) ) return false;
 		if ((hasMDQuoteType() && !msg.hasMDQuoteType()) || (!hasMDQuoteType() && msg.hasMDQuoteType())) return false;
 		if (!(!hasMDQuoteType() && !msg.hasMDQuoteType()) && !(getMDQuoteType()==msg.getMDQuoteType())) return false;
 		if ((hasFirstPx() && !msg.hasFirstPx()) || (!hasFirstPx() && msg.hasFirstPx())) return false;

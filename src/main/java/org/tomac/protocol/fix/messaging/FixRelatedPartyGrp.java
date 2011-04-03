@@ -137,8 +137,8 @@ public class FixRelatedPartyGrp extends FixGroup {
 		FixRelatedPartyGrp msg = (FixRelatedPartyGrp) o;
 
 		if (!relatedPartyDetail.equals(msg.relatedPartyDetail)) return false;
-		for (FixPartyRelationships fixPartyRelationships : partyRelationships)
-			if (!fixPartyRelationships.equals(msg.partyRelationships)) return false;
+		for (int i = 0; i < partyRelationships.length; i++)
+			if (!partyRelationships[i].equals(msg.partyRelationships[i])) return false;
 		return true;
 	}
 	public FixRelatedPartyGrp clone ( FixRelatedPartyGrp out ) {

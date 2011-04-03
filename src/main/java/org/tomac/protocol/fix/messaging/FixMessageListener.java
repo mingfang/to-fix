@@ -8,13 +8,18 @@ package org.tomac.protocol.fix.messaging;
 
 import java.nio.ByteBuffer;
 
+import org.tomac.protocol.fix.replay.FixValidator;
 import org.tomac.protocol.fix.FixValidationError;
 import org.tomac.protocol.fix.FixInMessage;
 
 public interface FixMessageListener
 {
 
-    public void onFixValidationError ( FixValidationError err);
+    public int getSessionID(long connectorID, FixValidationError err );
+
+    public void addValidator( FixValidator validator );
+
+    public void onFixValidationError ( FixValidationError err );
 
     public void onUnknownMessageType( ByteBuffer msg, int msgType );
 

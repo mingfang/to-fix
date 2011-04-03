@@ -693,7 +693,6 @@ public class FixMarketDataIncrementalRefresh extends FixInMessage {
 		if ((hasMDFeedType() && !msg.hasMDFeedType()) || (!hasMDFeedType() && msg.hasMDFeedType())) return false;
 		if (!(!hasMDFeedType() && !msg.hasMDFeedType()) && !FixUtils.equals(getMDFeedType(), msg.getMDFeedType())) return false;
 		if ((hasTradeDate() && !msg.hasTradeDate()) || (!hasTradeDate() && msg.hasTradeDate())) return false;
-		if (!(!hasTradeDate() && !msg.hasTradeDate()) ) return false;
 		if ((hasMDReqID() && !msg.hasMDReqID()) || (!hasMDReqID() && msg.hasMDReqID())) return false;
 		if (!(!hasMDReqID() && !msg.hasMDReqID()) && !FixUtils.equals(getMDReqID(), msg.getMDReqID())) return false;
 		if ((hasApplQueueDepth() && !msg.hasApplQueueDepth()) || (!hasApplQueueDepth() && msg.hasApplQueueDepth())) return false;

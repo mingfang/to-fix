@@ -300,8 +300,6 @@ public class FixStrandardTrailer extends FixGroup {
 		if (!(!hasSignatureLength() && !msg.hasSignatureLength()) && !(getSignatureLength()==msg.getSignatureLength())) return false;
 		if ((hasSignature() && !msg.hasSignature()) || (!hasSignature() && msg.hasSignature())) return false;
 		if (!(!hasSignature() && !msg.hasSignature()) && !FixUtils.equals(getSignature(), msg.getSignature())) return false;
-		if ((hasCheckSum() && !msg.hasCheckSum()) || (!hasCheckSum() && msg.hasCheckSum())) return false;
-		if (!(!hasCheckSum() && !msg.hasCheckSum()) && !FixUtils.equals(getCheckSum(), msg.getCheckSum())) return false;
 		return true;
 	}
 	public FixStrandardTrailer clone ( FixStrandardTrailer out ) {

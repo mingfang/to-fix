@@ -203,8 +203,8 @@ public class FixInstrmtLegIOIGrp extends FixGroup {
 		FixInstrmtLegIOIGrp msg = (FixInstrmtLegIOIGrp) o;
 
 		if (!instrumentLeg.equals(msg.instrumentLeg)) return false;
-		for (FixLegStipulations fixLegStipulations : legStipulations)
-			if (!fixLegStipulations.equals(msg.legStipulations)) return false;
+		for (int i = 0; i < legStipulations.length; i++)
+			if (!legStipulations[i].equals(msg.legStipulations[i])) return false;
 		if ((hasLegIOIQty() && !msg.hasLegIOIQty()) || (!hasLegIOIQty() && msg.hasLegIOIQty())) return false;
 		if (!(!hasLegIOIQty() && !msg.hasLegIOIQty()) && !FixUtils.equals(getLegIOIQty(), msg.getLegIOIQty())) return false;
 		return true;

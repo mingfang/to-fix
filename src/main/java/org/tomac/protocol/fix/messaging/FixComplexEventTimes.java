@@ -223,9 +223,7 @@ public class FixComplexEventTimes extends FixGroup {
 		FixComplexEventTimes msg = (FixComplexEventTimes) o;
 
 		if ((hasComplexEventStartTime() && !msg.hasComplexEventStartTime()) || (!hasComplexEventStartTime() && msg.hasComplexEventStartTime())) return false;
-		if (!(!hasComplexEventStartTime() && !msg.hasComplexEventStartTime()) ) return false;
 		if ((hasComplexEventEndTime() && !msg.hasComplexEventEndTime()) || (!hasComplexEventEndTime() && msg.hasComplexEventEndTime())) return false;
-		if (!(!hasComplexEventEndTime() && !msg.hasComplexEventEndTime()) ) return false;
 		return true;
 	}
 	public FixComplexEventTimes clone ( FixComplexEventTimes out ) {

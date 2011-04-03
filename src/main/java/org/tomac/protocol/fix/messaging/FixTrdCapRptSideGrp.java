@@ -4125,23 +4125,23 @@ public class FixTrdCapRptSideGrp extends FixGroup {
 
 		FixTrdCapRptSideGrp msg = (FixTrdCapRptSideGrp) o;
 
-		for (FixParties fixParties : parties)
-			if (!fixParties.equals(msg.parties)) return false;
-		for (FixClrInstGrp fixClrInstGrp : clrInstGrp)
-			if (!fixClrInstGrp.equals(msg.clrInstGrp)) return false;
+		for (int i = 0; i < parties.length; i++)
+			if (!parties[i].equals(msg.parties[i])) return false;
+		for (int i = 0; i < clrInstGrp.length; i++)
+			if (!clrInstGrp[i].equals(msg.clrInstGrp[i])) return false;
 		if (!commissionData.equals(msg.commissionData)) return false;
-		for (FixContAmtGrp fixContAmtGrp : contAmtGrp)
-			if (!fixContAmtGrp.equals(msg.contAmtGrp)) return false;
-		for (FixStipulations fixStipulations : stipulations)
-			if (!fixStipulations.equals(msg.stipulations)) return false;
-		for (FixMiscFeesGrp fixMiscFeesGrp : miscFeesGrp)
-			if (!fixMiscFeesGrp.equals(msg.miscFeesGrp)) return false;
-		for (FixTrdAllocGrp fixTrdAllocGrp : trdAllocGrp)
-			if (!fixTrdAllocGrp.equals(msg.trdAllocGrp)) return false;
-		for (FixSideTrdRegTS fixSideTrdRegTS : sideTrdRegTS)
-			if (!fixSideTrdRegTS.equals(msg.sideTrdRegTS)) return false;
-		for (FixSettlDetails fixSettlDetails : settlDetails)
-			if (!fixSettlDetails.equals(msg.settlDetails)) return false;
+		for (int i = 0; i < contAmtGrp.length; i++)
+			if (!contAmtGrp[i].equals(msg.contAmtGrp[i])) return false;
+		for (int i = 0; i < stipulations.length; i++)
+			if (!stipulations[i].equals(msg.stipulations[i])) return false;
+		for (int i = 0; i < miscFeesGrp.length; i++)
+			if (!miscFeesGrp[i].equals(msg.miscFeesGrp[i])) return false;
+		for (int i = 0; i < trdAllocGrp.length; i++)
+			if (!trdAllocGrp[i].equals(msg.trdAllocGrp[i])) return false;
+		for (int i = 0; i < sideTrdRegTS.length; i++)
+			if (!sideTrdRegTS[i].equals(msg.sideTrdRegTS[i])) return false;
+		for (int i = 0; i < settlDetails.length; i++)
+			if (!settlDetails[i].equals(msg.settlDetails[i])) return false;
 		if (!tradeReportOrderDetail.equals(msg.tradeReportOrderDetail)) return false;
 		if ((hasSide() && !msg.hasSide()) || (!hasSide() && msg.hasSide())) return false;
 		if (!(!hasSide() && !msg.hasSide()) && !(getSide()==msg.getSide())) return false;
@@ -4198,7 +4198,6 @@ public class FixTrdCapRptSideGrp extends FixGroup {
 		if ((hasNumDaysInterest() && !msg.hasNumDaysInterest()) || (!hasNumDaysInterest() && msg.hasNumDaysInterest())) return false;
 		if (!(!hasNumDaysInterest() && !msg.hasNumDaysInterest()) && !(getNumDaysInterest()==msg.getNumDaysInterest())) return false;
 		if ((hasExDate() && !msg.hasExDate()) || (!hasExDate() && msg.hasExDate())) return false;
-		if (!(!hasExDate() && !msg.hasExDate()) ) return false;
 		if ((hasAccruedInterestRate() && !msg.hasAccruedInterestRate()) || (!hasAccruedInterestRate() && msg.hasAccruedInterestRate())) return false;
 		if (!(!hasAccruedInterestRate() && !msg.hasAccruedInterestRate()) && !(getAccruedInterestRate()==msg.getAccruedInterestRate())) return false;
 		if ((hasAccruedInterestAmt() && !msg.hasAccruedInterestAmt()) || (!hasAccruedInterestAmt() && msg.hasAccruedInterestAmt())) return false;

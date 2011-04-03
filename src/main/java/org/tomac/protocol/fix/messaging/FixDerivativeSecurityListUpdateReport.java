@@ -750,7 +750,6 @@ public class FixDerivativeSecurityListUpdateReport extends FixInMessage {
 		if ((hasSecurityUpdateAction() && !msg.hasSecurityUpdateAction()) || (!hasSecurityUpdateAction() && msg.hasSecurityUpdateAction())) return false;
 		if (!(!hasSecurityUpdateAction() && !msg.hasSecurityUpdateAction()) && !(getSecurityUpdateAction()==msg.getSecurityUpdateAction())) return false;
 		if ((hasTransactTime() && !msg.hasTransactTime()) || (!hasTransactTime() && msg.hasTransactTime())) return false;
-		if (!(!hasTransactTime() && !msg.hasTransactTime()) ) return false;
 		if ((hasTotNoRelatedSym() && !msg.hasTotNoRelatedSym()) || (!hasTotNoRelatedSym() && msg.hasTotNoRelatedSym())) return false;
 		if (!(!hasTotNoRelatedSym() && !msg.hasTotNoRelatedSym()) && !(getTotNoRelatedSym()==msg.getTotNoRelatedSym())) return false;
 		if ((hasLastFragment() && !msg.hasLastFragment()) || (!hasLastFragment() && msg.hasLastFragment())) return false;

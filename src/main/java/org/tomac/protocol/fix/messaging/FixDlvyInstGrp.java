@@ -270,8 +270,8 @@ public class FixDlvyInstGrp extends FixGroup {
 
 		FixDlvyInstGrp msg = (FixDlvyInstGrp) o;
 
-		for (FixSettlParties fixSettlParties : settlParties)
-			if (!fixSettlParties.equals(msg.settlParties)) return false;
+		for (int i = 0; i < settlParties.length; i++)
+			if (!settlParties[i].equals(msg.settlParties[i])) return false;
 		if ((hasSettlInstSource() && !msg.hasSettlInstSource()) || (!hasSettlInstSource() && msg.hasSettlInstSource())) return false;
 		if (!(!hasSettlInstSource() && !msg.hasSettlInstSource()) && !(getSettlInstSource()==msg.getSettlInstSource())) return false;
 		if ((hasDlvyInstType() && !msg.hasDlvyInstType()) || (!hasDlvyInstType() && msg.hasDlvyInstType())) return false;

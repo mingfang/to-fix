@@ -334,8 +334,8 @@ public class FixParties extends FixGroup {
 
 		FixParties msg = (FixParties) o;
 
-		for (FixPtysSubGrp fixPtysSubGrp : ptysSubGrp)
-			if (!fixPtysSubGrp.equals(msg.ptysSubGrp)) return false;
+		for (int i = 0; i < ptysSubGrp.length; i++)
+			if (!ptysSubGrp[i].equals(msg.ptysSubGrp[i])) return false;
 		if ((hasPartyID() && !msg.hasPartyID()) || (!hasPartyID() && msg.hasPartyID())) return false;
 		if (!(!hasPartyID() && !msg.hasPartyID()) && !FixUtils.equals(getPartyID(), msg.getPartyID())) return false;
 		if ((hasPartyIDSource() && !msg.hasPartyIDSource()) || (!hasPartyIDSource() && msg.hasPartyIDSource())) return false;

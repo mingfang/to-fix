@@ -198,8 +198,8 @@ public class FixSettlDetails extends FixGroup {
 
 		FixSettlDetails msg = (FixSettlDetails) o;
 
-		for (FixSettlParties fixSettlParties : settlParties)
-			if (!fixSettlParties.equals(msg.settlParties)) return false;
+		for (int i = 0; i < settlParties.length; i++)
+			if (!settlParties[i].equals(msg.settlParties[i])) return false;
 		if ((hasSettlObligSource() && !msg.hasSettlObligSource()) || (!hasSettlObligSource() && msg.hasSettlObligSource())) return false;
 		if (!(!hasSettlObligSource() && !msg.hasSettlObligSource()) && !(getSettlObligSource()==msg.getSettlObligSource())) return false;
 		return true;

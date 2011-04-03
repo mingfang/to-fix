@@ -332,8 +332,8 @@ public class FixSettlParties extends FixGroup {
 
 		FixSettlParties msg = (FixSettlParties) o;
 
-		for (FixSettlPtysSubGrp fixSettlPtysSubGrp : settlPtysSubGrp)
-			if (!fixSettlPtysSubGrp.equals(msg.settlPtysSubGrp)) return false;
+		for (int i = 0; i < settlPtysSubGrp.length; i++)
+			if (!settlPtysSubGrp[i].equals(msg.settlPtysSubGrp[i])) return false;
 		if ((hasSettlPartyID() && !msg.hasSettlPartyID()) || (!hasSettlPartyID() && msg.hasSettlPartyID())) return false;
 		if (!(!hasSettlPartyID() && !msg.hasSettlPartyID()) && !FixUtils.equals(getSettlPartyID(), msg.getSettlPartyID())) return false;
 		if ((hasSettlPartyIDSource() && !msg.hasSettlPartyIDSource()) || (!hasSettlPartyIDSource() && msg.hasSettlPartyIDSource())) return false;

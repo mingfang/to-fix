@@ -398,8 +398,8 @@ public class FixSettlInstructionsData extends FixGroup {
 
 		FixSettlInstructionsData msg = (FixSettlInstructionsData) o;
 
-		for (FixDlvyInstGrp fixDlvyInstGrp : dlvyInstGrp)
-			if (!fixDlvyInstGrp.equals(msg.dlvyInstGrp)) return false;
+		for (int i = 0; i < dlvyInstGrp.length; i++)
+			if (!dlvyInstGrp[i].equals(msg.dlvyInstGrp[i])) return false;
 		if ((hasSettlDeliveryType() && !msg.hasSettlDeliveryType()) || (!hasSettlDeliveryType() && msg.hasSettlDeliveryType())) return false;
 		if (!(!hasSettlDeliveryType() && !msg.hasSettlDeliveryType()) && !(getSettlDeliveryType()==msg.getSettlDeliveryType())) return false;
 		if ((hasStandInstDbType() && !msg.hasStandInstDbType()) || (!hasStandInstDbType() && msg.hasStandInstDbType())) return false;

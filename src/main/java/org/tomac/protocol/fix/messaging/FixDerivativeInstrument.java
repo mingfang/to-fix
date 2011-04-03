@@ -4006,13 +4006,13 @@ public class FixDerivativeInstrument extends FixGroup {
 
 		FixDerivativeInstrument msg = (FixDerivativeInstrument) o;
 
-		for (FixDerivativeSecurityAltIDGrp fixDerivativeSecurityAltIDGrp : derivativeSecurityAltIDGrp)
-			if (!fixDerivativeSecurityAltIDGrp.equals(msg.derivativeSecurityAltIDGrp)) return false;
+		for (int i = 0; i < derivativeSecurityAltIDGrp.length; i++)
+			if (!derivativeSecurityAltIDGrp[i].equals(msg.derivativeSecurityAltIDGrp[i])) return false;
 		if (!derivativeSecurityXML.equals(msg.derivativeSecurityXML)) return false;
-		for (FixDerivativeEventsGrp fixDerivativeEventsGrp : derivativeEventsGrp)
-			if (!fixDerivativeEventsGrp.equals(msg.derivativeEventsGrp)) return false;
-		for (FixDerivativeInstrumentParties fixDerivativeInstrumentParties : derivativeInstrumentParties)
-			if (!fixDerivativeInstrumentParties.equals(msg.derivativeInstrumentParties)) return false;
+		for (int i = 0; i < derivativeEventsGrp.length; i++)
+			if (!derivativeEventsGrp[i].equals(msg.derivativeEventsGrp[i])) return false;
+		for (int i = 0; i < derivativeInstrumentParties.length; i++)
+			if (!derivativeInstrumentParties[i].equals(msg.derivativeInstrumentParties[i])) return false;
 		if ((hasDerivativeSymbol() && !msg.hasDerivativeSymbol()) || (!hasDerivativeSymbol() && msg.hasDerivativeSymbol())) return false;
 		if (!(!hasDerivativeSymbol() && !msg.hasDerivativeSymbol()) && !FixUtils.equals(getDerivativeSymbol(), msg.getDerivativeSymbol())) return false;
 		if ((hasDerivativeSymbolSfx() && !msg.hasDerivativeSymbolSfx()) || (!hasDerivativeSymbolSfx() && msg.hasDerivativeSymbolSfx())) return false;
@@ -4038,9 +4038,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		if ((hasDerivativeMaturityMonthYear() && !msg.hasDerivativeMaturityMonthYear()) || (!hasDerivativeMaturityMonthYear() && msg.hasDerivativeMaturityMonthYear())) return false;
 		if (!(!hasDerivativeMaturityMonthYear() && !msg.hasDerivativeMaturityMonthYear()) && !FixUtils.equals(getDerivativeMaturityMonthYear(), msg.getDerivativeMaturityMonthYear())) return false;
 		if ((hasDerivativeMaturityDate() && !msg.hasDerivativeMaturityDate()) || (!hasDerivativeMaturityDate() && msg.hasDerivativeMaturityDate())) return false;
-		if (!(!hasDerivativeMaturityDate() && !msg.hasDerivativeMaturityDate()) ) return false;
 		if ((hasDerivativeMaturityTime() && !msg.hasDerivativeMaturityTime()) || (!hasDerivativeMaturityTime() && msg.hasDerivativeMaturityTime())) return false;
-		if (!(!hasDerivativeMaturityTime() && !msg.hasDerivativeMaturityTime()) ) return false;
 		if ((hasDerivativeSettleOnOpenFlag() && !msg.hasDerivativeSettleOnOpenFlag()) || (!hasDerivativeSettleOnOpenFlag() && msg.hasDerivativeSettleOnOpenFlag())) return false;
 		if (!(!hasDerivativeSettleOnOpenFlag() && !msg.hasDerivativeSettleOnOpenFlag()) && !FixUtils.equals(getDerivativeSettleOnOpenFlag(), msg.getDerivativeSettleOnOpenFlag())) return false;
 		if ((hasDerivativeInstrmtAssignmentMethod() && !msg.hasDerivativeInstrmtAssignmentMethod()) || (!hasDerivativeInstrmtAssignmentMethod() && msg.hasDerivativeInstrmtAssignmentMethod())) return false;
@@ -4048,7 +4046,6 @@ public class FixDerivativeInstrument extends FixGroup {
 		if ((hasDerivativeSecurityStatus() && !msg.hasDerivativeSecurityStatus()) || (!hasDerivativeSecurityStatus() && msg.hasDerivativeSecurityStatus())) return false;
 		if (!(!hasDerivativeSecurityStatus() && !msg.hasDerivativeSecurityStatus()) && !FixUtils.equals(getDerivativeSecurityStatus(), msg.getDerivativeSecurityStatus())) return false;
 		if ((hasDerivativeIssueDate() && !msg.hasDerivativeIssueDate()) || (!hasDerivativeIssueDate() && msg.hasDerivativeIssueDate())) return false;
-		if (!(!hasDerivativeIssueDate() && !msg.hasDerivativeIssueDate()) ) return false;
 		if ((hasDerivativeInstrRegistry() && !msg.hasDerivativeInstrRegistry()) || (!hasDerivativeInstrRegistry() && msg.hasDerivativeInstrRegistry())) return false;
 		if (!(!hasDerivativeInstrRegistry() && !msg.hasDerivativeInstrRegistry()) && !FixUtils.equals(getDerivativeInstrRegistry(), msg.getDerivativeInstrRegistry())) return false;
 		if ((hasDerivativeCountryOfIssue() && !msg.hasDerivativeCountryOfIssue()) || (!hasDerivativeCountryOfIssue() && msg.hasDerivativeCountryOfIssue())) return false;

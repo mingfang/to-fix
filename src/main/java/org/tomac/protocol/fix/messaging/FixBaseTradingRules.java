@@ -869,10 +869,10 @@ public class FixBaseTradingRules extends FixGroup {
 
 		FixBaseTradingRules msg = (FixBaseTradingRules) o;
 
-		for (FixTickRules fixTickRules : tickRules)
-			if (!fixTickRules.equals(msg.tickRules)) return false;
-		for (FixLotTypeRules fixLotTypeRules : lotTypeRules)
-			if (!fixLotTypeRules.equals(msg.lotTypeRules)) return false;
+		for (int i = 0; i < tickRules.length; i++)
+			if (!tickRules[i].equals(msg.tickRules[i])) return false;
+		for (int i = 0; i < lotTypeRules.length; i++)
+			if (!lotTypeRules[i].equals(msg.lotTypeRules[i])) return false;
 		if (!priceLimits.equals(msg.priceLimits)) return false;
 		if ((hasExpirationCycle() && !msg.hasExpirationCycle()) || (!hasExpirationCycle() && msg.hasExpirationCycle())) return false;
 		if (!(!hasExpirationCycle() && !msg.hasExpirationCycle()) && !(getExpirationCycle()==msg.getExpirationCycle())) return false;

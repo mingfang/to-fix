@@ -799,7 +799,6 @@ public class FixSettlementObligationReport extends FixInMessage {
 		if (!standardHeader.equals(msg.standardHeader)) return false;
 
 		if ((hasClearingBusinessDate() && !msg.hasClearingBusinessDate()) || (!hasClearingBusinessDate() && msg.hasClearingBusinessDate())) return false;
-		if (!(!hasClearingBusinessDate() && !msg.hasClearingBusinessDate()) ) return false;
 		if ((hasSettlementCycleNo() && !msg.hasSettlementCycleNo()) || (!hasSettlementCycleNo() && msg.hasSettlementCycleNo())) return false;
 		if (!(!hasSettlementCycleNo() && !msg.hasSettlementCycleNo()) && !(getSettlementCycleNo()==msg.getSettlementCycleNo())) return false;
 		if ((hasSettlObligMsgID() && !msg.hasSettlObligMsgID()) || (!hasSettlObligMsgID() && msg.hasSettlObligMsgID())) return false;
@@ -813,7 +812,6 @@ public class FixSettlementObligationReport extends FixInMessage {
 		if ((hasEncodedText() && !msg.hasEncodedText()) || (!hasEncodedText() && msg.hasEncodedText())) return false;
 		if (!(!hasEncodedText() && !msg.hasEncodedText()) && !FixUtils.equals(getEncodedText(), msg.getEncodedText())) return false;
 		if ((hasTransactTime() && !msg.hasTransactTime()) || (!hasTransactTime() && msg.hasTransactTime())) return false;
-		if (!(!hasTransactTime() && !msg.hasTransactTime()) ) return false;
 		return true;
 	}
 	@Override

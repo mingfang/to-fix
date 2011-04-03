@@ -83,6 +83,7 @@ public class CodeExamples {
 	}
 	
 	public class MyFixMessageListener extends FixMessageListenerImpl { // or implements FixMessageListener
+
 		@Override
 	    public void onFixLogon( FixLogon msg ) { 
 			//handle the FIX logon message

@@ -3708,8 +3708,8 @@ public class FixInstrumentLeg extends FixGroup {
 
 		FixInstrumentLeg msg = (FixInstrumentLeg) o;
 
-		for (FixLegSecAltIDGrp fixLegSecAltIDGrp : legSecAltIDGrp)
-			if (!fixLegSecAltIDGrp.equals(msg.legSecAltIDGrp)) return false;
+		for (int i = 0; i < legSecAltIDGrp.length; i++)
+			if (!legSecAltIDGrp[i].equals(msg.legSecAltIDGrp[i])) return false;
 		if ((hasLegSymbol() && !msg.hasLegSymbol()) || (!hasLegSymbol() && msg.hasLegSymbol())) return false;
 		if (!(!hasLegSymbol() && !msg.hasLegSymbol()) && !FixUtils.equals(getLegSymbol(), msg.getLegSymbol())) return false;
 		if ((hasLegSymbolSfx() && !msg.hasLegSymbolSfx()) || (!hasLegSymbolSfx() && msg.hasLegSymbolSfx())) return false;
@@ -3729,13 +3729,9 @@ public class FixInstrumentLeg extends FixGroup {
 		if ((hasLegMaturityMonthYear() && !msg.hasLegMaturityMonthYear()) || (!hasLegMaturityMonthYear() && msg.hasLegMaturityMonthYear())) return false;
 		if (!(!hasLegMaturityMonthYear() && !msg.hasLegMaturityMonthYear()) && !FixUtils.equals(getLegMaturityMonthYear(), msg.getLegMaturityMonthYear())) return false;
 		if ((hasLegMaturityDate() && !msg.hasLegMaturityDate()) || (!hasLegMaturityDate() && msg.hasLegMaturityDate())) return false;
-		if (!(!hasLegMaturityDate() && !msg.hasLegMaturityDate()) ) return false;
 		if ((hasLegMaturityTime() && !msg.hasLegMaturityTime()) || (!hasLegMaturityTime() && msg.hasLegMaturityTime())) return false;
-		if (!(!hasLegMaturityTime() && !msg.hasLegMaturityTime()) ) return false;
 		if ((hasLegCouponPaymentDate() && !msg.hasLegCouponPaymentDate()) || (!hasLegCouponPaymentDate() && msg.hasLegCouponPaymentDate())) return false;
-		if (!(!hasLegCouponPaymentDate() && !msg.hasLegCouponPaymentDate()) ) return false;
 		if ((hasLegIssueDate() && !msg.hasLegIssueDate()) || (!hasLegIssueDate() && msg.hasLegIssueDate())) return false;
-		if (!(!hasLegIssueDate() && !msg.hasLegIssueDate()) ) return false;
 		if ((hasLegRepoCollateralSecurityType() && !msg.hasLegRepoCollateralSecurityType()) || (!hasLegRepoCollateralSecurityType() && msg.hasLegRepoCollateralSecurityType())) return false;
 		if (!(!hasLegRepoCollateralSecurityType() && !msg.hasLegRepoCollateralSecurityType()) && !(getLegRepoCollateralSecurityType()==msg.getLegRepoCollateralSecurityType())) return false;
 		if ((hasLegRepurchaseTerm() && !msg.hasLegRepurchaseTerm()) || (!hasLegRepurchaseTerm() && msg.hasLegRepurchaseTerm())) return false;
@@ -3755,7 +3751,6 @@ public class FixInstrumentLeg extends FixGroup {
 		if ((hasLegLocaleOfIssue() && !msg.hasLegLocaleOfIssue()) || (!hasLegLocaleOfIssue() && msg.hasLegLocaleOfIssue())) return false;
 		if (!(!hasLegLocaleOfIssue() && !msg.hasLegLocaleOfIssue()) && !FixUtils.equals(getLegLocaleOfIssue(), msg.getLegLocaleOfIssue())) return false;
 		if ((hasLegRedemptionDate() && !msg.hasLegRedemptionDate()) || (!hasLegRedemptionDate() && msg.hasLegRedemptionDate())) return false;
-		if (!(!hasLegRedemptionDate() && !msg.hasLegRedemptionDate()) ) return false;
 		if ((hasLegStrikePrice() && !msg.hasLegStrikePrice()) || (!hasLegStrikePrice() && msg.hasLegStrikePrice())) return false;
 		if (!(!hasLegStrikePrice() && !msg.hasLegStrikePrice()) && !(getLegStrikePrice()==msg.getLegStrikePrice())) return false;
 		if ((hasLegStrikeCurrency() && !msg.hasLegStrikeCurrency()) || (!hasLegStrikeCurrency() && msg.hasLegStrikeCurrency())) return false;
@@ -3805,11 +3800,9 @@ public class FixInstrumentLeg extends FixGroup {
 		if ((hasLegPool() && !msg.hasLegPool()) || (!hasLegPool() && msg.hasLegPool())) return false;
 		if (!(!hasLegPool() && !msg.hasLegPool()) && !FixUtils.equals(getLegPool(), msg.getLegPool())) return false;
 		if ((hasLegDatedDate() && !msg.hasLegDatedDate()) || (!hasLegDatedDate() && msg.hasLegDatedDate())) return false;
-		if (!(!hasLegDatedDate() && !msg.hasLegDatedDate()) ) return false;
 		if ((hasLegContractSettlMonth() && !msg.hasLegContractSettlMonth()) || (!hasLegContractSettlMonth() && msg.hasLegContractSettlMonth())) return false;
 		if (!(!hasLegContractSettlMonth() && !msg.hasLegContractSettlMonth()) && !FixUtils.equals(getLegContractSettlMonth(), msg.getLegContractSettlMonth())) return false;
 		if ((hasLegInterestAccrualDate() && !msg.hasLegInterestAccrualDate()) || (!hasLegInterestAccrualDate() && msg.hasLegInterestAccrualDate())) return false;
-		if (!(!hasLegInterestAccrualDate() && !msg.hasLegInterestAccrualDate()) ) return false;
 		if ((hasLegOptionRatio() && !msg.hasLegOptionRatio()) || (!hasLegOptionRatio() && msg.hasLegOptionRatio())) return false;
 		if (!(!hasLegOptionRatio() && !msg.hasLegOptionRatio()) && !(getLegOptionRatio()==msg.getLegOptionRatio())) return false;
 		if ((hasLegPrice() && !msg.hasLegPrice()) || (!hasLegPrice() && msg.hasLegPrice())) return false;

@@ -503,9 +503,7 @@ public class FixYieldData extends FixGroup {
 		if ((hasYield() && !msg.hasYield()) || (!hasYield() && msg.hasYield())) return false;
 		if (!(!hasYield() && !msg.hasYield()) && !(getYield()==msg.getYield())) return false;
 		if ((hasYieldCalcDate() && !msg.hasYieldCalcDate()) || (!hasYieldCalcDate() && msg.hasYieldCalcDate())) return false;
-		if (!(!hasYieldCalcDate() && !msg.hasYieldCalcDate()) ) return false;
 		if ((hasYieldRedemptionDate() && !msg.hasYieldRedemptionDate()) || (!hasYieldRedemptionDate() && msg.hasYieldRedemptionDate())) return false;
-		if (!(!hasYieldRedemptionDate() && !msg.hasYieldRedemptionDate()) ) return false;
 		if ((hasYieldRedemptionPrice() && !msg.hasYieldRedemptionPrice()) || (!hasYieldRedemptionPrice() && msg.hasYieldRedemptionPrice())) return false;
 		if (!(!hasYieldRedemptionPrice() && !msg.hasYieldRedemptionPrice()) && !(getYieldRedemptionPrice()==msg.getYieldRedemptionPrice())) return false;
 		if ((hasYieldRedemptionPriceType() && !msg.hasYieldRedemptionPriceType()) || (!hasYieldRedemptionPriceType() && msg.hasYieldRedemptionPriceType())) return false;

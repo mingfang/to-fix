@@ -1521,12 +1521,12 @@ public class FixTrdInstrmtLegGrp extends FixGroup {
 		FixTrdInstrmtLegGrp msg = (FixTrdInstrmtLegGrp) o;
 
 		if (!instrumentLeg.equals(msg.instrumentLeg)) return false;
-		for (FixLegStipulations fixLegStipulations : legStipulations)
-			if (!fixLegStipulations.equals(msg.legStipulations)) return false;
-		for (FixNestedParties fixNestedParties : nestedParties)
-			if (!fixNestedParties.equals(msg.nestedParties)) return false;
-		for (FixTradeCapLegUnderlyingsGrp fixTradeCapLegUnderlyingsGrp : tradeCapLegUnderlyingsGrp)
-			if (!fixTradeCapLegUnderlyingsGrp.equals(msg.tradeCapLegUnderlyingsGrp)) return false;
+		for (int i = 0; i < legStipulations.length; i++)
+			if (!legStipulations[i].equals(msg.legStipulations[i])) return false;
+		for (int i = 0; i < nestedParties.length; i++)
+			if (!nestedParties[i].equals(msg.nestedParties[i])) return false;
+		for (int i = 0; i < tradeCapLegUnderlyingsGrp.length; i++)
+			if (!tradeCapLegUnderlyingsGrp[i].equals(msg.tradeCapLegUnderlyingsGrp[i])) return false;
 		if ((hasLegQty() && !msg.hasLegQty()) || (!hasLegQty() && msg.hasLegQty())) return false;
 		if (!(!hasLegQty() && !msg.hasLegQty()) && !(getLegQty()==msg.getLegQty())) return false;
 		if ((hasLegSwapType() && !msg.hasLegSwapType()) || (!hasLegSwapType() && msg.hasLegSwapType())) return false;
@@ -1544,7 +1544,6 @@ public class FixTrdInstrmtLegGrp extends FixGroup {
 		if ((hasLegSettlType() && !msg.hasLegSettlType()) || (!hasLegSettlType() && msg.hasLegSettlType())) return false;
 		if (!(!hasLegSettlType() && !msg.hasLegSettlType()) && !(getLegSettlType()==msg.getLegSettlType())) return false;
 		if ((hasLegSettlDate() && !msg.hasLegSettlDate()) || (!hasLegSettlDate() && msg.hasLegSettlDate())) return false;
-		if (!(!hasLegSettlDate() && !msg.hasLegSettlDate()) ) return false;
 		if ((hasLegLastPx() && !msg.hasLegLastPx()) || (!hasLegLastPx() && msg.hasLegLastPx())) return false;
 		if (!(!hasLegLastPx() && !msg.hasLegLastPx()) && !(getLegLastPx()==msg.getLegLastPx())) return false;
 		if ((hasLegSettlCurrency() && !msg.hasLegSettlCurrency()) || (!hasLegSettlCurrency() && msg.hasLegSettlCurrency())) return false;

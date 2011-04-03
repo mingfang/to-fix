@@ -262,8 +262,8 @@ public class FixPartyAltIDs extends FixGroup {
 
 		FixPartyAltIDs msg = (FixPartyAltIDs) o;
 
-		for (FixAltPtysSubGrp fixAltPtysSubGrp : altPtysSubGrp)
-			if (!fixAltPtysSubGrp.equals(msg.altPtysSubGrp)) return false;
+		for (int i = 0; i < altPtysSubGrp.length; i++)
+			if (!altPtysSubGrp[i].equals(msg.altPtysSubGrp[i])) return false;
 		if ((hasPartyAltID() && !msg.hasPartyAltID()) || (!hasPartyAltID() && msg.hasPartyAltID())) return false;
 		if (!(!hasPartyAltID() && !msg.hasPartyAltID()) && !FixUtils.equals(getPartyAltID(), msg.getPartyAltID())) return false;
 		if ((hasPartyAltIDSource() && !msg.hasPartyAltIDSource()) || (!hasPartyAltIDSource() && msg.hasPartyAltIDSource())) return false;

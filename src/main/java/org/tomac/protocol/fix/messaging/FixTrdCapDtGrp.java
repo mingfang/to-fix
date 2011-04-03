@@ -361,11 +361,8 @@ public class FixTrdCapDtGrp extends FixGroup {
 		if ((hasNoDates() && !msg.hasNoDates()) || (!hasNoDates() && msg.hasNoDates())) return false;
 		if (!(!hasNoDates() && !msg.hasNoDates()) && !(getNoDates()==msg.getNoDates())) return false;
 		if ((hasTradeDate() && !msg.hasTradeDate()) || (!hasTradeDate() && msg.hasTradeDate())) return false;
-		if (!(!hasTradeDate() && !msg.hasTradeDate()) ) return false;
 		if ((hasLastUpdateTime() && !msg.hasLastUpdateTime()) || (!hasLastUpdateTime() && msg.hasLastUpdateTime())) return false;
-		if (!(!hasLastUpdateTime() && !msg.hasLastUpdateTime()) ) return false;
 		if ((hasTransactTime() && !msg.hasTransactTime()) || (!hasTransactTime() && msg.hasTransactTime())) return false;
-		if (!(!hasTransactTime() && !msg.hasTransactTime()) ) return false;
 		return true;
 	}
 	public FixTrdCapDtGrp clone ( FixTrdCapDtGrp out ) {

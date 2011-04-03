@@ -874,13 +874,11 @@ public class FixContraryIntentionReport extends FixInMessage {
 		if ((hasContIntRptID() && !msg.hasContIntRptID()) || (!hasContIntRptID() && msg.hasContIntRptID())) return false;
 		if (!(!hasContIntRptID() && !msg.hasContIntRptID()) && !FixUtils.equals(getContIntRptID(), msg.getContIntRptID())) return false;
 		if ((hasTransactTime() && !msg.hasTransactTime()) || (!hasTransactTime() && msg.hasTransactTime())) return false;
-		if (!(!hasTransactTime() && !msg.hasTransactTime()) ) return false;
 		if ((hasLateIndicator() && !msg.hasLateIndicator()) || (!hasLateIndicator() && msg.hasLateIndicator())) return false;
 		if (!(!hasLateIndicator() && !msg.hasLateIndicator()) && !(getLateIndicator()==msg.getLateIndicator())) return false;
 		if ((hasInputSource() && !msg.hasInputSource()) || (!hasInputSource() && msg.hasInputSource())) return false;
 		if (!(!hasInputSource() && !msg.hasInputSource()) && !FixUtils.equals(getInputSource(), msg.getInputSource())) return false;
 		if ((hasClearingBusinessDate() && !msg.hasClearingBusinessDate()) || (!hasClearingBusinessDate() && msg.hasClearingBusinessDate())) return false;
-		if (!(!hasClearingBusinessDate() && !msg.hasClearingBusinessDate()) ) return false;
 		if ((hasText() && !msg.hasText()) || (!hasText() && msg.hasText())) return false;
 		if (!(!hasText() && !msg.hasText()) && !FixUtils.equals(getText(), msg.getText())) return false;
 		if ((hasEncodedTextLen() && !msg.hasEncodedTextLen()) || (!hasEncodedTextLen() && msg.hasEncodedTextLen())) return false;

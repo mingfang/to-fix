@@ -701,15 +701,12 @@ public class FixFinancingDetails extends FixGroup {
 		if ((hasAgreementID() && !msg.hasAgreementID()) || (!hasAgreementID() && msg.hasAgreementID())) return false;
 		if (!(!hasAgreementID() && !msg.hasAgreementID()) && !FixUtils.equals(getAgreementID(), msg.getAgreementID())) return false;
 		if ((hasAgreementDate() && !msg.hasAgreementDate()) || (!hasAgreementDate() && msg.hasAgreementDate())) return false;
-		if (!(!hasAgreementDate() && !msg.hasAgreementDate()) ) return false;
 		if ((hasAgreementCurrency() && !msg.hasAgreementCurrency()) || (!hasAgreementCurrency() && msg.hasAgreementCurrency())) return false;
 		if (!(!hasAgreementCurrency() && !msg.hasAgreementCurrency()) && !FixUtils.equals(getAgreementCurrency(), msg.getAgreementCurrency())) return false;
 		if ((hasTerminationType() && !msg.hasTerminationType()) || (!hasTerminationType() && msg.hasTerminationType())) return false;
 		if (!(!hasTerminationType() && !msg.hasTerminationType()) && !(getTerminationType()==msg.getTerminationType())) return false;
 		if ((hasStartDate() && !msg.hasStartDate()) || (!hasStartDate() && msg.hasStartDate())) return false;
-		if (!(!hasStartDate() && !msg.hasStartDate()) ) return false;
 		if ((hasEndDate() && !msg.hasEndDate()) || (!hasEndDate() && msg.hasEndDate())) return false;
-		if (!(!hasEndDate() && !msg.hasEndDate()) ) return false;
 		if ((hasDeliveryType() && !msg.hasDeliveryType()) || (!hasDeliveryType() && msg.hasDeliveryType())) return false;
 		if (!(!hasDeliveryType() && !msg.hasDeliveryType()) && !(getDeliveryType()==msg.getDeliveryType())) return false;
 		if ((hasMarginRatio() && !msg.hasMarginRatio()) || (!hasMarginRatio() && msg.hasMarginRatio())) return false;

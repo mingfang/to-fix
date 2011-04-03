@@ -431,9 +431,7 @@ public class FixEvntGrp extends FixGroup {
 		if ((hasEventType() && !msg.hasEventType()) || (!hasEventType() && msg.hasEventType())) return false;
 		if (!(!hasEventType() && !msg.hasEventType()) && !(getEventType()==msg.getEventType())) return false;
 		if ((hasEventDate() && !msg.hasEventDate()) || (!hasEventDate() && msg.hasEventDate())) return false;
-		if (!(!hasEventDate() && !msg.hasEventDate()) ) return false;
 		if ((hasEventTime() && !msg.hasEventTime()) || (!hasEventTime() && msg.hasEventTime())) return false;
-		if (!(!hasEventTime() && !msg.hasEventTime()) ) return false;
 		if ((hasEventPx() && !msg.hasEventPx()) || (!hasEventPx() && msg.hasEventPx())) return false;
 		if (!(!hasEventPx() && !msg.hasEventPx()) && !(getEventPx()==msg.getEventPx())) return false;
 		if ((hasEventText() && !msg.hasEventText()) || (!hasEventText() && msg.hasEventText())) return false;

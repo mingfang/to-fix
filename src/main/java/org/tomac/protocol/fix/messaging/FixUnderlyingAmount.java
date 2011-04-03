@@ -367,7 +367,6 @@ public class FixUnderlyingAmount extends FixGroup {
 		if ((hasUnderlyingCollectAmount() && !msg.hasUnderlyingCollectAmount()) || (!hasUnderlyingCollectAmount() && msg.hasUnderlyingCollectAmount())) return false;
 		if (!(!hasUnderlyingCollectAmount() && !msg.hasUnderlyingCollectAmount()) && !(getUnderlyingCollectAmount()==msg.getUnderlyingCollectAmount())) return false;
 		if ((hasUnderlyingSettlementDate() && !msg.hasUnderlyingSettlementDate()) || (!hasUnderlyingSettlementDate() && msg.hasUnderlyingSettlementDate())) return false;
-		if (!(!hasUnderlyingSettlementDate() && !msg.hasUnderlyingSettlementDate()) ) return false;
 		if ((hasUnderlyingSettlementStatus() && !msg.hasUnderlyingSettlementStatus()) || (!hasUnderlyingSettlementStatus() && msg.hasUnderlyingSettlementStatus())) return false;
 		if (!(!hasUnderlyingSettlementStatus() && !msg.hasUnderlyingSettlementStatus()) && !FixUtils.equals(getUnderlyingSettlementStatus(), msg.getUnderlyingSettlementStatus())) return false;
 		return true;

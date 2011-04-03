@@ -666,8 +666,8 @@ public class FixOrdAllocGrp extends FixGroup {
 
 		FixOrdAllocGrp msg = (FixOrdAllocGrp) o;
 
-		for (FixNestedParties2 fixNestedParties2 : nestedParties2)
-			if (!fixNestedParties2.equals(msg.nestedParties2)) return false;
+		for (int i = 0; i < nestedParties2.length; i++)
+			if (!nestedParties2[i].equals(msg.nestedParties2[i])) return false;
 		if ((hasClOrdID() && !msg.hasClOrdID()) || (!hasClOrdID() && msg.hasClOrdID())) return false;
 		if (!(!hasClOrdID() && !msg.hasClOrdID()) && !FixUtils.equals(getClOrdID(), msg.getClOrdID())) return false;
 		if ((hasOrderID() && !msg.hasOrderID()) || (!hasOrderID() && msg.hasOrderID())) return false;

@@ -2030,7 +2030,6 @@ public class FixAssignmentReport extends FixInMessage {
 		if ((hasPriorSettlPrice() && !msg.hasPriorSettlPrice()) || (!hasPriorSettlPrice() && msg.hasPriorSettlPrice())) return false;
 		if (!(!hasPriorSettlPrice() && !msg.hasPriorSettlPrice()) && !(getPriorSettlPrice()==msg.getPriorSettlPrice())) return false;
 		if ((hasExpireDate() && !msg.hasExpireDate()) || (!hasExpireDate() && msg.hasExpireDate())) return false;
-		if (!(!hasExpireDate() && !msg.hasExpireDate()) ) return false;
 		if ((hasAssignmentMethod() && !msg.hasAssignmentMethod()) || (!hasAssignmentMethod() && msg.hasAssignmentMethod())) return false;
 		if (!(!hasAssignmentMethod() && !msg.hasAssignmentMethod()) && !(getAssignmentMethod()==msg.getAssignmentMethod())) return false;
 		if ((hasAssignmentUnit() && !msg.hasAssignmentUnit()) || (!hasAssignmentUnit() && msg.hasAssignmentUnit())) return false;
@@ -2044,7 +2043,6 @@ public class FixAssignmentReport extends FixInMessage {
 		if ((hasSettlSessSubID() && !msg.hasSettlSessSubID()) || (!hasSettlSessSubID() && msg.hasSettlSessSubID())) return false;
 		if (!(!hasSettlSessSubID() && !msg.hasSettlSessSubID()) && !FixUtils.equals(getSettlSessSubID(), msg.getSettlSessSubID())) return false;
 		if ((hasClearingBusinessDate() && !msg.hasClearingBusinessDate()) || (!hasClearingBusinessDate() && msg.hasClearingBusinessDate())) return false;
-		if (!(!hasClearingBusinessDate() && !msg.hasClearingBusinessDate()) ) return false;
 		if ((hasText() && !msg.hasText()) || (!hasText() && msg.hasText())) return false;
 		if (!(!hasText() && !msg.hasText()) && !FixUtils.equals(getText(), msg.getText())) return false;
 		if ((hasEncodedTextLen() && !msg.hasEncodedTextLen()) || (!hasEncodedTextLen() && msg.hasEncodedTextLen())) return false;

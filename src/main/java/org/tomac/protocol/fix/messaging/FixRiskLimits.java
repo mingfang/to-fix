@@ -435,10 +435,10 @@ public class FixRiskLimits extends FixGroup {
 
 		FixRiskLimits msg = (FixRiskLimits) o;
 
-		for (FixRiskInstrumentScope fixRiskInstrumentScope : riskInstrumentScope)
-			if (!fixRiskInstrumentScope.equals(msg.riskInstrumentScope)) return false;
-		for (FixRiskWarningLevels fixRiskWarningLevels : riskWarningLevels)
-			if (!fixRiskWarningLevels.equals(msg.riskWarningLevels)) return false;
+		for (int i = 0; i < riskInstrumentScope.length; i++)
+			if (!riskInstrumentScope[i].equals(msg.riskInstrumentScope[i])) return false;
+		for (int i = 0; i < riskWarningLevels.length; i++)
+			if (!riskWarningLevels[i].equals(msg.riskWarningLevels[i])) return false;
 		if ((hasRiskLimitType() && !msg.hasRiskLimitType()) || (!hasRiskLimitType() && msg.hasRiskLimitType())) return false;
 		if (!(!hasRiskLimitType() && !msg.hasRiskLimitType()) && !(getRiskLimitType()==msg.getRiskLimitType())) return false;
 		if ((hasRiskLimitAmount() && !msg.hasRiskLimitAmount()) || (!hasRiskLimitAmount() && msg.hasRiskLimitAmount())) return false;

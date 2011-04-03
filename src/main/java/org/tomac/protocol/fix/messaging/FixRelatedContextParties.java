@@ -332,8 +332,8 @@ public class FixRelatedContextParties extends FixGroup {
 
 		FixRelatedContextParties msg = (FixRelatedContextParties) o;
 
-		for (FixRelatedContextPtysSubGrp fixRelatedContextPtysSubGrp : relatedContextPtysSubGrp)
-			if (!fixRelatedContextPtysSubGrp.equals(msg.relatedContextPtysSubGrp)) return false;
+		for (int i = 0; i < relatedContextPtysSubGrp.length; i++)
+			if (!relatedContextPtysSubGrp[i].equals(msg.relatedContextPtysSubGrp[i])) return false;
 		if ((hasRelatedContextPartyID() && !msg.hasRelatedContextPartyID()) || (!hasRelatedContextPartyID() && msg.hasRelatedContextPartyID())) return false;
 		if (!(!hasRelatedContextPartyID() && !msg.hasRelatedContextPartyID()) && !FixUtils.equals(getRelatedContextPartyID(), msg.getRelatedContextPartyID())) return false;
 		if ((hasRelatedContextPartyIDSource() && !msg.hasRelatedContextPartyIDSource()) || (!hasRelatedContextPartyIDSource() && msg.hasRelatedContextPartyIDSource())) return false;

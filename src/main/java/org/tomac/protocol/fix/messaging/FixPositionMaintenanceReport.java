@@ -2116,7 +2116,6 @@ public class FixPositionMaintenanceReport extends FixInMessage {
 		if ((hasPosMaintResult() && !msg.hasPosMaintResult()) || (!hasPosMaintResult() && msg.hasPosMaintResult())) return false;
 		if (!(!hasPosMaintResult() && !msg.hasPosMaintResult()) && !(getPosMaintResult()==msg.getPosMaintResult())) return false;
 		if ((hasClearingBusinessDate() && !msg.hasClearingBusinessDate()) || (!hasClearingBusinessDate() && msg.hasClearingBusinessDate())) return false;
-		if (!(!hasClearingBusinessDate() && !msg.hasClearingBusinessDate()) ) return false;
 		if ((hasSettlSessID() && !msg.hasSettlSessID()) || (!hasSettlSessID() && msg.hasSettlSessID())) return false;
 		if (!(!hasSettlSessID() && !msg.hasSettlSessID()) && !FixUtils.equals(getSettlSessID(), msg.getSettlSessID())) return false;
 		if ((hasSettlSessSubID() && !msg.hasSettlSessSubID()) || (!hasSettlSessSubID() && msg.hasSettlSessSubID())) return false;
@@ -2138,7 +2137,6 @@ public class FixPositionMaintenanceReport extends FixInMessage {
 		if ((hasPriorSpreadIndicator() && !msg.hasPriorSpreadIndicator()) || (!hasPriorSpreadIndicator() && msg.hasPriorSpreadIndicator())) return false;
 		if (!(!hasPriorSpreadIndicator() && !msg.hasPriorSpreadIndicator()) && !(getPriorSpreadIndicator()==msg.getPriorSpreadIndicator())) return false;
 		if ((hasTransactTime() && !msg.hasTransactTime()) || (!hasTransactTime() && msg.hasTransactTime())) return false;
-		if (!(!hasTransactTime() && !msg.hasTransactTime()) ) return false;
 		if ((hasAdjustmentType() && !msg.hasAdjustmentType()) || (!hasAdjustmentType() && msg.hasAdjustmentType())) return false;
 		if (!(!hasAdjustmentType() && !msg.hasAdjustmentType()) && !(getAdjustmentType()==msg.getAdjustmentType())) return false;
 		if ((hasThresholdAmount() && !msg.hasThresholdAmount()) || (!hasThresholdAmount() && msg.hasThresholdAmount())) return false;

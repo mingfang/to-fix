@@ -163,10 +163,10 @@ public class FixStrmAsgnRptGrp extends FixGroup {
 
 		FixStrmAsgnRptGrp msg = (FixStrmAsgnRptGrp) o;
 
-		for (FixParties fixParties : parties)
-			if (!fixParties.equals(msg.parties)) return false;
-		for (FixStrmAsgnRptInstrmtGrp fixStrmAsgnRptInstrmtGrp : strmAsgnRptInstrmtGrp)
-			if (!fixStrmAsgnRptInstrmtGrp.equals(msg.strmAsgnRptInstrmtGrp)) return false;
+		for (int i = 0; i < parties.length; i++)
+			if (!parties[i].equals(msg.parties[i])) return false;
+		for (int i = 0; i < strmAsgnRptInstrmtGrp.length; i++)
+			if (!strmAsgnRptInstrmtGrp[i].equals(msg.strmAsgnRptInstrmtGrp[i])) return false;
 		return true;
 	}
 	public FixStrmAsgnRptGrp clone ( FixStrmAsgnRptGrp out ) {

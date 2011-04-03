@@ -2243,13 +2243,11 @@ public class FixBidRequest extends FixInMessage {
 		if ((hasNumBidders() && !msg.hasNumBidders()) || (!hasNumBidders() && msg.hasNumBidders())) return false;
 		if (!(!hasNumBidders() && !msg.hasNumBidders()) && !(getNumBidders()==msg.getNumBidders())) return false;
 		if ((hasTradeDate() && !msg.hasTradeDate()) || (!hasTradeDate() && msg.hasTradeDate())) return false;
-		if (!(!hasTradeDate() && !msg.hasTradeDate()) ) return false;
 		if ((hasBidTradeType() && !msg.hasBidTradeType()) || (!hasBidTradeType() && msg.hasBidTradeType())) return false;
 		if (!(!hasBidTradeType() && !msg.hasBidTradeType()) && !(getBidTradeType()==msg.getBidTradeType())) return false;
 		if ((hasBasisPxType() && !msg.hasBasisPxType()) || (!hasBasisPxType() && msg.hasBasisPxType())) return false;
 		if (!(!hasBasisPxType() && !msg.hasBasisPxType()) && !(getBasisPxType()==msg.getBasisPxType())) return false;
 		if ((hasStrikeTime() && !msg.hasStrikeTime()) || (!hasStrikeTime() && msg.hasStrikeTime())) return false;
-		if (!(!hasStrikeTime() && !msg.hasStrikeTime()) ) return false;
 		if ((hasText() && !msg.hasText()) || (!hasText() && msg.hasText())) return false;
 		if (!(!hasText() && !msg.hasText()) && !FixUtils.equals(getText(), msg.getText())) return false;
 		if ((hasEncodedTextLen() && !msg.hasEncodedTextLen()) || (!hasEncodedTextLen() && msg.hasEncodedTextLen())) return false;

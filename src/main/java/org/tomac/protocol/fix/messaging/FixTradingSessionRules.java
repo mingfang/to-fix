@@ -274,16 +274,16 @@ public class FixTradingSessionRules extends FixGroup {
 
 		FixTradingSessionRules msg = (FixTradingSessionRules) o;
 
-		for (FixOrdTypeRules fixOrdTypeRules : ordTypeRules)
-			if (!fixOrdTypeRules.equals(msg.ordTypeRules)) return false;
-		for (FixTimeInForceRules fixTimeInForceRules : timeInForceRules)
-			if (!fixTimeInForceRules.equals(msg.timeInForceRules)) return false;
-		for (FixExecInstRules fixExecInstRules : execInstRules)
-			if (!fixExecInstRules.equals(msg.execInstRules)) return false;
-		for (FixMatchRules fixMatchRules : matchRules)
-			if (!fixMatchRules.equals(msg.matchRules)) return false;
-		for (FixMarketDataFeedTypes fixMarketDataFeedTypes : marketDataFeedTypes)
-			if (!fixMarketDataFeedTypes.equals(msg.marketDataFeedTypes)) return false;
+		for (int i = 0; i < ordTypeRules.length; i++)
+			if (!ordTypeRules[i].equals(msg.ordTypeRules[i])) return false;
+		for (int i = 0; i < timeInForceRules.length; i++)
+			if (!timeInForceRules[i].equals(msg.timeInForceRules[i])) return false;
+		for (int i = 0; i < execInstRules.length; i++)
+			if (!execInstRules[i].equals(msg.execInstRules[i])) return false;
+		for (int i = 0; i < matchRules.length; i++)
+			if (!matchRules[i].equals(msg.matchRules[i])) return false;
+		for (int i = 0; i < marketDataFeedTypes.length; i++)
+			if (!marketDataFeedTypes[i].equals(msg.marketDataFeedTypes[i])) return false;
 		return true;
 	}
 	public FixTradingSessionRules clone ( FixTradingSessionRules out ) {

@@ -1893,7 +1893,6 @@ public class FixPositionMaintenanceRequest extends FixInMessage {
 		if ((hasPosMaintRptRefID() && !msg.hasPosMaintRptRefID()) || (!hasPosMaintRptRefID() && msg.hasPosMaintRptRefID())) return false;
 		if (!(!hasPosMaintRptRefID() && !msg.hasPosMaintRptRefID()) && !FixUtils.equals(getPosMaintRptRefID(), msg.getPosMaintRptRefID())) return false;
 		if ((hasClearingBusinessDate() && !msg.hasClearingBusinessDate()) || (!hasClearingBusinessDate() && msg.hasClearingBusinessDate())) return false;
-		if (!(!hasClearingBusinessDate() && !msg.hasClearingBusinessDate()) ) return false;
 		if ((hasSettlSessID() && !msg.hasSettlSessID()) || (!hasSettlSessID() && msg.hasSettlSessID())) return false;
 		if (!(!hasSettlSessID() && !msg.hasSettlSessID()) && !FixUtils.equals(getSettlSessID(), msg.getSettlSessID())) return false;
 		if ((hasSettlSessSubID() && !msg.hasSettlSessSubID()) || (!hasSettlSessSubID() && msg.hasSettlSessSubID())) return false;
@@ -1907,7 +1906,6 @@ public class FixPositionMaintenanceRequest extends FixInMessage {
 		if ((hasCurrency() && !msg.hasCurrency()) || (!hasCurrency() && msg.hasCurrency())) return false;
 		if (!(!hasCurrency() && !msg.hasCurrency()) && !FixUtils.equals(getCurrency(), msg.getCurrency())) return false;
 		if ((hasTransactTime() && !msg.hasTransactTime()) || (!hasTransactTime() && msg.hasTransactTime())) return false;
-		if (!(!hasTransactTime() && !msg.hasTransactTime()) ) return false;
 		if ((hasAdjustmentType() && !msg.hasAdjustmentType()) || (!hasAdjustmentType() && msg.hasAdjustmentType())) return false;
 		if (!(!hasAdjustmentType() && !msg.hasAdjustmentType()) && !(getAdjustmentType()==msg.getAdjustmentType())) return false;
 		if ((hasContraryInstructionIndicator() && !msg.hasContraryInstructionIndicator()) || (!hasContraryInstructionIndicator() && msg.hasContraryInstructionIndicator())) return false;

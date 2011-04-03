@@ -1668,7 +1668,6 @@ public class FixIOI extends FixInMessage {
 		if ((hasPrice() && !msg.hasPrice()) || (!hasPrice() && msg.hasPrice())) return false;
 		if (!(!hasPrice() && !msg.hasPrice()) && !(getPrice()==msg.getPrice())) return false;
 		if ((hasValidUntilTime() && !msg.hasValidUntilTime()) || (!hasValidUntilTime() && msg.hasValidUntilTime())) return false;
-		if (!(!hasValidUntilTime() && !msg.hasValidUntilTime()) ) return false;
 		if ((hasIOIQltyInd() && !msg.hasIOIQltyInd()) || (!hasIOIQltyInd() && msg.hasIOIQltyInd())) return false;
 		if (!(!hasIOIQltyInd() && !msg.hasIOIQltyInd()) && !(getIOIQltyInd()==msg.getIOIQltyInd())) return false;
 		if ((hasIOINaturalFlag() && !msg.hasIOINaturalFlag()) || (!hasIOINaturalFlag() && msg.hasIOINaturalFlag())) return false;
@@ -1680,7 +1679,6 @@ public class FixIOI extends FixInMessage {
 		if ((hasEncodedText() && !msg.hasEncodedText()) || (!hasEncodedText() && msg.hasEncodedText())) return false;
 		if (!(!hasEncodedText() && !msg.hasEncodedText()) && !FixUtils.equals(getEncodedText(), msg.getEncodedText())) return false;
 		if ((hasTransactTime() && !msg.hasTransactTime()) || (!hasTransactTime() && msg.hasTransactTime())) return false;
-		if (!(!hasTransactTime() && !msg.hasTransactTime()) ) return false;
 		if ((hasURLLink() && !msg.hasURLLink()) || (!hasURLLink() && msg.hasURLLink())) return false;
 		if (!(!hasURLLink() && !msg.hasURLLink()) && !FixUtils.equals(getURLLink(), msg.getURLLink())) return false;
 		return true;

@@ -1570,7 +1570,6 @@ public class FixSecurityListUpdateReport extends FixInMessage {
 		if ((hasTotNoRelatedSym() && !msg.hasTotNoRelatedSym()) || (!hasTotNoRelatedSym() && msg.hasTotNoRelatedSym())) return false;
 		if (!(!hasTotNoRelatedSym() && !msg.hasTotNoRelatedSym()) && !(getTotNoRelatedSym()==msg.getTotNoRelatedSym())) return false;
 		if ((hasClearingBusinessDate() && !msg.hasClearingBusinessDate()) || (!hasClearingBusinessDate() && msg.hasClearingBusinessDate())) return false;
-		if (!(!hasClearingBusinessDate() && !msg.hasClearingBusinessDate()) ) return false;
 		if ((hasSecurityUpdateAction() && !msg.hasSecurityUpdateAction()) || (!hasSecurityUpdateAction() && msg.hasSecurityUpdateAction())) return false;
 		if (!(!hasSecurityUpdateAction() && !msg.hasSecurityUpdateAction()) && !(getSecurityUpdateAction()==msg.getSecurityUpdateAction())) return false;
 		if ((hasCorporateAction() && !msg.hasCorporateAction()) || (!hasCorporateAction() && msg.hasCorporateAction())) return false;
@@ -1596,7 +1595,6 @@ public class FixSecurityListUpdateReport extends FixInMessage {
 		if ((hasSecurityListTypeSource() && !msg.hasSecurityListTypeSource()) || (!hasSecurityListTypeSource() && msg.hasSecurityListTypeSource())) return false;
 		if (!(!hasSecurityListTypeSource() && !msg.hasSecurityListTypeSource()) && !(getSecurityListTypeSource()==msg.getSecurityListTypeSource())) return false;
 		if ((hasTransactTime() && !msg.hasTransactTime()) || (!hasTransactTime() && msg.hasTransactTime())) return false;
-		if (!(!hasTransactTime() && !msg.hasTransactTime()) ) return false;
 		return true;
 	}
 	@Override

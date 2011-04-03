@@ -287,8 +287,8 @@ public class FixSecLstUpdRelSymsLegGrp extends FixGroup {
 		FixSecLstUpdRelSymsLegGrp msg = (FixSecLstUpdRelSymsLegGrp) o;
 
 		if (!instrumentLeg.equals(msg.instrumentLeg)) return false;
-		for (FixLegStipulations fixLegStipulations : legStipulations)
-			if (!fixLegStipulations.equals(msg.legStipulations)) return false;
+		for (int i = 0; i < legStipulations.length; i++)
+			if (!legStipulations[i].equals(msg.legStipulations[i])) return false;
 		if (!legBenchmarkCurveData.equals(msg.legBenchmarkCurveData)) return false;
 		if ((hasLegSwapType() && !msg.hasLegSwapType()) || (!hasLegSwapType() && msg.hasLegSwapType())) return false;
 		if (!(!hasLegSwapType() && !msg.hasLegSwapType()) && !(getLegSwapType()==msg.getLegSwapType())) return false;

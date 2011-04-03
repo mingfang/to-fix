@@ -538,8 +538,8 @@ public class FixApplIDRequestAckGrp extends FixGroup {
 
 		FixApplIDRequestAckGrp msg = (FixApplIDRequestAckGrp) o;
 
-		for (FixNestedParties fixNestedParties : nestedParties)
-			if (!fixNestedParties.equals(msg.nestedParties)) return false;
+		for (int i = 0; i < nestedParties.length; i++)
+			if (!nestedParties[i].equals(msg.nestedParties[i])) return false;
 		if ((hasRefApplID() && !msg.hasRefApplID()) || (!hasRefApplID() && msg.hasRefApplID())) return false;
 		if (!(!hasRefApplID() && !msg.hasRefApplID()) && !FixUtils.equals(getRefApplID(), msg.getRefApplID())) return false;
 		if ((hasRefApplReqID() && !msg.hasRefApplReqID()) || (!hasRefApplReqID() && msg.hasRefApplReqID())) return false;

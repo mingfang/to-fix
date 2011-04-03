@@ -1255,9 +1255,7 @@ public class FixAllocationInstructionAck extends FixInMessage {
 		if ((hasSecondaryAllocID() && !msg.hasSecondaryAllocID()) || (!hasSecondaryAllocID() && msg.hasSecondaryAllocID())) return false;
 		if (!(!hasSecondaryAllocID() && !msg.hasSecondaryAllocID()) && !FixUtils.equals(getSecondaryAllocID(), msg.getSecondaryAllocID())) return false;
 		if ((hasTradeDate() && !msg.hasTradeDate()) || (!hasTradeDate() && msg.hasTradeDate())) return false;
-		if (!(!hasTradeDate() && !msg.hasTradeDate()) ) return false;
 		if ((hasTransactTime() && !msg.hasTransactTime()) || (!hasTransactTime() && msg.hasTransactTime())) return false;
-		if (!(!hasTransactTime() && !msg.hasTransactTime()) ) return false;
 		if ((hasAllocStatus() && !msg.hasAllocStatus()) || (!hasAllocStatus() && msg.hasAllocStatus())) return false;
 		if (!(!hasAllocStatus() && !msg.hasAllocStatus()) && !(getAllocStatus()==msg.getAllocStatus())) return false;
 		if ((hasAllocRejCode() && !msg.hasAllocRejCode()) || (!hasAllocRejCode() && msg.hasAllocRejCode())) return false;

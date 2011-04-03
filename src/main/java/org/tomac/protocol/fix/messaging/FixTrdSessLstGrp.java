@@ -1609,7 +1609,6 @@ public class FixTrdSessLstGrp extends FixGroup {
 		if ((hasTradSesStatusRejReason() && !msg.hasTradSesStatusRejReason()) || (!hasTradSesStatusRejReason() && msg.hasTradSesStatusRejReason())) return false;
 		if (!(!hasTradSesStatusRejReason() && !msg.hasTradSesStatusRejReason()) && !(getTradSesStatusRejReason()==msg.getTradSesStatusRejReason())) return false;
 		if ((hasTradSesStartTime() && !msg.hasTradSesStartTime()) || (!hasTradSesStartTime() && msg.hasTradSesStartTime())) return false;
-		if (!(!hasTradSesStartTime() && !msg.hasTradSesStartTime()) ) return false;
 		if ((hasMarketID() && !msg.hasMarketID()) || (!hasMarketID() && msg.hasMarketID())) return false;
 		if (!(!hasMarketID() && !msg.hasMarketID()) && !FixUtils.equals(getMarketID(), msg.getMarketID())) return false;
 		if ((hasMarketSegmentID() && !msg.hasMarketSegmentID()) || (!hasMarketSegmentID() && msg.hasMarketSegmentID())) return false;
@@ -1619,13 +1618,9 @@ public class FixTrdSessLstGrp extends FixGroup {
 		if ((hasTradSesUpdateAction() && !msg.hasTradSesUpdateAction()) || (!hasTradSesUpdateAction() && msg.hasTradSesUpdateAction())) return false;
 		if (!(!hasTradSesUpdateAction() && !msg.hasTradSesUpdateAction()) && !(getTradSesUpdateAction()==msg.getTradSesUpdateAction())) return false;
 		if ((hasTradSesOpenTime() && !msg.hasTradSesOpenTime()) || (!hasTradSesOpenTime() && msg.hasTradSesOpenTime())) return false;
-		if (!(!hasTradSesOpenTime() && !msg.hasTradSesOpenTime()) ) return false;
 		if ((hasTradSesPreCloseTime() && !msg.hasTradSesPreCloseTime()) || (!hasTradSesPreCloseTime() && msg.hasTradSesPreCloseTime())) return false;
-		if (!(!hasTradSesPreCloseTime() && !msg.hasTradSesPreCloseTime()) ) return false;
 		if ((hasTradSesCloseTime() && !msg.hasTradSesCloseTime()) || (!hasTradSesCloseTime() && msg.hasTradSesCloseTime())) return false;
-		if (!(!hasTradSesCloseTime() && !msg.hasTradSesCloseTime()) ) return false;
 		if ((hasTradSesEndTime() && !msg.hasTradSesEndTime()) || (!hasTradSesEndTime() && msg.hasTradSesEndTime())) return false;
-		if (!(!hasTradSesEndTime() && !msg.hasTradSesEndTime()) ) return false;
 		if ((hasTotalVolumeTraded() && !msg.hasTotalVolumeTraded()) || (!hasTotalVolumeTraded() && msg.hasTotalVolumeTraded())) return false;
 		if (!(!hasTotalVolumeTraded() && !msg.hasTotalVolumeTraded()) && !(getTotalVolumeTraded()==msg.getTotalVolumeTraded())) return false;
 		if ((hasText() && !msg.hasText()) || (!hasText() && msg.hasText())) return false;
@@ -1635,7 +1630,6 @@ public class FixTrdSessLstGrp extends FixGroup {
 		if ((hasEncodedText() && !msg.hasEncodedText()) || (!hasEncodedText() && msg.hasEncodedText())) return false;
 		if (!(!hasEncodedText() && !msg.hasEncodedText()) && !FixUtils.equals(getEncodedText(), msg.getEncodedText())) return false;
 		if ((hasTransactTime() && !msg.hasTransactTime()) || (!hasTransactTime() && msg.hasTransactTime())) return false;
-		if (!(!hasTransactTime() && !msg.hasTransactTime()) ) return false;
 		return true;
 	}
 	public FixTrdSessLstGrp clone ( FixTrdSessLstGrp out ) {

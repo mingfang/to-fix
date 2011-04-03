@@ -431,7 +431,6 @@ public class FixContraGrp extends FixGroup {
 		if ((hasContraTradeQty() && !msg.hasContraTradeQty()) || (!hasContraTradeQty() && msg.hasContraTradeQty())) return false;
 		if (!(!hasContraTradeQty() && !msg.hasContraTradeQty()) && !(getContraTradeQty()==msg.getContraTradeQty())) return false;
 		if ((hasContraTradeTime() && !msg.hasContraTradeTime()) || (!hasContraTradeTime() && msg.hasContraTradeTime())) return false;
-		if (!(!hasContraTradeTime() && !msg.hasContraTradeTime()) ) return false;
 		if ((hasContraLegRefID() && !msg.hasContraLegRefID()) || (!hasContraLegRefID() && msg.hasContraLegRefID())) return false;
 		if (!(!hasContraLegRefID() && !msg.hasContraLegRefID()) && !FixUtils.equals(getContraLegRefID(), msg.getContraLegRefID())) return false;
 		return true;

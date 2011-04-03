@@ -946,10 +946,10 @@ public class FixLegQuotGrp extends FixGroup {
 		FixLegQuotGrp msg = (FixLegQuotGrp) o;
 
 		if (!instrumentLeg.equals(msg.instrumentLeg)) return false;
-		for (FixLegStipulations fixLegStipulations : legStipulations)
-			if (!fixLegStipulations.equals(msg.legStipulations)) return false;
-		for (FixNestedParties fixNestedParties : nestedParties)
-			if (!fixNestedParties.equals(msg.nestedParties)) return false;
+		for (int i = 0; i < legStipulations.length; i++)
+			if (!legStipulations[i].equals(msg.legStipulations[i])) return false;
+		for (int i = 0; i < nestedParties.length; i++)
+			if (!nestedParties[i].equals(msg.nestedParties[i])) return false;
 		if (!legBenchmarkCurveData.equals(msg.legBenchmarkCurveData)) return false;
 		if ((hasLegQty() && !msg.hasLegQty()) || (!hasLegQty() && msg.hasLegQty())) return false;
 		if (!(!hasLegQty() && !msg.hasLegQty()) && !(getLegQty()==msg.getLegQty())) return false;
@@ -960,7 +960,6 @@ public class FixLegQuotGrp extends FixGroup {
 		if ((hasLegSettlType() && !msg.hasLegSettlType()) || (!hasLegSettlType() && msg.hasLegSettlType())) return false;
 		if (!(!hasLegSettlType() && !msg.hasLegSettlType()) && !(getLegSettlType()==msg.getLegSettlType())) return false;
 		if ((hasLegSettlDate() && !msg.hasLegSettlDate()) || (!hasLegSettlDate() && msg.hasLegSettlDate())) return false;
-		if (!(!hasLegSettlDate() && !msg.hasLegSettlDate()) ) return false;
 		if ((hasLegPriceType() && !msg.hasLegPriceType()) || (!hasLegPriceType() && msg.hasLegPriceType())) return false;
 		if (!(!hasLegPriceType() && !msg.hasLegPriceType()) && !(getLegPriceType()==msg.getLegPriceType())) return false;
 		if ((hasLegBidPx() && !msg.hasLegBidPx()) || (!hasLegBidPx() && msg.hasLegBidPx())) return false;

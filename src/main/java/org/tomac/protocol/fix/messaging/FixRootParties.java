@@ -332,8 +332,8 @@ public class FixRootParties extends FixGroup {
 
 		FixRootParties msg = (FixRootParties) o;
 
-		for (FixRootSubParties fixRootSubParties : rootSubParties)
-			if (!fixRootSubParties.equals(msg.rootSubParties)) return false;
+		for (int i = 0; i < rootSubParties.length; i++)
+			if (!rootSubParties[i].equals(msg.rootSubParties[i])) return false;
 		if ((hasRootPartyID() && !msg.hasRootPartyID()) || (!hasRootPartyID() && msg.hasRootPartyID())) return false;
 		if (!(!hasRootPartyID() && !msg.hasRootPartyID()) && !FixUtils.equals(getRootPartyID(), msg.getRootPartyID())) return false;
 		if ((hasRootPartyIDSource() && !msg.hasRootPartyIDSource()) || (!hasRootPartyIDSource() && msg.hasRootPartyIDSource())) return false;

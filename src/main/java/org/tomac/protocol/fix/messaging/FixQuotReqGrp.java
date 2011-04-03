@@ -2140,21 +2140,21 @@ public class FixQuotReqGrp extends FixGroup {
 
 		if (!instrument.equals(msg.instrument)) return false;
 		if (!financingDetails.equals(msg.financingDetails)) return false;
-		for (FixUndInstrmtGrp fixUndInstrmtGrp : undInstrmtGrp)
-			if (!fixUndInstrmtGrp.equals(msg.undInstrmtGrp)) return false;
+		for (int i = 0; i < undInstrmtGrp.length; i++)
+			if (!undInstrmtGrp[i].equals(msg.undInstrmtGrp[i])) return false;
 		if (!orderQtyData.equals(msg.orderQtyData)) return false;
-		for (FixRateSource fixRateSource : rateSource)
-			if (!fixRateSource.equals(msg.rateSource)) return false;
-		for (FixStipulations fixStipulations : stipulations)
-			if (!fixStipulations.equals(msg.stipulations)) return false;
-		for (FixQuotReqLegsGrp fixQuotReqLegsGrp : quotReqLegsGrp)
-			if (!fixQuotReqLegsGrp.equals(msg.quotReqLegsGrp)) return false;
-		for (FixQuotQualGrp fixQuotQualGrp : quotQualGrp)
-			if (!fixQuotQualGrp.equals(msg.quotQualGrp)) return false;
+		for (int i = 0; i < rateSource.length; i++)
+			if (!rateSource[i].equals(msg.rateSource[i])) return false;
+		for (int i = 0; i < stipulations.length; i++)
+			if (!stipulations[i].equals(msg.stipulations[i])) return false;
+		for (int i = 0; i < quotReqLegsGrp.length; i++)
+			if (!quotReqLegsGrp[i].equals(msg.quotReqLegsGrp[i])) return false;
+		for (int i = 0; i < quotQualGrp.length; i++)
+			if (!quotQualGrp[i].equals(msg.quotQualGrp[i])) return false;
 		if (!spreadOrBenchmarkCurveData.equals(msg.spreadOrBenchmarkCurveData)) return false;
 		if (!yieldData.equals(msg.yieldData)) return false;
-		for (FixParties fixParties : parties)
-			if (!fixParties.equals(msg.parties)) return false;
+		for (int i = 0; i < parties.length; i++)
+			if (!parties[i].equals(msg.parties[i])) return false;
 		if ((hasPrevClosePx() && !msg.hasPrevClosePx()) || (!hasPrevClosePx() && msg.hasPrevClosePx())) return false;
 		if (!(!hasPrevClosePx() && !msg.hasPrevClosePx()) && !(getPrevClosePx()==msg.getPrevClosePx())) return false;
 		if ((hasQuoteRequestType() && !msg.hasQuoteRequestType()) || (!hasQuoteRequestType() && msg.hasQuoteRequestType())) return false;
@@ -2166,7 +2166,6 @@ public class FixQuotReqGrp extends FixGroup {
 		if ((hasTradingSessionSubID() && !msg.hasTradingSessionSubID()) || (!hasTradingSessionSubID() && msg.hasTradingSessionSubID())) return false;
 		if (!(!hasTradingSessionSubID() && !msg.hasTradingSessionSubID()) && !FixUtils.equals(getTradingSessionSubID(), msg.getTradingSessionSubID())) return false;
 		if ((hasTradeOriginationDate() && !msg.hasTradeOriginationDate()) || (!hasTradeOriginationDate() && msg.hasTradeOriginationDate())) return false;
-		if (!(!hasTradeOriginationDate() && !msg.hasTradeOriginationDate()) ) return false;
 		if ((hasSide() && !msg.hasSide()) || (!hasSide() && msg.hasSide())) return false;
 		if (!(!hasSide() && !msg.hasSide()) && !(getSide()==msg.getSide())) return false;
 		if ((hasQtyType() && !msg.hasQtyType()) || (!hasQtyType() && msg.hasQtyType())) return false;
@@ -2176,9 +2175,7 @@ public class FixQuotReqGrp extends FixGroup {
 		if ((hasSettlType() && !msg.hasSettlType()) || (!hasSettlType() && msg.hasSettlType())) return false;
 		if (!(!hasSettlType() && !msg.hasSettlType()) && !FixUtils.equals(getSettlType(), msg.getSettlType())) return false;
 		if ((hasSettlDate() && !msg.hasSettlDate()) || (!hasSettlDate() && msg.hasSettlDate())) return false;
-		if (!(!hasSettlDate() && !msg.hasSettlDate()) ) return false;
 		if ((hasSettlDate2() && !msg.hasSettlDate2()) || (!hasSettlDate2() && msg.hasSettlDate2())) return false;
-		if (!(!hasSettlDate2() && !msg.hasSettlDate2()) ) return false;
 		if ((hasOrderQty2() && !msg.hasOrderQty2()) || (!hasOrderQty2() && msg.hasOrderQty2())) return false;
 		if (!(!hasOrderQty2() && !msg.hasOrderQty2()) && !(getOrderQty2()==msg.getOrderQty2())) return false;
 		if ((hasCurrency() && !msg.hasCurrency()) || (!hasCurrency() && msg.hasCurrency())) return false;
@@ -2196,11 +2193,8 @@ public class FixQuotReqGrp extends FixGroup {
 		if ((hasOrdType() && !msg.hasOrdType()) || (!hasOrdType() && msg.hasOrdType())) return false;
 		if (!(!hasOrdType() && !msg.hasOrdType()) && !(getOrdType()==msg.getOrdType())) return false;
 		if ((hasValidUntilTime() && !msg.hasValidUntilTime()) || (!hasValidUntilTime() && msg.hasValidUntilTime())) return false;
-		if (!(!hasValidUntilTime() && !msg.hasValidUntilTime()) ) return false;
 		if ((hasExpireTime() && !msg.hasExpireTime()) || (!hasExpireTime() && msg.hasExpireTime())) return false;
-		if (!(!hasExpireTime() && !msg.hasExpireTime()) ) return false;
 		if ((hasTransactTime() && !msg.hasTransactTime()) || (!hasTransactTime() && msg.hasTransactTime())) return false;
-		if (!(!hasTransactTime() && !msg.hasTransactTime()) ) return false;
 		if ((hasPriceType() && !msg.hasPriceType()) || (!hasPriceType() && msg.hasPriceType())) return false;
 		if (!(!hasPriceType() && !msg.hasPriceType()) && !(getPriceType()==msg.getPriceType())) return false;
 		if ((hasPrice() && !msg.hasPrice()) || (!hasPrice() && msg.hasPrice())) return false;

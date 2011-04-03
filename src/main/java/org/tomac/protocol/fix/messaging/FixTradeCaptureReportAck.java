@@ -5861,7 +5861,6 @@ public class FixTradeCaptureReportAck extends FixInMessage {
 		if ((hasOrigTradeHandlingInstr() && !msg.hasOrigTradeHandlingInstr()) || (!hasOrigTradeHandlingInstr() && msg.hasOrigTradeHandlingInstr())) return false;
 		if (!(!hasOrigTradeHandlingInstr() && !msg.hasOrigTradeHandlingInstr()) && !(getOrigTradeHandlingInstr()==msg.getOrigTradeHandlingInstr())) return false;
 		if ((hasOrigTradeDate() && !msg.hasOrigTradeDate()) || (!hasOrigTradeDate() && msg.hasOrigTradeDate())) return false;
-		if (!(!hasOrigTradeDate() && !msg.hasOrigTradeDate()) ) return false;
 		if ((hasOrigTradeID() && !msg.hasOrigTradeID()) || (!hasOrigTradeID() && msg.hasOrigTradeID())) return false;
 		if (!(!hasOrigTradeID() && !msg.hasOrigTradeID()) && !FixUtils.equals(getOrigTradeID(), msg.getOrigTradeID())) return false;
 		if ((hasOrigSecondaryTradeID() && !msg.hasOrigSecondaryTradeID()) || (!hasOrigSecondaryTradeID() && msg.hasOrigSecondaryTradeID())) return false;
@@ -5925,9 +5924,7 @@ public class FixTradeCaptureReportAck extends FixInMessage {
 		if ((hasLastMkt() && !msg.hasLastMkt()) || (!hasLastMkt() && msg.hasLastMkt())) return false;
 		if (!(!hasLastMkt() && !msg.hasLastMkt()) && !FixUtils.equals(getLastMkt(), msg.getLastMkt())) return false;
 		if ((hasTradeDate() && !msg.hasTradeDate()) || (!hasTradeDate() && msg.hasTradeDate())) return false;
-		if (!(!hasTradeDate() && !msg.hasTradeDate()) ) return false;
 		if ((hasClearingBusinessDate() && !msg.hasClearingBusinessDate()) || (!hasClearingBusinessDate() && msg.hasClearingBusinessDate())) return false;
-		if (!(!hasClearingBusinessDate() && !msg.hasClearingBusinessDate()) ) return false;
 		if ((hasAvgPx() && !msg.hasAvgPx()) || (!hasAvgPx() && msg.hasAvgPx())) return false;
 		if (!(!hasAvgPx() && !msg.hasAvgPx()) && !(getAvgPx()==msg.getAvgPx())) return false;
 		if ((hasAvgPxIndicator() && !msg.hasAvgPxIndicator()) || (!hasAvgPxIndicator() && msg.hasAvgPxIndicator())) return false;
@@ -5945,7 +5942,6 @@ public class FixTradeCaptureReportAck extends FixInMessage {
 		if ((hasSettlCurrency() && !msg.hasSettlCurrency()) || (!hasSettlCurrency() && msg.hasSettlCurrency())) return false;
 		if (!(!hasSettlCurrency() && !msg.hasSettlCurrency()) && !FixUtils.equals(getSettlCurrency(), msg.getSettlCurrency())) return false;
 		if ((hasTransactTime() && !msg.hasTransactTime()) || (!hasTransactTime() && msg.hasTransactTime())) return false;
-		if (!(!hasTransactTime() && !msg.hasTransactTime()) ) return false;
 		if ((hasSettlType() && !msg.hasSettlType()) || (!hasSettlType() && msg.hasSettlType())) return false;
 		if (!(!hasSettlType() && !msg.hasSettlType()) && !FixUtils.equals(getSettlType(), msg.getSettlType())) return false;
 		if ((hasMatchStatus() && !msg.hasMatchStatus()) || (!hasMatchStatus() && msg.hasMatchStatus())) return false;
@@ -5979,11 +5975,9 @@ public class FixTradeCaptureReportAck extends FixInMessage {
 		if ((hasMessageEventSource() && !msg.hasMessageEventSource()) || (!hasMessageEventSource() && msg.hasMessageEventSource())) return false;
 		if (!(!hasMessageEventSource() && !msg.hasMessageEventSource()) && !FixUtils.equals(getMessageEventSource(), msg.getMessageEventSource())) return false;
 		if ((hasLastUpdateTime() && !msg.hasLastUpdateTime()) || (!hasLastUpdateTime() && msg.hasLastUpdateTime())) return false;
-		if (!(!hasLastUpdateTime() && !msg.hasLastUpdateTime()) ) return false;
 		if ((hasRndPx() && !msg.hasRndPx()) || (!hasRndPx() && msg.hasRndPx())) return false;
 		if (!(!hasRndPx() && !msg.hasRndPx()) && !(getRndPx()==msg.getRndPx())) return false;
 		if ((hasSettlDate() && !msg.hasSettlDate()) || (!hasSettlDate() && msg.hasSettlDate())) return false;
-		if (!(!hasSettlDate() && !msg.hasSettlDate()) ) return false;
 		if ((hasGrossTradeAmt() && !msg.hasGrossTradeAmt()) || (!hasGrossTradeAmt() && msg.hasGrossTradeAmt())) return false;
 		if (!(!hasGrossTradeAmt() && !msg.hasGrossTradeAmt()) && !(getGrossTradeAmt()==msg.getGrossTradeAmt())) return false;
 		if ((hasRptSys() && !msg.hasRptSys()) || (!hasRptSys() && msg.hasRptSys())) return false;

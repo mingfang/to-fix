@@ -460,8 +460,8 @@ public class FixLegPreAllocGrp extends FixGroup {
 
 		FixLegPreAllocGrp msg = (FixLegPreAllocGrp) o;
 
-		for (FixNestedParties2 fixNestedParties2 : nestedParties2)
-			if (!fixNestedParties2.equals(msg.nestedParties2)) return false;
+		for (int i = 0; i < nestedParties2.length; i++)
+			if (!nestedParties2[i].equals(msg.nestedParties2[i])) return false;
 		if ((hasLegAllocAccount() && !msg.hasLegAllocAccount()) || (!hasLegAllocAccount() && msg.hasLegAllocAccount())) return false;
 		if (!(!hasLegAllocAccount() && !msg.hasLegAllocAccount()) && !FixUtils.equals(getLegAllocAccount(), msg.getLegAllocAccount())) return false;
 		if ((hasLegIndividualAllocID() && !msg.hasLegIndividualAllocID()) || (!hasLegIndividualAllocID() && msg.hasLegIndividualAllocID())) return false;

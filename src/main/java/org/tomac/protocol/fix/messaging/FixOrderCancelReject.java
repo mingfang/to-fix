@@ -1685,7 +1685,6 @@ public class FixOrderCancelReject extends FixInMessage {
 		if ((hasWorkingIndicator() && !msg.hasWorkingIndicator()) || (!hasWorkingIndicator() && msg.hasWorkingIndicator())) return false;
 		if (!(!hasWorkingIndicator() && !msg.hasWorkingIndicator()) && !(getWorkingIndicator()==msg.getWorkingIndicator())) return false;
 		if ((hasOrigOrdModTime() && !msg.hasOrigOrdModTime()) || (!hasOrigOrdModTime() && msg.hasOrigOrdModTime())) return false;
-		if (!(!hasOrigOrdModTime() && !msg.hasOrigOrdModTime()) ) return false;
 		if ((hasListID() && !msg.hasListID()) || (!hasListID() && msg.hasListID())) return false;
 		if (!(!hasListID() && !msg.hasListID()) && !FixUtils.equals(getListID(), msg.getListID())) return false;
 		if ((hasAccount() && !msg.hasAccount()) || (!hasAccount() && msg.hasAccount())) return false;
@@ -1695,11 +1694,8 @@ public class FixOrderCancelReject extends FixInMessage {
 		if ((hasAccountType() && !msg.hasAccountType()) || (!hasAccountType() && msg.hasAccountType())) return false;
 		if (!(!hasAccountType() && !msg.hasAccountType()) && !(getAccountType()==msg.getAccountType())) return false;
 		if ((hasTradeOriginationDate() && !msg.hasTradeOriginationDate()) || (!hasTradeOriginationDate() && msg.hasTradeOriginationDate())) return false;
-		if (!(!hasTradeOriginationDate() && !msg.hasTradeOriginationDate()) ) return false;
 		if ((hasTradeDate() && !msg.hasTradeDate()) || (!hasTradeDate() && msg.hasTradeDate())) return false;
-		if (!(!hasTradeDate() && !msg.hasTradeDate()) ) return false;
 		if ((hasTransactTime() && !msg.hasTransactTime()) || (!hasTransactTime() && msg.hasTransactTime())) return false;
-		if (!(!hasTransactTime() && !msg.hasTransactTime()) ) return false;
 		if ((hasCxlRejResponseTo() && !msg.hasCxlRejResponseTo()) || (!hasCxlRejResponseTo() && msg.hasCxlRejResponseTo())) return false;
 		if (!(!hasCxlRejResponseTo() && !msg.hasCxlRejResponseTo()) && !(getCxlRejResponseTo()==msg.getCxlRejResponseTo())) return false;
 		if ((hasCxlRejReason() && !msg.hasCxlRejReason()) || (!hasCxlRejReason() && msg.hasCxlRejReason())) return false;

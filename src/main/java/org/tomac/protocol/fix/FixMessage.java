@@ -8,6 +8,8 @@ import org.tomac.protocol.fix.messaging.FixStrandardTrailer;
 
 public abstract class FixMessage {
 	
+	public int sessionID;
+	
 	public static int getNext(final ByteBuffer buf, final FixValidationError err) {
 		int c = 0;
 
@@ -132,6 +134,8 @@ public abstract class FixMessage {
 		byte c;
 		final int oldPos = src.position();
 
+		FixUtils.fillNul(dst);
+		
 		while (src.hasRemaining()) {
 
 			if ((c = src.get()) == FixUtils.SOH)

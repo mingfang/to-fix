@@ -293,7 +293,6 @@ public class FixSideTrdRegTS extends FixGroup {
 		FixSideTrdRegTS msg = (FixSideTrdRegTS) o;
 
 		if ((hasSideTrdRegTimestamp() && !msg.hasSideTrdRegTimestamp()) || (!hasSideTrdRegTimestamp() && msg.hasSideTrdRegTimestamp())) return false;
-		if (!(!hasSideTrdRegTimestamp() && !msg.hasSideTrdRegTimestamp()) ) return false;
 		if ((hasSideTrdRegTimestampType() && !msg.hasSideTrdRegTimestampType()) || (!hasSideTrdRegTimestampType() && msg.hasSideTrdRegTimestampType())) return false;
 		if (!(!hasSideTrdRegTimestampType() && !msg.hasSideTrdRegTimestampType()) && !(getSideTrdRegTimestampType()==msg.getSideTrdRegTimestampType())) return false;
 		if ((hasSideTrdRegTimestampSrc() && !msg.hasSideTrdRegTimestampSrc()) || (!hasSideTrdRegTimestampSrc() && msg.hasSideTrdRegTimestampSrc())) return false;

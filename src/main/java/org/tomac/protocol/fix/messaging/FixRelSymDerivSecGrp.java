@@ -559,14 +559,13 @@ public class FixRelSymDerivSecGrp extends FixGroup {
 		if (!instrument.equals(msg.instrument)) return false;
 		if (!secondaryPriceLimits.equals(msg.secondaryPriceLimits)) return false;
 		if (!instrumentExtension.equals(msg.instrumentExtension)) return false;
-		for (FixInstrmtLegGrp fixInstrmtLegGrp : instrmtLegGrp)
-			if (!fixInstrmtLegGrp.equals(msg.instrmtLegGrp)) return false;
+		for (int i = 0; i < instrmtLegGrp.length; i++)
+			if (!instrmtLegGrp[i].equals(msg.instrmtLegGrp[i])) return false;
 		if ((hasCurrency() && !msg.hasCurrency()) || (!hasCurrency() && msg.hasCurrency())) return false;
 		if (!(!hasCurrency() && !msg.hasCurrency()) && !FixUtils.equals(getCurrency(), msg.getCurrency())) return false;
 		if ((hasCorporateAction() && !msg.hasCorporateAction()) || (!hasCorporateAction() && msg.hasCorporateAction())) return false;
 		if (!(!hasCorporateAction() && !msg.hasCorporateAction()) && !FixUtils.equals(getCorporateAction(), msg.getCorporateAction())) return false;
 		if ((hasRelSymTransactTime() && !msg.hasRelSymTransactTime()) || (!hasRelSymTransactTime() && msg.hasRelSymTransactTime())) return false;
-		if (!(!hasRelSymTransactTime() && !msg.hasRelSymTransactTime()) ) return false;
 		if ((hasText() && !msg.hasText()) || (!hasText() && msg.hasText())) return false;
 		if (!(!hasText() && !msg.hasText()) && !FixUtils.equals(getText(), msg.getText())) return false;
 		if ((hasEncodedTextLen() && !msg.hasEncodedTextLen()) || (!hasEncodedTextLen() && msg.hasEncodedTextLen())) return false;

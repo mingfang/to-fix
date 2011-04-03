@@ -797,7 +797,6 @@ public class FixAdjustedPositionReport extends FixInMessage {
 		if ((hasPosReqType() && !msg.hasPosReqType()) || (!hasPosReqType() && msg.hasPosReqType())) return false;
 		if (!(!hasPosReqType() && !msg.hasPosReqType()) && !(getPosReqType()==msg.getPosReqType())) return false;
 		if ((hasClearingBusinessDate() && !msg.hasClearingBusinessDate()) || (!hasClearingBusinessDate() && msg.hasClearingBusinessDate())) return false;
-		if (!(!hasClearingBusinessDate() && !msg.hasClearingBusinessDate()) ) return false;
 		if ((hasSettlSessID() && !msg.hasSettlSessID()) || (!hasSettlSessID() && msg.hasSettlSessID())) return false;
 		if (!(!hasSettlSessID() && !msg.hasSettlSessID()) && !FixUtils.equals(getSettlSessID(), msg.getSettlSessID())) return false;
 		if ((hasSettlPrice() && !msg.hasSettlPrice()) || (!hasSettlPrice() && msg.hasSettlPrice())) return false;

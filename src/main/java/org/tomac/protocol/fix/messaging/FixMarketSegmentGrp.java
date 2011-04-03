@@ -269,8 +269,8 @@ public class FixMarketSegmentGrp extends FixGroup {
 		FixMarketSegmentGrp msg = (FixMarketSegmentGrp) o;
 
 		if (!securityTradingRules.equals(msg.securityTradingRules)) return false;
-		for (FixStrikeRules fixStrikeRules : strikeRules)
-			if (!fixStrikeRules.equals(msg.strikeRules)) return false;
+		for (int i = 0; i < strikeRules.length; i++)
+			if (!strikeRules[i].equals(msg.strikeRules[i])) return false;
 		if ((hasMarketID() && !msg.hasMarketID()) || (!hasMarketID() && msg.hasMarketID())) return false;
 		if (!(!hasMarketID() && !msg.hasMarketID()) && !FixUtils.equals(getMarketID(), msg.getMarketID())) return false;
 		if ((hasMarketSegmentID() && !msg.hasMarketSegmentID()) || (!hasMarketSegmentID() && msg.hasMarketSegmentID())) return false;

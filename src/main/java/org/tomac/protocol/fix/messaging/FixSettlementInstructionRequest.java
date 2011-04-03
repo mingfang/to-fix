@@ -1275,7 +1275,6 @@ public class FixSettlementInstructionRequest extends FixInMessage {
 		if ((hasSettlInstReqID() && !msg.hasSettlInstReqID()) || (!hasSettlInstReqID() && msg.hasSettlInstReqID())) return false;
 		if (!(!hasSettlInstReqID() && !msg.hasSettlInstReqID()) && !FixUtils.equals(getSettlInstReqID(), msg.getSettlInstReqID())) return false;
 		if ((hasTransactTime() && !msg.hasTransactTime()) || (!hasTransactTime() && msg.hasTransactTime())) return false;
-		if (!(!hasTransactTime() && !msg.hasTransactTime()) ) return false;
 		if ((hasAllocAccount() && !msg.hasAllocAccount()) || (!hasAllocAccount() && msg.hasAllocAccount())) return false;
 		if (!(!hasAllocAccount() && !msg.hasAllocAccount()) && !FixUtils.equals(getAllocAccount(), msg.getAllocAccount())) return false;
 		if ((hasAllocAcctIDSource() && !msg.hasAllocAcctIDSource()) || (!hasAllocAcctIDSource() && msg.hasAllocAcctIDSource())) return false;
@@ -1291,11 +1290,8 @@ public class FixSettlementInstructionRequest extends FixInMessage {
 		if ((hasSettlCurrency() && !msg.hasSettlCurrency()) || (!hasSettlCurrency() && msg.hasSettlCurrency())) return false;
 		if (!(!hasSettlCurrency() && !msg.hasSettlCurrency()) && !FixUtils.equals(getSettlCurrency(), msg.getSettlCurrency())) return false;
 		if ((hasEffectiveTime() && !msg.hasEffectiveTime()) || (!hasEffectiveTime() && msg.hasEffectiveTime())) return false;
-		if (!(!hasEffectiveTime() && !msg.hasEffectiveTime()) ) return false;
 		if ((hasExpireTime() && !msg.hasExpireTime()) || (!hasExpireTime() && msg.hasExpireTime())) return false;
-		if (!(!hasExpireTime() && !msg.hasExpireTime()) ) return false;
 		if ((hasLastUpdateTime() && !msg.hasLastUpdateTime()) || (!hasLastUpdateTime() && msg.hasLastUpdateTime())) return false;
-		if (!(!hasLastUpdateTime() && !msg.hasLastUpdateTime()) ) return false;
 		if ((hasStandInstDbType() && !msg.hasStandInstDbType()) || (!hasStandInstDbType() && msg.hasStandInstDbType())) return false;
 		if (!(!hasStandInstDbType() && !msg.hasStandInstDbType()) && !(getStandInstDbType()==msg.getStandInstDbType())) return false;
 		if ((hasStandInstDbName() && !msg.hasStandInstDbName()) || (!hasStandInstDbName() && msg.hasStandInstDbName())) return false;

@@ -635,20 +635,19 @@ public class FixSecListGrp extends FixGroup {
 		if (!instrumentExtension.equals(msg.instrumentExtension)) return false;
 		if (!financingDetails.equals(msg.financingDetails)) return false;
 		if (!securityTradingRules.equals(msg.securityTradingRules)) return false;
-		for (FixStrikeRules fixStrikeRules : strikeRules)
-			if (!fixStrikeRules.equals(msg.strikeRules)) return false;
-		for (FixUndInstrmtGrp fixUndInstrmtGrp : undInstrmtGrp)
-			if (!fixUndInstrmtGrp.equals(msg.undInstrmtGrp)) return false;
-		for (FixStipulations fixStipulations : stipulations)
-			if (!fixStipulations.equals(msg.stipulations)) return false;
-		for (FixInstrmtLegSecListGrp fixInstrmtLegSecListGrp : instrmtLegSecListGrp)
-			if (!fixInstrmtLegSecListGrp.equals(msg.instrmtLegSecListGrp)) return false;
+		for (int i = 0; i < strikeRules.length; i++)
+			if (!strikeRules[i].equals(msg.strikeRules[i])) return false;
+		for (int i = 0; i < undInstrmtGrp.length; i++)
+			if (!undInstrmtGrp[i].equals(msg.undInstrmtGrp[i])) return false;
+		for (int i = 0; i < stipulations.length; i++)
+			if (!stipulations[i].equals(msg.stipulations[i])) return false;
+		for (int i = 0; i < instrmtLegSecListGrp.length; i++)
+			if (!instrmtLegSecListGrp[i].equals(msg.instrmtLegSecListGrp[i])) return false;
 		if (!spreadOrBenchmarkCurveData.equals(msg.spreadOrBenchmarkCurveData)) return false;
 		if (!yieldData.equals(msg.yieldData)) return false;
 		if ((hasCurrency() && !msg.hasCurrency()) || (!hasCurrency() && msg.hasCurrency())) return false;
 		if (!(!hasCurrency() && !msg.hasCurrency()) && !FixUtils.equals(getCurrency(), msg.getCurrency())) return false;
 		if ((hasRelSymTransactTime() && !msg.hasRelSymTransactTime()) || (!hasRelSymTransactTime() && msg.hasRelSymTransactTime())) return false;
-		if (!(!hasRelSymTransactTime() && !msg.hasRelSymTransactTime()) ) return false;
 		if ((hasText() && !msg.hasText()) || (!hasText() && msg.hasText())) return false;
 		if (!(!hasText() && !msg.hasText()) && !FixUtils.equals(getText(), msg.getText())) return false;
 		if ((hasEncodedTextLen() && !msg.hasEncodedTextLen()) || (!hasEncodedTextLen() && msg.hasEncodedTextLen())) return false;

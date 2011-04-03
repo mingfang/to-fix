@@ -704,16 +704,16 @@ public class FixSecLstUpdRelSymGrp extends FixGroup {
 		if (!instrument.equals(msg.instrument)) return false;
 		if (!instrumentExtension.equals(msg.instrumentExtension)) return false;
 		if (!financingDetails.equals(msg.financingDetails)) return false;
-		for (FixSecLstUpdRelSymsLegGrp fixSecLstUpdRelSymsLegGrp : secLstUpdRelSymsLegGrp)
-			if (!fixSecLstUpdRelSymsLegGrp.equals(msg.secLstUpdRelSymsLegGrp)) return false;
+		for (int i = 0; i < secLstUpdRelSymsLegGrp.length; i++)
+			if (!secLstUpdRelSymsLegGrp[i].equals(msg.secLstUpdRelSymsLegGrp[i])) return false;
 		if (!spreadOrBenchmarkCurveData.equals(msg.spreadOrBenchmarkCurveData)) return false;
-		for (FixUndInstrmtGrp fixUndInstrmtGrp : undInstrmtGrp)
-			if (!fixUndInstrmtGrp.equals(msg.undInstrmtGrp)) return false;
-		for (FixStipulations fixStipulations : stipulations)
-			if (!fixStipulations.equals(msg.stipulations)) return false;
+		for (int i = 0; i < undInstrmtGrp.length; i++)
+			if (!undInstrmtGrp[i].equals(msg.undInstrmtGrp[i])) return false;
+		for (int i = 0; i < stipulations.length; i++)
+			if (!stipulations[i].equals(msg.stipulations[i])) return false;
 		if (!securityTradingRules.equals(msg.securityTradingRules)) return false;
-		for (FixStrikeRules fixStrikeRules : strikeRules)
-			if (!fixStrikeRules.equals(msg.strikeRules)) return false;
+		for (int i = 0; i < strikeRules.length; i++)
+			if (!strikeRules[i].equals(msg.strikeRules[i])) return false;
 		if (!yieldData.equals(msg.yieldData)) return false;
 		if ((hasCurrency() && !msg.hasCurrency()) || (!hasCurrency() && msg.hasCurrency())) return false;
 		if (!(!hasCurrency() && !msg.hasCurrency()) && !FixUtils.equals(getCurrency(), msg.getCurrency())) return false;
@@ -726,7 +726,6 @@ public class FixSecLstUpdRelSymGrp extends FixGroup {
 		if ((hasEncodedText() && !msg.hasEncodedText()) || (!hasEncodedText() && msg.hasEncodedText())) return false;
 		if (!(!hasEncodedText() && !msg.hasEncodedText()) && !FixUtils.equals(getEncodedText(), msg.getEncodedText())) return false;
 		if ((hasRelSymTransactTime() && !msg.hasRelSymTransactTime()) || (!hasRelSymTransactTime() && msg.hasRelSymTransactTime())) return false;
-		if (!(!hasRelSymTransactTime() && !msg.hasRelSymTransactTime()) ) return false;
 		return true;
 	}
 	public FixSecLstUpdRelSymGrp clone ( FixSecLstUpdRelSymGrp out ) {

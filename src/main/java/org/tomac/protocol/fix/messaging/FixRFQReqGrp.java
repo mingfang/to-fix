@@ -517,10 +517,10 @@ public class FixRFQReqGrp extends FixGroup {
 		FixRFQReqGrp msg = (FixRFQReqGrp) o;
 
 		if (!instrument.equals(msg.instrument)) return false;
-		for (FixUndInstrmtGrp fixUndInstrmtGrp : undInstrmtGrp)
-			if (!fixUndInstrmtGrp.equals(msg.undInstrmtGrp)) return false;
-		for (FixInstrmtLegGrp fixInstrmtLegGrp : instrmtLegGrp)
-			if (!fixInstrmtLegGrp.equals(msg.instrmtLegGrp)) return false;
+		for (int i = 0; i < undInstrmtGrp.length; i++)
+			if (!undInstrmtGrp[i].equals(msg.undInstrmtGrp[i])) return false;
+		for (int i = 0; i < instrmtLegGrp.length; i++)
+			if (!instrmtLegGrp[i].equals(msg.instrmtLegGrp[i])) return false;
 		if ((hasPrevClosePx() && !msg.hasPrevClosePx()) || (!hasPrevClosePx() && msg.hasPrevClosePx())) return false;
 		if (!(!hasPrevClosePx() && !msg.hasPrevClosePx()) && !(getPrevClosePx()==msg.getPrevClosePx())) return false;
 		if ((hasQuoteRequestType() && !msg.hasQuoteRequestType()) || (!hasQuoteRequestType() && msg.hasQuoteRequestType())) return false;

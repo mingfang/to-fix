@@ -2222,13 +2222,13 @@ public class FixAllocGrp extends FixGroup {
 
 		FixAllocGrp msg = (FixAllocGrp) o;
 
-		for (FixNestedParties fixNestedParties : nestedParties)
-			if (!fixNestedParties.equals(msg.nestedParties)) return false;
+		for (int i = 0; i < nestedParties.length; i++)
+			if (!nestedParties[i].equals(msg.nestedParties[i])) return false;
 		if (!commissionData.equals(msg.commissionData)) return false;
-		for (FixMiscFeesGrp fixMiscFeesGrp : miscFeesGrp)
-			if (!fixMiscFeesGrp.equals(msg.miscFeesGrp)) return false;
-		for (FixClrInstGrp fixClrInstGrp : clrInstGrp)
-			if (!fixClrInstGrp.equals(msg.clrInstGrp)) return false;
+		for (int i = 0; i < miscFeesGrp.length; i++)
+			if (!miscFeesGrp[i].equals(msg.miscFeesGrp[i])) return false;
+		for (int i = 0; i < clrInstGrp.length; i++)
+			if (!clrInstGrp[i].equals(msg.clrInstGrp[i])) return false;
 		if (!settlInstructionsData.equals(msg.settlInstructionsData)) return false;
 		if ((hasAllocAccount() && !msg.hasAllocAccount()) || (!hasAllocAccount() && msg.hasAllocAccount())) return false;
 		if (!(!hasAllocAccount() && !msg.hasAllocAccount()) && !FixUtils.equals(getAllocAccount(), msg.getAllocAccount())) return false;

@@ -2374,7 +2374,6 @@ public class FixPositionReport extends FixInMessage {
 		if ((hasUnsolicitedIndicator() && !msg.hasUnsolicitedIndicator()) || (!hasUnsolicitedIndicator() && msg.hasUnsolicitedIndicator())) return false;
 		if (!(!hasUnsolicitedIndicator() && !msg.hasUnsolicitedIndicator()) && !(getUnsolicitedIndicator()==msg.getUnsolicitedIndicator())) return false;
 		if ((hasClearingBusinessDate() && !msg.hasClearingBusinessDate()) || (!hasClearingBusinessDate() && msg.hasClearingBusinessDate())) return false;
-		if (!(!hasClearingBusinessDate() && !msg.hasClearingBusinessDate()) ) return false;
 		if ((hasSettlSessID() && !msg.hasSettlSessID()) || (!hasSettlSessID() && msg.hasSettlSessID())) return false;
 		if (!(!hasSettlSessID() && !msg.hasSettlSessID()) && !FixUtils.equals(getSettlSessID(), msg.getSettlSessID())) return false;
 		if ((hasSettlSessSubID() && !msg.hasSettlSessSubID()) || (!hasSettlSessSubID() && msg.hasSettlSessSubID())) return false;
@@ -2404,7 +2403,6 @@ public class FixPositionReport extends FixInMessage {
 		if ((hasRegistStatus() && !msg.hasRegistStatus()) || (!hasRegistStatus() && msg.hasRegistStatus())) return false;
 		if (!(!hasRegistStatus() && !msg.hasRegistStatus()) && !(getRegistStatus()==msg.getRegistStatus())) return false;
 		if ((hasDeliveryDate() && !msg.hasDeliveryDate()) || (!hasDeliveryDate() && msg.hasDeliveryDate())) return false;
-		if (!(!hasDeliveryDate() && !msg.hasDeliveryDate()) ) return false;
 		if ((hasModelType() && !msg.hasModelType()) || (!hasModelType() && msg.hasModelType())) return false;
 		if (!(!hasModelType() && !msg.hasModelType()) && !(getModelType()==msg.getModelType())) return false;
 		if ((hasPriceDelta() && !msg.hasPriceDelta()) || (!hasPriceDelta() && msg.hasPriceDelta())) return false;

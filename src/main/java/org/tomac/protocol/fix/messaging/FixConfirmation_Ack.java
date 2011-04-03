@@ -841,9 +841,7 @@ public class FixConfirmation_Ack extends FixInMessage {
 		if ((hasConfirmID() && !msg.hasConfirmID()) || (!hasConfirmID() && msg.hasConfirmID())) return false;
 		if (!(!hasConfirmID() && !msg.hasConfirmID()) && !FixUtils.equals(getConfirmID(), msg.getConfirmID())) return false;
 		if ((hasTradeDate() && !msg.hasTradeDate()) || (!hasTradeDate() && msg.hasTradeDate())) return false;
-		if (!(!hasTradeDate() && !msg.hasTradeDate()) ) return false;
 		if ((hasTransactTime() && !msg.hasTransactTime()) || (!hasTransactTime() && msg.hasTransactTime())) return false;
-		if (!(!hasTransactTime() && !msg.hasTransactTime()) ) return false;
 		if ((hasAffirmStatus() && !msg.hasAffirmStatus()) || (!hasAffirmStatus() && msg.hasAffirmStatus())) return false;
 		if (!(!hasAffirmStatus() && !msg.hasAffirmStatus()) && !(getAffirmStatus()==msg.getAffirmStatus())) return false;
 		if ((hasConfirmRejReason() && !msg.hasConfirmRejReason()) || (!hasConfirmRejReason() && msg.hasConfirmRejReason())) return false;

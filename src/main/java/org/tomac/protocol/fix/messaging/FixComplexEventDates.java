@@ -258,12 +258,10 @@ public class FixComplexEventDates extends FixGroup {
 
 		FixComplexEventDates msg = (FixComplexEventDates) o;
 
-		for (FixComplexEventTimes fixComplexEventTimes : complexEventTimes)
-			if (!fixComplexEventTimes.equals(msg.complexEventTimes)) return false;
+		for (int i = 0; i < complexEventTimes.length; i++)
+			if (!complexEventTimes[i].equals(msg.complexEventTimes[i])) return false;
 		if ((hasComplexEventStartDate() && !msg.hasComplexEventStartDate()) || (!hasComplexEventStartDate() && msg.hasComplexEventStartDate())) return false;
-		if (!(!hasComplexEventStartDate() && !msg.hasComplexEventStartDate()) ) return false;
 		if ((hasComplexEventEndDate() && !msg.hasComplexEventEndDate()) || (!hasComplexEventEndDate() && msg.hasComplexEventEndDate())) return false;
-		if (!(!hasComplexEventEndDate() && !msg.hasComplexEventEndDate()) ) return false;
 		return true;
 	}
 	public FixComplexEventDates clone ( FixComplexEventDates out ) {

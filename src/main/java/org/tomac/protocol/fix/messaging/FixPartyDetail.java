@@ -457,14 +457,14 @@ public class FixPartyDetail extends FixGroup {
 
 		FixPartyDetail msg = (FixPartyDetail) o;
 
-		for (FixPtysSubGrp fixPtysSubGrp : ptysSubGrp)
-			if (!fixPtysSubGrp.equals(msg.ptysSubGrp)) return false;
-		for (FixPartyAltIDs fixPartyAltIDs : partyAltIDs)
-			if (!fixPartyAltIDs.equals(msg.partyAltIDs)) return false;
-		for (FixContextParties fixContextParties : contextParties)
-			if (!fixContextParties.equals(msg.contextParties)) return false;
-		for (FixRiskLimits fixRiskLimits : riskLimits)
-			if (!fixRiskLimits.equals(msg.riskLimits)) return false;
+		for (int i = 0; i < ptysSubGrp.length; i++)
+			if (!ptysSubGrp[i].equals(msg.ptysSubGrp[i])) return false;
+		for (int i = 0; i < partyAltIDs.length; i++)
+			if (!partyAltIDs[i].equals(msg.partyAltIDs[i])) return false;
+		for (int i = 0; i < contextParties.length; i++)
+			if (!contextParties[i].equals(msg.contextParties[i])) return false;
+		for (int i = 0; i < riskLimits.length; i++)
+			if (!riskLimits[i].equals(msg.riskLimits[i])) return false;
 		if ((hasPartyID() && !msg.hasPartyID()) || (!hasPartyID() && msg.hasPartyID())) return false;
 		if (!(!hasPartyID() && !msg.hasPartyID()) && !FixUtils.equals(getPartyID(), msg.getPartyID())) return false;
 		if ((hasPartyIDSource() && !msg.hasPartyIDSource()) || (!hasPartyIDSource() && msg.hasPartyIDSource())) return false;

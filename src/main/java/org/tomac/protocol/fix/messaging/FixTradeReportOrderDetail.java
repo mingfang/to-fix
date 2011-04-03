@@ -1858,7 +1858,6 @@ public class FixTradeReportOrderDetail extends FixGroup {
 		if ((hasTimeInForce() && !msg.hasTimeInForce()) || (!hasTimeInForce() && msg.hasTimeInForce())) return false;
 		if (!(!hasTimeInForce() && !msg.hasTimeInForce()) && !(getTimeInForce()==msg.getTimeInForce())) return false;
 		if ((hasExpireTime() && !msg.hasExpireTime()) || (!hasExpireTime() && msg.hasExpireTime())) return false;
-		if (!(!hasExpireTime() && !msg.hasExpireTime()) ) return false;
 		if ((hasOrderCapacity() && !msg.hasOrderCapacity()) || (!hasOrderCapacity() && msg.hasOrderCapacity())) return false;
 		if (!(!hasOrderCapacity() && !msg.hasOrderCapacity()) && !(getOrderCapacity()==msg.getOrderCapacity())) return false;
 		if ((hasOrderRestrictions() && !msg.hasOrderRestrictions()) || (!hasOrderRestrictions() && msg.hasOrderRestrictions())) return false;
@@ -1872,9 +1871,7 @@ public class FixTradeReportOrderDetail extends FixGroup {
 		if ((hasLotType() && !msg.hasLotType()) || (!hasLotType() && msg.hasLotType())) return false;
 		if (!(!hasLotType() && !msg.hasLotType()) && !(getLotType()==msg.getLotType())) return false;
 		if ((hasTransBkdTime() && !msg.hasTransBkdTime()) || (!hasTransBkdTime() && msg.hasTransBkdTime())) return false;
-		if (!(!hasTransBkdTime() && !msg.hasTransBkdTime()) ) return false;
 		if ((hasOrigOrdModTime() && !msg.hasOrigOrdModTime()) || (!hasOrigOrdModTime() && msg.hasOrigOrdModTime())) return false;
-		if (!(!hasOrigOrdModTime() && !msg.hasOrigOrdModTime()) ) return false;
 		return true;
 	}
 	public FixTradeReportOrderDetail clone ( FixTradeReportOrderDetail out ) {

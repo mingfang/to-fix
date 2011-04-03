@@ -854,7 +854,6 @@ public class FixCrossOrderCancelRequest extends FixInMessage {
 		if ((hasCrossPrioritization() && !msg.hasCrossPrioritization()) || (!hasCrossPrioritization() && msg.hasCrossPrioritization())) return false;
 		if (!(!hasCrossPrioritization() && !msg.hasCrossPrioritization()) && !(getCrossPrioritization()==msg.getCrossPrioritization())) return false;
 		if ((hasTransactTime() && !msg.hasTransactTime()) || (!hasTransactTime() && msg.hasTransactTime())) return false;
-		if (!(!hasTransactTime() && !msg.hasTransactTime()) ) return false;
 		return true;
 	}
 	@Override

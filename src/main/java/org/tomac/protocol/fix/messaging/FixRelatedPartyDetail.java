@@ -443,14 +443,14 @@ public class FixRelatedPartyDetail extends FixGroup {
 
 		FixRelatedPartyDetail msg = (FixRelatedPartyDetail) o;
 
-		for (FixRelatedPtysSubGrp fixRelatedPtysSubGrp : relatedPtysSubGrp)
-			if (!fixRelatedPtysSubGrp.equals(msg.relatedPtysSubGrp)) return false;
-		for (FixRelatedPartyAltIDs fixRelatedPartyAltIDs : relatedPartyAltIDs)
-			if (!fixRelatedPartyAltIDs.equals(msg.relatedPartyAltIDs)) return false;
-		for (FixRelatedContextParties fixRelatedContextParties : relatedContextParties)
-			if (!fixRelatedContextParties.equals(msg.relatedContextParties)) return false;
-		for (FixRelationshipRiskLimits fixRelationshipRiskLimits : relationshipRiskLimits)
-			if (!fixRelationshipRiskLimits.equals(msg.relationshipRiskLimits)) return false;
+		for (int i = 0; i < relatedPtysSubGrp.length; i++)
+			if (!relatedPtysSubGrp[i].equals(msg.relatedPtysSubGrp[i])) return false;
+		for (int i = 0; i < relatedPartyAltIDs.length; i++)
+			if (!relatedPartyAltIDs[i].equals(msg.relatedPartyAltIDs[i])) return false;
+		for (int i = 0; i < relatedContextParties.length; i++)
+			if (!relatedContextParties[i].equals(msg.relatedContextParties[i])) return false;
+		for (int i = 0; i < relationshipRiskLimits.length; i++)
+			if (!relationshipRiskLimits[i].equals(msg.relationshipRiskLimits[i])) return false;
 		if ((hasRelatedPartyID() && !msg.hasRelatedPartyID()) || (!hasRelatedPartyID() && msg.hasRelatedPartyID())) return false;
 		if (!(!hasRelatedPartyID() && !msg.hasRelatedPartyID()) && !FixUtils.equals(getRelatedPartyID(), msg.getRelatedPartyID())) return false;
 		if ((hasRelatedPartyIDSource() && !msg.hasRelatedPartyIDSource()) || (!hasRelatedPartyIDSource() && msg.hasRelatedPartyIDSource())) return false;

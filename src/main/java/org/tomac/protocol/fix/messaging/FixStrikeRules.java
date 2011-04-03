@@ -472,8 +472,8 @@ public class FixStrikeRules extends FixGroup {
 
 		FixStrikeRules msg = (FixStrikeRules) o;
 
-		for (FixMaturityRules fixMaturityRules : maturityRules)
-			if (!fixMaturityRules.equals(msg.maturityRules)) return false;
+		for (int i = 0; i < maturityRules.length; i++)
+			if (!maturityRules[i].equals(msg.maturityRules[i])) return false;
 		if ((hasStrikeRuleID() && !msg.hasStrikeRuleID()) || (!hasStrikeRuleID() && msg.hasStrikeRuleID())) return false;
 		if (!(!hasStrikeRuleID() && !msg.hasStrikeRuleID()) && !FixUtils.equals(getStrikeRuleID(), msg.getStrikeRuleID())) return false;
 		if ((hasStartStrikePxRange() && !msg.hasStartStrikePxRange()) || (!hasStartStrikePxRange() && msg.hasStartStrikePxRange())) return false;

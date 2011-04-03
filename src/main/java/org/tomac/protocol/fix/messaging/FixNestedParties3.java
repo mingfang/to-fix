@@ -332,8 +332,8 @@ public class FixNestedParties3 extends FixGroup {
 
 		FixNestedParties3 msg = (FixNestedParties3) o;
 
-		for (FixNstdPtys3SubGrp fixNstdPtys3SubGrp : nstdPtys3SubGrp)
-			if (!fixNstdPtys3SubGrp.equals(msg.nstdPtys3SubGrp)) return false;
+		for (int i = 0; i < nstdPtys3SubGrp.length; i++)
+			if (!nstdPtys3SubGrp[i].equals(msg.nstdPtys3SubGrp[i])) return false;
 		if ((hasNested3PartyID() && !msg.hasNested3PartyID()) || (!hasNested3PartyID() && msg.hasNested3PartyID())) return false;
 		if (!(!hasNested3PartyID() && !msg.hasNested3PartyID()) && !FixUtils.equals(getNested3PartyID(), msg.getNested3PartyID())) return false;
 		if ((hasNested3PartyIDSource() && !msg.hasNested3PartyIDSource()) || (!hasNested3PartyIDSource() && msg.hasNested3PartyIDSource())) return false;

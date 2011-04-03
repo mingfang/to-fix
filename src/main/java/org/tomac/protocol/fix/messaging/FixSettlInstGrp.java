@@ -1476,8 +1476,8 @@ public class FixSettlInstGrp extends FixGroup {
 
 		FixSettlInstGrp msg = (FixSettlInstGrp) o;
 
-		for (FixParties fixParties : parties)
-			if (!fixParties.equals(msg.parties)) return false;
+		for (int i = 0; i < parties.length; i++)
+			if (!parties[i].equals(msg.parties[i])) return false;
 		if (!settlInstructionsData.equals(msg.settlInstructionsData)) return false;
 		if ((hasSettlInstID() && !msg.hasSettlInstID()) || (!hasSettlInstID() && msg.hasSettlInstID())) return false;
 		if (!(!hasSettlInstID() && !msg.hasSettlInstID()) && !FixUtils.equals(getSettlInstID(), msg.getSettlInstID())) return false;
@@ -1496,11 +1496,8 @@ public class FixSettlInstGrp extends FixGroup {
 		if ((hasSettlCurrency() && !msg.hasSettlCurrency()) || (!hasSettlCurrency() && msg.hasSettlCurrency())) return false;
 		if (!(!hasSettlCurrency() && !msg.hasSettlCurrency()) && !FixUtils.equals(getSettlCurrency(), msg.getSettlCurrency())) return false;
 		if ((hasEffectiveTime() && !msg.hasEffectiveTime()) || (!hasEffectiveTime() && msg.hasEffectiveTime())) return false;
-		if (!(!hasEffectiveTime() && !msg.hasEffectiveTime()) ) return false;
 		if ((hasExpireTime() && !msg.hasExpireTime()) || (!hasExpireTime() && msg.hasExpireTime())) return false;
-		if (!(!hasExpireTime() && !msg.hasExpireTime()) ) return false;
 		if ((hasLastUpdateTime() && !msg.hasLastUpdateTime()) || (!hasLastUpdateTime() && msg.hasLastUpdateTime())) return false;
-		if (!(!hasLastUpdateTime() && !msg.hasLastUpdateTime()) ) return false;
 		if ((hasPaymentMethod() && !msg.hasPaymentMethod()) || (!hasPaymentMethod() && msg.hasPaymentMethod())) return false;
 		if (!(!hasPaymentMethod() && !msg.hasPaymentMethod()) && !(getPaymentMethod()==msg.getPaymentMethod())) return false;
 		if ((hasPaymentRef() && !msg.hasPaymentRef()) || (!hasPaymentRef() && msg.hasPaymentRef())) return false;
@@ -1510,13 +1507,10 @@ public class FixSettlInstGrp extends FixGroup {
 		if ((hasCardNumber() && !msg.hasCardNumber()) || (!hasCardNumber() && msg.hasCardNumber())) return false;
 		if (!(!hasCardNumber() && !msg.hasCardNumber()) && !FixUtils.equals(getCardNumber(), msg.getCardNumber())) return false;
 		if ((hasCardStartDate() && !msg.hasCardStartDate()) || (!hasCardStartDate() && msg.hasCardStartDate())) return false;
-		if (!(!hasCardStartDate() && !msg.hasCardStartDate()) ) return false;
 		if ((hasCardExpDate() && !msg.hasCardExpDate()) || (!hasCardExpDate() && msg.hasCardExpDate())) return false;
-		if (!(!hasCardExpDate() && !msg.hasCardExpDate()) ) return false;
 		if ((hasCardIssNum() && !msg.hasCardIssNum()) || (!hasCardIssNum() && msg.hasCardIssNum())) return false;
 		if (!(!hasCardIssNum() && !msg.hasCardIssNum()) && !FixUtils.equals(getCardIssNum(), msg.getCardIssNum())) return false;
 		if ((hasPaymentDate() && !msg.hasPaymentDate()) || (!hasPaymentDate() && msg.hasPaymentDate())) return false;
-		if (!(!hasPaymentDate() && !msg.hasPaymentDate()) ) return false;
 		if ((hasPaymentRemitterID() && !msg.hasPaymentRemitterID()) || (!hasPaymentRemitterID() && msg.hasPaymentRemitterID())) return false;
 		if (!(!hasPaymentRemitterID() && !msg.hasPaymentRemitterID()) && !FixUtils.equals(getPaymentRemitterID(), msg.getPaymentRemitterID())) return false;
 		return true;

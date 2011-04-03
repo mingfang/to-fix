@@ -332,8 +332,8 @@ public class FixInstrumentParties extends FixGroup {
 
 		FixInstrumentParties msg = (FixInstrumentParties) o;
 
-		for (FixInstrumentPtysSubGrp fixInstrumentPtysSubGrp : instrumentPtysSubGrp)
-			if (!fixInstrumentPtysSubGrp.equals(msg.instrumentPtysSubGrp)) return false;
+		for (int i = 0; i < instrumentPtysSubGrp.length; i++)
+			if (!instrumentPtysSubGrp[i].equals(msg.instrumentPtysSubGrp[i])) return false;
 		if ((hasInstrumentPartyID() && !msg.hasInstrumentPartyID()) || (!hasInstrumentPartyID() && msg.hasInstrumentPartyID())) return false;
 		if (!(!hasInstrumentPartyID() && !msg.hasInstrumentPartyID()) && !FixUtils.equals(getInstrumentPartyID(), msg.getInstrumentPartyID())) return false;
 		if ((hasInstrumentPartyIDSource() && !msg.hasInstrumentPartyIDSource()) || (!hasInstrumentPartyIDSource() && msg.hasInstrumentPartyIDSource())) return false;

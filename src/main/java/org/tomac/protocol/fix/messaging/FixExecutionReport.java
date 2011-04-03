@@ -11303,7 +11303,6 @@ public class FixExecutionReport extends FixInMessage {
 		if ((hasLastRptRequested() && !msg.hasLastRptRequested()) || (!hasLastRptRequested() && msg.hasLastRptRequested())) return false;
 		if (!(!hasLastRptRequested() && !msg.hasLastRptRequested()) && !(getLastRptRequested()==msg.getLastRptRequested())) return false;
 		if ((hasTradeOriginationDate() && !msg.hasTradeOriginationDate()) || (!hasTradeOriginationDate() && msg.hasTradeOriginationDate())) return false;
-		if (!(!hasTradeOriginationDate() && !msg.hasTradeOriginationDate()) ) return false;
 		if ((hasListID() && !msg.hasListID()) || (!hasListID() && msg.hasListID())) return false;
 		if (!(!hasListID() && !msg.hasListID()) && !FixUtils.equals(getListID(), msg.getListID())) return false;
 		if ((hasCrossID() && !msg.hasCrossID()) || (!hasCrossID() && msg.hasCrossID())) return false;
@@ -11345,7 +11344,6 @@ public class FixExecutionReport extends FixInMessage {
 		if ((hasSettlType() && !msg.hasSettlType()) || (!hasSettlType() && msg.hasSettlType())) return false;
 		if (!(!hasSettlType() && !msg.hasSettlType()) && !FixUtils.equals(getSettlType(), msg.getSettlType())) return false;
 		if ((hasSettlDate() && !msg.hasSettlDate()) || (!hasSettlDate() && msg.hasSettlDate())) return false;
-		if (!(!hasSettlDate() && !msg.hasSettlDate()) ) return false;
 		if ((hasMatchType() && !msg.hasMatchType()) || (!hasMatchType() && msg.hasMatchType())) return false;
 		if (!(!hasMatchType() && !msg.hasMatchType()) && !FixUtils.equals(getMatchType(), msg.getMatchType())) return false;
 		if ((hasOrderCategory() && !msg.hasOrderCategory()) || (!hasOrderCategory() && msg.hasOrderCategory())) return false;
@@ -11393,11 +11391,8 @@ public class FixExecutionReport extends FixInMessage {
 		if ((hasTimeInForce() && !msg.hasTimeInForce()) || (!hasTimeInForce() && msg.hasTimeInForce())) return false;
 		if (!(!hasTimeInForce() && !msg.hasTimeInForce()) && !(getTimeInForce()==msg.getTimeInForce())) return false;
 		if ((hasEffectiveTime() && !msg.hasEffectiveTime()) || (!hasEffectiveTime() && msg.hasEffectiveTime())) return false;
-		if (!(!hasEffectiveTime() && !msg.hasEffectiveTime()) ) return false;
 		if ((hasExpireDate() && !msg.hasExpireDate()) || (!hasExpireDate() && msg.hasExpireDate())) return false;
-		if (!(!hasExpireDate() && !msg.hasExpireDate()) ) return false;
 		if ((hasExpireTime() && !msg.hasExpireTime()) || (!hasExpireTime() && msg.hasExpireTime())) return false;
-		if (!(!hasExpireTime() && !msg.hasExpireTime()) ) return false;
 		if ((hasExecInst() && !msg.hasExecInst()) || (!hasExecInst() && msg.hasExecInst())) return false;
 		if (!(!hasExecInst() && !msg.hasExecInst()) && !FixUtils.equals(getExecInst(), msg.getExecInst())) return false;
 		if ((hasAggressorIndicator() && !msg.hasAggressorIndicator()) || (!hasAggressorIndicator() && msg.hasAggressorIndicator())) return false;
@@ -11457,9 +11452,7 @@ public class FixExecutionReport extends FixInMessage {
 		if ((hasGTBookingInst() && !msg.hasGTBookingInst()) || (!hasGTBookingInst() && msg.hasGTBookingInst())) return false;
 		if (!(!hasGTBookingInst() && !msg.hasGTBookingInst()) && !(getGTBookingInst()==msg.getGTBookingInst())) return false;
 		if ((hasTradeDate() && !msg.hasTradeDate()) || (!hasTradeDate() && msg.hasTradeDate())) return false;
-		if (!(!hasTradeDate() && !msg.hasTradeDate()) ) return false;
 		if ((hasTransactTime() && !msg.hasTransactTime()) || (!hasTransactTime() && msg.hasTransactTime())) return false;
-		if (!(!hasTransactTime() && !msg.hasTransactTime()) ) return false;
 		if ((hasReportToExch() && !msg.hasReportToExch()) || (!hasReportToExch() && msg.hasReportToExch())) return false;
 		if (!(!hasReportToExch() && !msg.hasReportToExch()) && !(getReportToExch()==msg.getReportToExch())) return false;
 		if ((hasGrossTradeAmt() && !msg.hasGrossTradeAmt()) || (!hasGrossTradeAmt() && msg.hasGrossTradeAmt())) return false;
@@ -11467,7 +11460,6 @@ public class FixExecutionReport extends FixInMessage {
 		if ((hasNumDaysInterest() && !msg.hasNumDaysInterest()) || (!hasNumDaysInterest() && msg.hasNumDaysInterest())) return false;
 		if (!(!hasNumDaysInterest() && !msg.hasNumDaysInterest()) && !(getNumDaysInterest()==msg.getNumDaysInterest())) return false;
 		if ((hasExDate() && !msg.hasExDate()) || (!hasExDate() && msg.hasExDate())) return false;
-		if (!(!hasExDate() && !msg.hasExDate()) ) return false;
 		if ((hasAccruedInterestRate() && !msg.hasAccruedInterestRate()) || (!hasAccruedInterestRate() && msg.hasAccruedInterestRate())) return false;
 		if (!(!hasAccruedInterestRate() && !msg.hasAccruedInterestRate()) && !(getAccruedInterestRate()==msg.getAccruedInterestRate())) return false;
 		if ((hasAccruedInterestAmt() && !msg.hasAccruedInterestAmt()) || (!hasAccruedInterestAmt() && msg.hasAccruedInterestAmt())) return false;
@@ -11483,7 +11475,6 @@ public class FixExecutionReport extends FixInMessage {
 		if ((hasTradedFlatSwitch() && !msg.hasTradedFlatSwitch()) || (!hasTradedFlatSwitch() && msg.hasTradedFlatSwitch())) return false;
 		if (!(!hasTradedFlatSwitch() && !msg.hasTradedFlatSwitch()) && !(getTradedFlatSwitch()==msg.getTradedFlatSwitch())) return false;
 		if ((hasBasisFeatureDate() && !msg.hasBasisFeatureDate()) || (!hasBasisFeatureDate() && msg.hasBasisFeatureDate())) return false;
-		if (!(!hasBasisFeatureDate() && !msg.hasBasisFeatureDate()) ) return false;
 		if ((hasBasisFeaturePrice() && !msg.hasBasisFeaturePrice()) || (!hasBasisFeaturePrice() && msg.hasBasisFeaturePrice())) return false;
 		if (!(!hasBasisFeaturePrice() && !msg.hasBasisFeaturePrice()) && !(getBasisFeaturePrice()==msg.getBasisFeaturePrice())) return false;
 		if ((hasConcession() && !msg.hasConcession()) || (!hasConcession() && msg.hasConcession())) return false;
@@ -11523,7 +11514,6 @@ public class FixExecutionReport extends FixInMessage {
 		if ((hasEncodedText() && !msg.hasEncodedText()) || (!hasEncodedText() && msg.hasEncodedText())) return false;
 		if (!(!hasEncodedText() && !msg.hasEncodedText()) && !FixUtils.equals(getEncodedText(), msg.getEncodedText())) return false;
 		if ((hasSettlDate2() && !msg.hasSettlDate2()) || (!hasSettlDate2() && msg.hasSettlDate2())) return false;
-		if (!(!hasSettlDate2() && !msg.hasSettlDate2()) ) return false;
 		if ((hasOrderQty2() && !msg.hasOrderQty2()) || (!hasOrderQty2() && msg.hasOrderQty2())) return false;
 		if (!(!hasOrderQty2() && !msg.hasOrderQty2()) && !(getOrderQty2()==msg.getOrderQty2())) return false;
 		if ((hasLastForwardPoints2() && !msg.hasLastForwardPoints2()) || (!hasLastForwardPoints2() && msg.hasLastForwardPoints2())) return false;
@@ -11539,9 +11529,7 @@ public class FixExecutionReport extends FixInMessage {
 		if ((hasDesignation() && !msg.hasDesignation()) || (!hasDesignation() && msg.hasDesignation())) return false;
 		if (!(!hasDesignation() && !msg.hasDesignation()) && !FixUtils.equals(getDesignation(), msg.getDesignation())) return false;
 		if ((hasTransBkdTime() && !msg.hasTransBkdTime()) || (!hasTransBkdTime() && msg.hasTransBkdTime())) return false;
-		if (!(!hasTransBkdTime() && !msg.hasTransBkdTime()) ) return false;
 		if ((hasExecValuationPoint() && !msg.hasExecValuationPoint()) || (!hasExecValuationPoint() && msg.hasExecValuationPoint())) return false;
-		if (!(!hasExecValuationPoint() && !msg.hasExecValuationPoint()) ) return false;
 		if ((hasExecPriceType() && !msg.hasExecPriceType()) || (!hasExecPriceType() && msg.hasExecPriceType())) return false;
 		if (!(!hasExecPriceType() && !msg.hasExecPriceType()) && !(getExecPriceType()==msg.getExecPriceType())) return false;
 		if ((hasExecPriceAdjustment() && !msg.hasExecPriceAdjustment()) || (!hasExecPriceAdjustment() && msg.hasExecPriceAdjustment())) return false;

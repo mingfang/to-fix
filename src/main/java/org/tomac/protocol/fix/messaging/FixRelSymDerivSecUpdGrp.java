@@ -629,8 +629,8 @@ public class FixRelSymDerivSecUpdGrp extends FixGroup {
 		if (!instrument.equals(msg.instrument)) return false;
 		if (!instrumentExtension.equals(msg.instrumentExtension)) return false;
 		if (!secondaryPriceLimits.equals(msg.secondaryPriceLimits)) return false;
-		for (FixInstrmtLegGrp fixInstrmtLegGrp : instrmtLegGrp)
-			if (!fixInstrmtLegGrp.equals(msg.instrmtLegGrp)) return false;
+		for (int i = 0; i < instrmtLegGrp.length; i++)
+			if (!instrmtLegGrp[i].equals(msg.instrmtLegGrp[i])) return false;
 		if ((hasListUpdateAction() && !msg.hasListUpdateAction()) || (!hasListUpdateAction() && msg.hasListUpdateAction())) return false;
 		if (!(!hasListUpdateAction() && !msg.hasListUpdateAction()) && !(getListUpdateAction()==msg.getListUpdateAction())) return false;
 		if ((hasCurrency() && !msg.hasCurrency()) || (!hasCurrency() && msg.hasCurrency())) return false;
@@ -644,7 +644,6 @@ public class FixRelSymDerivSecUpdGrp extends FixGroup {
 		if ((hasCorporateAction() && !msg.hasCorporateAction()) || (!hasCorporateAction() && msg.hasCorporateAction())) return false;
 		if (!(!hasCorporateAction() && !msg.hasCorporateAction()) && !FixUtils.equals(getCorporateAction(), msg.getCorporateAction())) return false;
 		if ((hasRelSymTransactTime() && !msg.hasRelSymTransactTime()) || (!hasRelSymTransactTime() && msg.hasRelSymTransactTime())) return false;
-		if (!(!hasRelSymTransactTime() && !msg.hasRelSymTransactTime()) ) return false;
 		return true;
 	}
 	public FixRelSymDerivSecUpdGrp clone ( FixRelSymDerivSecUpdGrp out ) {

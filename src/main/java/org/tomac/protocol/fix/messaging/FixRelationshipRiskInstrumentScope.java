@@ -1738,8 +1738,8 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 
 		FixRelationshipRiskInstrumentScope msg = (FixRelationshipRiskInstrumentScope) o;
 
-		for (FixRelationshipRiskSecAltIDGrp fixRelationshipRiskSecAltIDGrp : relationshipRiskSecAltIDGrp)
-			if (!fixRelationshipRiskSecAltIDGrp.equals(msg.relationshipRiskSecAltIDGrp)) return false;
+		for (int i = 0; i < relationshipRiskSecAltIDGrp.length; i++)
+			if (!relationshipRiskSecAltIDGrp[i].equals(msg.relationshipRiskSecAltIDGrp[i])) return false;
 		if ((hasRelationshipRiskInstrumentOperator() && !msg.hasRelationshipRiskInstrumentOperator()) || (!hasRelationshipRiskInstrumentOperator() && msg.hasRelationshipRiskInstrumentOperator())) return false;
 		if (!(!hasRelationshipRiskInstrumentOperator() && !msg.hasRelationshipRiskInstrumentOperator()) && !(getRelationshipRiskInstrumentOperator()==msg.getRelationshipRiskInstrumentOperator())) return false;
 		if ((hasRelationshipRiskSymbol() && !msg.hasRelationshipRiskSymbol()) || (!hasRelationshipRiskSymbol() && msg.hasRelationshipRiskSymbol())) return false;
@@ -1765,7 +1765,6 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		if ((hasRelationshipRiskMaturityMonthYear() && !msg.hasRelationshipRiskMaturityMonthYear()) || (!hasRelationshipRiskMaturityMonthYear() && msg.hasRelationshipRiskMaturityMonthYear())) return false;
 		if (!(!hasRelationshipRiskMaturityMonthYear() && !msg.hasRelationshipRiskMaturityMonthYear()) && !FixUtils.equals(getRelationshipRiskMaturityMonthYear(), msg.getRelationshipRiskMaturityMonthYear())) return false;
 		if ((hasRelationshipRiskMaturityTime() && !msg.hasRelationshipRiskMaturityTime()) || (!hasRelationshipRiskMaturityTime() && msg.hasRelationshipRiskMaturityTime())) return false;
-		if (!(!hasRelationshipRiskMaturityTime() && !msg.hasRelationshipRiskMaturityTime()) ) return false;
 		if ((hasRelationshipRiskRestructuringType() && !msg.hasRelationshipRiskRestructuringType()) || (!hasRelationshipRiskRestructuringType() && msg.hasRelationshipRiskRestructuringType())) return false;
 		if (!(!hasRelationshipRiskRestructuringType() && !msg.hasRelationshipRiskRestructuringType()) && !FixUtils.equals(getRelationshipRiskRestructuringType(), msg.getRelationshipRiskRestructuringType())) return false;
 		if ((hasRelationshipRiskSeniority() && !msg.hasRelationshipRiskSeniority()) || (!hasRelationshipRiskSeniority() && msg.hasRelationshipRiskSeniority())) return false;

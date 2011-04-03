@@ -592,8 +592,8 @@ public class FixRgstDtlsGrp extends FixGroup {
 
 		FixRgstDtlsGrp msg = (FixRgstDtlsGrp) o;
 
-		for (FixNestedParties fixNestedParties : nestedParties)
-			if (!fixNestedParties.equals(msg.nestedParties)) return false;
+		for (int i = 0; i < nestedParties.length; i++)
+			if (!nestedParties[i].equals(msg.nestedParties[i])) return false;
 		if ((hasRegistDtls() && !msg.hasRegistDtls()) || (!hasRegistDtls() && msg.hasRegistDtls())) return false;
 		if (!(!hasRegistDtls() && !msg.hasRegistDtls()) && !FixUtils.equals(getRegistDtls(), msg.getRegistDtls())) return false;
 		if ((hasRegistEmail() && !msg.hasRegistEmail()) || (!hasRegistEmail() && msg.hasRegistEmail())) return false;
@@ -605,7 +605,6 @@ public class FixRgstDtlsGrp extends FixGroup {
 		if ((hasOwnerType() && !msg.hasOwnerType()) || (!hasOwnerType() && msg.hasOwnerType())) return false;
 		if (!(!hasOwnerType() && !msg.hasOwnerType()) && !(getOwnerType()==msg.getOwnerType())) return false;
 		if ((hasDateOfBirth() && !msg.hasDateOfBirth()) || (!hasDateOfBirth() && msg.hasDateOfBirth())) return false;
-		if (!(!hasDateOfBirth() && !msg.hasDateOfBirth()) ) return false;
 		if ((hasInvestorCountryOfResidence() && !msg.hasInvestorCountryOfResidence()) || (!hasInvestorCountryOfResidence() && msg.hasInvestorCountryOfResidence())) return false;
 		if (!(!hasInvestorCountryOfResidence() && !msg.hasInvestorCountryOfResidence()) && !FixUtils.equals(getInvestorCountryOfResidence(), msg.getInvestorCountryOfResidence())) return false;
 		return true;

@@ -1471,13 +1471,11 @@ public class FixMarketDataSnapshotFullRefresh extends FixInMessage {
 		if ((hasMDReportID() && !msg.hasMDReportID()) || (!hasMDReportID() && msg.hasMDReportID())) return false;
 		if (!(!hasMDReportID() && !msg.hasMDReportID()) && !(getMDReportID()==msg.getMDReportID())) return false;
 		if ((hasClearingBusinessDate() && !msg.hasClearingBusinessDate()) || (!hasClearingBusinessDate() && msg.hasClearingBusinessDate())) return false;
-		if (!(!hasClearingBusinessDate() && !msg.hasClearingBusinessDate()) ) return false;
 		if ((hasMDBookType() && !msg.hasMDBookType()) || (!hasMDBookType() && msg.hasMDBookType())) return false;
 		if (!(!hasMDBookType() && !msg.hasMDBookType()) && !(getMDBookType()==msg.getMDBookType())) return false;
 		if ((hasMDFeedType() && !msg.hasMDFeedType()) || (!hasMDFeedType() && msg.hasMDFeedType())) return false;
 		if (!(!hasMDFeedType() && !msg.hasMDFeedType()) && !FixUtils.equals(getMDFeedType(), msg.getMDFeedType())) return false;
 		if ((hasTradeDate() && !msg.hasTradeDate()) || (!hasTradeDate() && msg.hasTradeDate())) return false;
-		if (!(!hasTradeDate() && !msg.hasTradeDate()) ) return false;
 		if ((hasMDSubBookType() && !msg.hasMDSubBookType()) || (!hasMDSubBookType() && msg.hasMDSubBookType())) return false;
 		if (!(!hasMDSubBookType() && !msg.hasMDSubBookType()) && !(getMDSubBookType()==msg.getMDSubBookType())) return false;
 		if ((hasMarketDepth() && !msg.hasMarketDepth()) || (!hasMarketDepth() && msg.hasMarketDepth())) return false;

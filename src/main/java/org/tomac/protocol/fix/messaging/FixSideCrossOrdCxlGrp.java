@@ -947,8 +947,8 @@ public class FixSideCrossOrdCxlGrp extends FixGroup {
 
 		FixSideCrossOrdCxlGrp msg = (FixSideCrossOrdCxlGrp) o;
 
-		for (FixParties fixParties : parties)
-			if (!fixParties.equals(msg.parties)) return false;
+		for (int i = 0; i < parties.length; i++)
+			if (!parties[i].equals(msg.parties[i])) return false;
 		if (!orderQtyData.equals(msg.orderQtyData)) return false;
 		if ((hasSide() && !msg.hasSide()) || (!hasSide() && msg.hasSide())) return false;
 		if (!(!hasSide() && !msg.hasSide()) && !(getSide()==msg.getSide())) return false;
@@ -961,11 +961,8 @@ public class FixSideCrossOrdCxlGrp extends FixGroup {
 		if ((hasClOrdLinkID() && !msg.hasClOrdLinkID()) || (!hasClOrdLinkID() && msg.hasClOrdLinkID())) return false;
 		if (!(!hasClOrdLinkID() && !msg.hasClOrdLinkID()) && !FixUtils.equals(getClOrdLinkID(), msg.getClOrdLinkID())) return false;
 		if ((hasOrigOrdModTime() && !msg.hasOrigOrdModTime()) || (!hasOrigOrdModTime() && msg.hasOrigOrdModTime())) return false;
-		if (!(!hasOrigOrdModTime() && !msg.hasOrigOrdModTime()) ) return false;
 		if ((hasTradeOriginationDate() && !msg.hasTradeOriginationDate()) || (!hasTradeOriginationDate() && msg.hasTradeOriginationDate())) return false;
-		if (!(!hasTradeOriginationDate() && !msg.hasTradeOriginationDate()) ) return false;
 		if ((hasTradeDate() && !msg.hasTradeDate()) || (!hasTradeDate() && msg.hasTradeDate())) return false;
-		if (!(!hasTradeDate() && !msg.hasTradeDate()) ) return false;
 		if ((hasComplianceID() && !msg.hasComplianceID()) || (!hasComplianceID() && msg.hasComplianceID())) return false;
 		if (!(!hasComplianceID() && !msg.hasComplianceID()) && !FixUtils.equals(getComplianceID(), msg.getComplianceID())) return false;
 		if ((hasText() && !msg.hasText()) || (!hasText() && msg.hasText())) return false;

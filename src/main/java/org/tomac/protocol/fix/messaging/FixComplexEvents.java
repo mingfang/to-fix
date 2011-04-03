@@ -616,8 +616,8 @@ public class FixComplexEvents extends FixGroup {
 
 		FixComplexEvents msg = (FixComplexEvents) o;
 
-		for (FixComplexEventDates fixComplexEventDates : complexEventDates)
-			if (!fixComplexEventDates.equals(msg.complexEventDates)) return false;
+		for (int i = 0; i < complexEventDates.length; i++)
+			if (!complexEventDates[i].equals(msg.complexEventDates[i])) return false;
 		if ((hasComplexEventType() && !msg.hasComplexEventType()) || (!hasComplexEventType() && msg.hasComplexEventType())) return false;
 		if (!(!hasComplexEventType() && !msg.hasComplexEventType()) && !(getComplexEventType()==msg.getComplexEventType())) return false;
 		if ((hasComplexOptPayoutAmount() && !msg.hasComplexOptPayoutAmount()) || (!hasComplexOptPayoutAmount() && msg.hasComplexOptPayoutAmount())) return false;

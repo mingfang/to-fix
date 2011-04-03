@@ -13,6 +13,8 @@ import org.tomac.protocol.fix.FixDataTypes;
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixValidationError;
 import org.tomac.protocol.fix.messaging.FixMessageInfo;
+import org.tomac.protocol.fix.messaging.FixStandardHeader;
+import org.tomac.protocol.fix.replay.FixValidator;
 import org.tomac.tools.converter.QuickFixComponent;
 import org.tomac.tools.converter.QuickFixField;
 import org.tomac.tools.converter.QuickFixField.QuickFixValue;
@@ -651,8 +653,8 @@ public class FixMessageGenerator {
 		for (final QuickFixComponent nnc : c.components) {
 			final QuickFixComponent nc = dom.quickFixNamedComponents.get(nnc.name);
 			if (nc.isRepeating) {
-				out.write("		for (Fix" + nc.name + " fix" + nc.name + " : " + uncapFirst(nc.name) + ")\n");
-				out.write("			if (!fix" + nc.name + ".equals(msg." + uncapFirst(nc.name) + ")) return false;\n");
+				out.write("		for (int i = 0; i < " + uncapFirst(nc.name) + ".length; i++)\n");
+				out.write("			if (!" + uncapFirst(nc.name) + "[i].equals(msg." + uncapFirst(nc.name) + "[i])) return false;\n");
 			} else
 				out.write("\t\tif (!" + uncapFirst(nc.name) + ".equals(msg." + uncapFirst(nc.name) + ")) return false;\n");
 		}
@@ -775,14 +777,17 @@ public class FixMessageGenerator {
 
 		// import ByteBuffer
 		out.write("import java.nio.ByteBuffer;\n\n");
+		out.write("import " + dom.packageNameBase + ".replay.FixValidator;\n");
 		out.write("import " + dom.packageNameBase + ".FixValidationError;\n");
 		out.write("import " + dom.packageNameBase + ".FixInMessage;\n\n");
 
 		// write out the open to the interface
 		out.write("public interface " + dom.type + "MessageListener\n{\n\n");
 
-		// write out a handler for unknown message types
-		out.write("    public void onFixValidationError ( FixValidationError err);\n\n");
+		// write out a handler for unknown message types 	
+		out.write("    public int getSessionID(long connectorID, FixValidationError err );\n\n");
+		out.write("    public void addValidator( FixValidator validator );\n\n");
+		out.write("    public void onFixValidationError ( FixValidationError err );\n\n");
 		out.write("    public void onUnknownMessageType( ByteBuffer msg, int msgType );\n\n");
 
 		// write out each callback
@@ -805,6 +810,7 @@ public class FixMessageGenerator {
 
 		// import ByteBuffer
 		out.write("import java.nio.ByteBuffer;\n\n");
+		out.write("import " + dom.packageNameBase + ".replay.FixValidator;\n");
 		out.write("import " + dom.packageNameBase + ".FixValidationError;\n");
 		out.write("import " + dom.packageNameBase + ".FixInMessage;\n\n");
 
@@ -812,7 +818,13 @@ public class FixMessageGenerator {
 		out.write("public class " + dom.type + "MessageListenerImpl implements FixMessageListener \n{\n\n");
 
 		out.write("    @Override\n");
-		out.write("    public void onFixValidationError ( FixValidationError err) {}\n\n");
+		out.write("    public int getSessionID( long connectorID, FixValidationError err ) { return 0; }\n\n");
+
+		out.write("    @Override\n");
+		out.write("    public void addValidator( FixValidator validator ) {}\n\n");
+
+		out.write("    @Override\n");
+		out.write("    public void onFixValidationError ( FixValidationError err ) {}\n\n");
 
 		// write out a handler for unknown message types
 		out.write("    @Override\n");
@@ -1308,7 +1320,7 @@ public class FixMessageGenerator {
 		// write out the open to the parser class
 		out.write("public class " + dom.type + "MessageParser implements " + dom.type + "MessageInfo\n{\n\n");
 
-		out.write("\tprivate FixMessagePool<FixMessage> fixMessagePool;\n\n");
+		out.write("\tpublic FixMessagePool<FixMessage> fixMessagePool;\n\n");
 
 		out.write("\tpublic FixMessageParser(FixMessagePool<FixMessage> fixMessagePool) {\n");
 		out.write("\t\tthis.fixMessagePool = fixMessagePool;\n");
@@ -1322,6 +1334,13 @@ public class FixMessageGenerator {
 
 		// crack the msgType of message
 		out.write("\tpublic void parse( ByteBuffer buf, FixValidationError err, " + dom.type + "MessageListener l )\n");
+		out.write("\t{\n\n");
+		out.write("\t\tparse( 0, buf, err, l );\n");
+		out.write("\t}\n\n");
+
+		
+		
+		out.write("\tpublic void parse( long connectorID, ByteBuffer buf, FixValidationError err, " + dom.type + "MessageListener l )\n");
 		out.write("\t{\n\n");
 
 		out.write("\t\tint msgType = FixInMessage.crackMsgType( buf ,err );\n");
@@ -1337,6 +1356,7 @@ public class FixMessageGenerator {
 			final String name = dom.type.toLowerCase() + m.name;
 			out.write("\t\tcase MessageTypes." + m.name.toUpperCase() + "_INT:\n");
 			out.write("\t\t\t" + capFirst(dom.type.toLowerCase()) + m.name + " " + name + " = fixMessagePool.get" + capFirst(dom.type.toLowerCase()) + m.name + "(buf, err);\n");
+			out.write("\t\t\t" + uncapFirst(dom.type.toLowerCase()) + m.name + ".sessionID = l.getSessionID( connectorID, err);\n");
 			out.write("\t\t\tif(err.hasError()) {\n");
 			out.write("\t\t\t\tl.onFixValidationError(err);\n");
 			out.write("\t\t\t} else {\n");
@@ -1658,11 +1678,13 @@ public class FixMessageGenerator {
 
 	private void printEquals(final OutputStreamWriter out, final ArrayList<QuickFixField> fields) throws IOException {
 		for (final QuickFixField f : fields) {
+			if (f.name.equalsIgnoreCase("BodyLength") || f.name.equalsIgnoreCase("CheckSum")) continue;
 			out.write("		if ((has" + capFirst(f.name) + "() && !msg.has" + capFirst(f.name) + "()) ||" + " (!has" + capFirst(f.name) + "() && msg.has" + capFirst(f.name) + "())) return false;\n");
-			out.write("		if (!(!has" + capFirst(f.name) + "() && !msg.has" + capFirst(f.name) + "()) ");
-			if (isPartOfEqualCopmarison(f.type))
+			if (isPartOfEqualCopmarison(f.type)) {
+				out.write("		if (!(!has" + capFirst(f.name) + "() && !msg.has" + capFirst(f.name) + "()) ");
 				out.write("&& !" + getEqualExpression(uncapFirst(f.name), f.type));
-			out.write(") return false;\n");
+				out.write(") return false;\n");
+			}
 		}
 		out.write("		return true;\n");
 	}

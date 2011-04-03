@@ -1074,7 +1074,6 @@ public class FixEmail extends FixInMessage {
 		if ((hasEmailType() && !msg.hasEmailType()) || (!hasEmailType() && msg.hasEmailType())) return false;
 		if (!(!hasEmailType() && !msg.hasEmailType()) && !(getEmailType()==msg.getEmailType())) return false;
 		if ((hasOrigTime() && !msg.hasOrigTime()) || (!hasOrigTime() && msg.hasOrigTime())) return false;
-		if (!(!hasOrigTime() && !msg.hasOrigTime()) ) return false;
 		if ((hasSubject() && !msg.hasSubject()) || (!hasSubject() && msg.hasSubject())) return false;
 		if (!(!hasSubject() && !msg.hasSubject()) && !FixUtils.equals(getSubject(), msg.getSubject())) return false;
 		if ((hasEncodedSubjectLen() && !msg.hasEncodedSubjectLen()) || (!hasEncodedSubjectLen() && msg.hasEncodedSubjectLen())) return false;

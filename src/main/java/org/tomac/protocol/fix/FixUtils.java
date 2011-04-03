@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
+import java.util.zip.Checksum;
 
 import org.tomac.protocol.fix.messaging.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.FixTags;
@@ -97,7 +98,6 @@ public class FixUtils {
 		// CheckSum and trailer
 		if (!err.hasError() && validateChecksum) {
 
-			// TODO validate length or sett erro and return
 			generateCheckSum(calcCheckSum, buf, buf.position(), length + buf.position());
 
 			buf.position(length + buf.position());
@@ -147,6 +147,11 @@ public class FixUtils {
 			buf[i] = (byte) ' ';
 	}
 
+	public static void fillNul(final byte[] buf) {
+		for (int i = 0; i < buf.length; i++)
+			buf[i] = (byte) 0;
+	}
+	
 	public static long fixFloatValueOf(final byte[] s, int length) {
 		int start = 0;
 		boolean negative = false;
@@ -580,6 +585,47 @@ public class FixUtils {
 			return FixUtils.convert(buf, false, true);
 		}
 		
+	}
+
+	/**
+	 * msg contains a FIX incomplete message where potentially; 
+	 * - BodyLength is missing
+	 * - CheckSum is missing
+	 * - SendingTime is <TIME>
+	 * - other (ClOrdID, TargetCompID, SendingCompID...) are missing.. TODO
+	 * returns Fix message filled with default or dummy values.
+	 * @param msg 
+	 */
+	public static String fillFixMessageTemplate(String msg) {
+
+		if (msg == null || msg.length()== 0) return msg;
+		
+		if ( msg.contains(new String(FixTags.SENDINGTIME) + "=" + "<TIME>") ) {
+			msg = msg.replace("<TIME>", FixUtils.utcTimestampConverter.convert( new Date() ) ); 
+		}
+
+		if ( ! msg.contains("\u0001" + new String(FixTags.CHECKSUM) + "=") ) {
+			// get start of message being part of checksum.
+			String[] s = msg.split("35=");
+			ByteBuffer buf = ByteBuffer.wrap(msg.getBytes());
+			
+			FixUtils.generateCheckSum(calcCheckSum, buf, s[0].length(), msg.length());
+			
+			msg += new String(FixTags.CHECKSUM) + "=" + new String( trim(calcCheckSum) ) + "\u0001"; 
+		}
+
+		if ( ! msg.contains("\u0001" + new String(FixTags.BODYLENGTH) + "=") ) {
+			String[] s = msg.split("35=");
+			
+			if (s.length > 1) { 
+				String[] e = s[1].split("10=");
+				msg = s[0] + "\u0001" + new String(FixTags.BODYLENGTH) + "=" + ( e[0].length() + "35=".length() )  + "35=" + s[1];
+			}
+
+		}
+
+		
+		return msg;
 	}
 	
 	

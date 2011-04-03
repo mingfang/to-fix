@@ -1192,7 +1192,6 @@ public class FixListStatus extends FixInMessage {
 		if ((hasEncodedListStatusText() && !msg.hasEncodedListStatusText()) || (!hasEncodedListStatusText() && msg.hasEncodedListStatusText())) return false;
 		if (!(!hasEncodedListStatusText() && !msg.hasEncodedListStatusText()) && !FixUtils.equals(getEncodedListStatusText(), msg.getEncodedListStatusText())) return false;
 		if ((hasTransactTime() && !msg.hasTransactTime()) || (!hasTransactTime() && msg.hasTransactTime())) return false;
-		if (!(!hasTransactTime() && !msg.hasTransactTime()) ) return false;
 		if ((hasTotNoOrders() && !msg.hasTotNoOrders()) || (!hasTotNoOrders() && msg.hasTotNoOrders())) return false;
 		if (!(!hasTotNoOrders() && !msg.hasTotNoOrders()) && !(getTotNoOrders()==msg.getTotNoOrders())) return false;
 		if ((hasLastFragment() && !msg.hasLastFragment()) || (!hasLastFragment() && msg.hasLastFragment())) return false;

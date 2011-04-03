@@ -295,7 +295,6 @@ public class FixHopGrp extends FixGroup {
 		if ((hasHopCompID() && !msg.hasHopCompID()) || (!hasHopCompID() && msg.hasHopCompID())) return false;
 		if (!(!hasHopCompID() && !msg.hasHopCompID()) && !FixUtils.equals(getHopCompID(), msg.getHopCompID())) return false;
 		if ((hasHopSendingTime() && !msg.hasHopSendingTime()) || (!hasHopSendingTime() && msg.hasHopSendingTime())) return false;
-		if (!(!hasHopSendingTime() && !msg.hasHopSendingTime()) ) return false;
 		if ((hasHopRefID() && !msg.hasHopRefID()) || (!hasHopRefID() && msg.hasHopRefID())) return false;
 		if (!(!hasHopRefID() && !msg.hasHopRefID()) && !(getHopRefID()==msg.getHopRefID())) return false;
 		return true;

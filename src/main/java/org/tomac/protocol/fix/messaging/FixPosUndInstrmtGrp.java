@@ -347,8 +347,8 @@ public class FixPosUndInstrmtGrp extends FixGroup {
 		FixPosUndInstrmtGrp msg = (FixPosUndInstrmtGrp) o;
 
 		if (!underlyingInstrument.equals(msg.underlyingInstrument)) return false;
-		for (FixUnderlyingAmount fixUnderlyingAmount : underlyingAmount)
-			if (!fixUnderlyingAmount.equals(msg.underlyingAmount)) return false;
+		for (int i = 0; i < underlyingAmount.length; i++)
+			if (!underlyingAmount[i].equals(msg.underlyingAmount[i])) return false;
 		if ((hasUnderlyingSettlPrice() && !msg.hasUnderlyingSettlPrice()) || (!hasUnderlyingSettlPrice() && msg.hasUnderlyingSettlPrice())) return false;
 		if (!(!hasUnderlyingSettlPrice() && !msg.hasUnderlyingSettlPrice()) && !(getUnderlyingSettlPrice()==msg.getUnderlyingSettlPrice())) return false;
 		if ((hasUnderlyingSettlPriceType() && !msg.hasUnderlyingSettlPriceType()) || (!hasUnderlyingSettlPriceType() && msg.hasUnderlyingSettlPriceType())) return false;

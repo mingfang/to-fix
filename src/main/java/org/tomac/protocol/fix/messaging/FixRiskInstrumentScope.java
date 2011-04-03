@@ -1738,8 +1738,8 @@ public class FixRiskInstrumentScope extends FixGroup {
 
 		FixRiskInstrumentScope msg = (FixRiskInstrumentScope) o;
 
-		for (FixRiskSecAltIDGrp fixRiskSecAltIDGrp : riskSecAltIDGrp)
-			if (!fixRiskSecAltIDGrp.equals(msg.riskSecAltIDGrp)) return false;
+		for (int i = 0; i < riskSecAltIDGrp.length; i++)
+			if (!riskSecAltIDGrp[i].equals(msg.riskSecAltIDGrp[i])) return false;
 		if ((hasRiskInstrumentOperator() && !msg.hasRiskInstrumentOperator()) || (!hasRiskInstrumentOperator() && msg.hasRiskInstrumentOperator())) return false;
 		if (!(!hasRiskInstrumentOperator() && !msg.hasRiskInstrumentOperator()) && !(getRiskInstrumentOperator()==msg.getRiskInstrumentOperator())) return false;
 		if ((hasRiskSymbol() && !msg.hasRiskSymbol()) || (!hasRiskSymbol() && msg.hasRiskSymbol())) return false;
@@ -1765,7 +1765,6 @@ public class FixRiskInstrumentScope extends FixGroup {
 		if ((hasRiskMaturityMonthYear() && !msg.hasRiskMaturityMonthYear()) || (!hasRiskMaturityMonthYear() && msg.hasRiskMaturityMonthYear())) return false;
 		if (!(!hasRiskMaturityMonthYear() && !msg.hasRiskMaturityMonthYear()) && !FixUtils.equals(getRiskMaturityMonthYear(), msg.getRiskMaturityMonthYear())) return false;
 		if ((hasRiskMaturityTime() && !msg.hasRiskMaturityTime()) || (!hasRiskMaturityTime() && msg.hasRiskMaturityTime())) return false;
-		if (!(!hasRiskMaturityTime() && !msg.hasRiskMaturityTime()) ) return false;
 		if ((hasRiskRestructuringType() && !msg.hasRiskRestructuringType()) || (!hasRiskRestructuringType() && msg.hasRiskRestructuringType())) return false;
 		if (!(!hasRiskRestructuringType() && !msg.hasRiskRestructuringType()) && !FixUtils.equals(getRiskRestructuringType(), msg.getRiskRestructuringType())) return false;
 		if ((hasRiskSeniority() && !msg.hasRiskSeniority()) || (!hasRiskSeniority() && msg.hasRiskSeniority())) return false;

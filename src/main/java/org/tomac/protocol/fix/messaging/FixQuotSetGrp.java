@@ -418,12 +418,11 @@ public class FixQuotSetGrp extends FixGroup {
 		FixQuotSetGrp msg = (FixQuotSetGrp) o;
 
 		if (!underlyingInstrument.equals(msg.underlyingInstrument)) return false;
-		for (FixQuotEntryGrp fixQuotEntryGrp : quotEntryGrp)
-			if (!fixQuotEntryGrp.equals(msg.quotEntryGrp)) return false;
+		for (int i = 0; i < quotEntryGrp.length; i++)
+			if (!quotEntryGrp[i].equals(msg.quotEntryGrp[i])) return false;
 		if ((hasQuoteSetID() && !msg.hasQuoteSetID()) || (!hasQuoteSetID() && msg.hasQuoteSetID())) return false;
 		if (!(!hasQuoteSetID() && !msg.hasQuoteSetID()) && !FixUtils.equals(getQuoteSetID(), msg.getQuoteSetID())) return false;
 		if ((hasQuoteSetValidUntilTime() && !msg.hasQuoteSetValidUntilTime()) || (!hasQuoteSetValidUntilTime() && msg.hasQuoteSetValidUntilTime())) return false;
-		if (!(!hasQuoteSetValidUntilTime() && !msg.hasQuoteSetValidUntilTime()) ) return false;
 		if ((hasTotNoQuoteEntries() && !msg.hasTotNoQuoteEntries()) || (!hasTotNoQuoteEntries() && msg.hasTotNoQuoteEntries())) return false;
 		if (!(!hasTotNoQuoteEntries() && !msg.hasTotNoQuoteEntries()) && !(getTotNoQuoteEntries()==msg.getTotNoQuoteEntries())) return false;
 		if ((hasLastFragment() && !msg.hasLastFragment()) || (!hasLastFragment() && msg.hasLastFragment())) return false;

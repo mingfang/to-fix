@@ -1128,8 +1128,8 @@ public class FixUnderlyingLegInstrument extends FixGroup {
 
 		FixUnderlyingLegInstrument msg = (FixUnderlyingLegInstrument) o;
 
-		for (FixUnderlyingLegSecurityAltIDGrp fixUnderlyingLegSecurityAltIDGrp : underlyingLegSecurityAltIDGrp)
-			if (!fixUnderlyingLegSecurityAltIDGrp.equals(msg.underlyingLegSecurityAltIDGrp)) return false;
+		for (int i = 0; i < underlyingLegSecurityAltIDGrp.length; i++)
+			if (!underlyingLegSecurityAltIDGrp[i].equals(msg.underlyingLegSecurityAltIDGrp[i])) return false;
 		if ((hasUnderlyingLegSymbol() && !msg.hasUnderlyingLegSymbol()) || (!hasUnderlyingLegSymbol() && msg.hasUnderlyingLegSymbol())) return false;
 		if (!(!hasUnderlyingLegSymbol() && !msg.hasUnderlyingLegSymbol()) && !FixUtils.equals(getUnderlyingLegSymbol(), msg.getUnderlyingLegSymbol())) return false;
 		if ((hasUnderlyingLegSymbolSfx() && !msg.hasUnderlyingLegSymbolSfx()) || (!hasUnderlyingLegSymbolSfx() && msg.hasUnderlyingLegSymbolSfx())) return false;
@@ -1147,9 +1147,7 @@ public class FixUnderlyingLegInstrument extends FixGroup {
 		if ((hasUnderlyingLegMaturityMonthYear() && !msg.hasUnderlyingLegMaturityMonthYear()) || (!hasUnderlyingLegMaturityMonthYear() && msg.hasUnderlyingLegMaturityMonthYear())) return false;
 		if (!(!hasUnderlyingLegMaturityMonthYear() && !msg.hasUnderlyingLegMaturityMonthYear()) && !FixUtils.equals(getUnderlyingLegMaturityMonthYear(), msg.getUnderlyingLegMaturityMonthYear())) return false;
 		if ((hasUnderlyingLegMaturityDate() && !msg.hasUnderlyingLegMaturityDate()) || (!hasUnderlyingLegMaturityDate() && msg.hasUnderlyingLegMaturityDate())) return false;
-		if (!(!hasUnderlyingLegMaturityDate() && !msg.hasUnderlyingLegMaturityDate()) ) return false;
 		if ((hasUnderlyingLegMaturityTime() && !msg.hasUnderlyingLegMaturityTime()) || (!hasUnderlyingLegMaturityTime() && msg.hasUnderlyingLegMaturityTime())) return false;
-		if (!(!hasUnderlyingLegMaturityTime() && !msg.hasUnderlyingLegMaturityTime()) ) return false;
 		if ((hasUnderlyingLegStrikePrice() && !msg.hasUnderlyingLegStrikePrice()) || (!hasUnderlyingLegStrikePrice() && msg.hasUnderlyingLegStrikePrice())) return false;
 		if (!(!hasUnderlyingLegStrikePrice() && !msg.hasUnderlyingLegStrikePrice()) && !(getUnderlyingLegStrikePrice()==msg.getUnderlyingLegStrikePrice())) return false;
 		if ((hasUnderlyingLegOptAttribute() && !msg.hasUnderlyingLegOptAttribute()) || (!hasUnderlyingLegOptAttribute() && msg.hasUnderlyingLegOptAttribute())) return false;

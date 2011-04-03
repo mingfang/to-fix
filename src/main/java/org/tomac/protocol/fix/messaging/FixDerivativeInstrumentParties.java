@@ -328,8 +328,8 @@ public class FixDerivativeInstrumentParties extends FixGroup {
 
 		FixDerivativeInstrumentParties msg = (FixDerivativeInstrumentParties) o;
 
-		for (FixDerivativeInstrumentPartySubIDsGrp fixDerivativeInstrumentPartySubIDsGrp : derivativeInstrumentPartySubIDsGrp)
-			if (!fixDerivativeInstrumentPartySubIDsGrp.equals(msg.derivativeInstrumentPartySubIDsGrp)) return false;
+		for (int i = 0; i < derivativeInstrumentPartySubIDsGrp.length; i++)
+			if (!derivativeInstrumentPartySubIDsGrp[i].equals(msg.derivativeInstrumentPartySubIDsGrp[i])) return false;
 		if ((hasDerivativeInstrumentPartyID() && !msg.hasDerivativeInstrumentPartyID()) || (!hasDerivativeInstrumentPartyID() && msg.hasDerivativeInstrumentPartyID())) return false;
 		if (!(!hasDerivativeInstrumentPartyID() && !msg.hasDerivativeInstrumentPartyID()) && !FixUtils.equals(getDerivativeInstrumentPartyID(), msg.getDerivativeInstrumentPartyID())) return false;
 		if ((hasDerivativeInstrumentPartyIDSource() && !msg.hasDerivativeInstrumentPartyIDSource()) || (!hasDerivativeInstrumentPartyIDSource() && msg.hasDerivativeInstrumentPartyIDSource())) return false;

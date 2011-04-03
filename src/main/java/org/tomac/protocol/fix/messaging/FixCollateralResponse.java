@@ -2902,13 +2902,11 @@ public class FixCollateralResponse extends FixInMessage {
 		if ((hasCollAsgnRejectReason() && !msg.hasCollAsgnRejectReason()) || (!hasCollAsgnRejectReason() && msg.hasCollAsgnRejectReason())) return false;
 		if (!(!hasCollAsgnRejectReason() && !msg.hasCollAsgnRejectReason()) && !(getCollAsgnRejectReason()==msg.getCollAsgnRejectReason())) return false;
 		if ((hasTransactTime() && !msg.hasTransactTime()) || (!hasTransactTime() && msg.hasTransactTime())) return false;
-		if (!(!hasTransactTime() && !msg.hasTransactTime()) ) return false;
 		if ((hasCollApplType() && !msg.hasCollApplType()) || (!hasCollApplType() && msg.hasCollApplType())) return false;
 		if (!(!hasCollApplType() && !msg.hasCollApplType()) && !(getCollApplType()==msg.getCollApplType())) return false;
 		if ((hasFinancialStatus() && !msg.hasFinancialStatus()) || (!hasFinancialStatus() && msg.hasFinancialStatus())) return false;
 		if (!(!hasFinancialStatus() && !msg.hasFinancialStatus()) && !FixUtils.equals(getFinancialStatus(), msg.getFinancialStatus())) return false;
 		if ((hasClearingBusinessDate() && !msg.hasClearingBusinessDate()) || (!hasClearingBusinessDate() && msg.hasClearingBusinessDate())) return false;
-		if (!(!hasClearingBusinessDate() && !msg.hasClearingBusinessDate()) ) return false;
 		if ((hasAccount() && !msg.hasAccount()) || (!hasAccount() && msg.hasAccount())) return false;
 		if (!(!hasAccount() && !msg.hasAccount()) && !FixUtils.equals(getAccount(), msg.getAccount())) return false;
 		if ((hasAccountType() && !msg.hasAccountType()) || (!hasAccountType() && msg.hasAccountType())) return false;
@@ -2922,7 +2920,6 @@ public class FixCollateralResponse extends FixInMessage {
 		if ((hasSecondaryClOrdID() && !msg.hasSecondaryClOrdID()) || (!hasSecondaryClOrdID() && msg.hasSecondaryClOrdID())) return false;
 		if (!(!hasSecondaryClOrdID() && !msg.hasSecondaryClOrdID()) && !FixUtils.equals(getSecondaryClOrdID(), msg.getSecondaryClOrdID())) return false;
 		if ((hasSettlDate() && !msg.hasSettlDate()) || (!hasSettlDate() && msg.hasSettlDate())) return false;
-		if (!(!hasSettlDate() && !msg.hasSettlDate()) ) return false;
 		if ((hasQuantity() && !msg.hasQuantity()) || (!hasQuantity() && msg.hasQuantity())) return false;
 		if (!(!hasQuantity() && !msg.hasQuantity()) && !(getQuantity()==msg.getQuantity())) return false;
 		if ((hasQtyType() && !msg.hasQtyType()) || (!hasQtyType() && msg.hasQtyType())) return false;

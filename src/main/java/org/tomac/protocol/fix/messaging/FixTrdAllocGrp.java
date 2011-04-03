@@ -732,8 +732,8 @@ public class FixTrdAllocGrp extends FixGroup {
 
 		FixTrdAllocGrp msg = (FixTrdAllocGrp) o;
 
-		for (FixNestedParties2 fixNestedParties2 : nestedParties2)
-			if (!fixNestedParties2.equals(msg.nestedParties2)) return false;
+		for (int i = 0; i < nestedParties2.length; i++)
+			if (!nestedParties2[i].equals(msg.nestedParties2[i])) return false;
 		if ((hasAllocAccount() && !msg.hasAllocAccount()) || (!hasAllocAccount() && msg.hasAllocAccount())) return false;
 		if (!(!hasAllocAccount() && !msg.hasAllocAccount()) && !FixUtils.equals(getAllocAccount(), msg.getAllocAccount())) return false;
 		if ((hasAllocAcctIDSource() && !msg.hasAllocAcctIDSource()) || (!hasAllocAcctIDSource() && msg.hasAllocAcctIDSource())) return false;

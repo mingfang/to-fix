@@ -1171,12 +1171,12 @@ public class FixLegOrdGrp extends FixGroup {
 		FixLegOrdGrp msg = (FixLegOrdGrp) o;
 
 		if (!instrumentLeg.equals(msg.instrumentLeg)) return false;
-		for (FixLegStipulations fixLegStipulations : legStipulations)
-			if (!fixLegStipulations.equals(msg.legStipulations)) return false;
-		for (FixLegPreAllocGrp fixLegPreAllocGrp : legPreAllocGrp)
-			if (!fixLegPreAllocGrp.equals(msg.legPreAllocGrp)) return false;
-		for (FixNestedParties fixNestedParties : nestedParties)
-			if (!fixNestedParties.equals(msg.nestedParties)) return false;
+		for (int i = 0; i < legStipulations.length; i++)
+			if (!legStipulations[i].equals(msg.legStipulations[i])) return false;
+		for (int i = 0; i < legPreAllocGrp.length; i++)
+			if (!legPreAllocGrp[i].equals(msg.legPreAllocGrp[i])) return false;
+		for (int i = 0; i < nestedParties.length; i++)
+			if (!nestedParties[i].equals(msg.nestedParties[i])) return false;
 		if ((hasLegQty() && !msg.hasLegQty()) || (!hasLegQty() && msg.hasLegQty())) return false;
 		if (!(!hasLegQty() && !msg.hasLegQty()) && !(getLegQty()==msg.getLegQty())) return false;
 		if ((hasLegSwapType() && !msg.hasLegSwapType()) || (!hasLegSwapType() && msg.hasLegSwapType())) return false;
@@ -1192,7 +1192,6 @@ public class FixLegOrdGrp extends FixGroup {
 		if ((hasLegSettlType() && !msg.hasLegSettlType()) || (!hasLegSettlType() && msg.hasLegSettlType())) return false;
 		if (!(!hasLegSettlType() && !msg.hasLegSettlType()) && !(getLegSettlType()==msg.getLegSettlType())) return false;
 		if ((hasLegSettlDate() && !msg.hasLegSettlDate()) || (!hasLegSettlDate() && msg.hasLegSettlDate())) return false;
-		if (!(!hasLegSettlDate() && !msg.hasLegSettlDate()) ) return false;
 		if ((hasLegOrderQty() && !msg.hasLegOrderQty()) || (!hasLegOrderQty() && msg.hasLegOrderQty())) return false;
 		if (!(!hasLegOrderQty() && !msg.hasLegOrderQty()) && !(getLegOrderQty()==msg.getLegOrderQty())) return false;
 		if ((hasLegVolatility() && !msg.hasLegVolatility()) || (!hasLegVolatility() && msg.hasLegVolatility())) return false;
