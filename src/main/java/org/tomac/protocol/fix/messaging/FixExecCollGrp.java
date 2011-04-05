@@ -125,14 +125,14 @@ public class FixExecCollGrp extends FixGroup {
 		
 	public void setExecID(byte[] src) {		
 		if (src == null ) return;
-		if (hasExecID()) FixUtils.fillSpace(execID);		
+		if (hasExecID()) FixUtils.fillNul(execID);		
 		FixUtils.copy(execID, src); 		
 		hasExecID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setExecID(String str) {		
 		if (str == null ) return;
-		if (hasExecID()) FixUtils.fillSpace(execID);		
+		if (hasExecID()) FixUtils.fillNul(execID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(execID, src); 		
 		hasExecID = FixUtils.TAG_HAS_VALUE;		

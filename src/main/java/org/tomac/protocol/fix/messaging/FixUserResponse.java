@@ -267,14 +267,14 @@ public class FixUserResponse extends FixInMessage {
 
 	public void setUserRequestID(byte[] src) {		
 		if (src == null ) return;
-		if (hasUserRequestID()) FixUtils.fillSpace(userRequestID);		
+		if (hasUserRequestID()) FixUtils.fillNul(userRequestID);		
 		FixUtils.copy(userRequestID, src); 		
 		hasUserRequestID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setUserRequestID(String str) {		
 		if (str == null ) return;
-		if (hasUserRequestID()) FixUtils.fillSpace(userRequestID);		
+		if (hasUserRequestID()) FixUtils.fillNul(userRequestID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(userRequestID, src); 		
 		hasUserRequestID = FixUtils.TAG_HAS_VALUE;		
@@ -311,14 +311,14 @@ public class FixUserResponse extends FixInMessage {
 
 	public void setUsername(byte[] src) {		
 		if (src == null ) return;
-		if (hasUsername()) FixUtils.fillSpace(username);		
+		if (hasUsername()) FixUtils.fillNul(username);		
 		FixUtils.copy(username, src); 		
 		hasUsername = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setUsername(String str) {		
 		if (str == null ) return;
-		if (hasUsername()) FixUtils.fillSpace(username);		
+		if (hasUsername()) FixUtils.fillNul(username);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(username, src); 		
 		hasUsername = FixUtils.TAG_HAS_VALUE;		
@@ -404,14 +404,14 @@ public class FixUserResponse extends FixInMessage {
 
 	public void setUserStatusText(byte[] src) {		
 		if (src == null ) return;
-		if (hasUserStatusText()) FixUtils.fillSpace(userStatusText);		
+		if (hasUserStatusText()) FixUtils.fillNul(userStatusText);		
 		FixUtils.copy(userStatusText, src); 		
 		hasUserStatusText = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setUserStatusText(String str) {		
 		if (str == null ) return;
-		if (hasUserStatusText()) FixUtils.fillSpace(userStatusText);		
+		if (hasUserStatusText()) FixUtils.fillNul(userStatusText);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(userStatusText, src); 		
 		hasUserStatusText = FixUtils.TAG_HAS_VALUE;		

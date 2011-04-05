@@ -236,14 +236,14 @@ public class FixApplIDRequestGrp extends FixGroup {
 		
 	public void setRefApplID(byte[] src) {		
 		if (src == null ) return;
-		if (hasRefApplID()) FixUtils.fillSpace(refApplID);		
+		if (hasRefApplID()) FixUtils.fillNul(refApplID);		
 		FixUtils.copy(refApplID, src); 		
 		hasRefApplID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRefApplID(String str) {		
 		if (str == null ) return;
-		if (hasRefApplID()) FixUtils.fillSpace(refApplID);		
+		if (hasRefApplID()) FixUtils.fillNul(refApplID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(refApplID, src); 		
 		hasRefApplID = FixUtils.TAG_HAS_VALUE;		
@@ -275,14 +275,14 @@ public class FixApplIDRequestGrp extends FixGroup {
 		
 	public void setRefApplReqID(byte[] src) {		
 		if (src == null ) return;
-		if (hasRefApplReqID()) FixUtils.fillSpace(refApplReqID);		
+		if (hasRefApplReqID()) FixUtils.fillNul(refApplReqID);		
 		FixUtils.copy(refApplReqID, src); 		
 		hasRefApplReqID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRefApplReqID(String str) {		
 		if (str == null ) return;
-		if (hasRefApplReqID()) FixUtils.fillSpace(refApplReqID);		
+		if (hasRefApplReqID()) FixUtils.fillNul(refApplReqID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(refApplReqID, src); 		
 		hasRefApplReqID = FixUtils.TAG_HAS_VALUE;		

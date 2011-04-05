@@ -753,14 +753,14 @@ public class FixTradeReportOrderDetail extends FixGroup {
 		
 	public void setOrderID(byte[] src) {		
 		if (src == null ) return;
-		if (hasOrderID()) FixUtils.fillSpace(orderID);		
+		if (hasOrderID()) FixUtils.fillNul(orderID);		
 		FixUtils.copy(orderID, src); 		
 		hasOrderID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setOrderID(String str) {		
 		if (str == null ) return;
-		if (hasOrderID()) FixUtils.fillSpace(orderID);		
+		if (hasOrderID()) FixUtils.fillNul(orderID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(orderID, src); 		
 		hasOrderID = FixUtils.TAG_HAS_VALUE;		
@@ -792,14 +792,14 @@ public class FixTradeReportOrderDetail extends FixGroup {
 		
 	public void setSecondaryOrderID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecondaryOrderID()) FixUtils.fillSpace(secondaryOrderID);		
+		if (hasSecondaryOrderID()) FixUtils.fillNul(secondaryOrderID);		
 		FixUtils.copy(secondaryOrderID, src); 		
 		hasSecondaryOrderID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSecondaryOrderID(String str) {		
 		if (str == null ) return;
-		if (hasSecondaryOrderID()) FixUtils.fillSpace(secondaryOrderID);		
+		if (hasSecondaryOrderID()) FixUtils.fillNul(secondaryOrderID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(secondaryOrderID, src); 		
 		hasSecondaryOrderID = FixUtils.TAG_HAS_VALUE;		
@@ -831,14 +831,14 @@ public class FixTradeReportOrderDetail extends FixGroup {
 		
 	public void setClOrdID(byte[] src) {		
 		if (src == null ) return;
-		if (hasClOrdID()) FixUtils.fillSpace(clOrdID);		
+		if (hasClOrdID()) FixUtils.fillNul(clOrdID);		
 		FixUtils.copy(clOrdID, src); 		
 		hasClOrdID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setClOrdID(String str) {		
 		if (str == null ) return;
-		if (hasClOrdID()) FixUtils.fillSpace(clOrdID);		
+		if (hasClOrdID()) FixUtils.fillNul(clOrdID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(clOrdID, src); 		
 		hasClOrdID = FixUtils.TAG_HAS_VALUE;		
@@ -870,14 +870,14 @@ public class FixTradeReportOrderDetail extends FixGroup {
 		
 	public void setSecondaryClOrdID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecondaryClOrdID()) FixUtils.fillSpace(secondaryClOrdID);		
+		if (hasSecondaryClOrdID()) FixUtils.fillNul(secondaryClOrdID);		
 		FixUtils.copy(secondaryClOrdID, src); 		
 		hasSecondaryClOrdID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSecondaryClOrdID(String str) {		
 		if (str == null ) return;
-		if (hasSecondaryClOrdID()) FixUtils.fillSpace(secondaryClOrdID);		
+		if (hasSecondaryClOrdID()) FixUtils.fillNul(secondaryClOrdID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(secondaryClOrdID, src); 		
 		hasSecondaryClOrdID = FixUtils.TAG_HAS_VALUE;		
@@ -909,14 +909,14 @@ public class FixTradeReportOrderDetail extends FixGroup {
 		
 	public void setListID(byte[] src) {		
 		if (src == null ) return;
-		if (hasListID()) FixUtils.fillSpace(listID);		
+		if (hasListID()) FixUtils.fillNul(listID);		
 		FixUtils.copy(listID, src); 		
 		hasListID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setListID(String str) {		
 		if (str == null ) return;
-		if (hasListID()) FixUtils.fillSpace(listID);		
+		if (hasListID()) FixUtils.fillNul(listID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(listID, src); 		
 		hasListID = FixUtils.TAG_HAS_VALUE;		
@@ -948,14 +948,14 @@ public class FixTradeReportOrderDetail extends FixGroup {
 		
 	public void setRefOrderID(byte[] src) {		
 		if (src == null ) return;
-		if (hasRefOrderID()) FixUtils.fillSpace(refOrderID);		
+		if (hasRefOrderID()) FixUtils.fillNul(refOrderID);		
 		FixUtils.copy(refOrderID, src); 		
 		hasRefOrderID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRefOrderID(String str) {		
 		if (str == null ) return;
-		if (hasRefOrderID()) FixUtils.fillSpace(refOrderID);		
+		if (hasRefOrderID()) FixUtils.fillNul(refOrderID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(refOrderID, src); 		
 		hasRefOrderID = FixUtils.TAG_HAS_VALUE;		
@@ -1211,14 +1211,14 @@ public class FixTradeReportOrderDetail extends FixGroup {
 		
 	public void setExecInst(byte[] src) {		
 		if (src == null ) return;
-		if (hasExecInst()) FixUtils.fillSpace(execInst);		
+		if (hasExecInst()) FixUtils.fillNul(execInst);		
 		FixUtils.copy(execInst, src); 		
 		hasExecInst = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setExecInst(String str) {		
 		if (str == null ) return;
-		if (hasExecInst()) FixUtils.fillSpace(execInst);		
+		if (hasExecInst()) FixUtils.fillNul(execInst);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(execInst, src); 		
 		hasExecInst = FixUtils.TAG_HAS_VALUE;		
@@ -1430,14 +1430,14 @@ public class FixTradeReportOrderDetail extends FixGroup {
 		
 	public void setExpireTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasExpireTime()) FixUtils.fillSpace(expireTime);		
+		if (hasExpireTime()) FixUtils.fillNul(expireTime);		
 		FixUtils.copy(expireTime, src); 		
 		hasExpireTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setExpireTime(String str) {		
 		if (str == null ) return;
-		if (hasExpireTime()) FixUtils.fillSpace(expireTime);		
+		if (hasExpireTime()) FixUtils.fillNul(expireTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(expireTime, src); 		
 		hasExpireTime = FixUtils.TAG_HAS_VALUE;		
@@ -1515,14 +1515,14 @@ public class FixTradeReportOrderDetail extends FixGroup {
 		
 	public void setOrderRestrictions(byte[] src) {		
 		if (src == null ) return;
-		if (hasOrderRestrictions()) FixUtils.fillSpace(orderRestrictions);		
+		if (hasOrderRestrictions()) FixUtils.fillNul(orderRestrictions);		
 		FixUtils.copy(orderRestrictions, src); 		
 		hasOrderRestrictions = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setOrderRestrictions(String str) {		
 		if (str == null ) return;
-		if (hasOrderRestrictions()) FixUtils.fillSpace(orderRestrictions);		
+		if (hasOrderRestrictions()) FixUtils.fillNul(orderRestrictions);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(orderRestrictions, src); 		
 		hasOrderRestrictions = FixUtils.TAG_HAS_VALUE;		
@@ -1642,14 +1642,14 @@ public class FixTradeReportOrderDetail extends FixGroup {
 		
 	public void setOrderInputDevice(byte[] src) {		
 		if (src == null ) return;
-		if (hasOrderInputDevice()) FixUtils.fillSpace(orderInputDevice);		
+		if (hasOrderInputDevice()) FixUtils.fillNul(orderInputDevice);		
 		FixUtils.copy(orderInputDevice, src); 		
 		hasOrderInputDevice = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setOrderInputDevice(String str) {		
 		if (str == null ) return;
-		if (hasOrderInputDevice()) FixUtils.fillSpace(orderInputDevice);		
+		if (hasOrderInputDevice()) FixUtils.fillNul(orderInputDevice);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(orderInputDevice, src); 		
 		hasOrderInputDevice = FixUtils.TAG_HAS_VALUE;		
@@ -1727,14 +1727,14 @@ public class FixTradeReportOrderDetail extends FixGroup {
 		
 	public void setTransBkdTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasTransBkdTime()) FixUtils.fillSpace(transBkdTime);		
+		if (hasTransBkdTime()) FixUtils.fillNul(transBkdTime);		
 		FixUtils.copy(transBkdTime, src); 		
 		hasTransBkdTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setTransBkdTime(String str) {		
 		if (str == null ) return;
-		if (hasTransBkdTime()) FixUtils.fillSpace(transBkdTime);		
+		if (hasTransBkdTime()) FixUtils.fillNul(transBkdTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(transBkdTime, src); 		
 		hasTransBkdTime = FixUtils.TAG_HAS_VALUE;		
@@ -1766,14 +1766,14 @@ public class FixTradeReportOrderDetail extends FixGroup {
 		
 	public void setOrigOrdModTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasOrigOrdModTime()) FixUtils.fillSpace(origOrdModTime);		
+		if (hasOrigOrdModTime()) FixUtils.fillNul(origOrdModTime);		
 		FixUtils.copy(origOrdModTime, src); 		
 		hasOrigOrdModTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setOrigOrdModTime(String str) {		
 		if (str == null ) return;
-		if (hasOrigOrdModTime()) FixUtils.fillSpace(origOrdModTime);		
+		if (hasOrigOrdModTime()) FixUtils.fillNul(origOrdModTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(origOrdModTime, src); 		
 		hasOrigOrdModTime = FixUtils.TAG_HAS_VALUE;		

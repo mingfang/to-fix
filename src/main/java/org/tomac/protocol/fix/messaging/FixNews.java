@@ -679,14 +679,14 @@ public class FixNews extends FixInMessage {
 
 	public void setNewsID(byte[] src) {		
 		if (src == null ) return;
-		if (hasNewsID()) FixUtils.fillSpace(newsID);		
+		if (hasNewsID()) FixUtils.fillNul(newsID);		
 		FixUtils.copy(newsID, src); 		
 		hasNewsID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setNewsID(String str) {		
 		if (str == null ) return;
-		if (hasNewsID()) FixUtils.fillSpace(newsID);		
+		if (hasNewsID()) FixUtils.fillNul(newsID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(newsID, src); 		
 		hasNewsID = FixUtils.TAG_HAS_VALUE;		
@@ -772,14 +772,14 @@ public class FixNews extends FixInMessage {
 
 	public void setLanguageCode(byte[] src) {		
 		if (src == null ) return;
-		if (hasLanguageCode()) FixUtils.fillSpace(languageCode);		
+		if (hasLanguageCode()) FixUtils.fillNul(languageCode);		
 		FixUtils.copy(languageCode, src); 		
 		hasLanguageCode = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setLanguageCode(String str) {		
 		if (str == null ) return;
-		if (hasLanguageCode()) FixUtils.fillSpace(languageCode);		
+		if (hasLanguageCode()) FixUtils.fillNul(languageCode);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(languageCode, src); 		
 		hasLanguageCode = FixUtils.TAG_HAS_VALUE;		
@@ -816,14 +816,14 @@ public class FixNews extends FixInMessage {
 
 	public void setOrigTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasOrigTime()) FixUtils.fillSpace(origTime);		
+		if (hasOrigTime()) FixUtils.fillNul(origTime);		
 		FixUtils.copy(origTime, src); 		
 		hasOrigTime = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setOrigTime(String str) {		
 		if (str == null ) return;
-		if (hasOrigTime()) FixUtils.fillSpace(origTime);		
+		if (hasOrigTime()) FixUtils.fillNul(origTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(origTime, src); 		
 		hasOrigTime = FixUtils.TAG_HAS_VALUE;		
@@ -911,14 +911,14 @@ public class FixNews extends FixInMessage {
 
 	public void setHeadline(byte[] src) {		
 		if (src == null ) return;
-		if (hasHeadline()) FixUtils.fillSpace(headline);		
+		if (hasHeadline()) FixUtils.fillNul(headline);		
 		FixUtils.copy(headline, src); 		
 		hasHeadline = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setHeadline(String str) {		
 		if (str == null ) return;
-		if (hasHeadline()) FixUtils.fillSpace(headline);		
+		if (hasHeadline()) FixUtils.fillNul(headline);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(headline, src); 		
 		hasHeadline = FixUtils.TAG_HAS_VALUE;		
@@ -1004,14 +1004,14 @@ public class FixNews extends FixInMessage {
 
 	public void setEncodedHeadline(byte[] src) {		
 		if (src == null ) return;
-		if (hasEncodedHeadline()) FixUtils.fillSpace(encodedHeadline);		
+		if (hasEncodedHeadline()) FixUtils.fillNul(encodedHeadline);		
 		FixUtils.copy(encodedHeadline, src); 		
 		hasEncodedHeadline = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setEncodedHeadline(String str) {		
 		if (str == null ) return;
-		if (hasEncodedHeadline()) FixUtils.fillSpace(encodedHeadline);		
+		if (hasEncodedHeadline()) FixUtils.fillNul(encodedHeadline);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(encodedHeadline, src); 		
 		hasEncodedHeadline = FixUtils.TAG_HAS_VALUE;		
@@ -1048,14 +1048,14 @@ public class FixNews extends FixInMessage {
 
 	public void setMarketID(byte[] src) {		
 		if (src == null ) return;
-		if (hasMarketID()) FixUtils.fillSpace(marketID);		
+		if (hasMarketID()) FixUtils.fillNul(marketID);		
 		FixUtils.copy(marketID, src); 		
 		hasMarketID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setMarketID(String str) {		
 		if (str == null ) return;
-		if (hasMarketID()) FixUtils.fillSpace(marketID);		
+		if (hasMarketID()) FixUtils.fillNul(marketID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(marketID, src); 		
 		hasMarketID = FixUtils.TAG_HAS_VALUE;		
@@ -1092,14 +1092,14 @@ public class FixNews extends FixInMessage {
 
 	public void setMarketSegmentID(byte[] src) {		
 		if (src == null ) return;
-		if (hasMarketSegmentID()) FixUtils.fillSpace(marketSegmentID);		
+		if (hasMarketSegmentID()) FixUtils.fillNul(marketSegmentID);		
 		FixUtils.copy(marketSegmentID, src); 		
 		hasMarketSegmentID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setMarketSegmentID(String str) {		
 		if (str == null ) return;
-		if (hasMarketSegmentID()) FixUtils.fillSpace(marketSegmentID);		
+		if (hasMarketSegmentID()) FixUtils.fillNul(marketSegmentID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(marketSegmentID, src); 		
 		hasMarketSegmentID = FixUtils.TAG_HAS_VALUE;		
@@ -1136,14 +1136,14 @@ public class FixNews extends FixInMessage {
 
 	public void setURLLink(byte[] src) {		
 		if (src == null ) return;
-		if (hasURLLink()) FixUtils.fillSpace(uRLLink);		
+		if (hasURLLink()) FixUtils.fillNul(uRLLink);		
 		FixUtils.copy(uRLLink, src); 		
 		hasURLLink = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setURLLink(String str) {		
 		if (str == null ) return;
-		if (hasURLLink()) FixUtils.fillSpace(uRLLink);		
+		if (hasURLLink()) FixUtils.fillNul(uRLLink);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(uRLLink, src); 		
 		hasURLLink = FixUtils.TAG_HAS_VALUE;		
@@ -1229,14 +1229,14 @@ public class FixNews extends FixInMessage {
 
 	public void setRawData(byte[] src) {		
 		if (src == null ) return;
-		if (hasRawData()) FixUtils.fillSpace(rawData);		
+		if (hasRawData()) FixUtils.fillNul(rawData);		
 		FixUtils.copy(rawData, src); 		
 		hasRawData = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setRawData(String str) {		
 		if (str == null ) return;
-		if (hasRawData()) FixUtils.fillSpace(rawData);		
+		if (hasRawData()) FixUtils.fillNul(rawData);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(rawData, src); 		
 		hasRawData = FixUtils.TAG_HAS_VALUE;		

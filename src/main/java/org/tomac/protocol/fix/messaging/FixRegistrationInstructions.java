@@ -485,14 +485,14 @@ public class FixRegistrationInstructions extends FixInMessage {
 
 	public void setRegistID(byte[] src) {		
 		if (src == null ) return;
-		if (hasRegistID()) FixUtils.fillSpace(registID);		
+		if (hasRegistID()) FixUtils.fillNul(registID);		
 		FixUtils.copy(registID, src); 		
 		hasRegistID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setRegistID(String str) {		
 		if (str == null ) return;
-		if (hasRegistID()) FixUtils.fillSpace(registID);		
+		if (hasRegistID()) FixUtils.fillNul(registID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(registID, src); 		
 		hasRegistID = FixUtils.TAG_HAS_VALUE;		
@@ -580,14 +580,14 @@ public class FixRegistrationInstructions extends FixInMessage {
 
 	public void setRegistRefID(byte[] src) {		
 		if (src == null ) return;
-		if (hasRegistRefID()) FixUtils.fillSpace(registRefID);		
+		if (hasRegistRefID()) FixUtils.fillNul(registRefID);		
 		FixUtils.copy(registRefID, src); 		
 		hasRegistRefID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setRegistRefID(String str) {		
 		if (str == null ) return;
-		if (hasRegistRefID()) FixUtils.fillSpace(registRefID);		
+		if (hasRegistRefID()) FixUtils.fillNul(registRefID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(registRefID, src); 		
 		hasRegistRefID = FixUtils.TAG_HAS_VALUE;		
@@ -624,14 +624,14 @@ public class FixRegistrationInstructions extends FixInMessage {
 
 	public void setClOrdID(byte[] src) {		
 		if (src == null ) return;
-		if (hasClOrdID()) FixUtils.fillSpace(clOrdID);		
+		if (hasClOrdID()) FixUtils.fillNul(clOrdID);		
 		FixUtils.copy(clOrdID, src); 		
 		hasClOrdID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setClOrdID(String str) {		
 		if (str == null ) return;
-		if (hasClOrdID()) FixUtils.fillSpace(clOrdID);		
+		if (hasClOrdID()) FixUtils.fillNul(clOrdID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(clOrdID, src); 		
 		hasClOrdID = FixUtils.TAG_HAS_VALUE;		
@@ -668,14 +668,14 @@ public class FixRegistrationInstructions extends FixInMessage {
 
 	public void setAccount(byte[] src) {		
 		if (src == null ) return;
-		if (hasAccount()) FixUtils.fillSpace(account);		
+		if (hasAccount()) FixUtils.fillNul(account);		
 		FixUtils.copy(account, src); 		
 		hasAccount = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setAccount(String str) {		
 		if (str == null ) return;
-		if (hasAccount()) FixUtils.fillSpace(account);		
+		if (hasAccount()) FixUtils.fillNul(account);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(account, src); 		
 		hasAccount = FixUtils.TAG_HAS_VALUE;		
@@ -761,14 +761,14 @@ public class FixRegistrationInstructions extends FixInMessage {
 
 	public void setRegistAcctType(byte[] src) {		
 		if (src == null ) return;
-		if (hasRegistAcctType()) FixUtils.fillSpace(registAcctType);		
+		if (hasRegistAcctType()) FixUtils.fillNul(registAcctType);		
 		FixUtils.copy(registAcctType, src); 		
 		hasRegistAcctType = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setRegistAcctType(String str) {		
 		if (str == null ) return;
-		if (hasRegistAcctType()) FixUtils.fillSpace(registAcctType);		
+		if (hasRegistAcctType()) FixUtils.fillNul(registAcctType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(registAcctType, src); 		
 		hasRegistAcctType = FixUtils.TAG_HAS_VALUE;		

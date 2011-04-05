@@ -210,14 +210,14 @@ public class FixContextParties extends FixGroup {
 		
 	public void setContextPartyID(byte[] src) {		
 		if (src == null ) return;
-		if (hasContextPartyID()) FixUtils.fillSpace(contextPartyID);		
+		if (hasContextPartyID()) FixUtils.fillNul(contextPartyID);		
 		FixUtils.copy(contextPartyID, src); 		
 		hasContextPartyID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setContextPartyID(String str) {		
 		if (str == null ) return;
-		if (hasContextPartyID()) FixUtils.fillSpace(contextPartyID);		
+		if (hasContextPartyID()) FixUtils.fillNul(contextPartyID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(contextPartyID, src); 		
 		hasContextPartyID = FixUtils.TAG_HAS_VALUE;		

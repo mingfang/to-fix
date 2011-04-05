@@ -449,14 +449,14 @@ public class FixOrdListStatGrp extends FixGroup {
 		
 	public void setClOrdID(byte[] src) {		
 		if (src == null ) return;
-		if (hasClOrdID()) FixUtils.fillSpace(clOrdID);		
+		if (hasClOrdID()) FixUtils.fillNul(clOrdID);		
 		FixUtils.copy(clOrdID, src); 		
 		hasClOrdID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setClOrdID(String str) {		
 		if (str == null ) return;
-		if (hasClOrdID()) FixUtils.fillSpace(clOrdID);		
+		if (hasClOrdID()) FixUtils.fillNul(clOrdID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(clOrdID, src); 		
 		hasClOrdID = FixUtils.TAG_HAS_VALUE;		
@@ -488,14 +488,14 @@ public class FixOrdListStatGrp extends FixGroup {
 		
 	public void setOrderID(byte[] src) {		
 		if (src == null ) return;
-		if (hasOrderID()) FixUtils.fillSpace(orderID);		
+		if (hasOrderID()) FixUtils.fillNul(orderID);		
 		FixUtils.copy(orderID, src); 		
 		hasOrderID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setOrderID(String str) {		
 		if (str == null ) return;
-		if (hasOrderID()) FixUtils.fillSpace(orderID);		
+		if (hasOrderID()) FixUtils.fillNul(orderID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(orderID, src); 		
 		hasOrderID = FixUtils.TAG_HAS_VALUE;		
@@ -527,14 +527,14 @@ public class FixOrdListStatGrp extends FixGroup {
 		
 	public void setSecondaryClOrdID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecondaryClOrdID()) FixUtils.fillSpace(secondaryClOrdID);		
+		if (hasSecondaryClOrdID()) FixUtils.fillNul(secondaryClOrdID);		
 		FixUtils.copy(secondaryClOrdID, src); 		
 		hasSecondaryClOrdID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSecondaryClOrdID(String str) {		
 		if (str == null ) return;
-		if (hasSecondaryClOrdID()) FixUtils.fillSpace(secondaryClOrdID);		
+		if (hasSecondaryClOrdID()) FixUtils.fillNul(secondaryClOrdID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(secondaryClOrdID, src); 		
 		hasSecondaryClOrdID = FixUtils.TAG_HAS_VALUE;		
@@ -876,14 +876,14 @@ public class FixOrdListStatGrp extends FixGroup {
 		
 	public void setText(byte[] src) {		
 		if (src == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setText(String str) {		
 		if (str == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
@@ -959,14 +959,14 @@ public class FixOrdListStatGrp extends FixGroup {
 		
 	public void setEncodedText(byte[] src) {		
 		if (src == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setEncodedText(String str) {		
 		if (str == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		

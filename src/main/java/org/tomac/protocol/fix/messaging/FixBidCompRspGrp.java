@@ -466,14 +466,14 @@ public class FixBidCompRspGrp extends FixGroup {
 		
 	public void setListID(byte[] src) {		
 		if (src == null ) return;
-		if (hasListID()) FixUtils.fillSpace(listID);		
+		if (hasListID()) FixUtils.fillNul(listID);		
 		FixUtils.copy(listID, src); 		
 		hasListID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setListID(String str) {		
 		if (str == null ) return;
-		if (hasListID()) FixUtils.fillSpace(listID);		
+		if (hasListID()) FixUtils.fillNul(listID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(listID, src); 		
 		hasListID = FixUtils.TAG_HAS_VALUE;		
@@ -505,14 +505,14 @@ public class FixBidCompRspGrp extends FixGroup {
 		
 	public void setCountry(byte[] src) {		
 		if (src == null ) return;
-		if (hasCountry()) FixUtils.fillSpace(country);		
+		if (hasCountry()) FixUtils.fillNul(country);		
 		FixUtils.copy(country, src); 		
 		hasCountry = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setCountry(String str) {		
 		if (str == null ) return;
-		if (hasCountry()) FixUtils.fillSpace(country);		
+		if (hasCountry()) FixUtils.fillNul(country);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(country, src); 		
 		hasCountry = FixUtils.TAG_HAS_VALUE;		
@@ -766,14 +766,14 @@ public class FixBidCompRspGrp extends FixGroup {
 		
 	public void setSettlType(byte[] src) {		
 		if (src == null ) return;
-		if (hasSettlType()) FixUtils.fillSpace(settlType);		
+		if (hasSettlType()) FixUtils.fillNul(settlType);		
 		FixUtils.copy(settlType, src); 		
 		hasSettlType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSettlType(String str) {		
 		if (str == null ) return;
-		if (hasSettlType()) FixUtils.fillSpace(settlType);		
+		if (hasSettlType()) FixUtils.fillNul(settlType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(settlType, src); 		
 		hasSettlType = FixUtils.TAG_HAS_VALUE;		
@@ -805,14 +805,14 @@ public class FixBidCompRspGrp extends FixGroup {
 		
 	public void setSettlDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasSettlDate()) FixUtils.fillSpace(settlDate);		
+		if (hasSettlDate()) FixUtils.fillNul(settlDate);		
 		FixUtils.copy(settlDate, src); 		
 		hasSettlDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSettlDate(String str) {		
 		if (str == null ) return;
-		if (hasSettlDate()) FixUtils.fillSpace(settlDate);		
+		if (hasSettlDate()) FixUtils.fillNul(settlDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(settlDate, src); 		
 		hasSettlDate = FixUtils.TAG_HAS_VALUE;		
@@ -844,14 +844,14 @@ public class FixBidCompRspGrp extends FixGroup {
 		
 	public void setTradingSessionID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradingSessionID()) FixUtils.fillSpace(tradingSessionID);		
+		if (hasTradingSessionID()) FixUtils.fillNul(tradingSessionID);		
 		FixUtils.copy(tradingSessionID, src); 		
 		hasTradingSessionID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setTradingSessionID(String str) {		
 		if (str == null ) return;
-		if (hasTradingSessionID()) FixUtils.fillSpace(tradingSessionID);		
+		if (hasTradingSessionID()) FixUtils.fillNul(tradingSessionID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradingSessionID, src); 		
 		hasTradingSessionID = FixUtils.TAG_HAS_VALUE;		
@@ -883,14 +883,14 @@ public class FixBidCompRspGrp extends FixGroup {
 		
 	public void setTradingSessionSubID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradingSessionSubID()) FixUtils.fillSpace(tradingSessionSubID);		
+		if (hasTradingSessionSubID()) FixUtils.fillNul(tradingSessionSubID);		
 		FixUtils.copy(tradingSessionSubID, src); 		
 		hasTradingSessionSubID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setTradingSessionSubID(String str) {		
 		if (str == null ) return;
-		if (hasTradingSessionSubID()) FixUtils.fillSpace(tradingSessionSubID);		
+		if (hasTradingSessionSubID()) FixUtils.fillNul(tradingSessionSubID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradingSessionSubID, src); 		
 		hasTradingSessionSubID = FixUtils.TAG_HAS_VALUE;		
@@ -922,14 +922,14 @@ public class FixBidCompRspGrp extends FixGroup {
 		
 	public void setText(byte[] src) {		
 		if (src == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setText(String str) {		
 		if (str == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
@@ -1005,14 +1005,14 @@ public class FixBidCompRspGrp extends FixGroup {
 		
 	public void setEncodedText(byte[] src) {		
 		if (src == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setEncodedText(String str) {		
 		if (str == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		

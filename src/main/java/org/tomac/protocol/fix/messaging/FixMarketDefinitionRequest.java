@@ -290,14 +290,14 @@ public class FixMarketDefinitionRequest extends FixInMessage {
 
 	public void setMarketReqID(byte[] src) {		
 		if (src == null ) return;
-		if (hasMarketReqID()) FixUtils.fillSpace(marketReqID);		
+		if (hasMarketReqID()) FixUtils.fillNul(marketReqID);		
 		FixUtils.copy(marketReqID, src); 		
 		hasMarketReqID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setMarketReqID(String str) {		
 		if (str == null ) return;
-		if (hasMarketReqID()) FixUtils.fillSpace(marketReqID);		
+		if (hasMarketReqID()) FixUtils.fillNul(marketReqID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(marketReqID, src); 		
 		hasMarketReqID = FixUtils.TAG_HAS_VALUE;		
@@ -385,14 +385,14 @@ public class FixMarketDefinitionRequest extends FixInMessage {
 
 	public void setMarketID(byte[] src) {		
 		if (src == null ) return;
-		if (hasMarketID()) FixUtils.fillSpace(marketID);		
+		if (hasMarketID()) FixUtils.fillNul(marketID);		
 		FixUtils.copy(marketID, src); 		
 		hasMarketID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setMarketID(String str) {		
 		if (str == null ) return;
-		if (hasMarketID()) FixUtils.fillSpace(marketID);		
+		if (hasMarketID()) FixUtils.fillNul(marketID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(marketID, src); 		
 		hasMarketID = FixUtils.TAG_HAS_VALUE;		
@@ -429,14 +429,14 @@ public class FixMarketDefinitionRequest extends FixInMessage {
 
 	public void setMarketSegmentID(byte[] src) {		
 		if (src == null ) return;
-		if (hasMarketSegmentID()) FixUtils.fillSpace(marketSegmentID);		
+		if (hasMarketSegmentID()) FixUtils.fillNul(marketSegmentID);		
 		FixUtils.copy(marketSegmentID, src); 		
 		hasMarketSegmentID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setMarketSegmentID(String str) {		
 		if (str == null ) return;
-		if (hasMarketSegmentID()) FixUtils.fillSpace(marketSegmentID);		
+		if (hasMarketSegmentID()) FixUtils.fillNul(marketSegmentID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(marketSegmentID, src); 		
 		hasMarketSegmentID = FixUtils.TAG_HAS_VALUE;		
@@ -473,14 +473,14 @@ public class FixMarketDefinitionRequest extends FixInMessage {
 
 	public void setParentMktSegmID(byte[] src) {		
 		if (src == null ) return;
-		if (hasParentMktSegmID()) FixUtils.fillSpace(parentMktSegmID);		
+		if (hasParentMktSegmID()) FixUtils.fillNul(parentMktSegmID);		
 		FixUtils.copy(parentMktSegmID, src); 		
 		hasParentMktSegmID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setParentMktSegmID(String str) {		
 		if (str == null ) return;
-		if (hasParentMktSegmID()) FixUtils.fillSpace(parentMktSegmID);		
+		if (hasParentMktSegmID()) FixUtils.fillNul(parentMktSegmID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(parentMktSegmID, src); 		
 		hasParentMktSegmID = FixUtils.TAG_HAS_VALUE;		

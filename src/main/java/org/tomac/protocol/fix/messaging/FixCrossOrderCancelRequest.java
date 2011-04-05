@@ -492,14 +492,14 @@ public class FixCrossOrderCancelRequest extends FixInMessage {
 
 	public void setOrderID(byte[] src) {		
 		if (src == null ) return;
-		if (hasOrderID()) FixUtils.fillSpace(orderID);		
+		if (hasOrderID()) FixUtils.fillNul(orderID);		
 		FixUtils.copy(orderID, src); 		
 		hasOrderID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setOrderID(String str) {		
 		if (str == null ) return;
-		if (hasOrderID()) FixUtils.fillSpace(orderID);		
+		if (hasOrderID()) FixUtils.fillNul(orderID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(orderID, src); 		
 		hasOrderID = FixUtils.TAG_HAS_VALUE;		
@@ -536,14 +536,14 @@ public class FixCrossOrderCancelRequest extends FixInMessage {
 
 	public void setCrossID(byte[] src) {		
 		if (src == null ) return;
-		if (hasCrossID()) FixUtils.fillSpace(crossID);		
+		if (hasCrossID()) FixUtils.fillNul(crossID);		
 		FixUtils.copy(crossID, src); 		
 		hasCrossID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setCrossID(String str) {		
 		if (str == null ) return;
-		if (hasCrossID()) FixUtils.fillSpace(crossID);		
+		if (hasCrossID()) FixUtils.fillNul(crossID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(crossID, src); 		
 		hasCrossID = FixUtils.TAG_HAS_VALUE;		
@@ -580,14 +580,14 @@ public class FixCrossOrderCancelRequest extends FixInMessage {
 
 	public void setOrigCrossID(byte[] src) {		
 		if (src == null ) return;
-		if (hasOrigCrossID()) FixUtils.fillSpace(origCrossID);		
+		if (hasOrigCrossID()) FixUtils.fillNul(origCrossID);		
 		FixUtils.copy(origCrossID, src); 		
 		hasOrigCrossID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setOrigCrossID(String str) {		
 		if (str == null ) return;
-		if (hasOrigCrossID()) FixUtils.fillSpace(origCrossID);		
+		if (hasOrigCrossID()) FixUtils.fillNul(origCrossID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(origCrossID, src); 		
 		hasOrigCrossID = FixUtils.TAG_HAS_VALUE;		
@@ -624,14 +624,14 @@ public class FixCrossOrderCancelRequest extends FixInMessage {
 
 	public void setHostCrossID(byte[] src) {		
 		if (src == null ) return;
-		if (hasHostCrossID()) FixUtils.fillSpace(hostCrossID);		
+		if (hasHostCrossID()) FixUtils.fillNul(hostCrossID);		
 		FixUtils.copy(hostCrossID, src); 		
 		hasHostCrossID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setHostCrossID(String str) {		
 		if (str == null ) return;
-		if (hasHostCrossID()) FixUtils.fillSpace(hostCrossID);		
+		if (hasHostCrossID()) FixUtils.fillNul(hostCrossID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(hostCrossID, src); 		
 		hasHostCrossID = FixUtils.TAG_HAS_VALUE;		
@@ -766,14 +766,14 @@ public class FixCrossOrderCancelRequest extends FixInMessage {
 
 	public void setTransactTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTransactTime(String str) {		
 		if (str == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		

@@ -261,14 +261,14 @@ public class FixPositionQty extends FixGroup {
 		
 	public void setPosType(byte[] src) {		
 		if (src == null ) return;
-		if (hasPosType()) FixUtils.fillSpace(posType);		
+		if (hasPosType()) FixUtils.fillNul(posType);		
 		FixUtils.copy(posType, src); 		
 		hasPosType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setPosType(String str) {		
 		if (str == null ) return;
-		if (hasPosType()) FixUtils.fillSpace(posType);		
+		if (hasPosType()) FixUtils.fillNul(posType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(posType, src); 		
 		hasPosType = FixUtils.TAG_HAS_VALUE;		
@@ -432,14 +432,14 @@ public class FixPositionQty extends FixGroup {
 		
 	public void setQuantityDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasQuantityDate()) FixUtils.fillSpace(quantityDate);		
+		if (hasQuantityDate()) FixUtils.fillNul(quantityDate);		
 		FixUtils.copy(quantityDate, src); 		
 		hasQuantityDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setQuantityDate(String str) {		
 		if (str == null ) return;
-		if (hasQuantityDate()) FixUtils.fillSpace(quantityDate);		
+		if (hasQuantityDate()) FixUtils.fillNul(quantityDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(quantityDate, src); 		
 		hasQuantityDate = FixUtils.TAG_HAS_VALUE;		

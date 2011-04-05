@@ -486,14 +486,14 @@ public class FixConfirmationRequest extends FixInMessage {
 
 	public void setConfirmReqID(byte[] src) {		
 		if (src == null ) return;
-		if (hasConfirmReqID()) FixUtils.fillSpace(confirmReqID);		
+		if (hasConfirmReqID()) FixUtils.fillNul(confirmReqID);		
 		FixUtils.copy(confirmReqID, src); 		
 		hasConfirmReqID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setConfirmReqID(String str) {		
 		if (str == null ) return;
-		if (hasConfirmReqID()) FixUtils.fillSpace(confirmReqID);		
+		if (hasConfirmReqID()) FixUtils.fillNul(confirmReqID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(confirmReqID, src); 		
 		hasConfirmReqID = FixUtils.TAG_HAS_VALUE;		
@@ -579,14 +579,14 @@ public class FixConfirmationRequest extends FixInMessage {
 
 	public void setAllocID(byte[] src) {		
 		if (src == null ) return;
-		if (hasAllocID()) FixUtils.fillSpace(allocID);		
+		if (hasAllocID()) FixUtils.fillNul(allocID);		
 		FixUtils.copy(allocID, src); 		
 		hasAllocID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setAllocID(String str) {		
 		if (str == null ) return;
-		if (hasAllocID()) FixUtils.fillSpace(allocID);		
+		if (hasAllocID()) FixUtils.fillNul(allocID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(allocID, src); 		
 		hasAllocID = FixUtils.TAG_HAS_VALUE;		
@@ -623,14 +623,14 @@ public class FixConfirmationRequest extends FixInMessage {
 
 	public void setSecondaryAllocID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecondaryAllocID()) FixUtils.fillSpace(secondaryAllocID);		
+		if (hasSecondaryAllocID()) FixUtils.fillNul(secondaryAllocID);		
 		FixUtils.copy(secondaryAllocID, src); 		
 		hasSecondaryAllocID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSecondaryAllocID(String str) {		
 		if (str == null ) return;
-		if (hasSecondaryAllocID()) FixUtils.fillSpace(secondaryAllocID);		
+		if (hasSecondaryAllocID()) FixUtils.fillNul(secondaryAllocID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(secondaryAllocID, src); 		
 		hasSecondaryAllocID = FixUtils.TAG_HAS_VALUE;		
@@ -667,14 +667,14 @@ public class FixConfirmationRequest extends FixInMessage {
 
 	public void setIndividualAllocID(byte[] src) {		
 		if (src == null ) return;
-		if (hasIndividualAllocID()) FixUtils.fillSpace(individualAllocID);		
+		if (hasIndividualAllocID()) FixUtils.fillNul(individualAllocID);		
 		FixUtils.copy(individualAllocID, src); 		
 		hasIndividualAllocID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setIndividualAllocID(String str) {		
 		if (str == null ) return;
-		if (hasIndividualAllocID()) FixUtils.fillSpace(individualAllocID);		
+		if (hasIndividualAllocID()) FixUtils.fillNul(individualAllocID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(individualAllocID, src); 		
 		hasIndividualAllocID = FixUtils.TAG_HAS_VALUE;		
@@ -711,14 +711,14 @@ public class FixConfirmationRequest extends FixInMessage {
 
 	public void setTransactTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTransactTime(String str) {		
 		if (str == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		
@@ -755,14 +755,14 @@ public class FixConfirmationRequest extends FixInMessage {
 
 	public void setAllocAccount(byte[] src) {		
 		if (src == null ) return;
-		if (hasAllocAccount()) FixUtils.fillSpace(allocAccount);		
+		if (hasAllocAccount()) FixUtils.fillNul(allocAccount);		
 		FixUtils.copy(allocAccount, src); 		
 		hasAllocAccount = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setAllocAccount(String str) {		
 		if (str == null ) return;
-		if (hasAllocAccount()) FixUtils.fillSpace(allocAccount);		
+		if (hasAllocAccount()) FixUtils.fillNul(allocAccount);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(allocAccount, src); 		
 		hasAllocAccount = FixUtils.TAG_HAS_VALUE;		
@@ -897,14 +897,14 @@ public class FixConfirmationRequest extends FixInMessage {
 
 	public void setText(byte[] src) {		
 		if (src == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setText(String str) {		
 		if (str == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
@@ -990,14 +990,14 @@ public class FixConfirmationRequest extends FixInMessage {
 
 	public void setEncodedText(byte[] src) {		
 		if (src == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setEncodedText(String str) {		
 		if (str == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		

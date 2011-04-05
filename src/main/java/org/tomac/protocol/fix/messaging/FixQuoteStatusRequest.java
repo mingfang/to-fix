@@ -499,14 +499,14 @@ public class FixQuoteStatusRequest extends FixInMessage {
 
 	public void setQuoteStatusReqID(byte[] src) {		
 		if (src == null ) return;
-		if (hasQuoteStatusReqID()) FixUtils.fillSpace(quoteStatusReqID);		
+		if (hasQuoteStatusReqID()) FixUtils.fillNul(quoteStatusReqID);		
 		FixUtils.copy(quoteStatusReqID, src); 		
 		hasQuoteStatusReqID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setQuoteStatusReqID(String str) {		
 		if (str == null ) return;
-		if (hasQuoteStatusReqID()) FixUtils.fillSpace(quoteStatusReqID);		
+		if (hasQuoteStatusReqID()) FixUtils.fillNul(quoteStatusReqID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(quoteStatusReqID, src); 		
 		hasQuoteStatusReqID = FixUtils.TAG_HAS_VALUE;		
@@ -543,14 +543,14 @@ public class FixQuoteStatusRequest extends FixInMessage {
 
 	public void setQuoteID(byte[] src) {		
 		if (src == null ) return;
-		if (hasQuoteID()) FixUtils.fillSpace(quoteID);		
+		if (hasQuoteID()) FixUtils.fillNul(quoteID);		
 		FixUtils.copy(quoteID, src); 		
 		hasQuoteID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setQuoteID(String str) {		
 		if (str == null ) return;
-		if (hasQuoteID()) FixUtils.fillSpace(quoteID);		
+		if (hasQuoteID()) FixUtils.fillNul(quoteID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(quoteID, src); 		
 		hasQuoteID = FixUtils.TAG_HAS_VALUE;		
@@ -587,14 +587,14 @@ public class FixQuoteStatusRequest extends FixInMessage {
 
 	public void setAccount(byte[] src) {		
 		if (src == null ) return;
-		if (hasAccount()) FixUtils.fillSpace(account);		
+		if (hasAccount()) FixUtils.fillNul(account);		
 		FixUtils.copy(account, src); 		
 		hasAccount = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setAccount(String str) {		
 		if (str == null ) return;
-		if (hasAccount()) FixUtils.fillSpace(account);		
+		if (hasAccount()) FixUtils.fillNul(account);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(account, src); 		
 		hasAccount = FixUtils.TAG_HAS_VALUE;		
@@ -729,14 +729,14 @@ public class FixQuoteStatusRequest extends FixInMessage {
 
 	public void setTradingSessionID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradingSessionID()) FixUtils.fillSpace(tradingSessionID);		
+		if (hasTradingSessionID()) FixUtils.fillNul(tradingSessionID);		
 		FixUtils.copy(tradingSessionID, src); 		
 		hasTradingSessionID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTradingSessionID(String str) {		
 		if (str == null ) return;
-		if (hasTradingSessionID()) FixUtils.fillSpace(tradingSessionID);		
+		if (hasTradingSessionID()) FixUtils.fillNul(tradingSessionID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradingSessionID, src); 		
 		hasTradingSessionID = FixUtils.TAG_HAS_VALUE;		
@@ -773,14 +773,14 @@ public class FixQuoteStatusRequest extends FixInMessage {
 
 	public void setTradingSessionSubID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradingSessionSubID()) FixUtils.fillSpace(tradingSessionSubID);		
+		if (hasTradingSessionSubID()) FixUtils.fillNul(tradingSessionSubID);		
 		FixUtils.copy(tradingSessionSubID, src); 		
 		hasTradingSessionSubID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTradingSessionSubID(String str) {		
 		if (str == null ) return;
-		if (hasTradingSessionSubID()) FixUtils.fillSpace(tradingSessionSubID);		
+		if (hasTradingSessionSubID()) FixUtils.fillNul(tradingSessionSubID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradingSessionSubID, src); 		
 		hasTradingSessionSubID = FixUtils.TAG_HAS_VALUE;		

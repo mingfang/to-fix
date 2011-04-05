@@ -674,14 +674,14 @@ public class FixNewOrderList extends FixInMessage {
 
 	public void setListID(byte[] src) {		
 		if (src == null ) return;
-		if (hasListID()) FixUtils.fillSpace(listID);		
+		if (hasListID()) FixUtils.fillNul(listID);		
 		FixUtils.copy(listID, src); 		
 		hasListID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setListID(String str) {		
 		if (str == null ) return;
-		if (hasListID()) FixUtils.fillSpace(listID);		
+		if (hasListID()) FixUtils.fillNul(listID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(listID, src); 		
 		hasListID = FixUtils.TAG_HAS_VALUE;		
@@ -718,14 +718,14 @@ public class FixNewOrderList extends FixInMessage {
 
 	public void setBidID(byte[] src) {		
 		if (src == null ) return;
-		if (hasBidID()) FixUtils.fillSpace(bidID);		
+		if (hasBidID()) FixUtils.fillNul(bidID);		
 		FixUtils.copy(bidID, src); 		
 		hasBidID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setBidID(String str) {		
 		if (str == null ) return;
-		if (hasBidID()) FixUtils.fillSpace(bidID);		
+		if (hasBidID()) FixUtils.fillNul(bidID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(bidID, src); 		
 		hasBidID = FixUtils.TAG_HAS_VALUE;		
@@ -762,14 +762,14 @@ public class FixNewOrderList extends FixInMessage {
 
 	public void setClientBidID(byte[] src) {		
 		if (src == null ) return;
-		if (hasClientBidID()) FixUtils.fillSpace(clientBidID);		
+		if (hasClientBidID()) FixUtils.fillNul(clientBidID);		
 		FixUtils.copy(clientBidID, src); 		
 		hasClientBidID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setClientBidID(String str) {		
 		if (str == null ) return;
-		if (hasClientBidID()) FixUtils.fillSpace(clientBidID);		
+		if (hasClientBidID()) FixUtils.fillNul(clientBidID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(clientBidID, src); 		
 		hasClientBidID = FixUtils.TAG_HAS_VALUE;		
@@ -1055,14 +1055,14 @@ public class FixNewOrderList extends FixInMessage {
 
 	public void setRegistID(byte[] src) {		
 		if (src == null ) return;
-		if (hasRegistID()) FixUtils.fillSpace(registID);		
+		if (hasRegistID()) FixUtils.fillNul(registID);		
 		FixUtils.copy(registID, src); 		
 		hasRegistID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setRegistID(String str) {		
 		if (str == null ) return;
-		if (hasRegistID()) FixUtils.fillSpace(registID);		
+		if (hasRegistID()) FixUtils.fillNul(registID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(registID, src); 		
 		hasRegistID = FixUtils.TAG_HAS_VALUE;		
@@ -1150,14 +1150,14 @@ public class FixNewOrderList extends FixInMessage {
 
 	public void setListExecInst(byte[] src) {		
 		if (src == null ) return;
-		if (hasListExecInst()) FixUtils.fillSpace(listExecInst);		
+		if (hasListExecInst()) FixUtils.fillNul(listExecInst);		
 		FixUtils.copy(listExecInst, src); 		
 		hasListExecInst = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setListExecInst(String str) {		
 		if (str == null ) return;
-		if (hasListExecInst()) FixUtils.fillSpace(listExecInst);		
+		if (hasListExecInst()) FixUtils.fillNul(listExecInst);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(listExecInst, src); 		
 		hasListExecInst = FixUtils.TAG_HAS_VALUE;		
@@ -1292,14 +1292,14 @@ public class FixNewOrderList extends FixInMessage {
 
 	public void setEncodedListExecInst(byte[] src) {		
 		if (src == null ) return;
-		if (hasEncodedListExecInst()) FixUtils.fillSpace(encodedListExecInst);		
+		if (hasEncodedListExecInst()) FixUtils.fillNul(encodedListExecInst);		
 		FixUtils.copy(encodedListExecInst, src); 		
 		hasEncodedListExecInst = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setEncodedListExecInst(String str) {		
 		if (str == null ) return;
-		if (hasEncodedListExecInst()) FixUtils.fillSpace(encodedListExecInst);		
+		if (hasEncodedListExecInst()) FixUtils.fillNul(encodedListExecInst);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(encodedListExecInst, src); 		
 		hasEncodedListExecInst = FixUtils.TAG_HAS_VALUE;		
@@ -1434,14 +1434,14 @@ public class FixNewOrderList extends FixInMessage {
 
 	public void setAllowableOneSidednessCurr(byte[] src) {		
 		if (src == null ) return;
-		if (hasAllowableOneSidednessCurr()) FixUtils.fillSpace(allowableOneSidednessCurr);		
+		if (hasAllowableOneSidednessCurr()) FixUtils.fillNul(allowableOneSidednessCurr);		
 		FixUtils.copy(allowableOneSidednessCurr, src); 		
 		hasAllowableOneSidednessCurr = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setAllowableOneSidednessCurr(String str) {		
 		if (str == null ) return;
-		if (hasAllowableOneSidednessCurr()) FixUtils.fillSpace(allowableOneSidednessCurr);		
+		if (hasAllowableOneSidednessCurr()) FixUtils.fillNul(allowableOneSidednessCurr);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(allowableOneSidednessCurr, src); 		
 		hasAllowableOneSidednessCurr = FixUtils.TAG_HAS_VALUE;		

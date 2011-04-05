@@ -271,14 +271,14 @@ public class FixDerivativeEventsGrp extends FixGroup {
 		
 	public void setDerivativeEventDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeEventDate()) FixUtils.fillSpace(derivativeEventDate);		
+		if (hasDerivativeEventDate()) FixUtils.fillNul(derivativeEventDate);		
 		FixUtils.copy(derivativeEventDate, src); 		
 		hasDerivativeEventDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeEventDate(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeEventDate()) FixUtils.fillSpace(derivativeEventDate);		
+		if (hasDerivativeEventDate()) FixUtils.fillNul(derivativeEventDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeEventDate, src); 		
 		hasDerivativeEventDate = FixUtils.TAG_HAS_VALUE;		
@@ -310,14 +310,14 @@ public class FixDerivativeEventsGrp extends FixGroup {
 		
 	public void setDerivativeEventTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeEventTime()) FixUtils.fillSpace(derivativeEventTime);		
+		if (hasDerivativeEventTime()) FixUtils.fillNul(derivativeEventTime);		
 		FixUtils.copy(derivativeEventTime, src); 		
 		hasDerivativeEventTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeEventTime(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeEventTime()) FixUtils.fillSpace(derivativeEventTime);		
+		if (hasDerivativeEventTime()) FixUtils.fillNul(derivativeEventTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeEventTime, src); 		
 		hasDerivativeEventTime = FixUtils.TAG_HAS_VALUE;		
@@ -393,14 +393,14 @@ public class FixDerivativeEventsGrp extends FixGroup {
 		
 	public void setDerivativeEventText(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeEventText()) FixUtils.fillSpace(derivativeEventText);		
+		if (hasDerivativeEventText()) FixUtils.fillNul(derivativeEventText);		
 		FixUtils.copy(derivativeEventText, src); 		
 		hasDerivativeEventText = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeEventText(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeEventText()) FixUtils.fillSpace(derivativeEventText);		
+		if (hasDerivativeEventText()) FixUtils.fillNul(derivativeEventText);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeEventText, src); 		
 		hasDerivativeEventText = FixUtils.TAG_HAS_VALUE;		

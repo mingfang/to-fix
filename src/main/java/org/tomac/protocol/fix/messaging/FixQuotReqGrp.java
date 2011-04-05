@@ -1154,14 +1154,14 @@ public class FixQuotReqGrp extends FixGroup {
 		
 	public void setTradingSessionID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradingSessionID()) FixUtils.fillSpace(tradingSessionID);		
+		if (hasTradingSessionID()) FixUtils.fillNul(tradingSessionID);		
 		FixUtils.copy(tradingSessionID, src); 		
 		hasTradingSessionID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setTradingSessionID(String str) {		
 		if (str == null ) return;
-		if (hasTradingSessionID()) FixUtils.fillSpace(tradingSessionID);		
+		if (hasTradingSessionID()) FixUtils.fillNul(tradingSessionID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradingSessionID, src); 		
 		hasTradingSessionID = FixUtils.TAG_HAS_VALUE;		
@@ -1193,14 +1193,14 @@ public class FixQuotReqGrp extends FixGroup {
 		
 	public void setTradingSessionSubID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradingSessionSubID()) FixUtils.fillSpace(tradingSessionSubID);		
+		if (hasTradingSessionSubID()) FixUtils.fillNul(tradingSessionSubID);		
 		FixUtils.copy(tradingSessionSubID, src); 		
 		hasTradingSessionSubID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setTradingSessionSubID(String str) {		
 		if (str == null ) return;
-		if (hasTradingSessionSubID()) FixUtils.fillSpace(tradingSessionSubID);		
+		if (hasTradingSessionSubID()) FixUtils.fillNul(tradingSessionSubID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradingSessionSubID, src); 		
 		hasTradingSessionSubID = FixUtils.TAG_HAS_VALUE;		
@@ -1232,14 +1232,14 @@ public class FixQuotReqGrp extends FixGroup {
 		
 	public void setTradeOriginationDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradeOriginationDate()) FixUtils.fillSpace(tradeOriginationDate);		
+		if (hasTradeOriginationDate()) FixUtils.fillNul(tradeOriginationDate);		
 		FixUtils.copy(tradeOriginationDate, src); 		
 		hasTradeOriginationDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setTradeOriginationDate(String str) {		
 		if (str == null ) return;
-		if (hasTradeOriginationDate()) FixUtils.fillSpace(tradeOriginationDate);		
+		if (hasTradeOriginationDate()) FixUtils.fillNul(tradeOriginationDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradeOriginationDate, src); 		
 		hasTradeOriginationDate = FixUtils.TAG_HAS_VALUE;		
@@ -1405,14 +1405,14 @@ public class FixQuotReqGrp extends FixGroup {
 		
 	public void setSettlType(byte[] src) {		
 		if (src == null ) return;
-		if (hasSettlType()) FixUtils.fillSpace(settlType);		
+		if (hasSettlType()) FixUtils.fillNul(settlType);		
 		FixUtils.copy(settlType, src); 		
 		hasSettlType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSettlType(String str) {		
 		if (str == null ) return;
-		if (hasSettlType()) FixUtils.fillSpace(settlType);		
+		if (hasSettlType()) FixUtils.fillNul(settlType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(settlType, src); 		
 		hasSettlType = FixUtils.TAG_HAS_VALUE;		
@@ -1444,14 +1444,14 @@ public class FixQuotReqGrp extends FixGroup {
 		
 	public void setSettlDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasSettlDate()) FixUtils.fillSpace(settlDate);		
+		if (hasSettlDate()) FixUtils.fillNul(settlDate);		
 		FixUtils.copy(settlDate, src); 		
 		hasSettlDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSettlDate(String str) {		
 		if (str == null ) return;
-		if (hasSettlDate()) FixUtils.fillSpace(settlDate);		
+		if (hasSettlDate()) FixUtils.fillNul(settlDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(settlDate, src); 		
 		hasSettlDate = FixUtils.TAG_HAS_VALUE;		
@@ -1483,14 +1483,14 @@ public class FixQuotReqGrp extends FixGroup {
 		
 	public void setSettlDate2(byte[] src) {		
 		if (src == null ) return;
-		if (hasSettlDate2()) FixUtils.fillSpace(settlDate2);		
+		if (hasSettlDate2()) FixUtils.fillNul(settlDate2);		
 		FixUtils.copy(settlDate2, src); 		
 		hasSettlDate2 = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSettlDate2(String str) {		
 		if (str == null ) return;
-		if (hasSettlDate2()) FixUtils.fillSpace(settlDate2);		
+		if (hasSettlDate2()) FixUtils.fillNul(settlDate2);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(settlDate2, src); 		
 		hasSettlDate2 = FixUtils.TAG_HAS_VALUE;		
@@ -1566,14 +1566,14 @@ public class FixQuotReqGrp extends FixGroup {
 		
 	public void setCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasCurrency()) FixUtils.fillSpace(currency);		
+		if (hasCurrency()) FixUtils.fillNul(currency);		
 		FixUtils.copy(currency, src); 		
 		hasCurrency = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setCurrency(String str) {		
 		if (str == null ) return;
-		if (hasCurrency()) FixUtils.fillSpace(currency);		
+		if (hasCurrency()) FixUtils.fillNul(currency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(currency, src); 		
 		hasCurrency = FixUtils.TAG_HAS_VALUE;		
@@ -1605,14 +1605,14 @@ public class FixQuotReqGrp extends FixGroup {
 		
 	public void setSettlCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasSettlCurrency()) FixUtils.fillSpace(settlCurrency);		
+		if (hasSettlCurrency()) FixUtils.fillNul(settlCurrency);		
 		FixUtils.copy(settlCurrency, src); 		
 		hasSettlCurrency = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSettlCurrency(String str) {		
 		if (str == null ) return;
-		if (hasSettlCurrency()) FixUtils.fillSpace(settlCurrency);		
+		if (hasSettlCurrency()) FixUtils.fillNul(settlCurrency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(settlCurrency, src); 		
 		hasSettlCurrency = FixUtils.TAG_HAS_VALUE;		
@@ -1644,14 +1644,14 @@ public class FixQuotReqGrp extends FixGroup {
 		
 	public void setAccount(byte[] src) {		
 		if (src == null ) return;
-		if (hasAccount()) FixUtils.fillSpace(account);		
+		if (hasAccount()) FixUtils.fillNul(account);		
 		FixUtils.copy(account, src); 		
 		hasAccount = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setAccount(String str) {		
 		if (str == null ) return;
-		if (hasAccount()) FixUtils.fillSpace(account);		
+		if (hasAccount()) FixUtils.fillNul(account);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(account, src); 		
 		hasAccount = FixUtils.TAG_HAS_VALUE;		
@@ -1861,14 +1861,14 @@ public class FixQuotReqGrp extends FixGroup {
 		
 	public void setValidUntilTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasValidUntilTime()) FixUtils.fillSpace(validUntilTime);		
+		if (hasValidUntilTime()) FixUtils.fillNul(validUntilTime);		
 		FixUtils.copy(validUntilTime, src); 		
 		hasValidUntilTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setValidUntilTime(String str) {		
 		if (str == null ) return;
-		if (hasValidUntilTime()) FixUtils.fillSpace(validUntilTime);		
+		if (hasValidUntilTime()) FixUtils.fillNul(validUntilTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(validUntilTime, src); 		
 		hasValidUntilTime = FixUtils.TAG_HAS_VALUE;		
@@ -1900,14 +1900,14 @@ public class FixQuotReqGrp extends FixGroup {
 		
 	public void setExpireTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasExpireTime()) FixUtils.fillSpace(expireTime);		
+		if (hasExpireTime()) FixUtils.fillNul(expireTime);		
 		FixUtils.copy(expireTime, src); 		
 		hasExpireTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setExpireTime(String str) {		
 		if (str == null ) return;
-		if (hasExpireTime()) FixUtils.fillSpace(expireTime);		
+		if (hasExpireTime()) FixUtils.fillNul(expireTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(expireTime, src); 		
 		hasExpireTime = FixUtils.TAG_HAS_VALUE;		
@@ -1939,14 +1939,14 @@ public class FixQuotReqGrp extends FixGroup {
 		
 	public void setTransactTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setTransactTime(String str) {		
 		if (str == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		

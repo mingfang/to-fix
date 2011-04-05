@@ -659,14 +659,14 @@ public class FixSettlInstGrp extends FixGroup {
 		
 	public void setSettlInstID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSettlInstID()) FixUtils.fillSpace(settlInstID);		
+		if (hasSettlInstID()) FixUtils.fillNul(settlInstID);		
 		FixUtils.copy(settlInstID, src); 		
 		hasSettlInstID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSettlInstID(String str) {		
 		if (str == null ) return;
-		if (hasSettlInstID()) FixUtils.fillSpace(settlInstID);		
+		if (hasSettlInstID()) FixUtils.fillNul(settlInstID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(settlInstID, src); 		
 		hasSettlInstID = FixUtils.TAG_HAS_VALUE;		
@@ -744,14 +744,14 @@ public class FixSettlInstGrp extends FixGroup {
 		
 	public void setSettlInstRefID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSettlInstRefID()) FixUtils.fillSpace(settlInstRefID);		
+		if (hasSettlInstRefID()) FixUtils.fillNul(settlInstRefID);		
 		FixUtils.copy(settlInstRefID, src); 		
 		hasSettlInstRefID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSettlInstRefID(String str) {		
 		if (str == null ) return;
-		if (hasSettlInstRefID()) FixUtils.fillSpace(settlInstRefID);		
+		if (hasSettlInstRefID()) FixUtils.fillNul(settlInstRefID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(settlInstRefID, src); 		
 		hasSettlInstRefID = FixUtils.TAG_HAS_VALUE;		
@@ -873,14 +873,14 @@ public class FixSettlInstGrp extends FixGroup {
 		
 	public void setSecurityType(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecurityType()) FixUtils.fillSpace(securityType);		
+		if (hasSecurityType()) FixUtils.fillNul(securityType);		
 		FixUtils.copy(securityType, src); 		
 		hasSecurityType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSecurityType(String str) {		
 		if (str == null ) return;
-		if (hasSecurityType()) FixUtils.fillSpace(securityType);		
+		if (hasSecurityType()) FixUtils.fillNul(securityType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(securityType, src); 		
 		hasSecurityType = FixUtils.TAG_HAS_VALUE;		
@@ -912,14 +912,14 @@ public class FixSettlInstGrp extends FixGroup {
 		
 	public void setCFICode(byte[] src) {		
 		if (src == null ) return;
-		if (hasCFICode()) FixUtils.fillSpace(cFICode);		
+		if (hasCFICode()) FixUtils.fillNul(cFICode);		
 		FixUtils.copy(cFICode, src); 		
 		hasCFICode = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setCFICode(String str) {		
 		if (str == null ) return;
-		if (hasCFICode()) FixUtils.fillSpace(cFICode);		
+		if (hasCFICode()) FixUtils.fillNul(cFICode);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(cFICode, src); 		
 		hasCFICode = FixUtils.TAG_HAS_VALUE;		
@@ -951,14 +951,14 @@ public class FixSettlInstGrp extends FixGroup {
 		
 	public void setSettlCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasSettlCurrency()) FixUtils.fillSpace(settlCurrency);		
+		if (hasSettlCurrency()) FixUtils.fillNul(settlCurrency);		
 		FixUtils.copy(settlCurrency, src); 		
 		hasSettlCurrency = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSettlCurrency(String str) {		
 		if (str == null ) return;
-		if (hasSettlCurrency()) FixUtils.fillSpace(settlCurrency);		
+		if (hasSettlCurrency()) FixUtils.fillNul(settlCurrency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(settlCurrency, src); 		
 		hasSettlCurrency = FixUtils.TAG_HAS_VALUE;		
@@ -990,14 +990,14 @@ public class FixSettlInstGrp extends FixGroup {
 		
 	public void setEffectiveTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasEffectiveTime()) FixUtils.fillSpace(effectiveTime);		
+		if (hasEffectiveTime()) FixUtils.fillNul(effectiveTime);		
 		FixUtils.copy(effectiveTime, src); 		
 		hasEffectiveTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setEffectiveTime(String str) {		
 		if (str == null ) return;
-		if (hasEffectiveTime()) FixUtils.fillSpace(effectiveTime);		
+		if (hasEffectiveTime()) FixUtils.fillNul(effectiveTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(effectiveTime, src); 		
 		hasEffectiveTime = FixUtils.TAG_HAS_VALUE;		
@@ -1029,14 +1029,14 @@ public class FixSettlInstGrp extends FixGroup {
 		
 	public void setExpireTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasExpireTime()) FixUtils.fillSpace(expireTime);		
+		if (hasExpireTime()) FixUtils.fillNul(expireTime);		
 		FixUtils.copy(expireTime, src); 		
 		hasExpireTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setExpireTime(String str) {		
 		if (str == null ) return;
-		if (hasExpireTime()) FixUtils.fillSpace(expireTime);		
+		if (hasExpireTime()) FixUtils.fillNul(expireTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(expireTime, src); 		
 		hasExpireTime = FixUtils.TAG_HAS_VALUE;		
@@ -1068,14 +1068,14 @@ public class FixSettlInstGrp extends FixGroup {
 		
 	public void setLastUpdateTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasLastUpdateTime()) FixUtils.fillSpace(lastUpdateTime);		
+		if (hasLastUpdateTime()) FixUtils.fillNul(lastUpdateTime);		
 		FixUtils.copy(lastUpdateTime, src); 		
 		hasLastUpdateTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLastUpdateTime(String str) {		
 		if (str == null ) return;
-		if (hasLastUpdateTime()) FixUtils.fillSpace(lastUpdateTime);		
+		if (hasLastUpdateTime()) FixUtils.fillNul(lastUpdateTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(lastUpdateTime, src); 		
 		hasLastUpdateTime = FixUtils.TAG_HAS_VALUE;		
@@ -1151,14 +1151,14 @@ public class FixSettlInstGrp extends FixGroup {
 		
 	public void setPaymentRef(byte[] src) {		
 		if (src == null ) return;
-		if (hasPaymentRef()) FixUtils.fillSpace(paymentRef);		
+		if (hasPaymentRef()) FixUtils.fillNul(paymentRef);		
 		FixUtils.copy(paymentRef, src); 		
 		hasPaymentRef = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setPaymentRef(String str) {		
 		if (str == null ) return;
-		if (hasPaymentRef()) FixUtils.fillSpace(paymentRef);		
+		if (hasPaymentRef()) FixUtils.fillNul(paymentRef);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(paymentRef, src); 		
 		hasPaymentRef = FixUtils.TAG_HAS_VALUE;		
@@ -1190,14 +1190,14 @@ public class FixSettlInstGrp extends FixGroup {
 		
 	public void setCardHolderName(byte[] src) {		
 		if (src == null ) return;
-		if (hasCardHolderName()) FixUtils.fillSpace(cardHolderName);		
+		if (hasCardHolderName()) FixUtils.fillNul(cardHolderName);		
 		FixUtils.copy(cardHolderName, src); 		
 		hasCardHolderName = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setCardHolderName(String str) {		
 		if (str == null ) return;
-		if (hasCardHolderName()) FixUtils.fillSpace(cardHolderName);		
+		if (hasCardHolderName()) FixUtils.fillNul(cardHolderName);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(cardHolderName, src); 		
 		hasCardHolderName = FixUtils.TAG_HAS_VALUE;		
@@ -1229,14 +1229,14 @@ public class FixSettlInstGrp extends FixGroup {
 		
 	public void setCardNumber(byte[] src) {		
 		if (src == null ) return;
-		if (hasCardNumber()) FixUtils.fillSpace(cardNumber);		
+		if (hasCardNumber()) FixUtils.fillNul(cardNumber);		
 		FixUtils.copy(cardNumber, src); 		
 		hasCardNumber = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setCardNumber(String str) {		
 		if (str == null ) return;
-		if (hasCardNumber()) FixUtils.fillSpace(cardNumber);		
+		if (hasCardNumber()) FixUtils.fillNul(cardNumber);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(cardNumber, src); 		
 		hasCardNumber = FixUtils.TAG_HAS_VALUE;		
@@ -1268,14 +1268,14 @@ public class FixSettlInstGrp extends FixGroup {
 		
 	public void setCardStartDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasCardStartDate()) FixUtils.fillSpace(cardStartDate);		
+		if (hasCardStartDate()) FixUtils.fillNul(cardStartDate);		
 		FixUtils.copy(cardStartDate, src); 		
 		hasCardStartDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setCardStartDate(String str) {		
 		if (str == null ) return;
-		if (hasCardStartDate()) FixUtils.fillSpace(cardStartDate);		
+		if (hasCardStartDate()) FixUtils.fillNul(cardStartDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(cardStartDate, src); 		
 		hasCardStartDate = FixUtils.TAG_HAS_VALUE;		
@@ -1307,14 +1307,14 @@ public class FixSettlInstGrp extends FixGroup {
 		
 	public void setCardExpDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasCardExpDate()) FixUtils.fillSpace(cardExpDate);		
+		if (hasCardExpDate()) FixUtils.fillNul(cardExpDate);		
 		FixUtils.copy(cardExpDate, src); 		
 		hasCardExpDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setCardExpDate(String str) {		
 		if (str == null ) return;
-		if (hasCardExpDate()) FixUtils.fillSpace(cardExpDate);		
+		if (hasCardExpDate()) FixUtils.fillNul(cardExpDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(cardExpDate, src); 		
 		hasCardExpDate = FixUtils.TAG_HAS_VALUE;		
@@ -1346,14 +1346,14 @@ public class FixSettlInstGrp extends FixGroup {
 		
 	public void setCardIssNum(byte[] src) {		
 		if (src == null ) return;
-		if (hasCardIssNum()) FixUtils.fillSpace(cardIssNum);		
+		if (hasCardIssNum()) FixUtils.fillNul(cardIssNum);		
 		FixUtils.copy(cardIssNum, src); 		
 		hasCardIssNum = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setCardIssNum(String str) {		
 		if (str == null ) return;
-		if (hasCardIssNum()) FixUtils.fillSpace(cardIssNum);		
+		if (hasCardIssNum()) FixUtils.fillNul(cardIssNum);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(cardIssNum, src); 		
 		hasCardIssNum = FixUtils.TAG_HAS_VALUE;		
@@ -1385,14 +1385,14 @@ public class FixSettlInstGrp extends FixGroup {
 		
 	public void setPaymentDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasPaymentDate()) FixUtils.fillSpace(paymentDate);		
+		if (hasPaymentDate()) FixUtils.fillNul(paymentDate);		
 		FixUtils.copy(paymentDate, src); 		
 		hasPaymentDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setPaymentDate(String str) {		
 		if (str == null ) return;
-		if (hasPaymentDate()) FixUtils.fillSpace(paymentDate);		
+		if (hasPaymentDate()) FixUtils.fillNul(paymentDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(paymentDate, src); 		
 		hasPaymentDate = FixUtils.TAG_HAS_VALUE;		
@@ -1424,14 +1424,14 @@ public class FixSettlInstGrp extends FixGroup {
 		
 	public void setPaymentRemitterID(byte[] src) {		
 		if (src == null ) return;
-		if (hasPaymentRemitterID()) FixUtils.fillSpace(paymentRemitterID);		
+		if (hasPaymentRemitterID()) FixUtils.fillNul(paymentRemitterID);		
 		FixUtils.copy(paymentRemitterID, src); 		
 		hasPaymentRemitterID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setPaymentRemitterID(String str) {		
 		if (str == null ) return;
-		if (hasPaymentRemitterID()) FixUtils.fillSpace(paymentRemitterID);		
+		if (hasPaymentRemitterID()) FixUtils.fillNul(paymentRemitterID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(paymentRemitterID, src); 		
 		hasPaymentRemitterID = FixUtils.TAG_HAS_VALUE;		

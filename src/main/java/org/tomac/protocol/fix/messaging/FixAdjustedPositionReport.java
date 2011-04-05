@@ -438,14 +438,14 @@ public class FixAdjustedPositionReport extends FixInMessage {
 
 	public void setPosMaintRptID(byte[] src) {		
 		if (src == null ) return;
-		if (hasPosMaintRptID()) FixUtils.fillSpace(posMaintRptID);		
+		if (hasPosMaintRptID()) FixUtils.fillNul(posMaintRptID);		
 		FixUtils.copy(posMaintRptID, src); 		
 		hasPosMaintRptID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setPosMaintRptID(String str) {		
 		if (str == null ) return;
-		if (hasPosMaintRptID()) FixUtils.fillSpace(posMaintRptID);		
+		if (hasPosMaintRptID()) FixUtils.fillNul(posMaintRptID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(posMaintRptID, src); 		
 		hasPosMaintRptID = FixUtils.TAG_HAS_VALUE;		
@@ -531,14 +531,14 @@ public class FixAdjustedPositionReport extends FixInMessage {
 
 	public void setClearingBusinessDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasClearingBusinessDate()) FixUtils.fillSpace(clearingBusinessDate);		
+		if (hasClearingBusinessDate()) FixUtils.fillNul(clearingBusinessDate);		
 		FixUtils.copy(clearingBusinessDate, src); 		
 		hasClearingBusinessDate = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setClearingBusinessDate(String str) {		
 		if (str == null ) return;
-		if (hasClearingBusinessDate()) FixUtils.fillSpace(clearingBusinessDate);		
+		if (hasClearingBusinessDate()) FixUtils.fillNul(clearingBusinessDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(clearingBusinessDate, src); 		
 		hasClearingBusinessDate = FixUtils.TAG_HAS_VALUE;		
@@ -575,14 +575,14 @@ public class FixAdjustedPositionReport extends FixInMessage {
 
 	public void setSettlSessID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSettlSessID()) FixUtils.fillSpace(settlSessID);		
+		if (hasSettlSessID()) FixUtils.fillNul(settlSessID);		
 		FixUtils.copy(settlSessID, src); 		
 		hasSettlSessID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSettlSessID(String str) {		
 		if (str == null ) return;
-		if (hasSettlSessID()) FixUtils.fillSpace(settlSessID);		
+		if (hasSettlSessID()) FixUtils.fillNul(settlSessID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(settlSessID, src); 		
 		hasSettlSessID = FixUtils.TAG_HAS_VALUE;		
@@ -668,14 +668,14 @@ public class FixAdjustedPositionReport extends FixInMessage {
 
 	public void setPosMaintRptRefID(byte[] src) {		
 		if (src == null ) return;
-		if (hasPosMaintRptRefID()) FixUtils.fillSpace(posMaintRptRefID);		
+		if (hasPosMaintRptRefID()) FixUtils.fillNul(posMaintRptRefID);		
 		FixUtils.copy(posMaintRptRefID, src); 		
 		hasPosMaintRptRefID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setPosMaintRptRefID(String str) {		
 		if (str == null ) return;
-		if (hasPosMaintRptRefID()) FixUtils.fillSpace(posMaintRptRefID);		
+		if (hasPosMaintRptRefID()) FixUtils.fillNul(posMaintRptRefID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(posMaintRptRefID, src); 		
 		hasPosMaintRptRefID = FixUtils.TAG_HAS_VALUE;		

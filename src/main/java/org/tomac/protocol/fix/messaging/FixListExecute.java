@@ -336,14 +336,14 @@ public class FixListExecute extends FixInMessage {
 
 	public void setListID(byte[] src) {		
 		if (src == null ) return;
-		if (hasListID()) FixUtils.fillSpace(listID);		
+		if (hasListID()) FixUtils.fillNul(listID);		
 		FixUtils.copy(listID, src); 		
 		hasListID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setListID(String str) {		
 		if (str == null ) return;
-		if (hasListID()) FixUtils.fillSpace(listID);		
+		if (hasListID()) FixUtils.fillNul(listID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(listID, src); 		
 		hasListID = FixUtils.TAG_HAS_VALUE;		
@@ -380,14 +380,14 @@ public class FixListExecute extends FixInMessage {
 
 	public void setClientBidID(byte[] src) {		
 		if (src == null ) return;
-		if (hasClientBidID()) FixUtils.fillSpace(clientBidID);		
+		if (hasClientBidID()) FixUtils.fillNul(clientBidID);		
 		FixUtils.copy(clientBidID, src); 		
 		hasClientBidID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setClientBidID(String str) {		
 		if (str == null ) return;
-		if (hasClientBidID()) FixUtils.fillSpace(clientBidID);		
+		if (hasClientBidID()) FixUtils.fillNul(clientBidID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(clientBidID, src); 		
 		hasClientBidID = FixUtils.TAG_HAS_VALUE;		
@@ -424,14 +424,14 @@ public class FixListExecute extends FixInMessage {
 
 	public void setBidID(byte[] src) {		
 		if (src == null ) return;
-		if (hasBidID()) FixUtils.fillSpace(bidID);		
+		if (hasBidID()) FixUtils.fillNul(bidID);		
 		FixUtils.copy(bidID, src); 		
 		hasBidID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setBidID(String str) {		
 		if (str == null ) return;
-		if (hasBidID()) FixUtils.fillSpace(bidID);		
+		if (hasBidID()) FixUtils.fillNul(bidID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(bidID, src); 		
 		hasBidID = FixUtils.TAG_HAS_VALUE;		
@@ -468,14 +468,14 @@ public class FixListExecute extends FixInMessage {
 
 	public void setTransactTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTransactTime(String str) {		
 		if (str == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		
@@ -512,14 +512,14 @@ public class FixListExecute extends FixInMessage {
 
 	public void setText(byte[] src) {		
 		if (src == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setText(String str) {		
 		if (str == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
@@ -605,14 +605,14 @@ public class FixListExecute extends FixInMessage {
 
 	public void setEncodedText(byte[] src) {		
 		if (src == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setEncodedText(String str) {		
 		if (str == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		

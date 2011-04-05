@@ -742,14 +742,14 @@ public class FixOrderMassCancelReport extends FixInMessage {
 
 	public void setClOrdID(byte[] src) {		
 		if (src == null ) return;
-		if (hasClOrdID()) FixUtils.fillSpace(clOrdID);		
+		if (hasClOrdID()) FixUtils.fillNul(clOrdID);		
 		FixUtils.copy(clOrdID, src); 		
 		hasClOrdID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setClOrdID(String str) {		
 		if (str == null ) return;
-		if (hasClOrdID()) FixUtils.fillSpace(clOrdID);		
+		if (hasClOrdID()) FixUtils.fillNul(clOrdID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(clOrdID, src); 		
 		hasClOrdID = FixUtils.TAG_HAS_VALUE;		
@@ -786,14 +786,14 @@ public class FixOrderMassCancelReport extends FixInMessage {
 
 	public void setSecondaryClOrdID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecondaryClOrdID()) FixUtils.fillSpace(secondaryClOrdID);		
+		if (hasSecondaryClOrdID()) FixUtils.fillNul(secondaryClOrdID);		
 		FixUtils.copy(secondaryClOrdID, src); 		
 		hasSecondaryClOrdID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSecondaryClOrdID(String str) {		
 		if (str == null ) return;
-		if (hasSecondaryClOrdID()) FixUtils.fillSpace(secondaryClOrdID);		
+		if (hasSecondaryClOrdID()) FixUtils.fillNul(secondaryClOrdID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(secondaryClOrdID, src); 		
 		hasSecondaryClOrdID = FixUtils.TAG_HAS_VALUE;		
@@ -830,14 +830,14 @@ public class FixOrderMassCancelReport extends FixInMessage {
 
 	public void setOrderID(byte[] src) {		
 		if (src == null ) return;
-		if (hasOrderID()) FixUtils.fillSpace(orderID);		
+		if (hasOrderID()) FixUtils.fillNul(orderID);		
 		FixUtils.copy(orderID, src); 		
 		hasOrderID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setOrderID(String str) {		
 		if (str == null ) return;
-		if (hasOrderID()) FixUtils.fillSpace(orderID);		
+		if (hasOrderID()) FixUtils.fillNul(orderID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(orderID, src); 		
 		hasOrderID = FixUtils.TAG_HAS_VALUE;		
@@ -874,14 +874,14 @@ public class FixOrderMassCancelReport extends FixInMessage {
 
 	public void setMassActionReportID(byte[] src) {		
 		if (src == null ) return;
-		if (hasMassActionReportID()) FixUtils.fillSpace(massActionReportID);		
+		if (hasMassActionReportID()) FixUtils.fillNul(massActionReportID);		
 		FixUtils.copy(massActionReportID, src); 		
 		hasMassActionReportID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setMassActionReportID(String str) {		
 		if (str == null ) return;
-		if (hasMassActionReportID()) FixUtils.fillSpace(massActionReportID);		
+		if (hasMassActionReportID()) FixUtils.fillNul(massActionReportID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(massActionReportID, src); 		
 		hasMassActionReportID = FixUtils.TAG_HAS_VALUE;		
@@ -918,14 +918,14 @@ public class FixOrderMassCancelReport extends FixInMessage {
 
 	public void setSecondaryOrderID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecondaryOrderID()) FixUtils.fillSpace(secondaryOrderID);		
+		if (hasSecondaryOrderID()) FixUtils.fillNul(secondaryOrderID);		
 		FixUtils.copy(secondaryOrderID, src); 		
 		hasSecondaryOrderID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSecondaryOrderID(String str) {		
 		if (str == null ) return;
-		if (hasSecondaryOrderID()) FixUtils.fillSpace(secondaryOrderID);		
+		if (hasSecondaryOrderID()) FixUtils.fillNul(secondaryOrderID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(secondaryOrderID, src); 		
 		hasSecondaryOrderID = FixUtils.TAG_HAS_VALUE;		
@@ -1162,14 +1162,14 @@ public class FixOrderMassCancelReport extends FixInMessage {
 
 	public void setTradingSessionID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradingSessionID()) FixUtils.fillSpace(tradingSessionID);		
+		if (hasTradingSessionID()) FixUtils.fillNul(tradingSessionID);		
 		FixUtils.copy(tradingSessionID, src); 		
 		hasTradingSessionID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTradingSessionID(String str) {		
 		if (str == null ) return;
-		if (hasTradingSessionID()) FixUtils.fillSpace(tradingSessionID);		
+		if (hasTradingSessionID()) FixUtils.fillNul(tradingSessionID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradingSessionID, src); 		
 		hasTradingSessionID = FixUtils.TAG_HAS_VALUE;		
@@ -1206,14 +1206,14 @@ public class FixOrderMassCancelReport extends FixInMessage {
 
 	public void setTradingSessionSubID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradingSessionSubID()) FixUtils.fillSpace(tradingSessionSubID);		
+		if (hasTradingSessionSubID()) FixUtils.fillNul(tradingSessionSubID);		
 		FixUtils.copy(tradingSessionSubID, src); 		
 		hasTradingSessionSubID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTradingSessionSubID(String str) {		
 		if (str == null ) return;
-		if (hasTradingSessionSubID()) FixUtils.fillSpace(tradingSessionSubID);		
+		if (hasTradingSessionSubID()) FixUtils.fillNul(tradingSessionSubID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradingSessionSubID, src); 		
 		hasTradingSessionSubID = FixUtils.TAG_HAS_VALUE;		
@@ -1250,14 +1250,14 @@ public class FixOrderMassCancelReport extends FixInMessage {
 
 	public void setMarketID(byte[] src) {		
 		if (src == null ) return;
-		if (hasMarketID()) FixUtils.fillSpace(marketID);		
+		if (hasMarketID()) FixUtils.fillNul(marketID);		
 		FixUtils.copy(marketID, src); 		
 		hasMarketID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setMarketID(String str) {		
 		if (str == null ) return;
-		if (hasMarketID()) FixUtils.fillSpace(marketID);		
+		if (hasMarketID()) FixUtils.fillNul(marketID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(marketID, src); 		
 		hasMarketID = FixUtils.TAG_HAS_VALUE;		
@@ -1294,14 +1294,14 @@ public class FixOrderMassCancelReport extends FixInMessage {
 
 	public void setMarketSegmentID(byte[] src) {		
 		if (src == null ) return;
-		if (hasMarketSegmentID()) FixUtils.fillSpace(marketSegmentID);		
+		if (hasMarketSegmentID()) FixUtils.fillNul(marketSegmentID);		
 		FixUtils.copy(marketSegmentID, src); 		
 		hasMarketSegmentID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setMarketSegmentID(String str) {		
 		if (str == null ) return;
-		if (hasMarketSegmentID()) FixUtils.fillSpace(marketSegmentID);		
+		if (hasMarketSegmentID()) FixUtils.fillNul(marketSegmentID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(marketSegmentID, src); 		
 		hasMarketSegmentID = FixUtils.TAG_HAS_VALUE;		
@@ -1389,14 +1389,14 @@ public class FixOrderMassCancelReport extends FixInMessage {
 
 	public void setTransactTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTransactTime(String str) {		
 		if (str == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		
@@ -1433,14 +1433,14 @@ public class FixOrderMassCancelReport extends FixInMessage {
 
 	public void setText(byte[] src) {		
 		if (src == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setText(String str) {		
 		if (str == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
@@ -1526,14 +1526,14 @@ public class FixOrderMassCancelReport extends FixInMessage {
 
 	public void setEncodedText(byte[] src) {		
 		if (src == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setEncodedText(String str) {		
 		if (str == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		

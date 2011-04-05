@@ -263,14 +263,14 @@ public class FixContAmtGrp extends FixGroup {
 		
 	public void setContAmtCurr(byte[] src) {		
 		if (src == null ) return;
-		if (hasContAmtCurr()) FixUtils.fillSpace(contAmtCurr);		
+		if (hasContAmtCurr()) FixUtils.fillNul(contAmtCurr);		
 		FixUtils.copy(contAmtCurr, src); 		
 		hasContAmtCurr = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setContAmtCurr(String str) {		
 		if (str == null ) return;
-		if (hasContAmtCurr()) FixUtils.fillSpace(contAmtCurr);		
+		if (hasContAmtCurr()) FixUtils.fillNul(contAmtCurr);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(contAmtCurr, src); 		
 		hasContAmtCurr = FixUtils.TAG_HAS_VALUE;		

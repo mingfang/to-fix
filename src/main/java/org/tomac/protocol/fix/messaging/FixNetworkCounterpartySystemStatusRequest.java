@@ -304,14 +304,14 @@ public class FixNetworkCounterpartySystemStatusRequest extends FixInMessage {
 
 	public void setNetworkRequestID(byte[] src) {		
 		if (src == null ) return;
-		if (hasNetworkRequestID()) FixUtils.fillSpace(networkRequestID);		
+		if (hasNetworkRequestID()) FixUtils.fillNul(networkRequestID);		
 		FixUtils.copy(networkRequestID, src); 		
 		hasNetworkRequestID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setNetworkRequestID(String str) {		
 		if (str == null ) return;
-		if (hasNetworkRequestID()) FixUtils.fillSpace(networkRequestID);		
+		if (hasNetworkRequestID()) FixUtils.fillNul(networkRequestID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(networkRequestID, src); 		
 		hasNetworkRequestID = FixUtils.TAG_HAS_VALUE;		

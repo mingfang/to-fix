@@ -194,14 +194,14 @@ public class FixRoutingGrp extends FixGroup {
 		
 	public void setRoutingID(byte[] src) {		
 		if (src == null ) return;
-		if (hasRoutingID()) FixUtils.fillSpace(routingID);		
+		if (hasRoutingID()) FixUtils.fillNul(routingID);		
 		FixUtils.copy(routingID, src); 		
 		hasRoutingID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRoutingID(String str) {		
 		if (str == null ) return;
-		if (hasRoutingID()) FixUtils.fillSpace(routingID);		
+		if (hasRoutingID()) FixUtils.fillNul(routingID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(routingID, src); 		
 		hasRoutingID = FixUtils.TAG_HAS_VALUE;		

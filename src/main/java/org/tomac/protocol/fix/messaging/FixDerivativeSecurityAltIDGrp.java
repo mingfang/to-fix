@@ -151,14 +151,14 @@ public class FixDerivativeSecurityAltIDGrp extends FixGroup {
 		
 	public void setDerivativeSecurityAltID(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeSecurityAltID()) FixUtils.fillSpace(derivativeSecurityAltID);		
+		if (hasDerivativeSecurityAltID()) FixUtils.fillNul(derivativeSecurityAltID);		
 		FixUtils.copy(derivativeSecurityAltID, src); 		
 		hasDerivativeSecurityAltID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeSecurityAltID(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeSecurityAltID()) FixUtils.fillSpace(derivativeSecurityAltID);		
+		if (hasDerivativeSecurityAltID()) FixUtils.fillNul(derivativeSecurityAltID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeSecurityAltID, src); 		
 		hasDerivativeSecurityAltID = FixUtils.TAG_HAS_VALUE;		
@@ -190,14 +190,14 @@ public class FixDerivativeSecurityAltIDGrp extends FixGroup {
 		
 	public void setDerivativeSecurityAltIDSource(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeSecurityAltIDSource()) FixUtils.fillSpace(derivativeSecurityAltIDSource);		
+		if (hasDerivativeSecurityAltIDSource()) FixUtils.fillNul(derivativeSecurityAltIDSource);		
 		FixUtils.copy(derivativeSecurityAltIDSource, src); 		
 		hasDerivativeSecurityAltIDSource = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeSecurityAltIDSource(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeSecurityAltIDSource()) FixUtils.fillSpace(derivativeSecurityAltIDSource);		
+		if (hasDerivativeSecurityAltIDSource()) FixUtils.fillNul(derivativeSecurityAltIDSource);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeSecurityAltIDSource, src); 		
 		hasDerivativeSecurityAltIDSource = FixUtils.TAG_HAS_VALUE;		

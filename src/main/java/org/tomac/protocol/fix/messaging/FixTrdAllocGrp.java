@@ -365,14 +365,14 @@ public class FixTrdAllocGrp extends FixGroup {
 		
 	public void setAllocAccount(byte[] src) {		
 		if (src == null ) return;
-		if (hasAllocAccount()) FixUtils.fillSpace(allocAccount);		
+		if (hasAllocAccount()) FixUtils.fillNul(allocAccount);		
 		FixUtils.copy(allocAccount, src); 		
 		hasAllocAccount = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setAllocAccount(String str) {		
 		if (str == null ) return;
-		if (hasAllocAccount()) FixUtils.fillSpace(allocAccount);		
+		if (hasAllocAccount()) FixUtils.fillNul(allocAccount);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(allocAccount, src); 		
 		hasAllocAccount = FixUtils.TAG_HAS_VALUE;		
@@ -448,14 +448,14 @@ public class FixTrdAllocGrp extends FixGroup {
 		
 	public void setAllocSettlCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasAllocSettlCurrency()) FixUtils.fillSpace(allocSettlCurrency);		
+		if (hasAllocSettlCurrency()) FixUtils.fillNul(allocSettlCurrency);		
 		FixUtils.copy(allocSettlCurrency, src); 		
 		hasAllocSettlCurrency = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setAllocSettlCurrency(String str) {		
 		if (str == null ) return;
-		if (hasAllocSettlCurrency()) FixUtils.fillSpace(allocSettlCurrency);		
+		if (hasAllocSettlCurrency()) FixUtils.fillNul(allocSettlCurrency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(allocSettlCurrency, src); 		
 		hasAllocSettlCurrency = FixUtils.TAG_HAS_VALUE;		
@@ -487,14 +487,14 @@ public class FixTrdAllocGrp extends FixGroup {
 		
 	public void setIndividualAllocID(byte[] src) {		
 		if (src == null ) return;
-		if (hasIndividualAllocID()) FixUtils.fillSpace(individualAllocID);		
+		if (hasIndividualAllocID()) FixUtils.fillNul(individualAllocID);		
 		FixUtils.copy(individualAllocID, src); 		
 		hasIndividualAllocID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setIndividualAllocID(String str) {		
 		if (str == null ) return;
-		if (hasIndividualAllocID()) FixUtils.fillSpace(individualAllocID);		
+		if (hasIndividualAllocID()) FixUtils.fillNul(individualAllocID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(individualAllocID, src); 		
 		hasIndividualAllocID = FixUtils.TAG_HAS_VALUE;		
@@ -570,14 +570,14 @@ public class FixTrdAllocGrp extends FixGroup {
 		
 	public void setAllocCustomerCapacity(byte[] src) {		
 		if (src == null ) return;
-		if (hasAllocCustomerCapacity()) FixUtils.fillSpace(allocCustomerCapacity);		
+		if (hasAllocCustomerCapacity()) FixUtils.fillNul(allocCustomerCapacity);		
 		FixUtils.copy(allocCustomerCapacity, src); 		
 		hasAllocCustomerCapacity = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setAllocCustomerCapacity(String str) {		
 		if (str == null ) return;
-		if (hasAllocCustomerCapacity()) FixUtils.fillSpace(allocCustomerCapacity);		
+		if (hasAllocCustomerCapacity()) FixUtils.fillNul(allocCustomerCapacity);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(allocCustomerCapacity, src); 		
 		hasAllocCustomerCapacity = FixUtils.TAG_HAS_VALUE;		
@@ -653,14 +653,14 @@ public class FixTrdAllocGrp extends FixGroup {
 		
 	public void setSecondaryIndividualAllocID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecondaryIndividualAllocID()) FixUtils.fillSpace(secondaryIndividualAllocID);		
+		if (hasSecondaryIndividualAllocID()) FixUtils.fillNul(secondaryIndividualAllocID);		
 		FixUtils.copy(secondaryIndividualAllocID, src); 		
 		hasSecondaryIndividualAllocID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSecondaryIndividualAllocID(String str) {		
 		if (str == null ) return;
-		if (hasSecondaryIndividualAllocID()) FixUtils.fillSpace(secondaryIndividualAllocID);		
+		if (hasSecondaryIndividualAllocID()) FixUtils.fillNul(secondaryIndividualAllocID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(secondaryIndividualAllocID, src); 		
 		hasSecondaryIndividualAllocID = FixUtils.TAG_HAS_VALUE;		
@@ -692,14 +692,14 @@ public class FixTrdAllocGrp extends FixGroup {
 		
 	public void setAllocClearingFeeIndicator(byte[] src) {		
 		if (src == null ) return;
-		if (hasAllocClearingFeeIndicator()) FixUtils.fillSpace(allocClearingFeeIndicator);		
+		if (hasAllocClearingFeeIndicator()) FixUtils.fillNul(allocClearingFeeIndicator);		
 		FixUtils.copy(allocClearingFeeIndicator, src); 		
 		hasAllocClearingFeeIndicator = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setAllocClearingFeeIndicator(String str) {		
 		if (str == null ) return;
-		if (hasAllocClearingFeeIndicator()) FixUtils.fillSpace(allocClearingFeeIndicator);		
+		if (hasAllocClearingFeeIndicator()) FixUtils.fillNul(allocClearingFeeIndicator);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(allocClearingFeeIndicator, src); 		
 		hasAllocClearingFeeIndicator = FixUtils.TAG_HAS_VALUE;		

@@ -125,14 +125,14 @@ public class FixUsernameGrp extends FixGroup {
 		
 	public void setUsername(byte[] src) {		
 		if (src == null ) return;
-		if (hasUsername()) FixUtils.fillSpace(username);		
+		if (hasUsername()) FixUtils.fillNul(username);		
 		FixUtils.copy(username, src); 		
 		hasUsername = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUsername(String str) {		
 		if (str == null ) return;
-		if (hasUsername()) FixUtils.fillSpace(username);		
+		if (hasUsername()) FixUtils.fillNul(username);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(username, src); 		
 		hasUsername = FixUtils.TAG_HAS_VALUE;		

@@ -254,14 +254,14 @@ public class FixQuotSetGrp extends FixGroup {
 		
 	public void setQuoteSetID(byte[] src) {		
 		if (src == null ) return;
-		if (hasQuoteSetID()) FixUtils.fillSpace(quoteSetID);		
+		if (hasQuoteSetID()) FixUtils.fillNul(quoteSetID);		
 		FixUtils.copy(quoteSetID, src); 		
 		hasQuoteSetID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setQuoteSetID(String str) {		
 		if (str == null ) return;
-		if (hasQuoteSetID()) FixUtils.fillSpace(quoteSetID);		
+		if (hasQuoteSetID()) FixUtils.fillNul(quoteSetID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(quoteSetID, src); 		
 		hasQuoteSetID = FixUtils.TAG_HAS_VALUE;		
@@ -293,14 +293,14 @@ public class FixQuotSetGrp extends FixGroup {
 		
 	public void setQuoteSetValidUntilTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasQuoteSetValidUntilTime()) FixUtils.fillSpace(quoteSetValidUntilTime);		
+		if (hasQuoteSetValidUntilTime()) FixUtils.fillNul(quoteSetValidUntilTime);		
 		FixUtils.copy(quoteSetValidUntilTime, src); 		
 		hasQuoteSetValidUntilTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setQuoteSetValidUntilTime(String str) {		
 		if (str == null ) return;
-		if (hasQuoteSetValidUntilTime()) FixUtils.fillSpace(quoteSetValidUntilTime);		
+		if (hasQuoteSetValidUntilTime()) FixUtils.fillNul(quoteSetValidUntilTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(quoteSetValidUntilTime, src); 		
 		hasQuoteSetValidUntilTime = FixUtils.TAG_HAS_VALUE;		

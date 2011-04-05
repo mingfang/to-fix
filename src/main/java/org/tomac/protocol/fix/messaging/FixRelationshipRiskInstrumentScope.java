@@ -795,14 +795,14 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 	public void setRelationshipRiskSymbol(byte[] src) {		
 		if (src == null ) return;
-		if (hasRelationshipRiskSymbol()) FixUtils.fillSpace(relationshipRiskSymbol);		
+		if (hasRelationshipRiskSymbol()) FixUtils.fillNul(relationshipRiskSymbol);		
 		FixUtils.copy(relationshipRiskSymbol, src); 		
 		hasRelationshipRiskSymbol = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRelationshipRiskSymbol(String str) {		
 		if (str == null ) return;
-		if (hasRelationshipRiskSymbol()) FixUtils.fillSpace(relationshipRiskSymbol);		
+		if (hasRelationshipRiskSymbol()) FixUtils.fillNul(relationshipRiskSymbol);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(relationshipRiskSymbol, src); 		
 		hasRelationshipRiskSymbol = FixUtils.TAG_HAS_VALUE;		
@@ -834,14 +834,14 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 	public void setRelationshipRiskSymbolSfx(byte[] src) {		
 		if (src == null ) return;
-		if (hasRelationshipRiskSymbolSfx()) FixUtils.fillSpace(relationshipRiskSymbolSfx);		
+		if (hasRelationshipRiskSymbolSfx()) FixUtils.fillNul(relationshipRiskSymbolSfx);		
 		FixUtils.copy(relationshipRiskSymbolSfx, src); 		
 		hasRelationshipRiskSymbolSfx = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRelationshipRiskSymbolSfx(String str) {		
 		if (str == null ) return;
-		if (hasRelationshipRiskSymbolSfx()) FixUtils.fillSpace(relationshipRiskSymbolSfx);		
+		if (hasRelationshipRiskSymbolSfx()) FixUtils.fillNul(relationshipRiskSymbolSfx);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(relationshipRiskSymbolSfx, src); 		
 		hasRelationshipRiskSymbolSfx = FixUtils.TAG_HAS_VALUE;		
@@ -873,14 +873,14 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 	public void setRelationshipRiskSecurityID(byte[] src) {		
 		if (src == null ) return;
-		if (hasRelationshipRiskSecurityID()) FixUtils.fillSpace(relationshipRiskSecurityID);		
+		if (hasRelationshipRiskSecurityID()) FixUtils.fillNul(relationshipRiskSecurityID);		
 		FixUtils.copy(relationshipRiskSecurityID, src); 		
 		hasRelationshipRiskSecurityID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRelationshipRiskSecurityID(String str) {		
 		if (str == null ) return;
-		if (hasRelationshipRiskSecurityID()) FixUtils.fillSpace(relationshipRiskSecurityID);		
+		if (hasRelationshipRiskSecurityID()) FixUtils.fillNul(relationshipRiskSecurityID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(relationshipRiskSecurityID, src); 		
 		hasRelationshipRiskSecurityID = FixUtils.TAG_HAS_VALUE;		
@@ -912,14 +912,14 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 	public void setRelationshipRiskSecurityIDSource(byte[] src) {		
 		if (src == null ) return;
-		if (hasRelationshipRiskSecurityIDSource()) FixUtils.fillSpace(relationshipRiskSecurityIDSource);		
+		if (hasRelationshipRiskSecurityIDSource()) FixUtils.fillNul(relationshipRiskSecurityIDSource);		
 		FixUtils.copy(relationshipRiskSecurityIDSource, src); 		
 		hasRelationshipRiskSecurityIDSource = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRelationshipRiskSecurityIDSource(String str) {		
 		if (str == null ) return;
-		if (hasRelationshipRiskSecurityIDSource()) FixUtils.fillSpace(relationshipRiskSecurityIDSource);		
+		if (hasRelationshipRiskSecurityIDSource()) FixUtils.fillNul(relationshipRiskSecurityIDSource);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(relationshipRiskSecurityIDSource, src); 		
 		hasRelationshipRiskSecurityIDSource = FixUtils.TAG_HAS_VALUE;		
@@ -995,14 +995,14 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 	public void setRelationshipRiskProductComplex(byte[] src) {		
 		if (src == null ) return;
-		if (hasRelationshipRiskProductComplex()) FixUtils.fillSpace(relationshipRiskProductComplex);		
+		if (hasRelationshipRiskProductComplex()) FixUtils.fillNul(relationshipRiskProductComplex);		
 		FixUtils.copy(relationshipRiskProductComplex, src); 		
 		hasRelationshipRiskProductComplex = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRelationshipRiskProductComplex(String str) {		
 		if (str == null ) return;
-		if (hasRelationshipRiskProductComplex()) FixUtils.fillSpace(relationshipRiskProductComplex);		
+		if (hasRelationshipRiskProductComplex()) FixUtils.fillNul(relationshipRiskProductComplex);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(relationshipRiskProductComplex, src); 		
 		hasRelationshipRiskProductComplex = FixUtils.TAG_HAS_VALUE;		
@@ -1034,14 +1034,14 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 	public void setRelationshipRiskSecurityGroup(byte[] src) {		
 		if (src == null ) return;
-		if (hasRelationshipRiskSecurityGroup()) FixUtils.fillSpace(relationshipRiskSecurityGroup);		
+		if (hasRelationshipRiskSecurityGroup()) FixUtils.fillNul(relationshipRiskSecurityGroup);		
 		FixUtils.copy(relationshipRiskSecurityGroup, src); 		
 		hasRelationshipRiskSecurityGroup = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRelationshipRiskSecurityGroup(String str) {		
 		if (str == null ) return;
-		if (hasRelationshipRiskSecurityGroup()) FixUtils.fillSpace(relationshipRiskSecurityGroup);		
+		if (hasRelationshipRiskSecurityGroup()) FixUtils.fillNul(relationshipRiskSecurityGroup);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(relationshipRiskSecurityGroup, src); 		
 		hasRelationshipRiskSecurityGroup = FixUtils.TAG_HAS_VALUE;		
@@ -1073,14 +1073,14 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 	public void setRelationshipRiskCFICode(byte[] src) {		
 		if (src == null ) return;
-		if (hasRelationshipRiskCFICode()) FixUtils.fillSpace(relationshipRiskCFICode);		
+		if (hasRelationshipRiskCFICode()) FixUtils.fillNul(relationshipRiskCFICode);		
 		FixUtils.copy(relationshipRiskCFICode, src); 		
 		hasRelationshipRiskCFICode = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRelationshipRiskCFICode(String str) {		
 		if (str == null ) return;
-		if (hasRelationshipRiskCFICode()) FixUtils.fillSpace(relationshipRiskCFICode);		
+		if (hasRelationshipRiskCFICode()) FixUtils.fillNul(relationshipRiskCFICode);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(relationshipRiskCFICode, src); 		
 		hasRelationshipRiskCFICode = FixUtils.TAG_HAS_VALUE;		
@@ -1112,14 +1112,14 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 	public void setRelationshipRiskSecurityType(byte[] src) {		
 		if (src == null ) return;
-		if (hasRelationshipRiskSecurityType()) FixUtils.fillSpace(relationshipRiskSecurityType);		
+		if (hasRelationshipRiskSecurityType()) FixUtils.fillNul(relationshipRiskSecurityType);		
 		FixUtils.copy(relationshipRiskSecurityType, src); 		
 		hasRelationshipRiskSecurityType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRelationshipRiskSecurityType(String str) {		
 		if (str == null ) return;
-		if (hasRelationshipRiskSecurityType()) FixUtils.fillSpace(relationshipRiskSecurityType);		
+		if (hasRelationshipRiskSecurityType()) FixUtils.fillNul(relationshipRiskSecurityType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(relationshipRiskSecurityType, src); 		
 		hasRelationshipRiskSecurityType = FixUtils.TAG_HAS_VALUE;		
@@ -1151,14 +1151,14 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 	public void setRelationshipRiskSecuritySubType(byte[] src) {		
 		if (src == null ) return;
-		if (hasRelationshipRiskSecuritySubType()) FixUtils.fillSpace(relationshipRiskSecuritySubType);		
+		if (hasRelationshipRiskSecuritySubType()) FixUtils.fillNul(relationshipRiskSecuritySubType);		
 		FixUtils.copy(relationshipRiskSecuritySubType, src); 		
 		hasRelationshipRiskSecuritySubType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRelationshipRiskSecuritySubType(String str) {		
 		if (str == null ) return;
-		if (hasRelationshipRiskSecuritySubType()) FixUtils.fillSpace(relationshipRiskSecuritySubType);		
+		if (hasRelationshipRiskSecuritySubType()) FixUtils.fillNul(relationshipRiskSecuritySubType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(relationshipRiskSecuritySubType, src); 		
 		hasRelationshipRiskSecuritySubType = FixUtils.TAG_HAS_VALUE;		
@@ -1190,14 +1190,14 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 	public void setRelationshipRiskMaturityMonthYear(byte[] src) {		
 		if (src == null ) return;
-		if (hasRelationshipRiskMaturityMonthYear()) FixUtils.fillSpace(relationshipRiskMaturityMonthYear);		
+		if (hasRelationshipRiskMaturityMonthYear()) FixUtils.fillNul(relationshipRiskMaturityMonthYear);		
 		FixUtils.copy(relationshipRiskMaturityMonthYear, src); 		
 		hasRelationshipRiskMaturityMonthYear = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRelationshipRiskMaturityMonthYear(String str) {		
 		if (str == null ) return;
-		if (hasRelationshipRiskMaturityMonthYear()) FixUtils.fillSpace(relationshipRiskMaturityMonthYear);		
+		if (hasRelationshipRiskMaturityMonthYear()) FixUtils.fillNul(relationshipRiskMaturityMonthYear);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(relationshipRiskMaturityMonthYear, src); 		
 		hasRelationshipRiskMaturityMonthYear = FixUtils.TAG_HAS_VALUE;		
@@ -1229,14 +1229,14 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 	public void setRelationshipRiskMaturityTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasRelationshipRiskMaturityTime()) FixUtils.fillSpace(relationshipRiskMaturityTime);		
+		if (hasRelationshipRiskMaturityTime()) FixUtils.fillNul(relationshipRiskMaturityTime);		
 		FixUtils.copy(relationshipRiskMaturityTime, src); 		
 		hasRelationshipRiskMaturityTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRelationshipRiskMaturityTime(String str) {		
 		if (str == null ) return;
-		if (hasRelationshipRiskMaturityTime()) FixUtils.fillSpace(relationshipRiskMaturityTime);		
+		if (hasRelationshipRiskMaturityTime()) FixUtils.fillNul(relationshipRiskMaturityTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(relationshipRiskMaturityTime, src); 		
 		hasRelationshipRiskMaturityTime = FixUtils.TAG_HAS_VALUE;		
@@ -1268,14 +1268,14 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 	public void setRelationshipRiskRestructuringType(byte[] src) {		
 		if (src == null ) return;
-		if (hasRelationshipRiskRestructuringType()) FixUtils.fillSpace(relationshipRiskRestructuringType);		
+		if (hasRelationshipRiskRestructuringType()) FixUtils.fillNul(relationshipRiskRestructuringType);		
 		FixUtils.copy(relationshipRiskRestructuringType, src); 		
 		hasRelationshipRiskRestructuringType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRelationshipRiskRestructuringType(String str) {		
 		if (str == null ) return;
-		if (hasRelationshipRiskRestructuringType()) FixUtils.fillSpace(relationshipRiskRestructuringType);		
+		if (hasRelationshipRiskRestructuringType()) FixUtils.fillNul(relationshipRiskRestructuringType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(relationshipRiskRestructuringType, src); 		
 		hasRelationshipRiskRestructuringType = FixUtils.TAG_HAS_VALUE;		
@@ -1307,14 +1307,14 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 	public void setRelationshipRiskSeniority(byte[] src) {		
 		if (src == null ) return;
-		if (hasRelationshipRiskSeniority()) FixUtils.fillSpace(relationshipRiskSeniority);		
+		if (hasRelationshipRiskSeniority()) FixUtils.fillNul(relationshipRiskSeniority);		
 		FixUtils.copy(relationshipRiskSeniority, src); 		
 		hasRelationshipRiskSeniority = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRelationshipRiskSeniority(String str) {		
 		if (str == null ) return;
-		if (hasRelationshipRiskSeniority()) FixUtils.fillSpace(relationshipRiskSeniority);		
+		if (hasRelationshipRiskSeniority()) FixUtils.fillNul(relationshipRiskSeniority);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(relationshipRiskSeniority, src); 		
 		hasRelationshipRiskSeniority = FixUtils.TAG_HAS_VALUE;		
@@ -1478,14 +1478,14 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 	public void setRelationshipRiskSecurityExchange(byte[] src) {		
 		if (src == null ) return;
-		if (hasRelationshipRiskSecurityExchange()) FixUtils.fillSpace(relationshipRiskSecurityExchange);		
+		if (hasRelationshipRiskSecurityExchange()) FixUtils.fillNul(relationshipRiskSecurityExchange);		
 		FixUtils.copy(relationshipRiskSecurityExchange, src); 		
 		hasRelationshipRiskSecurityExchange = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRelationshipRiskSecurityExchange(String str) {		
 		if (str == null ) return;
-		if (hasRelationshipRiskSecurityExchange()) FixUtils.fillSpace(relationshipRiskSecurityExchange);		
+		if (hasRelationshipRiskSecurityExchange()) FixUtils.fillNul(relationshipRiskSecurityExchange);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(relationshipRiskSecurityExchange, src); 		
 		hasRelationshipRiskSecurityExchange = FixUtils.TAG_HAS_VALUE;		
@@ -1517,14 +1517,14 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 	public void setRelationshipRiskSecurityDesc(byte[] src) {		
 		if (src == null ) return;
-		if (hasRelationshipRiskSecurityDesc()) FixUtils.fillSpace(relationshipRiskSecurityDesc);		
+		if (hasRelationshipRiskSecurityDesc()) FixUtils.fillNul(relationshipRiskSecurityDesc);		
 		FixUtils.copy(relationshipRiskSecurityDesc, src); 		
 		hasRelationshipRiskSecurityDesc = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRelationshipRiskSecurityDesc(String str) {		
 		if (str == null ) return;
-		if (hasRelationshipRiskSecurityDesc()) FixUtils.fillSpace(relationshipRiskSecurityDesc);		
+		if (hasRelationshipRiskSecurityDesc()) FixUtils.fillNul(relationshipRiskSecurityDesc);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(relationshipRiskSecurityDesc, src); 		
 		hasRelationshipRiskSecurityDesc = FixUtils.TAG_HAS_VALUE;		
@@ -1600,14 +1600,14 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 	public void setRelationshipRiskEncodedSecurityDesc(byte[] src) {		
 		if (src == null ) return;
-		if (hasRelationshipRiskEncodedSecurityDesc()) FixUtils.fillSpace(relationshipRiskEncodedSecurityDesc);		
+		if (hasRelationshipRiskEncodedSecurityDesc()) FixUtils.fillNul(relationshipRiskEncodedSecurityDesc);		
 		FixUtils.copy(relationshipRiskEncodedSecurityDesc, src); 		
 		hasRelationshipRiskEncodedSecurityDesc = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRelationshipRiskEncodedSecurityDesc(String str) {		
 		if (str == null ) return;
-		if (hasRelationshipRiskEncodedSecurityDesc()) FixUtils.fillSpace(relationshipRiskEncodedSecurityDesc);		
+		if (hasRelationshipRiskEncodedSecurityDesc()) FixUtils.fillNul(relationshipRiskEncodedSecurityDesc);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(relationshipRiskEncodedSecurityDesc, src); 		
 		hasRelationshipRiskEncodedSecurityDesc = FixUtils.TAG_HAS_VALUE;		
@@ -1639,14 +1639,14 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 	public void setRelationshipRiskInstrumentSettlType(byte[] src) {		
 		if (src == null ) return;
-		if (hasRelationshipRiskInstrumentSettlType()) FixUtils.fillSpace(relationshipRiskInstrumentSettlType);		
+		if (hasRelationshipRiskInstrumentSettlType()) FixUtils.fillNul(relationshipRiskInstrumentSettlType);		
 		FixUtils.copy(relationshipRiskInstrumentSettlType, src); 		
 		hasRelationshipRiskInstrumentSettlType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRelationshipRiskInstrumentSettlType(String str) {		
 		if (str == null ) return;
-		if (hasRelationshipRiskInstrumentSettlType()) FixUtils.fillSpace(relationshipRiskInstrumentSettlType);		
+		if (hasRelationshipRiskInstrumentSettlType()) FixUtils.fillNul(relationshipRiskInstrumentSettlType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(relationshipRiskInstrumentSettlType, src); 		
 		hasRelationshipRiskInstrumentSettlType = FixUtils.TAG_HAS_VALUE;		

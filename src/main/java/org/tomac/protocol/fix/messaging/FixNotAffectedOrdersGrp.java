@@ -151,14 +151,14 @@ public class FixNotAffectedOrdersGrp extends FixGroup {
 		
 	public void setNotAffOrigClOrdID(byte[] src) {		
 		if (src == null ) return;
-		if (hasNotAffOrigClOrdID()) FixUtils.fillSpace(notAffOrigClOrdID);		
+		if (hasNotAffOrigClOrdID()) FixUtils.fillNul(notAffOrigClOrdID);		
 		FixUtils.copy(notAffOrigClOrdID, src); 		
 		hasNotAffOrigClOrdID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setNotAffOrigClOrdID(String str) {		
 		if (str == null ) return;
-		if (hasNotAffOrigClOrdID()) FixUtils.fillSpace(notAffOrigClOrdID);		
+		if (hasNotAffOrigClOrdID()) FixUtils.fillNul(notAffOrigClOrdID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(notAffOrigClOrdID, src); 		
 		hasNotAffOrigClOrdID = FixUtils.TAG_HAS_VALUE;		
@@ -190,14 +190,14 @@ public class FixNotAffectedOrdersGrp extends FixGroup {
 		
 	public void setNotAffectedOrderID(byte[] src) {		
 		if (src == null ) return;
-		if (hasNotAffectedOrderID()) FixUtils.fillSpace(notAffectedOrderID);		
+		if (hasNotAffectedOrderID()) FixUtils.fillNul(notAffectedOrderID);		
 		FixUtils.copy(notAffectedOrderID, src); 		
 		hasNotAffectedOrderID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setNotAffectedOrderID(String str) {		
 		if (str == null ) return;
-		if (hasNotAffectedOrderID()) FixUtils.fillSpace(notAffectedOrderID);		
+		if (hasNotAffectedOrderID()) FixUtils.fillNul(notAffectedOrderID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(notAffectedOrderID, src); 		
 		hasNotAffectedOrderID = FixUtils.TAG_HAS_VALUE;		

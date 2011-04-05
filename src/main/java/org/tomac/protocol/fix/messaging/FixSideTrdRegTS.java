@@ -176,14 +176,14 @@ public class FixSideTrdRegTS extends FixGroup {
 		
 	public void setSideTrdRegTimestamp(byte[] src) {		
 		if (src == null ) return;
-		if (hasSideTrdRegTimestamp()) FixUtils.fillSpace(sideTrdRegTimestamp);		
+		if (hasSideTrdRegTimestamp()) FixUtils.fillNul(sideTrdRegTimestamp);		
 		FixUtils.copy(sideTrdRegTimestamp, src); 		
 		hasSideTrdRegTimestamp = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSideTrdRegTimestamp(String str) {		
 		if (str == null ) return;
-		if (hasSideTrdRegTimestamp()) FixUtils.fillSpace(sideTrdRegTimestamp);		
+		if (hasSideTrdRegTimestamp()) FixUtils.fillNul(sideTrdRegTimestamp);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(sideTrdRegTimestamp, src); 		
 		hasSideTrdRegTimestamp = FixUtils.TAG_HAS_VALUE;		
@@ -259,14 +259,14 @@ public class FixSideTrdRegTS extends FixGroup {
 		
 	public void setSideTrdRegTimestampSrc(byte[] src) {		
 		if (src == null ) return;
-		if (hasSideTrdRegTimestampSrc()) FixUtils.fillSpace(sideTrdRegTimestampSrc);		
+		if (hasSideTrdRegTimestampSrc()) FixUtils.fillNul(sideTrdRegTimestampSrc);		
 		FixUtils.copy(sideTrdRegTimestampSrc, src); 		
 		hasSideTrdRegTimestampSrc = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSideTrdRegTimestampSrc(String str) {		
 		if (str == null ) return;
-		if (hasSideTrdRegTimestampSrc()) FixUtils.fillSpace(sideTrdRegTimestampSrc);		
+		if (hasSideTrdRegTimestampSrc()) FixUtils.fillNul(sideTrdRegTimestampSrc);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(sideTrdRegTimestampSrc, src); 		
 		hasSideTrdRegTimestampSrc = FixUtils.TAG_HAS_VALUE;		

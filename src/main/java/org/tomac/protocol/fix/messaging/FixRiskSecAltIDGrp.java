@@ -220,14 +220,14 @@ public class FixRiskSecAltIDGrp extends FixGroup {
 		
 	public void setRiskSecurityAltID(byte[] src) {		
 		if (src == null ) return;
-		if (hasRiskSecurityAltID()) FixUtils.fillSpace(riskSecurityAltID);		
+		if (hasRiskSecurityAltID()) FixUtils.fillNul(riskSecurityAltID);		
 		FixUtils.copy(riskSecurityAltID, src); 		
 		hasRiskSecurityAltID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRiskSecurityAltID(String str) {		
 		if (str == null ) return;
-		if (hasRiskSecurityAltID()) FixUtils.fillSpace(riskSecurityAltID);		
+		if (hasRiskSecurityAltID()) FixUtils.fillNul(riskSecurityAltID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(riskSecurityAltID, src); 		
 		hasRiskSecurityAltID = FixUtils.TAG_HAS_VALUE;		
@@ -259,14 +259,14 @@ public class FixRiskSecAltIDGrp extends FixGroup {
 		
 	public void setRiskSecurityAltIDSource(byte[] src) {		
 		if (src == null ) return;
-		if (hasRiskSecurityAltIDSource()) FixUtils.fillSpace(riskSecurityAltIDSource);		
+		if (hasRiskSecurityAltIDSource()) FixUtils.fillNul(riskSecurityAltIDSource);		
 		FixUtils.copy(riskSecurityAltIDSource, src); 		
 		hasRiskSecurityAltIDSource = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRiskSecurityAltIDSource(String str) {		
 		if (str == null ) return;
-		if (hasRiskSecurityAltIDSource()) FixUtils.fillSpace(riskSecurityAltIDSource);		
+		if (hasRiskSecurityAltIDSource()) FixUtils.fillNul(riskSecurityAltIDSource);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(riskSecurityAltIDSource, src); 		
 		hasRiskSecurityAltIDSource = FixUtils.TAG_HAS_VALUE;		

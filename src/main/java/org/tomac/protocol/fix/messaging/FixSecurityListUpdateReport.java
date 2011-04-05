@@ -687,14 +687,14 @@ public class FixSecurityListUpdateReport extends FixInMessage {
 
 	public void setSecurityReqID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecurityReqID()) FixUtils.fillSpace(securityReqID);		
+		if (hasSecurityReqID()) FixUtils.fillNul(securityReqID);		
 		FixUtils.copy(securityReqID, src); 		
 		hasSecurityReqID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSecurityReqID(String str) {		
 		if (str == null ) return;
-		if (hasSecurityReqID()) FixUtils.fillSpace(securityReqID);		
+		if (hasSecurityReqID()) FixUtils.fillNul(securityReqID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(securityReqID, src); 		
 		hasSecurityReqID = FixUtils.TAG_HAS_VALUE;		
@@ -731,14 +731,14 @@ public class FixSecurityListUpdateReport extends FixInMessage {
 
 	public void setSecurityResponseID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecurityResponseID()) FixUtils.fillSpace(securityResponseID);		
+		if (hasSecurityResponseID()) FixUtils.fillNul(securityResponseID);		
 		FixUtils.copy(securityResponseID, src); 		
 		hasSecurityResponseID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSecurityResponseID(String str) {		
 		if (str == null ) return;
-		if (hasSecurityResponseID()) FixUtils.fillSpace(securityResponseID);		
+		if (hasSecurityResponseID()) FixUtils.fillNul(securityResponseID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(securityResponseID, src); 		
 		hasSecurityResponseID = FixUtils.TAG_HAS_VALUE;		
@@ -873,14 +873,14 @@ public class FixSecurityListUpdateReport extends FixInMessage {
 
 	public void setClearingBusinessDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasClearingBusinessDate()) FixUtils.fillSpace(clearingBusinessDate);		
+		if (hasClearingBusinessDate()) FixUtils.fillNul(clearingBusinessDate);		
 		FixUtils.copy(clearingBusinessDate, src); 		
 		hasClearingBusinessDate = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setClearingBusinessDate(String str) {		
 		if (str == null ) return;
-		if (hasClearingBusinessDate()) FixUtils.fillSpace(clearingBusinessDate);		
+		if (hasClearingBusinessDate()) FixUtils.fillNul(clearingBusinessDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(clearingBusinessDate, src); 		
 		hasClearingBusinessDate = FixUtils.TAG_HAS_VALUE;		
@@ -968,14 +968,14 @@ public class FixSecurityListUpdateReport extends FixInMessage {
 
 	public void setCorporateAction(byte[] src) {		
 		if (src == null ) return;
-		if (hasCorporateAction()) FixUtils.fillSpace(corporateAction);		
+		if (hasCorporateAction()) FixUtils.fillNul(corporateAction);		
 		FixUtils.copy(corporateAction, src); 		
 		hasCorporateAction = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setCorporateAction(String str) {		
 		if (str == null ) return;
-		if (hasCorporateAction()) FixUtils.fillSpace(corporateAction);		
+		if (hasCorporateAction()) FixUtils.fillNul(corporateAction);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(corporateAction, src); 		
 		hasCorporateAction = FixUtils.TAG_HAS_VALUE;		
@@ -1061,14 +1061,14 @@ public class FixSecurityListUpdateReport extends FixInMessage {
 
 	public void setMarketID(byte[] src) {		
 		if (src == null ) return;
-		if (hasMarketID()) FixUtils.fillSpace(marketID);		
+		if (hasMarketID()) FixUtils.fillNul(marketID);		
 		FixUtils.copy(marketID, src); 		
 		hasMarketID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setMarketID(String str) {		
 		if (str == null ) return;
-		if (hasMarketID()) FixUtils.fillSpace(marketID);		
+		if (hasMarketID()) FixUtils.fillNul(marketID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(marketID, src); 		
 		hasMarketID = FixUtils.TAG_HAS_VALUE;		
@@ -1105,14 +1105,14 @@ public class FixSecurityListUpdateReport extends FixInMessage {
 
 	public void setMarketSegmentID(byte[] src) {		
 		if (src == null ) return;
-		if (hasMarketSegmentID()) FixUtils.fillSpace(marketSegmentID);		
+		if (hasMarketSegmentID()) FixUtils.fillNul(marketSegmentID);		
 		FixUtils.copy(marketSegmentID, src); 		
 		hasMarketSegmentID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setMarketSegmentID(String str) {		
 		if (str == null ) return;
-		if (hasMarketSegmentID()) FixUtils.fillSpace(marketSegmentID);		
+		if (hasMarketSegmentID()) FixUtils.fillNul(marketSegmentID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(marketSegmentID, src); 		
 		hasMarketSegmentID = FixUtils.TAG_HAS_VALUE;		
@@ -1149,14 +1149,14 @@ public class FixSecurityListUpdateReport extends FixInMessage {
 
 	public void setSecurityListID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecurityListID()) FixUtils.fillSpace(securityListID);		
+		if (hasSecurityListID()) FixUtils.fillNul(securityListID);		
 		FixUtils.copy(securityListID, src); 		
 		hasSecurityListID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSecurityListID(String str) {		
 		if (str == null ) return;
-		if (hasSecurityListID()) FixUtils.fillSpace(securityListID);		
+		if (hasSecurityListID()) FixUtils.fillNul(securityListID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(securityListID, src); 		
 		hasSecurityListID = FixUtils.TAG_HAS_VALUE;		
@@ -1193,14 +1193,14 @@ public class FixSecurityListUpdateReport extends FixInMessage {
 
 	public void setSecurityListRefID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecurityListRefID()) FixUtils.fillSpace(securityListRefID);		
+		if (hasSecurityListRefID()) FixUtils.fillNul(securityListRefID);		
 		FixUtils.copy(securityListRefID, src); 		
 		hasSecurityListRefID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSecurityListRefID(String str) {		
 		if (str == null ) return;
-		if (hasSecurityListRefID()) FixUtils.fillSpace(securityListRefID);		
+		if (hasSecurityListRefID()) FixUtils.fillNul(securityListRefID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(securityListRefID, src); 		
 		hasSecurityListRefID = FixUtils.TAG_HAS_VALUE;		
@@ -1237,14 +1237,14 @@ public class FixSecurityListUpdateReport extends FixInMessage {
 
 	public void setSecurityListDesc(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecurityListDesc()) FixUtils.fillSpace(securityListDesc);		
+		if (hasSecurityListDesc()) FixUtils.fillNul(securityListDesc);		
 		FixUtils.copy(securityListDesc, src); 		
 		hasSecurityListDesc = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSecurityListDesc(String str) {		
 		if (str == null ) return;
-		if (hasSecurityListDesc()) FixUtils.fillSpace(securityListDesc);		
+		if (hasSecurityListDesc()) FixUtils.fillNul(securityListDesc);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(securityListDesc, src); 		
 		hasSecurityListDesc = FixUtils.TAG_HAS_VALUE;		
@@ -1330,14 +1330,14 @@ public class FixSecurityListUpdateReport extends FixInMessage {
 
 	public void setEncodedSecurityListDesc(byte[] src) {		
 		if (src == null ) return;
-		if (hasEncodedSecurityListDesc()) FixUtils.fillSpace(encodedSecurityListDesc);		
+		if (hasEncodedSecurityListDesc()) FixUtils.fillNul(encodedSecurityListDesc);		
 		FixUtils.copy(encodedSecurityListDesc, src); 		
 		hasEncodedSecurityListDesc = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setEncodedSecurityListDesc(String str) {		
 		if (str == null ) return;
-		if (hasEncodedSecurityListDesc()) FixUtils.fillSpace(encodedSecurityListDesc);		
+		if (hasEncodedSecurityListDesc()) FixUtils.fillNul(encodedSecurityListDesc);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(encodedSecurityListDesc, src); 		
 		hasEncodedSecurityListDesc = FixUtils.TAG_HAS_VALUE;		
@@ -1472,14 +1472,14 @@ public class FixSecurityListUpdateReport extends FixInMessage {
 
 	public void setTransactTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTransactTime(String str) {		
 		if (str == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		

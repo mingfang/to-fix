@@ -419,14 +419,14 @@ public class FixBidDescReqGrp extends FixGroup {
 		
 	public void setBidDescriptor(byte[] src) {		
 		if (src == null ) return;
-		if (hasBidDescriptor()) FixUtils.fillSpace(bidDescriptor);		
+		if (hasBidDescriptor()) FixUtils.fillNul(bidDescriptor);		
 		FixUtils.copy(bidDescriptor, src); 		
 		hasBidDescriptor = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setBidDescriptor(String str) {		
 		if (str == null ) return;
-		if (hasBidDescriptor()) FixUtils.fillSpace(bidDescriptor);		
+		if (hasBidDescriptor()) FixUtils.fillNul(bidDescriptor);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(bidDescriptor, src); 		
 		hasBidDescriptor = FixUtils.TAG_HAS_VALUE;		

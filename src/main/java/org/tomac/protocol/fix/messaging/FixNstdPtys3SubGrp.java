@@ -150,14 +150,14 @@ public class FixNstdPtys3SubGrp extends FixGroup {
 		
 	public void setNested3PartySubID(byte[] src) {		
 		if (src == null ) return;
-		if (hasNested3PartySubID()) FixUtils.fillSpace(nested3PartySubID);		
+		if (hasNested3PartySubID()) FixUtils.fillNul(nested3PartySubID);		
 		FixUtils.copy(nested3PartySubID, src); 		
 		hasNested3PartySubID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setNested3PartySubID(String str) {		
 		if (str == null ) return;
-		if (hasNested3PartySubID()) FixUtils.fillSpace(nested3PartySubID);		
+		if (hasNested3PartySubID()) FixUtils.fillNul(nested3PartySubID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(nested3PartySubID, src); 		
 		hasNested3PartySubID = FixUtils.TAG_HAS_VALUE;		

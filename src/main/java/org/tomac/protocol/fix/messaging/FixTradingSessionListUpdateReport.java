@@ -233,14 +233,14 @@ public class FixTradingSessionListUpdateReport extends FixInMessage {
 
 	public void setTradSesReqID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradSesReqID()) FixUtils.fillSpace(tradSesReqID);		
+		if (hasTradSesReqID()) FixUtils.fillNul(tradSesReqID);		
 		FixUtils.copy(tradSesReqID, src); 		
 		hasTradSesReqID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTradSesReqID(String str) {		
 		if (str == null ) return;
-		if (hasTradSesReqID()) FixUtils.fillSpace(tradSesReqID);		
+		if (hasTradSesReqID()) FixUtils.fillNul(tradSesReqID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradSesReqID, src); 		
 		hasTradSesReqID = FixUtils.TAG_HAS_VALUE;		

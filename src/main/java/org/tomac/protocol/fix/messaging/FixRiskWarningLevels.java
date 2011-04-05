@@ -194,14 +194,14 @@ public class FixRiskWarningLevels extends FixGroup {
 		
 	public void setRiskWarningLevelName(byte[] src) {		
 		if (src == null ) return;
-		if (hasRiskWarningLevelName()) FixUtils.fillSpace(riskWarningLevelName);		
+		if (hasRiskWarningLevelName()) FixUtils.fillNul(riskWarningLevelName);		
 		FixUtils.copy(riskWarningLevelName, src); 		
 		hasRiskWarningLevelName = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRiskWarningLevelName(String str) {		
 		if (str == null ) return;
-		if (hasRiskWarningLevelName()) FixUtils.fillSpace(riskWarningLevelName);		
+		if (hasRiskWarningLevelName()) FixUtils.fillNul(riskWarningLevelName);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(riskWarningLevelName, src); 		
 		hasRiskWarningLevelName = FixUtils.TAG_HAS_VALUE;		

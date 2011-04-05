@@ -151,14 +151,14 @@ public class FixMatchRules extends FixGroup {
 		
 	public void setMatchAlgorithm(byte[] src) {		
 		if (src == null ) return;
-		if (hasMatchAlgorithm()) FixUtils.fillSpace(matchAlgorithm);		
+		if (hasMatchAlgorithm()) FixUtils.fillNul(matchAlgorithm);		
 		FixUtils.copy(matchAlgorithm, src); 		
 		hasMatchAlgorithm = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setMatchAlgorithm(String str) {		
 		if (str == null ) return;
-		if (hasMatchAlgorithm()) FixUtils.fillSpace(matchAlgorithm);		
+		if (hasMatchAlgorithm()) FixUtils.fillNul(matchAlgorithm);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(matchAlgorithm, src); 		
 		hasMatchAlgorithm = FixUtils.TAG_HAS_VALUE;		
@@ -190,14 +190,14 @@ public class FixMatchRules extends FixGroup {
 		
 	public void setMatchType(byte[] src) {		
 		if (src == null ) return;
-		if (hasMatchType()) FixUtils.fillSpace(matchType);		
+		if (hasMatchType()) FixUtils.fillNul(matchType);		
 		FixUtils.copy(matchType, src); 		
 		hasMatchType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setMatchType(String str) {		
 		if (str == null ) return;
-		if (hasMatchType()) FixUtils.fillSpace(matchType);		
+		if (hasMatchType()) FixUtils.fillNul(matchType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(matchType, src); 		
 		hasMatchType = FixUtils.TAG_HAS_VALUE;		

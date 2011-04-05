@@ -151,14 +151,14 @@ public class FixLegStipulations extends FixGroup {
 		
 	public void setLegStipulationType(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegStipulationType()) FixUtils.fillSpace(legStipulationType);		
+		if (hasLegStipulationType()) FixUtils.fillNul(legStipulationType);		
 		FixUtils.copy(legStipulationType, src); 		
 		hasLegStipulationType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegStipulationType(String str) {		
 		if (str == null ) return;
-		if (hasLegStipulationType()) FixUtils.fillSpace(legStipulationType);		
+		if (hasLegStipulationType()) FixUtils.fillNul(legStipulationType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legStipulationType, src); 		
 		hasLegStipulationType = FixUtils.TAG_HAS_VALUE;		
@@ -190,14 +190,14 @@ public class FixLegStipulations extends FixGroup {
 		
 	public void setLegStipulationValue(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegStipulationValue()) FixUtils.fillSpace(legStipulationValue);		
+		if (hasLegStipulationValue()) FixUtils.fillNul(legStipulationValue);		
 		FixUtils.copy(legStipulationValue, src); 		
 		hasLegStipulationValue = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegStipulationValue(String str) {		
 		if (str == null ) return;
-		if (hasLegStipulationValue()) FixUtils.fillSpace(legStipulationValue);		
+		if (hasLegStipulationValue()) FixUtils.fillNul(legStipulationValue);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legStipulationValue, src); 		
 		hasLegStipulationValue = FixUtils.TAG_HAS_VALUE;		

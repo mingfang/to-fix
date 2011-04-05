@@ -452,14 +452,14 @@ public class FixDerivativeSecurityList extends FixInMessage {
 
 	public void setSecurityReqID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecurityReqID()) FixUtils.fillSpace(securityReqID);		
+		if (hasSecurityReqID()) FixUtils.fillNul(securityReqID);		
 		FixUtils.copy(securityReqID, src); 		
 		hasSecurityReqID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSecurityReqID(String str) {		
 		if (str == null ) return;
-		if (hasSecurityReqID()) FixUtils.fillSpace(securityReqID);		
+		if (hasSecurityReqID()) FixUtils.fillNul(securityReqID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(securityReqID, src); 		
 		hasSecurityReqID = FixUtils.TAG_HAS_VALUE;		
@@ -496,14 +496,14 @@ public class FixDerivativeSecurityList extends FixInMessage {
 
 	public void setSecurityResponseID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecurityResponseID()) FixUtils.fillSpace(securityResponseID);		
+		if (hasSecurityResponseID()) FixUtils.fillNul(securityResponseID);		
 		FixUtils.copy(securityResponseID, src); 		
 		hasSecurityResponseID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSecurityResponseID(String str) {		
 		if (str == null ) return;
-		if (hasSecurityResponseID()) FixUtils.fillSpace(securityResponseID);		
+		if (hasSecurityResponseID()) FixUtils.fillNul(securityResponseID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(securityResponseID, src); 		
 		hasSecurityResponseID = FixUtils.TAG_HAS_VALUE;		
@@ -589,14 +589,14 @@ public class FixDerivativeSecurityList extends FixInMessage {
 
 	public void setClearingBusinessDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasClearingBusinessDate()) FixUtils.fillSpace(clearingBusinessDate);		
+		if (hasClearingBusinessDate()) FixUtils.fillNul(clearingBusinessDate);		
 		FixUtils.copy(clearingBusinessDate, src); 		
 		hasClearingBusinessDate = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setClearingBusinessDate(String str) {		
 		if (str == null ) return;
-		if (hasClearingBusinessDate()) FixUtils.fillSpace(clearingBusinessDate);		
+		if (hasClearingBusinessDate()) FixUtils.fillNul(clearingBusinessDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(clearingBusinessDate, src); 		
 		hasClearingBusinessDate = FixUtils.TAG_HAS_VALUE;		
@@ -633,14 +633,14 @@ public class FixDerivativeSecurityList extends FixInMessage {
 
 	public void setTransactTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTransactTime(String str) {		
 		if (str == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		

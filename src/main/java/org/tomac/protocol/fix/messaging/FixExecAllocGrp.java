@@ -347,14 +347,14 @@ public class FixExecAllocGrp extends FixGroup {
 		
 	public void setExecID(byte[] src) {		
 		if (src == null ) return;
-		if (hasExecID()) FixUtils.fillSpace(execID);		
+		if (hasExecID()) FixUtils.fillNul(execID);		
 		FixUtils.copy(execID, src); 		
 		hasExecID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setExecID(String str) {		
 		if (str == null ) return;
-		if (hasExecID()) FixUtils.fillSpace(execID);		
+		if (hasExecID()) FixUtils.fillNul(execID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(execID, src); 		
 		hasExecID = FixUtils.TAG_HAS_VALUE;		
@@ -386,14 +386,14 @@ public class FixExecAllocGrp extends FixGroup {
 		
 	public void setSecondaryExecID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecondaryExecID()) FixUtils.fillSpace(secondaryExecID);		
+		if (hasSecondaryExecID()) FixUtils.fillNul(secondaryExecID);		
 		FixUtils.copy(secondaryExecID, src); 		
 		hasSecondaryExecID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSecondaryExecID(String str) {		
 		if (str == null ) return;
-		if (hasSecondaryExecID()) FixUtils.fillSpace(secondaryExecID);		
+		if (hasSecondaryExecID()) FixUtils.fillNul(secondaryExecID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(secondaryExecID, src); 		
 		hasSecondaryExecID = FixUtils.TAG_HAS_VALUE;		
@@ -559,14 +559,14 @@ public class FixExecAllocGrp extends FixGroup {
 		
 	public void setTradeID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradeID()) FixUtils.fillSpace(tradeID);		
+		if (hasTradeID()) FixUtils.fillNul(tradeID);		
 		FixUtils.copy(tradeID, src); 		
 		hasTradeID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setTradeID(String str) {		
 		if (str == null ) return;
-		if (hasTradeID()) FixUtils.fillSpace(tradeID);		
+		if (hasTradeID()) FixUtils.fillNul(tradeID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradeID, src); 		
 		hasTradeID = FixUtils.TAG_HAS_VALUE;		
@@ -598,14 +598,14 @@ public class FixExecAllocGrp extends FixGroup {
 		
 	public void setFirmTradeID(byte[] src) {		
 		if (src == null ) return;
-		if (hasFirmTradeID()) FixUtils.fillSpace(firmTradeID);		
+		if (hasFirmTradeID()) FixUtils.fillNul(firmTradeID);		
 		FixUtils.copy(firmTradeID, src); 		
 		hasFirmTradeID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setFirmTradeID(String str) {		
 		if (str == null ) return;
-		if (hasFirmTradeID()) FixUtils.fillSpace(firmTradeID);		
+		if (hasFirmTradeID()) FixUtils.fillNul(firmTradeID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(firmTradeID, src); 		
 		hasFirmTradeID = FixUtils.TAG_HAS_VALUE;		

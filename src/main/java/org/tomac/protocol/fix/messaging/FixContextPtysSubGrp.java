@@ -150,14 +150,14 @@ public class FixContextPtysSubGrp extends FixGroup {
 		
 	public void setContextPartySubID(byte[] src) {		
 		if (src == null ) return;
-		if (hasContextPartySubID()) FixUtils.fillSpace(contextPartySubID);		
+		if (hasContextPartySubID()) FixUtils.fillNul(contextPartySubID);		
 		FixUtils.copy(contextPartySubID, src); 		
 		hasContextPartySubID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setContextPartySubID(String str) {		
 		if (str == null ) return;
-		if (hasContextPartySubID()) FixUtils.fillSpace(contextPartySubID);		
+		if (hasContextPartySubID()) FixUtils.fillNul(contextPartySubID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(contextPartySubID, src); 		
 		hasContextPartySubID = FixUtils.TAG_HAS_VALUE;		

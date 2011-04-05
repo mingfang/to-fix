@@ -150,14 +150,14 @@ public class FixNewsRefGrp extends FixGroup {
 		
 	public void setNewsRefID(byte[] src) {		
 		if (src == null ) return;
-		if (hasNewsRefID()) FixUtils.fillSpace(newsRefID);		
+		if (hasNewsRefID()) FixUtils.fillNul(newsRefID);		
 		FixUtils.copy(newsRefID, src); 		
 		hasNewsRefID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setNewsRefID(String str) {		
 		if (str == null ) return;
-		if (hasNewsRefID()) FixUtils.fillSpace(newsRefID);		
+		if (hasNewsRefID()) FixUtils.fillNul(newsRefID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(newsRefID, src); 		
 		hasNewsRefID = FixUtils.TAG_HAS_VALUE;		

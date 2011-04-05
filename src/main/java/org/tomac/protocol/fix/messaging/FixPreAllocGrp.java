@@ -262,14 +262,14 @@ public class FixPreAllocGrp extends FixGroup {
 		
 	public void setAllocAccount(byte[] src) {		
 		if (src == null ) return;
-		if (hasAllocAccount()) FixUtils.fillSpace(allocAccount);		
+		if (hasAllocAccount()) FixUtils.fillNul(allocAccount);		
 		FixUtils.copy(allocAccount, src); 		
 		hasAllocAccount = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setAllocAccount(String str) {		
 		if (str == null ) return;
-		if (hasAllocAccount()) FixUtils.fillSpace(allocAccount);		
+		if (hasAllocAccount()) FixUtils.fillNul(allocAccount);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(allocAccount, src); 		
 		hasAllocAccount = FixUtils.TAG_HAS_VALUE;		
@@ -345,14 +345,14 @@ public class FixPreAllocGrp extends FixGroup {
 		
 	public void setAllocSettlCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasAllocSettlCurrency()) FixUtils.fillSpace(allocSettlCurrency);		
+		if (hasAllocSettlCurrency()) FixUtils.fillNul(allocSettlCurrency);		
 		FixUtils.copy(allocSettlCurrency, src); 		
 		hasAllocSettlCurrency = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setAllocSettlCurrency(String str) {		
 		if (str == null ) return;
-		if (hasAllocSettlCurrency()) FixUtils.fillSpace(allocSettlCurrency);		
+		if (hasAllocSettlCurrency()) FixUtils.fillNul(allocSettlCurrency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(allocSettlCurrency, src); 		
 		hasAllocSettlCurrency = FixUtils.TAG_HAS_VALUE;		
@@ -384,14 +384,14 @@ public class FixPreAllocGrp extends FixGroup {
 		
 	public void setIndividualAllocID(byte[] src) {		
 		if (src == null ) return;
-		if (hasIndividualAllocID()) FixUtils.fillSpace(individualAllocID);		
+		if (hasIndividualAllocID()) FixUtils.fillNul(individualAllocID);		
 		FixUtils.copy(individualAllocID, src); 		
 		hasIndividualAllocID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setIndividualAllocID(String str) {		
 		if (str == null ) return;
-		if (hasIndividualAllocID()) FixUtils.fillSpace(individualAllocID);		
+		if (hasIndividualAllocID()) FixUtils.fillNul(individualAllocID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(individualAllocID, src); 		
 		hasIndividualAllocID = FixUtils.TAG_HAS_VALUE;		

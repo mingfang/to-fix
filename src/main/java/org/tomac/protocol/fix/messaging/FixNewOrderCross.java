@@ -1374,14 +1374,14 @@ public class FixNewOrderCross extends FixInMessage {
 
 	public void setCrossID(byte[] src) {		
 		if (src == null ) return;
-		if (hasCrossID()) FixUtils.fillSpace(crossID);		
+		if (hasCrossID()) FixUtils.fillNul(crossID);		
 		FixUtils.copy(crossID, src); 		
 		hasCrossID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setCrossID(String str) {		
 		if (str == null ) return;
-		if (hasCrossID()) FixUtils.fillSpace(crossID);		
+		if (hasCrossID()) FixUtils.fillNul(crossID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(crossID, src); 		
 		hasCrossID = FixUtils.TAG_HAS_VALUE;		
@@ -1516,14 +1516,14 @@ public class FixNewOrderCross extends FixInMessage {
 
 	public void setSettlType(byte[] src) {		
 		if (src == null ) return;
-		if (hasSettlType()) FixUtils.fillSpace(settlType);		
+		if (hasSettlType()) FixUtils.fillNul(settlType);		
 		FixUtils.copy(settlType, src); 		
 		hasSettlType = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSettlType(String str) {		
 		if (str == null ) return;
-		if (hasSettlType()) FixUtils.fillSpace(settlType);		
+		if (hasSettlType()) FixUtils.fillNul(settlType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(settlType, src); 		
 		hasSettlType = FixUtils.TAG_HAS_VALUE;		
@@ -1560,14 +1560,14 @@ public class FixNewOrderCross extends FixInMessage {
 
 	public void setSettlDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasSettlDate()) FixUtils.fillSpace(settlDate);		
+		if (hasSettlDate()) FixUtils.fillNul(settlDate);		
 		FixUtils.copy(settlDate, src); 		
 		hasSettlDate = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSettlDate(String str) {		
 		if (str == null ) return;
-		if (hasSettlDate()) FixUtils.fillSpace(settlDate);		
+		if (hasSettlDate()) FixUtils.fillNul(settlDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(settlDate, src); 		
 		hasSettlDate = FixUtils.TAG_HAS_VALUE;		
@@ -1655,14 +1655,14 @@ public class FixNewOrderCross extends FixInMessage {
 
 	public void setExecInst(byte[] src) {		
 		if (src == null ) return;
-		if (hasExecInst()) FixUtils.fillSpace(execInst);		
+		if (hasExecInst()) FixUtils.fillNul(execInst);		
 		FixUtils.copy(execInst, src); 		
 		hasExecInst = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setExecInst(String str) {		
 		if (str == null ) return;
-		if (hasExecInst()) FixUtils.fillSpace(execInst);		
+		if (hasExecInst()) FixUtils.fillNul(execInst);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(execInst, src); 		
 		hasExecInst = FixUtils.TAG_HAS_VALUE;		
@@ -1895,14 +1895,14 @@ public class FixNewOrderCross extends FixInMessage {
 
 	public void setExDestination(byte[] src) {		
 		if (src == null ) return;
-		if (hasExDestination()) FixUtils.fillSpace(exDestination);		
+		if (hasExDestination()) FixUtils.fillNul(exDestination);		
 		FixUtils.copy(exDestination, src); 		
 		hasExDestination = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setExDestination(String str) {		
 		if (str == null ) return;
-		if (hasExDestination()) FixUtils.fillSpace(exDestination);		
+		if (hasExDestination()) FixUtils.fillNul(exDestination);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(exDestination, src); 		
 		hasExDestination = FixUtils.TAG_HAS_VALUE;		
@@ -2139,14 +2139,14 @@ public class FixNewOrderCross extends FixInMessage {
 
 	public void setTransactTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTransactTime(String str) {		
 		if (str == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		
@@ -2183,14 +2183,14 @@ public class FixNewOrderCross extends FixInMessage {
 
 	public void setTransBkdTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasTransBkdTime()) FixUtils.fillSpace(transBkdTime);		
+		if (hasTransBkdTime()) FixUtils.fillNul(transBkdTime);		
 		FixUtils.copy(transBkdTime, src); 		
 		hasTransBkdTime = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTransBkdTime(String str) {		
 		if (str == null ) return;
-		if (hasTransBkdTime()) FixUtils.fillSpace(transBkdTime);		
+		if (hasTransBkdTime()) FixUtils.fillNul(transBkdTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(transBkdTime, src); 		
 		hasTransBkdTime = FixUtils.TAG_HAS_VALUE;		
@@ -2476,14 +2476,14 @@ public class FixNewOrderCross extends FixInMessage {
 
 	public void setCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasCurrency()) FixUtils.fillSpace(currency);		
+		if (hasCurrency()) FixUtils.fillNul(currency);		
 		FixUtils.copy(currency, src); 		
 		hasCurrency = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setCurrency(String str) {		
 		if (str == null ) return;
-		if (hasCurrency()) FixUtils.fillSpace(currency);		
+		if (hasCurrency()) FixUtils.fillNul(currency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(currency, src); 		
 		hasCurrency = FixUtils.TAG_HAS_VALUE;		
@@ -2520,14 +2520,14 @@ public class FixNewOrderCross extends FixInMessage {
 
 	public void setComplianceID(byte[] src) {		
 		if (src == null ) return;
-		if (hasComplianceID()) FixUtils.fillSpace(complianceID);		
+		if (hasComplianceID()) FixUtils.fillNul(complianceID);		
 		FixUtils.copy(complianceID, src); 		
 		hasComplianceID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setComplianceID(String str) {		
 		if (str == null ) return;
-		if (hasComplianceID()) FixUtils.fillSpace(complianceID);		
+		if (hasComplianceID()) FixUtils.fillNul(complianceID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(complianceID, src); 		
 		hasComplianceID = FixUtils.TAG_HAS_VALUE;		
@@ -2564,14 +2564,14 @@ public class FixNewOrderCross extends FixInMessage {
 
 	public void setIOIID(byte[] src) {		
 		if (src == null ) return;
-		if (hasIOIID()) FixUtils.fillSpace(iOIID);		
+		if (hasIOIID()) FixUtils.fillNul(iOIID);		
 		FixUtils.copy(iOIID, src); 		
 		hasIOIID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setIOIID(String str) {		
 		if (str == null ) return;
-		if (hasIOIID()) FixUtils.fillSpace(iOIID);		
+		if (hasIOIID()) FixUtils.fillNul(iOIID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(iOIID, src); 		
 		hasIOIID = FixUtils.TAG_HAS_VALUE;		
@@ -2608,14 +2608,14 @@ public class FixNewOrderCross extends FixInMessage {
 
 	public void setQuoteID(byte[] src) {		
 		if (src == null ) return;
-		if (hasQuoteID()) FixUtils.fillSpace(quoteID);		
+		if (hasQuoteID()) FixUtils.fillNul(quoteID);		
 		FixUtils.copy(quoteID, src); 		
 		hasQuoteID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setQuoteID(String str) {		
 		if (str == null ) return;
-		if (hasQuoteID()) FixUtils.fillSpace(quoteID);		
+		if (hasQuoteID()) FixUtils.fillNul(quoteID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(quoteID, src); 		
 		hasQuoteID = FixUtils.TAG_HAS_VALUE;		
@@ -2703,14 +2703,14 @@ public class FixNewOrderCross extends FixInMessage {
 
 	public void setEffectiveTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasEffectiveTime()) FixUtils.fillSpace(effectiveTime);		
+		if (hasEffectiveTime()) FixUtils.fillNul(effectiveTime);		
 		FixUtils.copy(effectiveTime, src); 		
 		hasEffectiveTime = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setEffectiveTime(String str) {		
 		if (str == null ) return;
-		if (hasEffectiveTime()) FixUtils.fillSpace(effectiveTime);		
+		if (hasEffectiveTime()) FixUtils.fillNul(effectiveTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(effectiveTime, src); 		
 		hasEffectiveTime = FixUtils.TAG_HAS_VALUE;		
@@ -2747,14 +2747,14 @@ public class FixNewOrderCross extends FixInMessage {
 
 	public void setExpireDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasExpireDate()) FixUtils.fillSpace(expireDate);		
+		if (hasExpireDate()) FixUtils.fillNul(expireDate);		
 		FixUtils.copy(expireDate, src); 		
 		hasExpireDate = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setExpireDate(String str) {		
 		if (str == null ) return;
-		if (hasExpireDate()) FixUtils.fillSpace(expireDate);		
+		if (hasExpireDate()) FixUtils.fillNul(expireDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(expireDate, src); 		
 		hasExpireDate = FixUtils.TAG_HAS_VALUE;		
@@ -2791,14 +2791,14 @@ public class FixNewOrderCross extends FixInMessage {
 
 	public void setExpireTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasExpireTime()) FixUtils.fillSpace(expireTime);		
+		if (hasExpireTime()) FixUtils.fillNul(expireTime);		
 		FixUtils.copy(expireTime, src); 		
 		hasExpireTime = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setExpireTime(String str) {		
 		if (str == null ) return;
-		if (hasExpireTime()) FixUtils.fillSpace(expireTime);		
+		if (hasExpireTime()) FixUtils.fillNul(expireTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(expireTime, src); 		
 		hasExpireTime = FixUtils.TAG_HAS_VALUE;		
@@ -2982,14 +2982,14 @@ public class FixNewOrderCross extends FixInMessage {
 
 	public void setTargetStrategyParameters(byte[] src) {		
 		if (src == null ) return;
-		if (hasTargetStrategyParameters()) FixUtils.fillSpace(targetStrategyParameters);		
+		if (hasTargetStrategyParameters()) FixUtils.fillNul(targetStrategyParameters);		
 		FixUtils.copy(targetStrategyParameters, src); 		
 		hasTargetStrategyParameters = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTargetStrategyParameters(String str) {		
 		if (str == null ) return;
-		if (hasTargetStrategyParameters()) FixUtils.fillSpace(targetStrategyParameters);		
+		if (hasTargetStrategyParameters()) FixUtils.fillNul(targetStrategyParameters);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(targetStrategyParameters, src); 		
 		hasTargetStrategyParameters = FixUtils.TAG_HAS_VALUE;		
@@ -3177,14 +3177,14 @@ public class FixNewOrderCross extends FixInMessage {
 
 	public void setRegistID(byte[] src) {		
 		if (src == null ) return;
-		if (hasRegistID()) FixUtils.fillSpace(registID);		
+		if (hasRegistID()) FixUtils.fillNul(registID);		
 		FixUtils.copy(registID, src); 		
 		hasRegistID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setRegistID(String str) {		
 		if (str == null ) return;
-		if (hasRegistID()) FixUtils.fillSpace(registID);		
+		if (hasRegistID()) FixUtils.fillNul(registID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(registID, src); 		
 		hasRegistID = FixUtils.TAG_HAS_VALUE;		
@@ -3221,14 +3221,14 @@ public class FixNewOrderCross extends FixInMessage {
 
 	public void setDesignation(byte[] src) {		
 		if (src == null ) return;
-		if (hasDesignation()) FixUtils.fillSpace(designation);		
+		if (hasDesignation()) FixUtils.fillNul(designation);		
 		FixUtils.copy(designation, src); 		
 		hasDesignation = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setDesignation(String str) {		
 		if (str == null ) return;
-		if (hasDesignation()) FixUtils.fillSpace(designation);		
+		if (hasDesignation()) FixUtils.fillNul(designation);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(designation, src); 		
 		hasDesignation = FixUtils.TAG_HAS_VALUE;		

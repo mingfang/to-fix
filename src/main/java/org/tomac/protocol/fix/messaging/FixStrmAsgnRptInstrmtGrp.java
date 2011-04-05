@@ -286,14 +286,14 @@ public class FixStrmAsgnRptInstrmtGrp extends FixGroup {
 		
 	public void setSettlType(byte[] src) {		
 		if (src == null ) return;
-		if (hasSettlType()) FixUtils.fillSpace(settlType);		
+		if (hasSettlType()) FixUtils.fillNul(settlType);		
 		FixUtils.copy(settlType, src); 		
 		hasSettlType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSettlType(String str) {		
 		if (str == null ) return;
-		if (hasSettlType()) FixUtils.fillSpace(settlType);		
+		if (hasSettlType()) FixUtils.fillNul(settlType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(settlType, src); 		
 		hasSettlType = FixUtils.TAG_HAS_VALUE;		
@@ -369,14 +369,14 @@ public class FixStrmAsgnRptInstrmtGrp extends FixGroup {
 		
 	public void setMDStreamID(byte[] src) {		
 		if (src == null ) return;
-		if (hasMDStreamID()) FixUtils.fillSpace(mDStreamID);		
+		if (hasMDStreamID()) FixUtils.fillNul(mDStreamID);		
 		FixUtils.copy(mDStreamID, src); 		
 		hasMDStreamID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setMDStreamID(String str) {		
 		if (str == null ) return;
-		if (hasMDStreamID()) FixUtils.fillSpace(mDStreamID);		
+		if (hasMDStreamID()) FixUtils.fillNul(mDStreamID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(mDStreamID, src); 		
 		hasMDStreamID = FixUtils.TAG_HAS_VALUE;		
@@ -452,14 +452,14 @@ public class FixStrmAsgnRptInstrmtGrp extends FixGroup {
 		
 	public void setText(byte[] src) {		
 		if (src == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setText(String str) {		
 		if (str == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
@@ -535,14 +535,14 @@ public class FixStrmAsgnRptInstrmtGrp extends FixGroup {
 		
 	public void setEncodedText(byte[] src) {		
 		if (src == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setEncodedText(String str) {		
 		if (str == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		

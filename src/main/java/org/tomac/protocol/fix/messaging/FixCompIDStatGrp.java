@@ -262,14 +262,14 @@ public class FixCompIDStatGrp extends FixGroup {
 		
 	public void setRefCompID(byte[] src) {		
 		if (src == null ) return;
-		if (hasRefCompID()) FixUtils.fillSpace(refCompID);		
+		if (hasRefCompID()) FixUtils.fillNul(refCompID);		
 		FixUtils.copy(refCompID, src); 		
 		hasRefCompID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRefCompID(String str) {		
 		if (str == null ) return;
-		if (hasRefCompID()) FixUtils.fillSpace(refCompID);		
+		if (hasRefCompID()) FixUtils.fillNul(refCompID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(refCompID, src); 		
 		hasRefCompID = FixUtils.TAG_HAS_VALUE;		
@@ -301,14 +301,14 @@ public class FixCompIDStatGrp extends FixGroup {
 		
 	public void setRefSubID(byte[] src) {		
 		if (src == null ) return;
-		if (hasRefSubID()) FixUtils.fillSpace(refSubID);		
+		if (hasRefSubID()) FixUtils.fillNul(refSubID);		
 		FixUtils.copy(refSubID, src); 		
 		hasRefSubID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRefSubID(String str) {		
 		if (str == null ) return;
-		if (hasRefSubID()) FixUtils.fillSpace(refSubID);		
+		if (hasRefSubID()) FixUtils.fillNul(refSubID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(refSubID, src); 		
 		hasRefSubID = FixUtils.TAG_HAS_VALUE;		
@@ -340,14 +340,14 @@ public class FixCompIDStatGrp extends FixGroup {
 		
 	public void setLocationID(byte[] src) {		
 		if (src == null ) return;
-		if (hasLocationID()) FixUtils.fillSpace(locationID);		
+		if (hasLocationID()) FixUtils.fillNul(locationID);		
 		FixUtils.copy(locationID, src); 		
 		hasLocationID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLocationID(String str) {		
 		if (str == null ) return;
-		if (hasLocationID()) FixUtils.fillSpace(locationID);		
+		if (hasLocationID()) FixUtils.fillNul(locationID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(locationID, src); 		
 		hasLocationID = FixUtils.TAG_HAS_VALUE;		
@@ -379,14 +379,14 @@ public class FixCompIDStatGrp extends FixGroup {
 		
 	public void setDeskID(byte[] src) {		
 		if (src == null ) return;
-		if (hasDeskID()) FixUtils.fillSpace(deskID);		
+		if (hasDeskID()) FixUtils.fillNul(deskID);		
 		FixUtils.copy(deskID, src); 		
 		hasDeskID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDeskID(String str) {		
 		if (str == null ) return;
-		if (hasDeskID()) FixUtils.fillSpace(deskID);		
+		if (hasDeskID()) FixUtils.fillNul(deskID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(deskID, src); 		
 		hasDeskID = FixUtils.TAG_HAS_VALUE;		
@@ -462,14 +462,14 @@ public class FixCompIDStatGrp extends FixGroup {
 		
 	public void setStatusText(byte[] src) {		
 		if (src == null ) return;
-		if (hasStatusText()) FixUtils.fillSpace(statusText);		
+		if (hasStatusText()) FixUtils.fillNul(statusText);		
 		FixUtils.copy(statusText, src); 		
 		hasStatusText = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setStatusText(String str) {		
 		if (str == null ) return;
-		if (hasStatusText()) FixUtils.fillSpace(statusText);		
+		if (hasStatusText()) FixUtils.fillNul(statusText);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(statusText, src); 		
 		hasStatusText = FixUtils.TAG_HAS_VALUE;		

@@ -176,14 +176,14 @@ public class FixStrategyParametersGrp extends FixGroup {
 		
 	public void setStrategyParameterName(byte[] src) {		
 		if (src == null ) return;
-		if (hasStrategyParameterName()) FixUtils.fillSpace(strategyParameterName);		
+		if (hasStrategyParameterName()) FixUtils.fillNul(strategyParameterName);		
 		FixUtils.copy(strategyParameterName, src); 		
 		hasStrategyParameterName = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setStrategyParameterName(String str) {		
 		if (str == null ) return;
-		if (hasStrategyParameterName()) FixUtils.fillSpace(strategyParameterName);		
+		if (hasStrategyParameterName()) FixUtils.fillNul(strategyParameterName);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(strategyParameterName, src); 		
 		hasStrategyParameterName = FixUtils.TAG_HAS_VALUE;		
@@ -259,14 +259,14 @@ public class FixStrategyParametersGrp extends FixGroup {
 		
 	public void setStrategyParameterValue(byte[] src) {		
 		if (src == null ) return;
-		if (hasStrategyParameterValue()) FixUtils.fillSpace(strategyParameterValue);		
+		if (hasStrategyParameterValue()) FixUtils.fillNul(strategyParameterValue);		
 		FixUtils.copy(strategyParameterValue, src); 		
 		hasStrategyParameterValue = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setStrategyParameterValue(String str) {		
 		if (str == null ) return;
-		if (hasStrategyParameterValue()) FixUtils.fillSpace(strategyParameterValue);		
+		if (hasStrategyParameterValue()) FixUtils.fillNul(strategyParameterValue);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(strategyParameterValue, src); 		
 		hasStrategyParameterValue = FixUtils.TAG_HAS_VALUE;		

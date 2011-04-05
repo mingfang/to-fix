@@ -175,14 +175,14 @@ public class FixApplIDReportGrp extends FixGroup {
 		
 	public void setRefApplID(byte[] src) {		
 		if (src == null ) return;
-		if (hasRefApplID()) FixUtils.fillSpace(refApplID);		
+		if (hasRefApplID()) FixUtils.fillNul(refApplID);		
 		FixUtils.copy(refApplID, src); 		
 		hasRefApplID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRefApplID(String str) {		
 		if (str == null ) return;
-		if (hasRefApplID()) FixUtils.fillSpace(refApplID);		
+		if (hasRefApplID()) FixUtils.fillNul(refApplID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(refApplID, src); 		
 		hasRefApplID = FixUtils.TAG_HAS_VALUE;		

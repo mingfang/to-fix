@@ -186,14 +186,14 @@ public class FixComplexEventDates extends FixGroup {
 		
 	public void setComplexEventStartDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasComplexEventStartDate()) FixUtils.fillSpace(complexEventStartDate);		
+		if (hasComplexEventStartDate()) FixUtils.fillNul(complexEventStartDate);		
 		FixUtils.copy(complexEventStartDate, src); 		
 		hasComplexEventStartDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setComplexEventStartDate(String str) {		
 		if (str == null ) return;
-		if (hasComplexEventStartDate()) FixUtils.fillSpace(complexEventStartDate);		
+		if (hasComplexEventStartDate()) FixUtils.fillNul(complexEventStartDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(complexEventStartDate, src); 		
 		hasComplexEventStartDate = FixUtils.TAG_HAS_VALUE;		
@@ -225,14 +225,14 @@ public class FixComplexEventDates extends FixGroup {
 		
 	public void setComplexEventEndDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasComplexEventEndDate()) FixUtils.fillSpace(complexEventEndDate);		
+		if (hasComplexEventEndDate()) FixUtils.fillNul(complexEventEndDate);		
 		FixUtils.copy(complexEventEndDate, src); 		
 		hasComplexEventEndDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setComplexEventEndDate(String str) {		
 		if (str == null ) return;
-		if (hasComplexEventEndDate()) FixUtils.fillSpace(complexEventEndDate);		
+		if (hasComplexEventEndDate()) FixUtils.fillNul(complexEventEndDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(complexEventEndDate, src); 		
 		hasComplexEventEndDate = FixUtils.TAG_HAS_VALUE;		

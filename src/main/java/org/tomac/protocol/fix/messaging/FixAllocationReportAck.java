@@ -667,14 +667,14 @@ public class FixAllocationReportAck extends FixInMessage {
 
 	public void setAllocReportID(byte[] src) {		
 		if (src == null ) return;
-		if (hasAllocReportID()) FixUtils.fillSpace(allocReportID);		
+		if (hasAllocReportID()) FixUtils.fillNul(allocReportID);		
 		FixUtils.copy(allocReportID, src); 		
 		hasAllocReportID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setAllocReportID(String str) {		
 		if (str == null ) return;
-		if (hasAllocReportID()) FixUtils.fillSpace(allocReportID);		
+		if (hasAllocReportID()) FixUtils.fillNul(allocReportID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(allocReportID, src); 		
 		hasAllocReportID = FixUtils.TAG_HAS_VALUE;		
@@ -711,14 +711,14 @@ public class FixAllocationReportAck extends FixInMessage {
 
 	public void setAllocID(byte[] src) {		
 		if (src == null ) return;
-		if (hasAllocID()) FixUtils.fillSpace(allocID);		
+		if (hasAllocID()) FixUtils.fillNul(allocID);		
 		FixUtils.copy(allocID, src); 		
 		hasAllocID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setAllocID(String str) {		
 		if (str == null ) return;
-		if (hasAllocID()) FixUtils.fillSpace(allocID);		
+		if (hasAllocID()) FixUtils.fillNul(allocID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(allocID, src); 		
 		hasAllocID = FixUtils.TAG_HAS_VALUE;		
@@ -755,14 +755,14 @@ public class FixAllocationReportAck extends FixInMessage {
 
 	public void setClearingBusinessDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasClearingBusinessDate()) FixUtils.fillSpace(clearingBusinessDate);		
+		if (hasClearingBusinessDate()) FixUtils.fillNul(clearingBusinessDate);		
 		FixUtils.copy(clearingBusinessDate, src); 		
 		hasClearingBusinessDate = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setClearingBusinessDate(String str) {		
 		if (str == null ) return;
-		if (hasClearingBusinessDate()) FixUtils.fillSpace(clearingBusinessDate);		
+		if (hasClearingBusinessDate()) FixUtils.fillNul(clearingBusinessDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(clearingBusinessDate, src); 		
 		hasClearingBusinessDate = FixUtils.TAG_HAS_VALUE;		
@@ -948,14 +948,14 @@ public class FixAllocationReportAck extends FixInMessage {
 
 	public void setSecondaryAllocID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecondaryAllocID()) FixUtils.fillSpace(secondaryAllocID);		
+		if (hasSecondaryAllocID()) FixUtils.fillNul(secondaryAllocID);		
 		FixUtils.copy(secondaryAllocID, src); 		
 		hasSecondaryAllocID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSecondaryAllocID(String str) {		
 		if (str == null ) return;
-		if (hasSecondaryAllocID()) FixUtils.fillSpace(secondaryAllocID);		
+		if (hasSecondaryAllocID()) FixUtils.fillNul(secondaryAllocID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(secondaryAllocID, src); 		
 		hasSecondaryAllocID = FixUtils.TAG_HAS_VALUE;		
@@ -992,14 +992,14 @@ public class FixAllocationReportAck extends FixInMessage {
 
 	public void setTradeDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradeDate()) FixUtils.fillSpace(tradeDate);		
+		if (hasTradeDate()) FixUtils.fillNul(tradeDate);		
 		FixUtils.copy(tradeDate, src); 		
 		hasTradeDate = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTradeDate(String str) {		
 		if (str == null ) return;
-		if (hasTradeDate()) FixUtils.fillSpace(tradeDate);		
+		if (hasTradeDate()) FixUtils.fillNul(tradeDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradeDate, src); 		
 		hasTradeDate = FixUtils.TAG_HAS_VALUE;		
@@ -1036,14 +1036,14 @@ public class FixAllocationReportAck extends FixInMessage {
 
 	public void setTransactTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTransactTime(String str) {		
 		if (str == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		
@@ -1376,14 +1376,14 @@ public class FixAllocationReportAck extends FixInMessage {
 
 	public void setSecurityType(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecurityType()) FixUtils.fillSpace(securityType);		
+		if (hasSecurityType()) FixUtils.fillNul(securityType);		
 		FixUtils.copy(securityType, src); 		
 		hasSecurityType = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSecurityType(String str) {		
 		if (str == null ) return;
-		if (hasSecurityType()) FixUtils.fillSpace(securityType);		
+		if (hasSecurityType()) FixUtils.fillNul(securityType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(securityType, src); 		
 		hasSecurityType = FixUtils.TAG_HAS_VALUE;		
@@ -1420,14 +1420,14 @@ public class FixAllocationReportAck extends FixInMessage {
 
 	public void setText(byte[] src) {		
 		if (src == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setText(String str) {		
 		if (str == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
@@ -1513,14 +1513,14 @@ public class FixAllocationReportAck extends FixInMessage {
 
 	public void setEncodedText(byte[] src) {		
 		if (src == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setEncodedText(String str) {		
 		if (str == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		

@@ -151,14 +151,14 @@ public class FixUnderlyingStipulations extends FixGroup {
 		
 	public void setUnderlyingStipType(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingStipType()) FixUtils.fillSpace(underlyingStipType);		
+		if (hasUnderlyingStipType()) FixUtils.fillNul(underlyingStipType);		
 		FixUtils.copy(underlyingStipType, src); 		
 		hasUnderlyingStipType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingStipType(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingStipType()) FixUtils.fillSpace(underlyingStipType);		
+		if (hasUnderlyingStipType()) FixUtils.fillNul(underlyingStipType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingStipType, src); 		
 		hasUnderlyingStipType = FixUtils.TAG_HAS_VALUE;		
@@ -190,14 +190,14 @@ public class FixUnderlyingStipulations extends FixGroup {
 		
 	public void setUnderlyingStipValue(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingStipValue()) FixUtils.fillSpace(underlyingStipValue);		
+		if (hasUnderlyingStipValue()) FixUtils.fillNul(underlyingStipValue);		
 		FixUtils.copy(underlyingStipValue, src); 		
 		hasUnderlyingStipValue = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingStipValue(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingStipValue()) FixUtils.fillSpace(underlyingStipValue);		
+		if (hasUnderlyingStipValue()) FixUtils.fillNul(underlyingStipValue);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingStipValue, src); 		
 		hasUnderlyingStipValue = FixUtils.TAG_HAS_VALUE;		

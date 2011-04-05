@@ -563,14 +563,14 @@ public class FixMarketDataRequest extends FixInMessage {
 
 	public void setMDReqID(byte[] src) {		
 		if (src == null ) return;
-		if (hasMDReqID()) FixUtils.fillSpace(mDReqID);		
+		if (hasMDReqID()) FixUtils.fillNul(mDReqID);		
 		FixUtils.copy(mDReqID, src); 		
 		hasMDReqID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setMDReqID(String str) {		
 		if (str == null ) return;
-		if (hasMDReqID()) FixUtils.fillSpace(mDReqID);		
+		if (hasMDReqID()) FixUtils.fillNul(mDReqID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(mDReqID, src); 		
 		hasMDReqID = FixUtils.TAG_HAS_VALUE;		
@@ -805,14 +805,14 @@ public class FixMarketDataRequest extends FixInMessage {
 
 	public void setOpenCloseSettlFlag(byte[] src) {		
 		if (src == null ) return;
-		if (hasOpenCloseSettlFlag()) FixUtils.fillSpace(openCloseSettlFlag);		
+		if (hasOpenCloseSettlFlag()) FixUtils.fillNul(openCloseSettlFlag);		
 		FixUtils.copy(openCloseSettlFlag, src); 		
 		hasOpenCloseSettlFlag = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setOpenCloseSettlFlag(String str) {		
 		if (str == null ) return;
-		if (hasOpenCloseSettlFlag()) FixUtils.fillSpace(openCloseSettlFlag);		
+		if (hasOpenCloseSettlFlag()) FixUtils.fillNul(openCloseSettlFlag);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(openCloseSettlFlag, src); 		
 		hasOpenCloseSettlFlag = FixUtils.TAG_HAS_VALUE;		
@@ -849,14 +849,14 @@ public class FixMarketDataRequest extends FixInMessage {
 
 	public void setScope(byte[] src) {		
 		if (src == null ) return;
-		if (hasScope()) FixUtils.fillSpace(scope);		
+		if (hasScope()) FixUtils.fillNul(scope);		
 		FixUtils.copy(scope, src); 		
 		hasScope = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setScope(String str) {		
 		if (str == null ) return;
-		if (hasScope()) FixUtils.fillSpace(scope);		
+		if (hasScope()) FixUtils.fillNul(scope);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(scope, src); 		
 		hasScope = FixUtils.TAG_HAS_VALUE;		

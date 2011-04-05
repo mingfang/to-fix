@@ -351,14 +351,14 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixInMessage {
 
 	public void setNetworkRequestID(byte[] src) {		
 		if (src == null ) return;
-		if (hasNetworkRequestID()) FixUtils.fillSpace(networkRequestID);		
+		if (hasNetworkRequestID()) FixUtils.fillNul(networkRequestID);		
 		FixUtils.copy(networkRequestID, src); 		
 		hasNetworkRequestID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setNetworkRequestID(String str) {		
 		if (str == null ) return;
-		if (hasNetworkRequestID()) FixUtils.fillSpace(networkRequestID);		
+		if (hasNetworkRequestID()) FixUtils.fillNul(networkRequestID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(networkRequestID, src); 		
 		hasNetworkRequestID = FixUtils.TAG_HAS_VALUE;		
@@ -395,14 +395,14 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixInMessage {
 
 	public void setNetworkResponseID(byte[] src) {		
 		if (src == null ) return;
-		if (hasNetworkResponseID()) FixUtils.fillSpace(networkResponseID);		
+		if (hasNetworkResponseID()) FixUtils.fillNul(networkResponseID);		
 		FixUtils.copy(networkResponseID, src); 		
 		hasNetworkResponseID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setNetworkResponseID(String str) {		
 		if (str == null ) return;
-		if (hasNetworkResponseID()) FixUtils.fillSpace(networkResponseID);		
+		if (hasNetworkResponseID()) FixUtils.fillNul(networkResponseID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(networkResponseID, src); 		
 		hasNetworkResponseID = FixUtils.TAG_HAS_VALUE;		
@@ -439,14 +439,14 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixInMessage {
 
 	public void setLastNetworkResponseID(byte[] src) {		
 		if (src == null ) return;
-		if (hasLastNetworkResponseID()) FixUtils.fillSpace(lastNetworkResponseID);		
+		if (hasLastNetworkResponseID()) FixUtils.fillNul(lastNetworkResponseID);		
 		FixUtils.copy(lastNetworkResponseID, src); 		
 		hasLastNetworkResponseID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setLastNetworkResponseID(String str) {		
 		if (str == null ) return;
-		if (hasLastNetworkResponseID()) FixUtils.fillSpace(lastNetworkResponseID);		
+		if (hasLastNetworkResponseID()) FixUtils.fillNul(lastNetworkResponseID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(lastNetworkResponseID, src); 		
 		hasLastNetworkResponseID = FixUtils.TAG_HAS_VALUE;		

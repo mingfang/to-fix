@@ -289,14 +289,14 @@ public class FixUnderlyingAmount extends FixGroup {
 		
 	public void setUnderlyingSettlementDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingSettlementDate()) FixUtils.fillSpace(underlyingSettlementDate);		
+		if (hasUnderlyingSettlementDate()) FixUtils.fillNul(underlyingSettlementDate);		
 		FixUtils.copy(underlyingSettlementDate, src); 		
 		hasUnderlyingSettlementDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingSettlementDate(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingSettlementDate()) FixUtils.fillSpace(underlyingSettlementDate);		
+		if (hasUnderlyingSettlementDate()) FixUtils.fillNul(underlyingSettlementDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingSettlementDate, src); 		
 		hasUnderlyingSettlementDate = FixUtils.TAG_HAS_VALUE;		
@@ -328,14 +328,14 @@ public class FixUnderlyingAmount extends FixGroup {
 		
 	public void setUnderlyingSettlementStatus(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingSettlementStatus()) FixUtils.fillSpace(underlyingSettlementStatus);		
+		if (hasUnderlyingSettlementStatus()) FixUtils.fillNul(underlyingSettlementStatus);		
 		FixUtils.copy(underlyingSettlementStatus, src); 		
 		hasUnderlyingSettlementStatus = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingSettlementStatus(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingSettlementStatus()) FixUtils.fillSpace(underlyingSettlementStatus);		
+		if (hasUnderlyingSettlementStatus()) FixUtils.fillNul(underlyingSettlementStatus);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingSettlementStatus, src); 		
 		hasUnderlyingSettlementStatus = FixUtils.TAG_HAS_VALUE;		

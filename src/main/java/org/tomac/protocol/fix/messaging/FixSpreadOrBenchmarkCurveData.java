@@ -348,14 +348,14 @@ public class FixSpreadOrBenchmarkCurveData extends FixGroup {
 		
 	public void setBenchmarkCurveCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasBenchmarkCurveCurrency()) FixUtils.fillSpace(benchmarkCurveCurrency);		
+		if (hasBenchmarkCurveCurrency()) FixUtils.fillNul(benchmarkCurveCurrency);		
 		FixUtils.copy(benchmarkCurveCurrency, src); 		
 		hasBenchmarkCurveCurrency = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setBenchmarkCurveCurrency(String str) {		
 		if (str == null ) return;
-		if (hasBenchmarkCurveCurrency()) FixUtils.fillSpace(benchmarkCurveCurrency);		
+		if (hasBenchmarkCurveCurrency()) FixUtils.fillNul(benchmarkCurveCurrency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(benchmarkCurveCurrency, src); 		
 		hasBenchmarkCurveCurrency = FixUtils.TAG_HAS_VALUE;		
@@ -387,14 +387,14 @@ public class FixSpreadOrBenchmarkCurveData extends FixGroup {
 		
 	public void setBenchmarkCurveName(byte[] src) {		
 		if (src == null ) return;
-		if (hasBenchmarkCurveName()) FixUtils.fillSpace(benchmarkCurveName);		
+		if (hasBenchmarkCurveName()) FixUtils.fillNul(benchmarkCurveName);		
 		FixUtils.copy(benchmarkCurveName, src); 		
 		hasBenchmarkCurveName = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setBenchmarkCurveName(String str) {		
 		if (str == null ) return;
-		if (hasBenchmarkCurveName()) FixUtils.fillSpace(benchmarkCurveName);		
+		if (hasBenchmarkCurveName()) FixUtils.fillNul(benchmarkCurveName);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(benchmarkCurveName, src); 		
 		hasBenchmarkCurveName = FixUtils.TAG_HAS_VALUE;		
@@ -426,14 +426,14 @@ public class FixSpreadOrBenchmarkCurveData extends FixGroup {
 		
 	public void setBenchmarkCurvePoint(byte[] src) {		
 		if (src == null ) return;
-		if (hasBenchmarkCurvePoint()) FixUtils.fillSpace(benchmarkCurvePoint);		
+		if (hasBenchmarkCurvePoint()) FixUtils.fillNul(benchmarkCurvePoint);		
 		FixUtils.copy(benchmarkCurvePoint, src); 		
 		hasBenchmarkCurvePoint = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setBenchmarkCurvePoint(String str) {		
 		if (str == null ) return;
-		if (hasBenchmarkCurvePoint()) FixUtils.fillSpace(benchmarkCurvePoint);		
+		if (hasBenchmarkCurvePoint()) FixUtils.fillNul(benchmarkCurvePoint);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(benchmarkCurvePoint, src); 		
 		hasBenchmarkCurvePoint = FixUtils.TAG_HAS_VALUE;		
@@ -553,14 +553,14 @@ public class FixSpreadOrBenchmarkCurveData extends FixGroup {
 		
 	public void setBenchmarkSecurityID(byte[] src) {		
 		if (src == null ) return;
-		if (hasBenchmarkSecurityID()) FixUtils.fillSpace(benchmarkSecurityID);		
+		if (hasBenchmarkSecurityID()) FixUtils.fillNul(benchmarkSecurityID);		
 		FixUtils.copy(benchmarkSecurityID, src); 		
 		hasBenchmarkSecurityID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setBenchmarkSecurityID(String str) {		
 		if (str == null ) return;
-		if (hasBenchmarkSecurityID()) FixUtils.fillSpace(benchmarkSecurityID);		
+		if (hasBenchmarkSecurityID()) FixUtils.fillNul(benchmarkSecurityID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(benchmarkSecurityID, src); 		
 		hasBenchmarkSecurityID = FixUtils.TAG_HAS_VALUE;		
@@ -592,14 +592,14 @@ public class FixSpreadOrBenchmarkCurveData extends FixGroup {
 		
 	public void setBenchmarkSecurityIDSource(byte[] src) {		
 		if (src == null ) return;
-		if (hasBenchmarkSecurityIDSource()) FixUtils.fillSpace(benchmarkSecurityIDSource);		
+		if (hasBenchmarkSecurityIDSource()) FixUtils.fillNul(benchmarkSecurityIDSource);		
 		FixUtils.copy(benchmarkSecurityIDSource, src); 		
 		hasBenchmarkSecurityIDSource = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setBenchmarkSecurityIDSource(String str) {		
 		if (str == null ) return;
-		if (hasBenchmarkSecurityIDSource()) FixUtils.fillSpace(benchmarkSecurityIDSource);		
+		if (hasBenchmarkSecurityIDSource()) FixUtils.fillNul(benchmarkSecurityIDSource);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(benchmarkSecurityIDSource, src); 		
 		hasBenchmarkSecurityIDSource = FixUtils.TAG_HAS_VALUE;		

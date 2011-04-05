@@ -16,7 +16,7 @@ public abstract class FixInMessage extends FixMessage {
 	 */
 	public static int crackMsgType(final ByteBuffer buf, final FixValidationError err) {
 		int msgTypeInt = 0;
-		FixUtils.fillSpace(tmpMsgType);
+		FixUtils.fillNul(tmpMsgType);
 
 		err.clear();
 

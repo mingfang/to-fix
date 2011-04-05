@@ -252,14 +252,14 @@ public class FixMsgTypeGrp extends FixGroup {
 		
 	public void setRefMsgType(byte[] src) {		
 		if (src == null ) return;
-		if (hasRefMsgType()) FixUtils.fillSpace(refMsgType);		
+		if (hasRefMsgType()) FixUtils.fillNul(refMsgType);		
 		FixUtils.copy(refMsgType, src); 		
 		hasRefMsgType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRefMsgType(String str) {		
 		if (str == null ) return;
-		if (hasRefMsgType()) FixUtils.fillSpace(refMsgType);		
+		if (hasRefMsgType()) FixUtils.fillNul(refMsgType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(refMsgType, src); 		
 		hasRefMsgType = FixUtils.TAG_HAS_VALUE;		
@@ -337,14 +337,14 @@ public class FixMsgTypeGrp extends FixGroup {
 		
 	public void setRefApplVerID(byte[] src) {		
 		if (src == null ) return;
-		if (hasRefApplVerID()) FixUtils.fillSpace(refApplVerID);		
+		if (hasRefApplVerID()) FixUtils.fillNul(refApplVerID);		
 		FixUtils.copy(refApplVerID, src); 		
 		hasRefApplVerID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRefApplVerID(String str) {		
 		if (str == null ) return;
-		if (hasRefApplVerID()) FixUtils.fillSpace(refApplVerID);		
+		if (hasRefApplVerID()) FixUtils.fillNul(refApplVerID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(refApplVerID, src); 		
 		hasRefApplVerID = FixUtils.TAG_HAS_VALUE;		
@@ -376,14 +376,14 @@ public class FixMsgTypeGrp extends FixGroup {
 		
 	public void setRefCstmApplVerID(byte[] src) {		
 		if (src == null ) return;
-		if (hasRefCstmApplVerID()) FixUtils.fillSpace(refCstmApplVerID);		
+		if (hasRefCstmApplVerID()) FixUtils.fillNul(refCstmApplVerID);		
 		FixUtils.copy(refCstmApplVerID, src); 		
 		hasRefCstmApplVerID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRefCstmApplVerID(String str) {		
 		if (str == null ) return;
-		if (hasRefCstmApplVerID()) FixUtils.fillSpace(refCstmApplVerID);		
+		if (hasRefCstmApplVerID()) FixUtils.fillNul(refCstmApplVerID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(refCstmApplVerID, src); 		
 		hasRefCstmApplVerID = FixUtils.TAG_HAS_VALUE;		

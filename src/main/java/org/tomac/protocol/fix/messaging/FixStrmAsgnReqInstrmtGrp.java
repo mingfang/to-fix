@@ -184,14 +184,14 @@ public class FixStrmAsgnReqInstrmtGrp extends FixGroup {
 		
 	public void setSettlType(byte[] src) {		
 		if (src == null ) return;
-		if (hasSettlType()) FixUtils.fillSpace(settlType);		
+		if (hasSettlType()) FixUtils.fillNul(settlType);		
 		FixUtils.copy(settlType, src); 		
 		hasSettlType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSettlType(String str) {		
 		if (str == null ) return;
-		if (hasSettlType()) FixUtils.fillSpace(settlType);		
+		if (hasSettlType()) FixUtils.fillNul(settlType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(settlType, src); 		
 		hasSettlType = FixUtils.TAG_HAS_VALUE;		
@@ -267,14 +267,14 @@ public class FixStrmAsgnReqInstrmtGrp extends FixGroup {
 		
 	public void setMDStreamID(byte[] src) {		
 		if (src == null ) return;
-		if (hasMDStreamID()) FixUtils.fillSpace(mDStreamID);		
+		if (hasMDStreamID()) FixUtils.fillNul(mDStreamID);		
 		FixUtils.copy(mDStreamID, src); 		
 		hasMDStreamID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setMDStreamID(String str) {		
 		if (str == null ) return;
-		if (hasMDStreamID()) FixUtils.fillSpace(mDStreamID);		
+		if (hasMDStreamID()) FixUtils.fillNul(mDStreamID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(mDStreamID, src); 		
 		hasMDStreamID = FixUtils.TAG_HAS_VALUE;		

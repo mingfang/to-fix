@@ -686,14 +686,14 @@ public class FixPegInstructions extends FixGroup {
 		
 	public void setPegSecurityIDSource(byte[] src) {		
 		if (src == null ) return;
-		if (hasPegSecurityIDSource()) FixUtils.fillSpace(pegSecurityIDSource);		
+		if (hasPegSecurityIDSource()) FixUtils.fillNul(pegSecurityIDSource);		
 		FixUtils.copy(pegSecurityIDSource, src); 		
 		hasPegSecurityIDSource = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setPegSecurityIDSource(String str) {		
 		if (str == null ) return;
-		if (hasPegSecurityIDSource()) FixUtils.fillSpace(pegSecurityIDSource);		
+		if (hasPegSecurityIDSource()) FixUtils.fillNul(pegSecurityIDSource);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(pegSecurityIDSource, src); 		
 		hasPegSecurityIDSource = FixUtils.TAG_HAS_VALUE;		
@@ -725,14 +725,14 @@ public class FixPegInstructions extends FixGroup {
 		
 	public void setPegSecurityID(byte[] src) {		
 		if (src == null ) return;
-		if (hasPegSecurityID()) FixUtils.fillSpace(pegSecurityID);		
+		if (hasPegSecurityID()) FixUtils.fillNul(pegSecurityID);		
 		FixUtils.copy(pegSecurityID, src); 		
 		hasPegSecurityID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setPegSecurityID(String str) {		
 		if (str == null ) return;
-		if (hasPegSecurityID()) FixUtils.fillSpace(pegSecurityID);		
+		if (hasPegSecurityID()) FixUtils.fillNul(pegSecurityID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(pegSecurityID, src); 		
 		hasPegSecurityID = FixUtils.TAG_HAS_VALUE;		
@@ -764,14 +764,14 @@ public class FixPegInstructions extends FixGroup {
 		
 	public void setPegSymbol(byte[] src) {		
 		if (src == null ) return;
-		if (hasPegSymbol()) FixUtils.fillSpace(pegSymbol);		
+		if (hasPegSymbol()) FixUtils.fillNul(pegSymbol);		
 		FixUtils.copy(pegSymbol, src); 		
 		hasPegSymbol = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setPegSymbol(String str) {		
 		if (str == null ) return;
-		if (hasPegSymbol()) FixUtils.fillSpace(pegSymbol);		
+		if (hasPegSymbol()) FixUtils.fillNul(pegSymbol);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(pegSymbol, src); 		
 		hasPegSymbol = FixUtils.TAG_HAS_VALUE;		
@@ -803,14 +803,14 @@ public class FixPegInstructions extends FixGroup {
 		
 	public void setPegSecurityDesc(byte[] src) {		
 		if (src == null ) return;
-		if (hasPegSecurityDesc()) FixUtils.fillSpace(pegSecurityDesc);		
+		if (hasPegSecurityDesc()) FixUtils.fillNul(pegSecurityDesc);		
 		FixUtils.copy(pegSecurityDesc, src); 		
 		hasPegSecurityDesc = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setPegSecurityDesc(String str) {		
 		if (str == null ) return;
-		if (hasPegSecurityDesc()) FixUtils.fillSpace(pegSecurityDesc);		
+		if (hasPegSecurityDesc()) FixUtils.fillNul(pegSecurityDesc);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(pegSecurityDesc, src); 		
 		hasPegSecurityDesc = FixUtils.TAG_HAS_VALUE;		

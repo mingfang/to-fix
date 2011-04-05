@@ -263,14 +263,14 @@ public class FixListStatusRequest extends FixInMessage {
 
 	public void setListID(byte[] src) {		
 		if (src == null ) return;
-		if (hasListID()) FixUtils.fillSpace(listID);		
+		if (hasListID()) FixUtils.fillNul(listID);		
 		FixUtils.copy(listID, src); 		
 		hasListID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setListID(String str) {		
 		if (str == null ) return;
-		if (hasListID()) FixUtils.fillSpace(listID);		
+		if (hasListID()) FixUtils.fillNul(listID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(listID, src); 		
 		hasListID = FixUtils.TAG_HAS_VALUE;		
@@ -307,14 +307,14 @@ public class FixListStatusRequest extends FixInMessage {
 
 	public void setText(byte[] src) {		
 		if (src == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setText(String str) {		
 		if (str == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
@@ -400,14 +400,14 @@ public class FixListStatusRequest extends FixInMessage {
 
 	public void setEncodedText(byte[] src) {		
 		if (src == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setEncodedText(String str) {		
 		if (str == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		

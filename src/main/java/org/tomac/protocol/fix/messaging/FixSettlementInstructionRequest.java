@@ -551,14 +551,14 @@ public class FixSettlementInstructionRequest extends FixInMessage {
 
 	public void setSettlInstReqID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSettlInstReqID()) FixUtils.fillSpace(settlInstReqID);		
+		if (hasSettlInstReqID()) FixUtils.fillNul(settlInstReqID);		
 		FixUtils.copy(settlInstReqID, src); 		
 		hasSettlInstReqID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSettlInstReqID(String str) {		
 		if (str == null ) return;
-		if (hasSettlInstReqID()) FixUtils.fillSpace(settlInstReqID);		
+		if (hasSettlInstReqID()) FixUtils.fillNul(settlInstReqID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(settlInstReqID, src); 		
 		hasSettlInstReqID = FixUtils.TAG_HAS_VALUE;		
@@ -595,14 +595,14 @@ public class FixSettlementInstructionRequest extends FixInMessage {
 
 	public void setTransactTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTransactTime(String str) {		
 		if (str == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		
@@ -639,14 +639,14 @@ public class FixSettlementInstructionRequest extends FixInMessage {
 
 	public void setAllocAccount(byte[] src) {		
 		if (src == null ) return;
-		if (hasAllocAccount()) FixUtils.fillSpace(allocAccount);		
+		if (hasAllocAccount()) FixUtils.fillNul(allocAccount);		
 		FixUtils.copy(allocAccount, src); 		
 		hasAllocAccount = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setAllocAccount(String str) {		
 		if (str == null ) return;
-		if (hasAllocAccount()) FixUtils.fillSpace(allocAccount);		
+		if (hasAllocAccount()) FixUtils.fillNul(allocAccount);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(allocAccount, src); 		
 		hasAllocAccount = FixUtils.TAG_HAS_VALUE;		
@@ -832,14 +832,14 @@ public class FixSettlementInstructionRequest extends FixInMessage {
 
 	public void setSecurityType(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecurityType()) FixUtils.fillSpace(securityType);		
+		if (hasSecurityType()) FixUtils.fillNul(securityType);		
 		FixUtils.copy(securityType, src); 		
 		hasSecurityType = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSecurityType(String str) {		
 		if (str == null ) return;
-		if (hasSecurityType()) FixUtils.fillSpace(securityType);		
+		if (hasSecurityType()) FixUtils.fillNul(securityType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(securityType, src); 		
 		hasSecurityType = FixUtils.TAG_HAS_VALUE;		
@@ -876,14 +876,14 @@ public class FixSettlementInstructionRequest extends FixInMessage {
 
 	public void setCFICode(byte[] src) {		
 		if (src == null ) return;
-		if (hasCFICode()) FixUtils.fillSpace(cFICode);		
+		if (hasCFICode()) FixUtils.fillNul(cFICode);		
 		FixUtils.copy(cFICode, src); 		
 		hasCFICode = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setCFICode(String str) {		
 		if (str == null ) return;
-		if (hasCFICode()) FixUtils.fillSpace(cFICode);		
+		if (hasCFICode()) FixUtils.fillNul(cFICode);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(cFICode, src); 		
 		hasCFICode = FixUtils.TAG_HAS_VALUE;		
@@ -920,14 +920,14 @@ public class FixSettlementInstructionRequest extends FixInMessage {
 
 	public void setSettlCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasSettlCurrency()) FixUtils.fillSpace(settlCurrency);		
+		if (hasSettlCurrency()) FixUtils.fillNul(settlCurrency);		
 		FixUtils.copy(settlCurrency, src); 		
 		hasSettlCurrency = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSettlCurrency(String str) {		
 		if (str == null ) return;
-		if (hasSettlCurrency()) FixUtils.fillSpace(settlCurrency);		
+		if (hasSettlCurrency()) FixUtils.fillNul(settlCurrency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(settlCurrency, src); 		
 		hasSettlCurrency = FixUtils.TAG_HAS_VALUE;		
@@ -964,14 +964,14 @@ public class FixSettlementInstructionRequest extends FixInMessage {
 
 	public void setEffectiveTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasEffectiveTime()) FixUtils.fillSpace(effectiveTime);		
+		if (hasEffectiveTime()) FixUtils.fillNul(effectiveTime);		
 		FixUtils.copy(effectiveTime, src); 		
 		hasEffectiveTime = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setEffectiveTime(String str) {		
 		if (str == null ) return;
-		if (hasEffectiveTime()) FixUtils.fillSpace(effectiveTime);		
+		if (hasEffectiveTime()) FixUtils.fillNul(effectiveTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(effectiveTime, src); 		
 		hasEffectiveTime = FixUtils.TAG_HAS_VALUE;		
@@ -1008,14 +1008,14 @@ public class FixSettlementInstructionRequest extends FixInMessage {
 
 	public void setExpireTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasExpireTime()) FixUtils.fillSpace(expireTime);		
+		if (hasExpireTime()) FixUtils.fillNul(expireTime);		
 		FixUtils.copy(expireTime, src); 		
 		hasExpireTime = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setExpireTime(String str) {		
 		if (str == null ) return;
-		if (hasExpireTime()) FixUtils.fillSpace(expireTime);		
+		if (hasExpireTime()) FixUtils.fillNul(expireTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(expireTime, src); 		
 		hasExpireTime = FixUtils.TAG_HAS_VALUE;		
@@ -1052,14 +1052,14 @@ public class FixSettlementInstructionRequest extends FixInMessage {
 
 	public void setLastUpdateTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasLastUpdateTime()) FixUtils.fillSpace(lastUpdateTime);		
+		if (hasLastUpdateTime()) FixUtils.fillNul(lastUpdateTime);		
 		FixUtils.copy(lastUpdateTime, src); 		
 		hasLastUpdateTime = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setLastUpdateTime(String str) {		
 		if (str == null ) return;
-		if (hasLastUpdateTime()) FixUtils.fillSpace(lastUpdateTime);		
+		if (hasLastUpdateTime()) FixUtils.fillNul(lastUpdateTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(lastUpdateTime, src); 		
 		hasLastUpdateTime = FixUtils.TAG_HAS_VALUE;		
@@ -1145,14 +1145,14 @@ public class FixSettlementInstructionRequest extends FixInMessage {
 
 	public void setStandInstDbName(byte[] src) {		
 		if (src == null ) return;
-		if (hasStandInstDbName()) FixUtils.fillSpace(standInstDbName);		
+		if (hasStandInstDbName()) FixUtils.fillNul(standInstDbName);		
 		FixUtils.copy(standInstDbName, src); 		
 		hasStandInstDbName = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setStandInstDbName(String str) {		
 		if (str == null ) return;
-		if (hasStandInstDbName()) FixUtils.fillSpace(standInstDbName);		
+		if (hasStandInstDbName()) FixUtils.fillNul(standInstDbName);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(standInstDbName, src); 		
 		hasStandInstDbName = FixUtils.TAG_HAS_VALUE;		
@@ -1189,14 +1189,14 @@ public class FixSettlementInstructionRequest extends FixInMessage {
 
 	public void setStandInstDbID(byte[] src) {		
 		if (src == null ) return;
-		if (hasStandInstDbID()) FixUtils.fillSpace(standInstDbID);		
+		if (hasStandInstDbID()) FixUtils.fillNul(standInstDbID);		
 		FixUtils.copy(standInstDbID, src); 		
 		hasStandInstDbID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setStandInstDbID(String str) {		
 		if (str == null ) return;
-		if (hasStandInstDbID()) FixUtils.fillSpace(standInstDbID);		
+		if (hasStandInstDbID()) FixUtils.fillNul(standInstDbID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(standInstDbID, src); 		
 		hasStandInstDbID = FixUtils.TAG_HAS_VALUE;		

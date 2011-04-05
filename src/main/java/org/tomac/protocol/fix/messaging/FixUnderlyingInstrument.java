@@ -1965,14 +1965,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setUnderlyingSymbol(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingSymbol()) FixUtils.fillSpace(underlyingSymbol);		
+		if (hasUnderlyingSymbol()) FixUtils.fillNul(underlyingSymbol);		
 		FixUtils.copy(underlyingSymbol, src); 		
 		hasUnderlyingSymbol = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingSymbol(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingSymbol()) FixUtils.fillSpace(underlyingSymbol);		
+		if (hasUnderlyingSymbol()) FixUtils.fillNul(underlyingSymbol);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingSymbol, src); 		
 		hasUnderlyingSymbol = FixUtils.TAG_HAS_VALUE;		
@@ -2004,14 +2004,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setUnderlyingSymbolSfx(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingSymbolSfx()) FixUtils.fillSpace(underlyingSymbolSfx);		
+		if (hasUnderlyingSymbolSfx()) FixUtils.fillNul(underlyingSymbolSfx);		
 		FixUtils.copy(underlyingSymbolSfx, src); 		
 		hasUnderlyingSymbolSfx = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingSymbolSfx(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingSymbolSfx()) FixUtils.fillSpace(underlyingSymbolSfx);		
+		if (hasUnderlyingSymbolSfx()) FixUtils.fillNul(underlyingSymbolSfx);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingSymbolSfx, src); 		
 		hasUnderlyingSymbolSfx = FixUtils.TAG_HAS_VALUE;		
@@ -2043,14 +2043,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setUnderlyingSecurityID(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingSecurityID()) FixUtils.fillSpace(underlyingSecurityID);		
+		if (hasUnderlyingSecurityID()) FixUtils.fillNul(underlyingSecurityID);		
 		FixUtils.copy(underlyingSecurityID, src); 		
 		hasUnderlyingSecurityID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingSecurityID(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingSecurityID()) FixUtils.fillSpace(underlyingSecurityID);		
+		if (hasUnderlyingSecurityID()) FixUtils.fillNul(underlyingSecurityID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingSecurityID, src); 		
 		hasUnderlyingSecurityID = FixUtils.TAG_HAS_VALUE;		
@@ -2082,14 +2082,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setUnderlyingSecurityIDSource(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingSecurityIDSource()) FixUtils.fillSpace(underlyingSecurityIDSource);		
+		if (hasUnderlyingSecurityIDSource()) FixUtils.fillNul(underlyingSecurityIDSource);		
 		FixUtils.copy(underlyingSecurityIDSource, src); 		
 		hasUnderlyingSecurityIDSource = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingSecurityIDSource(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingSecurityIDSource()) FixUtils.fillSpace(underlyingSecurityIDSource);		
+		if (hasUnderlyingSecurityIDSource()) FixUtils.fillNul(underlyingSecurityIDSource);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingSecurityIDSource, src); 		
 		hasUnderlyingSecurityIDSource = FixUtils.TAG_HAS_VALUE;		
@@ -2165,14 +2165,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setUnderlyingCFICode(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingCFICode()) FixUtils.fillSpace(underlyingCFICode);		
+		if (hasUnderlyingCFICode()) FixUtils.fillNul(underlyingCFICode);		
 		FixUtils.copy(underlyingCFICode, src); 		
 		hasUnderlyingCFICode = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingCFICode(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingCFICode()) FixUtils.fillSpace(underlyingCFICode);		
+		if (hasUnderlyingCFICode()) FixUtils.fillNul(underlyingCFICode);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingCFICode, src); 		
 		hasUnderlyingCFICode = FixUtils.TAG_HAS_VALUE;		
@@ -2204,14 +2204,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setUnderlyingSecurityType(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingSecurityType()) FixUtils.fillSpace(underlyingSecurityType);		
+		if (hasUnderlyingSecurityType()) FixUtils.fillNul(underlyingSecurityType);		
 		FixUtils.copy(underlyingSecurityType, src); 		
 		hasUnderlyingSecurityType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingSecurityType(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingSecurityType()) FixUtils.fillSpace(underlyingSecurityType);		
+		if (hasUnderlyingSecurityType()) FixUtils.fillNul(underlyingSecurityType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingSecurityType, src); 		
 		hasUnderlyingSecurityType = FixUtils.TAG_HAS_VALUE;		
@@ -2243,14 +2243,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setUnderlyingSecuritySubType(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingSecuritySubType()) FixUtils.fillSpace(underlyingSecuritySubType);		
+		if (hasUnderlyingSecuritySubType()) FixUtils.fillNul(underlyingSecuritySubType);		
 		FixUtils.copy(underlyingSecuritySubType, src); 		
 		hasUnderlyingSecuritySubType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingSecuritySubType(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingSecuritySubType()) FixUtils.fillSpace(underlyingSecuritySubType);		
+		if (hasUnderlyingSecuritySubType()) FixUtils.fillNul(underlyingSecuritySubType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingSecuritySubType, src); 		
 		hasUnderlyingSecuritySubType = FixUtils.TAG_HAS_VALUE;		
@@ -2282,14 +2282,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setUnderlyingMaturityMonthYear(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingMaturityMonthYear()) FixUtils.fillSpace(underlyingMaturityMonthYear);		
+		if (hasUnderlyingMaturityMonthYear()) FixUtils.fillNul(underlyingMaturityMonthYear);		
 		FixUtils.copy(underlyingMaturityMonthYear, src); 		
 		hasUnderlyingMaturityMonthYear = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingMaturityMonthYear(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingMaturityMonthYear()) FixUtils.fillSpace(underlyingMaturityMonthYear);		
+		if (hasUnderlyingMaturityMonthYear()) FixUtils.fillNul(underlyingMaturityMonthYear);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingMaturityMonthYear, src); 		
 		hasUnderlyingMaturityMonthYear = FixUtils.TAG_HAS_VALUE;		
@@ -2321,14 +2321,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setUnderlyingMaturityDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingMaturityDate()) FixUtils.fillSpace(underlyingMaturityDate);		
+		if (hasUnderlyingMaturityDate()) FixUtils.fillNul(underlyingMaturityDate);		
 		FixUtils.copy(underlyingMaturityDate, src); 		
 		hasUnderlyingMaturityDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingMaturityDate(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingMaturityDate()) FixUtils.fillSpace(underlyingMaturityDate);		
+		if (hasUnderlyingMaturityDate()) FixUtils.fillNul(underlyingMaturityDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingMaturityDate, src); 		
 		hasUnderlyingMaturityDate = FixUtils.TAG_HAS_VALUE;		
@@ -2360,14 +2360,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setUnderlyingMaturityTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingMaturityTime()) FixUtils.fillSpace(underlyingMaturityTime);		
+		if (hasUnderlyingMaturityTime()) FixUtils.fillNul(underlyingMaturityTime);		
 		FixUtils.copy(underlyingMaturityTime, src); 		
 		hasUnderlyingMaturityTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingMaturityTime(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingMaturityTime()) FixUtils.fillSpace(underlyingMaturityTime);		
+		if (hasUnderlyingMaturityTime()) FixUtils.fillNul(underlyingMaturityTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingMaturityTime, src); 		
 		hasUnderlyingMaturityTime = FixUtils.TAG_HAS_VALUE;		
@@ -2399,14 +2399,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setUnderlyingCouponPaymentDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingCouponPaymentDate()) FixUtils.fillSpace(underlyingCouponPaymentDate);		
+		if (hasUnderlyingCouponPaymentDate()) FixUtils.fillNul(underlyingCouponPaymentDate);		
 		FixUtils.copy(underlyingCouponPaymentDate, src); 		
 		hasUnderlyingCouponPaymentDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingCouponPaymentDate(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingCouponPaymentDate()) FixUtils.fillSpace(underlyingCouponPaymentDate);		
+		if (hasUnderlyingCouponPaymentDate()) FixUtils.fillNul(underlyingCouponPaymentDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingCouponPaymentDate, src); 		
 		hasUnderlyingCouponPaymentDate = FixUtils.TAG_HAS_VALUE;		
@@ -2438,14 +2438,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setUnderlyingRestructuringType(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingRestructuringType()) FixUtils.fillSpace(underlyingRestructuringType);		
+		if (hasUnderlyingRestructuringType()) FixUtils.fillNul(underlyingRestructuringType);		
 		FixUtils.copy(underlyingRestructuringType, src); 		
 		hasUnderlyingRestructuringType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingRestructuringType(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingRestructuringType()) FixUtils.fillSpace(underlyingRestructuringType);		
+		if (hasUnderlyingRestructuringType()) FixUtils.fillNul(underlyingRestructuringType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingRestructuringType, src); 		
 		hasUnderlyingRestructuringType = FixUtils.TAG_HAS_VALUE;		
@@ -2477,14 +2477,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setUnderlyingSeniority(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingSeniority()) FixUtils.fillSpace(underlyingSeniority);		
+		if (hasUnderlyingSeniority()) FixUtils.fillNul(underlyingSeniority);		
 		FixUtils.copy(underlyingSeniority, src); 		
 		hasUnderlyingSeniority = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingSeniority(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingSeniority()) FixUtils.fillSpace(underlyingSeniority);		
+		if (hasUnderlyingSeniority()) FixUtils.fillNul(underlyingSeniority);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingSeniority, src); 		
 		hasUnderlyingSeniority = FixUtils.TAG_HAS_VALUE;		
@@ -2692,14 +2692,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setUnderlyingIssueDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingIssueDate()) FixUtils.fillSpace(underlyingIssueDate);		
+		if (hasUnderlyingIssueDate()) FixUtils.fillNul(underlyingIssueDate);		
 		FixUtils.copy(underlyingIssueDate, src); 		
 		hasUnderlyingIssueDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingIssueDate(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingIssueDate()) FixUtils.fillSpace(underlyingIssueDate);		
+		if (hasUnderlyingIssueDate()) FixUtils.fillNul(underlyingIssueDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingIssueDate, src); 		
 		hasUnderlyingIssueDate = FixUtils.TAG_HAS_VALUE;		
@@ -2907,14 +2907,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setUnderlyingCreditRating(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingCreditRating()) FixUtils.fillSpace(underlyingCreditRating);		
+		if (hasUnderlyingCreditRating()) FixUtils.fillNul(underlyingCreditRating);		
 		FixUtils.copy(underlyingCreditRating, src); 		
 		hasUnderlyingCreditRating = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingCreditRating(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingCreditRating()) FixUtils.fillSpace(underlyingCreditRating);		
+		if (hasUnderlyingCreditRating()) FixUtils.fillNul(underlyingCreditRating);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingCreditRating, src); 		
 		hasUnderlyingCreditRating = FixUtils.TAG_HAS_VALUE;		
@@ -2946,14 +2946,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setUnderlyingInstrRegistry(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingInstrRegistry()) FixUtils.fillSpace(underlyingInstrRegistry);		
+		if (hasUnderlyingInstrRegistry()) FixUtils.fillNul(underlyingInstrRegistry);		
 		FixUtils.copy(underlyingInstrRegistry, src); 		
 		hasUnderlyingInstrRegistry = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingInstrRegistry(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingInstrRegistry()) FixUtils.fillSpace(underlyingInstrRegistry);		
+		if (hasUnderlyingInstrRegistry()) FixUtils.fillNul(underlyingInstrRegistry);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingInstrRegistry, src); 		
 		hasUnderlyingInstrRegistry = FixUtils.TAG_HAS_VALUE;		
@@ -2985,14 +2985,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setUnderlyingCountryOfIssue(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingCountryOfIssue()) FixUtils.fillSpace(underlyingCountryOfIssue);		
+		if (hasUnderlyingCountryOfIssue()) FixUtils.fillNul(underlyingCountryOfIssue);		
 		FixUtils.copy(underlyingCountryOfIssue, src); 		
 		hasUnderlyingCountryOfIssue = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingCountryOfIssue(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingCountryOfIssue()) FixUtils.fillSpace(underlyingCountryOfIssue);		
+		if (hasUnderlyingCountryOfIssue()) FixUtils.fillNul(underlyingCountryOfIssue);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingCountryOfIssue, src); 		
 		hasUnderlyingCountryOfIssue = FixUtils.TAG_HAS_VALUE;		
@@ -3024,14 +3024,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setUnderlyingStateOrProvinceOfIssue(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingStateOrProvinceOfIssue()) FixUtils.fillSpace(underlyingStateOrProvinceOfIssue);		
+		if (hasUnderlyingStateOrProvinceOfIssue()) FixUtils.fillNul(underlyingStateOrProvinceOfIssue);		
 		FixUtils.copy(underlyingStateOrProvinceOfIssue, src); 		
 		hasUnderlyingStateOrProvinceOfIssue = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingStateOrProvinceOfIssue(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingStateOrProvinceOfIssue()) FixUtils.fillSpace(underlyingStateOrProvinceOfIssue);		
+		if (hasUnderlyingStateOrProvinceOfIssue()) FixUtils.fillNul(underlyingStateOrProvinceOfIssue);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingStateOrProvinceOfIssue, src); 		
 		hasUnderlyingStateOrProvinceOfIssue = FixUtils.TAG_HAS_VALUE;		
@@ -3063,14 +3063,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setUnderlyingLocaleOfIssue(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingLocaleOfIssue()) FixUtils.fillSpace(underlyingLocaleOfIssue);		
+		if (hasUnderlyingLocaleOfIssue()) FixUtils.fillNul(underlyingLocaleOfIssue);		
 		FixUtils.copy(underlyingLocaleOfIssue, src); 		
 		hasUnderlyingLocaleOfIssue = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingLocaleOfIssue(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingLocaleOfIssue()) FixUtils.fillSpace(underlyingLocaleOfIssue);		
+		if (hasUnderlyingLocaleOfIssue()) FixUtils.fillNul(underlyingLocaleOfIssue);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingLocaleOfIssue, src); 		
 		hasUnderlyingLocaleOfIssue = FixUtils.TAG_HAS_VALUE;		
@@ -3102,14 +3102,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setUnderlyingRedemptionDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingRedemptionDate()) FixUtils.fillSpace(underlyingRedemptionDate);		
+		if (hasUnderlyingRedemptionDate()) FixUtils.fillNul(underlyingRedemptionDate);		
 		FixUtils.copy(underlyingRedemptionDate, src); 		
 		hasUnderlyingRedemptionDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingRedemptionDate(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingRedemptionDate()) FixUtils.fillSpace(underlyingRedemptionDate);		
+		if (hasUnderlyingRedemptionDate()) FixUtils.fillNul(underlyingRedemptionDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingRedemptionDate, src); 		
 		hasUnderlyingRedemptionDate = FixUtils.TAG_HAS_VALUE;		
@@ -3185,14 +3185,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setUnderlyingStrikeCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingStrikeCurrency()) FixUtils.fillSpace(underlyingStrikeCurrency);		
+		if (hasUnderlyingStrikeCurrency()) FixUtils.fillNul(underlyingStrikeCurrency);		
 		FixUtils.copy(underlyingStrikeCurrency, src); 		
 		hasUnderlyingStrikeCurrency = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingStrikeCurrency(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingStrikeCurrency()) FixUtils.fillSpace(underlyingStrikeCurrency);		
+		if (hasUnderlyingStrikeCurrency()) FixUtils.fillNul(underlyingStrikeCurrency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingStrikeCurrency, src); 		
 		hasUnderlyingStrikeCurrency = FixUtils.TAG_HAS_VALUE;		
@@ -3312,14 +3312,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setUnderlyingUnitOfMeasure(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingUnitOfMeasure()) FixUtils.fillSpace(underlyingUnitOfMeasure);		
+		if (hasUnderlyingUnitOfMeasure()) FixUtils.fillNul(underlyingUnitOfMeasure);		
 		FixUtils.copy(underlyingUnitOfMeasure, src); 		
 		hasUnderlyingUnitOfMeasure = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingUnitOfMeasure(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingUnitOfMeasure()) FixUtils.fillSpace(underlyingUnitOfMeasure);		
+		if (hasUnderlyingUnitOfMeasure()) FixUtils.fillNul(underlyingUnitOfMeasure);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingUnitOfMeasure, src); 		
 		hasUnderlyingUnitOfMeasure = FixUtils.TAG_HAS_VALUE;		
@@ -3351,14 +3351,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setUnderlyingTimeUnit(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingTimeUnit()) FixUtils.fillSpace(underlyingTimeUnit);		
+		if (hasUnderlyingTimeUnit()) FixUtils.fillNul(underlyingTimeUnit);		
 		FixUtils.copy(underlyingTimeUnit, src); 		
 		hasUnderlyingTimeUnit = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingTimeUnit(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingTimeUnit()) FixUtils.fillSpace(underlyingTimeUnit);		
+		if (hasUnderlyingTimeUnit()) FixUtils.fillNul(underlyingTimeUnit);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingTimeUnit, src); 		
 		hasUnderlyingTimeUnit = FixUtils.TAG_HAS_VALUE;		
@@ -3478,14 +3478,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setUnderlyingPriceUnitOfMeasure(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingPriceUnitOfMeasure()) FixUtils.fillSpace(underlyingPriceUnitOfMeasure);		
+		if (hasUnderlyingPriceUnitOfMeasure()) FixUtils.fillNul(underlyingPriceUnitOfMeasure);		
 		FixUtils.copy(underlyingPriceUnitOfMeasure, src); 		
 		hasUnderlyingPriceUnitOfMeasure = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingPriceUnitOfMeasure(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingPriceUnitOfMeasure()) FixUtils.fillSpace(underlyingPriceUnitOfMeasure);		
+		if (hasUnderlyingPriceUnitOfMeasure()) FixUtils.fillNul(underlyingPriceUnitOfMeasure);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingPriceUnitOfMeasure, src); 		
 		hasUnderlyingPriceUnitOfMeasure = FixUtils.TAG_HAS_VALUE;		
@@ -3693,14 +3693,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setUnderlyingSecurityExchange(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingSecurityExchange()) FixUtils.fillSpace(underlyingSecurityExchange);		
+		if (hasUnderlyingSecurityExchange()) FixUtils.fillNul(underlyingSecurityExchange);		
 		FixUtils.copy(underlyingSecurityExchange, src); 		
 		hasUnderlyingSecurityExchange = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingSecurityExchange(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingSecurityExchange()) FixUtils.fillSpace(underlyingSecurityExchange);		
+		if (hasUnderlyingSecurityExchange()) FixUtils.fillNul(underlyingSecurityExchange);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingSecurityExchange, src); 		
 		hasUnderlyingSecurityExchange = FixUtils.TAG_HAS_VALUE;		
@@ -3732,14 +3732,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setUnderlyingIssuer(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingIssuer()) FixUtils.fillSpace(underlyingIssuer);		
+		if (hasUnderlyingIssuer()) FixUtils.fillNul(underlyingIssuer);		
 		FixUtils.copy(underlyingIssuer, src); 		
 		hasUnderlyingIssuer = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingIssuer(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingIssuer()) FixUtils.fillSpace(underlyingIssuer);		
+		if (hasUnderlyingIssuer()) FixUtils.fillNul(underlyingIssuer);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingIssuer, src); 		
 		hasUnderlyingIssuer = FixUtils.TAG_HAS_VALUE;		
@@ -3815,14 +3815,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setEncodedUnderlyingIssuer(byte[] src) {		
 		if (src == null ) return;
-		if (hasEncodedUnderlyingIssuer()) FixUtils.fillSpace(encodedUnderlyingIssuer);		
+		if (hasEncodedUnderlyingIssuer()) FixUtils.fillNul(encodedUnderlyingIssuer);		
 		FixUtils.copy(encodedUnderlyingIssuer, src); 		
 		hasEncodedUnderlyingIssuer = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setEncodedUnderlyingIssuer(String str) {		
 		if (str == null ) return;
-		if (hasEncodedUnderlyingIssuer()) FixUtils.fillSpace(encodedUnderlyingIssuer);		
+		if (hasEncodedUnderlyingIssuer()) FixUtils.fillNul(encodedUnderlyingIssuer);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(encodedUnderlyingIssuer, src); 		
 		hasEncodedUnderlyingIssuer = FixUtils.TAG_HAS_VALUE;		
@@ -3854,14 +3854,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setUnderlyingSecurityDesc(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingSecurityDesc()) FixUtils.fillSpace(underlyingSecurityDesc);		
+		if (hasUnderlyingSecurityDesc()) FixUtils.fillNul(underlyingSecurityDesc);		
 		FixUtils.copy(underlyingSecurityDesc, src); 		
 		hasUnderlyingSecurityDesc = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingSecurityDesc(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingSecurityDesc()) FixUtils.fillSpace(underlyingSecurityDesc);		
+		if (hasUnderlyingSecurityDesc()) FixUtils.fillNul(underlyingSecurityDesc);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingSecurityDesc, src); 		
 		hasUnderlyingSecurityDesc = FixUtils.TAG_HAS_VALUE;		
@@ -3937,14 +3937,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setEncodedUnderlyingSecurityDesc(byte[] src) {		
 		if (src == null ) return;
-		if (hasEncodedUnderlyingSecurityDesc()) FixUtils.fillSpace(encodedUnderlyingSecurityDesc);		
+		if (hasEncodedUnderlyingSecurityDesc()) FixUtils.fillNul(encodedUnderlyingSecurityDesc);		
 		FixUtils.copy(encodedUnderlyingSecurityDesc, src); 		
 		hasEncodedUnderlyingSecurityDesc = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setEncodedUnderlyingSecurityDesc(String str) {		
 		if (str == null ) return;
-		if (hasEncodedUnderlyingSecurityDesc()) FixUtils.fillSpace(encodedUnderlyingSecurityDesc);		
+		if (hasEncodedUnderlyingSecurityDesc()) FixUtils.fillNul(encodedUnderlyingSecurityDesc);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(encodedUnderlyingSecurityDesc, src); 		
 		hasEncodedUnderlyingSecurityDesc = FixUtils.TAG_HAS_VALUE;		
@@ -3976,14 +3976,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setUnderlyingCPProgram(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingCPProgram()) FixUtils.fillSpace(underlyingCPProgram);		
+		if (hasUnderlyingCPProgram()) FixUtils.fillNul(underlyingCPProgram);		
 		FixUtils.copy(underlyingCPProgram, src); 		
 		hasUnderlyingCPProgram = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingCPProgram(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingCPProgram()) FixUtils.fillSpace(underlyingCPProgram);		
+		if (hasUnderlyingCPProgram()) FixUtils.fillNul(underlyingCPProgram);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingCPProgram, src); 		
 		hasUnderlyingCPProgram = FixUtils.TAG_HAS_VALUE;		
@@ -4015,14 +4015,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setUnderlyingCPRegType(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingCPRegType()) FixUtils.fillSpace(underlyingCPRegType);		
+		if (hasUnderlyingCPRegType()) FixUtils.fillNul(underlyingCPRegType);		
 		FixUtils.copy(underlyingCPRegType, src); 		
 		hasUnderlyingCPRegType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingCPRegType(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingCPRegType()) FixUtils.fillSpace(underlyingCPRegType);		
+		if (hasUnderlyingCPRegType()) FixUtils.fillNul(underlyingCPRegType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingCPRegType, src); 		
 		hasUnderlyingCPRegType = FixUtils.TAG_HAS_VALUE;		
@@ -4098,14 +4098,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setUnderlyingCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingCurrency()) FixUtils.fillSpace(underlyingCurrency);		
+		if (hasUnderlyingCurrency()) FixUtils.fillNul(underlyingCurrency);		
 		FixUtils.copy(underlyingCurrency, src); 		
 		hasUnderlyingCurrency = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingCurrency(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingCurrency()) FixUtils.fillSpace(underlyingCurrency);		
+		if (hasUnderlyingCurrency()) FixUtils.fillNul(underlyingCurrency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingCurrency, src); 		
 		hasUnderlyingCurrency = FixUtils.TAG_HAS_VALUE;		
@@ -4269,14 +4269,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setUnderlyingCashType(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingCashType()) FixUtils.fillSpace(underlyingCashType);		
+		if (hasUnderlyingCashType()) FixUtils.fillNul(underlyingCashType);		
 		FixUtils.copy(underlyingCashType, src); 		
 		hasUnderlyingCashType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingCashType(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingCashType()) FixUtils.fillSpace(underlyingCashType);		
+		if (hasUnderlyingCashType()) FixUtils.fillNul(underlyingCashType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingCashType, src); 		
 		hasUnderlyingCashType = FixUtils.TAG_HAS_VALUE;		
@@ -4750,14 +4750,14 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 	public void setUnderlyingSettlMethod(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingSettlMethod()) FixUtils.fillSpace(underlyingSettlMethod);		
+		if (hasUnderlyingSettlMethod()) FixUtils.fillNul(underlyingSettlMethod);		
 		FixUtils.copy(underlyingSettlMethod, src); 		
 		hasUnderlyingSettlMethod = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingSettlMethod(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingSettlMethod()) FixUtils.fillSpace(underlyingSettlMethod);		
+		if (hasUnderlyingSettlMethod()) FixUtils.fillNul(underlyingSettlMethod);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingSettlMethod, src); 		
 		hasUnderlyingSettlMethod = FixUtils.TAG_HAS_VALUE;		

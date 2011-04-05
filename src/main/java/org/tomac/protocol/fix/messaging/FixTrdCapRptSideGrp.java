@@ -1823,14 +1823,14 @@ public class FixTrdCapRptSideGrp extends FixGroup {
 		
 	public void setSideExecID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSideExecID()) FixUtils.fillSpace(sideExecID);		
+		if (hasSideExecID()) FixUtils.fillNul(sideExecID);		
 		FixUtils.copy(sideExecID, src); 		
 		hasSideExecID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSideExecID(String str) {		
 		if (str == null ) return;
-		if (hasSideExecID()) FixUtils.fillSpace(sideExecID);		
+		if (hasSideExecID()) FixUtils.fillNul(sideExecID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(sideExecID, src); 		
 		hasSideExecID = FixUtils.TAG_HAS_VALUE;		
@@ -1994,14 +1994,14 @@ public class FixTrdCapRptSideGrp extends FixGroup {
 		
 	public void setSideTradeReportID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSideTradeReportID()) FixUtils.fillSpace(sideTradeReportID);		
+		if (hasSideTradeReportID()) FixUtils.fillNul(sideTradeReportID);		
 		FixUtils.copy(sideTradeReportID, src); 		
 		hasSideTradeReportID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSideTradeReportID(String str) {		
 		if (str == null ) return;
-		if (hasSideTradeReportID()) FixUtils.fillSpace(sideTradeReportID);		
+		if (hasSideTradeReportID()) FixUtils.fillNul(sideTradeReportID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(sideTradeReportID, src); 		
 		hasSideTradeReportID = FixUtils.TAG_HAS_VALUE;		
@@ -2033,14 +2033,14 @@ public class FixTrdCapRptSideGrp extends FixGroup {
 		
 	public void setSideFillStationCd(byte[] src) {		
 		if (src == null ) return;
-		if (hasSideFillStationCd()) FixUtils.fillSpace(sideFillStationCd);		
+		if (hasSideFillStationCd()) FixUtils.fillNul(sideFillStationCd);		
 		FixUtils.copy(sideFillStationCd, src); 		
 		hasSideFillStationCd = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSideFillStationCd(String str) {		
 		if (str == null ) return;
-		if (hasSideFillStationCd()) FixUtils.fillSpace(sideFillStationCd);		
+		if (hasSideFillStationCd()) FixUtils.fillNul(sideFillStationCd);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(sideFillStationCd, src); 		
 		hasSideFillStationCd = FixUtils.TAG_HAS_VALUE;		
@@ -2072,14 +2072,14 @@ public class FixTrdCapRptSideGrp extends FixGroup {
 		
 	public void setSideReasonCd(byte[] src) {		
 		if (src == null ) return;
-		if (hasSideReasonCd()) FixUtils.fillSpace(sideReasonCd);		
+		if (hasSideReasonCd()) FixUtils.fillNul(sideReasonCd);		
 		FixUtils.copy(sideReasonCd, src); 		
 		hasSideReasonCd = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSideReasonCd(String str) {		
 		if (str == null ) return;
-		if (hasSideReasonCd()) FixUtils.fillSpace(sideReasonCd);		
+		if (hasSideReasonCd()) FixUtils.fillNul(sideReasonCd);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(sideReasonCd, src); 		
 		hasSideReasonCd = FixUtils.TAG_HAS_VALUE;		
@@ -2243,14 +2243,14 @@ public class FixTrdCapRptSideGrp extends FixGroup {
 		
 	public void setSideCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasSideCurrency()) FixUtils.fillSpace(sideCurrency);		
+		if (hasSideCurrency()) FixUtils.fillNul(sideCurrency);		
 		FixUtils.copy(sideCurrency, src); 		
 		hasSideCurrency = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSideCurrency(String str) {		
 		if (str == null ) return;
-		if (hasSideCurrency()) FixUtils.fillSpace(sideCurrency);		
+		if (hasSideCurrency()) FixUtils.fillNul(sideCurrency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(sideCurrency, src); 		
 		hasSideCurrency = FixUtils.TAG_HAS_VALUE;		
@@ -2282,14 +2282,14 @@ public class FixTrdCapRptSideGrp extends FixGroup {
 		
 	public void setSideSettlCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasSideSettlCurrency()) FixUtils.fillSpace(sideSettlCurrency);		
+		if (hasSideSettlCurrency()) FixUtils.fillNul(sideSettlCurrency);		
 		FixUtils.copy(sideSettlCurrency, src); 		
 		hasSideSettlCurrency = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSideSettlCurrency(String str) {		
 		if (str == null ) return;
-		if (hasSideSettlCurrency()) FixUtils.fillSpace(sideSettlCurrency);		
+		if (hasSideSettlCurrency()) FixUtils.fillNul(sideSettlCurrency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(sideSettlCurrency, src); 		
 		hasSideSettlCurrency = FixUtils.TAG_HAS_VALUE;		
@@ -2321,14 +2321,14 @@ public class FixTrdCapRptSideGrp extends FixGroup {
 		
 	public void setAccount(byte[] src) {		
 		if (src == null ) return;
-		if (hasAccount()) FixUtils.fillSpace(account);		
+		if (hasAccount()) FixUtils.fillNul(account);		
 		FixUtils.copy(account, src); 		
 		hasAccount = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setAccount(String str) {		
 		if (str == null ) return;
-		if (hasAccount()) FixUtils.fillSpace(account);		
+		if (hasAccount()) FixUtils.fillNul(account);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(account, src); 		
 		hasAccount = FixUtils.TAG_HAS_VALUE;		
@@ -2538,14 +2538,14 @@ public class FixTrdCapRptSideGrp extends FixGroup {
 		
 	public void setTradeInputSource(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradeInputSource()) FixUtils.fillSpace(tradeInputSource);		
+		if (hasTradeInputSource()) FixUtils.fillNul(tradeInputSource);		
 		FixUtils.copy(tradeInputSource, src); 		
 		hasTradeInputSource = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setTradeInputSource(String str) {		
 		if (str == null ) return;
-		if (hasTradeInputSource()) FixUtils.fillSpace(tradeInputSource);		
+		if (hasTradeInputSource()) FixUtils.fillNul(tradeInputSource);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradeInputSource, src); 		
 		hasTradeInputSource = FixUtils.TAG_HAS_VALUE;		
@@ -2577,14 +2577,14 @@ public class FixTrdCapRptSideGrp extends FixGroup {
 		
 	public void setTradeInputDevice(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradeInputDevice()) FixUtils.fillSpace(tradeInputDevice);		
+		if (hasTradeInputDevice()) FixUtils.fillNul(tradeInputDevice);		
 		FixUtils.copy(tradeInputDevice, src); 		
 		hasTradeInputDevice = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setTradeInputDevice(String str) {		
 		if (str == null ) return;
-		if (hasTradeInputDevice()) FixUtils.fillSpace(tradeInputDevice);		
+		if (hasTradeInputDevice()) FixUtils.fillNul(tradeInputDevice);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradeInputDevice, src); 		
 		hasTradeInputDevice = FixUtils.TAG_HAS_VALUE;		
@@ -2616,14 +2616,14 @@ public class FixTrdCapRptSideGrp extends FixGroup {
 		
 	public void setComplianceID(byte[] src) {		
 		if (src == null ) return;
-		if (hasComplianceID()) FixUtils.fillSpace(complianceID);		
+		if (hasComplianceID()) FixUtils.fillNul(complianceID);		
 		FixUtils.copy(complianceID, src); 		
 		hasComplianceID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setComplianceID(String str) {		
 		if (str == null ) return;
-		if (hasComplianceID()) FixUtils.fillSpace(complianceID);		
+		if (hasComplianceID()) FixUtils.fillNul(complianceID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(complianceID, src); 		
 		hasComplianceID = FixUtils.TAG_HAS_VALUE;		
@@ -2743,14 +2743,14 @@ public class FixTrdCapRptSideGrp extends FixGroup {
 		
 	public void setTradingSessionID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradingSessionID()) FixUtils.fillSpace(tradingSessionID);		
+		if (hasTradingSessionID()) FixUtils.fillNul(tradingSessionID);		
 		FixUtils.copy(tradingSessionID, src); 		
 		hasTradingSessionID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setTradingSessionID(String str) {		
 		if (str == null ) return;
-		if (hasTradingSessionID()) FixUtils.fillSpace(tradingSessionID);		
+		if (hasTradingSessionID()) FixUtils.fillNul(tradingSessionID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradingSessionID, src); 		
 		hasTradingSessionID = FixUtils.TAG_HAS_VALUE;		
@@ -2782,14 +2782,14 @@ public class FixTrdCapRptSideGrp extends FixGroup {
 		
 	public void setTradingSessionSubID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradingSessionSubID()) FixUtils.fillSpace(tradingSessionSubID);		
+		if (hasTradingSessionSubID()) FixUtils.fillNul(tradingSessionSubID);		
 		FixUtils.copy(tradingSessionSubID, src); 		
 		hasTradingSessionSubID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setTradingSessionSubID(String str) {		
 		if (str == null ) return;
-		if (hasTradingSessionSubID()) FixUtils.fillSpace(tradingSessionSubID);		
+		if (hasTradingSessionSubID()) FixUtils.fillNul(tradingSessionSubID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradingSessionSubID, src); 		
 		hasTradingSessionSubID = FixUtils.TAG_HAS_VALUE;		
@@ -2821,14 +2821,14 @@ public class FixTrdCapRptSideGrp extends FixGroup {
 		
 	public void setTimeBracket(byte[] src) {		
 		if (src == null ) return;
-		if (hasTimeBracket()) FixUtils.fillSpace(timeBracket);		
+		if (hasTimeBracket()) FixUtils.fillNul(timeBracket);		
 		FixUtils.copy(timeBracket, src); 		
 		hasTimeBracket = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setTimeBracket(String str) {		
 		if (str == null ) return;
-		if (hasTimeBracket()) FixUtils.fillSpace(timeBracket);		
+		if (hasTimeBracket()) FixUtils.fillNul(timeBracket);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(timeBracket, src); 		
 		hasTimeBracket = FixUtils.TAG_HAS_VALUE;		
@@ -2904,14 +2904,14 @@ public class FixTrdCapRptSideGrp extends FixGroup {
 		
 	public void setExDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasExDate()) FixUtils.fillSpace(exDate);		
+		if (hasExDate()) FixUtils.fillNul(exDate);		
 		FixUtils.copy(exDate, src); 		
 		hasExDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setExDate(String str) {		
 		if (str == null ) return;
-		if (hasExDate()) FixUtils.fillSpace(exDate);		
+		if (hasExDate()) FixUtils.fillNul(exDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(exDate, src); 		
 		hasExDate = FixUtils.TAG_HAS_VALUE;		
@@ -3519,14 +3519,14 @@ public class FixTrdCapRptSideGrp extends FixGroup {
 		
 	public void setText(byte[] src) {		
 		if (src == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setText(String str) {		
 		if (str == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
@@ -3602,14 +3602,14 @@ public class FixTrdCapRptSideGrp extends FixGroup {
 		
 	public void setEncodedText(byte[] src) {		
 		if (src == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setEncodedText(String str) {		
 		if (str == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		
@@ -3685,14 +3685,14 @@ public class FixTrdCapRptSideGrp extends FixGroup {
 		
 	public void setExchangeRule(byte[] src) {		
 		if (src == null ) return;
-		if (hasExchangeRule()) FixUtils.fillSpace(exchangeRule);		
+		if (hasExchangeRule()) FixUtils.fillNul(exchangeRule);		
 		FixUtils.copy(exchangeRule, src); 		
 		hasExchangeRule = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setExchangeRule(String str) {		
 		if (str == null ) return;
-		if (hasExchangeRule()) FixUtils.fillSpace(exchangeRule);		
+		if (hasExchangeRule()) FixUtils.fillNul(exchangeRule);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(exchangeRule, src); 		
 		hasExchangeRule = FixUtils.TAG_HAS_VALUE;		
@@ -3814,14 +3814,14 @@ public class FixTrdCapRptSideGrp extends FixGroup {
 		
 	public void setAllocID(byte[] src) {		
 		if (src == null ) return;
-		if (hasAllocID()) FixUtils.fillSpace(allocID);		
+		if (hasAllocID()) FixUtils.fillNul(allocID);		
 		FixUtils.copy(allocID, src); 		
 		hasAllocID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setAllocID(String str) {		
 		if (str == null ) return;
-		if (hasAllocID()) FixUtils.fillSpace(allocID);		
+		if (hasAllocID()) FixUtils.fillNul(allocID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(allocID, src); 		
 		hasAllocID = FixUtils.TAG_HAS_VALUE;		
@@ -3941,14 +3941,14 @@ public class FixTrdCapRptSideGrp extends FixGroup {
 		
 	public void setExchangeSpecialInstructions(byte[] src) {		
 		if (src == null ) return;
-		if (hasExchangeSpecialInstructions()) FixUtils.fillSpace(exchangeSpecialInstructions);		
+		if (hasExchangeSpecialInstructions()) FixUtils.fillNul(exchangeSpecialInstructions);		
 		FixUtils.copy(exchangeSpecialInstructions, src); 		
 		hasExchangeSpecialInstructions = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setExchangeSpecialInstructions(String str) {		
 		if (str == null ) return;
-		if (hasExchangeSpecialInstructions()) FixUtils.fillSpace(exchangeSpecialInstructions);		
+		if (hasExchangeSpecialInstructions()) FixUtils.fillNul(exchangeSpecialInstructions);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(exchangeSpecialInstructions, src); 		
 		hasExchangeSpecialInstructions = FixUtils.TAG_HAS_VALUE;		

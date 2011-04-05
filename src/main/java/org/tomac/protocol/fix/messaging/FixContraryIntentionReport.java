@@ -477,14 +477,14 @@ public class FixContraryIntentionReport extends FixInMessage {
 
 	public void setContIntRptID(byte[] src) {		
 		if (src == null ) return;
-		if (hasContIntRptID()) FixUtils.fillSpace(contIntRptID);		
+		if (hasContIntRptID()) FixUtils.fillNul(contIntRptID);		
 		FixUtils.copy(contIntRptID, src); 		
 		hasContIntRptID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setContIntRptID(String str) {		
 		if (str == null ) return;
-		if (hasContIntRptID()) FixUtils.fillSpace(contIntRptID);		
+		if (hasContIntRptID()) FixUtils.fillNul(contIntRptID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(contIntRptID, src); 		
 		hasContIntRptID = FixUtils.TAG_HAS_VALUE;		
@@ -521,14 +521,14 @@ public class FixContraryIntentionReport extends FixInMessage {
 
 	public void setTransactTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTransactTime(String str) {		
 		if (str == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		
@@ -614,14 +614,14 @@ public class FixContraryIntentionReport extends FixInMessage {
 
 	public void setInputSource(byte[] src) {		
 		if (src == null ) return;
-		if (hasInputSource()) FixUtils.fillSpace(inputSource);		
+		if (hasInputSource()) FixUtils.fillNul(inputSource);		
 		FixUtils.copy(inputSource, src); 		
 		hasInputSource = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setInputSource(String str) {		
 		if (str == null ) return;
-		if (hasInputSource()) FixUtils.fillSpace(inputSource);		
+		if (hasInputSource()) FixUtils.fillNul(inputSource);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(inputSource, src); 		
 		hasInputSource = FixUtils.TAG_HAS_VALUE;		
@@ -658,14 +658,14 @@ public class FixContraryIntentionReport extends FixInMessage {
 
 	public void setClearingBusinessDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasClearingBusinessDate()) FixUtils.fillSpace(clearingBusinessDate);		
+		if (hasClearingBusinessDate()) FixUtils.fillNul(clearingBusinessDate);		
 		FixUtils.copy(clearingBusinessDate, src); 		
 		hasClearingBusinessDate = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setClearingBusinessDate(String str) {		
 		if (str == null ) return;
-		if (hasClearingBusinessDate()) FixUtils.fillSpace(clearingBusinessDate);		
+		if (hasClearingBusinessDate()) FixUtils.fillNul(clearingBusinessDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(clearingBusinessDate, src); 		
 		hasClearingBusinessDate = FixUtils.TAG_HAS_VALUE;		
@@ -702,14 +702,14 @@ public class FixContraryIntentionReport extends FixInMessage {
 
 	public void setText(byte[] src) {		
 		if (src == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setText(String str) {		
 		if (str == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
@@ -795,14 +795,14 @@ public class FixContraryIntentionReport extends FixInMessage {
 
 	public void setEncodedText(byte[] src) {		
 		if (src == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setEncodedText(String str) {		
 		if (str == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		

@@ -877,14 +877,14 @@ public class FixAssignmentReport extends FixInMessage {
 
 	public void setAsgnRptID(byte[] src) {		
 		if (src == null ) return;
-		if (hasAsgnRptID()) FixUtils.fillSpace(asgnRptID);		
+		if (hasAsgnRptID()) FixUtils.fillNul(asgnRptID);		
 		FixUtils.copy(asgnRptID, src); 		
 		hasAsgnRptID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setAsgnRptID(String str) {		
 		if (str == null ) return;
-		if (hasAsgnRptID()) FixUtils.fillSpace(asgnRptID);		
+		if (hasAsgnRptID()) FixUtils.fillNul(asgnRptID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(asgnRptID, src); 		
 		hasAsgnRptID = FixUtils.TAG_HAS_VALUE;		
@@ -921,14 +921,14 @@ public class FixAssignmentReport extends FixInMessage {
 
 	public void setPosReqID(byte[] src) {		
 		if (src == null ) return;
-		if (hasPosReqID()) FixUtils.fillSpace(posReqID);		
+		if (hasPosReqID()) FixUtils.fillNul(posReqID);		
 		FixUtils.copy(posReqID, src); 		
 		hasPosReqID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setPosReqID(String str) {		
 		if (str == null ) return;
-		if (hasPosReqID()) FixUtils.fillSpace(posReqID);		
+		if (hasPosReqID()) FixUtils.fillNul(posReqID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(posReqID, src); 		
 		hasPosReqID = FixUtils.TAG_HAS_VALUE;		
@@ -1063,14 +1063,14 @@ public class FixAssignmentReport extends FixInMessage {
 
 	public void setAccount(byte[] src) {		
 		if (src == null ) return;
-		if (hasAccount()) FixUtils.fillSpace(account);		
+		if (hasAccount()) FixUtils.fillNul(account);		
 		FixUtils.copy(account, src); 		
 		hasAccount = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setAccount(String str) {		
 		if (str == null ) return;
-		if (hasAccount()) FixUtils.fillSpace(account);		
+		if (hasAccount()) FixUtils.fillNul(account);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(account, src); 		
 		hasAccount = FixUtils.TAG_HAS_VALUE;		
@@ -1156,14 +1156,14 @@ public class FixAssignmentReport extends FixInMessage {
 
 	public void setCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasCurrency()) FixUtils.fillSpace(currency);		
+		if (hasCurrency()) FixUtils.fillNul(currency);		
 		FixUtils.copy(currency, src); 		
 		hasCurrency = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setCurrency(String str) {		
 		if (str == null ) return;
-		if (hasCurrency()) FixUtils.fillSpace(currency);		
+		if (hasCurrency()) FixUtils.fillNul(currency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(currency, src); 		
 		hasCurrency = FixUtils.TAG_HAS_VALUE;		
@@ -1445,14 +1445,14 @@ public class FixAssignmentReport extends FixInMessage {
 
 	public void setExpireDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasExpireDate()) FixUtils.fillSpace(expireDate);		
+		if (hasExpireDate()) FixUtils.fillNul(expireDate);		
 		FixUtils.copy(expireDate, src); 		
 		hasExpireDate = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setExpireDate(String str) {		
 		if (str == null ) return;
-		if (hasExpireDate()) FixUtils.fillSpace(expireDate);		
+		if (hasExpireDate()) FixUtils.fillNul(expireDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(expireDate, src); 		
 		hasExpireDate = FixUtils.TAG_HAS_VALUE;		
@@ -1689,14 +1689,14 @@ public class FixAssignmentReport extends FixInMessage {
 
 	public void setSettlSessID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSettlSessID()) FixUtils.fillSpace(settlSessID);		
+		if (hasSettlSessID()) FixUtils.fillNul(settlSessID);		
 		FixUtils.copy(settlSessID, src); 		
 		hasSettlSessID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSettlSessID(String str) {		
 		if (str == null ) return;
-		if (hasSettlSessID()) FixUtils.fillSpace(settlSessID);		
+		if (hasSettlSessID()) FixUtils.fillNul(settlSessID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(settlSessID, src); 		
 		hasSettlSessID = FixUtils.TAG_HAS_VALUE;		
@@ -1733,14 +1733,14 @@ public class FixAssignmentReport extends FixInMessage {
 
 	public void setSettlSessSubID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSettlSessSubID()) FixUtils.fillSpace(settlSessSubID);		
+		if (hasSettlSessSubID()) FixUtils.fillNul(settlSessSubID);		
 		FixUtils.copy(settlSessSubID, src); 		
 		hasSettlSessSubID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSettlSessSubID(String str) {		
 		if (str == null ) return;
-		if (hasSettlSessSubID()) FixUtils.fillSpace(settlSessSubID);		
+		if (hasSettlSessSubID()) FixUtils.fillNul(settlSessSubID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(settlSessSubID, src); 		
 		hasSettlSessSubID = FixUtils.TAG_HAS_VALUE;		
@@ -1777,14 +1777,14 @@ public class FixAssignmentReport extends FixInMessage {
 
 	public void setClearingBusinessDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasClearingBusinessDate()) FixUtils.fillSpace(clearingBusinessDate);		
+		if (hasClearingBusinessDate()) FixUtils.fillNul(clearingBusinessDate);		
 		FixUtils.copy(clearingBusinessDate, src); 		
 		hasClearingBusinessDate = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setClearingBusinessDate(String str) {		
 		if (str == null ) return;
-		if (hasClearingBusinessDate()) FixUtils.fillSpace(clearingBusinessDate);		
+		if (hasClearingBusinessDate()) FixUtils.fillNul(clearingBusinessDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(clearingBusinessDate, src); 		
 		hasClearingBusinessDate = FixUtils.TAG_HAS_VALUE;		
@@ -1821,14 +1821,14 @@ public class FixAssignmentReport extends FixInMessage {
 
 	public void setText(byte[] src) {		
 		if (src == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setText(String str) {		
 		if (str == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
@@ -1914,14 +1914,14 @@ public class FixAssignmentReport extends FixInMessage {
 
 	public void setEncodedText(byte[] src) {		
 		if (src == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setEncodedText(String str) {		
 		if (str == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		

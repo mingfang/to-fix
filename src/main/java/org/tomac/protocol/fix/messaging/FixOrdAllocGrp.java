@@ -339,14 +339,14 @@ public class FixOrdAllocGrp extends FixGroup {
 		
 	public void setClOrdID(byte[] src) {		
 		if (src == null ) return;
-		if (hasClOrdID()) FixUtils.fillSpace(clOrdID);		
+		if (hasClOrdID()) FixUtils.fillNul(clOrdID);		
 		FixUtils.copy(clOrdID, src); 		
 		hasClOrdID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setClOrdID(String str) {		
 		if (str == null ) return;
-		if (hasClOrdID()) FixUtils.fillSpace(clOrdID);		
+		if (hasClOrdID()) FixUtils.fillNul(clOrdID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(clOrdID, src); 		
 		hasClOrdID = FixUtils.TAG_HAS_VALUE;		
@@ -378,14 +378,14 @@ public class FixOrdAllocGrp extends FixGroup {
 		
 	public void setOrderID(byte[] src) {		
 		if (src == null ) return;
-		if (hasOrderID()) FixUtils.fillSpace(orderID);		
+		if (hasOrderID()) FixUtils.fillNul(orderID);		
 		FixUtils.copy(orderID, src); 		
 		hasOrderID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setOrderID(String str) {		
 		if (str == null ) return;
-		if (hasOrderID()) FixUtils.fillSpace(orderID);		
+		if (hasOrderID()) FixUtils.fillNul(orderID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(orderID, src); 		
 		hasOrderID = FixUtils.TAG_HAS_VALUE;		
@@ -417,14 +417,14 @@ public class FixOrdAllocGrp extends FixGroup {
 		
 	public void setSecondaryOrderID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecondaryOrderID()) FixUtils.fillSpace(secondaryOrderID);		
+		if (hasSecondaryOrderID()) FixUtils.fillNul(secondaryOrderID);		
 		FixUtils.copy(secondaryOrderID, src); 		
 		hasSecondaryOrderID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSecondaryOrderID(String str) {		
 		if (str == null ) return;
-		if (hasSecondaryOrderID()) FixUtils.fillSpace(secondaryOrderID);		
+		if (hasSecondaryOrderID()) FixUtils.fillNul(secondaryOrderID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(secondaryOrderID, src); 		
 		hasSecondaryOrderID = FixUtils.TAG_HAS_VALUE;		
@@ -456,14 +456,14 @@ public class FixOrdAllocGrp extends FixGroup {
 		
 	public void setSecondaryClOrdID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecondaryClOrdID()) FixUtils.fillSpace(secondaryClOrdID);		
+		if (hasSecondaryClOrdID()) FixUtils.fillNul(secondaryClOrdID);		
 		FixUtils.copy(secondaryClOrdID, src); 		
 		hasSecondaryClOrdID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSecondaryClOrdID(String str) {		
 		if (str == null ) return;
-		if (hasSecondaryClOrdID()) FixUtils.fillSpace(secondaryClOrdID);		
+		if (hasSecondaryClOrdID()) FixUtils.fillNul(secondaryClOrdID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(secondaryClOrdID, src); 		
 		hasSecondaryClOrdID = FixUtils.TAG_HAS_VALUE;		
@@ -495,14 +495,14 @@ public class FixOrdAllocGrp extends FixGroup {
 		
 	public void setListID(byte[] src) {		
 		if (src == null ) return;
-		if (hasListID()) FixUtils.fillSpace(listID);		
+		if (hasListID()) FixUtils.fillNul(listID);		
 		FixUtils.copy(listID, src); 		
 		hasListID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setListID(String str) {		
 		if (str == null ) return;
-		if (hasListID()) FixUtils.fillSpace(listID);		
+		if (hasListID()) FixUtils.fillNul(listID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(listID, src); 		
 		hasListID = FixUtils.TAG_HAS_VALUE;		

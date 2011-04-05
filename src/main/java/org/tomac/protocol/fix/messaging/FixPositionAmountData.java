@@ -176,14 +176,14 @@ public class FixPositionAmountData extends FixGroup {
 		
 	public void setPosAmtType(byte[] src) {		
 		if (src == null ) return;
-		if (hasPosAmtType()) FixUtils.fillSpace(posAmtType);		
+		if (hasPosAmtType()) FixUtils.fillNul(posAmtType);		
 		FixUtils.copy(posAmtType, src); 		
 		hasPosAmtType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setPosAmtType(String str) {		
 		if (str == null ) return;
-		if (hasPosAmtType()) FixUtils.fillSpace(posAmtType);		
+		if (hasPosAmtType()) FixUtils.fillNul(posAmtType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(posAmtType, src); 		
 		hasPosAmtType = FixUtils.TAG_HAS_VALUE;		
@@ -259,14 +259,14 @@ public class FixPositionAmountData extends FixGroup {
 		
 	public void setPositionCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasPositionCurrency()) FixUtils.fillSpace(positionCurrency);		
+		if (hasPositionCurrency()) FixUtils.fillNul(positionCurrency);		
 		FixUtils.copy(positionCurrency, src); 		
 		hasPositionCurrency = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setPositionCurrency(String str) {		
 		if (str == null ) return;
-		if (hasPositionCurrency()) FixUtils.fillSpace(positionCurrency);		
+		if (hasPositionCurrency()) FixUtils.fillNul(positionCurrency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(positionCurrency, src); 		
 		hasPositionCurrency = FixUtils.TAG_HAS_VALUE;		

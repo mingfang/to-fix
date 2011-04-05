@@ -393,14 +393,14 @@ public class FixRgstDistInstGrp extends FixGroup {
 		
 	public void setCashDistribCurr(byte[] src) {		
 		if (src == null ) return;
-		if (hasCashDistribCurr()) FixUtils.fillSpace(cashDistribCurr);		
+		if (hasCashDistribCurr()) FixUtils.fillNul(cashDistribCurr);		
 		FixUtils.copy(cashDistribCurr, src); 		
 		hasCashDistribCurr = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setCashDistribCurr(String str) {		
 		if (str == null ) return;
-		if (hasCashDistribCurr()) FixUtils.fillSpace(cashDistribCurr);		
+		if (hasCashDistribCurr()) FixUtils.fillNul(cashDistribCurr);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(cashDistribCurr, src); 		
 		hasCashDistribCurr = FixUtils.TAG_HAS_VALUE;		
@@ -432,14 +432,14 @@ public class FixRgstDistInstGrp extends FixGroup {
 		
 	public void setCashDistribAgentName(byte[] src) {		
 		if (src == null ) return;
-		if (hasCashDistribAgentName()) FixUtils.fillSpace(cashDistribAgentName);		
+		if (hasCashDistribAgentName()) FixUtils.fillNul(cashDistribAgentName);		
 		FixUtils.copy(cashDistribAgentName, src); 		
 		hasCashDistribAgentName = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setCashDistribAgentName(String str) {		
 		if (str == null ) return;
-		if (hasCashDistribAgentName()) FixUtils.fillSpace(cashDistribAgentName);		
+		if (hasCashDistribAgentName()) FixUtils.fillNul(cashDistribAgentName);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(cashDistribAgentName, src); 		
 		hasCashDistribAgentName = FixUtils.TAG_HAS_VALUE;		
@@ -471,14 +471,14 @@ public class FixRgstDistInstGrp extends FixGroup {
 		
 	public void setCashDistribAgentCode(byte[] src) {		
 		if (src == null ) return;
-		if (hasCashDistribAgentCode()) FixUtils.fillSpace(cashDistribAgentCode);		
+		if (hasCashDistribAgentCode()) FixUtils.fillNul(cashDistribAgentCode);		
 		FixUtils.copy(cashDistribAgentCode, src); 		
 		hasCashDistribAgentCode = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setCashDistribAgentCode(String str) {		
 		if (str == null ) return;
-		if (hasCashDistribAgentCode()) FixUtils.fillSpace(cashDistribAgentCode);		
+		if (hasCashDistribAgentCode()) FixUtils.fillNul(cashDistribAgentCode);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(cashDistribAgentCode, src); 		
 		hasCashDistribAgentCode = FixUtils.TAG_HAS_VALUE;		
@@ -510,14 +510,14 @@ public class FixRgstDistInstGrp extends FixGroup {
 		
 	public void setCashDistribAgentAcctNumber(byte[] src) {		
 		if (src == null ) return;
-		if (hasCashDistribAgentAcctNumber()) FixUtils.fillSpace(cashDistribAgentAcctNumber);		
+		if (hasCashDistribAgentAcctNumber()) FixUtils.fillNul(cashDistribAgentAcctNumber);		
 		FixUtils.copy(cashDistribAgentAcctNumber, src); 		
 		hasCashDistribAgentAcctNumber = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setCashDistribAgentAcctNumber(String str) {		
 		if (str == null ) return;
-		if (hasCashDistribAgentAcctNumber()) FixUtils.fillSpace(cashDistribAgentAcctNumber);		
+		if (hasCashDistribAgentAcctNumber()) FixUtils.fillNul(cashDistribAgentAcctNumber);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(cashDistribAgentAcctNumber, src); 		
 		hasCashDistribAgentAcctNumber = FixUtils.TAG_HAS_VALUE;		
@@ -549,14 +549,14 @@ public class FixRgstDistInstGrp extends FixGroup {
 		
 	public void setCashDistribPayRef(byte[] src) {		
 		if (src == null ) return;
-		if (hasCashDistribPayRef()) FixUtils.fillSpace(cashDistribPayRef);		
+		if (hasCashDistribPayRef()) FixUtils.fillNul(cashDistribPayRef);		
 		FixUtils.copy(cashDistribPayRef, src); 		
 		hasCashDistribPayRef = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setCashDistribPayRef(String str) {		
 		if (str == null ) return;
-		if (hasCashDistribPayRef()) FixUtils.fillSpace(cashDistribPayRef);		
+		if (hasCashDistribPayRef()) FixUtils.fillNul(cashDistribPayRef);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(cashDistribPayRef, src); 		
 		hasCashDistribPayRef = FixUtils.TAG_HAS_VALUE;		
@@ -588,14 +588,14 @@ public class FixRgstDistInstGrp extends FixGroup {
 		
 	public void setCashDistribAgentAcctName(byte[] src) {		
 		if (src == null ) return;
-		if (hasCashDistribAgentAcctName()) FixUtils.fillSpace(cashDistribAgentAcctName);		
+		if (hasCashDistribAgentAcctName()) FixUtils.fillNul(cashDistribAgentAcctName);		
 		FixUtils.copy(cashDistribAgentAcctName, src); 		
 		hasCashDistribAgentAcctName = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setCashDistribAgentAcctName(String str) {		
 		if (str == null ) return;
-		if (hasCashDistribAgentAcctName()) FixUtils.fillSpace(cashDistribAgentAcctName);		
+		if (hasCashDistribAgentAcctName()) FixUtils.fillNul(cashDistribAgentAcctName);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(cashDistribAgentAcctName, src); 		
 		hasCashDistribAgentAcctName = FixUtils.TAG_HAS_VALUE;		

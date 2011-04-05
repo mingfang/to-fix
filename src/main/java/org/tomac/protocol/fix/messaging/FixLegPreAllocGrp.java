@@ -263,14 +263,14 @@ public class FixLegPreAllocGrp extends FixGroup {
 		
 	public void setLegAllocAccount(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegAllocAccount()) FixUtils.fillSpace(legAllocAccount);		
+		if (hasLegAllocAccount()) FixUtils.fillNul(legAllocAccount);		
 		FixUtils.copy(legAllocAccount, src); 		
 		hasLegAllocAccount = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegAllocAccount(String str) {		
 		if (str == null ) return;
-		if (hasLegAllocAccount()) FixUtils.fillSpace(legAllocAccount);		
+		if (hasLegAllocAccount()) FixUtils.fillNul(legAllocAccount);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legAllocAccount, src); 		
 		hasLegAllocAccount = FixUtils.TAG_HAS_VALUE;		
@@ -302,14 +302,14 @@ public class FixLegPreAllocGrp extends FixGroup {
 		
 	public void setLegIndividualAllocID(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegIndividualAllocID()) FixUtils.fillSpace(legIndividualAllocID);		
+		if (hasLegIndividualAllocID()) FixUtils.fillNul(legIndividualAllocID);		
 		FixUtils.copy(legIndividualAllocID, src); 		
 		hasLegIndividualAllocID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegIndividualAllocID(String str) {		
 		if (str == null ) return;
-		if (hasLegIndividualAllocID()) FixUtils.fillSpace(legIndividualAllocID);		
+		if (hasLegIndividualAllocID()) FixUtils.fillNul(legIndividualAllocID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legIndividualAllocID, src); 		
 		hasLegIndividualAllocID = FixUtils.TAG_HAS_VALUE;		
@@ -385,14 +385,14 @@ public class FixLegPreAllocGrp extends FixGroup {
 		
 	public void setLegAllocAcctIDSource(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegAllocAcctIDSource()) FixUtils.fillSpace(legAllocAcctIDSource);		
+		if (hasLegAllocAcctIDSource()) FixUtils.fillNul(legAllocAcctIDSource);		
 		FixUtils.copy(legAllocAcctIDSource, src); 		
 		hasLegAllocAcctIDSource = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegAllocAcctIDSource(String str) {		
 		if (str == null ) return;
-		if (hasLegAllocAcctIDSource()) FixUtils.fillSpace(legAllocAcctIDSource);		
+		if (hasLegAllocAcctIDSource()) FixUtils.fillNul(legAllocAcctIDSource);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legAllocAcctIDSource, src); 		
 		hasLegAllocAcctIDSource = FixUtils.TAG_HAS_VALUE;		
@@ -424,14 +424,14 @@ public class FixLegPreAllocGrp extends FixGroup {
 		
 	public void setLegAllocSettlCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegAllocSettlCurrency()) FixUtils.fillSpace(legAllocSettlCurrency);		
+		if (hasLegAllocSettlCurrency()) FixUtils.fillNul(legAllocSettlCurrency);		
 		FixUtils.copy(legAllocSettlCurrency, src); 		
 		hasLegAllocSettlCurrency = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegAllocSettlCurrency(String str) {		
 		if (str == null ) return;
-		if (hasLegAllocSettlCurrency()) FixUtils.fillSpace(legAllocSettlCurrency);		
+		if (hasLegAllocSettlCurrency()) FixUtils.fillNul(legAllocSettlCurrency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legAllocSettlCurrency, src); 		
 		hasLegAllocSettlCurrency = FixUtils.TAG_HAS_VALUE;		

@@ -200,14 +200,14 @@ public class FixApplicationSequenceControl extends FixGroup {
 		
 	public void setApplID(byte[] src) {		
 		if (src == null ) return;
-		if (hasApplID()) FixUtils.fillSpace(applID);		
+		if (hasApplID()) FixUtils.fillNul(applID);		
 		FixUtils.copy(applID, src); 		
 		hasApplID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setApplID(String str) {		
 		if (str == null ) return;
-		if (hasApplID()) FixUtils.fillSpace(applID);		
+		if (hasApplID()) FixUtils.fillNul(applID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(applID, src); 		
 		hasApplID = FixUtils.TAG_HAS_VALUE;		

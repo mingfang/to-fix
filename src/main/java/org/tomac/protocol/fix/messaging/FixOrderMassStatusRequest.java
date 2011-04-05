@@ -416,14 +416,14 @@ public class FixOrderMassStatusRequest extends FixInMessage {
 
 	public void setMassStatusReqID(byte[] src) {		
 		if (src == null ) return;
-		if (hasMassStatusReqID()) FixUtils.fillSpace(massStatusReqID);		
+		if (hasMassStatusReqID()) FixUtils.fillNul(massStatusReqID);		
 		FixUtils.copy(massStatusReqID, src); 		
 		hasMassStatusReqID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setMassStatusReqID(String str) {		
 		if (str == null ) return;
-		if (hasMassStatusReqID()) FixUtils.fillSpace(massStatusReqID);		
+		if (hasMassStatusReqID()) FixUtils.fillNul(massStatusReqID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(massStatusReqID, src); 		
 		hasMassStatusReqID = FixUtils.TAG_HAS_VALUE;		
@@ -509,14 +509,14 @@ public class FixOrderMassStatusRequest extends FixInMessage {
 
 	public void setAccount(byte[] src) {		
 		if (src == null ) return;
-		if (hasAccount()) FixUtils.fillSpace(account);		
+		if (hasAccount()) FixUtils.fillNul(account);		
 		FixUtils.copy(account, src); 		
 		hasAccount = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setAccount(String str) {		
 		if (str == null ) return;
-		if (hasAccount()) FixUtils.fillSpace(account);		
+		if (hasAccount()) FixUtils.fillNul(account);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(account, src); 		
 		hasAccount = FixUtils.TAG_HAS_VALUE;		
@@ -602,14 +602,14 @@ public class FixOrderMassStatusRequest extends FixInMessage {
 
 	public void setTradingSessionID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradingSessionID()) FixUtils.fillSpace(tradingSessionID);		
+		if (hasTradingSessionID()) FixUtils.fillNul(tradingSessionID);		
 		FixUtils.copy(tradingSessionID, src); 		
 		hasTradingSessionID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTradingSessionID(String str) {		
 		if (str == null ) return;
-		if (hasTradingSessionID()) FixUtils.fillSpace(tradingSessionID);		
+		if (hasTradingSessionID()) FixUtils.fillNul(tradingSessionID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradingSessionID, src); 		
 		hasTradingSessionID = FixUtils.TAG_HAS_VALUE;		
@@ -646,14 +646,14 @@ public class FixOrderMassStatusRequest extends FixInMessage {
 
 	public void setTradingSessionSubID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradingSessionSubID()) FixUtils.fillSpace(tradingSessionSubID);		
+		if (hasTradingSessionSubID()) FixUtils.fillNul(tradingSessionSubID);		
 		FixUtils.copy(tradingSessionSubID, src); 		
 		hasTradingSessionSubID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTradingSessionSubID(String str) {		
 		if (str == null ) return;
-		if (hasTradingSessionSubID()) FixUtils.fillSpace(tradingSessionSubID);		
+		if (hasTradingSessionSubID()) FixUtils.fillNul(tradingSessionSubID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradingSessionSubID, src); 		
 		hasTradingSessionSubID = FixUtils.TAG_HAS_VALUE;		

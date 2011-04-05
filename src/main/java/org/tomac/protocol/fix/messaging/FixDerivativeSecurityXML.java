@@ -220,14 +220,14 @@ public class FixDerivativeSecurityXML extends FixGroup {
 		
 	public void setDerivativeSecurityXML(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeSecurityXML()) FixUtils.fillSpace(derivativeSecurityXML);		
+		if (hasDerivativeSecurityXML()) FixUtils.fillNul(derivativeSecurityXML);		
 		FixUtils.copy(derivativeSecurityXML, src); 		
 		hasDerivativeSecurityXML = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeSecurityXML(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeSecurityXML()) FixUtils.fillSpace(derivativeSecurityXML);		
+		if (hasDerivativeSecurityXML()) FixUtils.fillNul(derivativeSecurityXML);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeSecurityXML, src); 		
 		hasDerivativeSecurityXML = FixUtils.TAG_HAS_VALUE;		
@@ -259,14 +259,14 @@ public class FixDerivativeSecurityXML extends FixGroup {
 		
 	public void setDerivativeSecurityXMLSchema(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeSecurityXMLSchema()) FixUtils.fillSpace(derivativeSecurityXMLSchema);		
+		if (hasDerivativeSecurityXMLSchema()) FixUtils.fillNul(derivativeSecurityXMLSchema);		
 		FixUtils.copy(derivativeSecurityXMLSchema, src); 		
 		hasDerivativeSecurityXMLSchema = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeSecurityXMLSchema(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeSecurityXMLSchema()) FixUtils.fillSpace(derivativeSecurityXMLSchema);		
+		if (hasDerivativeSecurityXMLSchema()) FixUtils.fillNul(derivativeSecurityXMLSchema);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeSecurityXMLSchema, src); 		
 		hasDerivativeSecurityXMLSchema = FixUtils.TAG_HAS_VALUE;		

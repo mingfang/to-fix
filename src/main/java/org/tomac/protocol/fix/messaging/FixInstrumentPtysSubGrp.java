@@ -150,14 +150,14 @@ public class FixInstrumentPtysSubGrp extends FixGroup {
 		
 	public void setInstrumentPartySubID(byte[] src) {		
 		if (src == null ) return;
-		if (hasInstrumentPartySubID()) FixUtils.fillSpace(instrumentPartySubID);		
+		if (hasInstrumentPartySubID()) FixUtils.fillNul(instrumentPartySubID);		
 		FixUtils.copy(instrumentPartySubID, src); 		
 		hasInstrumentPartySubID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setInstrumentPartySubID(String str) {		
 		if (str == null ) return;
-		if (hasInstrumentPartySubID()) FixUtils.fillSpace(instrumentPartySubID);		
+		if (hasInstrumentPartySubID()) FixUtils.fillNul(instrumentPartySubID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(instrumentPartySubID, src); 		
 		hasInstrumentPartySubID = FixUtils.TAG_HAS_VALUE;		

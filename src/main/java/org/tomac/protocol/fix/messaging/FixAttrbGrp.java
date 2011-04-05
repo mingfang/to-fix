@@ -194,14 +194,14 @@ public class FixAttrbGrp extends FixGroup {
 		
 	public void setInstrAttribValue(byte[] src) {		
 		if (src == null ) return;
-		if (hasInstrAttribValue()) FixUtils.fillSpace(instrAttribValue);		
+		if (hasInstrAttribValue()) FixUtils.fillNul(instrAttribValue);		
 		FixUtils.copy(instrAttribValue, src); 		
 		hasInstrAttribValue = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setInstrAttribValue(String str) {		
 		if (str == null ) return;
-		if (hasInstrAttribValue()) FixUtils.fillSpace(instrAttribValue);		
+		if (hasInstrAttribValue()) FixUtils.fillNul(instrAttribValue);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(instrAttribValue, src); 		
 		hasInstrAttribValue = FixUtils.TAG_HAS_VALUE;		

@@ -360,14 +360,14 @@ public class FixRiskLimits extends FixGroup {
 		
 	public void setRiskLimitCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasRiskLimitCurrency()) FixUtils.fillSpace(riskLimitCurrency);		
+		if (hasRiskLimitCurrency()) FixUtils.fillNul(riskLimitCurrency);		
 		FixUtils.copy(riskLimitCurrency, src); 		
 		hasRiskLimitCurrency = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRiskLimitCurrency(String str) {		
 		if (str == null ) return;
-		if (hasRiskLimitCurrency()) FixUtils.fillSpace(riskLimitCurrency);		
+		if (hasRiskLimitCurrency()) FixUtils.fillNul(riskLimitCurrency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(riskLimitCurrency, src); 		
 		hasRiskLimitCurrency = FixUtils.TAG_HAS_VALUE;		
@@ -399,14 +399,14 @@ public class FixRiskLimits extends FixGroup {
 		
 	public void setRiskLimitPlatform(byte[] src) {		
 		if (src == null ) return;
-		if (hasRiskLimitPlatform()) FixUtils.fillSpace(riskLimitPlatform);		
+		if (hasRiskLimitPlatform()) FixUtils.fillNul(riskLimitPlatform);		
 		FixUtils.copy(riskLimitPlatform, src); 		
 		hasRiskLimitPlatform = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRiskLimitPlatform(String str) {		
 		if (str == null ) return;
-		if (hasRiskLimitPlatform()) FixUtils.fillSpace(riskLimitPlatform);		
+		if (hasRiskLimitPlatform()) FixUtils.fillNul(riskLimitPlatform);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(riskLimitPlatform, src); 		
 		hasRiskLimitPlatform = FixUtils.TAG_HAS_VALUE;		

@@ -176,14 +176,14 @@ public class FixHopGrp extends FixGroup {
 		
 	public void setHopCompID(byte[] src) {		
 		if (src == null ) return;
-		if (hasHopCompID()) FixUtils.fillSpace(hopCompID);		
+		if (hasHopCompID()) FixUtils.fillNul(hopCompID);		
 		FixUtils.copy(hopCompID, src); 		
 		hasHopCompID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setHopCompID(String str) {		
 		if (str == null ) return;
-		if (hasHopCompID()) FixUtils.fillSpace(hopCompID);		
+		if (hasHopCompID()) FixUtils.fillNul(hopCompID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(hopCompID, src); 		
 		hasHopCompID = FixUtils.TAG_HAS_VALUE;		
@@ -215,14 +215,14 @@ public class FixHopGrp extends FixGroup {
 		
 	public void setHopSendingTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasHopSendingTime()) FixUtils.fillSpace(hopSendingTime);		
+		if (hasHopSendingTime()) FixUtils.fillNul(hopSendingTime);		
 		FixUtils.copy(hopSendingTime, src); 		
 		hasHopSendingTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setHopSendingTime(String str) {		
 		if (str == null ) return;
-		if (hasHopSendingTime()) FixUtils.fillSpace(hopSendingTime);		
+		if (hasHopSendingTime()) FixUtils.fillNul(hopSendingTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(hopSendingTime, src); 		
 		hasHopSendingTime = FixUtils.TAG_HAS_VALUE;		

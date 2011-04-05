@@ -385,14 +385,14 @@ public class FixRelSymDerivSecUpdGrp extends FixGroup {
 		
 	public void setCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasCurrency()) FixUtils.fillSpace(currency);		
+		if (hasCurrency()) FixUtils.fillNul(currency);		
 		FixUtils.copy(currency, src); 		
 		hasCurrency = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setCurrency(String str) {		
 		if (str == null ) return;
-		if (hasCurrency()) FixUtils.fillSpace(currency);		
+		if (hasCurrency()) FixUtils.fillNul(currency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(currency, src); 		
 		hasCurrency = FixUtils.TAG_HAS_VALUE;		
@@ -424,14 +424,14 @@ public class FixRelSymDerivSecUpdGrp extends FixGroup {
 		
 	public void setText(byte[] src) {		
 		if (src == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setText(String str) {		
 		if (str == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
@@ -507,14 +507,14 @@ public class FixRelSymDerivSecUpdGrp extends FixGroup {
 		
 	public void setEncodedText(byte[] src) {		
 		if (src == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setEncodedText(String str) {		
 		if (str == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		
@@ -546,14 +546,14 @@ public class FixRelSymDerivSecUpdGrp extends FixGroup {
 		
 	public void setCorporateAction(byte[] src) {		
 		if (src == null ) return;
-		if (hasCorporateAction()) FixUtils.fillSpace(corporateAction);		
+		if (hasCorporateAction()) FixUtils.fillNul(corporateAction);		
 		FixUtils.copy(corporateAction, src); 		
 		hasCorporateAction = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setCorporateAction(String str) {		
 		if (str == null ) return;
-		if (hasCorporateAction()) FixUtils.fillSpace(corporateAction);		
+		if (hasCorporateAction()) FixUtils.fillNul(corporateAction);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(corporateAction, src); 		
 		hasCorporateAction = FixUtils.TAG_HAS_VALUE;		
@@ -585,14 +585,14 @@ public class FixRelSymDerivSecUpdGrp extends FixGroup {
 		
 	public void setRelSymTransactTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasRelSymTransactTime()) FixUtils.fillSpace(relSymTransactTime);		
+		if (hasRelSymTransactTime()) FixUtils.fillNul(relSymTransactTime);		
 		FixUtils.copy(relSymTransactTime, src); 		
 		hasRelSymTransactTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRelSymTransactTime(String str) {		
 		if (str == null ) return;
-		if (hasRelSymTransactTime()) FixUtils.fillSpace(relSymTransactTime);		
+		if (hasRelSymTransactTime()) FixUtils.fillNul(relSymTransactTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(relSymTransactTime, src); 		
 		hasRelSymTransactTime = FixUtils.TAG_HAS_VALUE;		

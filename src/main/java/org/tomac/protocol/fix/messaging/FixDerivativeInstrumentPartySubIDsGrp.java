@@ -150,14 +150,14 @@ public class FixDerivativeInstrumentPartySubIDsGrp extends FixGroup {
 		
 	public void setDerivativeInstrumentPartySubID(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeInstrumentPartySubID()) FixUtils.fillSpace(derivativeInstrumentPartySubID);		
+		if (hasDerivativeInstrumentPartySubID()) FixUtils.fillNul(derivativeInstrumentPartySubID);		
 		FixUtils.copy(derivativeInstrumentPartySubID, src); 		
 		hasDerivativeInstrumentPartySubID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeInstrumentPartySubID(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeInstrumentPartySubID()) FixUtils.fillSpace(derivativeInstrumentPartySubID);		
+		if (hasDerivativeInstrumentPartySubID()) FixUtils.fillNul(derivativeInstrumentPartySubID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeInstrumentPartySubID, src); 		
 		hasDerivativeInstrumentPartySubID = FixUtils.TAG_HAS_VALUE;		

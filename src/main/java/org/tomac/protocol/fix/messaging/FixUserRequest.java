@@ -451,14 +451,14 @@ public class FixUserRequest extends FixInMessage {
 
 	public void setUserRequestID(byte[] src) {		
 		if (src == null ) return;
-		if (hasUserRequestID()) FixUtils.fillSpace(userRequestID);		
+		if (hasUserRequestID()) FixUtils.fillNul(userRequestID);		
 		FixUtils.copy(userRequestID, src); 		
 		hasUserRequestID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setUserRequestID(String str) {		
 		if (str == null ) return;
-		if (hasUserRequestID()) FixUtils.fillSpace(userRequestID);		
+		if (hasUserRequestID()) FixUtils.fillNul(userRequestID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(userRequestID, src); 		
 		hasUserRequestID = FixUtils.TAG_HAS_VALUE;		
@@ -544,14 +544,14 @@ public class FixUserRequest extends FixInMessage {
 
 	public void setUsername(byte[] src) {		
 		if (src == null ) return;
-		if (hasUsername()) FixUtils.fillSpace(username);		
+		if (hasUsername()) FixUtils.fillNul(username);		
 		FixUtils.copy(username, src); 		
 		hasUsername = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setUsername(String str) {		
 		if (str == null ) return;
-		if (hasUsername()) FixUtils.fillSpace(username);		
+		if (hasUsername()) FixUtils.fillNul(username);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(username, src); 		
 		hasUsername = FixUtils.TAG_HAS_VALUE;		
@@ -588,14 +588,14 @@ public class FixUserRequest extends FixInMessage {
 
 	public void setPassword(byte[] src) {		
 		if (src == null ) return;
-		if (hasPassword()) FixUtils.fillSpace(password);		
+		if (hasPassword()) FixUtils.fillNul(password);		
 		FixUtils.copy(password, src); 		
 		hasPassword = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setPassword(String str) {		
 		if (str == null ) return;
-		if (hasPassword()) FixUtils.fillSpace(password);		
+		if (hasPassword()) FixUtils.fillNul(password);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(password, src); 		
 		hasPassword = FixUtils.TAG_HAS_VALUE;		
@@ -632,14 +632,14 @@ public class FixUserRequest extends FixInMessage {
 
 	public void setNewPassword(byte[] src) {		
 		if (src == null ) return;
-		if (hasNewPassword()) FixUtils.fillSpace(newPassword);		
+		if (hasNewPassword()) FixUtils.fillNul(newPassword);		
 		FixUtils.copy(newPassword, src); 		
 		hasNewPassword = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setNewPassword(String str) {		
 		if (str == null ) return;
-		if (hasNewPassword()) FixUtils.fillSpace(newPassword);		
+		if (hasNewPassword()) FixUtils.fillNul(newPassword);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(newPassword, src); 		
 		hasNewPassword = FixUtils.TAG_HAS_VALUE;		
@@ -774,14 +774,14 @@ public class FixUserRequest extends FixInMessage {
 
 	public void setEncryptedPassword(byte[] src) {		
 		if (src == null ) return;
-		if (hasEncryptedPassword()) FixUtils.fillSpace(encryptedPassword);		
+		if (hasEncryptedPassword()) FixUtils.fillNul(encryptedPassword);		
 		FixUtils.copy(encryptedPassword, src); 		
 		hasEncryptedPassword = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setEncryptedPassword(String str) {		
 		if (str == null ) return;
-		if (hasEncryptedPassword()) FixUtils.fillSpace(encryptedPassword);		
+		if (hasEncryptedPassword()) FixUtils.fillNul(encryptedPassword);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(encryptedPassword, src); 		
 		hasEncryptedPassword = FixUtils.TAG_HAS_VALUE;		
@@ -867,14 +867,14 @@ public class FixUserRequest extends FixInMessage {
 
 	public void setEncryptedNewPassword(byte[] src) {		
 		if (src == null ) return;
-		if (hasEncryptedNewPassword()) FixUtils.fillSpace(encryptedNewPassword);		
+		if (hasEncryptedNewPassword()) FixUtils.fillNul(encryptedNewPassword);		
 		FixUtils.copy(encryptedNewPassword, src); 		
 		hasEncryptedNewPassword = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setEncryptedNewPassword(String str) {		
 		if (str == null ) return;
-		if (hasEncryptedNewPassword()) FixUtils.fillSpace(encryptedNewPassword);		
+		if (hasEncryptedNewPassword()) FixUtils.fillNul(encryptedNewPassword);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(encryptedNewPassword, src); 		
 		hasEncryptedNewPassword = FixUtils.TAG_HAS_VALUE;		
@@ -960,14 +960,14 @@ public class FixUserRequest extends FixInMessage {
 
 	public void setRawData(byte[] src) {		
 		if (src == null ) return;
-		if (hasRawData()) FixUtils.fillSpace(rawData);		
+		if (hasRawData()) FixUtils.fillNul(rawData);		
 		FixUtils.copy(rawData, src); 		
 		hasRawData = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setRawData(String str) {		
 		if (str == null ) return;
-		if (hasRawData()) FixUtils.fillSpace(rawData);		
+		if (hasRawData()) FixUtils.fillNul(rawData);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(rawData, src); 		
 		hasRawData = FixUtils.TAG_HAS_VALUE;		

@@ -334,14 +334,14 @@ public class FixInstrmtMDReqGrp extends FixGroup {
 		
 	public void setCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasCurrency()) FixUtils.fillSpace(currency);		
+		if (hasCurrency()) FixUtils.fillNul(currency);		
 		FixUtils.copy(currency, src); 		
 		hasCurrency = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setCurrency(String str) {		
 		if (str == null ) return;
-		if (hasCurrency()) FixUtils.fillSpace(currency);		
+		if (hasCurrency()) FixUtils.fillNul(currency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(currency, src); 		
 		hasCurrency = FixUtils.TAG_HAS_VALUE;		
@@ -417,14 +417,14 @@ public class FixInstrmtMDReqGrp extends FixGroup {
 		
 	public void setSettlType(byte[] src) {		
 		if (src == null ) return;
-		if (hasSettlType()) FixUtils.fillSpace(settlType);		
+		if (hasSettlType()) FixUtils.fillNul(settlType);		
 		FixUtils.copy(settlType, src); 		
 		hasSettlType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSettlType(String str) {		
 		if (str == null ) return;
-		if (hasSettlType()) FixUtils.fillSpace(settlType);		
+		if (hasSettlType()) FixUtils.fillNul(settlType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(settlType, src); 		
 		hasSettlType = FixUtils.TAG_HAS_VALUE;		
@@ -456,14 +456,14 @@ public class FixInstrmtMDReqGrp extends FixGroup {
 		
 	public void setSettlDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasSettlDate()) FixUtils.fillSpace(settlDate);		
+		if (hasSettlDate()) FixUtils.fillNul(settlDate);		
 		FixUtils.copy(settlDate, src); 		
 		hasSettlDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSettlDate(String str) {		
 		if (str == null ) return;
-		if (hasSettlDate()) FixUtils.fillSpace(settlDate);		
+		if (hasSettlDate()) FixUtils.fillNul(settlDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(settlDate, src); 		
 		hasSettlDate = FixUtils.TAG_HAS_VALUE;		
@@ -539,14 +539,14 @@ public class FixInstrmtMDReqGrp extends FixGroup {
 		
 	public void setMDStreamID(byte[] src) {		
 		if (src == null ) return;
-		if (hasMDStreamID()) FixUtils.fillSpace(mDStreamID);		
+		if (hasMDStreamID()) FixUtils.fillNul(mDStreamID);		
 		FixUtils.copy(mDStreamID, src); 		
 		hasMDStreamID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setMDStreamID(String str) {		
 		if (str == null ) return;
-		if (hasMDStreamID()) FixUtils.fillSpace(mDStreamID);		
+		if (hasMDStreamID()) FixUtils.fillNul(mDStreamID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(mDStreamID, src); 		
 		hasMDStreamID = FixUtils.TAG_HAS_VALUE;		

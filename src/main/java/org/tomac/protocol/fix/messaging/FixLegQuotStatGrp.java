@@ -481,14 +481,14 @@ public class FixLegQuotStatGrp extends FixGroup {
 		
 	public void setLegSettlDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegSettlDate()) FixUtils.fillSpace(legSettlDate);		
+		if (hasLegSettlDate()) FixUtils.fillNul(legSettlDate);		
 		FixUtils.copy(legSettlDate, src); 		
 		hasLegSettlDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegSettlDate(String str) {		
 		if (str == null ) return;
-		if (hasLegSettlDate()) FixUtils.fillSpace(legSettlDate);		
+		if (hasLegSettlDate()) FixUtils.fillNul(legSettlDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legSettlDate, src); 		
 		hasLegSettlDate = FixUtils.TAG_HAS_VALUE;		

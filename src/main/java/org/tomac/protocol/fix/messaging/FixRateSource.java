@@ -263,14 +263,14 @@ public class FixRateSource extends FixGroup {
 		
 	public void setReferencePage(byte[] src) {		
 		if (src == null ) return;
-		if (hasReferencePage()) FixUtils.fillSpace(referencePage);		
+		if (hasReferencePage()) FixUtils.fillNul(referencePage);		
 		FixUtils.copy(referencePage, src); 		
 		hasReferencePage = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setReferencePage(String str) {		
 		if (str == null ) return;
-		if (hasReferencePage()) FixUtils.fillSpace(referencePage);		
+		if (hasReferencePage()) FixUtils.fillNul(referencePage);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(referencePage, src); 		
 		hasReferencePage = FixUtils.TAG_HAS_VALUE;		

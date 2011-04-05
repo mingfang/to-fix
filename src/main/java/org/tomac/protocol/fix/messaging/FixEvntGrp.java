@@ -271,14 +271,14 @@ public class FixEvntGrp extends FixGroup {
 		
 	public void setEventDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasEventDate()) FixUtils.fillSpace(eventDate);		
+		if (hasEventDate()) FixUtils.fillNul(eventDate);		
 		FixUtils.copy(eventDate, src); 		
 		hasEventDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setEventDate(String str) {		
 		if (str == null ) return;
-		if (hasEventDate()) FixUtils.fillSpace(eventDate);		
+		if (hasEventDate()) FixUtils.fillNul(eventDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(eventDate, src); 		
 		hasEventDate = FixUtils.TAG_HAS_VALUE;		
@@ -310,14 +310,14 @@ public class FixEvntGrp extends FixGroup {
 		
 	public void setEventTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasEventTime()) FixUtils.fillSpace(eventTime);		
+		if (hasEventTime()) FixUtils.fillNul(eventTime);		
 		FixUtils.copy(eventTime, src); 		
 		hasEventTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setEventTime(String str) {		
 		if (str == null ) return;
-		if (hasEventTime()) FixUtils.fillSpace(eventTime);		
+		if (hasEventTime()) FixUtils.fillNul(eventTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(eventTime, src); 		
 		hasEventTime = FixUtils.TAG_HAS_VALUE;		
@@ -393,14 +393,14 @@ public class FixEvntGrp extends FixGroup {
 		
 	public void setEventText(byte[] src) {		
 		if (src == null ) return;
-		if (hasEventText()) FixUtils.fillSpace(eventText);		
+		if (hasEventText()) FixUtils.fillNul(eventText);		
 		FixUtils.copy(eventText, src); 		
 		hasEventText = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setEventText(String str) {		
 		if (str == null ) return;
-		if (hasEventText()) FixUtils.fillSpace(eventText);		
+		if (hasEventText()) FixUtils.fillNul(eventText);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(eventText, src); 		
 		hasEventText = FixUtils.TAG_HAS_VALUE;		

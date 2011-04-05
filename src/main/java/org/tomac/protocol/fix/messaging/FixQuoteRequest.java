@@ -511,14 +511,14 @@ public class FixQuoteRequest extends FixInMessage {
 
 	public void setQuoteReqID(byte[] src) {		
 		if (src == null ) return;
-		if (hasQuoteReqID()) FixUtils.fillSpace(quoteReqID);		
+		if (hasQuoteReqID()) FixUtils.fillNul(quoteReqID);		
 		FixUtils.copy(quoteReqID, src); 		
 		hasQuoteReqID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setQuoteReqID(String str) {		
 		if (str == null ) return;
-		if (hasQuoteReqID()) FixUtils.fillSpace(quoteReqID);		
+		if (hasQuoteReqID()) FixUtils.fillNul(quoteReqID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(quoteReqID, src); 		
 		hasQuoteReqID = FixUtils.TAG_HAS_VALUE;		
@@ -555,14 +555,14 @@ public class FixQuoteRequest extends FixInMessage {
 
 	public void setRFQReqID(byte[] src) {		
 		if (src == null ) return;
-		if (hasRFQReqID()) FixUtils.fillSpace(rFQReqID);		
+		if (hasRFQReqID()) FixUtils.fillNul(rFQReqID);		
 		FixUtils.copy(rFQReqID, src); 		
 		hasRFQReqID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setRFQReqID(String str) {		
 		if (str == null ) return;
-		if (hasRFQReqID()) FixUtils.fillSpace(rFQReqID);		
+		if (hasRFQReqID()) FixUtils.fillNul(rFQReqID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(rFQReqID, src); 		
 		hasRFQReqID = FixUtils.TAG_HAS_VALUE;		
@@ -599,14 +599,14 @@ public class FixQuoteRequest extends FixInMessage {
 
 	public void setClOrdID(byte[] src) {		
 		if (src == null ) return;
-		if (hasClOrdID()) FixUtils.fillSpace(clOrdID);		
+		if (hasClOrdID()) FixUtils.fillNul(clOrdID);		
 		FixUtils.copy(clOrdID, src); 		
 		hasClOrdID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setClOrdID(String str) {		
 		if (str == null ) return;
-		if (hasClOrdID()) FixUtils.fillSpace(clOrdID);		
+		if (hasClOrdID()) FixUtils.fillNul(clOrdID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(clOrdID, src); 		
 		hasClOrdID = FixUtils.TAG_HAS_VALUE;		
@@ -890,14 +890,14 @@ public class FixQuoteRequest extends FixInMessage {
 
 	public void setOrderRestrictions(byte[] src) {		
 		if (src == null ) return;
-		if (hasOrderRestrictions()) FixUtils.fillSpace(orderRestrictions);		
+		if (hasOrderRestrictions()) FixUtils.fillNul(orderRestrictions);		
 		FixUtils.copy(orderRestrictions, src); 		
 		hasOrderRestrictions = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setOrderRestrictions(String str) {		
 		if (str == null ) return;
-		if (hasOrderRestrictions()) FixUtils.fillSpace(orderRestrictions);		
+		if (hasOrderRestrictions()) FixUtils.fillNul(orderRestrictions);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(orderRestrictions, src); 		
 		hasOrderRestrictions = FixUtils.TAG_HAS_VALUE;		
@@ -934,14 +934,14 @@ public class FixQuoteRequest extends FixInMessage {
 
 	public void setText(byte[] src) {		
 		if (src == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setText(String str) {		
 		if (str == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
@@ -1027,14 +1027,14 @@ public class FixQuoteRequest extends FixInMessage {
 
 	public void setEncodedText(byte[] src) {		
 		if (src == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setEncodedText(String str) {		
 		if (str == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		

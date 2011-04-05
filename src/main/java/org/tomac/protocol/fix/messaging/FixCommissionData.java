@@ -290,14 +290,14 @@ public class FixCommissionData extends FixGroup {
 		
 	public void setCommCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasCommCurrency()) FixUtils.fillSpace(commCurrency);		
+		if (hasCommCurrency()) FixUtils.fillNul(commCurrency);		
 		FixUtils.copy(commCurrency, src); 		
 		hasCommCurrency = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setCommCurrency(String str) {		
 		if (str == null ) return;
-		if (hasCommCurrency()) FixUtils.fillSpace(commCurrency);		
+		if (hasCommCurrency()) FixUtils.fillNul(commCurrency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(commCurrency, src); 		
 		hasCommCurrency = FixUtils.TAG_HAS_VALUE;		

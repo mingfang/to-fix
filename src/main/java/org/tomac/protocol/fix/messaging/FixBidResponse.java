@@ -249,14 +249,14 @@ public class FixBidResponse extends FixInMessage {
 
 	public void setBidID(byte[] src) {		
 		if (src == null ) return;
-		if (hasBidID()) FixUtils.fillSpace(bidID);		
+		if (hasBidID()) FixUtils.fillNul(bidID);		
 		FixUtils.copy(bidID, src); 		
 		hasBidID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setBidID(String str) {		
 		if (str == null ) return;
-		if (hasBidID()) FixUtils.fillSpace(bidID);		
+		if (hasBidID()) FixUtils.fillNul(bidID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(bidID, src); 		
 		hasBidID = FixUtils.TAG_HAS_VALUE;		
@@ -293,14 +293,14 @@ public class FixBidResponse extends FixInMessage {
 
 	public void setClientBidID(byte[] src) {		
 		if (src == null ) return;
-		if (hasClientBidID()) FixUtils.fillSpace(clientBidID);		
+		if (hasClientBidID()) FixUtils.fillNul(clientBidID);		
 		FixUtils.copy(clientBidID, src); 		
 		hasClientBidID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setClientBidID(String str) {		
 		if (str == null ) return;
-		if (hasClientBidID()) FixUtils.fillSpace(clientBidID);		
+		if (hasClientBidID()) FixUtils.fillNul(clientBidID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(clientBidID, src); 		
 		hasClientBidID = FixUtils.TAG_HAS_VALUE;		

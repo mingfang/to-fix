@@ -578,14 +578,14 @@ public class FixEmail extends FixInMessage {
 
 	public void setEmailThreadID(byte[] src) {		
 		if (src == null ) return;
-		if (hasEmailThreadID()) FixUtils.fillSpace(emailThreadID);		
+		if (hasEmailThreadID()) FixUtils.fillNul(emailThreadID);		
 		FixUtils.copy(emailThreadID, src); 		
 		hasEmailThreadID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setEmailThreadID(String str) {		
 		if (str == null ) return;
-		if (hasEmailThreadID()) FixUtils.fillSpace(emailThreadID);		
+		if (hasEmailThreadID()) FixUtils.fillNul(emailThreadID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(emailThreadID, src); 		
 		hasEmailThreadID = FixUtils.TAG_HAS_VALUE;		
@@ -673,14 +673,14 @@ public class FixEmail extends FixInMessage {
 
 	public void setOrigTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasOrigTime()) FixUtils.fillSpace(origTime);		
+		if (hasOrigTime()) FixUtils.fillNul(origTime);		
 		FixUtils.copy(origTime, src); 		
 		hasOrigTime = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setOrigTime(String str) {		
 		if (str == null ) return;
-		if (hasOrigTime()) FixUtils.fillSpace(origTime);		
+		if (hasOrigTime()) FixUtils.fillNul(origTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(origTime, src); 		
 		hasOrigTime = FixUtils.TAG_HAS_VALUE;		
@@ -717,14 +717,14 @@ public class FixEmail extends FixInMessage {
 
 	public void setSubject(byte[] src) {		
 		if (src == null ) return;
-		if (hasSubject()) FixUtils.fillSpace(subject);		
+		if (hasSubject()) FixUtils.fillNul(subject);		
 		FixUtils.copy(subject, src); 		
 		hasSubject = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSubject(String str) {		
 		if (str == null ) return;
-		if (hasSubject()) FixUtils.fillSpace(subject);		
+		if (hasSubject()) FixUtils.fillNul(subject);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(subject, src); 		
 		hasSubject = FixUtils.TAG_HAS_VALUE;		
@@ -810,14 +810,14 @@ public class FixEmail extends FixInMessage {
 
 	public void setEncodedSubject(byte[] src) {		
 		if (src == null ) return;
-		if (hasEncodedSubject()) FixUtils.fillSpace(encodedSubject);		
+		if (hasEncodedSubject()) FixUtils.fillNul(encodedSubject);		
 		FixUtils.copy(encodedSubject, src); 		
 		hasEncodedSubject = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setEncodedSubject(String str) {		
 		if (str == null ) return;
-		if (hasEncodedSubject()) FixUtils.fillSpace(encodedSubject);		
+		if (hasEncodedSubject()) FixUtils.fillNul(encodedSubject);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(encodedSubject, src); 		
 		hasEncodedSubject = FixUtils.TAG_HAS_VALUE;		
@@ -854,14 +854,14 @@ public class FixEmail extends FixInMessage {
 
 	public void setOrderID(byte[] src) {		
 		if (src == null ) return;
-		if (hasOrderID()) FixUtils.fillSpace(orderID);		
+		if (hasOrderID()) FixUtils.fillNul(orderID);		
 		FixUtils.copy(orderID, src); 		
 		hasOrderID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setOrderID(String str) {		
 		if (str == null ) return;
-		if (hasOrderID()) FixUtils.fillSpace(orderID);		
+		if (hasOrderID()) FixUtils.fillNul(orderID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(orderID, src); 		
 		hasOrderID = FixUtils.TAG_HAS_VALUE;		
@@ -898,14 +898,14 @@ public class FixEmail extends FixInMessage {
 
 	public void setClOrdID(byte[] src) {		
 		if (src == null ) return;
-		if (hasClOrdID()) FixUtils.fillSpace(clOrdID);		
+		if (hasClOrdID()) FixUtils.fillNul(clOrdID);		
 		FixUtils.copy(clOrdID, src); 		
 		hasClOrdID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setClOrdID(String str) {		
 		if (str == null ) return;
-		if (hasClOrdID()) FixUtils.fillSpace(clOrdID);		
+		if (hasClOrdID()) FixUtils.fillNul(clOrdID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(clOrdID, src); 		
 		hasClOrdID = FixUtils.TAG_HAS_VALUE;		
@@ -991,14 +991,14 @@ public class FixEmail extends FixInMessage {
 
 	public void setRawData(byte[] src) {		
 		if (src == null ) return;
-		if (hasRawData()) FixUtils.fillSpace(rawData);		
+		if (hasRawData()) FixUtils.fillNul(rawData);		
 		FixUtils.copy(rawData, src); 		
 		hasRawData = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setRawData(String str) {		
 		if (str == null ) return;
-		if (hasRawData()) FixUtils.fillSpace(rawData);		
+		if (hasRawData()) FixUtils.fillNul(rawData);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(rawData, src); 		
 		hasRawData = FixUtils.TAG_HAS_VALUE;		

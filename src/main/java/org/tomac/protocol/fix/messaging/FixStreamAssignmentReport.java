@@ -274,14 +274,14 @@ public class FixStreamAssignmentReport extends FixInMessage {
 
 	public void setStreamAsgnRptID(byte[] src) {		
 		if (src == null ) return;
-		if (hasStreamAsgnRptID()) FixUtils.fillSpace(streamAsgnRptID);		
+		if (hasStreamAsgnRptID()) FixUtils.fillNul(streamAsgnRptID);		
 		FixUtils.copy(streamAsgnRptID, src); 		
 		hasStreamAsgnRptID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setStreamAsgnRptID(String str) {		
 		if (str == null ) return;
-		if (hasStreamAsgnRptID()) FixUtils.fillSpace(streamAsgnRptID);		
+		if (hasStreamAsgnRptID()) FixUtils.fillNul(streamAsgnRptID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(streamAsgnRptID, src); 		
 		hasStreamAsgnRptID = FixUtils.TAG_HAS_VALUE;		
@@ -367,14 +367,14 @@ public class FixStreamAssignmentReport extends FixInMessage {
 
 	public void setStreamAsgnReqID(byte[] src) {		
 		if (src == null ) return;
-		if (hasStreamAsgnReqID()) FixUtils.fillSpace(streamAsgnReqID);		
+		if (hasStreamAsgnReqID()) FixUtils.fillNul(streamAsgnReqID);		
 		FixUtils.copy(streamAsgnReqID, src); 		
 		hasStreamAsgnReqID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setStreamAsgnReqID(String str) {		
 		if (str == null ) return;
-		if (hasStreamAsgnReqID()) FixUtils.fillSpace(streamAsgnReqID);		
+		if (hasStreamAsgnReqID()) FixUtils.fillNul(streamAsgnReqID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(streamAsgnReqID, src); 		
 		hasStreamAsgnReqID = FixUtils.TAG_HAS_VALUE;		

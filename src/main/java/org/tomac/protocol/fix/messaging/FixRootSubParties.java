@@ -150,14 +150,14 @@ public class FixRootSubParties extends FixGroup {
 		
 	public void setRootPartySubID(byte[] src) {		
 		if (src == null ) return;
-		if (hasRootPartySubID()) FixUtils.fillSpace(rootPartySubID);		
+		if (hasRootPartySubID()) FixUtils.fillNul(rootPartySubID);		
 		FixUtils.copy(rootPartySubID, src); 		
 		hasRootPartySubID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRootPartySubID(String str) {		
 		if (str == null ) return;
-		if (hasRootPartySubID()) FixUtils.fillSpace(rootPartySubID);		
+		if (hasRootPartySubID()) FixUtils.fillNul(rootPartySubID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(rootPartySubID, src); 		
 		hasRootPartySubID = FixUtils.TAG_HAS_VALUE;		

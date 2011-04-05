@@ -252,14 +252,14 @@ public class FixYieldData extends FixGroup {
 		
 	public void setYieldType(byte[] src) {		
 		if (src == null ) return;
-		if (hasYieldType()) FixUtils.fillSpace(yieldType);		
+		if (hasYieldType()) FixUtils.fillNul(yieldType);		
 		FixUtils.copy(yieldType, src); 		
 		hasYieldType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setYieldType(String str) {		
 		if (str == null ) return;
-		if (hasYieldType()) FixUtils.fillSpace(yieldType);		
+		if (hasYieldType()) FixUtils.fillNul(yieldType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(yieldType, src); 		
 		hasYieldType = FixUtils.TAG_HAS_VALUE;		
@@ -335,14 +335,14 @@ public class FixYieldData extends FixGroup {
 		
 	public void setYieldCalcDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasYieldCalcDate()) FixUtils.fillSpace(yieldCalcDate);		
+		if (hasYieldCalcDate()) FixUtils.fillNul(yieldCalcDate);		
 		FixUtils.copy(yieldCalcDate, src); 		
 		hasYieldCalcDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setYieldCalcDate(String str) {		
 		if (str == null ) return;
-		if (hasYieldCalcDate()) FixUtils.fillSpace(yieldCalcDate);		
+		if (hasYieldCalcDate()) FixUtils.fillNul(yieldCalcDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(yieldCalcDate, src); 		
 		hasYieldCalcDate = FixUtils.TAG_HAS_VALUE;		
@@ -374,14 +374,14 @@ public class FixYieldData extends FixGroup {
 		
 	public void setYieldRedemptionDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasYieldRedemptionDate()) FixUtils.fillSpace(yieldRedemptionDate);		
+		if (hasYieldRedemptionDate()) FixUtils.fillNul(yieldRedemptionDate);		
 		FixUtils.copy(yieldRedemptionDate, src); 		
 		hasYieldRedemptionDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setYieldRedemptionDate(String str) {		
 		if (str == null ) return;
-		if (hasYieldRedemptionDate()) FixUtils.fillSpace(yieldRedemptionDate);		
+		if (hasYieldRedemptionDate()) FixUtils.fillNul(yieldRedemptionDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(yieldRedemptionDate, src); 		
 		hasYieldRedemptionDate = FixUtils.TAG_HAS_VALUE;		

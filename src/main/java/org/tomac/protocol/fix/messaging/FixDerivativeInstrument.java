@@ -1646,14 +1646,14 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 	public void setDerivativeSymbol(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeSymbol()) FixUtils.fillSpace(derivativeSymbol);		
+		if (hasDerivativeSymbol()) FixUtils.fillNul(derivativeSymbol);		
 		FixUtils.copy(derivativeSymbol, src); 		
 		hasDerivativeSymbol = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeSymbol(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeSymbol()) FixUtils.fillSpace(derivativeSymbol);		
+		if (hasDerivativeSymbol()) FixUtils.fillNul(derivativeSymbol);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeSymbol, src); 		
 		hasDerivativeSymbol = FixUtils.TAG_HAS_VALUE;		
@@ -1685,14 +1685,14 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 	public void setDerivativeSymbolSfx(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeSymbolSfx()) FixUtils.fillSpace(derivativeSymbolSfx);		
+		if (hasDerivativeSymbolSfx()) FixUtils.fillNul(derivativeSymbolSfx);		
 		FixUtils.copy(derivativeSymbolSfx, src); 		
 		hasDerivativeSymbolSfx = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeSymbolSfx(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeSymbolSfx()) FixUtils.fillSpace(derivativeSymbolSfx);		
+		if (hasDerivativeSymbolSfx()) FixUtils.fillNul(derivativeSymbolSfx);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeSymbolSfx, src); 		
 		hasDerivativeSymbolSfx = FixUtils.TAG_HAS_VALUE;		
@@ -1724,14 +1724,14 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 	public void setDerivativeSecurityID(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeSecurityID()) FixUtils.fillSpace(derivativeSecurityID);		
+		if (hasDerivativeSecurityID()) FixUtils.fillNul(derivativeSecurityID);		
 		FixUtils.copy(derivativeSecurityID, src); 		
 		hasDerivativeSecurityID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeSecurityID(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeSecurityID()) FixUtils.fillSpace(derivativeSecurityID);		
+		if (hasDerivativeSecurityID()) FixUtils.fillNul(derivativeSecurityID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeSecurityID, src); 		
 		hasDerivativeSecurityID = FixUtils.TAG_HAS_VALUE;		
@@ -1763,14 +1763,14 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 	public void setDerivativeSecurityIDSource(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeSecurityIDSource()) FixUtils.fillSpace(derivativeSecurityIDSource);		
+		if (hasDerivativeSecurityIDSource()) FixUtils.fillNul(derivativeSecurityIDSource);		
 		FixUtils.copy(derivativeSecurityIDSource, src); 		
 		hasDerivativeSecurityIDSource = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeSecurityIDSource(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeSecurityIDSource()) FixUtils.fillSpace(derivativeSecurityIDSource);		
+		if (hasDerivativeSecurityIDSource()) FixUtils.fillNul(derivativeSecurityIDSource);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeSecurityIDSource, src); 		
 		hasDerivativeSecurityIDSource = FixUtils.TAG_HAS_VALUE;		
@@ -1846,14 +1846,14 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 	public void setDerivativeProductComplex(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeProductComplex()) FixUtils.fillSpace(derivativeProductComplex);		
+		if (hasDerivativeProductComplex()) FixUtils.fillNul(derivativeProductComplex);		
 		FixUtils.copy(derivativeProductComplex, src); 		
 		hasDerivativeProductComplex = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeProductComplex(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeProductComplex()) FixUtils.fillSpace(derivativeProductComplex);		
+		if (hasDerivativeProductComplex()) FixUtils.fillNul(derivativeProductComplex);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeProductComplex, src); 		
 		hasDerivativeProductComplex = FixUtils.TAG_HAS_VALUE;		
@@ -1929,14 +1929,14 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 	public void setDerivativeSecurityGroup(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeSecurityGroup()) FixUtils.fillSpace(derivativeSecurityGroup);		
+		if (hasDerivativeSecurityGroup()) FixUtils.fillNul(derivativeSecurityGroup);		
 		FixUtils.copy(derivativeSecurityGroup, src); 		
 		hasDerivativeSecurityGroup = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeSecurityGroup(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeSecurityGroup()) FixUtils.fillSpace(derivativeSecurityGroup);		
+		if (hasDerivativeSecurityGroup()) FixUtils.fillNul(derivativeSecurityGroup);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeSecurityGroup, src); 		
 		hasDerivativeSecurityGroup = FixUtils.TAG_HAS_VALUE;		
@@ -1968,14 +1968,14 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 	public void setDerivativeCFICode(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeCFICode()) FixUtils.fillSpace(derivativeCFICode);		
+		if (hasDerivativeCFICode()) FixUtils.fillNul(derivativeCFICode);		
 		FixUtils.copy(derivativeCFICode, src); 		
 		hasDerivativeCFICode = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeCFICode(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeCFICode()) FixUtils.fillSpace(derivativeCFICode);		
+		if (hasDerivativeCFICode()) FixUtils.fillNul(derivativeCFICode);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeCFICode, src); 		
 		hasDerivativeCFICode = FixUtils.TAG_HAS_VALUE;		
@@ -2007,14 +2007,14 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 	public void setDerivativeSecurityType(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeSecurityType()) FixUtils.fillSpace(derivativeSecurityType);		
+		if (hasDerivativeSecurityType()) FixUtils.fillNul(derivativeSecurityType);		
 		FixUtils.copy(derivativeSecurityType, src); 		
 		hasDerivativeSecurityType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeSecurityType(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeSecurityType()) FixUtils.fillSpace(derivativeSecurityType);		
+		if (hasDerivativeSecurityType()) FixUtils.fillNul(derivativeSecurityType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeSecurityType, src); 		
 		hasDerivativeSecurityType = FixUtils.TAG_HAS_VALUE;		
@@ -2046,14 +2046,14 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 	public void setDerivativeSecuritySubType(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeSecuritySubType()) FixUtils.fillSpace(derivativeSecuritySubType);		
+		if (hasDerivativeSecuritySubType()) FixUtils.fillNul(derivativeSecuritySubType);		
 		FixUtils.copy(derivativeSecuritySubType, src); 		
 		hasDerivativeSecuritySubType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeSecuritySubType(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeSecuritySubType()) FixUtils.fillSpace(derivativeSecuritySubType);		
+		if (hasDerivativeSecuritySubType()) FixUtils.fillNul(derivativeSecuritySubType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeSecuritySubType, src); 		
 		hasDerivativeSecuritySubType = FixUtils.TAG_HAS_VALUE;		
@@ -2085,14 +2085,14 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 	public void setDerivativeMaturityMonthYear(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeMaturityMonthYear()) FixUtils.fillSpace(derivativeMaturityMonthYear);		
+		if (hasDerivativeMaturityMonthYear()) FixUtils.fillNul(derivativeMaturityMonthYear);		
 		FixUtils.copy(derivativeMaturityMonthYear, src); 		
 		hasDerivativeMaturityMonthYear = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeMaturityMonthYear(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeMaturityMonthYear()) FixUtils.fillSpace(derivativeMaturityMonthYear);		
+		if (hasDerivativeMaturityMonthYear()) FixUtils.fillNul(derivativeMaturityMonthYear);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeMaturityMonthYear, src); 		
 		hasDerivativeMaturityMonthYear = FixUtils.TAG_HAS_VALUE;		
@@ -2124,14 +2124,14 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 	public void setDerivativeMaturityDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeMaturityDate()) FixUtils.fillSpace(derivativeMaturityDate);		
+		if (hasDerivativeMaturityDate()) FixUtils.fillNul(derivativeMaturityDate);		
 		FixUtils.copy(derivativeMaturityDate, src); 		
 		hasDerivativeMaturityDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeMaturityDate(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeMaturityDate()) FixUtils.fillSpace(derivativeMaturityDate);		
+		if (hasDerivativeMaturityDate()) FixUtils.fillNul(derivativeMaturityDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeMaturityDate, src); 		
 		hasDerivativeMaturityDate = FixUtils.TAG_HAS_VALUE;		
@@ -2163,14 +2163,14 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 	public void setDerivativeMaturityTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeMaturityTime()) FixUtils.fillSpace(derivativeMaturityTime);		
+		if (hasDerivativeMaturityTime()) FixUtils.fillNul(derivativeMaturityTime);		
 		FixUtils.copy(derivativeMaturityTime, src); 		
 		hasDerivativeMaturityTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeMaturityTime(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeMaturityTime()) FixUtils.fillSpace(derivativeMaturityTime);		
+		if (hasDerivativeMaturityTime()) FixUtils.fillNul(derivativeMaturityTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeMaturityTime, src); 		
 		hasDerivativeMaturityTime = FixUtils.TAG_HAS_VALUE;		
@@ -2202,14 +2202,14 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 	public void setDerivativeSettleOnOpenFlag(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeSettleOnOpenFlag()) FixUtils.fillSpace(derivativeSettleOnOpenFlag);		
+		if (hasDerivativeSettleOnOpenFlag()) FixUtils.fillNul(derivativeSettleOnOpenFlag);		
 		FixUtils.copy(derivativeSettleOnOpenFlag, src); 		
 		hasDerivativeSettleOnOpenFlag = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeSettleOnOpenFlag(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeSettleOnOpenFlag()) FixUtils.fillSpace(derivativeSettleOnOpenFlag);		
+		if (hasDerivativeSettleOnOpenFlag()) FixUtils.fillNul(derivativeSettleOnOpenFlag);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeSettleOnOpenFlag, src); 		
 		hasDerivativeSettleOnOpenFlag = FixUtils.TAG_HAS_VALUE;		
@@ -2285,14 +2285,14 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 	public void setDerivativeSecurityStatus(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeSecurityStatus()) FixUtils.fillSpace(derivativeSecurityStatus);		
+		if (hasDerivativeSecurityStatus()) FixUtils.fillNul(derivativeSecurityStatus);		
 		FixUtils.copy(derivativeSecurityStatus, src); 		
 		hasDerivativeSecurityStatus = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeSecurityStatus(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeSecurityStatus()) FixUtils.fillSpace(derivativeSecurityStatus);		
+		if (hasDerivativeSecurityStatus()) FixUtils.fillNul(derivativeSecurityStatus);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeSecurityStatus, src); 		
 		hasDerivativeSecurityStatus = FixUtils.TAG_HAS_VALUE;		
@@ -2324,14 +2324,14 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 	public void setDerivativeIssueDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeIssueDate()) FixUtils.fillSpace(derivativeIssueDate);		
+		if (hasDerivativeIssueDate()) FixUtils.fillNul(derivativeIssueDate);		
 		FixUtils.copy(derivativeIssueDate, src); 		
 		hasDerivativeIssueDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeIssueDate(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeIssueDate()) FixUtils.fillSpace(derivativeIssueDate);		
+		if (hasDerivativeIssueDate()) FixUtils.fillNul(derivativeIssueDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeIssueDate, src); 		
 		hasDerivativeIssueDate = FixUtils.TAG_HAS_VALUE;		
@@ -2363,14 +2363,14 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 	public void setDerivativeInstrRegistry(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeInstrRegistry()) FixUtils.fillSpace(derivativeInstrRegistry);		
+		if (hasDerivativeInstrRegistry()) FixUtils.fillNul(derivativeInstrRegistry);		
 		FixUtils.copy(derivativeInstrRegistry, src); 		
 		hasDerivativeInstrRegistry = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeInstrRegistry(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeInstrRegistry()) FixUtils.fillSpace(derivativeInstrRegistry);		
+		if (hasDerivativeInstrRegistry()) FixUtils.fillNul(derivativeInstrRegistry);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeInstrRegistry, src); 		
 		hasDerivativeInstrRegistry = FixUtils.TAG_HAS_VALUE;		
@@ -2402,14 +2402,14 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 	public void setDerivativeCountryOfIssue(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeCountryOfIssue()) FixUtils.fillSpace(derivativeCountryOfIssue);		
+		if (hasDerivativeCountryOfIssue()) FixUtils.fillNul(derivativeCountryOfIssue);		
 		FixUtils.copy(derivativeCountryOfIssue, src); 		
 		hasDerivativeCountryOfIssue = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeCountryOfIssue(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeCountryOfIssue()) FixUtils.fillSpace(derivativeCountryOfIssue);		
+		if (hasDerivativeCountryOfIssue()) FixUtils.fillNul(derivativeCountryOfIssue);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeCountryOfIssue, src); 		
 		hasDerivativeCountryOfIssue = FixUtils.TAG_HAS_VALUE;		
@@ -2441,14 +2441,14 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 	public void setDerivativeStateOrProvinceOfIssue(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeStateOrProvinceOfIssue()) FixUtils.fillSpace(derivativeStateOrProvinceOfIssue);		
+		if (hasDerivativeStateOrProvinceOfIssue()) FixUtils.fillNul(derivativeStateOrProvinceOfIssue);		
 		FixUtils.copy(derivativeStateOrProvinceOfIssue, src); 		
 		hasDerivativeStateOrProvinceOfIssue = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeStateOrProvinceOfIssue(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeStateOrProvinceOfIssue()) FixUtils.fillSpace(derivativeStateOrProvinceOfIssue);		
+		if (hasDerivativeStateOrProvinceOfIssue()) FixUtils.fillNul(derivativeStateOrProvinceOfIssue);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeStateOrProvinceOfIssue, src); 		
 		hasDerivativeStateOrProvinceOfIssue = FixUtils.TAG_HAS_VALUE;		
@@ -2524,14 +2524,14 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 	public void setDerivativeLocaleOfIssue(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeLocaleOfIssue()) FixUtils.fillSpace(derivativeLocaleOfIssue);		
+		if (hasDerivativeLocaleOfIssue()) FixUtils.fillNul(derivativeLocaleOfIssue);		
 		FixUtils.copy(derivativeLocaleOfIssue, src); 		
 		hasDerivativeLocaleOfIssue = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeLocaleOfIssue(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeLocaleOfIssue()) FixUtils.fillSpace(derivativeLocaleOfIssue);		
+		if (hasDerivativeLocaleOfIssue()) FixUtils.fillNul(derivativeLocaleOfIssue);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeLocaleOfIssue, src); 		
 		hasDerivativeLocaleOfIssue = FixUtils.TAG_HAS_VALUE;		
@@ -2563,14 +2563,14 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 	public void setDerivativeStrikeCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeStrikeCurrency()) FixUtils.fillSpace(derivativeStrikeCurrency);		
+		if (hasDerivativeStrikeCurrency()) FixUtils.fillNul(derivativeStrikeCurrency);		
 		FixUtils.copy(derivativeStrikeCurrency, src); 		
 		hasDerivativeStrikeCurrency = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeStrikeCurrency(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeStrikeCurrency()) FixUtils.fillSpace(derivativeStrikeCurrency);		
+		if (hasDerivativeStrikeCurrency()) FixUtils.fillNul(derivativeStrikeCurrency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeStrikeCurrency, src); 		
 		hasDerivativeStrikeCurrency = FixUtils.TAG_HAS_VALUE;		
@@ -2954,14 +2954,14 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 	public void setDerivativeUnitOfMeasure(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeUnitOfMeasure()) FixUtils.fillSpace(derivativeUnitOfMeasure);		
+		if (hasDerivativeUnitOfMeasure()) FixUtils.fillNul(derivativeUnitOfMeasure);		
 		FixUtils.copy(derivativeUnitOfMeasure, src); 		
 		hasDerivativeUnitOfMeasure = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeUnitOfMeasure(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeUnitOfMeasure()) FixUtils.fillSpace(derivativeUnitOfMeasure);		
+		if (hasDerivativeUnitOfMeasure()) FixUtils.fillNul(derivativeUnitOfMeasure);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeUnitOfMeasure, src); 		
 		hasDerivativeUnitOfMeasure = FixUtils.TAG_HAS_VALUE;		
@@ -3037,14 +3037,14 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 	public void setDerivativePriceUnitOfMeasure(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativePriceUnitOfMeasure()) FixUtils.fillSpace(derivativePriceUnitOfMeasure);		
+		if (hasDerivativePriceUnitOfMeasure()) FixUtils.fillNul(derivativePriceUnitOfMeasure);		
 		FixUtils.copy(derivativePriceUnitOfMeasure, src); 		
 		hasDerivativePriceUnitOfMeasure = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativePriceUnitOfMeasure(String str) {		
 		if (str == null ) return;
-		if (hasDerivativePriceUnitOfMeasure()) FixUtils.fillSpace(derivativePriceUnitOfMeasure);		
+		if (hasDerivativePriceUnitOfMeasure()) FixUtils.fillNul(derivativePriceUnitOfMeasure);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativePriceUnitOfMeasure, src); 		
 		hasDerivativePriceUnitOfMeasure = FixUtils.TAG_HAS_VALUE;		
@@ -3208,14 +3208,14 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 	public void setDerivativeTimeUnit(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeTimeUnit()) FixUtils.fillSpace(derivativeTimeUnit);		
+		if (hasDerivativeTimeUnit()) FixUtils.fillNul(derivativeTimeUnit);		
 		FixUtils.copy(derivativeTimeUnit, src); 		
 		hasDerivativeTimeUnit = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeTimeUnit(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeTimeUnit()) FixUtils.fillSpace(derivativeTimeUnit);		
+		if (hasDerivativeTimeUnit()) FixUtils.fillNul(derivativeTimeUnit);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeTimeUnit, src); 		
 		hasDerivativeTimeUnit = FixUtils.TAG_HAS_VALUE;		
@@ -3247,14 +3247,14 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 	public void setDerivativeSecurityExchange(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeSecurityExchange()) FixUtils.fillSpace(derivativeSecurityExchange);		
+		if (hasDerivativeSecurityExchange()) FixUtils.fillNul(derivativeSecurityExchange);		
 		FixUtils.copy(derivativeSecurityExchange, src); 		
 		hasDerivativeSecurityExchange = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeSecurityExchange(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeSecurityExchange()) FixUtils.fillSpace(derivativeSecurityExchange);		
+		if (hasDerivativeSecurityExchange()) FixUtils.fillNul(derivativeSecurityExchange);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeSecurityExchange, src); 		
 		hasDerivativeSecurityExchange = FixUtils.TAG_HAS_VALUE;		
@@ -3418,14 +3418,14 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 	public void setDerivativePriceQuoteMethod(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativePriceQuoteMethod()) FixUtils.fillSpace(derivativePriceQuoteMethod);		
+		if (hasDerivativePriceQuoteMethod()) FixUtils.fillNul(derivativePriceQuoteMethod);		
 		FixUtils.copy(derivativePriceQuoteMethod, src); 		
 		hasDerivativePriceQuoteMethod = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativePriceQuoteMethod(String str) {		
 		if (str == null ) return;
-		if (hasDerivativePriceQuoteMethod()) FixUtils.fillSpace(derivativePriceQuoteMethod);		
+		if (hasDerivativePriceQuoteMethod()) FixUtils.fillNul(derivativePriceQuoteMethod);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativePriceQuoteMethod, src); 		
 		hasDerivativePriceQuoteMethod = FixUtils.TAG_HAS_VALUE;		
@@ -3457,14 +3457,14 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 	public void setDerivativeValuationMethod(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeValuationMethod()) FixUtils.fillSpace(derivativeValuationMethod);		
+		if (hasDerivativeValuationMethod()) FixUtils.fillNul(derivativeValuationMethod);		
 		FixUtils.copy(derivativeValuationMethod, src); 		
 		hasDerivativeValuationMethod = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeValuationMethod(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeValuationMethod()) FixUtils.fillSpace(derivativeValuationMethod);		
+		if (hasDerivativeValuationMethod()) FixUtils.fillNul(derivativeValuationMethod);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeValuationMethod, src); 		
 		hasDerivativeValuationMethod = FixUtils.TAG_HAS_VALUE;		
@@ -3672,14 +3672,14 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 	public void setDerivativeIssuer(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeIssuer()) FixUtils.fillSpace(derivativeIssuer);		
+		if (hasDerivativeIssuer()) FixUtils.fillNul(derivativeIssuer);		
 		FixUtils.copy(derivativeIssuer, src); 		
 		hasDerivativeIssuer = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeIssuer(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeIssuer()) FixUtils.fillSpace(derivativeIssuer);		
+		if (hasDerivativeIssuer()) FixUtils.fillNul(derivativeIssuer);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeIssuer, src); 		
 		hasDerivativeIssuer = FixUtils.TAG_HAS_VALUE;		
@@ -3755,14 +3755,14 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 	public void setDerivativeEncodedIssuer(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeEncodedIssuer()) FixUtils.fillSpace(derivativeEncodedIssuer);		
+		if (hasDerivativeEncodedIssuer()) FixUtils.fillNul(derivativeEncodedIssuer);		
 		FixUtils.copy(derivativeEncodedIssuer, src); 		
 		hasDerivativeEncodedIssuer = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeEncodedIssuer(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeEncodedIssuer()) FixUtils.fillSpace(derivativeEncodedIssuer);		
+		if (hasDerivativeEncodedIssuer()) FixUtils.fillNul(derivativeEncodedIssuer);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeEncodedIssuer, src); 		
 		hasDerivativeEncodedIssuer = FixUtils.TAG_HAS_VALUE;		
@@ -3794,14 +3794,14 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 	public void setDerivativeSecurityDesc(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeSecurityDesc()) FixUtils.fillSpace(derivativeSecurityDesc);		
+		if (hasDerivativeSecurityDesc()) FixUtils.fillNul(derivativeSecurityDesc);		
 		FixUtils.copy(derivativeSecurityDesc, src); 		
 		hasDerivativeSecurityDesc = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeSecurityDesc(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeSecurityDesc()) FixUtils.fillSpace(derivativeSecurityDesc);		
+		if (hasDerivativeSecurityDesc()) FixUtils.fillNul(derivativeSecurityDesc);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeSecurityDesc, src); 		
 		hasDerivativeSecurityDesc = FixUtils.TAG_HAS_VALUE;		
@@ -3877,14 +3877,14 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 	public void setDerivativeEncodedSecurityDesc(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeEncodedSecurityDesc()) FixUtils.fillSpace(derivativeEncodedSecurityDesc);		
+		if (hasDerivativeEncodedSecurityDesc()) FixUtils.fillNul(derivativeEncodedSecurityDesc);		
 		FixUtils.copy(derivativeEncodedSecurityDesc, src); 		
 		hasDerivativeEncodedSecurityDesc = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeEncodedSecurityDesc(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeEncodedSecurityDesc()) FixUtils.fillSpace(derivativeEncodedSecurityDesc);		
+		if (hasDerivativeEncodedSecurityDesc()) FixUtils.fillNul(derivativeEncodedSecurityDesc);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeEncodedSecurityDesc, src); 		
 		hasDerivativeEncodedSecurityDesc = FixUtils.TAG_HAS_VALUE;		
@@ -3916,14 +3916,14 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 	public void setDerivativeContractSettlMonth(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeContractSettlMonth()) FixUtils.fillSpace(derivativeContractSettlMonth);		
+		if (hasDerivativeContractSettlMonth()) FixUtils.fillNul(derivativeContractSettlMonth);		
 		FixUtils.copy(derivativeContractSettlMonth, src); 		
 		hasDerivativeContractSettlMonth = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeContractSettlMonth(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeContractSettlMonth()) FixUtils.fillSpace(derivativeContractSettlMonth);		
+		if (hasDerivativeContractSettlMonth()) FixUtils.fillNul(derivativeContractSettlMonth);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeContractSettlMonth, src); 		
 		hasDerivativeContractSettlMonth = FixUtils.TAG_HAS_VALUE;		

@@ -210,14 +210,14 @@ public class FixRootParties extends FixGroup {
 		
 	public void setRootPartyID(byte[] src) {		
 		if (src == null ) return;
-		if (hasRootPartyID()) FixUtils.fillSpace(rootPartyID);		
+		if (hasRootPartyID()) FixUtils.fillNul(rootPartyID);		
 		FixUtils.copy(rootPartyID, src); 		
 		hasRootPartyID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRootPartyID(String str) {		
 		if (str == null ) return;
-		if (hasRootPartyID()) FixUtils.fillSpace(rootPartyID);		
+		if (hasRootPartyID()) FixUtils.fillNul(rootPartyID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(rootPartyID, src); 		
 		hasRootPartyID = FixUtils.TAG_HAS_VALUE;		

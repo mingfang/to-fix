@@ -728,14 +728,14 @@ public class FixMarketDataSnapshotFullRefresh extends FixInMessage {
 
 	public void setClearingBusinessDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasClearingBusinessDate()) FixUtils.fillSpace(clearingBusinessDate);		
+		if (hasClearingBusinessDate()) FixUtils.fillNul(clearingBusinessDate);		
 		FixUtils.copy(clearingBusinessDate, src); 		
 		hasClearingBusinessDate = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setClearingBusinessDate(String str) {		
 		if (str == null ) return;
-		if (hasClearingBusinessDate()) FixUtils.fillSpace(clearingBusinessDate);		
+		if (hasClearingBusinessDate()) FixUtils.fillNul(clearingBusinessDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(clearingBusinessDate, src); 		
 		hasClearingBusinessDate = FixUtils.TAG_HAS_VALUE;		
@@ -821,14 +821,14 @@ public class FixMarketDataSnapshotFullRefresh extends FixInMessage {
 
 	public void setMDFeedType(byte[] src) {		
 		if (src == null ) return;
-		if (hasMDFeedType()) FixUtils.fillSpace(mDFeedType);		
+		if (hasMDFeedType()) FixUtils.fillNul(mDFeedType);		
 		FixUtils.copy(mDFeedType, src); 		
 		hasMDFeedType = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setMDFeedType(String str) {		
 		if (str == null ) return;
-		if (hasMDFeedType()) FixUtils.fillSpace(mDFeedType);		
+		if (hasMDFeedType()) FixUtils.fillNul(mDFeedType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(mDFeedType, src); 		
 		hasMDFeedType = FixUtils.TAG_HAS_VALUE;		
@@ -865,14 +865,14 @@ public class FixMarketDataSnapshotFullRefresh extends FixInMessage {
 
 	public void setTradeDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradeDate()) FixUtils.fillSpace(tradeDate);		
+		if (hasTradeDate()) FixUtils.fillNul(tradeDate);		
 		FixUtils.copy(tradeDate, src); 		
 		hasTradeDate = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTradeDate(String str) {		
 		if (str == null ) return;
-		if (hasTradeDate()) FixUtils.fillSpace(tradeDate);		
+		if (hasTradeDate()) FixUtils.fillNul(tradeDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradeDate, src); 		
 		hasTradeDate = FixUtils.TAG_HAS_VALUE;		
@@ -1105,14 +1105,14 @@ public class FixMarketDataSnapshotFullRefresh extends FixInMessage {
 
 	public void setMDReqID(byte[] src) {		
 		if (src == null ) return;
-		if (hasMDReqID()) FixUtils.fillSpace(mDReqID);		
+		if (hasMDReqID()) FixUtils.fillNul(mDReqID);		
 		FixUtils.copy(mDReqID, src); 		
 		hasMDReqID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setMDReqID(String str) {		
 		if (str == null ) return;
-		if (hasMDReqID()) FixUtils.fillSpace(mDReqID);		
+		if (hasMDReqID()) FixUtils.fillNul(mDReqID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(mDReqID, src); 		
 		hasMDReqID = FixUtils.TAG_HAS_VALUE;		
@@ -1149,14 +1149,14 @@ public class FixMarketDataSnapshotFullRefresh extends FixInMessage {
 
 	public void setMDStreamID(byte[] src) {		
 		if (src == null ) return;
-		if (hasMDStreamID()) FixUtils.fillSpace(mDStreamID);		
+		if (hasMDStreamID()) FixUtils.fillNul(mDStreamID);		
 		FixUtils.copy(mDStreamID, src); 		
 		hasMDStreamID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setMDStreamID(String str) {		
 		if (str == null ) return;
-		if (hasMDStreamID()) FixUtils.fillSpace(mDStreamID);		
+		if (hasMDStreamID()) FixUtils.fillNul(mDStreamID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(mDStreamID, src); 		
 		hasMDStreamID = FixUtils.TAG_HAS_VALUE;		
@@ -1193,14 +1193,14 @@ public class FixMarketDataSnapshotFullRefresh extends FixInMessage {
 
 	public void setFinancialStatus(byte[] src) {		
 		if (src == null ) return;
-		if (hasFinancialStatus()) FixUtils.fillSpace(financialStatus);		
+		if (hasFinancialStatus()) FixUtils.fillNul(financialStatus);		
 		FixUtils.copy(financialStatus, src); 		
 		hasFinancialStatus = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setFinancialStatus(String str) {		
 		if (str == null ) return;
-		if (hasFinancialStatus()) FixUtils.fillSpace(financialStatus);		
+		if (hasFinancialStatus()) FixUtils.fillNul(financialStatus);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(financialStatus, src); 		
 		hasFinancialStatus = FixUtils.TAG_HAS_VALUE;		
@@ -1237,14 +1237,14 @@ public class FixMarketDataSnapshotFullRefresh extends FixInMessage {
 
 	public void setCorporateAction(byte[] src) {		
 		if (src == null ) return;
-		if (hasCorporateAction()) FixUtils.fillSpace(corporateAction);		
+		if (hasCorporateAction()) FixUtils.fillNul(corporateAction);		
 		FixUtils.copy(corporateAction, src); 		
 		hasCorporateAction = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setCorporateAction(String str) {		
 		if (str == null ) return;
-		if (hasCorporateAction()) FixUtils.fillSpace(corporateAction);		
+		if (hasCorporateAction()) FixUtils.fillNul(corporateAction);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(corporateAction, src); 		
 		hasCorporateAction = FixUtils.TAG_HAS_VALUE;		

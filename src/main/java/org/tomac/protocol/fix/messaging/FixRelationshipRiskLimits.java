@@ -360,14 +360,14 @@ public class FixRelationshipRiskLimits extends FixGroup {
 		
 	public void setRelationshipRiskLimitCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasRelationshipRiskLimitCurrency()) FixUtils.fillSpace(relationshipRiskLimitCurrency);		
+		if (hasRelationshipRiskLimitCurrency()) FixUtils.fillNul(relationshipRiskLimitCurrency);		
 		FixUtils.copy(relationshipRiskLimitCurrency, src); 		
 		hasRelationshipRiskLimitCurrency = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRelationshipRiskLimitCurrency(String str) {		
 		if (str == null ) return;
-		if (hasRelationshipRiskLimitCurrency()) FixUtils.fillSpace(relationshipRiskLimitCurrency);		
+		if (hasRelationshipRiskLimitCurrency()) FixUtils.fillNul(relationshipRiskLimitCurrency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(relationshipRiskLimitCurrency, src); 		
 		hasRelationshipRiskLimitCurrency = FixUtils.TAG_HAS_VALUE;		
@@ -399,14 +399,14 @@ public class FixRelationshipRiskLimits extends FixGroup {
 		
 	public void setRelationshipRiskLimitPlatform(byte[] src) {		
 		if (src == null ) return;
-		if (hasRelationshipRiskLimitPlatform()) FixUtils.fillSpace(relationshipRiskLimitPlatform);		
+		if (hasRelationshipRiskLimitPlatform()) FixUtils.fillNul(relationshipRiskLimitPlatform);		
 		FixUtils.copy(relationshipRiskLimitPlatform, src); 		
 		hasRelationshipRiskLimitPlatform = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRelationshipRiskLimitPlatform(String str) {		
 		if (str == null ) return;
-		if (hasRelationshipRiskLimitPlatform()) FixUtils.fillSpace(relationshipRiskLimitPlatform);		
+		if (hasRelationshipRiskLimitPlatform()) FixUtils.fillNul(relationshipRiskLimitPlatform);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(relationshipRiskLimitPlatform, src); 		
 		hasRelationshipRiskLimitPlatform = FixUtils.TAG_HAS_VALUE;		

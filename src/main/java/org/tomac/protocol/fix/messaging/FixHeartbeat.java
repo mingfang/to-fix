@@ -191,14 +191,14 @@ public class FixHeartbeat extends FixInMessage {
 
 	public void setTestReqID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTestReqID()) FixUtils.fillSpace(testReqID);		
+		if (hasTestReqID()) FixUtils.fillNul(testReqID);		
 		FixUtils.copy(testReqID, src); 		
 		hasTestReqID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTestReqID(String str) {		
 		if (str == null ) return;
-		if (hasTestReqID()) FixUtils.fillSpace(testReqID);		
+		if (hasTestReqID()) FixUtils.fillNul(testReqID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(testReqID, src); 		
 		hasTestReqID = FixUtils.TAG_HAS_VALUE;		

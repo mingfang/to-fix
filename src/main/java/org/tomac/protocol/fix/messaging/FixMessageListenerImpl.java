@@ -11,12 +11,13 @@ import java.nio.ByteBuffer;
 import org.tomac.protocol.fix.replay.FixValidator;
 import org.tomac.protocol.fix.FixValidationError;
 import org.tomac.protocol.fix.FixInMessage;
+import org.tomac.protocol.fix.IFixSession;
 
 public class FixMessageListenerImpl implements FixMessageListener 
 {
 
     @Override
-    public int getSessionID( long connectorID, FixValidationError err ) { return 0; }
+    public IFixSession getSession( long connectorID, FixValidationError err ) { return dummySession; }
 
     @Override
     public void addValidator( FixValidator validator ) {}
@@ -377,5 +378,29 @@ public class FixMessageListenerImpl implements FixMessageListener
 
     @Override
     public void onFixPartyDetailsListReport( FixPartyDetailsListReport msg ) {}
+
+		IFixSession dummySession = new IFixSession() {
+
+			@Override
+			public void setOutMsgSeqNum(long msgSeqNum) {}
+
+			@Override
+			public void setInMsgSeqNum(long msgSeqNum) {}
+
+			@Override
+			public void incrementOutMsgSeqNum() {}
+
+			@Override
+			public void incrementInMsgSeqNum(FixInMessage msg, FixValidationError err) {}
+
+			@Override
+			public int getSessionID() {	return 0; }
+
+			@Override
+			public long getOutMsgSeqNum() {	return 0; }
+
+			@Override
+			public long getInMsgSeqNum() { return 0; }
+		};
 
 }

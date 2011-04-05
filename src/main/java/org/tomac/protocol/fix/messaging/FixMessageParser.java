@@ -10,6 +10,7 @@ import java.nio.ByteBuffer;
 import org.tomac.protocol.fix.FixMessage;
 import org.tomac.protocol.fix.FixValidationError;
 import org.tomac.protocol.fix.FixInMessage;
+import org.tomac.protocol.fix.IFixSession;
 import org.tomac.protocol.fix.FixUtils;
 
 public class FixMessageParser implements FixMessageInfo
@@ -34,6 +35,7 @@ public class FixMessageParser implements FixMessageInfo
 	public void parse( long connectorID, ByteBuffer buf, FixValidationError err, FixMessageListener l )
 	{
 
+		IFixSession session = null;
 		int msgType = FixInMessage.crackMsgType( buf ,err );
 		// garbled message
 		if (err.hasError()) return; 
@@ -43,7 +45,9 @@ public class FixMessageParser implements FixMessageInfo
 
 		case MessageTypes.HEARTBEAT_INT:
 			FixHeartbeat fixHeartbeat = fixMessagePool.getFixHeartbeat(buf, err);
-			fixHeartbeat.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixHeartbeat.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixHeartbeat, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -53,7 +57,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.TESTREQUEST_INT:
 			FixTestRequest fixTestRequest = fixMessagePool.getFixTestRequest(buf, err);
-			fixTestRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixTestRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixTestRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -63,7 +69,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.RESENDREQUEST_INT:
 			FixResendRequest fixResendRequest = fixMessagePool.getFixResendRequest(buf, err);
-			fixResendRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixResendRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixResendRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -73,7 +81,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.REJECT_INT:
 			FixReject fixReject = fixMessagePool.getFixReject(buf, err);
-			fixReject.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixReject.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixReject, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -83,7 +93,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.SEQUENCERESET_INT:
 			FixSequenceReset fixSequenceReset = fixMessagePool.getFixSequenceReset(buf, err);
-			fixSequenceReset.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixSequenceReset.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixSequenceReset, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -93,7 +105,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.LOGOUT_INT:
 			FixLogout fixLogout = fixMessagePool.getFixLogout(buf, err);
-			fixLogout.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixLogout.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixLogout, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -103,7 +117,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.IOI_INT:
 			FixIOI fixIOI = fixMessagePool.getFixIOI(buf, err);
-			fixIOI.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixIOI.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixIOI, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -113,7 +129,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ADVERTISEMENT_INT:
 			FixAdvertisement fixAdvertisement = fixMessagePool.getFixAdvertisement(buf, err);
-			fixAdvertisement.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixAdvertisement.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixAdvertisement, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -123,7 +141,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.EXECUTIONREPORT_INT:
 			FixExecutionReport fixExecutionReport = fixMessagePool.getFixExecutionReport(buf, err);
-			fixExecutionReport.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixExecutionReport.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixExecutionReport, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -133,7 +153,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ORDERCANCELREJECT_INT:
 			FixOrderCancelReject fixOrderCancelReject = fixMessagePool.getFixOrderCancelReject(buf, err);
-			fixOrderCancelReject.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixOrderCancelReject.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixOrderCancelReject, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -143,17 +165,22 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.LOGON_INT:
 			FixLogon fixLogon = fixMessagePool.getFixLogon(buf, err);
-			fixLogon.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixLogon.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
 				l.onFixLogon(fixLogon);
 			}
+			session = l.getSession( connectorID, err);
+			if (session != null) session.incrementInMsgSeqNum(fixLogon, err);
 			fixMessagePool.returnFixLogon (fixLogon);
 			break;
 		case MessageTypes.NEWS_INT:
 			FixNews fixNews = fixMessagePool.getFixNews(buf, err);
-			fixNews.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixNews.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixNews, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -163,7 +190,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.EMAIL_INT:
 			FixEmail fixEmail = fixMessagePool.getFixEmail(buf, err);
-			fixEmail.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixEmail.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixEmail, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -173,7 +202,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.NEWORDERSINGLE_INT:
 			FixNewOrderSingle fixNewOrderSingle = fixMessagePool.getFixNewOrderSingle(buf, err);
-			fixNewOrderSingle.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixNewOrderSingle.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixNewOrderSingle, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -183,7 +214,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.NEWORDERLIST_INT:
 			FixNewOrderList fixNewOrderList = fixMessagePool.getFixNewOrderList(buf, err);
-			fixNewOrderList.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixNewOrderList.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixNewOrderList, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -193,7 +226,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ORDERCANCELREQUEST_INT:
 			FixOrderCancelRequest fixOrderCancelRequest = fixMessagePool.getFixOrderCancelRequest(buf, err);
-			fixOrderCancelRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixOrderCancelRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixOrderCancelRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -203,7 +238,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ORDERCANCELREPLACEREQUEST_INT:
 			FixOrderCancelReplaceRequest fixOrderCancelReplaceRequest = fixMessagePool.getFixOrderCancelReplaceRequest(buf, err);
-			fixOrderCancelReplaceRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixOrderCancelReplaceRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixOrderCancelReplaceRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -213,7 +250,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ORDERSTATUSREQUEST_INT:
 			FixOrderStatusRequest fixOrderStatusRequest = fixMessagePool.getFixOrderStatusRequest(buf, err);
-			fixOrderStatusRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixOrderStatusRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixOrderStatusRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -223,7 +262,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ALLOCATIONINSTRUCTION_INT:
 			FixAllocationInstruction fixAllocationInstruction = fixMessagePool.getFixAllocationInstruction(buf, err);
-			fixAllocationInstruction.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixAllocationInstruction.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixAllocationInstruction, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -233,7 +274,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.LISTCANCELREQUEST_INT:
 			FixListCancelRequest fixListCancelRequest = fixMessagePool.getFixListCancelRequest(buf, err);
-			fixListCancelRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixListCancelRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixListCancelRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -243,7 +286,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.LISTEXECUTE_INT:
 			FixListExecute fixListExecute = fixMessagePool.getFixListExecute(buf, err);
-			fixListExecute.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixListExecute.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixListExecute, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -253,7 +298,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.LISTSTATUSREQUEST_INT:
 			FixListStatusRequest fixListStatusRequest = fixMessagePool.getFixListStatusRequest(buf, err);
-			fixListStatusRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixListStatusRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixListStatusRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -263,7 +310,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.LISTSTATUS_INT:
 			FixListStatus fixListStatus = fixMessagePool.getFixListStatus(buf, err);
-			fixListStatus.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixListStatus.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixListStatus, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -273,7 +322,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ALLOCATIONINSTRUCTIONACK_INT:
 			FixAllocationInstructionAck fixAllocationInstructionAck = fixMessagePool.getFixAllocationInstructionAck(buf, err);
-			fixAllocationInstructionAck.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixAllocationInstructionAck.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixAllocationInstructionAck, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -283,7 +334,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.DONTKNOWTRADEDK_INT:
 			FixDontKnowTradeDK fixDontKnowTradeDK = fixMessagePool.getFixDontKnowTradeDK(buf, err);
-			fixDontKnowTradeDK.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixDontKnowTradeDK.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixDontKnowTradeDK, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -293,7 +346,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.QUOTEREQUEST_INT:
 			FixQuoteRequest fixQuoteRequest = fixMessagePool.getFixQuoteRequest(buf, err);
-			fixQuoteRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixQuoteRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixQuoteRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -303,7 +358,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.QUOTE_INT:
 			FixQuote fixQuote = fixMessagePool.getFixQuote(buf, err);
-			fixQuote.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixQuote.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixQuote, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -313,7 +370,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.SETTLEMENTINSTRUCTIONS_INT:
 			FixSettlementInstructions fixSettlementInstructions = fixMessagePool.getFixSettlementInstructions(buf, err);
-			fixSettlementInstructions.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixSettlementInstructions.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixSettlementInstructions, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -323,7 +382,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.MARKETDATAREQUEST_INT:
 			FixMarketDataRequest fixMarketDataRequest = fixMessagePool.getFixMarketDataRequest(buf, err);
-			fixMarketDataRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixMarketDataRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixMarketDataRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -333,7 +394,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.MARKETDATASNAPSHOTFULLREFRESH_INT:
 			FixMarketDataSnapshotFullRefresh fixMarketDataSnapshotFullRefresh = fixMessagePool.getFixMarketDataSnapshotFullRefresh(buf, err);
-			fixMarketDataSnapshotFullRefresh.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixMarketDataSnapshotFullRefresh.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixMarketDataSnapshotFullRefresh, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -343,7 +406,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.MARKETDATAINCREMENTALREFRESH_INT:
 			FixMarketDataIncrementalRefresh fixMarketDataIncrementalRefresh = fixMessagePool.getFixMarketDataIncrementalRefresh(buf, err);
-			fixMarketDataIncrementalRefresh.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixMarketDataIncrementalRefresh.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixMarketDataIncrementalRefresh, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -353,7 +418,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.MARKETDATAREQUESTREJECT_INT:
 			FixMarketDataRequestReject fixMarketDataRequestReject = fixMessagePool.getFixMarketDataRequestReject(buf, err);
-			fixMarketDataRequestReject.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixMarketDataRequestReject.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixMarketDataRequestReject, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -363,7 +430,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.QUOTECANCEL_INT:
 			FixQuoteCancel fixQuoteCancel = fixMessagePool.getFixQuoteCancel(buf, err);
-			fixQuoteCancel.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixQuoteCancel.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixQuoteCancel, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -373,7 +442,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.QUOTESTATUSREQUEST_INT:
 			FixQuoteStatusRequest fixQuoteStatusRequest = fixMessagePool.getFixQuoteStatusRequest(buf, err);
-			fixQuoteStatusRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixQuoteStatusRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixQuoteStatusRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -383,7 +454,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.MASSQUOTEACKNOWLEDGEMENT_INT:
 			FixMassQuoteAcknowledgement fixMassQuoteAcknowledgement = fixMessagePool.getFixMassQuoteAcknowledgement(buf, err);
-			fixMassQuoteAcknowledgement.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixMassQuoteAcknowledgement.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixMassQuoteAcknowledgement, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -393,7 +466,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.SECURITYDEFINITIONREQUEST_INT:
 			FixSecurityDefinitionRequest fixSecurityDefinitionRequest = fixMessagePool.getFixSecurityDefinitionRequest(buf, err);
-			fixSecurityDefinitionRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixSecurityDefinitionRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixSecurityDefinitionRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -403,7 +478,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.SECURITYDEFINITION_INT:
 			FixSecurityDefinition fixSecurityDefinition = fixMessagePool.getFixSecurityDefinition(buf, err);
-			fixSecurityDefinition.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixSecurityDefinition.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixSecurityDefinition, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -413,7 +490,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.SECURITYSTATUSREQUEST_INT:
 			FixSecurityStatusRequest fixSecurityStatusRequest = fixMessagePool.getFixSecurityStatusRequest(buf, err);
-			fixSecurityStatusRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixSecurityStatusRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixSecurityStatusRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -423,7 +502,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.SECURITYSTATUS_INT:
 			FixSecurityStatus fixSecurityStatus = fixMessagePool.getFixSecurityStatus(buf, err);
-			fixSecurityStatus.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixSecurityStatus.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixSecurityStatus, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -433,7 +514,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.TRADINGSESSIONSTATUSREQUEST_INT:
 			FixTradingSessionStatusRequest fixTradingSessionStatusRequest = fixMessagePool.getFixTradingSessionStatusRequest(buf, err);
-			fixTradingSessionStatusRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixTradingSessionStatusRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixTradingSessionStatusRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -443,7 +526,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.TRADINGSESSIONSTATUS_INT:
 			FixTradingSessionStatus fixTradingSessionStatus = fixMessagePool.getFixTradingSessionStatus(buf, err);
-			fixTradingSessionStatus.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixTradingSessionStatus.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixTradingSessionStatus, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -453,7 +538,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.MASSQUOTE_INT:
 			FixMassQuote fixMassQuote = fixMessagePool.getFixMassQuote(buf, err);
-			fixMassQuote.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixMassQuote.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixMassQuote, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -463,7 +550,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.BUSINESSMESSAGEREJECT_INT:
 			FixBusinessMessageReject fixBusinessMessageReject = fixMessagePool.getFixBusinessMessageReject(buf, err);
-			fixBusinessMessageReject.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixBusinessMessageReject.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixBusinessMessageReject, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -473,7 +562,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.BIDREQUEST_INT:
 			FixBidRequest fixBidRequest = fixMessagePool.getFixBidRequest(buf, err);
-			fixBidRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixBidRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixBidRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -483,7 +574,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.BIDRESPONSE_INT:
 			FixBidResponse fixBidResponse = fixMessagePool.getFixBidResponse(buf, err);
-			fixBidResponse.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixBidResponse.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixBidResponse, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -493,7 +586,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.LISTSTRIKEPRICE_INT:
 			FixListStrikePrice fixListStrikePrice = fixMessagePool.getFixListStrikePrice(buf, err);
-			fixListStrikePrice.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixListStrikePrice.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixListStrikePrice, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -503,7 +598,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.REGISTRATIONINSTRUCTIONS_INT:
 			FixRegistrationInstructions fixRegistrationInstructions = fixMessagePool.getFixRegistrationInstructions(buf, err);
-			fixRegistrationInstructions.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixRegistrationInstructions.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixRegistrationInstructions, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -513,7 +610,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.REGISTRATIONINSTRUCTIONSRESPONSE_INT:
 			FixRegistrationInstructionsResponse fixRegistrationInstructionsResponse = fixMessagePool.getFixRegistrationInstructionsResponse(buf, err);
-			fixRegistrationInstructionsResponse.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixRegistrationInstructionsResponse.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixRegistrationInstructionsResponse, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -523,7 +622,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ORDERMASSCANCELREQUEST_INT:
 			FixOrderMassCancelRequest fixOrderMassCancelRequest = fixMessagePool.getFixOrderMassCancelRequest(buf, err);
-			fixOrderMassCancelRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixOrderMassCancelRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixOrderMassCancelRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -533,7 +634,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ORDERMASSCANCELREPORT_INT:
 			FixOrderMassCancelReport fixOrderMassCancelReport = fixMessagePool.getFixOrderMassCancelReport(buf, err);
-			fixOrderMassCancelReport.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixOrderMassCancelReport.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixOrderMassCancelReport, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -543,7 +646,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.NEWORDERCROSS_INT:
 			FixNewOrderCross fixNewOrderCross = fixMessagePool.getFixNewOrderCross(buf, err);
-			fixNewOrderCross.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixNewOrderCross.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixNewOrderCross, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -553,7 +658,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.CROSSORDERCANCELREPLACEREQUEST_INT:
 			FixCrossOrderCancelReplaceRequest fixCrossOrderCancelReplaceRequest = fixMessagePool.getFixCrossOrderCancelReplaceRequest(buf, err);
-			fixCrossOrderCancelReplaceRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixCrossOrderCancelReplaceRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixCrossOrderCancelReplaceRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -563,7 +670,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.CROSSORDERCANCELREQUEST_INT:
 			FixCrossOrderCancelRequest fixCrossOrderCancelRequest = fixMessagePool.getFixCrossOrderCancelRequest(buf, err);
-			fixCrossOrderCancelRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixCrossOrderCancelRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixCrossOrderCancelRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -573,7 +682,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.SECURITYTYPEREQUEST_INT:
 			FixSecurityTypeRequest fixSecurityTypeRequest = fixMessagePool.getFixSecurityTypeRequest(buf, err);
-			fixSecurityTypeRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixSecurityTypeRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixSecurityTypeRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -583,7 +694,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.SECURITYTYPES_INT:
 			FixSecurityTypes fixSecurityTypes = fixMessagePool.getFixSecurityTypes(buf, err);
-			fixSecurityTypes.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixSecurityTypes.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixSecurityTypes, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -593,7 +706,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.SECURITYLISTREQUEST_INT:
 			FixSecurityListRequest fixSecurityListRequest = fixMessagePool.getFixSecurityListRequest(buf, err);
-			fixSecurityListRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixSecurityListRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixSecurityListRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -603,7 +718,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.SECURITYLIST_INT:
 			FixSecurityList fixSecurityList = fixMessagePool.getFixSecurityList(buf, err);
-			fixSecurityList.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixSecurityList.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixSecurityList, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -613,7 +730,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.DERIVATIVESECURITYLISTREQUEST_INT:
 			FixDerivativeSecurityListRequest fixDerivativeSecurityListRequest = fixMessagePool.getFixDerivativeSecurityListRequest(buf, err);
-			fixDerivativeSecurityListRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixDerivativeSecurityListRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixDerivativeSecurityListRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -623,7 +742,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.DERIVATIVESECURITYLIST_INT:
 			FixDerivativeSecurityList fixDerivativeSecurityList = fixMessagePool.getFixDerivativeSecurityList(buf, err);
-			fixDerivativeSecurityList.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixDerivativeSecurityList.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixDerivativeSecurityList, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -633,7 +754,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.NEWORDERMULTILEG_INT:
 			FixNewOrderMultileg fixNewOrderMultileg = fixMessagePool.getFixNewOrderMultileg(buf, err);
-			fixNewOrderMultileg.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixNewOrderMultileg.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixNewOrderMultileg, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -643,7 +766,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.MULTILEGORDERCANCELREPLACE_INT:
 			FixMultilegOrderCancelReplace fixMultilegOrderCancelReplace = fixMessagePool.getFixMultilegOrderCancelReplace(buf, err);
-			fixMultilegOrderCancelReplace.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixMultilegOrderCancelReplace.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixMultilegOrderCancelReplace, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -653,7 +778,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.TRADECAPTUREREPORTREQUEST_INT:
 			FixTradeCaptureReportRequest fixTradeCaptureReportRequest = fixMessagePool.getFixTradeCaptureReportRequest(buf, err);
-			fixTradeCaptureReportRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixTradeCaptureReportRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixTradeCaptureReportRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -663,7 +790,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.TRADECAPTUREREPORT_INT:
 			FixTradeCaptureReport fixTradeCaptureReport = fixMessagePool.getFixTradeCaptureReport(buf, err);
-			fixTradeCaptureReport.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixTradeCaptureReport.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixTradeCaptureReport, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -673,7 +802,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ORDERMASSSTATUSREQUEST_INT:
 			FixOrderMassStatusRequest fixOrderMassStatusRequest = fixMessagePool.getFixOrderMassStatusRequest(buf, err);
-			fixOrderMassStatusRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixOrderMassStatusRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixOrderMassStatusRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -683,7 +814,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.QUOTEREQUESTREJECT_INT:
 			FixQuoteRequestReject fixQuoteRequestReject = fixMessagePool.getFixQuoteRequestReject(buf, err);
-			fixQuoteRequestReject.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixQuoteRequestReject.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixQuoteRequestReject, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -693,7 +826,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.RFQREQUEST_INT:
 			FixRFQRequest fixRFQRequest = fixMessagePool.getFixRFQRequest(buf, err);
-			fixRFQRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixRFQRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixRFQRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -703,7 +838,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.QUOTESTATUSREPORT_INT:
 			FixQuoteStatusReport fixQuoteStatusReport = fixMessagePool.getFixQuoteStatusReport(buf, err);
-			fixQuoteStatusReport.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixQuoteStatusReport.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixQuoteStatusReport, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -713,7 +850,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.QUOTERESPONSE_INT:
 			FixQuoteResponse fixQuoteResponse = fixMessagePool.getFixQuoteResponse(buf, err);
-			fixQuoteResponse.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixQuoteResponse.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixQuoteResponse, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -723,7 +862,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.CONFIRMATION_INT:
 			FixConfirmation fixConfirmation = fixMessagePool.getFixConfirmation(buf, err);
-			fixConfirmation.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixConfirmation.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixConfirmation, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -733,7 +874,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.POSITIONMAINTENANCEREQUEST_INT:
 			FixPositionMaintenanceRequest fixPositionMaintenanceRequest = fixMessagePool.getFixPositionMaintenanceRequest(buf, err);
-			fixPositionMaintenanceRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixPositionMaintenanceRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixPositionMaintenanceRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -743,7 +886,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.POSITIONMAINTENANCEREPORT_INT:
 			FixPositionMaintenanceReport fixPositionMaintenanceReport = fixMessagePool.getFixPositionMaintenanceReport(buf, err);
-			fixPositionMaintenanceReport.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixPositionMaintenanceReport.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixPositionMaintenanceReport, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -753,7 +898,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.REQUESTFORPOSITIONS_INT:
 			FixRequestForPositions fixRequestForPositions = fixMessagePool.getFixRequestForPositions(buf, err);
-			fixRequestForPositions.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixRequestForPositions.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixRequestForPositions, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -763,7 +910,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.REQUESTFORPOSITIONSACK_INT:
 			FixRequestForPositionsAck fixRequestForPositionsAck = fixMessagePool.getFixRequestForPositionsAck(buf, err);
-			fixRequestForPositionsAck.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixRequestForPositionsAck.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixRequestForPositionsAck, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -773,7 +922,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.POSITIONREPORT_INT:
 			FixPositionReport fixPositionReport = fixMessagePool.getFixPositionReport(buf, err);
-			fixPositionReport.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixPositionReport.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixPositionReport, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -783,7 +934,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.TRADECAPTUREREPORTREQUESTACK_INT:
 			FixTradeCaptureReportRequestAck fixTradeCaptureReportRequestAck = fixMessagePool.getFixTradeCaptureReportRequestAck(buf, err);
-			fixTradeCaptureReportRequestAck.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixTradeCaptureReportRequestAck.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixTradeCaptureReportRequestAck, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -793,7 +946,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.TRADECAPTUREREPORTACK_INT:
 			FixTradeCaptureReportAck fixTradeCaptureReportAck = fixMessagePool.getFixTradeCaptureReportAck(buf, err);
-			fixTradeCaptureReportAck.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixTradeCaptureReportAck.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixTradeCaptureReportAck, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -803,7 +958,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ALLOCATIONREPORT_INT:
 			FixAllocationReport fixAllocationReport = fixMessagePool.getFixAllocationReport(buf, err);
-			fixAllocationReport.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixAllocationReport.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixAllocationReport, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -813,7 +970,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ALLOCATIONREPORTACK_INT:
 			FixAllocationReportAck fixAllocationReportAck = fixMessagePool.getFixAllocationReportAck(buf, err);
-			fixAllocationReportAck.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixAllocationReportAck.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixAllocationReportAck, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -823,7 +982,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.CONFIRMATION_ACK_INT:
 			FixConfirmation_Ack fixConfirmation_Ack = fixMessagePool.getFixConfirmation_Ack(buf, err);
-			fixConfirmation_Ack.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixConfirmation_Ack.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixConfirmation_Ack, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -833,7 +994,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.SETTLEMENTINSTRUCTIONREQUEST_INT:
 			FixSettlementInstructionRequest fixSettlementInstructionRequest = fixMessagePool.getFixSettlementInstructionRequest(buf, err);
-			fixSettlementInstructionRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixSettlementInstructionRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixSettlementInstructionRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -843,7 +1006,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ASSIGNMENTREPORT_INT:
 			FixAssignmentReport fixAssignmentReport = fixMessagePool.getFixAssignmentReport(buf, err);
-			fixAssignmentReport.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixAssignmentReport.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixAssignmentReport, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -853,7 +1018,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.COLLATERALREQUEST_INT:
 			FixCollateralRequest fixCollateralRequest = fixMessagePool.getFixCollateralRequest(buf, err);
-			fixCollateralRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixCollateralRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixCollateralRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -863,7 +1030,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.COLLATERALASSIGNMENT_INT:
 			FixCollateralAssignment fixCollateralAssignment = fixMessagePool.getFixCollateralAssignment(buf, err);
-			fixCollateralAssignment.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixCollateralAssignment.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixCollateralAssignment, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -873,7 +1042,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.COLLATERALRESPONSE_INT:
 			FixCollateralResponse fixCollateralResponse = fixMessagePool.getFixCollateralResponse(buf, err);
-			fixCollateralResponse.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixCollateralResponse.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixCollateralResponse, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -883,7 +1054,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.COLLATERALREPORT_INT:
 			FixCollateralReport fixCollateralReport = fixMessagePool.getFixCollateralReport(buf, err);
-			fixCollateralReport.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixCollateralReport.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixCollateralReport, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -893,7 +1066,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.COLLATERALINQUIRY_INT:
 			FixCollateralInquiry fixCollateralInquiry = fixMessagePool.getFixCollateralInquiry(buf, err);
-			fixCollateralInquiry.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixCollateralInquiry.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixCollateralInquiry, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -903,7 +1078,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSREQUEST_INT:
 			FixNetworkCounterpartySystemStatusRequest fixNetworkCounterpartySystemStatusRequest = fixMessagePool.getFixNetworkCounterpartySystemStatusRequest(buf, err);
-			fixNetworkCounterpartySystemStatusRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixNetworkCounterpartySystemStatusRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixNetworkCounterpartySystemStatusRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -913,7 +1090,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSRESPONSE_INT:
 			FixNetworkCounterpartySystemStatusResponse fixNetworkCounterpartySystemStatusResponse = fixMessagePool.getFixNetworkCounterpartySystemStatusResponse(buf, err);
-			fixNetworkCounterpartySystemStatusResponse.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixNetworkCounterpartySystemStatusResponse.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixNetworkCounterpartySystemStatusResponse, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -923,7 +1102,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.USERREQUEST_INT:
 			FixUserRequest fixUserRequest = fixMessagePool.getFixUserRequest(buf, err);
-			fixUserRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixUserRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixUserRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -933,7 +1114,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.USERRESPONSE_INT:
 			FixUserResponse fixUserResponse = fixMessagePool.getFixUserResponse(buf, err);
-			fixUserResponse.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixUserResponse.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixUserResponse, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -943,7 +1126,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.COLLATERALINQUIRYACK_INT:
 			FixCollateralInquiryAck fixCollateralInquiryAck = fixMessagePool.getFixCollateralInquiryAck(buf, err);
-			fixCollateralInquiryAck.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixCollateralInquiryAck.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixCollateralInquiryAck, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -953,7 +1138,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.CONFIRMATIONREQUEST_INT:
 			FixConfirmationRequest fixConfirmationRequest = fixMessagePool.getFixConfirmationRequest(buf, err);
-			fixConfirmationRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixConfirmationRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixConfirmationRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -963,7 +1150,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.CONTRARYINTENTIONREPORT_INT:
 			FixContraryIntentionReport fixContraryIntentionReport = fixMessagePool.getFixContraryIntentionReport(buf, err);
-			fixContraryIntentionReport.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixContraryIntentionReport.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixContraryIntentionReport, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -973,7 +1162,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.SECURITYDEFINITIONUPDATEREPORT_INT:
 			FixSecurityDefinitionUpdateReport fixSecurityDefinitionUpdateReport = fixMessagePool.getFixSecurityDefinitionUpdateReport(buf, err);
-			fixSecurityDefinitionUpdateReport.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixSecurityDefinitionUpdateReport.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixSecurityDefinitionUpdateReport, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -983,7 +1174,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.SECURITYLISTUPDATEREPORT_INT:
 			FixSecurityListUpdateReport fixSecurityListUpdateReport = fixMessagePool.getFixSecurityListUpdateReport(buf, err);
-			fixSecurityListUpdateReport.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixSecurityListUpdateReport.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixSecurityListUpdateReport, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -993,7 +1186,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ADJUSTEDPOSITIONREPORT_INT:
 			FixAdjustedPositionReport fixAdjustedPositionReport = fixMessagePool.getFixAdjustedPositionReport(buf, err);
-			fixAdjustedPositionReport.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixAdjustedPositionReport.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixAdjustedPositionReport, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -1003,7 +1198,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ALLOCATIONINSTRUCTIONALERT_INT:
 			FixAllocationInstructionAlert fixAllocationInstructionAlert = fixMessagePool.getFixAllocationInstructionAlert(buf, err);
-			fixAllocationInstructionAlert.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixAllocationInstructionAlert.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixAllocationInstructionAlert, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -1013,7 +1210,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.EXECUTIONACKNOWLEDGEMENT_INT:
 			FixExecutionAcknowledgement fixExecutionAcknowledgement = fixMessagePool.getFixExecutionAcknowledgement(buf, err);
-			fixExecutionAcknowledgement.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixExecutionAcknowledgement.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixExecutionAcknowledgement, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -1023,7 +1222,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.TRADINGSESSIONLIST_INT:
 			FixTradingSessionList fixTradingSessionList = fixMessagePool.getFixTradingSessionList(buf, err);
-			fixTradingSessionList.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixTradingSessionList.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixTradingSessionList, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -1033,7 +1234,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.TRADINGSESSIONLISTREQUEST_INT:
 			FixTradingSessionListRequest fixTradingSessionListRequest = fixMessagePool.getFixTradingSessionListRequest(buf, err);
-			fixTradingSessionListRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixTradingSessionListRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixTradingSessionListRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -1043,7 +1246,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.SETTLEMENTOBLIGATIONREPORT_INT:
 			FixSettlementObligationReport fixSettlementObligationReport = fixMessagePool.getFixSettlementObligationReport(buf, err);
-			fixSettlementObligationReport.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixSettlementObligationReport.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixSettlementObligationReport, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -1053,7 +1258,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.DERIVATIVESECURITYLISTUPDATEREPORT_INT:
 			FixDerivativeSecurityListUpdateReport fixDerivativeSecurityListUpdateReport = fixMessagePool.getFixDerivativeSecurityListUpdateReport(buf, err);
-			fixDerivativeSecurityListUpdateReport.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixDerivativeSecurityListUpdateReport.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixDerivativeSecurityListUpdateReport, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -1063,7 +1270,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.TRADINGSESSIONLISTUPDATEREPORT_INT:
 			FixTradingSessionListUpdateReport fixTradingSessionListUpdateReport = fixMessagePool.getFixTradingSessionListUpdateReport(buf, err);
-			fixTradingSessionListUpdateReport.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixTradingSessionListUpdateReport.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixTradingSessionListUpdateReport, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -1073,7 +1282,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.MARKETDEFINITIONREQUEST_INT:
 			FixMarketDefinitionRequest fixMarketDefinitionRequest = fixMessagePool.getFixMarketDefinitionRequest(buf, err);
-			fixMarketDefinitionRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixMarketDefinitionRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixMarketDefinitionRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -1083,7 +1294,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.MARKETDEFINITION_INT:
 			FixMarketDefinition fixMarketDefinition = fixMessagePool.getFixMarketDefinition(buf, err);
-			fixMarketDefinition.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixMarketDefinition.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixMarketDefinition, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -1093,7 +1306,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.MARKETDEFINITIONUPDATEREPORT_INT:
 			FixMarketDefinitionUpdateReport fixMarketDefinitionUpdateReport = fixMessagePool.getFixMarketDefinitionUpdateReport(buf, err);
-			fixMarketDefinitionUpdateReport.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixMarketDefinitionUpdateReport.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixMarketDefinitionUpdateReport, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -1103,7 +1318,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.USERNOTIFICATION_INT:
 			FixUserNotification fixUserNotification = fixMessagePool.getFixUserNotification(buf, err);
-			fixUserNotification.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixUserNotification.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixUserNotification, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -1113,7 +1330,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ORDERMASSACTIONREPORT_INT:
 			FixOrderMassActionReport fixOrderMassActionReport = fixMessagePool.getFixOrderMassActionReport(buf, err);
-			fixOrderMassActionReport.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixOrderMassActionReport.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixOrderMassActionReport, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -1123,7 +1342,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.ORDERMASSACTIONREQUEST_INT:
 			FixOrderMassActionRequest fixOrderMassActionRequest = fixMessagePool.getFixOrderMassActionRequest(buf, err);
-			fixOrderMassActionRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixOrderMassActionRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixOrderMassActionRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -1133,7 +1354,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.APPLICATIONMESSAGEREQUEST_INT:
 			FixApplicationMessageRequest fixApplicationMessageRequest = fixMessagePool.getFixApplicationMessageRequest(buf, err);
-			fixApplicationMessageRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixApplicationMessageRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixApplicationMessageRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -1143,7 +1366,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.APPLICATIONMESSAGEREQUESTACK_INT:
 			FixApplicationMessageRequestAck fixApplicationMessageRequestAck = fixMessagePool.getFixApplicationMessageRequestAck(buf, err);
-			fixApplicationMessageRequestAck.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixApplicationMessageRequestAck.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixApplicationMessageRequestAck, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -1153,7 +1378,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.APPLICATIONMESSAGEREPORT_INT:
 			FixApplicationMessageReport fixApplicationMessageReport = fixMessagePool.getFixApplicationMessageReport(buf, err);
-			fixApplicationMessageReport.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixApplicationMessageReport.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixApplicationMessageReport, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -1163,7 +1390,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.STREAMASSIGNMENTREQUEST_INT:
 			FixStreamAssignmentRequest fixStreamAssignmentRequest = fixMessagePool.getFixStreamAssignmentRequest(buf, err);
-			fixStreamAssignmentRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixStreamAssignmentRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixStreamAssignmentRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -1173,7 +1402,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.STREAMASSIGNMENTREPORT_INT:
 			FixStreamAssignmentReport fixStreamAssignmentReport = fixMessagePool.getFixStreamAssignmentReport(buf, err);
-			fixStreamAssignmentReport.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixStreamAssignmentReport.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixStreamAssignmentReport, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -1183,7 +1414,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.STREAMASSIGNMENTREPORTACK_INT:
 			FixStreamAssignmentReportACK fixStreamAssignmentReportACK = fixMessagePool.getFixStreamAssignmentReportACK(buf, err);
-			fixStreamAssignmentReportACK.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixStreamAssignmentReportACK.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixStreamAssignmentReportACK, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -1193,7 +1426,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.PARTYDETAILSLISTREQUEST_INT:
 			FixPartyDetailsListRequest fixPartyDetailsListRequest = fixMessagePool.getFixPartyDetailsListRequest(buf, err);
-			fixPartyDetailsListRequest.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixPartyDetailsListRequest.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixPartyDetailsListRequest, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {
@@ -1203,7 +1438,9 @@ public class FixMessageParser implements FixMessageInfo
 			break;
 		case MessageTypes.PARTYDETAILSLISTREPORT_INT:
 			FixPartyDetailsListReport fixPartyDetailsListReport = fixMessagePool.getFixPartyDetailsListReport(buf, err);
-			fixPartyDetailsListReport.sessionID = l.getSessionID( connectorID, err);
+			session = l.getSession( connectorID, err);
+			fixPartyDetailsListReport.sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;
+			session.incrementInMsgSeqNum(fixPartyDetailsListReport, err);
 			if(err.hasError()) {
 				l.onFixValidationError(err);
 			} else {

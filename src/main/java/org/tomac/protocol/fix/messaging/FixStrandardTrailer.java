@@ -224,14 +224,14 @@ public class FixStrandardTrailer extends FixGroup {
 		
 	public void setSignature(byte[] src) {		
 		if (src == null ) return;
-		if (hasSignature()) FixUtils.fillSpace(signature);		
+		if (hasSignature()) FixUtils.fillNul(signature);		
 		FixUtils.copy(signature, src); 		
 		hasSignature = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSignature(String str) {		
 		if (str == null ) return;
-		if (hasSignature()) FixUtils.fillSpace(signature);		
+		if (hasSignature()) FixUtils.fillNul(signature);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(signature, src); 		
 		hasSignature = FixUtils.TAG_HAS_VALUE;		
@@ -263,14 +263,14 @@ public class FixStrandardTrailer extends FixGroup {
 		
 	public void setCheckSum(byte[] src) {		
 		if (src == null ) return;
-		if (hasCheckSum()) FixUtils.fillSpace(checkSum);		
+		if (hasCheckSum()) FixUtils.fillNul(checkSum);		
 		FixUtils.copy(checkSum, src); 		
 		hasCheckSum = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setCheckSum(String str) {		
 		if (str == null ) return;
-		if (hasCheckSum()) FixUtils.fillSpace(checkSum);		
+		if (hasCheckSum()) FixUtils.fillNul(checkSum);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(checkSum, src); 		
 		hasCheckSum = FixUtils.TAG_HAS_VALUE;		

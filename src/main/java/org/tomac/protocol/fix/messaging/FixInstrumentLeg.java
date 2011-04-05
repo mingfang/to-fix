@@ -1491,14 +1491,14 @@ public class FixInstrumentLeg extends FixGroup {
 		
 	public void setLegSymbol(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegSymbol()) FixUtils.fillSpace(legSymbol);		
+		if (hasLegSymbol()) FixUtils.fillNul(legSymbol);		
 		FixUtils.copy(legSymbol, src); 		
 		hasLegSymbol = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegSymbol(String str) {		
 		if (str == null ) return;
-		if (hasLegSymbol()) FixUtils.fillSpace(legSymbol);		
+		if (hasLegSymbol()) FixUtils.fillNul(legSymbol);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legSymbol, src); 		
 		hasLegSymbol = FixUtils.TAG_HAS_VALUE;		
@@ -1530,14 +1530,14 @@ public class FixInstrumentLeg extends FixGroup {
 		
 	public void setLegSymbolSfx(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegSymbolSfx()) FixUtils.fillSpace(legSymbolSfx);		
+		if (hasLegSymbolSfx()) FixUtils.fillNul(legSymbolSfx);		
 		FixUtils.copy(legSymbolSfx, src); 		
 		hasLegSymbolSfx = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegSymbolSfx(String str) {		
 		if (str == null ) return;
-		if (hasLegSymbolSfx()) FixUtils.fillSpace(legSymbolSfx);		
+		if (hasLegSymbolSfx()) FixUtils.fillNul(legSymbolSfx);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legSymbolSfx, src); 		
 		hasLegSymbolSfx = FixUtils.TAG_HAS_VALUE;		
@@ -1569,14 +1569,14 @@ public class FixInstrumentLeg extends FixGroup {
 		
 	public void setLegSecurityID(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegSecurityID()) FixUtils.fillSpace(legSecurityID);		
+		if (hasLegSecurityID()) FixUtils.fillNul(legSecurityID);		
 		FixUtils.copy(legSecurityID, src); 		
 		hasLegSecurityID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegSecurityID(String str) {		
 		if (str == null ) return;
-		if (hasLegSecurityID()) FixUtils.fillSpace(legSecurityID);		
+		if (hasLegSecurityID()) FixUtils.fillNul(legSecurityID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legSecurityID, src); 		
 		hasLegSecurityID = FixUtils.TAG_HAS_VALUE;		
@@ -1608,14 +1608,14 @@ public class FixInstrumentLeg extends FixGroup {
 		
 	public void setLegSecurityIDSource(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegSecurityIDSource()) FixUtils.fillSpace(legSecurityIDSource);		
+		if (hasLegSecurityIDSource()) FixUtils.fillNul(legSecurityIDSource);		
 		FixUtils.copy(legSecurityIDSource, src); 		
 		hasLegSecurityIDSource = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegSecurityIDSource(String str) {		
 		if (str == null ) return;
-		if (hasLegSecurityIDSource()) FixUtils.fillSpace(legSecurityIDSource);		
+		if (hasLegSecurityIDSource()) FixUtils.fillNul(legSecurityIDSource);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legSecurityIDSource, src); 		
 		hasLegSecurityIDSource = FixUtils.TAG_HAS_VALUE;		
@@ -1691,14 +1691,14 @@ public class FixInstrumentLeg extends FixGroup {
 		
 	public void setLegCFICode(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegCFICode()) FixUtils.fillSpace(legCFICode);		
+		if (hasLegCFICode()) FixUtils.fillNul(legCFICode);		
 		FixUtils.copy(legCFICode, src); 		
 		hasLegCFICode = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegCFICode(String str) {		
 		if (str == null ) return;
-		if (hasLegCFICode()) FixUtils.fillSpace(legCFICode);		
+		if (hasLegCFICode()) FixUtils.fillNul(legCFICode);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legCFICode, src); 		
 		hasLegCFICode = FixUtils.TAG_HAS_VALUE;		
@@ -1730,14 +1730,14 @@ public class FixInstrumentLeg extends FixGroup {
 		
 	public void setLegSecurityType(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegSecurityType()) FixUtils.fillSpace(legSecurityType);		
+		if (hasLegSecurityType()) FixUtils.fillNul(legSecurityType);		
 		FixUtils.copy(legSecurityType, src); 		
 		hasLegSecurityType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegSecurityType(String str) {		
 		if (str == null ) return;
-		if (hasLegSecurityType()) FixUtils.fillSpace(legSecurityType);		
+		if (hasLegSecurityType()) FixUtils.fillNul(legSecurityType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legSecurityType, src); 		
 		hasLegSecurityType = FixUtils.TAG_HAS_VALUE;		
@@ -1769,14 +1769,14 @@ public class FixInstrumentLeg extends FixGroup {
 		
 	public void setLegSecuritySubType(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegSecuritySubType()) FixUtils.fillSpace(legSecuritySubType);		
+		if (hasLegSecuritySubType()) FixUtils.fillNul(legSecuritySubType);		
 		FixUtils.copy(legSecuritySubType, src); 		
 		hasLegSecuritySubType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegSecuritySubType(String str) {		
 		if (str == null ) return;
-		if (hasLegSecuritySubType()) FixUtils.fillSpace(legSecuritySubType);		
+		if (hasLegSecuritySubType()) FixUtils.fillNul(legSecuritySubType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legSecuritySubType, src); 		
 		hasLegSecuritySubType = FixUtils.TAG_HAS_VALUE;		
@@ -1808,14 +1808,14 @@ public class FixInstrumentLeg extends FixGroup {
 		
 	public void setLegMaturityMonthYear(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegMaturityMonthYear()) FixUtils.fillSpace(legMaturityMonthYear);		
+		if (hasLegMaturityMonthYear()) FixUtils.fillNul(legMaturityMonthYear);		
 		FixUtils.copy(legMaturityMonthYear, src); 		
 		hasLegMaturityMonthYear = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegMaturityMonthYear(String str) {		
 		if (str == null ) return;
-		if (hasLegMaturityMonthYear()) FixUtils.fillSpace(legMaturityMonthYear);		
+		if (hasLegMaturityMonthYear()) FixUtils.fillNul(legMaturityMonthYear);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legMaturityMonthYear, src); 		
 		hasLegMaturityMonthYear = FixUtils.TAG_HAS_VALUE;		
@@ -1847,14 +1847,14 @@ public class FixInstrumentLeg extends FixGroup {
 		
 	public void setLegMaturityDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegMaturityDate()) FixUtils.fillSpace(legMaturityDate);		
+		if (hasLegMaturityDate()) FixUtils.fillNul(legMaturityDate);		
 		FixUtils.copy(legMaturityDate, src); 		
 		hasLegMaturityDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegMaturityDate(String str) {		
 		if (str == null ) return;
-		if (hasLegMaturityDate()) FixUtils.fillSpace(legMaturityDate);		
+		if (hasLegMaturityDate()) FixUtils.fillNul(legMaturityDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legMaturityDate, src); 		
 		hasLegMaturityDate = FixUtils.TAG_HAS_VALUE;		
@@ -1886,14 +1886,14 @@ public class FixInstrumentLeg extends FixGroup {
 		
 	public void setLegMaturityTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegMaturityTime()) FixUtils.fillSpace(legMaturityTime);		
+		if (hasLegMaturityTime()) FixUtils.fillNul(legMaturityTime);		
 		FixUtils.copy(legMaturityTime, src); 		
 		hasLegMaturityTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegMaturityTime(String str) {		
 		if (str == null ) return;
-		if (hasLegMaturityTime()) FixUtils.fillSpace(legMaturityTime);		
+		if (hasLegMaturityTime()) FixUtils.fillNul(legMaturityTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legMaturityTime, src); 		
 		hasLegMaturityTime = FixUtils.TAG_HAS_VALUE;		
@@ -1925,14 +1925,14 @@ public class FixInstrumentLeg extends FixGroup {
 		
 	public void setLegCouponPaymentDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegCouponPaymentDate()) FixUtils.fillSpace(legCouponPaymentDate);		
+		if (hasLegCouponPaymentDate()) FixUtils.fillNul(legCouponPaymentDate);		
 		FixUtils.copy(legCouponPaymentDate, src); 		
 		hasLegCouponPaymentDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegCouponPaymentDate(String str) {		
 		if (str == null ) return;
-		if (hasLegCouponPaymentDate()) FixUtils.fillSpace(legCouponPaymentDate);		
+		if (hasLegCouponPaymentDate()) FixUtils.fillNul(legCouponPaymentDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legCouponPaymentDate, src); 		
 		hasLegCouponPaymentDate = FixUtils.TAG_HAS_VALUE;		
@@ -1964,14 +1964,14 @@ public class FixInstrumentLeg extends FixGroup {
 		
 	public void setLegIssueDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegIssueDate()) FixUtils.fillSpace(legIssueDate);		
+		if (hasLegIssueDate()) FixUtils.fillNul(legIssueDate);		
 		FixUtils.copy(legIssueDate, src); 		
 		hasLegIssueDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegIssueDate(String str) {		
 		if (str == null ) return;
-		if (hasLegIssueDate()) FixUtils.fillSpace(legIssueDate);		
+		if (hasLegIssueDate()) FixUtils.fillNul(legIssueDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legIssueDate, src); 		
 		hasLegIssueDate = FixUtils.TAG_HAS_VALUE;		
@@ -2179,14 +2179,14 @@ public class FixInstrumentLeg extends FixGroup {
 		
 	public void setLegCreditRating(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegCreditRating()) FixUtils.fillSpace(legCreditRating);		
+		if (hasLegCreditRating()) FixUtils.fillNul(legCreditRating);		
 		FixUtils.copy(legCreditRating, src); 		
 		hasLegCreditRating = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegCreditRating(String str) {		
 		if (str == null ) return;
-		if (hasLegCreditRating()) FixUtils.fillSpace(legCreditRating);		
+		if (hasLegCreditRating()) FixUtils.fillNul(legCreditRating);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legCreditRating, src); 		
 		hasLegCreditRating = FixUtils.TAG_HAS_VALUE;		
@@ -2218,14 +2218,14 @@ public class FixInstrumentLeg extends FixGroup {
 		
 	public void setLegInstrRegistry(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegInstrRegistry()) FixUtils.fillSpace(legInstrRegistry);		
+		if (hasLegInstrRegistry()) FixUtils.fillNul(legInstrRegistry);		
 		FixUtils.copy(legInstrRegistry, src); 		
 		hasLegInstrRegistry = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegInstrRegistry(String str) {		
 		if (str == null ) return;
-		if (hasLegInstrRegistry()) FixUtils.fillSpace(legInstrRegistry);		
+		if (hasLegInstrRegistry()) FixUtils.fillNul(legInstrRegistry);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legInstrRegistry, src); 		
 		hasLegInstrRegistry = FixUtils.TAG_HAS_VALUE;		
@@ -2257,14 +2257,14 @@ public class FixInstrumentLeg extends FixGroup {
 		
 	public void setLegCountryOfIssue(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegCountryOfIssue()) FixUtils.fillSpace(legCountryOfIssue);		
+		if (hasLegCountryOfIssue()) FixUtils.fillNul(legCountryOfIssue);		
 		FixUtils.copy(legCountryOfIssue, src); 		
 		hasLegCountryOfIssue = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegCountryOfIssue(String str) {		
 		if (str == null ) return;
-		if (hasLegCountryOfIssue()) FixUtils.fillSpace(legCountryOfIssue);		
+		if (hasLegCountryOfIssue()) FixUtils.fillNul(legCountryOfIssue);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legCountryOfIssue, src); 		
 		hasLegCountryOfIssue = FixUtils.TAG_HAS_VALUE;		
@@ -2296,14 +2296,14 @@ public class FixInstrumentLeg extends FixGroup {
 		
 	public void setLegStateOrProvinceOfIssue(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegStateOrProvinceOfIssue()) FixUtils.fillSpace(legStateOrProvinceOfIssue);		
+		if (hasLegStateOrProvinceOfIssue()) FixUtils.fillNul(legStateOrProvinceOfIssue);		
 		FixUtils.copy(legStateOrProvinceOfIssue, src); 		
 		hasLegStateOrProvinceOfIssue = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegStateOrProvinceOfIssue(String str) {		
 		if (str == null ) return;
-		if (hasLegStateOrProvinceOfIssue()) FixUtils.fillSpace(legStateOrProvinceOfIssue);		
+		if (hasLegStateOrProvinceOfIssue()) FixUtils.fillNul(legStateOrProvinceOfIssue);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legStateOrProvinceOfIssue, src); 		
 		hasLegStateOrProvinceOfIssue = FixUtils.TAG_HAS_VALUE;		
@@ -2335,14 +2335,14 @@ public class FixInstrumentLeg extends FixGroup {
 		
 	public void setLegLocaleOfIssue(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegLocaleOfIssue()) FixUtils.fillSpace(legLocaleOfIssue);		
+		if (hasLegLocaleOfIssue()) FixUtils.fillNul(legLocaleOfIssue);		
 		FixUtils.copy(legLocaleOfIssue, src); 		
 		hasLegLocaleOfIssue = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegLocaleOfIssue(String str) {		
 		if (str == null ) return;
-		if (hasLegLocaleOfIssue()) FixUtils.fillSpace(legLocaleOfIssue);		
+		if (hasLegLocaleOfIssue()) FixUtils.fillNul(legLocaleOfIssue);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legLocaleOfIssue, src); 		
 		hasLegLocaleOfIssue = FixUtils.TAG_HAS_VALUE;		
@@ -2374,14 +2374,14 @@ public class FixInstrumentLeg extends FixGroup {
 		
 	public void setLegRedemptionDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegRedemptionDate()) FixUtils.fillSpace(legRedemptionDate);		
+		if (hasLegRedemptionDate()) FixUtils.fillNul(legRedemptionDate);		
 		FixUtils.copy(legRedemptionDate, src); 		
 		hasLegRedemptionDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegRedemptionDate(String str) {		
 		if (str == null ) return;
-		if (hasLegRedemptionDate()) FixUtils.fillSpace(legRedemptionDate);		
+		if (hasLegRedemptionDate()) FixUtils.fillNul(legRedemptionDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legRedemptionDate, src); 		
 		hasLegRedemptionDate = FixUtils.TAG_HAS_VALUE;		
@@ -2457,14 +2457,14 @@ public class FixInstrumentLeg extends FixGroup {
 		
 	public void setLegStrikeCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegStrikeCurrency()) FixUtils.fillSpace(legStrikeCurrency);		
+		if (hasLegStrikeCurrency()) FixUtils.fillNul(legStrikeCurrency);		
 		FixUtils.copy(legStrikeCurrency, src); 		
 		hasLegStrikeCurrency = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegStrikeCurrency(String str) {		
 		if (str == null ) return;
-		if (hasLegStrikeCurrency()) FixUtils.fillSpace(legStrikeCurrency);		
+		if (hasLegStrikeCurrency()) FixUtils.fillNul(legStrikeCurrency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legStrikeCurrency, src); 		
 		hasLegStrikeCurrency = FixUtils.TAG_HAS_VALUE;		
@@ -2584,14 +2584,14 @@ public class FixInstrumentLeg extends FixGroup {
 		
 	public void setLegUnitOfMeasure(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegUnitOfMeasure()) FixUtils.fillSpace(legUnitOfMeasure);		
+		if (hasLegUnitOfMeasure()) FixUtils.fillNul(legUnitOfMeasure);		
 		FixUtils.copy(legUnitOfMeasure, src); 		
 		hasLegUnitOfMeasure = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegUnitOfMeasure(String str) {		
 		if (str == null ) return;
-		if (hasLegUnitOfMeasure()) FixUtils.fillSpace(legUnitOfMeasure);		
+		if (hasLegUnitOfMeasure()) FixUtils.fillNul(legUnitOfMeasure);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legUnitOfMeasure, src); 		
 		hasLegUnitOfMeasure = FixUtils.TAG_HAS_VALUE;		
@@ -2623,14 +2623,14 @@ public class FixInstrumentLeg extends FixGroup {
 		
 	public void setLegTimeUnit(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegTimeUnit()) FixUtils.fillSpace(legTimeUnit);		
+		if (hasLegTimeUnit()) FixUtils.fillNul(legTimeUnit);		
 		FixUtils.copy(legTimeUnit, src); 		
 		hasLegTimeUnit = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegTimeUnit(String str) {		
 		if (str == null ) return;
-		if (hasLegTimeUnit()) FixUtils.fillSpace(legTimeUnit);		
+		if (hasLegTimeUnit()) FixUtils.fillNul(legTimeUnit);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legTimeUnit, src); 		
 		hasLegTimeUnit = FixUtils.TAG_HAS_VALUE;		
@@ -2750,14 +2750,14 @@ public class FixInstrumentLeg extends FixGroup {
 		
 	public void setLegPriceUnitOfMeasure(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegPriceUnitOfMeasure()) FixUtils.fillSpace(legPriceUnitOfMeasure);		
+		if (hasLegPriceUnitOfMeasure()) FixUtils.fillNul(legPriceUnitOfMeasure);		
 		FixUtils.copy(legPriceUnitOfMeasure, src); 		
 		hasLegPriceUnitOfMeasure = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegPriceUnitOfMeasure(String str) {		
 		if (str == null ) return;
-		if (hasLegPriceUnitOfMeasure()) FixUtils.fillSpace(legPriceUnitOfMeasure);		
+		if (hasLegPriceUnitOfMeasure()) FixUtils.fillNul(legPriceUnitOfMeasure);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legPriceUnitOfMeasure, src); 		
 		hasLegPriceUnitOfMeasure = FixUtils.TAG_HAS_VALUE;		
@@ -2965,14 +2965,14 @@ public class FixInstrumentLeg extends FixGroup {
 		
 	public void setLegSecurityExchange(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegSecurityExchange()) FixUtils.fillSpace(legSecurityExchange);		
+		if (hasLegSecurityExchange()) FixUtils.fillNul(legSecurityExchange);		
 		FixUtils.copy(legSecurityExchange, src); 		
 		hasLegSecurityExchange = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegSecurityExchange(String str) {		
 		if (str == null ) return;
-		if (hasLegSecurityExchange()) FixUtils.fillSpace(legSecurityExchange);		
+		if (hasLegSecurityExchange()) FixUtils.fillNul(legSecurityExchange);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legSecurityExchange, src); 		
 		hasLegSecurityExchange = FixUtils.TAG_HAS_VALUE;		
@@ -3004,14 +3004,14 @@ public class FixInstrumentLeg extends FixGroup {
 		
 	public void setLegIssuer(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegIssuer()) FixUtils.fillSpace(legIssuer);		
+		if (hasLegIssuer()) FixUtils.fillNul(legIssuer);		
 		FixUtils.copy(legIssuer, src); 		
 		hasLegIssuer = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegIssuer(String str) {		
 		if (str == null ) return;
-		if (hasLegIssuer()) FixUtils.fillSpace(legIssuer);		
+		if (hasLegIssuer()) FixUtils.fillNul(legIssuer);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legIssuer, src); 		
 		hasLegIssuer = FixUtils.TAG_HAS_VALUE;		
@@ -3087,14 +3087,14 @@ public class FixInstrumentLeg extends FixGroup {
 		
 	public void setEncodedLegIssuer(byte[] src) {		
 		if (src == null ) return;
-		if (hasEncodedLegIssuer()) FixUtils.fillSpace(encodedLegIssuer);		
+		if (hasEncodedLegIssuer()) FixUtils.fillNul(encodedLegIssuer);		
 		FixUtils.copy(encodedLegIssuer, src); 		
 		hasEncodedLegIssuer = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setEncodedLegIssuer(String str) {		
 		if (str == null ) return;
-		if (hasEncodedLegIssuer()) FixUtils.fillSpace(encodedLegIssuer);		
+		if (hasEncodedLegIssuer()) FixUtils.fillNul(encodedLegIssuer);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(encodedLegIssuer, src); 		
 		hasEncodedLegIssuer = FixUtils.TAG_HAS_VALUE;		
@@ -3126,14 +3126,14 @@ public class FixInstrumentLeg extends FixGroup {
 		
 	public void setLegSecurityDesc(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegSecurityDesc()) FixUtils.fillSpace(legSecurityDesc);		
+		if (hasLegSecurityDesc()) FixUtils.fillNul(legSecurityDesc);		
 		FixUtils.copy(legSecurityDesc, src); 		
 		hasLegSecurityDesc = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegSecurityDesc(String str) {		
 		if (str == null ) return;
-		if (hasLegSecurityDesc()) FixUtils.fillSpace(legSecurityDesc);		
+		if (hasLegSecurityDesc()) FixUtils.fillNul(legSecurityDesc);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legSecurityDesc, src); 		
 		hasLegSecurityDesc = FixUtils.TAG_HAS_VALUE;		
@@ -3209,14 +3209,14 @@ public class FixInstrumentLeg extends FixGroup {
 		
 	public void setEncodedLegSecurityDesc(byte[] src) {		
 		if (src == null ) return;
-		if (hasEncodedLegSecurityDesc()) FixUtils.fillSpace(encodedLegSecurityDesc);		
+		if (hasEncodedLegSecurityDesc()) FixUtils.fillNul(encodedLegSecurityDesc);		
 		FixUtils.copy(encodedLegSecurityDesc, src); 		
 		hasEncodedLegSecurityDesc = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setEncodedLegSecurityDesc(String str) {		
 		if (str == null ) return;
-		if (hasEncodedLegSecurityDesc()) FixUtils.fillSpace(encodedLegSecurityDesc);		
+		if (hasEncodedLegSecurityDesc()) FixUtils.fillNul(encodedLegSecurityDesc);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(encodedLegSecurityDesc, src); 		
 		hasEncodedLegSecurityDesc = FixUtils.TAG_HAS_VALUE;		
@@ -3336,14 +3336,14 @@ public class FixInstrumentLeg extends FixGroup {
 		
 	public void setLegCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegCurrency()) FixUtils.fillSpace(legCurrency);		
+		if (hasLegCurrency()) FixUtils.fillNul(legCurrency);		
 		FixUtils.copy(legCurrency, src); 		
 		hasLegCurrency = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegCurrency(String str) {		
 		if (str == null ) return;
-		if (hasLegCurrency()) FixUtils.fillSpace(legCurrency);		
+		if (hasLegCurrency()) FixUtils.fillNul(legCurrency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legCurrency, src); 		
 		hasLegCurrency = FixUtils.TAG_HAS_VALUE;		
@@ -3375,14 +3375,14 @@ public class FixInstrumentLeg extends FixGroup {
 		
 	public void setLegPool(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegPool()) FixUtils.fillSpace(legPool);		
+		if (hasLegPool()) FixUtils.fillNul(legPool);		
 		FixUtils.copy(legPool, src); 		
 		hasLegPool = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegPool(String str) {		
 		if (str == null ) return;
-		if (hasLegPool()) FixUtils.fillSpace(legPool);		
+		if (hasLegPool()) FixUtils.fillNul(legPool);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legPool, src); 		
 		hasLegPool = FixUtils.TAG_HAS_VALUE;		
@@ -3414,14 +3414,14 @@ public class FixInstrumentLeg extends FixGroup {
 		
 	public void setLegDatedDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegDatedDate()) FixUtils.fillSpace(legDatedDate);		
+		if (hasLegDatedDate()) FixUtils.fillNul(legDatedDate);		
 		FixUtils.copy(legDatedDate, src); 		
 		hasLegDatedDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegDatedDate(String str) {		
 		if (str == null ) return;
-		if (hasLegDatedDate()) FixUtils.fillSpace(legDatedDate);		
+		if (hasLegDatedDate()) FixUtils.fillNul(legDatedDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legDatedDate, src); 		
 		hasLegDatedDate = FixUtils.TAG_HAS_VALUE;		
@@ -3453,14 +3453,14 @@ public class FixInstrumentLeg extends FixGroup {
 		
 	public void setLegContractSettlMonth(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegContractSettlMonth()) FixUtils.fillSpace(legContractSettlMonth);		
+		if (hasLegContractSettlMonth()) FixUtils.fillNul(legContractSettlMonth);		
 		FixUtils.copy(legContractSettlMonth, src); 		
 		hasLegContractSettlMonth = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegContractSettlMonth(String str) {		
 		if (str == null ) return;
-		if (hasLegContractSettlMonth()) FixUtils.fillSpace(legContractSettlMonth);		
+		if (hasLegContractSettlMonth()) FixUtils.fillNul(legContractSettlMonth);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legContractSettlMonth, src); 		
 		hasLegContractSettlMonth = FixUtils.TAG_HAS_VALUE;		
@@ -3492,14 +3492,14 @@ public class FixInstrumentLeg extends FixGroup {
 		
 	public void setLegInterestAccrualDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegInterestAccrualDate()) FixUtils.fillSpace(legInterestAccrualDate);		
+		if (hasLegInterestAccrualDate()) FixUtils.fillNul(legInterestAccrualDate);		
 		FixUtils.copy(legInterestAccrualDate, src); 		
 		hasLegInterestAccrualDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegInterestAccrualDate(String str) {		
 		if (str == null ) return;
-		if (hasLegInterestAccrualDate()) FixUtils.fillSpace(legInterestAccrualDate);		
+		if (hasLegInterestAccrualDate()) FixUtils.fillNul(legInterestAccrualDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legInterestAccrualDate, src); 		
 		hasLegInterestAccrualDate = FixUtils.TAG_HAS_VALUE;		

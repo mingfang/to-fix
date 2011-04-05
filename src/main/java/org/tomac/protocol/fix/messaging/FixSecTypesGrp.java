@@ -228,14 +228,14 @@ public class FixSecTypesGrp extends FixGroup {
 		
 	public void setSecurityType(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecurityType()) FixUtils.fillSpace(securityType);		
+		if (hasSecurityType()) FixUtils.fillNul(securityType);		
 		FixUtils.copy(securityType, src); 		
 		hasSecurityType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSecurityType(String str) {		
 		if (str == null ) return;
-		if (hasSecurityType()) FixUtils.fillSpace(securityType);		
+		if (hasSecurityType()) FixUtils.fillNul(securityType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(securityType, src); 		
 		hasSecurityType = FixUtils.TAG_HAS_VALUE;		
@@ -267,14 +267,14 @@ public class FixSecTypesGrp extends FixGroup {
 		
 	public void setSecuritySubType(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecuritySubType()) FixUtils.fillSpace(securitySubType);		
+		if (hasSecuritySubType()) FixUtils.fillNul(securitySubType);		
 		FixUtils.copy(securitySubType, src); 		
 		hasSecuritySubType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSecuritySubType(String str) {		
 		if (str == null ) return;
-		if (hasSecuritySubType()) FixUtils.fillSpace(securitySubType);		
+		if (hasSecuritySubType()) FixUtils.fillNul(securitySubType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(securitySubType, src); 		
 		hasSecuritySubType = FixUtils.TAG_HAS_VALUE;		
@@ -350,14 +350,14 @@ public class FixSecTypesGrp extends FixGroup {
 		
 	public void setCFICode(byte[] src) {		
 		if (src == null ) return;
-		if (hasCFICode()) FixUtils.fillSpace(cFICode);		
+		if (hasCFICode()) FixUtils.fillNul(cFICode);		
 		FixUtils.copy(cFICode, src); 		
 		hasCFICode = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setCFICode(String str) {		
 		if (str == null ) return;
-		if (hasCFICode()) FixUtils.fillSpace(cFICode);		
+		if (hasCFICode()) FixUtils.fillNul(cFICode);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(cFICode, src); 		
 		hasCFICode = FixUtils.TAG_HAS_VALUE;		
@@ -389,14 +389,14 @@ public class FixSecTypesGrp extends FixGroup {
 		
 	public void setTransactTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setTransactTime(String str) {		
 		if (str == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		

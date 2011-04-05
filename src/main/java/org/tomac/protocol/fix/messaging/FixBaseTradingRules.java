@@ -650,14 +650,14 @@ public class FixBaseTradingRules extends FixGroup {
 		
 	public void setTradingCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradingCurrency()) FixUtils.fillSpace(tradingCurrency);		
+		if (hasTradingCurrency()) FixUtils.fillNul(tradingCurrency);		
 		FixUtils.copy(tradingCurrency, src); 		
 		hasTradingCurrency = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setTradingCurrency(String str) {		
 		if (str == null ) return;
-		if (hasTradingCurrency()) FixUtils.fillSpace(tradingCurrency);		
+		if (hasTradingCurrency()) FixUtils.fillNul(tradingCurrency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradingCurrency, src); 		
 		hasTradingCurrency = FixUtils.TAG_HAS_VALUE;		

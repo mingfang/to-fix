@@ -177,14 +177,14 @@ public class FixLegSecAltIDGrp extends FixGroup {
 		
 	public void setNoLegSecurityAltID(byte[] src) {		
 		if (src == null ) return;
-		if (hasNoLegSecurityAltID()) FixUtils.fillSpace(noLegSecurityAltID);		
+		if (hasNoLegSecurityAltID()) FixUtils.fillNul(noLegSecurityAltID);		
 		FixUtils.copy(noLegSecurityAltID, src); 		
 		hasNoLegSecurityAltID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setNoLegSecurityAltID(String str) {		
 		if (str == null ) return;
-		if (hasNoLegSecurityAltID()) FixUtils.fillSpace(noLegSecurityAltID);		
+		if (hasNoLegSecurityAltID()) FixUtils.fillNul(noLegSecurityAltID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(noLegSecurityAltID, src); 		
 		hasNoLegSecurityAltID = FixUtils.TAG_HAS_VALUE;		
@@ -216,14 +216,14 @@ public class FixLegSecAltIDGrp extends FixGroup {
 		
 	public void setLegSecurityAltID(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegSecurityAltID()) FixUtils.fillSpace(legSecurityAltID);		
+		if (hasLegSecurityAltID()) FixUtils.fillNul(legSecurityAltID);		
 		FixUtils.copy(legSecurityAltID, src); 		
 		hasLegSecurityAltID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegSecurityAltID(String str) {		
 		if (str == null ) return;
-		if (hasLegSecurityAltID()) FixUtils.fillSpace(legSecurityAltID);		
+		if (hasLegSecurityAltID()) FixUtils.fillNul(legSecurityAltID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legSecurityAltID, src); 		
 		hasLegSecurityAltID = FixUtils.TAG_HAS_VALUE;		
@@ -255,14 +255,14 @@ public class FixLegSecAltIDGrp extends FixGroup {
 		
 	public void setLegSecurityAltIDSource(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegSecurityAltIDSource()) FixUtils.fillSpace(legSecurityAltIDSource);		
+		if (hasLegSecurityAltIDSource()) FixUtils.fillNul(legSecurityAltIDSource);		
 		FixUtils.copy(legSecurityAltIDSource, src); 		
 		hasLegSecurityAltIDSource = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegSecurityAltIDSource(String str) {		
 		if (str == null ) return;
-		if (hasLegSecurityAltIDSource()) FixUtils.fillSpace(legSecurityAltIDSource);		
+		if (hasLegSecurityAltIDSource()) FixUtils.fillNul(legSecurityAltIDSource);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legSecurityAltIDSource, src); 		
 		hasLegSecurityAltIDSource = FixUtils.TAG_HAS_VALUE;		

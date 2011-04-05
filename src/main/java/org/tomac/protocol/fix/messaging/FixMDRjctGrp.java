@@ -125,14 +125,14 @@ public class FixMDRjctGrp extends FixGroup {
 		
 	public void setAltMDSourceID(byte[] src) {		
 		if (src == null ) return;
-		if (hasAltMDSourceID()) FixUtils.fillSpace(altMDSourceID);		
+		if (hasAltMDSourceID()) FixUtils.fillNul(altMDSourceID);		
 		FixUtils.copy(altMDSourceID, src); 		
 		hasAltMDSourceID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setAltMDSourceID(String str) {		
 		if (str == null ) return;
-		if (hasAltMDSourceID()) FixUtils.fillSpace(altMDSourceID);		
+		if (hasAltMDSourceID()) FixUtils.fillNul(altMDSourceID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(altMDSourceID, src); 		
 		hasAltMDSourceID = FixUtils.TAG_HAS_VALUE;		

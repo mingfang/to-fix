@@ -210,14 +210,14 @@ public class FixNestedParties4 extends FixGroup {
 		
 	public void setNested4PartyID(byte[] src) {		
 		if (src == null ) return;
-		if (hasNested4PartyID()) FixUtils.fillSpace(nested4PartyID);		
+		if (hasNested4PartyID()) FixUtils.fillNul(nested4PartyID);		
 		FixUtils.copy(nested4PartyID, src); 		
 		hasNested4PartyID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setNested4PartyID(String str) {		
 		if (str == null ) return;
-		if (hasNested4PartyID()) FixUtils.fillSpace(nested4PartyID);		
+		if (hasNested4PartyID()) FixUtils.fillNul(nested4PartyID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(nested4PartyID, src); 		
 		hasNested4PartyID = FixUtils.TAG_HAS_VALUE;		

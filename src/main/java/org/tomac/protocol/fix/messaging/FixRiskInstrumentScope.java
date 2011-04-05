@@ -795,14 +795,14 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 	public void setRiskSymbol(byte[] src) {		
 		if (src == null ) return;
-		if (hasRiskSymbol()) FixUtils.fillSpace(riskSymbol);		
+		if (hasRiskSymbol()) FixUtils.fillNul(riskSymbol);		
 		FixUtils.copy(riskSymbol, src); 		
 		hasRiskSymbol = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRiskSymbol(String str) {		
 		if (str == null ) return;
-		if (hasRiskSymbol()) FixUtils.fillSpace(riskSymbol);		
+		if (hasRiskSymbol()) FixUtils.fillNul(riskSymbol);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(riskSymbol, src); 		
 		hasRiskSymbol = FixUtils.TAG_HAS_VALUE;		
@@ -834,14 +834,14 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 	public void setRiskSymbolSfx(byte[] src) {		
 		if (src == null ) return;
-		if (hasRiskSymbolSfx()) FixUtils.fillSpace(riskSymbolSfx);		
+		if (hasRiskSymbolSfx()) FixUtils.fillNul(riskSymbolSfx);		
 		FixUtils.copy(riskSymbolSfx, src); 		
 		hasRiskSymbolSfx = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRiskSymbolSfx(String str) {		
 		if (str == null ) return;
-		if (hasRiskSymbolSfx()) FixUtils.fillSpace(riskSymbolSfx);		
+		if (hasRiskSymbolSfx()) FixUtils.fillNul(riskSymbolSfx);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(riskSymbolSfx, src); 		
 		hasRiskSymbolSfx = FixUtils.TAG_HAS_VALUE;		
@@ -873,14 +873,14 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 	public void setRiskSecurityID(byte[] src) {		
 		if (src == null ) return;
-		if (hasRiskSecurityID()) FixUtils.fillSpace(riskSecurityID);		
+		if (hasRiskSecurityID()) FixUtils.fillNul(riskSecurityID);		
 		FixUtils.copy(riskSecurityID, src); 		
 		hasRiskSecurityID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRiskSecurityID(String str) {		
 		if (str == null ) return;
-		if (hasRiskSecurityID()) FixUtils.fillSpace(riskSecurityID);		
+		if (hasRiskSecurityID()) FixUtils.fillNul(riskSecurityID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(riskSecurityID, src); 		
 		hasRiskSecurityID = FixUtils.TAG_HAS_VALUE;		
@@ -912,14 +912,14 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 	public void setRiskSecurityIDSource(byte[] src) {		
 		if (src == null ) return;
-		if (hasRiskSecurityIDSource()) FixUtils.fillSpace(riskSecurityIDSource);		
+		if (hasRiskSecurityIDSource()) FixUtils.fillNul(riskSecurityIDSource);		
 		FixUtils.copy(riskSecurityIDSource, src); 		
 		hasRiskSecurityIDSource = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRiskSecurityIDSource(String str) {		
 		if (str == null ) return;
-		if (hasRiskSecurityIDSource()) FixUtils.fillSpace(riskSecurityIDSource);		
+		if (hasRiskSecurityIDSource()) FixUtils.fillNul(riskSecurityIDSource);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(riskSecurityIDSource, src); 		
 		hasRiskSecurityIDSource = FixUtils.TAG_HAS_VALUE;		
@@ -995,14 +995,14 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 	public void setRiskProductComplex(byte[] src) {		
 		if (src == null ) return;
-		if (hasRiskProductComplex()) FixUtils.fillSpace(riskProductComplex);		
+		if (hasRiskProductComplex()) FixUtils.fillNul(riskProductComplex);		
 		FixUtils.copy(riskProductComplex, src); 		
 		hasRiskProductComplex = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRiskProductComplex(String str) {		
 		if (str == null ) return;
-		if (hasRiskProductComplex()) FixUtils.fillSpace(riskProductComplex);		
+		if (hasRiskProductComplex()) FixUtils.fillNul(riskProductComplex);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(riskProductComplex, src); 		
 		hasRiskProductComplex = FixUtils.TAG_HAS_VALUE;		
@@ -1034,14 +1034,14 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 	public void setRiskSecurityGroup(byte[] src) {		
 		if (src == null ) return;
-		if (hasRiskSecurityGroup()) FixUtils.fillSpace(riskSecurityGroup);		
+		if (hasRiskSecurityGroup()) FixUtils.fillNul(riskSecurityGroup);		
 		FixUtils.copy(riskSecurityGroup, src); 		
 		hasRiskSecurityGroup = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRiskSecurityGroup(String str) {		
 		if (str == null ) return;
-		if (hasRiskSecurityGroup()) FixUtils.fillSpace(riskSecurityGroup);		
+		if (hasRiskSecurityGroup()) FixUtils.fillNul(riskSecurityGroup);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(riskSecurityGroup, src); 		
 		hasRiskSecurityGroup = FixUtils.TAG_HAS_VALUE;		
@@ -1073,14 +1073,14 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 	public void setRiskCFICode(byte[] src) {		
 		if (src == null ) return;
-		if (hasRiskCFICode()) FixUtils.fillSpace(riskCFICode);		
+		if (hasRiskCFICode()) FixUtils.fillNul(riskCFICode);		
 		FixUtils.copy(riskCFICode, src); 		
 		hasRiskCFICode = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRiskCFICode(String str) {		
 		if (str == null ) return;
-		if (hasRiskCFICode()) FixUtils.fillSpace(riskCFICode);		
+		if (hasRiskCFICode()) FixUtils.fillNul(riskCFICode);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(riskCFICode, src); 		
 		hasRiskCFICode = FixUtils.TAG_HAS_VALUE;		
@@ -1112,14 +1112,14 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 	public void setRiskSecurityType(byte[] src) {		
 		if (src == null ) return;
-		if (hasRiskSecurityType()) FixUtils.fillSpace(riskSecurityType);		
+		if (hasRiskSecurityType()) FixUtils.fillNul(riskSecurityType);		
 		FixUtils.copy(riskSecurityType, src); 		
 		hasRiskSecurityType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRiskSecurityType(String str) {		
 		if (str == null ) return;
-		if (hasRiskSecurityType()) FixUtils.fillSpace(riskSecurityType);		
+		if (hasRiskSecurityType()) FixUtils.fillNul(riskSecurityType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(riskSecurityType, src); 		
 		hasRiskSecurityType = FixUtils.TAG_HAS_VALUE;		
@@ -1151,14 +1151,14 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 	public void setRiskSecuritySubType(byte[] src) {		
 		if (src == null ) return;
-		if (hasRiskSecuritySubType()) FixUtils.fillSpace(riskSecuritySubType);		
+		if (hasRiskSecuritySubType()) FixUtils.fillNul(riskSecuritySubType);		
 		FixUtils.copy(riskSecuritySubType, src); 		
 		hasRiskSecuritySubType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRiskSecuritySubType(String str) {		
 		if (str == null ) return;
-		if (hasRiskSecuritySubType()) FixUtils.fillSpace(riskSecuritySubType);		
+		if (hasRiskSecuritySubType()) FixUtils.fillNul(riskSecuritySubType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(riskSecuritySubType, src); 		
 		hasRiskSecuritySubType = FixUtils.TAG_HAS_VALUE;		
@@ -1190,14 +1190,14 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 	public void setRiskMaturityMonthYear(byte[] src) {		
 		if (src == null ) return;
-		if (hasRiskMaturityMonthYear()) FixUtils.fillSpace(riskMaturityMonthYear);		
+		if (hasRiskMaturityMonthYear()) FixUtils.fillNul(riskMaturityMonthYear);		
 		FixUtils.copy(riskMaturityMonthYear, src); 		
 		hasRiskMaturityMonthYear = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRiskMaturityMonthYear(String str) {		
 		if (str == null ) return;
-		if (hasRiskMaturityMonthYear()) FixUtils.fillSpace(riskMaturityMonthYear);		
+		if (hasRiskMaturityMonthYear()) FixUtils.fillNul(riskMaturityMonthYear);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(riskMaturityMonthYear, src); 		
 		hasRiskMaturityMonthYear = FixUtils.TAG_HAS_VALUE;		
@@ -1229,14 +1229,14 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 	public void setRiskMaturityTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasRiskMaturityTime()) FixUtils.fillSpace(riskMaturityTime);		
+		if (hasRiskMaturityTime()) FixUtils.fillNul(riskMaturityTime);		
 		FixUtils.copy(riskMaturityTime, src); 		
 		hasRiskMaturityTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRiskMaturityTime(String str) {		
 		if (str == null ) return;
-		if (hasRiskMaturityTime()) FixUtils.fillSpace(riskMaturityTime);		
+		if (hasRiskMaturityTime()) FixUtils.fillNul(riskMaturityTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(riskMaturityTime, src); 		
 		hasRiskMaturityTime = FixUtils.TAG_HAS_VALUE;		
@@ -1268,14 +1268,14 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 	public void setRiskRestructuringType(byte[] src) {		
 		if (src == null ) return;
-		if (hasRiskRestructuringType()) FixUtils.fillSpace(riskRestructuringType);		
+		if (hasRiskRestructuringType()) FixUtils.fillNul(riskRestructuringType);		
 		FixUtils.copy(riskRestructuringType, src); 		
 		hasRiskRestructuringType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRiskRestructuringType(String str) {		
 		if (str == null ) return;
-		if (hasRiskRestructuringType()) FixUtils.fillSpace(riskRestructuringType);		
+		if (hasRiskRestructuringType()) FixUtils.fillNul(riskRestructuringType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(riskRestructuringType, src); 		
 		hasRiskRestructuringType = FixUtils.TAG_HAS_VALUE;		
@@ -1307,14 +1307,14 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 	public void setRiskSeniority(byte[] src) {		
 		if (src == null ) return;
-		if (hasRiskSeniority()) FixUtils.fillSpace(riskSeniority);		
+		if (hasRiskSeniority()) FixUtils.fillNul(riskSeniority);		
 		FixUtils.copy(riskSeniority, src); 		
 		hasRiskSeniority = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRiskSeniority(String str) {		
 		if (str == null ) return;
-		if (hasRiskSeniority()) FixUtils.fillSpace(riskSeniority);		
+		if (hasRiskSeniority()) FixUtils.fillNul(riskSeniority);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(riskSeniority, src); 		
 		hasRiskSeniority = FixUtils.TAG_HAS_VALUE;		
@@ -1478,14 +1478,14 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 	public void setRiskSecurityExchange(byte[] src) {		
 		if (src == null ) return;
-		if (hasRiskSecurityExchange()) FixUtils.fillSpace(riskSecurityExchange);		
+		if (hasRiskSecurityExchange()) FixUtils.fillNul(riskSecurityExchange);		
 		FixUtils.copy(riskSecurityExchange, src); 		
 		hasRiskSecurityExchange = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRiskSecurityExchange(String str) {		
 		if (str == null ) return;
-		if (hasRiskSecurityExchange()) FixUtils.fillSpace(riskSecurityExchange);		
+		if (hasRiskSecurityExchange()) FixUtils.fillNul(riskSecurityExchange);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(riskSecurityExchange, src); 		
 		hasRiskSecurityExchange = FixUtils.TAG_HAS_VALUE;		
@@ -1517,14 +1517,14 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 	public void setRiskSecurityDesc(byte[] src) {		
 		if (src == null ) return;
-		if (hasRiskSecurityDesc()) FixUtils.fillSpace(riskSecurityDesc);		
+		if (hasRiskSecurityDesc()) FixUtils.fillNul(riskSecurityDesc);		
 		FixUtils.copy(riskSecurityDesc, src); 		
 		hasRiskSecurityDesc = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRiskSecurityDesc(String str) {		
 		if (str == null ) return;
-		if (hasRiskSecurityDesc()) FixUtils.fillSpace(riskSecurityDesc);		
+		if (hasRiskSecurityDesc()) FixUtils.fillNul(riskSecurityDesc);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(riskSecurityDesc, src); 		
 		hasRiskSecurityDesc = FixUtils.TAG_HAS_VALUE;		
@@ -1600,14 +1600,14 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 	public void setRiskEncodedSecurityDesc(byte[] src) {		
 		if (src == null ) return;
-		if (hasRiskEncodedSecurityDesc()) FixUtils.fillSpace(riskEncodedSecurityDesc);		
+		if (hasRiskEncodedSecurityDesc()) FixUtils.fillNul(riskEncodedSecurityDesc);		
 		FixUtils.copy(riskEncodedSecurityDesc, src); 		
 		hasRiskEncodedSecurityDesc = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRiskEncodedSecurityDesc(String str) {		
 		if (str == null ) return;
-		if (hasRiskEncodedSecurityDesc()) FixUtils.fillSpace(riskEncodedSecurityDesc);		
+		if (hasRiskEncodedSecurityDesc()) FixUtils.fillNul(riskEncodedSecurityDesc);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(riskEncodedSecurityDesc, src); 		
 		hasRiskEncodedSecurityDesc = FixUtils.TAG_HAS_VALUE;		
@@ -1639,14 +1639,14 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 	public void setRiskInstrumentSettlType(byte[] src) {		
 		if (src == null ) return;
-		if (hasRiskInstrumentSettlType()) FixUtils.fillSpace(riskInstrumentSettlType);		
+		if (hasRiskInstrumentSettlType()) FixUtils.fillNul(riskInstrumentSettlType);		
 		FixUtils.copy(riskInstrumentSettlType, src); 		
 		hasRiskInstrumentSettlType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRiskInstrumentSettlType(String str) {		
 		if (str == null ) return;
-		if (hasRiskInstrumentSettlType()) FixUtils.fillSpace(riskInstrumentSettlType);		
+		if (hasRiskInstrumentSettlType()) FixUtils.fillNul(riskInstrumentSettlType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(riskInstrumentSettlType, src); 		
 		hasRiskInstrumentSettlType = FixUtils.TAG_HAS_VALUE;		

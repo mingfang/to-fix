@@ -210,14 +210,14 @@ public class FixSettlParties extends FixGroup {
 		
 	public void setSettlPartyID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSettlPartyID()) FixUtils.fillSpace(settlPartyID);		
+		if (hasSettlPartyID()) FixUtils.fillNul(settlPartyID);		
 		FixUtils.copy(settlPartyID, src); 		
 		hasSettlPartyID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSettlPartyID(String str) {		
 		if (str == null ) return;
-		if (hasSettlPartyID()) FixUtils.fillSpace(settlPartyID);		
+		if (hasSettlPartyID()) FixUtils.fillNul(settlPartyID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(settlPartyID, src); 		
 		hasSettlPartyID = FixUtils.TAG_HAS_VALUE;		

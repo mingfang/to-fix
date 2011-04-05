@@ -211,14 +211,14 @@ public class FixDerivativeInstrumentParties extends FixGroup {
 		
 	public void setDerivativeInstrumentPartyID(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeInstrumentPartyID()) FixUtils.fillSpace(derivativeInstrumentPartyID);		
+		if (hasDerivativeInstrumentPartyID()) FixUtils.fillNul(derivativeInstrumentPartyID);		
 		FixUtils.copy(derivativeInstrumentPartyID, src); 		
 		hasDerivativeInstrumentPartyID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeInstrumentPartyID(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeInstrumentPartyID()) FixUtils.fillSpace(derivativeInstrumentPartyID);		
+		if (hasDerivativeInstrumentPartyID()) FixUtils.fillNul(derivativeInstrumentPartyID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeInstrumentPartyID, src); 		
 		hasDerivativeInstrumentPartyID = FixUtils.TAG_HAS_VALUE;		
@@ -250,14 +250,14 @@ public class FixDerivativeInstrumentParties extends FixGroup {
 		
 	public void setDerivativeInstrumentPartyIDSource(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeInstrumentPartyIDSource()) FixUtils.fillSpace(derivativeInstrumentPartyIDSource);		
+		if (hasDerivativeInstrumentPartyIDSource()) FixUtils.fillNul(derivativeInstrumentPartyIDSource);		
 		FixUtils.copy(derivativeInstrumentPartyIDSource, src); 		
 		hasDerivativeInstrumentPartyIDSource = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeInstrumentPartyIDSource(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeInstrumentPartyIDSource()) FixUtils.fillSpace(derivativeInstrumentPartyIDSource);		
+		if (hasDerivativeInstrumentPartyIDSource()) FixUtils.fillNul(derivativeInstrumentPartyIDSource);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeInstrumentPartyIDSource, src); 		
 		hasDerivativeInstrumentPartyIDSource = FixUtils.TAG_HAS_VALUE;		

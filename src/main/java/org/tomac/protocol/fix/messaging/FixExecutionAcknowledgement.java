@@ -626,14 +626,14 @@ public class FixExecutionAcknowledgement extends FixInMessage {
 
 	public void setOrderID(byte[] src) {		
 		if (src == null ) return;
-		if (hasOrderID()) FixUtils.fillSpace(orderID);		
+		if (hasOrderID()) FixUtils.fillNul(orderID);		
 		FixUtils.copy(orderID, src); 		
 		hasOrderID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setOrderID(String str) {		
 		if (str == null ) return;
-		if (hasOrderID()) FixUtils.fillSpace(orderID);		
+		if (hasOrderID()) FixUtils.fillNul(orderID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(orderID, src); 		
 		hasOrderID = FixUtils.TAG_HAS_VALUE;		
@@ -670,14 +670,14 @@ public class FixExecutionAcknowledgement extends FixInMessage {
 
 	public void setSecondaryOrderID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecondaryOrderID()) FixUtils.fillSpace(secondaryOrderID);		
+		if (hasSecondaryOrderID()) FixUtils.fillNul(secondaryOrderID);		
 		FixUtils.copy(secondaryOrderID, src); 		
 		hasSecondaryOrderID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSecondaryOrderID(String str) {		
 		if (str == null ) return;
-		if (hasSecondaryOrderID()) FixUtils.fillSpace(secondaryOrderID);		
+		if (hasSecondaryOrderID()) FixUtils.fillNul(secondaryOrderID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(secondaryOrderID, src); 		
 		hasSecondaryOrderID = FixUtils.TAG_HAS_VALUE;		
@@ -714,14 +714,14 @@ public class FixExecutionAcknowledgement extends FixInMessage {
 
 	public void setClOrdID(byte[] src) {		
 		if (src == null ) return;
-		if (hasClOrdID()) FixUtils.fillSpace(clOrdID);		
+		if (hasClOrdID()) FixUtils.fillNul(clOrdID);		
 		FixUtils.copy(clOrdID, src); 		
 		hasClOrdID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setClOrdID(String str) {		
 		if (str == null ) return;
-		if (hasClOrdID()) FixUtils.fillSpace(clOrdID);		
+		if (hasClOrdID()) FixUtils.fillNul(clOrdID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(clOrdID, src); 		
 		hasClOrdID = FixUtils.TAG_HAS_VALUE;		
@@ -809,14 +809,14 @@ public class FixExecutionAcknowledgement extends FixInMessage {
 
 	public void setExecID(byte[] src) {		
 		if (src == null ) return;
-		if (hasExecID()) FixUtils.fillSpace(execID);		
+		if (hasExecID()) FixUtils.fillNul(execID);		
 		FixUtils.copy(execID, src); 		
 		hasExecID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setExecID(String str) {		
 		if (str == null ) return;
-		if (hasExecID()) FixUtils.fillSpace(execID);		
+		if (hasExecID()) FixUtils.fillNul(execID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(execID, src); 		
 		hasExecID = FixUtils.TAG_HAS_VALUE;		
@@ -1249,14 +1249,14 @@ public class FixExecutionAcknowledgement extends FixInMessage {
 
 	public void setText(byte[] src) {		
 		if (src == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setText(String str) {		
 		if (str == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
@@ -1342,14 +1342,14 @@ public class FixExecutionAcknowledgement extends FixInMessage {
 
 	public void setEncodedText(byte[] src) {		
 		if (src == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setEncodedText(String str) {		
 		if (str == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		

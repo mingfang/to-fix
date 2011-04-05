@@ -151,14 +151,14 @@ public class FixStipulations extends FixGroup {
 		
 	public void setStipulationType(byte[] src) {		
 		if (src == null ) return;
-		if (hasStipulationType()) FixUtils.fillSpace(stipulationType);		
+		if (hasStipulationType()) FixUtils.fillNul(stipulationType);		
 		FixUtils.copy(stipulationType, src); 		
 		hasStipulationType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setStipulationType(String str) {		
 		if (str == null ) return;
-		if (hasStipulationType()) FixUtils.fillSpace(stipulationType);		
+		if (hasStipulationType()) FixUtils.fillNul(stipulationType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(stipulationType, src); 		
 		hasStipulationType = FixUtils.TAG_HAS_VALUE;		
@@ -190,14 +190,14 @@ public class FixStipulations extends FixGroup {
 		
 	public void setStipulationValue(byte[] src) {		
 		if (src == null ) return;
-		if (hasStipulationValue()) FixUtils.fillSpace(stipulationValue);		
+		if (hasStipulationValue()) FixUtils.fillNul(stipulationValue);		
 		FixUtils.copy(stipulationValue, src); 		
 		hasStipulationValue = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setStipulationValue(String str) {		
 		if (str == null ) return;
-		if (hasStipulationValue()) FixUtils.fillSpace(stipulationValue);		
+		if (hasStipulationValue()) FixUtils.fillNul(stipulationValue);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(stipulationValue, src); 		
 		hasStipulationValue = FixUtils.TAG_HAS_VALUE;		

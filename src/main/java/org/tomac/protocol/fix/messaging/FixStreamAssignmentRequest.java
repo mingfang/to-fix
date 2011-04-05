@@ -256,14 +256,14 @@ public class FixStreamAssignmentRequest extends FixInMessage {
 
 	public void setStreamAsgnReqID(byte[] src) {		
 		if (src == null ) return;
-		if (hasStreamAsgnReqID()) FixUtils.fillSpace(streamAsgnReqID);		
+		if (hasStreamAsgnReqID()) FixUtils.fillNul(streamAsgnReqID);		
 		FixUtils.copy(streamAsgnReqID, src); 		
 		hasStreamAsgnReqID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setStreamAsgnReqID(String str) {		
 		if (str == null ) return;
-		if (hasStreamAsgnReqID()) FixUtils.fillSpace(streamAsgnReqID);		
+		if (hasStreamAsgnReqID()) FixUtils.fillNul(streamAsgnReqID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(streamAsgnReqID, src); 		
 		hasStreamAsgnReqID = FixUtils.TAG_HAS_VALUE;		

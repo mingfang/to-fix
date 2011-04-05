@@ -380,14 +380,14 @@ public class FixTradingSessionListRequest extends FixInMessage {
 
 	public void setTradSesReqID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradSesReqID()) FixUtils.fillSpace(tradSesReqID);		
+		if (hasTradSesReqID()) FixUtils.fillNul(tradSesReqID);		
 		FixUtils.copy(tradSesReqID, src); 		
 		hasTradSesReqID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTradSesReqID(String str) {		
 		if (str == null ) return;
-		if (hasTradSesReqID()) FixUtils.fillSpace(tradSesReqID);		
+		if (hasTradSesReqID()) FixUtils.fillNul(tradSesReqID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradSesReqID, src); 		
 		hasTradSesReqID = FixUtils.TAG_HAS_VALUE;		
@@ -424,14 +424,14 @@ public class FixTradingSessionListRequest extends FixInMessage {
 
 	public void setMarketID(byte[] src) {		
 		if (src == null ) return;
-		if (hasMarketID()) FixUtils.fillSpace(marketID);		
+		if (hasMarketID()) FixUtils.fillNul(marketID);		
 		FixUtils.copy(marketID, src); 		
 		hasMarketID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setMarketID(String str) {		
 		if (str == null ) return;
-		if (hasMarketID()) FixUtils.fillSpace(marketID);		
+		if (hasMarketID()) FixUtils.fillNul(marketID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(marketID, src); 		
 		hasMarketID = FixUtils.TAG_HAS_VALUE;		
@@ -468,14 +468,14 @@ public class FixTradingSessionListRequest extends FixInMessage {
 
 	public void setMarketSegmentID(byte[] src) {		
 		if (src == null ) return;
-		if (hasMarketSegmentID()) FixUtils.fillSpace(marketSegmentID);		
+		if (hasMarketSegmentID()) FixUtils.fillNul(marketSegmentID);		
 		FixUtils.copy(marketSegmentID, src); 		
 		hasMarketSegmentID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setMarketSegmentID(String str) {		
 		if (str == null ) return;
-		if (hasMarketSegmentID()) FixUtils.fillSpace(marketSegmentID);		
+		if (hasMarketSegmentID()) FixUtils.fillNul(marketSegmentID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(marketSegmentID, src); 		
 		hasMarketSegmentID = FixUtils.TAG_HAS_VALUE;		
@@ -512,14 +512,14 @@ public class FixTradingSessionListRequest extends FixInMessage {
 
 	public void setTradingSessionID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradingSessionID()) FixUtils.fillSpace(tradingSessionID);		
+		if (hasTradingSessionID()) FixUtils.fillNul(tradingSessionID);		
 		FixUtils.copy(tradingSessionID, src); 		
 		hasTradingSessionID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTradingSessionID(String str) {		
 		if (str == null ) return;
-		if (hasTradingSessionID()) FixUtils.fillSpace(tradingSessionID);		
+		if (hasTradingSessionID()) FixUtils.fillNul(tradingSessionID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradingSessionID, src); 		
 		hasTradingSessionID = FixUtils.TAG_HAS_VALUE;		
@@ -556,14 +556,14 @@ public class FixTradingSessionListRequest extends FixInMessage {
 
 	public void setTradingSessionSubID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradingSessionSubID()) FixUtils.fillSpace(tradingSessionSubID);		
+		if (hasTradingSessionSubID()) FixUtils.fillNul(tradingSessionSubID);		
 		FixUtils.copy(tradingSessionSubID, src); 		
 		hasTradingSessionSubID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTradingSessionSubID(String str) {		
 		if (str == null ) return;
-		if (hasTradingSessionSubID()) FixUtils.fillSpace(tradingSessionSubID);		
+		if (hasTradingSessionSubID()) FixUtils.fillNul(tradingSessionSubID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradingSessionSubID, src); 		
 		hasTradingSessionSubID = FixUtils.TAG_HAS_VALUE;		
@@ -600,14 +600,14 @@ public class FixTradingSessionListRequest extends FixInMessage {
 
 	public void setSecurityExchange(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecurityExchange()) FixUtils.fillSpace(securityExchange);		
+		if (hasSecurityExchange()) FixUtils.fillNul(securityExchange);		
 		FixUtils.copy(securityExchange, src); 		
 		hasSecurityExchange = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSecurityExchange(String str) {		
 		if (str == null ) return;
-		if (hasSecurityExchange()) FixUtils.fillSpace(securityExchange);		
+		if (hasSecurityExchange()) FixUtils.fillNul(securityExchange);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(securityExchange, src); 		
 		hasSecurityExchange = FixUtils.TAG_HAS_VALUE;		

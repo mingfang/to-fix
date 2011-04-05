@@ -324,14 +324,14 @@ public class FixSettlInstructionsData extends FixGroup {
 		
 	public void setStandInstDbName(byte[] src) {		
 		if (src == null ) return;
-		if (hasStandInstDbName()) FixUtils.fillSpace(standInstDbName);		
+		if (hasStandInstDbName()) FixUtils.fillNul(standInstDbName);		
 		FixUtils.copy(standInstDbName, src); 		
 		hasStandInstDbName = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setStandInstDbName(String str) {		
 		if (str == null ) return;
-		if (hasStandInstDbName()) FixUtils.fillSpace(standInstDbName);		
+		if (hasStandInstDbName()) FixUtils.fillNul(standInstDbName);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(standInstDbName, src); 		
 		hasStandInstDbName = FixUtils.TAG_HAS_VALUE;		
@@ -363,14 +363,14 @@ public class FixSettlInstructionsData extends FixGroup {
 		
 	public void setStandInstDbID(byte[] src) {		
 		if (src == null ) return;
-		if (hasStandInstDbID()) FixUtils.fillSpace(standInstDbID);		
+		if (hasStandInstDbID()) FixUtils.fillNul(standInstDbID);		
 		FixUtils.copy(standInstDbID, src); 		
 		hasStandInstDbID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setStandInstDbID(String str) {		
 		if (str == null ) return;
-		if (hasStandInstDbID()) FixUtils.fillSpace(standInstDbID);		
+		if (hasStandInstDbID()) FixUtils.fillNul(standInstDbID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(standInstDbID, src); 		
 		hasStandInstDbID = FixUtils.TAG_HAS_VALUE;		

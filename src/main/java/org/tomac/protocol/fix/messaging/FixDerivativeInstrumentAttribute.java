@@ -194,14 +194,14 @@ public class FixDerivativeInstrumentAttribute extends FixGroup {
 		
 	public void setDerivativeInstrAttribValue(byte[] src) {		
 		if (src == null ) return;
-		if (hasDerivativeInstrAttribValue()) FixUtils.fillSpace(derivativeInstrAttribValue);		
+		if (hasDerivativeInstrAttribValue()) FixUtils.fillNul(derivativeInstrAttribValue);		
 		FixUtils.copy(derivativeInstrAttribValue, src); 		
 		hasDerivativeInstrAttribValue = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDerivativeInstrAttribValue(String str) {		
 		if (str == null ) return;
-		if (hasDerivativeInstrAttribValue()) FixUtils.fillSpace(derivativeInstrAttribValue);		
+		if (hasDerivativeInstrAttribValue()) FixUtils.fillNul(derivativeInstrAttribValue);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(derivativeInstrAttribValue, src); 		
 		hasDerivativeInstrAttribValue = FixUtils.TAG_HAS_VALUE;		

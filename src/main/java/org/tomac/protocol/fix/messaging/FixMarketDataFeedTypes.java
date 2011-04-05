@@ -175,14 +175,14 @@ public class FixMarketDataFeedTypes extends FixGroup {
 		
 	public void setMDFeedType(byte[] src) {		
 		if (src == null ) return;
-		if (hasMDFeedType()) FixUtils.fillSpace(mDFeedType);		
+		if (hasMDFeedType()) FixUtils.fillNul(mDFeedType);		
 		FixUtils.copy(mDFeedType, src); 		
 		hasMDFeedType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setMDFeedType(String str) {		
 		if (str == null ) return;
-		if (hasMDFeedType()) FixUtils.fillSpace(mDFeedType);		
+		if (hasMDFeedType()) FixUtils.fillNul(mDFeedType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(mDFeedType, src); 		
 		hasMDFeedType = FixUtils.TAG_HAS_VALUE;		

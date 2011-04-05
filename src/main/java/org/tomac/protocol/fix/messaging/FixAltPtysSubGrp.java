@@ -150,14 +150,14 @@ public class FixAltPtysSubGrp extends FixGroup {
 		
 	public void setPartyAltSubID(byte[] src) {		
 		if (src == null ) return;
-		if (hasPartyAltSubID()) FixUtils.fillSpace(partyAltSubID);		
+		if (hasPartyAltSubID()) FixUtils.fillNul(partyAltSubID);		
 		FixUtils.copy(partyAltSubID, src); 		
 		hasPartyAltSubID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setPartyAltSubID(String str) {		
 		if (str == null ) return;
-		if (hasPartyAltSubID()) FixUtils.fillSpace(partyAltSubID);		
+		if (hasPartyAltSubID()) FixUtils.fillNul(partyAltSubID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(partyAltSubID, src); 		
 		hasPartyAltSubID = FixUtils.TAG_HAS_VALUE;		

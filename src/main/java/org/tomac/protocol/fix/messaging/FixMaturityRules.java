@@ -252,14 +252,14 @@ public class FixMaturityRules extends FixGroup {
 		
 	public void setMaturityRuleID(byte[] src) {		
 		if (src == null ) return;
-		if (hasMaturityRuleID()) FixUtils.fillSpace(maturityRuleID);		
+		if (hasMaturityRuleID()) FixUtils.fillNul(maturityRuleID);		
 		FixUtils.copy(maturityRuleID, src); 		
 		hasMaturityRuleID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setMaturityRuleID(String str) {		
 		if (str == null ) return;
-		if (hasMaturityRuleID()) FixUtils.fillSpace(maturityRuleID);		
+		if (hasMaturityRuleID()) FixUtils.fillNul(maturityRuleID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(maturityRuleID, src); 		
 		hasMaturityRuleID = FixUtils.TAG_HAS_VALUE;		
@@ -379,14 +379,14 @@ public class FixMaturityRules extends FixGroup {
 		
 	public void setStartMaturityMonthYear(byte[] src) {		
 		if (src == null ) return;
-		if (hasStartMaturityMonthYear()) FixUtils.fillSpace(startMaturityMonthYear);		
+		if (hasStartMaturityMonthYear()) FixUtils.fillNul(startMaturityMonthYear);		
 		FixUtils.copy(startMaturityMonthYear, src); 		
 		hasStartMaturityMonthYear = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setStartMaturityMonthYear(String str) {		
 		if (str == null ) return;
-		if (hasStartMaturityMonthYear()) FixUtils.fillSpace(startMaturityMonthYear);		
+		if (hasStartMaturityMonthYear()) FixUtils.fillNul(startMaturityMonthYear);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(startMaturityMonthYear, src); 		
 		hasStartMaturityMonthYear = FixUtils.TAG_HAS_VALUE;		
@@ -418,14 +418,14 @@ public class FixMaturityRules extends FixGroup {
 		
 	public void setEndMaturityMonthYear(byte[] src) {		
 		if (src == null ) return;
-		if (hasEndMaturityMonthYear()) FixUtils.fillSpace(endMaturityMonthYear);		
+		if (hasEndMaturityMonthYear()) FixUtils.fillNul(endMaturityMonthYear);		
 		FixUtils.copy(endMaturityMonthYear, src); 		
 		hasEndMaturityMonthYear = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setEndMaturityMonthYear(String str) {		
 		if (str == null ) return;
-		if (hasEndMaturityMonthYear()) FixUtils.fillSpace(endMaturityMonthYear);		
+		if (hasEndMaturityMonthYear()) FixUtils.fillNul(endMaturityMonthYear);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(endMaturityMonthYear, src); 		
 		hasEndMaturityMonthYear = FixUtils.TAG_HAS_VALUE;		

@@ -151,14 +151,14 @@ public class FixUnderlyingLegSecurityAltIDGrp extends FixGroup {
 		
 	public void setUnderlyingLegSecurityAltID(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingLegSecurityAltID()) FixUtils.fillSpace(underlyingLegSecurityAltID);		
+		if (hasUnderlyingLegSecurityAltID()) FixUtils.fillNul(underlyingLegSecurityAltID);		
 		FixUtils.copy(underlyingLegSecurityAltID, src); 		
 		hasUnderlyingLegSecurityAltID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingLegSecurityAltID(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingLegSecurityAltID()) FixUtils.fillSpace(underlyingLegSecurityAltID);		
+		if (hasUnderlyingLegSecurityAltID()) FixUtils.fillNul(underlyingLegSecurityAltID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingLegSecurityAltID, src); 		
 		hasUnderlyingLegSecurityAltID = FixUtils.TAG_HAS_VALUE;		
@@ -190,14 +190,14 @@ public class FixUnderlyingLegSecurityAltIDGrp extends FixGroup {
 		
 	public void setUnderlyingLegSecurityAltIDSource(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingLegSecurityAltIDSource()) FixUtils.fillSpace(underlyingLegSecurityAltIDSource);		
+		if (hasUnderlyingLegSecurityAltIDSource()) FixUtils.fillNul(underlyingLegSecurityAltIDSource);		
 		FixUtils.copy(underlyingLegSecurityAltIDSource, src); 		
 		hasUnderlyingLegSecurityAltIDSource = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setUnderlyingLegSecurityAltIDSource(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingLegSecurityAltIDSource()) FixUtils.fillSpace(underlyingLegSecurityAltIDSource);		
+		if (hasUnderlyingLegSecurityAltIDSource()) FixUtils.fillNul(underlyingLegSecurityAltIDSource);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingLegSecurityAltIDSource, src); 		
 		hasUnderlyingLegSecurityAltIDSource = FixUtils.TAG_HAS_VALUE;		

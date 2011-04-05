@@ -11,11 +11,12 @@ import java.nio.ByteBuffer;
 import org.tomac.protocol.fix.replay.FixValidator;
 import org.tomac.protocol.fix.FixValidationError;
 import org.tomac.protocol.fix.FixInMessage;
+import org.tomac.protocol.fix.IFixSession;
 
 public interface FixMessageListener
 {
 
-    public int getSessionID(long connectorID, FixValidationError err );
+    public IFixSession getSession(long connectorID, FixValidationError err );
 
     public void addValidator( FixValidator validator );
 

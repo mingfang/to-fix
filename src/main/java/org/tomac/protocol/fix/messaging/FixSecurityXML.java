@@ -220,14 +220,14 @@ public class FixSecurityXML extends FixGroup {
 		
 	public void setSecurityXML(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecurityXML()) FixUtils.fillSpace(securityXML);		
+		if (hasSecurityXML()) FixUtils.fillNul(securityXML);		
 		FixUtils.copy(securityXML, src); 		
 		hasSecurityXML = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSecurityXML(String str) {		
 		if (str == null ) return;
-		if (hasSecurityXML()) FixUtils.fillSpace(securityXML);		
+		if (hasSecurityXML()) FixUtils.fillNul(securityXML);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(securityXML, src); 		
 		hasSecurityXML = FixUtils.TAG_HAS_VALUE;		
@@ -259,14 +259,14 @@ public class FixSecurityXML extends FixGroup {
 		
 	public void setSecurityXMLSchema(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecurityXMLSchema()) FixUtils.fillSpace(securityXMLSchema);		
+		if (hasSecurityXMLSchema()) FixUtils.fillNul(securityXMLSchema);		
 		FixUtils.copy(securityXMLSchema, src); 		
 		hasSecurityXMLSchema = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSecurityXMLSchema(String str) {		
 		if (str == null ) return;
-		if (hasSecurityXMLSchema()) FixUtils.fillSpace(securityXMLSchema);		
+		if (hasSecurityXMLSchema()) FixUtils.fillNul(securityXMLSchema);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(securityXMLSchema, src); 		
 		hasSecurityXMLSchema = FixUtils.TAG_HAS_VALUE;		

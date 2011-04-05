@@ -140,7 +140,7 @@ public class TestFixContainers {
 				assertTrue(((FixLogon)outMsg).toString().length() > 0);
 
 			byte[] bytes = new byte[1024 * 8];
-			FixUtils.fillSpace(bytes);
+			FixUtils.fillNul(bytes);
 			ByteBuffer out = ByteBuffer.wrap(bytes);
 			outMsg.encode(out);
 			// ?
@@ -183,7 +183,7 @@ public class TestFixContainers {
 				assertTrue(((FixLogon)outMsg).toString().length() > 0);
 
 			byte[] bytes = new byte[1024 * 8];
-			FixUtils.fillSpace(bytes);
+			FixUtils.fillNul(bytes);
 			ByteBuffer out = ByteBuffer.wrap(bytes);
 			outMsg.encode(out);
 			// ?
@@ -243,7 +243,7 @@ public class TestFixContainers {
 				assertTrue(((FixLogon)outMsg).toString().length() > 0);
 
 			byte[] bytes = new byte[1024 * 8];
-			FixUtils.fillSpace(bytes);
+			FixUtils.fillNul(bytes);
 			ByteBuffer out = ByteBuffer.wrap(bytes);
 			outMsg.encode(out);
 			// ?

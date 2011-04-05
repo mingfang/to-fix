@@ -151,14 +151,14 @@ public class FixTrdCollGrp extends FixGroup {
 		
 	public void setTradeReportID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradeReportID()) FixUtils.fillSpace(tradeReportID);		
+		if (hasTradeReportID()) FixUtils.fillNul(tradeReportID);		
 		FixUtils.copy(tradeReportID, src); 		
 		hasTradeReportID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setTradeReportID(String str) {		
 		if (str == null ) return;
-		if (hasTradeReportID()) FixUtils.fillSpace(tradeReportID);		
+		if (hasTradeReportID()) FixUtils.fillNul(tradeReportID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradeReportID, src); 		
 		hasTradeReportID = FixUtils.TAG_HAS_VALUE;		
@@ -190,14 +190,14 @@ public class FixTrdCollGrp extends FixGroup {
 		
 	public void setSecondaryTradeReportID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecondaryTradeReportID()) FixUtils.fillSpace(secondaryTradeReportID);		
+		if (hasSecondaryTradeReportID()) FixUtils.fillNul(secondaryTradeReportID);		
 		FixUtils.copy(secondaryTradeReportID, src); 		
 		hasSecondaryTradeReportID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSecondaryTradeReportID(String str) {		
 		if (str == null ) return;
-		if (hasSecondaryTradeReportID()) FixUtils.fillSpace(secondaryTradeReportID);		
+		if (hasSecondaryTradeReportID()) FixUtils.fillNul(secondaryTradeReportID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(secondaryTradeReportID, src); 		
 		hasSecondaryTradeReportID = FixUtils.TAG_HAS_VALUE;		

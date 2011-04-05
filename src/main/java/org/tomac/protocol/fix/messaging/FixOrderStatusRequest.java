@@ -437,14 +437,14 @@ public class FixOrderStatusRequest extends FixInMessage {
 
 	public void setOrderID(byte[] src) {		
 		if (src == null ) return;
-		if (hasOrderID()) FixUtils.fillSpace(orderID);		
+		if (hasOrderID()) FixUtils.fillNul(orderID);		
 		FixUtils.copy(orderID, src); 		
 		hasOrderID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setOrderID(String str) {		
 		if (str == null ) return;
-		if (hasOrderID()) FixUtils.fillSpace(orderID);		
+		if (hasOrderID()) FixUtils.fillNul(orderID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(orderID, src); 		
 		hasOrderID = FixUtils.TAG_HAS_VALUE;		
@@ -481,14 +481,14 @@ public class FixOrderStatusRequest extends FixInMessage {
 
 	public void setClOrdID(byte[] src) {		
 		if (src == null ) return;
-		if (hasClOrdID()) FixUtils.fillSpace(clOrdID);		
+		if (hasClOrdID()) FixUtils.fillNul(clOrdID);		
 		FixUtils.copy(clOrdID, src); 		
 		hasClOrdID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setClOrdID(String str) {		
 		if (str == null ) return;
-		if (hasClOrdID()) FixUtils.fillSpace(clOrdID);		
+		if (hasClOrdID()) FixUtils.fillNul(clOrdID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(clOrdID, src); 		
 		hasClOrdID = FixUtils.TAG_HAS_VALUE;		
@@ -525,14 +525,14 @@ public class FixOrderStatusRequest extends FixInMessage {
 
 	public void setSecondaryClOrdID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecondaryClOrdID()) FixUtils.fillSpace(secondaryClOrdID);		
+		if (hasSecondaryClOrdID()) FixUtils.fillNul(secondaryClOrdID);		
 		FixUtils.copy(secondaryClOrdID, src); 		
 		hasSecondaryClOrdID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSecondaryClOrdID(String str) {		
 		if (str == null ) return;
-		if (hasSecondaryClOrdID()) FixUtils.fillSpace(secondaryClOrdID);		
+		if (hasSecondaryClOrdID()) FixUtils.fillNul(secondaryClOrdID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(secondaryClOrdID, src); 		
 		hasSecondaryClOrdID = FixUtils.TAG_HAS_VALUE;		
@@ -569,14 +569,14 @@ public class FixOrderStatusRequest extends FixInMessage {
 
 	public void setClOrdLinkID(byte[] src) {		
 		if (src == null ) return;
-		if (hasClOrdLinkID()) FixUtils.fillSpace(clOrdLinkID);		
+		if (hasClOrdLinkID()) FixUtils.fillNul(clOrdLinkID);		
 		FixUtils.copy(clOrdLinkID, src); 		
 		hasClOrdLinkID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setClOrdLinkID(String str) {		
 		if (str == null ) return;
-		if (hasClOrdLinkID()) FixUtils.fillSpace(clOrdLinkID);		
+		if (hasClOrdLinkID()) FixUtils.fillNul(clOrdLinkID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(clOrdLinkID, src); 		
 		hasClOrdLinkID = FixUtils.TAG_HAS_VALUE;		
@@ -613,14 +613,14 @@ public class FixOrderStatusRequest extends FixInMessage {
 
 	public void setOrdStatusReqID(byte[] src) {		
 		if (src == null ) return;
-		if (hasOrdStatusReqID()) FixUtils.fillSpace(ordStatusReqID);		
+		if (hasOrdStatusReqID()) FixUtils.fillNul(ordStatusReqID);		
 		FixUtils.copy(ordStatusReqID, src); 		
 		hasOrdStatusReqID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setOrdStatusReqID(String str) {		
 		if (str == null ) return;
-		if (hasOrdStatusReqID()) FixUtils.fillSpace(ordStatusReqID);		
+		if (hasOrdStatusReqID()) FixUtils.fillNul(ordStatusReqID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(ordStatusReqID, src); 		
 		hasOrdStatusReqID = FixUtils.TAG_HAS_VALUE;		
@@ -657,14 +657,14 @@ public class FixOrderStatusRequest extends FixInMessage {
 
 	public void setAccount(byte[] src) {		
 		if (src == null ) return;
-		if (hasAccount()) FixUtils.fillSpace(account);		
+		if (hasAccount()) FixUtils.fillNul(account);		
 		FixUtils.copy(account, src); 		
 		hasAccount = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setAccount(String str) {		
 		if (str == null ) return;
-		if (hasAccount()) FixUtils.fillSpace(account);		
+		if (hasAccount()) FixUtils.fillNul(account);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(account, src); 		
 		hasAccount = FixUtils.TAG_HAS_VALUE;		

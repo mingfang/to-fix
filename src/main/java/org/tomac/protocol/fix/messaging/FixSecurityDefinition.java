@@ -638,14 +638,14 @@ public class FixSecurityDefinition extends FixInMessage {
 
 	public void setClearingBusinessDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasClearingBusinessDate()) FixUtils.fillSpace(clearingBusinessDate);		
+		if (hasClearingBusinessDate()) FixUtils.fillNul(clearingBusinessDate);		
 		FixUtils.copy(clearingBusinessDate, src); 		
 		hasClearingBusinessDate = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setClearingBusinessDate(String str) {		
 		if (str == null ) return;
-		if (hasClearingBusinessDate()) FixUtils.fillSpace(clearingBusinessDate);		
+		if (hasClearingBusinessDate()) FixUtils.fillNul(clearingBusinessDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(clearingBusinessDate, src); 		
 		hasClearingBusinessDate = FixUtils.TAG_HAS_VALUE;		
@@ -682,14 +682,14 @@ public class FixSecurityDefinition extends FixInMessage {
 
 	public void setSecurityReqID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecurityReqID()) FixUtils.fillSpace(securityReqID);		
+		if (hasSecurityReqID()) FixUtils.fillNul(securityReqID);		
 		FixUtils.copy(securityReqID, src); 		
 		hasSecurityReqID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSecurityReqID(String str) {		
 		if (str == null ) return;
-		if (hasSecurityReqID()) FixUtils.fillSpace(securityReqID);		
+		if (hasSecurityReqID()) FixUtils.fillNul(securityReqID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(securityReqID, src); 		
 		hasSecurityReqID = FixUtils.TAG_HAS_VALUE;		
@@ -726,14 +726,14 @@ public class FixSecurityDefinition extends FixInMessage {
 
 	public void setSecurityResponseID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecurityResponseID()) FixUtils.fillSpace(securityResponseID);		
+		if (hasSecurityResponseID()) FixUtils.fillNul(securityResponseID);		
 		FixUtils.copy(securityResponseID, src); 		
 		hasSecurityResponseID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSecurityResponseID(String str) {		
 		if (str == null ) return;
-		if (hasSecurityResponseID()) FixUtils.fillSpace(securityResponseID);		
+		if (hasSecurityResponseID()) FixUtils.fillNul(securityResponseID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(securityResponseID, src); 		
 		hasSecurityResponseID = FixUtils.TAG_HAS_VALUE;		
@@ -819,14 +819,14 @@ public class FixSecurityDefinition extends FixInMessage {
 
 	public void setCorporateAction(byte[] src) {		
 		if (src == null ) return;
-		if (hasCorporateAction()) FixUtils.fillSpace(corporateAction);		
+		if (hasCorporateAction()) FixUtils.fillNul(corporateAction);		
 		FixUtils.copy(corporateAction, src); 		
 		hasCorporateAction = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setCorporateAction(String str) {		
 		if (str == null ) return;
-		if (hasCorporateAction()) FixUtils.fillSpace(corporateAction);		
+		if (hasCorporateAction()) FixUtils.fillNul(corporateAction);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(corporateAction, src); 		
 		hasCorporateAction = FixUtils.TAG_HAS_VALUE;		
@@ -863,14 +863,14 @@ public class FixSecurityDefinition extends FixInMessage {
 
 	public void setCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasCurrency()) FixUtils.fillSpace(currency);		
+		if (hasCurrency()) FixUtils.fillNul(currency);		
 		FixUtils.copy(currency, src); 		
 		hasCurrency = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setCurrency(String str) {		
 		if (str == null ) return;
-		if (hasCurrency()) FixUtils.fillSpace(currency);		
+		if (hasCurrency()) FixUtils.fillNul(currency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(currency, src); 		
 		hasCurrency = FixUtils.TAG_HAS_VALUE;		
@@ -907,14 +907,14 @@ public class FixSecurityDefinition extends FixInMessage {
 
 	public void setText(byte[] src) {		
 		if (src == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setText(String str) {		
 		if (str == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
@@ -1000,14 +1000,14 @@ public class FixSecurityDefinition extends FixInMessage {
 
 	public void setEncodedText(byte[] src) {		
 		if (src == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setEncodedText(String str) {		
 		if (str == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		
@@ -1044,14 +1044,14 @@ public class FixSecurityDefinition extends FixInMessage {
 
 	public void setTransactTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTransactTime(String str) {		
 		if (str == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		

@@ -194,14 +194,14 @@ public class FixNestedInstrumentAttribute extends FixGroup {
 		
 	public void setNestedInstrAttribValue(byte[] src) {		
 		if (src == null ) return;
-		if (hasNestedInstrAttribValue()) FixUtils.fillSpace(nestedInstrAttribValue);		
+		if (hasNestedInstrAttribValue()) FixUtils.fillNul(nestedInstrAttribValue);		
 		FixUtils.copy(nestedInstrAttribValue, src); 		
 		hasNestedInstrAttribValue = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setNestedInstrAttribValue(String str) {		
 		if (str == null ) return;
-		if (hasNestedInstrAttribValue()) FixUtils.fillSpace(nestedInstrAttribValue);		
+		if (hasNestedInstrAttribValue()) FixUtils.fillNul(nestedInstrAttribValue);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(nestedInstrAttribValue, src); 		
 		hasNestedInstrAttribValue = FixUtils.TAG_HAS_VALUE;		

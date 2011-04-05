@@ -517,14 +517,14 @@ public class FixListStatus extends FixInMessage {
 
 	public void setListID(byte[] src) {		
 		if (src == null ) return;
-		if (hasListID()) FixUtils.fillSpace(listID);		
+		if (hasListID()) FixUtils.fillNul(listID);		
 		FixUtils.copy(listID, src); 		
 		hasListID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setListID(String str) {		
 		if (str == null ) return;
-		if (hasListID()) FixUtils.fillSpace(listID);		
+		if (hasListID()) FixUtils.fillNul(listID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(listID, src); 		
 		hasListID = FixUtils.TAG_HAS_VALUE;		
@@ -855,14 +855,14 @@ public class FixListStatus extends FixInMessage {
 
 	public void setListStatusText(byte[] src) {		
 		if (src == null ) return;
-		if (hasListStatusText()) FixUtils.fillSpace(listStatusText);		
+		if (hasListStatusText()) FixUtils.fillNul(listStatusText);		
 		FixUtils.copy(listStatusText, src); 		
 		hasListStatusText = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setListStatusText(String str) {		
 		if (str == null ) return;
-		if (hasListStatusText()) FixUtils.fillSpace(listStatusText);		
+		if (hasListStatusText()) FixUtils.fillNul(listStatusText);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(listStatusText, src); 		
 		hasListStatusText = FixUtils.TAG_HAS_VALUE;		
@@ -948,14 +948,14 @@ public class FixListStatus extends FixInMessage {
 
 	public void setEncodedListStatusText(byte[] src) {		
 		if (src == null ) return;
-		if (hasEncodedListStatusText()) FixUtils.fillSpace(encodedListStatusText);		
+		if (hasEncodedListStatusText()) FixUtils.fillNul(encodedListStatusText);		
 		FixUtils.copy(encodedListStatusText, src); 		
 		hasEncodedListStatusText = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setEncodedListStatusText(String str) {		
 		if (str == null ) return;
-		if (hasEncodedListStatusText()) FixUtils.fillSpace(encodedListStatusText);		
+		if (hasEncodedListStatusText()) FixUtils.fillNul(encodedListStatusText);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(encodedListStatusText, src); 		
 		hasEncodedListStatusText = FixUtils.TAG_HAS_VALUE;		
@@ -992,14 +992,14 @@ public class FixListStatus extends FixInMessage {
 
 	public void setTransactTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTransactTime(String str) {		
 		if (str == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		

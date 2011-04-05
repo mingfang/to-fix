@@ -142,11 +142,6 @@ public class FixUtils {
 		return true;
 	}
 
-	public static void fillSpace(final byte[] buf) {
-		for (int i = 0; i < buf.length; i++)
-			buf[i] = (byte) ' ';
-	}
-
 	public static void fillNul(final byte[] buf) {
 		for (int i = 0; i < buf.length; i++)
 			buf[i] = (byte) 0;
@@ -203,7 +198,7 @@ public class FixUtils {
 
 	public static int intValueOf(final byte[] b, int pos, int len) {
 
-		while (len > 0 && b[pos] == (byte) ' ') {
+		while (len > 0 && b[pos] == (byte) 0) {
 			pos++;
 			len--;
 		}
@@ -313,7 +308,7 @@ public class FixUtils {
 
 	public static long longValueOf(final byte[] b, int pos, int len) {
 
-		while (len > 0 && b[pos] == (byte) ' ') {
+		while (len > 0 && b[pos] == (byte) 0) {
 			pos++;
 			len--;
 		}
@@ -626,6 +621,10 @@ public class FixUtils {
 
 		
 		return msg;
+	}
+
+	public static Date getSystemTime() {
+		return new Date();
 	}
 	
 	

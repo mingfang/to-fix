@@ -418,14 +418,14 @@ public class FixSettlementInstructions extends FixInMessage {
 
 	public void setSettlInstMsgID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSettlInstMsgID()) FixUtils.fillSpace(settlInstMsgID);		
+		if (hasSettlInstMsgID()) FixUtils.fillNul(settlInstMsgID);		
 		FixUtils.copy(settlInstMsgID, src); 		
 		hasSettlInstMsgID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSettlInstMsgID(String str) {		
 		if (str == null ) return;
-		if (hasSettlInstMsgID()) FixUtils.fillSpace(settlInstMsgID);		
+		if (hasSettlInstMsgID()) FixUtils.fillNul(settlInstMsgID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(settlInstMsgID, src); 		
 		hasSettlInstMsgID = FixUtils.TAG_HAS_VALUE;		
@@ -462,14 +462,14 @@ public class FixSettlementInstructions extends FixInMessage {
 
 	public void setSettlInstReqID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSettlInstReqID()) FixUtils.fillSpace(settlInstReqID);		
+		if (hasSettlInstReqID()) FixUtils.fillNul(settlInstReqID);		
 		FixUtils.copy(settlInstReqID, src); 		
 		hasSettlInstReqID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSettlInstReqID(String str) {		
 		if (str == null ) return;
-		if (hasSettlInstReqID()) FixUtils.fillSpace(settlInstReqID);		
+		if (hasSettlInstReqID()) FixUtils.fillNul(settlInstReqID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(settlInstReqID, src); 		
 		hasSettlInstReqID = FixUtils.TAG_HAS_VALUE;		
@@ -606,14 +606,14 @@ public class FixSettlementInstructions extends FixInMessage {
 
 	public void setText(byte[] src) {		
 		if (src == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setText(String str) {		
 		if (str == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
@@ -699,14 +699,14 @@ public class FixSettlementInstructions extends FixInMessage {
 
 	public void setEncodedText(byte[] src) {		
 		if (src == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setEncodedText(String str) {		
 		if (str == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		
@@ -743,14 +743,14 @@ public class FixSettlementInstructions extends FixInMessage {
 
 	public void setClOrdID(byte[] src) {		
 		if (src == null ) return;
-		if (hasClOrdID()) FixUtils.fillSpace(clOrdID);		
+		if (hasClOrdID()) FixUtils.fillNul(clOrdID);		
 		FixUtils.copy(clOrdID, src); 		
 		hasClOrdID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setClOrdID(String str) {		
 		if (str == null ) return;
-		if (hasClOrdID()) FixUtils.fillSpace(clOrdID);		
+		if (hasClOrdID()) FixUtils.fillNul(clOrdID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(clOrdID, src); 		
 		hasClOrdID = FixUtils.TAG_HAS_VALUE;		
@@ -787,14 +787,14 @@ public class FixSettlementInstructions extends FixInMessage {
 
 	public void setTransactTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTransactTime(String str) {		
 		if (str == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		

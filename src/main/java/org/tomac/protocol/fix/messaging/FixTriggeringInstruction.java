@@ -616,14 +616,14 @@ public class FixTriggeringInstruction extends FixGroup {
 		
 	public void setTriggerSymbol(byte[] src) {		
 		if (src == null ) return;
-		if (hasTriggerSymbol()) FixUtils.fillSpace(triggerSymbol);		
+		if (hasTriggerSymbol()) FixUtils.fillNul(triggerSymbol);		
 		FixUtils.copy(triggerSymbol, src); 		
 		hasTriggerSymbol = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setTriggerSymbol(String str) {		
 		if (str == null ) return;
-		if (hasTriggerSymbol()) FixUtils.fillSpace(triggerSymbol);		
+		if (hasTriggerSymbol()) FixUtils.fillNul(triggerSymbol);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(triggerSymbol, src); 		
 		hasTriggerSymbol = FixUtils.TAG_HAS_VALUE;		
@@ -655,14 +655,14 @@ public class FixTriggeringInstruction extends FixGroup {
 		
 	public void setTriggerSecurityID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTriggerSecurityID()) FixUtils.fillSpace(triggerSecurityID);		
+		if (hasTriggerSecurityID()) FixUtils.fillNul(triggerSecurityID);		
 		FixUtils.copy(triggerSecurityID, src); 		
 		hasTriggerSecurityID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setTriggerSecurityID(String str) {		
 		if (str == null ) return;
-		if (hasTriggerSecurityID()) FixUtils.fillSpace(triggerSecurityID);		
+		if (hasTriggerSecurityID()) FixUtils.fillNul(triggerSecurityID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(triggerSecurityID, src); 		
 		hasTriggerSecurityID = FixUtils.TAG_HAS_VALUE;		
@@ -694,14 +694,14 @@ public class FixTriggeringInstruction extends FixGroup {
 		
 	public void setTriggerSecurityIDSource(byte[] src) {		
 		if (src == null ) return;
-		if (hasTriggerSecurityIDSource()) FixUtils.fillSpace(triggerSecurityIDSource);		
+		if (hasTriggerSecurityIDSource()) FixUtils.fillNul(triggerSecurityIDSource);		
 		FixUtils.copy(triggerSecurityIDSource, src); 		
 		hasTriggerSecurityIDSource = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setTriggerSecurityIDSource(String str) {		
 		if (str == null ) return;
-		if (hasTriggerSecurityIDSource()) FixUtils.fillSpace(triggerSecurityIDSource);		
+		if (hasTriggerSecurityIDSource()) FixUtils.fillNul(triggerSecurityIDSource);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(triggerSecurityIDSource, src); 		
 		hasTriggerSecurityIDSource = FixUtils.TAG_HAS_VALUE;		
@@ -733,14 +733,14 @@ public class FixTriggeringInstruction extends FixGroup {
 		
 	public void setTriggerSecurityDesc(byte[] src) {		
 		if (src == null ) return;
-		if (hasTriggerSecurityDesc()) FixUtils.fillSpace(triggerSecurityDesc);		
+		if (hasTriggerSecurityDesc()) FixUtils.fillNul(triggerSecurityDesc);		
 		FixUtils.copy(triggerSecurityDesc, src); 		
 		hasTriggerSecurityDesc = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setTriggerSecurityDesc(String str) {		
 		if (str == null ) return;
-		if (hasTriggerSecurityDesc()) FixUtils.fillSpace(triggerSecurityDesc);		
+		if (hasTriggerSecurityDesc()) FixUtils.fillNul(triggerSecurityDesc);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(triggerSecurityDesc, src); 		
 		hasTriggerSecurityDesc = FixUtils.TAG_HAS_VALUE;		
@@ -1044,14 +1044,14 @@ public class FixTriggeringInstruction extends FixGroup {
 		
 	public void setTriggerTradingSessionID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTriggerTradingSessionID()) FixUtils.fillSpace(triggerTradingSessionID);		
+		if (hasTriggerTradingSessionID()) FixUtils.fillNul(triggerTradingSessionID);		
 		FixUtils.copy(triggerTradingSessionID, src); 		
 		hasTriggerTradingSessionID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setTriggerTradingSessionID(String str) {		
 		if (str == null ) return;
-		if (hasTriggerTradingSessionID()) FixUtils.fillSpace(triggerTradingSessionID);		
+		if (hasTriggerTradingSessionID()) FixUtils.fillNul(triggerTradingSessionID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(triggerTradingSessionID, src); 		
 		hasTriggerTradingSessionID = FixUtils.TAG_HAS_VALUE;		
@@ -1083,14 +1083,14 @@ public class FixTriggeringInstruction extends FixGroup {
 		
 	public void setTriggerTradingSessionSubID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTriggerTradingSessionSubID()) FixUtils.fillSpace(triggerTradingSessionSubID);		
+		if (hasTriggerTradingSessionSubID()) FixUtils.fillNul(triggerTradingSessionSubID);		
 		FixUtils.copy(triggerTradingSessionSubID, src); 		
 		hasTriggerTradingSessionSubID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setTriggerTradingSessionSubID(String str) {		
 		if (str == null ) return;
-		if (hasTriggerTradingSessionSubID()) FixUtils.fillSpace(triggerTradingSessionSubID);		
+		if (hasTriggerTradingSessionSubID()) FixUtils.fillNul(triggerTradingSessionSubID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(triggerTradingSessionSubID, src); 		
 		hasTriggerTradingSessionSubID = FixUtils.TAG_HAS_VALUE;		

@@ -175,14 +175,14 @@ public class FixTargetParties extends FixGroup {
 		
 	public void setTargetPartyID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTargetPartyID()) FixUtils.fillSpace(targetPartyID);		
+		if (hasTargetPartyID()) FixUtils.fillNul(targetPartyID);		
 		FixUtils.copy(targetPartyID, src); 		
 		hasTargetPartyID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setTargetPartyID(String str) {		
 		if (str == null ) return;
-		if (hasTargetPartyID()) FixUtils.fillSpace(targetPartyID);		
+		if (hasTargetPartyID()) FixUtils.fillNul(targetPartyID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(targetPartyID, src); 		
 		hasTargetPartyID = FixUtils.TAG_HAS_VALUE;		

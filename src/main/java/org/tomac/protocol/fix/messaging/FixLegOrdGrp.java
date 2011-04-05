@@ -658,14 +658,14 @@ public class FixLegOrdGrp extends FixGroup {
 		
 	public void setLegAllocID(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegAllocID()) FixUtils.fillSpace(legAllocID);		
+		if (hasLegAllocID()) FixUtils.fillNul(legAllocID);		
 		FixUtils.copy(legAllocID, src); 		
 		hasLegAllocID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegAllocID(String str) {		
 		if (str == null ) return;
-		if (hasLegAllocID()) FixUtils.fillSpace(legAllocID);		
+		if (hasLegAllocID()) FixUtils.fillNul(legAllocID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legAllocID, src); 		
 		hasLegAllocID = FixUtils.TAG_HAS_VALUE;		
@@ -785,14 +785,14 @@ public class FixLegOrdGrp extends FixGroup {
 		
 	public void setLegRefID(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegRefID()) FixUtils.fillSpace(legRefID);		
+		if (hasLegRefID()) FixUtils.fillNul(legRefID);		
 		FixUtils.copy(legRefID, src); 		
 		hasLegRefID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegRefID(String str) {		
 		if (str == null ) return;
-		if (hasLegRefID()) FixUtils.fillSpace(legRefID);		
+		if (hasLegRefID()) FixUtils.fillNul(legRefID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legRefID, src); 		
 		hasLegRefID = FixUtils.TAG_HAS_VALUE;		
@@ -868,14 +868,14 @@ public class FixLegOrdGrp extends FixGroup {
 		
 	public void setLegSettlDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegSettlDate()) FixUtils.fillSpace(legSettlDate);		
+		if (hasLegSettlDate()) FixUtils.fillNul(legSettlDate);		
 		FixUtils.copy(legSettlDate, src); 		
 		hasLegSettlDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegSettlDate(String str) {		
 		if (str == null ) return;
-		if (hasLegSettlDate()) FixUtils.fillSpace(legSettlDate);		
+		if (hasLegSettlDate()) FixUtils.fillNul(legSettlDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legSettlDate, src); 		
 		hasLegSettlDate = FixUtils.TAG_HAS_VALUE;		
@@ -1083,14 +1083,14 @@ public class FixLegOrdGrp extends FixGroup {
 		
 	public void setLegExecInst(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegExecInst()) FixUtils.fillSpace(legExecInst);		
+		if (hasLegExecInst()) FixUtils.fillNul(legExecInst);		
 		FixUtils.copy(legExecInst, src); 		
 		hasLegExecInst = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegExecInst(String str) {		
 		if (str == null ) return;
-		if (hasLegExecInst()) FixUtils.fillSpace(legExecInst);		
+		if (hasLegExecInst()) FixUtils.fillNul(legExecInst);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legExecInst, src); 		
 		hasLegExecInst = FixUtils.TAG_HAS_VALUE;		
@@ -1122,14 +1122,14 @@ public class FixLegOrdGrp extends FixGroup {
 		
 	public void setLegSettlCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegSettlCurrency()) FixUtils.fillSpace(legSettlCurrency);		
+		if (hasLegSettlCurrency()) FixUtils.fillNul(legSettlCurrency);		
 		FixUtils.copy(legSettlCurrency, src); 		
 		hasLegSettlCurrency = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegSettlCurrency(String str) {		
 		if (str == null ) return;
-		if (hasLegSettlCurrency()) FixUtils.fillSpace(legSettlCurrency);		
+		if (hasLegSettlCurrency()) FixUtils.fillNul(legSettlCurrency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legSettlCurrency, src); 		
 		hasLegSettlCurrency = FixUtils.TAG_HAS_VALUE;		

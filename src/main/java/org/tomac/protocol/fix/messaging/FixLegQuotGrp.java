@@ -641,14 +641,14 @@ public class FixLegQuotGrp extends FixGroup {
 		
 	public void setLegSettlDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegSettlDate()) FixUtils.fillSpace(legSettlDate);		
+		if (hasLegSettlDate()) FixUtils.fillNul(legSettlDate);		
 		FixUtils.copy(legSettlDate, src); 		
 		hasLegSettlDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegSettlDate(String str) {		
 		if (str == null ) return;
-		if (hasLegSettlDate()) FixUtils.fillSpace(legSettlDate);		
+		if (hasLegSettlDate()) FixUtils.fillNul(legSettlDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legSettlDate, src); 		
 		hasLegSettlDate = FixUtils.TAG_HAS_VALUE;		
@@ -812,14 +812,14 @@ public class FixLegQuotGrp extends FixGroup {
 		
 	public void setLegRefID(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegRefID()) FixUtils.fillSpace(legRefID);		
+		if (hasLegRefID()) FixUtils.fillNul(legRefID);		
 		FixUtils.copy(legRefID, src); 		
 		hasLegRefID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegRefID(String str) {		
 		if (str == null ) return;
-		if (hasLegRefID()) FixUtils.fillSpace(legRefID);		
+		if (hasLegRefID()) FixUtils.fillNul(legRefID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legRefID, src); 		
 		hasLegRefID = FixUtils.TAG_HAS_VALUE;		

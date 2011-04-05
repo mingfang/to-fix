@@ -428,14 +428,14 @@ public class FixMarketDataIncrementalRefresh extends FixInMessage {
 
 	public void setMDFeedType(byte[] src) {		
 		if (src == null ) return;
-		if (hasMDFeedType()) FixUtils.fillSpace(mDFeedType);		
+		if (hasMDFeedType()) FixUtils.fillNul(mDFeedType);		
 		FixUtils.copy(mDFeedType, src); 		
 		hasMDFeedType = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setMDFeedType(String str) {		
 		if (str == null ) return;
-		if (hasMDFeedType()) FixUtils.fillSpace(mDFeedType);		
+		if (hasMDFeedType()) FixUtils.fillNul(mDFeedType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(mDFeedType, src); 		
 		hasMDFeedType = FixUtils.TAG_HAS_VALUE;		
@@ -472,14 +472,14 @@ public class FixMarketDataIncrementalRefresh extends FixInMessage {
 
 	public void setTradeDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradeDate()) FixUtils.fillSpace(tradeDate);		
+		if (hasTradeDate()) FixUtils.fillNul(tradeDate);		
 		FixUtils.copy(tradeDate, src); 		
 		hasTradeDate = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTradeDate(String str) {		
 		if (str == null ) return;
-		if (hasTradeDate()) FixUtils.fillSpace(tradeDate);		
+		if (hasTradeDate()) FixUtils.fillNul(tradeDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradeDate, src); 		
 		hasTradeDate = FixUtils.TAG_HAS_VALUE;		
@@ -516,14 +516,14 @@ public class FixMarketDataIncrementalRefresh extends FixInMessage {
 
 	public void setMDReqID(byte[] src) {		
 		if (src == null ) return;
-		if (hasMDReqID()) FixUtils.fillSpace(mDReqID);		
+		if (hasMDReqID()) FixUtils.fillNul(mDReqID);		
 		FixUtils.copy(mDReqID, src); 		
 		hasMDReqID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setMDReqID(String str) {		
 		if (str == null ) return;
-		if (hasMDReqID()) FixUtils.fillSpace(mDReqID);		
+		if (hasMDReqID()) FixUtils.fillNul(mDReqID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(mDReqID, src); 		
 		hasMDReqID = FixUtils.TAG_HAS_VALUE;		

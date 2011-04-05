@@ -194,14 +194,14 @@ public class FixRelationshipRiskWarningLevels extends FixGroup {
 		
 	public void setRelationshipRiskWarningLevelName(byte[] src) {		
 		if (src == null ) return;
-		if (hasRelationshipRiskWarningLevelName()) FixUtils.fillSpace(relationshipRiskWarningLevelName);		
+		if (hasRelationshipRiskWarningLevelName()) FixUtils.fillNul(relationshipRiskWarningLevelName);		
 		FixUtils.copy(relationshipRiskWarningLevelName, src); 		
 		hasRelationshipRiskWarningLevelName = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRelationshipRiskWarningLevelName(String str) {		
 		if (str == null ) return;
-		if (hasRelationshipRiskWarningLevelName()) FixUtils.fillSpace(relationshipRiskWarningLevelName);		
+		if (hasRelationshipRiskWarningLevelName()) FixUtils.fillNul(relationshipRiskWarningLevelName);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(relationshipRiskWarningLevelName, src); 		
 		hasRelationshipRiskWarningLevelName = FixUtils.TAG_HAS_VALUE;		

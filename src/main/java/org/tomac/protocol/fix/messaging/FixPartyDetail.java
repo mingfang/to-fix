@@ -330,14 +330,14 @@ public class FixPartyDetail extends FixGroup {
 		
 	public void setPartyID(byte[] src) {		
 		if (src == null ) return;
-		if (hasPartyID()) FixUtils.fillSpace(partyID);		
+		if (hasPartyID()) FixUtils.fillNul(partyID);		
 		FixUtils.copy(partyID, src); 		
 		hasPartyID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setPartyID(String str) {		
 		if (str == null ) return;
-		if (hasPartyID()) FixUtils.fillSpace(partyID);		
+		if (hasPartyID()) FixUtils.fillNul(partyID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(partyID, src); 		
 		hasPartyID = FixUtils.TAG_HAS_VALUE;		

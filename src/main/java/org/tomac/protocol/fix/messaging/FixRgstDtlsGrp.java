@@ -315,14 +315,14 @@ public class FixRgstDtlsGrp extends FixGroup {
 		
 	public void setRegistDtls(byte[] src) {		
 		if (src == null ) return;
-		if (hasRegistDtls()) FixUtils.fillSpace(registDtls);		
+		if (hasRegistDtls()) FixUtils.fillNul(registDtls);		
 		FixUtils.copy(registDtls, src); 		
 		hasRegistDtls = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRegistDtls(String str) {		
 		if (str == null ) return;
-		if (hasRegistDtls()) FixUtils.fillSpace(registDtls);		
+		if (hasRegistDtls()) FixUtils.fillNul(registDtls);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(registDtls, src); 		
 		hasRegistDtls = FixUtils.TAG_HAS_VALUE;		
@@ -354,14 +354,14 @@ public class FixRgstDtlsGrp extends FixGroup {
 		
 	public void setRegistEmail(byte[] src) {		
 		if (src == null ) return;
-		if (hasRegistEmail()) FixUtils.fillSpace(registEmail);		
+		if (hasRegistEmail()) FixUtils.fillNul(registEmail);		
 		FixUtils.copy(registEmail, src); 		
 		hasRegistEmail = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRegistEmail(String str) {		
 		if (str == null ) return;
-		if (hasRegistEmail()) FixUtils.fillSpace(registEmail);		
+		if (hasRegistEmail()) FixUtils.fillNul(registEmail);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(registEmail, src); 		
 		hasRegistEmail = FixUtils.TAG_HAS_VALUE;		
@@ -393,14 +393,14 @@ public class FixRgstDtlsGrp extends FixGroup {
 		
 	public void setMailingDtls(byte[] src) {		
 		if (src == null ) return;
-		if (hasMailingDtls()) FixUtils.fillSpace(mailingDtls);		
+		if (hasMailingDtls()) FixUtils.fillNul(mailingDtls);		
 		FixUtils.copy(mailingDtls, src); 		
 		hasMailingDtls = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setMailingDtls(String str) {		
 		if (str == null ) return;
-		if (hasMailingDtls()) FixUtils.fillSpace(mailingDtls);		
+		if (hasMailingDtls()) FixUtils.fillNul(mailingDtls);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(mailingDtls, src); 		
 		hasMailingDtls = FixUtils.TAG_HAS_VALUE;		
@@ -432,14 +432,14 @@ public class FixRgstDtlsGrp extends FixGroup {
 		
 	public void setMailingInst(byte[] src) {		
 		if (src == null ) return;
-		if (hasMailingInst()) FixUtils.fillSpace(mailingInst);		
+		if (hasMailingInst()) FixUtils.fillNul(mailingInst);		
 		FixUtils.copy(mailingInst, src); 		
 		hasMailingInst = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setMailingInst(String str) {		
 		if (str == null ) return;
-		if (hasMailingInst()) FixUtils.fillSpace(mailingInst);		
+		if (hasMailingInst()) FixUtils.fillNul(mailingInst);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(mailingInst, src); 		
 		hasMailingInst = FixUtils.TAG_HAS_VALUE;		
@@ -515,14 +515,14 @@ public class FixRgstDtlsGrp extends FixGroup {
 		
 	public void setDateOfBirth(byte[] src) {		
 		if (src == null ) return;
-		if (hasDateOfBirth()) FixUtils.fillSpace(dateOfBirth);		
+		if (hasDateOfBirth()) FixUtils.fillNul(dateOfBirth);		
 		FixUtils.copy(dateOfBirth, src); 		
 		hasDateOfBirth = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDateOfBirth(String str) {		
 		if (str == null ) return;
-		if (hasDateOfBirth()) FixUtils.fillSpace(dateOfBirth);		
+		if (hasDateOfBirth()) FixUtils.fillNul(dateOfBirth);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(dateOfBirth, src); 		
 		hasDateOfBirth = FixUtils.TAG_HAS_VALUE;		
@@ -554,14 +554,14 @@ public class FixRgstDtlsGrp extends FixGroup {
 		
 	public void setInvestorCountryOfResidence(byte[] src) {		
 		if (src == null ) return;
-		if (hasInvestorCountryOfResidence()) FixUtils.fillSpace(investorCountryOfResidence);		
+		if (hasInvestorCountryOfResidence()) FixUtils.fillNul(investorCountryOfResidence);		
 		FixUtils.copy(investorCountryOfResidence, src); 		
 		hasInvestorCountryOfResidence = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setInvestorCountryOfResidence(String str) {		
 		if (str == null ) return;
-		if (hasInvestorCountryOfResidence()) FixUtils.fillSpace(investorCountryOfResidence);		
+		if (hasInvestorCountryOfResidence()) FixUtils.fillNul(investorCountryOfResidence);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(investorCountryOfResidence, src); 		
 		hasInvestorCountryOfResidence = FixUtils.TAG_HAS_VALUE;		

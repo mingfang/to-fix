@@ -235,14 +235,14 @@ public class FixFillsGrp extends FixGroup {
 		
 	public void setFillExecID(byte[] src) {		
 		if (src == null ) return;
-		if (hasFillExecID()) FixUtils.fillSpace(fillExecID);		
+		if (hasFillExecID()) FixUtils.fillNul(fillExecID);		
 		FixUtils.copy(fillExecID, src); 		
 		hasFillExecID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setFillExecID(String str) {		
 		if (str == null ) return;
-		if (hasFillExecID()) FixUtils.fillSpace(fillExecID);		
+		if (hasFillExecID()) FixUtils.fillNul(fillExecID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(fillExecID, src); 		
 		hasFillExecID = FixUtils.TAG_HAS_VALUE;		

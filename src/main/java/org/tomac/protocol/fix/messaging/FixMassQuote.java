@@ -442,14 +442,14 @@ public class FixMassQuote extends FixInMessage {
 
 	public void setQuoteReqID(byte[] src) {		
 		if (src == null ) return;
-		if (hasQuoteReqID()) FixUtils.fillSpace(quoteReqID);		
+		if (hasQuoteReqID()) FixUtils.fillNul(quoteReqID);		
 		FixUtils.copy(quoteReqID, src); 		
 		hasQuoteReqID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setQuoteReqID(String str) {		
 		if (str == null ) return;
-		if (hasQuoteReqID()) FixUtils.fillSpace(quoteReqID);		
+		if (hasQuoteReqID()) FixUtils.fillNul(quoteReqID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(quoteReqID, src); 		
 		hasQuoteReqID = FixUtils.TAG_HAS_VALUE;		
@@ -486,14 +486,14 @@ public class FixMassQuote extends FixInMessage {
 
 	public void setQuoteID(byte[] src) {		
 		if (src == null ) return;
-		if (hasQuoteID()) FixUtils.fillSpace(quoteID);		
+		if (hasQuoteID()) FixUtils.fillNul(quoteID);		
 		FixUtils.copy(quoteID, src); 		
 		hasQuoteID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setQuoteID(String str) {		
 		if (str == null ) return;
-		if (hasQuoteID()) FixUtils.fillSpace(quoteID);		
+		if (hasQuoteID()) FixUtils.fillNul(quoteID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(quoteID, src); 		
 		hasQuoteID = FixUtils.TAG_HAS_VALUE;		
@@ -628,14 +628,14 @@ public class FixMassQuote extends FixInMessage {
 
 	public void setAccount(byte[] src) {		
 		if (src == null ) return;
-		if (hasAccount()) FixUtils.fillSpace(account);		
+		if (hasAccount()) FixUtils.fillNul(account);		
 		FixUtils.copy(account, src); 		
 		hasAccount = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setAccount(String str) {		
 		if (str == null ) return;
-		if (hasAccount()) FixUtils.fillSpace(account);		
+		if (hasAccount()) FixUtils.fillNul(account);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(account, src); 		
 		hasAccount = FixUtils.TAG_HAS_VALUE;		

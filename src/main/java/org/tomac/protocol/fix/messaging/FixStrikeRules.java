@@ -260,14 +260,14 @@ public class FixStrikeRules extends FixGroup {
 		
 	public void setStrikeRuleID(byte[] src) {		
 		if (src == null ) return;
-		if (hasStrikeRuleID()) FixUtils.fillSpace(strikeRuleID);		
+		if (hasStrikeRuleID()) FixUtils.fillNul(strikeRuleID);		
 		FixUtils.copy(strikeRuleID, src); 		
 		hasStrikeRuleID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setStrikeRuleID(String str) {		
 		if (str == null ) return;
-		if (hasStrikeRuleID()) FixUtils.fillSpace(strikeRuleID);		
+		if (hasStrikeRuleID()) FixUtils.fillNul(strikeRuleID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(strikeRuleID, src); 		
 		hasStrikeRuleID = FixUtils.TAG_HAS_VALUE;		

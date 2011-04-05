@@ -185,14 +185,14 @@ public class FixPartyAltIDs extends FixGroup {
 		
 	public void setPartyAltID(byte[] src) {		
 		if (src == null ) return;
-		if (hasPartyAltID()) FixUtils.fillSpace(partyAltID);		
+		if (hasPartyAltID()) FixUtils.fillNul(partyAltID);		
 		FixUtils.copy(partyAltID, src); 		
 		hasPartyAltID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setPartyAltID(String str) {		
 		if (str == null ) return;
-		if (hasPartyAltID()) FixUtils.fillSpace(partyAltID);		
+		if (hasPartyAltID()) FixUtils.fillNul(partyAltID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(partyAltID, src); 		
 		hasPartyAltID = FixUtils.TAG_HAS_VALUE;		

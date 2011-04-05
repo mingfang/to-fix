@@ -177,14 +177,14 @@ public class FixAffectedOrdGrp extends FixGroup {
 		
 	public void setOrigClOrdID(byte[] src) {		
 		if (src == null ) return;
-		if (hasOrigClOrdID()) FixUtils.fillSpace(origClOrdID);		
+		if (hasOrigClOrdID()) FixUtils.fillNul(origClOrdID);		
 		FixUtils.copy(origClOrdID, src); 		
 		hasOrigClOrdID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setOrigClOrdID(String str) {		
 		if (str == null ) return;
-		if (hasOrigClOrdID()) FixUtils.fillSpace(origClOrdID);		
+		if (hasOrigClOrdID()) FixUtils.fillNul(origClOrdID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(origClOrdID, src); 		
 		hasOrigClOrdID = FixUtils.TAG_HAS_VALUE;		
@@ -216,14 +216,14 @@ public class FixAffectedOrdGrp extends FixGroup {
 		
 	public void setAffectedOrderID(byte[] src) {		
 		if (src == null ) return;
-		if (hasAffectedOrderID()) FixUtils.fillSpace(affectedOrderID);		
+		if (hasAffectedOrderID()) FixUtils.fillNul(affectedOrderID);		
 		FixUtils.copy(affectedOrderID, src); 		
 		hasAffectedOrderID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setAffectedOrderID(String str) {		
 		if (str == null ) return;
-		if (hasAffectedOrderID()) FixUtils.fillSpace(affectedOrderID);		
+		if (hasAffectedOrderID()) FixUtils.fillNul(affectedOrderID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(affectedOrderID, src); 		
 		hasAffectedOrderID = FixUtils.TAG_HAS_VALUE;		
@@ -255,14 +255,14 @@ public class FixAffectedOrdGrp extends FixGroup {
 		
 	public void setAffectedSecondaryOrderID(byte[] src) {		
 		if (src == null ) return;
-		if (hasAffectedSecondaryOrderID()) FixUtils.fillSpace(affectedSecondaryOrderID);		
+		if (hasAffectedSecondaryOrderID()) FixUtils.fillNul(affectedSecondaryOrderID);		
 		FixUtils.copy(affectedSecondaryOrderID, src); 		
 		hasAffectedSecondaryOrderID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setAffectedSecondaryOrderID(String str) {		
 		if (str == null ) return;
-		if (hasAffectedSecondaryOrderID()) FixUtils.fillSpace(affectedSecondaryOrderID);		
+		if (hasAffectedSecondaryOrderID()) FixUtils.fillNul(affectedSecondaryOrderID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(affectedSecondaryOrderID, src); 		
 		hasAffectedSecondaryOrderID = FixUtils.TAG_HAS_VALUE;		

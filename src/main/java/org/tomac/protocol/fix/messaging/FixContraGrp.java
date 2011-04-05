@@ -228,14 +228,14 @@ public class FixContraGrp extends FixGroup {
 		
 	public void setContraBroker(byte[] src) {		
 		if (src == null ) return;
-		if (hasContraBroker()) FixUtils.fillSpace(contraBroker);		
+		if (hasContraBroker()) FixUtils.fillNul(contraBroker);		
 		FixUtils.copy(contraBroker, src); 		
 		hasContraBroker = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setContraBroker(String str) {		
 		if (str == null ) return;
-		if (hasContraBroker()) FixUtils.fillSpace(contraBroker);		
+		if (hasContraBroker()) FixUtils.fillNul(contraBroker);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(contraBroker, src); 		
 		hasContraBroker = FixUtils.TAG_HAS_VALUE;		
@@ -267,14 +267,14 @@ public class FixContraGrp extends FixGroup {
 		
 	public void setContraTrader(byte[] src) {		
 		if (src == null ) return;
-		if (hasContraTrader()) FixUtils.fillSpace(contraTrader);		
+		if (hasContraTrader()) FixUtils.fillNul(contraTrader);		
 		FixUtils.copy(contraTrader, src); 		
 		hasContraTrader = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setContraTrader(String str) {		
 		if (str == null ) return;
-		if (hasContraTrader()) FixUtils.fillSpace(contraTrader);		
+		if (hasContraTrader()) FixUtils.fillNul(contraTrader);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(contraTrader, src); 		
 		hasContraTrader = FixUtils.TAG_HAS_VALUE;		
@@ -350,14 +350,14 @@ public class FixContraGrp extends FixGroup {
 		
 	public void setContraTradeTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasContraTradeTime()) FixUtils.fillSpace(contraTradeTime);		
+		if (hasContraTradeTime()) FixUtils.fillNul(contraTradeTime);		
 		FixUtils.copy(contraTradeTime, src); 		
 		hasContraTradeTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setContraTradeTime(String str) {		
 		if (str == null ) return;
-		if (hasContraTradeTime()) FixUtils.fillSpace(contraTradeTime);		
+		if (hasContraTradeTime()) FixUtils.fillNul(contraTradeTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(contraTradeTime, src); 		
 		hasContraTradeTime = FixUtils.TAG_HAS_VALUE;		
@@ -389,14 +389,14 @@ public class FixContraGrp extends FixGroup {
 		
 	public void setContraLegRefID(byte[] src) {		
 		if (src == null ) return;
-		if (hasContraLegRefID()) FixUtils.fillSpace(contraLegRefID);		
+		if (hasContraLegRefID()) FixUtils.fillNul(contraLegRefID);		
 		FixUtils.copy(contraLegRefID, src); 		
 		hasContraLegRefID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setContraLegRefID(String str) {		
 		if (str == null ) return;
-		if (hasContraLegRefID()) FixUtils.fillSpace(contraLegRefID);		
+		if (hasContraLegRefID()) FixUtils.fillNul(contraLegRefID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(contraLegRefID, src); 		
 		hasContraLegRefID = FixUtils.TAG_HAS_VALUE;		

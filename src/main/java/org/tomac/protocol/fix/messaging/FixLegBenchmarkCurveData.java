@@ -227,14 +227,14 @@ public class FixLegBenchmarkCurveData extends FixGroup {
 		
 	public void setLegBenchmarkCurveCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegBenchmarkCurveCurrency()) FixUtils.fillSpace(legBenchmarkCurveCurrency);		
+		if (hasLegBenchmarkCurveCurrency()) FixUtils.fillNul(legBenchmarkCurveCurrency);		
 		FixUtils.copy(legBenchmarkCurveCurrency, src); 		
 		hasLegBenchmarkCurveCurrency = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegBenchmarkCurveCurrency(String str) {		
 		if (str == null ) return;
-		if (hasLegBenchmarkCurveCurrency()) FixUtils.fillSpace(legBenchmarkCurveCurrency);		
+		if (hasLegBenchmarkCurveCurrency()) FixUtils.fillNul(legBenchmarkCurveCurrency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legBenchmarkCurveCurrency, src); 		
 		hasLegBenchmarkCurveCurrency = FixUtils.TAG_HAS_VALUE;		
@@ -266,14 +266,14 @@ public class FixLegBenchmarkCurveData extends FixGroup {
 		
 	public void setLegBenchmarkCurveName(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegBenchmarkCurveName()) FixUtils.fillSpace(legBenchmarkCurveName);		
+		if (hasLegBenchmarkCurveName()) FixUtils.fillNul(legBenchmarkCurveName);		
 		FixUtils.copy(legBenchmarkCurveName, src); 		
 		hasLegBenchmarkCurveName = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegBenchmarkCurveName(String str) {		
 		if (str == null ) return;
-		if (hasLegBenchmarkCurveName()) FixUtils.fillSpace(legBenchmarkCurveName);		
+		if (hasLegBenchmarkCurveName()) FixUtils.fillNul(legBenchmarkCurveName);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legBenchmarkCurveName, src); 		
 		hasLegBenchmarkCurveName = FixUtils.TAG_HAS_VALUE;		
@@ -305,14 +305,14 @@ public class FixLegBenchmarkCurveData extends FixGroup {
 		
 	public void setLegBenchmarkCurvePoint(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegBenchmarkCurvePoint()) FixUtils.fillSpace(legBenchmarkCurvePoint);		
+		if (hasLegBenchmarkCurvePoint()) FixUtils.fillNul(legBenchmarkCurvePoint);		
 		FixUtils.copy(legBenchmarkCurvePoint, src); 		
 		hasLegBenchmarkCurvePoint = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegBenchmarkCurvePoint(String str) {		
 		if (str == null ) return;
-		if (hasLegBenchmarkCurvePoint()) FixUtils.fillSpace(legBenchmarkCurvePoint);		
+		if (hasLegBenchmarkCurvePoint()) FixUtils.fillNul(legBenchmarkCurvePoint);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legBenchmarkCurvePoint, src); 		
 		hasLegBenchmarkCurvePoint = FixUtils.TAG_HAS_VALUE;		

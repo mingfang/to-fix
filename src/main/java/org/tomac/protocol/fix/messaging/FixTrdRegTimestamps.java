@@ -253,14 +253,14 @@ public class FixTrdRegTimestamps extends FixGroup {
 		
 	public void setTrdRegTimestamp(byte[] src) {		
 		if (src == null ) return;
-		if (hasTrdRegTimestamp()) FixUtils.fillSpace(trdRegTimestamp);		
+		if (hasTrdRegTimestamp()) FixUtils.fillNul(trdRegTimestamp);		
 		FixUtils.copy(trdRegTimestamp, src); 		
 		hasTrdRegTimestamp = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setTrdRegTimestamp(String str) {		
 		if (str == null ) return;
-		if (hasTrdRegTimestamp()) FixUtils.fillSpace(trdRegTimestamp);		
+		if (hasTrdRegTimestamp()) FixUtils.fillNul(trdRegTimestamp);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(trdRegTimestamp, src); 		
 		hasTrdRegTimestamp = FixUtils.TAG_HAS_VALUE;		
@@ -336,14 +336,14 @@ public class FixTrdRegTimestamps extends FixGroup {
 		
 	public void setTrdRegTimestampOrigin(byte[] src) {		
 		if (src == null ) return;
-		if (hasTrdRegTimestampOrigin()) FixUtils.fillSpace(trdRegTimestampOrigin);		
+		if (hasTrdRegTimestampOrigin()) FixUtils.fillNul(trdRegTimestampOrigin);		
 		FixUtils.copy(trdRegTimestampOrigin, src); 		
 		hasTrdRegTimestampOrigin = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setTrdRegTimestampOrigin(String str) {		
 		if (str == null ) return;
-		if (hasTrdRegTimestampOrigin()) FixUtils.fillSpace(trdRegTimestampOrigin);		
+		if (hasTrdRegTimestampOrigin()) FixUtils.fillNul(trdRegTimestampOrigin);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(trdRegTimestampOrigin, src); 		
 		hasTrdRegTimestampOrigin = FixUtils.TAG_HAS_VALUE;		
@@ -375,14 +375,14 @@ public class FixTrdRegTimestamps extends FixGroup {
 		
 	public void setDeskType(byte[] src) {		
 		if (src == null ) return;
-		if (hasDeskType()) FixUtils.fillSpace(deskType);		
+		if (hasDeskType()) FixUtils.fillNul(deskType);		
 		FixUtils.copy(deskType, src); 		
 		hasDeskType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDeskType(String str) {		
 		if (str == null ) return;
-		if (hasDeskType()) FixUtils.fillSpace(deskType);		
+		if (hasDeskType()) FixUtils.fillNul(deskType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(deskType, src); 		
 		hasDeskType = FixUtils.TAG_HAS_VALUE;		
@@ -458,14 +458,14 @@ public class FixTrdRegTimestamps extends FixGroup {
 		
 	public void setDeskOrderHandlingInst(byte[] src) {		
 		if (src == null ) return;
-		if (hasDeskOrderHandlingInst()) FixUtils.fillSpace(deskOrderHandlingInst);		
+		if (hasDeskOrderHandlingInst()) FixUtils.fillNul(deskOrderHandlingInst);		
 		FixUtils.copy(deskOrderHandlingInst, src); 		
 		hasDeskOrderHandlingInst = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDeskOrderHandlingInst(String str) {		
 		if (str == null ) return;
-		if (hasDeskOrderHandlingInst()) FixUtils.fillSpace(deskOrderHandlingInst);		
+		if (hasDeskOrderHandlingInst()) FixUtils.fillNul(deskOrderHandlingInst);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(deskOrderHandlingInst, src); 		
 		hasDeskOrderHandlingInst = FixUtils.TAG_HAS_VALUE;		

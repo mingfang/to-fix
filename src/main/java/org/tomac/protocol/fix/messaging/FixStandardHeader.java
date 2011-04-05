@@ -909,14 +909,14 @@ public class FixStandardHeader extends FixGroup {
 		
 	public void setBeginString(byte[] src) {		
 		if (src == null ) return;
-		if (hasBeginString()) FixUtils.fillSpace(beginString);		
+		if (hasBeginString()) FixUtils.fillNul(beginString);		
 		FixUtils.copy(beginString, src); 		
 		hasBeginString = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setBeginString(String str) {		
 		if (str == null ) return;
-		if (hasBeginString()) FixUtils.fillSpace(beginString);		
+		if (hasBeginString()) FixUtils.fillNul(beginString);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(beginString, src); 		
 		hasBeginString = FixUtils.TAG_HAS_VALUE;		
@@ -992,14 +992,14 @@ public class FixStandardHeader extends FixGroup {
 		
 	public void setMsgType(byte[] src) {		
 		if (src == null ) return;
-		if (hasMsgType()) FixUtils.fillSpace(msgType);		
+		if (hasMsgType()) FixUtils.fillNul(msgType);		
 		FixUtils.copy(msgType, src); 		
 		hasMsgType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setMsgType(String str) {		
 		if (str == null ) return;
-		if (hasMsgType()) FixUtils.fillSpace(msgType);		
+		if (hasMsgType()) FixUtils.fillNul(msgType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(msgType, src); 		
 		hasMsgType = FixUtils.TAG_HAS_VALUE;		
@@ -1031,14 +1031,14 @@ public class FixStandardHeader extends FixGroup {
 		
 	public void setApplVerID(byte[] src) {		
 		if (src == null ) return;
-		if (hasApplVerID()) FixUtils.fillSpace(applVerID);		
+		if (hasApplVerID()) FixUtils.fillNul(applVerID);		
 		FixUtils.copy(applVerID, src); 		
 		hasApplVerID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setApplVerID(String str) {		
 		if (str == null ) return;
-		if (hasApplVerID()) FixUtils.fillSpace(applVerID);		
+		if (hasApplVerID()) FixUtils.fillNul(applVerID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(applVerID, src); 		
 		hasApplVerID = FixUtils.TAG_HAS_VALUE;		
@@ -1070,14 +1070,14 @@ public class FixStandardHeader extends FixGroup {
 		
 	public void setCstmApplVerID(byte[] src) {		
 		if (src == null ) return;
-		if (hasCstmApplVerID()) FixUtils.fillSpace(cstmApplVerID);		
+		if (hasCstmApplVerID()) FixUtils.fillNul(cstmApplVerID);		
 		FixUtils.copy(cstmApplVerID, src); 		
 		hasCstmApplVerID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setCstmApplVerID(String str) {		
 		if (str == null ) return;
-		if (hasCstmApplVerID()) FixUtils.fillSpace(cstmApplVerID);		
+		if (hasCstmApplVerID()) FixUtils.fillNul(cstmApplVerID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(cstmApplVerID, src); 		
 		hasCstmApplVerID = FixUtils.TAG_HAS_VALUE;		
@@ -1153,14 +1153,14 @@ public class FixStandardHeader extends FixGroup {
 		
 	public void setSenderCompID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSenderCompID()) FixUtils.fillSpace(senderCompID);		
+		if (hasSenderCompID()) FixUtils.fillNul(senderCompID);		
 		FixUtils.copy(senderCompID, src); 		
 		hasSenderCompID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSenderCompID(String str) {		
 		if (str == null ) return;
-		if (hasSenderCompID()) FixUtils.fillSpace(senderCompID);		
+		if (hasSenderCompID()) FixUtils.fillNul(senderCompID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(senderCompID, src); 		
 		hasSenderCompID = FixUtils.TAG_HAS_VALUE;		
@@ -1192,14 +1192,14 @@ public class FixStandardHeader extends FixGroup {
 		
 	public void setTargetCompID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTargetCompID()) FixUtils.fillSpace(targetCompID);		
+		if (hasTargetCompID()) FixUtils.fillNul(targetCompID);		
 		FixUtils.copy(targetCompID, src); 		
 		hasTargetCompID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setTargetCompID(String str) {		
 		if (str == null ) return;
-		if (hasTargetCompID()) FixUtils.fillSpace(targetCompID);		
+		if (hasTargetCompID()) FixUtils.fillNul(targetCompID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(targetCompID, src); 		
 		hasTargetCompID = FixUtils.TAG_HAS_VALUE;		
@@ -1231,14 +1231,14 @@ public class FixStandardHeader extends FixGroup {
 		
 	public void setOnBehalfOfCompID(byte[] src) {		
 		if (src == null ) return;
-		if (hasOnBehalfOfCompID()) FixUtils.fillSpace(onBehalfOfCompID);		
+		if (hasOnBehalfOfCompID()) FixUtils.fillNul(onBehalfOfCompID);		
 		FixUtils.copy(onBehalfOfCompID, src); 		
 		hasOnBehalfOfCompID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setOnBehalfOfCompID(String str) {		
 		if (str == null ) return;
-		if (hasOnBehalfOfCompID()) FixUtils.fillSpace(onBehalfOfCompID);		
+		if (hasOnBehalfOfCompID()) FixUtils.fillNul(onBehalfOfCompID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(onBehalfOfCompID, src); 		
 		hasOnBehalfOfCompID = FixUtils.TAG_HAS_VALUE;		
@@ -1270,14 +1270,14 @@ public class FixStandardHeader extends FixGroup {
 		
 	public void setDeliverToCompID(byte[] src) {		
 		if (src == null ) return;
-		if (hasDeliverToCompID()) FixUtils.fillSpace(deliverToCompID);		
+		if (hasDeliverToCompID()) FixUtils.fillNul(deliverToCompID);		
 		FixUtils.copy(deliverToCompID, src); 		
 		hasDeliverToCompID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDeliverToCompID(String str) {		
 		if (str == null ) return;
-		if (hasDeliverToCompID()) FixUtils.fillSpace(deliverToCompID);		
+		if (hasDeliverToCompID()) FixUtils.fillNul(deliverToCompID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(deliverToCompID, src); 		
 		hasDeliverToCompID = FixUtils.TAG_HAS_VALUE;		
@@ -1353,14 +1353,14 @@ public class FixStandardHeader extends FixGroup {
 		
 	public void setSecureData(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecureData()) FixUtils.fillSpace(secureData);		
+		if (hasSecureData()) FixUtils.fillNul(secureData);		
 		FixUtils.copy(secureData, src); 		
 		hasSecureData = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSecureData(String str) {		
 		if (str == null ) return;
-		if (hasSecureData()) FixUtils.fillSpace(secureData);		
+		if (hasSecureData()) FixUtils.fillNul(secureData);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(secureData, src); 		
 		hasSecureData = FixUtils.TAG_HAS_VALUE;		
@@ -1436,14 +1436,14 @@ public class FixStandardHeader extends FixGroup {
 		
 	public void setSenderSubID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSenderSubID()) FixUtils.fillSpace(senderSubID);		
+		if (hasSenderSubID()) FixUtils.fillNul(senderSubID);		
 		FixUtils.copy(senderSubID, src); 		
 		hasSenderSubID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSenderSubID(String str) {		
 		if (str == null ) return;
-		if (hasSenderSubID()) FixUtils.fillSpace(senderSubID);		
+		if (hasSenderSubID()) FixUtils.fillNul(senderSubID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(senderSubID, src); 		
 		hasSenderSubID = FixUtils.TAG_HAS_VALUE;		
@@ -1475,14 +1475,14 @@ public class FixStandardHeader extends FixGroup {
 		
 	public void setSenderLocationID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSenderLocationID()) FixUtils.fillSpace(senderLocationID);		
+		if (hasSenderLocationID()) FixUtils.fillNul(senderLocationID);		
 		FixUtils.copy(senderLocationID, src); 		
 		hasSenderLocationID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSenderLocationID(String str) {		
 		if (str == null ) return;
-		if (hasSenderLocationID()) FixUtils.fillSpace(senderLocationID);		
+		if (hasSenderLocationID()) FixUtils.fillNul(senderLocationID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(senderLocationID, src); 		
 		hasSenderLocationID = FixUtils.TAG_HAS_VALUE;		
@@ -1514,14 +1514,14 @@ public class FixStandardHeader extends FixGroup {
 		
 	public void setTargetSubID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTargetSubID()) FixUtils.fillSpace(targetSubID);		
+		if (hasTargetSubID()) FixUtils.fillNul(targetSubID);		
 		FixUtils.copy(targetSubID, src); 		
 		hasTargetSubID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setTargetSubID(String str) {		
 		if (str == null ) return;
-		if (hasTargetSubID()) FixUtils.fillSpace(targetSubID);		
+		if (hasTargetSubID()) FixUtils.fillNul(targetSubID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(targetSubID, src); 		
 		hasTargetSubID = FixUtils.TAG_HAS_VALUE;		
@@ -1553,14 +1553,14 @@ public class FixStandardHeader extends FixGroup {
 		
 	public void setTargetLocationID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTargetLocationID()) FixUtils.fillSpace(targetLocationID);		
+		if (hasTargetLocationID()) FixUtils.fillNul(targetLocationID);		
 		FixUtils.copy(targetLocationID, src); 		
 		hasTargetLocationID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setTargetLocationID(String str) {		
 		if (str == null ) return;
-		if (hasTargetLocationID()) FixUtils.fillSpace(targetLocationID);		
+		if (hasTargetLocationID()) FixUtils.fillNul(targetLocationID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(targetLocationID, src); 		
 		hasTargetLocationID = FixUtils.TAG_HAS_VALUE;		
@@ -1592,14 +1592,14 @@ public class FixStandardHeader extends FixGroup {
 		
 	public void setOnBehalfOfSubID(byte[] src) {		
 		if (src == null ) return;
-		if (hasOnBehalfOfSubID()) FixUtils.fillSpace(onBehalfOfSubID);		
+		if (hasOnBehalfOfSubID()) FixUtils.fillNul(onBehalfOfSubID);		
 		FixUtils.copy(onBehalfOfSubID, src); 		
 		hasOnBehalfOfSubID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setOnBehalfOfSubID(String str) {		
 		if (str == null ) return;
-		if (hasOnBehalfOfSubID()) FixUtils.fillSpace(onBehalfOfSubID);		
+		if (hasOnBehalfOfSubID()) FixUtils.fillNul(onBehalfOfSubID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(onBehalfOfSubID, src); 		
 		hasOnBehalfOfSubID = FixUtils.TAG_HAS_VALUE;		
@@ -1631,14 +1631,14 @@ public class FixStandardHeader extends FixGroup {
 		
 	public void setOnBehalfOfLocationID(byte[] src) {		
 		if (src == null ) return;
-		if (hasOnBehalfOfLocationID()) FixUtils.fillSpace(onBehalfOfLocationID);		
+		if (hasOnBehalfOfLocationID()) FixUtils.fillNul(onBehalfOfLocationID);		
 		FixUtils.copy(onBehalfOfLocationID, src); 		
 		hasOnBehalfOfLocationID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setOnBehalfOfLocationID(String str) {		
 		if (str == null ) return;
-		if (hasOnBehalfOfLocationID()) FixUtils.fillSpace(onBehalfOfLocationID);		
+		if (hasOnBehalfOfLocationID()) FixUtils.fillNul(onBehalfOfLocationID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(onBehalfOfLocationID, src); 		
 		hasOnBehalfOfLocationID = FixUtils.TAG_HAS_VALUE;		
@@ -1670,14 +1670,14 @@ public class FixStandardHeader extends FixGroup {
 		
 	public void setDeliverToSubID(byte[] src) {		
 		if (src == null ) return;
-		if (hasDeliverToSubID()) FixUtils.fillSpace(deliverToSubID);		
+		if (hasDeliverToSubID()) FixUtils.fillNul(deliverToSubID);		
 		FixUtils.copy(deliverToSubID, src); 		
 		hasDeliverToSubID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDeliverToSubID(String str) {		
 		if (str == null ) return;
-		if (hasDeliverToSubID()) FixUtils.fillSpace(deliverToSubID);		
+		if (hasDeliverToSubID()) FixUtils.fillNul(deliverToSubID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(deliverToSubID, src); 		
 		hasDeliverToSubID = FixUtils.TAG_HAS_VALUE;		
@@ -1709,14 +1709,14 @@ public class FixStandardHeader extends FixGroup {
 		
 	public void setDeliverToLocationID(byte[] src) {		
 		if (src == null ) return;
-		if (hasDeliverToLocationID()) FixUtils.fillSpace(deliverToLocationID);		
+		if (hasDeliverToLocationID()) FixUtils.fillNul(deliverToLocationID);		
 		FixUtils.copy(deliverToLocationID, src); 		
 		hasDeliverToLocationID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setDeliverToLocationID(String str) {		
 		if (str == null ) return;
-		if (hasDeliverToLocationID()) FixUtils.fillSpace(deliverToLocationID);		
+		if (hasDeliverToLocationID()) FixUtils.fillNul(deliverToLocationID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(deliverToLocationID, src); 		
 		hasDeliverToLocationID = FixUtils.TAG_HAS_VALUE;		
@@ -1836,14 +1836,14 @@ public class FixStandardHeader extends FixGroup {
 		
 	public void setSendingTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasSendingTime()) FixUtils.fillSpace(sendingTime);		
+		if (hasSendingTime()) FixUtils.fillNul(sendingTime);		
 		FixUtils.copy(sendingTime, src); 		
 		hasSendingTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSendingTime(String str) {		
 		if (str == null ) return;
-		if (hasSendingTime()) FixUtils.fillSpace(sendingTime);		
+		if (hasSendingTime()) FixUtils.fillNul(sendingTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(sendingTime, src); 		
 		hasSendingTime = FixUtils.TAG_HAS_VALUE;		
@@ -1875,14 +1875,14 @@ public class FixStandardHeader extends FixGroup {
 		
 	public void setOrigSendingTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasOrigSendingTime()) FixUtils.fillSpace(origSendingTime);		
+		if (hasOrigSendingTime()) FixUtils.fillNul(origSendingTime);		
 		FixUtils.copy(origSendingTime, src); 		
 		hasOrigSendingTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setOrigSendingTime(String str) {		
 		if (str == null ) return;
-		if (hasOrigSendingTime()) FixUtils.fillSpace(origSendingTime);		
+		if (hasOrigSendingTime()) FixUtils.fillNul(origSendingTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(origSendingTime, src); 		
 		hasOrigSendingTime = FixUtils.TAG_HAS_VALUE;		
@@ -1958,14 +1958,14 @@ public class FixStandardHeader extends FixGroup {
 		
 	public void setXmlData(byte[] src) {		
 		if (src == null ) return;
-		if (hasXmlData()) FixUtils.fillSpace(xmlData);		
+		if (hasXmlData()) FixUtils.fillNul(xmlData);		
 		FixUtils.copy(xmlData, src); 		
 		hasXmlData = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setXmlData(String str) {		
 		if (str == null ) return;
-		if (hasXmlData()) FixUtils.fillSpace(xmlData);		
+		if (hasXmlData()) FixUtils.fillNul(xmlData);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(xmlData, src); 		
 		hasXmlData = FixUtils.TAG_HAS_VALUE;		
@@ -1997,14 +1997,14 @@ public class FixStandardHeader extends FixGroup {
 		
 	public void setMessageEncoding(byte[] src) {		
 		if (src == null ) return;
-		if (hasMessageEncoding()) FixUtils.fillSpace(messageEncoding);		
+		if (hasMessageEncoding()) FixUtils.fillNul(messageEncoding);		
 		FixUtils.copy(messageEncoding, src); 		
 		hasMessageEncoding = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setMessageEncoding(String str) {		
 		if (str == null ) return;
-		if (hasMessageEncoding()) FixUtils.fillSpace(messageEncoding);		
+		if (hasMessageEncoding()) FixUtils.fillNul(messageEncoding);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(messageEncoding, src); 		
 		hasMessageEncoding = FixUtils.TAG_HAS_VALUE;		

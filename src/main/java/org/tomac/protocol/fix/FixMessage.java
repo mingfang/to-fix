@@ -92,7 +92,7 @@ public abstract class FixMessage {
 		int start = 0;
 		final int end = FixUtils.FIX_MAX_DIGITS;
 
-		FixUtils.fillSpace(digitsBuf);
+		FixUtils.fillNul(digitsBuf);
 
 		while (buf.hasRemaining()) {
 

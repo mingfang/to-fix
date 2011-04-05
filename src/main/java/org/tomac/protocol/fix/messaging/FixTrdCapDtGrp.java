@@ -246,14 +246,14 @@ public class FixTrdCapDtGrp extends FixGroup {
 		
 	public void setTradeDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradeDate()) FixUtils.fillSpace(tradeDate);		
+		if (hasTradeDate()) FixUtils.fillNul(tradeDate);		
 		FixUtils.copy(tradeDate, src); 		
 		hasTradeDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setTradeDate(String str) {		
 		if (str == null ) return;
-		if (hasTradeDate()) FixUtils.fillSpace(tradeDate);		
+		if (hasTradeDate()) FixUtils.fillNul(tradeDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradeDate, src); 		
 		hasTradeDate = FixUtils.TAG_HAS_VALUE;		
@@ -285,14 +285,14 @@ public class FixTrdCapDtGrp extends FixGroup {
 		
 	public void setLastUpdateTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasLastUpdateTime()) FixUtils.fillSpace(lastUpdateTime);		
+		if (hasLastUpdateTime()) FixUtils.fillNul(lastUpdateTime);		
 		FixUtils.copy(lastUpdateTime, src); 		
 		hasLastUpdateTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLastUpdateTime(String str) {		
 		if (str == null ) return;
-		if (hasLastUpdateTime()) FixUtils.fillSpace(lastUpdateTime);		
+		if (hasLastUpdateTime()) FixUtils.fillNul(lastUpdateTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(lastUpdateTime, src); 		
 		hasLastUpdateTime = FixUtils.TAG_HAS_VALUE;		
@@ -324,14 +324,14 @@ public class FixTrdCapDtGrp extends FixGroup {
 		
 	public void setTransactTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setTransactTime(String str) {		
 		if (str == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		

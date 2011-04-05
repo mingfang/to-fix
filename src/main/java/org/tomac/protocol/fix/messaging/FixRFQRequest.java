@@ -308,14 +308,14 @@ public class FixRFQRequest extends FixInMessage {
 
 	public void setRFQReqID(byte[] src) {		
 		if (src == null ) return;
-		if (hasRFQReqID()) FixUtils.fillSpace(rFQReqID);		
+		if (hasRFQReqID()) FixUtils.fillNul(rFQReqID);		
 		FixUtils.copy(rFQReqID, src); 		
 		hasRFQReqID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setRFQReqID(String str) {		
 		if (str == null ) return;
-		if (hasRFQReqID()) FixUtils.fillSpace(rFQReqID);		
+		if (hasRFQReqID()) FixUtils.fillNul(rFQReqID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(rFQReqID, src); 		
 		hasRFQReqID = FixUtils.TAG_HAS_VALUE;		

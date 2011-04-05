@@ -814,14 +814,14 @@ public class FixIOI extends FixInMessage {
 
 	public void setIOIID(byte[] src) {		
 		if (src == null ) return;
-		if (hasIOIID()) FixUtils.fillSpace(iOIID);		
+		if (hasIOIID()) FixUtils.fillNul(iOIID);		
 		FixUtils.copy(iOIID, src); 		
 		hasIOIID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setIOIID(String str) {		
 		if (str == null ) return;
-		if (hasIOIID()) FixUtils.fillSpace(iOIID);		
+		if (hasIOIID()) FixUtils.fillNul(iOIID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(iOIID, src); 		
 		hasIOIID = FixUtils.TAG_HAS_VALUE;		
@@ -909,14 +909,14 @@ public class FixIOI extends FixInMessage {
 
 	public void setIOIRefID(byte[] src) {		
 		if (src == null ) return;
-		if (hasIOIRefID()) FixUtils.fillSpace(iOIRefID);		
+		if (hasIOIRefID()) FixUtils.fillNul(iOIRefID);		
 		FixUtils.copy(iOIRefID, src); 		
 		hasIOIRefID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setIOIRefID(String str) {		
 		if (str == null ) return;
-		if (hasIOIRefID()) FixUtils.fillSpace(iOIRefID);		
+		if (hasIOIRefID()) FixUtils.fillNul(iOIRefID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(iOIRefID, src); 		
 		hasIOIRefID = FixUtils.TAG_HAS_VALUE;		
@@ -1053,14 +1053,14 @@ public class FixIOI extends FixInMessage {
 
 	public void setIOIQty(byte[] src) {		
 		if (src == null ) return;
-		if (hasIOIQty()) FixUtils.fillSpace(iOIQty);		
+		if (hasIOIQty()) FixUtils.fillNul(iOIQty);		
 		FixUtils.copy(iOIQty, src); 		
 		hasIOIQty = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setIOIQty(String str) {		
 		if (str == null ) return;
-		if (hasIOIQty()) FixUtils.fillSpace(iOIQty);		
+		if (hasIOIQty()) FixUtils.fillNul(iOIQty);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(iOIQty, src); 		
 		hasIOIQty = FixUtils.TAG_HAS_VALUE;		
@@ -1097,14 +1097,14 @@ public class FixIOI extends FixInMessage {
 
 	public void setCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasCurrency()) FixUtils.fillSpace(currency);		
+		if (hasCurrency()) FixUtils.fillNul(currency);		
 		FixUtils.copy(currency, src); 		
 		hasCurrency = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setCurrency(String str) {		
 		if (str == null ) return;
-		if (hasCurrency()) FixUtils.fillSpace(currency);		
+		if (hasCurrency()) FixUtils.fillNul(currency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(currency, src); 		
 		hasCurrency = FixUtils.TAG_HAS_VALUE;		
@@ -1239,14 +1239,14 @@ public class FixIOI extends FixInMessage {
 
 	public void setValidUntilTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasValidUntilTime()) FixUtils.fillSpace(validUntilTime);		
+		if (hasValidUntilTime()) FixUtils.fillNul(validUntilTime);		
 		FixUtils.copy(validUntilTime, src); 		
 		hasValidUntilTime = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setValidUntilTime(String str) {		
 		if (str == null ) return;
-		if (hasValidUntilTime()) FixUtils.fillSpace(validUntilTime);		
+		if (hasValidUntilTime()) FixUtils.fillNul(validUntilTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(validUntilTime, src); 		
 		hasValidUntilTime = FixUtils.TAG_HAS_VALUE;		
@@ -1383,14 +1383,14 @@ public class FixIOI extends FixInMessage {
 
 	public void setText(byte[] src) {		
 		if (src == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setText(String str) {		
 		if (str == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
@@ -1476,14 +1476,14 @@ public class FixIOI extends FixInMessage {
 
 	public void setEncodedText(byte[] src) {		
 		if (src == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setEncodedText(String str) {		
 		if (str == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		
@@ -1520,14 +1520,14 @@ public class FixIOI extends FixInMessage {
 
 	public void setTransactTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTransactTime(String str) {		
 		if (str == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		
@@ -1564,14 +1564,14 @@ public class FixIOI extends FixInMessage {
 
 	public void setURLLink(byte[] src) {		
 		if (src == null ) return;
-		if (hasURLLink()) FixUtils.fillSpace(uRLLink);		
+		if (hasURLLink()) FixUtils.fillNul(uRLLink);		
 		FixUtils.copy(uRLLink, src); 		
 		hasURLLink = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setURLLink(String str) {		
 		if (str == null ) return;
-		if (hasURLLink()) FixUtils.fillSpace(uRLLink);		
+		if (hasURLLink()) FixUtils.fillNul(uRLLink);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(uRLLink, src); 		
 		hasURLLink = FixUtils.TAG_HAS_VALUE;		

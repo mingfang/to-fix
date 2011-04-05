@@ -556,14 +556,14 @@ public class FixSettlObligationInstructions extends FixGroup {
 		
 	public void setSettlObligID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSettlObligID()) FixUtils.fillSpace(settlObligID);		
+		if (hasSettlObligID()) FixUtils.fillNul(settlObligID);		
 		FixUtils.copy(settlObligID, src); 		
 		hasSettlObligID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSettlObligID(String str) {		
 		if (str == null ) return;
-		if (hasSettlObligID()) FixUtils.fillSpace(settlObligID);		
+		if (hasSettlObligID()) FixUtils.fillNul(settlObligID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(settlObligID, src); 		
 		hasSettlObligID = FixUtils.TAG_HAS_VALUE;		
@@ -641,14 +641,14 @@ public class FixSettlObligationInstructions extends FixGroup {
 		
 	public void setSettlObligRefID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSettlObligRefID()) FixUtils.fillSpace(settlObligRefID);		
+		if (hasSettlObligRefID()) FixUtils.fillNul(settlObligRefID);		
 		FixUtils.copy(settlObligRefID, src); 		
 		hasSettlObligRefID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSettlObligRefID(String str) {		
 		if (str == null ) return;
-		if (hasSettlObligRefID()) FixUtils.fillSpace(settlObligRefID);		
+		if (hasSettlObligRefID()) FixUtils.fillNul(settlObligRefID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(settlObligRefID, src); 		
 		hasSettlObligRefID = FixUtils.TAG_HAS_VALUE;		
@@ -768,14 +768,14 @@ public class FixSettlObligationInstructions extends FixGroup {
 		
 	public void setCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasCurrency()) FixUtils.fillSpace(currency);		
+		if (hasCurrency()) FixUtils.fillNul(currency);		
 		FixUtils.copy(currency, src); 		
 		hasCurrency = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setCurrency(String str) {		
 		if (str == null ) return;
-		if (hasCurrency()) FixUtils.fillSpace(currency);		
+		if (hasCurrency()) FixUtils.fillNul(currency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(currency, src); 		
 		hasCurrency = FixUtils.TAG_HAS_VALUE;		
@@ -807,14 +807,14 @@ public class FixSettlObligationInstructions extends FixGroup {
 		
 	public void setSettlCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasSettlCurrency()) FixUtils.fillSpace(settlCurrency);		
+		if (hasSettlCurrency()) FixUtils.fillNul(settlCurrency);		
 		FixUtils.copy(settlCurrency, src); 		
 		hasSettlCurrency = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSettlCurrency(String str) {		
 		if (str == null ) return;
-		if (hasSettlCurrency()) FixUtils.fillSpace(settlCurrency);		
+		if (hasSettlCurrency()) FixUtils.fillNul(settlCurrency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(settlCurrency, src); 		
 		hasSettlCurrency = FixUtils.TAG_HAS_VALUE;		
@@ -890,14 +890,14 @@ public class FixSettlObligationInstructions extends FixGroup {
 		
 	public void setSettlDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasSettlDate()) FixUtils.fillSpace(settlDate);		
+		if (hasSettlDate()) FixUtils.fillNul(settlDate);		
 		FixUtils.copy(settlDate, src); 		
 		hasSettlDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setSettlDate(String str) {		
 		if (str == null ) return;
-		if (hasSettlDate()) FixUtils.fillSpace(settlDate);		
+		if (hasSettlDate()) FixUtils.fillNul(settlDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(settlDate, src); 		
 		hasSettlDate = FixUtils.TAG_HAS_VALUE;		
@@ -929,14 +929,14 @@ public class FixSettlObligationInstructions extends FixGroup {
 		
 	public void setEffectiveTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasEffectiveTime()) FixUtils.fillSpace(effectiveTime);		
+		if (hasEffectiveTime()) FixUtils.fillNul(effectiveTime);		
 		FixUtils.copy(effectiveTime, src); 		
 		hasEffectiveTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setEffectiveTime(String str) {		
 		if (str == null ) return;
-		if (hasEffectiveTime()) FixUtils.fillSpace(effectiveTime);		
+		if (hasEffectiveTime()) FixUtils.fillNul(effectiveTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(effectiveTime, src); 		
 		hasEffectiveTime = FixUtils.TAG_HAS_VALUE;		
@@ -968,14 +968,14 @@ public class FixSettlObligationInstructions extends FixGroup {
 		
 	public void setExpireTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasExpireTime()) FixUtils.fillSpace(expireTime);		
+		if (hasExpireTime()) FixUtils.fillNul(expireTime);		
 		FixUtils.copy(expireTime, src); 		
 		hasExpireTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setExpireTime(String str) {		
 		if (str == null ) return;
-		if (hasExpireTime()) FixUtils.fillSpace(expireTime);		
+		if (hasExpireTime()) FixUtils.fillNul(expireTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(expireTime, src); 		
 		hasExpireTime = FixUtils.TAG_HAS_VALUE;		
@@ -1007,14 +1007,14 @@ public class FixSettlObligationInstructions extends FixGroup {
 		
 	public void setLastUpdateTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasLastUpdateTime()) FixUtils.fillSpace(lastUpdateTime);		
+		if (hasLastUpdateTime()) FixUtils.fillNul(lastUpdateTime);		
 		FixUtils.copy(lastUpdateTime, src); 		
 		hasLastUpdateTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLastUpdateTime(String str) {		
 		if (str == null ) return;
-		if (hasLastUpdateTime()) FixUtils.fillSpace(lastUpdateTime);		
+		if (hasLastUpdateTime()) FixUtils.fillNul(lastUpdateTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(lastUpdateTime, src); 		
 		hasLastUpdateTime = FixUtils.TAG_HAS_VALUE;		

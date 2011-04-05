@@ -210,14 +210,14 @@ public class FixInstrumentParties extends FixGroup {
 		
 	public void setInstrumentPartyID(byte[] src) {		
 		if (src == null ) return;
-		if (hasInstrumentPartyID()) FixUtils.fillSpace(instrumentPartyID);		
+		if (hasInstrumentPartyID()) FixUtils.fillNul(instrumentPartyID);		
 		FixUtils.copy(instrumentPartyID, src); 		
 		hasInstrumentPartyID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setInstrumentPartyID(String str) {		
 		if (str == null ) return;
-		if (hasInstrumentPartyID()) FixUtils.fillSpace(instrumentPartyID);		
+		if (hasInstrumentPartyID()) FixUtils.fillNul(instrumentPartyID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(instrumentPartyID, src); 		
 		hasInstrumentPartyID = FixUtils.TAG_HAS_VALUE;		

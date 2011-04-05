@@ -2272,14 +2272,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setTradeReportID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradeReportID()) FixUtils.fillSpace(tradeReportID);		
+		if (hasTradeReportID()) FixUtils.fillNul(tradeReportID);		
 		FixUtils.copy(tradeReportID, src); 		
 		hasTradeReportID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTradeReportID(String str) {		
 		if (str == null ) return;
-		if (hasTradeReportID()) FixUtils.fillSpace(tradeReportID);		
+		if (hasTradeReportID()) FixUtils.fillNul(tradeReportID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradeReportID, src); 		
 		hasTradeReportID = FixUtils.TAG_HAS_VALUE;		
@@ -2316,14 +2316,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setTradeID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradeID()) FixUtils.fillSpace(tradeID);		
+		if (hasTradeID()) FixUtils.fillNul(tradeID);		
 		FixUtils.copy(tradeID, src); 		
 		hasTradeID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTradeID(String str) {		
 		if (str == null ) return;
-		if (hasTradeID()) FixUtils.fillSpace(tradeID);		
+		if (hasTradeID()) FixUtils.fillNul(tradeID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradeID, src); 		
 		hasTradeID = FixUtils.TAG_HAS_VALUE;		
@@ -2360,14 +2360,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setSecondaryTradeID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecondaryTradeID()) FixUtils.fillSpace(secondaryTradeID);		
+		if (hasSecondaryTradeID()) FixUtils.fillNul(secondaryTradeID);		
 		FixUtils.copy(secondaryTradeID, src); 		
 		hasSecondaryTradeID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSecondaryTradeID(String str) {		
 		if (str == null ) return;
-		if (hasSecondaryTradeID()) FixUtils.fillSpace(secondaryTradeID);		
+		if (hasSecondaryTradeID()) FixUtils.fillNul(secondaryTradeID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(secondaryTradeID, src); 		
 		hasSecondaryTradeID = FixUtils.TAG_HAS_VALUE;		
@@ -2404,14 +2404,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setFirmTradeID(byte[] src) {		
 		if (src == null ) return;
-		if (hasFirmTradeID()) FixUtils.fillSpace(firmTradeID);		
+		if (hasFirmTradeID()) FixUtils.fillNul(firmTradeID);		
 		FixUtils.copy(firmTradeID, src); 		
 		hasFirmTradeID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setFirmTradeID(String str) {		
 		if (str == null ) return;
-		if (hasFirmTradeID()) FixUtils.fillSpace(firmTradeID);		
+		if (hasFirmTradeID()) FixUtils.fillNul(firmTradeID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(firmTradeID, src); 		
 		hasFirmTradeID = FixUtils.TAG_HAS_VALUE;		
@@ -2448,14 +2448,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setSecondaryFirmTradeID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecondaryFirmTradeID()) FixUtils.fillSpace(secondaryFirmTradeID);		
+		if (hasSecondaryFirmTradeID()) FixUtils.fillNul(secondaryFirmTradeID);		
 		FixUtils.copy(secondaryFirmTradeID, src); 		
 		hasSecondaryFirmTradeID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSecondaryFirmTradeID(String str) {		
 		if (str == null ) return;
-		if (hasSecondaryFirmTradeID()) FixUtils.fillSpace(secondaryFirmTradeID);		
+		if (hasSecondaryFirmTradeID()) FixUtils.fillNul(secondaryFirmTradeID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(secondaryFirmTradeID, src); 		
 		hasSecondaryFirmTradeID = FixUtils.TAG_HAS_VALUE;		
@@ -2639,14 +2639,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setTradeRequestID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradeRequestID()) FixUtils.fillSpace(tradeRequestID);		
+		if (hasTradeRequestID()) FixUtils.fillNul(tradeRequestID);		
 		FixUtils.copy(tradeRequestID, src); 		
 		hasTradeRequestID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTradeRequestID(String str) {		
 		if (str == null ) return;
-		if (hasTradeRequestID()) FixUtils.fillSpace(tradeRequestID);		
+		if (hasTradeRequestID()) FixUtils.fillNul(tradeRequestID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradeRequestID, src); 		
 		hasTradeRequestID = FixUtils.TAG_HAS_VALUE;		
@@ -2930,14 +2930,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setOrigTradeDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasOrigTradeDate()) FixUtils.fillSpace(origTradeDate);		
+		if (hasOrigTradeDate()) FixUtils.fillNul(origTradeDate);		
 		FixUtils.copy(origTradeDate, src); 		
 		hasOrigTradeDate = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setOrigTradeDate(String str) {		
 		if (str == null ) return;
-		if (hasOrigTradeDate()) FixUtils.fillSpace(origTradeDate);		
+		if (hasOrigTradeDate()) FixUtils.fillNul(origTradeDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(origTradeDate, src); 		
 		hasOrigTradeDate = FixUtils.TAG_HAS_VALUE;		
@@ -2974,14 +2974,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setOrigTradeID(byte[] src) {		
 		if (src == null ) return;
-		if (hasOrigTradeID()) FixUtils.fillSpace(origTradeID);		
+		if (hasOrigTradeID()) FixUtils.fillNul(origTradeID);		
 		FixUtils.copy(origTradeID, src); 		
 		hasOrigTradeID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setOrigTradeID(String str) {		
 		if (str == null ) return;
-		if (hasOrigTradeID()) FixUtils.fillSpace(origTradeID);		
+		if (hasOrigTradeID()) FixUtils.fillNul(origTradeID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(origTradeID, src); 		
 		hasOrigTradeID = FixUtils.TAG_HAS_VALUE;		
@@ -3018,14 +3018,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setOrigSecondaryTradeID(byte[] src) {		
 		if (src == null ) return;
-		if (hasOrigSecondaryTradeID()) FixUtils.fillSpace(origSecondaryTradeID);		
+		if (hasOrigSecondaryTradeID()) FixUtils.fillNul(origSecondaryTradeID);		
 		FixUtils.copy(origSecondaryTradeID, src); 		
 		hasOrigSecondaryTradeID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setOrigSecondaryTradeID(String str) {		
 		if (str == null ) return;
-		if (hasOrigSecondaryTradeID()) FixUtils.fillSpace(origSecondaryTradeID);		
+		if (hasOrigSecondaryTradeID()) FixUtils.fillNul(origSecondaryTradeID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(origSecondaryTradeID, src); 		
 		hasOrigSecondaryTradeID = FixUtils.TAG_HAS_VALUE;		
@@ -3062,14 +3062,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setTransferReason(byte[] src) {		
 		if (src == null ) return;
-		if (hasTransferReason()) FixUtils.fillSpace(transferReason);		
+		if (hasTransferReason()) FixUtils.fillNul(transferReason);		
 		FixUtils.copy(transferReason, src); 		
 		hasTransferReason = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTransferReason(String str) {		
 		if (str == null ) return;
-		if (hasTransferReason()) FixUtils.fillSpace(transferReason);		
+		if (hasTransferReason()) FixUtils.fillNul(transferReason);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(transferReason, src); 		
 		hasTransferReason = FixUtils.TAG_HAS_VALUE;		
@@ -3355,14 +3355,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setTradeReportRefID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradeReportRefID()) FixUtils.fillSpace(tradeReportRefID);		
+		if (hasTradeReportRefID()) FixUtils.fillNul(tradeReportRefID);		
 		FixUtils.copy(tradeReportRefID, src); 		
 		hasTradeReportRefID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTradeReportRefID(String str) {		
 		if (str == null ) return;
-		if (hasTradeReportRefID()) FixUtils.fillSpace(tradeReportRefID);		
+		if (hasTradeReportRefID()) FixUtils.fillNul(tradeReportRefID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradeReportRefID, src); 		
 		hasTradeReportRefID = FixUtils.TAG_HAS_VALUE;		
@@ -3399,14 +3399,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setSecondaryTradeReportRefID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecondaryTradeReportRefID()) FixUtils.fillSpace(secondaryTradeReportRefID);		
+		if (hasSecondaryTradeReportRefID()) FixUtils.fillNul(secondaryTradeReportRefID);		
 		FixUtils.copy(secondaryTradeReportRefID, src); 		
 		hasSecondaryTradeReportRefID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSecondaryTradeReportRefID(String str) {		
 		if (str == null ) return;
-		if (hasSecondaryTradeReportRefID()) FixUtils.fillSpace(secondaryTradeReportRefID);		
+		if (hasSecondaryTradeReportRefID()) FixUtils.fillNul(secondaryTradeReportRefID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(secondaryTradeReportRefID, src); 		
 		hasSecondaryTradeReportRefID = FixUtils.TAG_HAS_VALUE;		
@@ -3443,14 +3443,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setSecondaryTradeReportID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecondaryTradeReportID()) FixUtils.fillSpace(secondaryTradeReportID);		
+		if (hasSecondaryTradeReportID()) FixUtils.fillNul(secondaryTradeReportID);		
 		FixUtils.copy(secondaryTradeReportID, src); 		
 		hasSecondaryTradeReportID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSecondaryTradeReportID(String str) {		
 		if (str == null ) return;
-		if (hasSecondaryTradeReportID()) FixUtils.fillSpace(secondaryTradeReportID);		
+		if (hasSecondaryTradeReportID()) FixUtils.fillNul(secondaryTradeReportID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(secondaryTradeReportID, src); 		
 		hasSecondaryTradeReportID = FixUtils.TAG_HAS_VALUE;		
@@ -3487,14 +3487,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setTradeLinkID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradeLinkID()) FixUtils.fillSpace(tradeLinkID);		
+		if (hasTradeLinkID()) FixUtils.fillNul(tradeLinkID);		
 		FixUtils.copy(tradeLinkID, src); 		
 		hasTradeLinkID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTradeLinkID(String str) {		
 		if (str == null ) return;
-		if (hasTradeLinkID()) FixUtils.fillSpace(tradeLinkID);		
+		if (hasTradeLinkID()) FixUtils.fillNul(tradeLinkID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradeLinkID, src); 		
 		hasTradeLinkID = FixUtils.TAG_HAS_VALUE;		
@@ -3531,14 +3531,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setTrdMatchID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTrdMatchID()) FixUtils.fillSpace(trdMatchID);		
+		if (hasTrdMatchID()) FixUtils.fillNul(trdMatchID);		
 		FixUtils.copy(trdMatchID, src); 		
 		hasTrdMatchID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTrdMatchID(String str) {		
 		if (str == null ) return;
-		if (hasTrdMatchID()) FixUtils.fillSpace(trdMatchID);		
+		if (hasTrdMatchID()) FixUtils.fillNul(trdMatchID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(trdMatchID, src); 		
 		hasTrdMatchID = FixUtils.TAG_HAS_VALUE;		
@@ -3575,14 +3575,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setExecID(byte[] src) {		
 		if (src == null ) return;
-		if (hasExecID()) FixUtils.fillSpace(execID);		
+		if (hasExecID()) FixUtils.fillNul(execID);		
 		FixUtils.copy(execID, src); 		
 		hasExecID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setExecID(String str) {		
 		if (str == null ) return;
-		if (hasExecID()) FixUtils.fillSpace(execID);		
+		if (hasExecID()) FixUtils.fillNul(execID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(execID, src); 		
 		hasExecID = FixUtils.TAG_HAS_VALUE;		
@@ -3619,14 +3619,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setSecondaryExecID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSecondaryExecID()) FixUtils.fillSpace(secondaryExecID);		
+		if (hasSecondaryExecID()) FixUtils.fillNul(secondaryExecID);		
 		FixUtils.copy(secondaryExecID, src); 		
 		hasSecondaryExecID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSecondaryExecID(String str) {		
 		if (str == null ) return;
-		if (hasSecondaryExecID()) FixUtils.fillSpace(secondaryExecID);		
+		if (hasSecondaryExecID()) FixUtils.fillNul(secondaryExecID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(secondaryExecID, src); 		
 		hasSecondaryExecID = FixUtils.TAG_HAS_VALUE;		
@@ -3861,14 +3861,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setSettlSessID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSettlSessID()) FixUtils.fillSpace(settlSessID);		
+		if (hasSettlSessID()) FixUtils.fillNul(settlSessID);		
 		FixUtils.copy(settlSessID, src); 		
 		hasSettlSessID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSettlSessID(String str) {		
 		if (str == null ) return;
-		if (hasSettlSessID()) FixUtils.fillSpace(settlSessID);		
+		if (hasSettlSessID()) FixUtils.fillNul(settlSessID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(settlSessID, src); 		
 		hasSettlSessID = FixUtils.TAG_HAS_VALUE;		
@@ -3905,14 +3905,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setSettlSessSubID(byte[] src) {		
 		if (src == null ) return;
-		if (hasSettlSessSubID()) FixUtils.fillSpace(settlSessSubID);		
+		if (hasSettlSessSubID()) FixUtils.fillNul(settlSessSubID);		
 		FixUtils.copy(settlSessSubID, src); 		
 		hasSettlSessSubID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSettlSessSubID(String str) {		
 		if (str == null ) return;
-		if (hasSettlSessSubID()) FixUtils.fillSpace(settlSessSubID);		
+		if (hasSettlSessSubID()) FixUtils.fillNul(settlSessSubID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(settlSessSubID, src); 		
 		hasSettlSessSubID = FixUtils.TAG_HAS_VALUE;		
@@ -4000,14 +4000,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setMarketSegmentID(byte[] src) {		
 		if (src == null ) return;
-		if (hasMarketSegmentID()) FixUtils.fillSpace(marketSegmentID);		
+		if (hasMarketSegmentID()) FixUtils.fillNul(marketSegmentID);		
 		FixUtils.copy(marketSegmentID, src); 		
 		hasMarketSegmentID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setMarketSegmentID(String str) {		
 		if (str == null ) return;
-		if (hasMarketSegmentID()) FixUtils.fillSpace(marketSegmentID);		
+		if (hasMarketSegmentID()) FixUtils.fillNul(marketSegmentID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(marketSegmentID, src); 		
 		hasMarketSegmentID = FixUtils.TAG_HAS_VALUE;		
@@ -4044,14 +4044,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setMarketID(byte[] src) {		
 		if (src == null ) return;
-		if (hasMarketID()) FixUtils.fillSpace(marketID);		
+		if (hasMarketID()) FixUtils.fillNul(marketID);		
 		FixUtils.copy(marketID, src); 		
 		hasMarketID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setMarketID(String str) {		
 		if (str == null ) return;
-		if (hasMarketID()) FixUtils.fillSpace(marketID);		
+		if (hasMarketID()) FixUtils.fillNul(marketID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(marketID, src); 		
 		hasMarketID = FixUtils.TAG_HAS_VALUE;		
@@ -4137,14 +4137,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setUnderlyingTradingSessionID(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingTradingSessionID()) FixUtils.fillSpace(underlyingTradingSessionID);		
+		if (hasUnderlyingTradingSessionID()) FixUtils.fillNul(underlyingTradingSessionID);		
 		FixUtils.copy(underlyingTradingSessionID, src); 		
 		hasUnderlyingTradingSessionID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setUnderlyingTradingSessionID(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingTradingSessionID()) FixUtils.fillSpace(underlyingTradingSessionID);		
+		if (hasUnderlyingTradingSessionID()) FixUtils.fillNul(underlyingTradingSessionID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingTradingSessionID, src); 		
 		hasUnderlyingTradingSessionID = FixUtils.TAG_HAS_VALUE;		
@@ -4181,14 +4181,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setUnderlyingTradingSessionSubID(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingTradingSessionSubID()) FixUtils.fillSpace(underlyingTradingSessionSubID);		
+		if (hasUnderlyingTradingSessionSubID()) FixUtils.fillNul(underlyingTradingSessionSubID);		
 		FixUtils.copy(underlyingTradingSessionSubID, src); 		
 		hasUnderlyingTradingSessionSubID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setUnderlyingTradingSessionSubID(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingTradingSessionSubID()) FixUtils.fillSpace(underlyingTradingSessionSubID);		
+		if (hasUnderlyingTradingSessionSubID()) FixUtils.fillNul(underlyingTradingSessionSubID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingTradingSessionSubID, src); 		
 		hasUnderlyingTradingSessionSubID = FixUtils.TAG_HAS_VALUE;		
@@ -4372,14 +4372,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasCurrency()) FixUtils.fillSpace(currency);		
+		if (hasCurrency()) FixUtils.fillNul(currency);		
 		FixUtils.copy(currency, src); 		
 		hasCurrency = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setCurrency(String str) {		
 		if (str == null ) return;
-		if (hasCurrency()) FixUtils.fillSpace(currency);		
+		if (hasCurrency()) FixUtils.fillNul(currency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(currency, src); 		
 		hasCurrency = FixUtils.TAG_HAS_VALUE;		
@@ -4416,14 +4416,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setSettlCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasSettlCurrency()) FixUtils.fillSpace(settlCurrency);		
+		if (hasSettlCurrency()) FixUtils.fillNul(settlCurrency);		
 		FixUtils.copy(settlCurrency, src); 		
 		hasSettlCurrency = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSettlCurrency(String str) {		
 		if (str == null ) return;
-		if (hasSettlCurrency()) FixUtils.fillSpace(settlCurrency);		
+		if (hasSettlCurrency()) FixUtils.fillNul(settlCurrency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(settlCurrency, src); 		
 		hasSettlCurrency = FixUtils.TAG_HAS_VALUE;		
@@ -4656,14 +4656,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setLastMkt(byte[] src) {		
 		if (src == null ) return;
-		if (hasLastMkt()) FixUtils.fillSpace(lastMkt);		
+		if (hasLastMkt()) FixUtils.fillNul(lastMkt);		
 		FixUtils.copy(lastMkt, src); 		
 		hasLastMkt = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setLastMkt(String str) {		
 		if (str == null ) return;
-		if (hasLastMkt()) FixUtils.fillSpace(lastMkt);		
+		if (hasLastMkt()) FixUtils.fillNul(lastMkt);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(lastMkt, src); 		
 		hasLastMkt = FixUtils.TAG_HAS_VALUE;		
@@ -4700,14 +4700,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setTradeDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradeDate()) FixUtils.fillSpace(tradeDate);		
+		if (hasTradeDate()) FixUtils.fillNul(tradeDate);		
 		FixUtils.copy(tradeDate, src); 		
 		hasTradeDate = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTradeDate(String str) {		
 		if (str == null ) return;
-		if (hasTradeDate()) FixUtils.fillSpace(tradeDate);		
+		if (hasTradeDate()) FixUtils.fillNul(tradeDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradeDate, src); 		
 		hasTradeDate = FixUtils.TAG_HAS_VALUE;		
@@ -4744,14 +4744,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setClearingBusinessDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasClearingBusinessDate()) FixUtils.fillSpace(clearingBusinessDate);		
+		if (hasClearingBusinessDate()) FixUtils.fillNul(clearingBusinessDate);		
 		FixUtils.copy(clearingBusinessDate, src); 		
 		hasClearingBusinessDate = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setClearingBusinessDate(String str) {		
 		if (str == null ) return;
-		if (hasClearingBusinessDate()) FixUtils.fillSpace(clearingBusinessDate);		
+		if (hasClearingBusinessDate()) FixUtils.fillNul(clearingBusinessDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(clearingBusinessDate, src); 		
 		hasClearingBusinessDate = FixUtils.TAG_HAS_VALUE;		
@@ -4937,14 +4937,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setTradeLegRefID(byte[] src) {		
 		if (src == null ) return;
-		if (hasTradeLegRefID()) FixUtils.fillSpace(tradeLegRefID);		
+		if (hasTradeLegRefID()) FixUtils.fillNul(tradeLegRefID);		
 		FixUtils.copy(tradeLegRefID, src); 		
 		hasTradeLegRefID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTradeLegRefID(String str) {		
 		if (str == null ) return;
-		if (hasTradeLegRefID()) FixUtils.fillSpace(tradeLegRefID);		
+		if (hasTradeLegRefID()) FixUtils.fillNul(tradeLegRefID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tradeLegRefID, src); 		
 		hasTradeLegRefID = FixUtils.TAG_HAS_VALUE;		
@@ -4981,14 +4981,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setTransactTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTransactTime(String str) {		
 		if (str == null ) return;
-		if (hasTransactTime()) FixUtils.fillSpace(transactTime);		
+		if (hasTransactTime()) FixUtils.fillNul(transactTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(transactTime, src); 		
 		hasTransactTime = FixUtils.TAG_HAS_VALUE;		
@@ -5025,14 +5025,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setSettlType(byte[] src) {		
 		if (src == null ) return;
-		if (hasSettlType()) FixUtils.fillSpace(settlType);		
+		if (hasSettlType()) FixUtils.fillNul(settlType);		
 		FixUtils.copy(settlType, src); 		
 		hasSettlType = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSettlType(String str) {		
 		if (str == null ) return;
-		if (hasSettlType()) FixUtils.fillSpace(settlType);		
+		if (hasSettlType()) FixUtils.fillNul(settlType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(settlType, src); 		
 		hasSettlType = FixUtils.TAG_HAS_VALUE;		
@@ -5069,14 +5069,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setSettlDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasSettlDate()) FixUtils.fillSpace(settlDate);		
+		if (hasSettlDate()) FixUtils.fillNul(settlDate);		
 		FixUtils.copy(settlDate, src); 		
 		hasSettlDate = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setSettlDate(String str) {		
 		if (str == null ) return;
-		if (hasSettlDate()) FixUtils.fillSpace(settlDate);		
+		if (hasSettlDate()) FixUtils.fillNul(settlDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(settlDate, src); 		
 		hasSettlDate = FixUtils.TAG_HAS_VALUE;		
@@ -5113,14 +5113,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setUnderlyingSettlementDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasUnderlyingSettlementDate()) FixUtils.fillSpace(underlyingSettlementDate);		
+		if (hasUnderlyingSettlementDate()) FixUtils.fillNul(underlyingSettlementDate);		
 		FixUtils.copy(underlyingSettlementDate, src); 		
 		hasUnderlyingSettlementDate = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setUnderlyingSettlementDate(String str) {		
 		if (str == null ) return;
-		if (hasUnderlyingSettlementDate()) FixUtils.fillSpace(underlyingSettlementDate);		
+		if (hasUnderlyingSettlementDate()) FixUtils.fillNul(underlyingSettlementDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(underlyingSettlementDate, src); 		
 		hasUnderlyingSettlementDate = FixUtils.TAG_HAS_VALUE;		
@@ -5208,14 +5208,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setMatchType(byte[] src) {		
 		if (src == null ) return;
-		if (hasMatchType()) FixUtils.fillSpace(matchType);		
+		if (hasMatchType()) FixUtils.fillNul(matchType);		
 		FixUtils.copy(matchType, src); 		
 		hasMatchType = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setMatchType(String str) {		
 		if (str == null ) return;
-		if (hasMatchType()) FixUtils.fillSpace(matchType);		
+		if (hasMatchType()) FixUtils.fillNul(matchType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(matchType, src); 		
 		hasMatchType = FixUtils.TAG_HAS_VALUE;		
@@ -5644,14 +5644,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setTierCode(byte[] src) {		
 		if (src == null ) return;
-		if (hasTierCode()) FixUtils.fillSpace(tierCode);		
+		if (hasTierCode()) FixUtils.fillNul(tierCode);		
 		FixUtils.copy(tierCode, src); 		
 		hasTierCode = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTierCode(String str) {		
 		if (str == null ) return;
-		if (hasTierCode()) FixUtils.fillSpace(tierCode);		
+		if (hasTierCode()) FixUtils.fillNul(tierCode);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tierCode, src); 		
 		hasTierCode = FixUtils.TAG_HAS_VALUE;		
@@ -5688,14 +5688,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setMessageEventSource(byte[] src) {		
 		if (src == null ) return;
-		if (hasMessageEventSource()) FixUtils.fillSpace(messageEventSource);		
+		if (hasMessageEventSource()) FixUtils.fillNul(messageEventSource);		
 		FixUtils.copy(messageEventSource, src); 		
 		hasMessageEventSource = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setMessageEventSource(String str) {		
 		if (str == null ) return;
-		if (hasMessageEventSource()) FixUtils.fillSpace(messageEventSource);		
+		if (hasMessageEventSource()) FixUtils.fillNul(messageEventSource);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(messageEventSource, src); 		
 		hasMessageEventSource = FixUtils.TAG_HAS_VALUE;		
@@ -5732,14 +5732,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setLastUpdateTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasLastUpdateTime()) FixUtils.fillSpace(lastUpdateTime);		
+		if (hasLastUpdateTime()) FixUtils.fillNul(lastUpdateTime);		
 		FixUtils.copy(lastUpdateTime, src); 		
 		hasLastUpdateTime = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setLastUpdateTime(String str) {		
 		if (str == null ) return;
-		if (hasLastUpdateTime()) FixUtils.fillSpace(lastUpdateTime);		
+		if (hasLastUpdateTime()) FixUtils.fillNul(lastUpdateTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(lastUpdateTime, src); 		
 		hasLastUpdateTime = FixUtils.TAG_HAS_VALUE;		
@@ -5874,14 +5874,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setTZTransactTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasTZTransactTime()) FixUtils.fillSpace(tZTransactTime);		
+		if (hasTZTransactTime()) FixUtils.fillNul(tZTransactTime);		
 		FixUtils.copy(tZTransactTime, src); 		
 		hasTZTransactTime = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setTZTransactTime(String str) {		
 		if (str == null ) return;
-		if (hasTZTransactTime()) FixUtils.fillSpace(tZTransactTime);		
+		if (hasTZTransactTime()) FixUtils.fillNul(tZTransactTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(tZTransactTime, src); 		
 		hasTZTransactTime = FixUtils.TAG_HAS_VALUE;		
@@ -5967,14 +5967,14 @@ public class FixTradeCaptureReport extends FixInMessage {
 
 	public void setRejectText(byte[] src) {		
 		if (src == null ) return;
-		if (hasRejectText()) FixUtils.fillSpace(rejectText);		
+		if (hasRejectText()) FixUtils.fillNul(rejectText);		
 		FixUtils.copy(rejectText, src); 		
 		hasRejectText = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setRejectText(String str) {		
 		if (str == null ) return;
-		if (hasRejectText()) FixUtils.fillSpace(rejectText);		
+		if (hasRejectText()) FixUtils.fillNul(rejectText);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(rejectText, src); 		
 		hasRejectText = FixUtils.TAG_HAS_VALUE;		

@@ -151,14 +151,14 @@ public class FixComplexEventTimes extends FixGroup {
 		
 	public void setComplexEventStartTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasComplexEventStartTime()) FixUtils.fillSpace(complexEventStartTime);		
+		if (hasComplexEventStartTime()) FixUtils.fillNul(complexEventStartTime);		
 		FixUtils.copy(complexEventStartTime, src); 		
 		hasComplexEventStartTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setComplexEventStartTime(String str) {		
 		if (str == null ) return;
-		if (hasComplexEventStartTime()) FixUtils.fillSpace(complexEventStartTime);		
+		if (hasComplexEventStartTime()) FixUtils.fillNul(complexEventStartTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(complexEventStartTime, src); 		
 		hasComplexEventStartTime = FixUtils.TAG_HAS_VALUE;		
@@ -190,14 +190,14 @@ public class FixComplexEventTimes extends FixGroup {
 		
 	public void setComplexEventEndTime(byte[] src) {		
 		if (src == null ) return;
-		if (hasComplexEventEndTime()) FixUtils.fillSpace(complexEventEndTime);		
+		if (hasComplexEventEndTime()) FixUtils.fillNul(complexEventEndTime);		
 		FixUtils.copy(complexEventEndTime, src); 		
 		hasComplexEventEndTime = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setComplexEventEndTime(String str) {		
 		if (str == null ) return;
-		if (hasComplexEventEndTime()) FixUtils.fillSpace(complexEventEndTime);		
+		if (hasComplexEventEndTime()) FixUtils.fillNul(complexEventEndTime);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(complexEventEndTime, src); 		
 		hasComplexEventEndTime = FixUtils.TAG_HAS_VALUE;		

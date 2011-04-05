@@ -318,14 +318,14 @@ public class FixRelatedPartyDetail extends FixGroup {
 		
 	public void setRelatedPartyID(byte[] src) {		
 		if (src == null ) return;
-		if (hasRelatedPartyID()) FixUtils.fillSpace(relatedPartyID);		
+		if (hasRelatedPartyID()) FixUtils.fillNul(relatedPartyID);		
 		FixUtils.copy(relatedPartyID, src); 		
 		hasRelatedPartyID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRelatedPartyID(String str) {		
 		if (str == null ) return;
-		if (hasRelatedPartyID()) FixUtils.fillSpace(relatedPartyID);		
+		if (hasRelatedPartyID()) FixUtils.fillNul(relatedPartyID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(relatedPartyID, src); 		
 		hasRelatedPartyID = FixUtils.TAG_HAS_VALUE;		

@@ -220,14 +220,14 @@ public class FixRelationshipRiskSecAltIDGrp extends FixGroup {
 		
 	public void setRelationshipRiskSecurityAltID(byte[] src) {		
 		if (src == null ) return;
-		if (hasRelationshipRiskSecurityAltID()) FixUtils.fillSpace(relationshipRiskSecurityAltID);		
+		if (hasRelationshipRiskSecurityAltID()) FixUtils.fillNul(relationshipRiskSecurityAltID);		
 		FixUtils.copy(relationshipRiskSecurityAltID, src); 		
 		hasRelationshipRiskSecurityAltID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRelationshipRiskSecurityAltID(String str) {		
 		if (str == null ) return;
-		if (hasRelationshipRiskSecurityAltID()) FixUtils.fillSpace(relationshipRiskSecurityAltID);		
+		if (hasRelationshipRiskSecurityAltID()) FixUtils.fillNul(relationshipRiskSecurityAltID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(relationshipRiskSecurityAltID, src); 		
 		hasRelationshipRiskSecurityAltID = FixUtils.TAG_HAS_VALUE;		
@@ -259,14 +259,14 @@ public class FixRelationshipRiskSecAltIDGrp extends FixGroup {
 		
 	public void setRelationshipRiskSecurityAltIDSource(byte[] src) {		
 		if (src == null ) return;
-		if (hasRelationshipRiskSecurityAltIDSource()) FixUtils.fillSpace(relationshipRiskSecurityAltIDSource);		
+		if (hasRelationshipRiskSecurityAltIDSource()) FixUtils.fillNul(relationshipRiskSecurityAltIDSource);		
 		FixUtils.copy(relationshipRiskSecurityAltIDSource, src); 		
 		hasRelationshipRiskSecurityAltIDSource = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setRelationshipRiskSecurityAltIDSource(String str) {		
 		if (str == null ) return;
-		if (hasRelationshipRiskSecurityAltIDSource()) FixUtils.fillSpace(relationshipRiskSecurityAltIDSource);		
+		if (hasRelationshipRiskSecurityAltIDSource()) FixUtils.fillNul(relationshipRiskSecurityAltIDSource);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(relationshipRiskSecurityAltIDSource, src); 		
 		hasRelationshipRiskSecurityAltIDSource = FixUtils.TAG_HAS_VALUE;		

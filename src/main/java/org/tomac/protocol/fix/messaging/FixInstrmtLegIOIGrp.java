@@ -169,14 +169,14 @@ public class FixInstrmtLegIOIGrp extends FixGroup {
 		
 	public void setLegIOIQty(byte[] src) {		
 		if (src == null ) return;
-		if (hasLegIOIQty()) FixUtils.fillSpace(legIOIQty);		
+		if (hasLegIOIQty()) FixUtils.fillNul(legIOIQty);		
 		FixUtils.copy(legIOIQty, src); 		
 		hasLegIOIQty = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setLegIOIQty(String str) {		
 		if (str == null ) return;
-		if (hasLegIOIQty()) FixUtils.fillSpace(legIOIQty);		
+		if (hasLegIOIQty()) FixUtils.fillNul(legIOIQty);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(legIOIQty, src); 		
 		hasLegIOIQty = FixUtils.TAG_HAS_VALUE;		

@@ -245,14 +245,14 @@ public class FixMiscFeesGrp extends FixGroup {
 		
 	public void setMiscFeeCurr(byte[] src) {		
 		if (src == null ) return;
-		if (hasMiscFeeCurr()) FixUtils.fillSpace(miscFeeCurr);		
+		if (hasMiscFeeCurr()) FixUtils.fillNul(miscFeeCurr);		
 		FixUtils.copy(miscFeeCurr, src); 		
 		hasMiscFeeCurr = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setMiscFeeCurr(String str) {		
 		if (str == null ) return;
-		if (hasMiscFeeCurr()) FixUtils.fillSpace(miscFeeCurr);		
+		if (hasMiscFeeCurr()) FixUtils.fillNul(miscFeeCurr);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(miscFeeCurr, src); 		
 		hasMiscFeeCurr = FixUtils.TAG_HAS_VALUE;		
@@ -284,14 +284,14 @@ public class FixMiscFeesGrp extends FixGroup {
 		
 	public void setMiscFeeType(byte[] src) {		
 		if (src == null ) return;
-		if (hasMiscFeeType()) FixUtils.fillSpace(miscFeeType);		
+		if (hasMiscFeeType()) FixUtils.fillNul(miscFeeType);		
 		FixUtils.copy(miscFeeType, src); 		
 		hasMiscFeeType = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setMiscFeeType(String str) {		
 		if (str == null ) return;
-		if (hasMiscFeeType()) FixUtils.fillSpace(miscFeeType);		
+		if (hasMiscFeeType()) FixUtils.fillNul(miscFeeType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(miscFeeType, src); 		
 		hasMiscFeeType = FixUtils.TAG_HAS_VALUE;		

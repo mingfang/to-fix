@@ -330,14 +330,14 @@ public class FixFinancingDetails extends FixGroup {
 		
 	public void setAgreementDesc(byte[] src) {		
 		if (src == null ) return;
-		if (hasAgreementDesc()) FixUtils.fillSpace(agreementDesc);		
+		if (hasAgreementDesc()) FixUtils.fillNul(agreementDesc);		
 		FixUtils.copy(agreementDesc, src); 		
 		hasAgreementDesc = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setAgreementDesc(String str) {		
 		if (str == null ) return;
-		if (hasAgreementDesc()) FixUtils.fillSpace(agreementDesc);		
+		if (hasAgreementDesc()) FixUtils.fillNul(agreementDesc);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(agreementDesc, src); 		
 		hasAgreementDesc = FixUtils.TAG_HAS_VALUE;		
@@ -369,14 +369,14 @@ public class FixFinancingDetails extends FixGroup {
 		
 	public void setAgreementID(byte[] src) {		
 		if (src == null ) return;
-		if (hasAgreementID()) FixUtils.fillSpace(agreementID);		
+		if (hasAgreementID()) FixUtils.fillNul(agreementID);		
 		FixUtils.copy(agreementID, src); 		
 		hasAgreementID = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setAgreementID(String str) {		
 		if (str == null ) return;
-		if (hasAgreementID()) FixUtils.fillSpace(agreementID);		
+		if (hasAgreementID()) FixUtils.fillNul(agreementID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(agreementID, src); 		
 		hasAgreementID = FixUtils.TAG_HAS_VALUE;		
@@ -408,14 +408,14 @@ public class FixFinancingDetails extends FixGroup {
 		
 	public void setAgreementDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasAgreementDate()) FixUtils.fillSpace(agreementDate);		
+		if (hasAgreementDate()) FixUtils.fillNul(agreementDate);		
 		FixUtils.copy(agreementDate, src); 		
 		hasAgreementDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setAgreementDate(String str) {		
 		if (str == null ) return;
-		if (hasAgreementDate()) FixUtils.fillSpace(agreementDate);		
+		if (hasAgreementDate()) FixUtils.fillNul(agreementDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(agreementDate, src); 		
 		hasAgreementDate = FixUtils.TAG_HAS_VALUE;		
@@ -447,14 +447,14 @@ public class FixFinancingDetails extends FixGroup {
 		
 	public void setAgreementCurrency(byte[] src) {		
 		if (src == null ) return;
-		if (hasAgreementCurrency()) FixUtils.fillSpace(agreementCurrency);		
+		if (hasAgreementCurrency()) FixUtils.fillNul(agreementCurrency);		
 		FixUtils.copy(agreementCurrency, src); 		
 		hasAgreementCurrency = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setAgreementCurrency(String str) {		
 		if (str == null ) return;
-		if (hasAgreementCurrency()) FixUtils.fillSpace(agreementCurrency);		
+		if (hasAgreementCurrency()) FixUtils.fillNul(agreementCurrency);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(agreementCurrency, src); 		
 		hasAgreementCurrency = FixUtils.TAG_HAS_VALUE;		
@@ -530,14 +530,14 @@ public class FixFinancingDetails extends FixGroup {
 		
 	public void setStartDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasStartDate()) FixUtils.fillSpace(startDate);		
+		if (hasStartDate()) FixUtils.fillNul(startDate);		
 		FixUtils.copy(startDate, src); 		
 		hasStartDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setStartDate(String str) {		
 		if (str == null ) return;
-		if (hasStartDate()) FixUtils.fillSpace(startDate);		
+		if (hasStartDate()) FixUtils.fillNul(startDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(startDate, src); 		
 		hasStartDate = FixUtils.TAG_HAS_VALUE;		
@@ -569,14 +569,14 @@ public class FixFinancingDetails extends FixGroup {
 		
 	public void setEndDate(byte[] src) {		
 		if (src == null ) return;
-		if (hasEndDate()) FixUtils.fillSpace(endDate);		
+		if (hasEndDate()) FixUtils.fillNul(endDate);		
 		FixUtils.copy(endDate, src); 		
 		hasEndDate = FixUtils.TAG_HAS_VALUE;		
 	}		
 			
 	public void setEndDate(String str) {		
 		if (str == null ) return;
-		if (hasEndDate()) FixUtils.fillSpace(endDate);		
+		if (hasEndDate()) FixUtils.fillNul(endDate);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(endDate, src); 		
 		hasEndDate = FixUtils.TAG_HAS_VALUE;		

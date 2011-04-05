@@ -451,14 +451,14 @@ public class FixBusinessMessageReject extends FixInMessage {
 
 	public void setRefMsgType(byte[] src) {		
 		if (src == null ) return;
-		if (hasRefMsgType()) FixUtils.fillSpace(refMsgType);		
+		if (hasRefMsgType()) FixUtils.fillNul(refMsgType);		
 		FixUtils.copy(refMsgType, src); 		
 		hasRefMsgType = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setRefMsgType(String str) {		
 		if (str == null ) return;
-		if (hasRefMsgType()) FixUtils.fillSpace(refMsgType);		
+		if (hasRefMsgType()) FixUtils.fillNul(refMsgType);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(refMsgType, src); 		
 		hasRefMsgType = FixUtils.TAG_HAS_VALUE;		
@@ -495,14 +495,14 @@ public class FixBusinessMessageReject extends FixInMessage {
 
 	public void setRefApplVerID(byte[] src) {		
 		if (src == null ) return;
-		if (hasRefApplVerID()) FixUtils.fillSpace(refApplVerID);		
+		if (hasRefApplVerID()) FixUtils.fillNul(refApplVerID);		
 		FixUtils.copy(refApplVerID, src); 		
 		hasRefApplVerID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setRefApplVerID(String str) {		
 		if (str == null ) return;
-		if (hasRefApplVerID()) FixUtils.fillSpace(refApplVerID);		
+		if (hasRefApplVerID()) FixUtils.fillNul(refApplVerID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(refApplVerID, src); 		
 		hasRefApplVerID = FixUtils.TAG_HAS_VALUE;		
@@ -588,14 +588,14 @@ public class FixBusinessMessageReject extends FixInMessage {
 
 	public void setRefCstmApplVerID(byte[] src) {		
 		if (src == null ) return;
-		if (hasRefCstmApplVerID()) FixUtils.fillSpace(refCstmApplVerID);		
+		if (hasRefCstmApplVerID()) FixUtils.fillNul(refCstmApplVerID);		
 		FixUtils.copy(refCstmApplVerID, src); 		
 		hasRefCstmApplVerID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setRefCstmApplVerID(String str) {		
 		if (str == null ) return;
-		if (hasRefCstmApplVerID()) FixUtils.fillSpace(refCstmApplVerID);		
+		if (hasRefCstmApplVerID()) FixUtils.fillNul(refCstmApplVerID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(refCstmApplVerID, src); 		
 		hasRefCstmApplVerID = FixUtils.TAG_HAS_VALUE;		
@@ -632,14 +632,14 @@ public class FixBusinessMessageReject extends FixInMessage {
 
 	public void setBusinessRejectRefID(byte[] src) {		
 		if (src == null ) return;
-		if (hasBusinessRejectRefID()) FixUtils.fillSpace(businessRejectRefID);		
+		if (hasBusinessRejectRefID()) FixUtils.fillNul(businessRejectRefID);		
 		FixUtils.copy(businessRejectRefID, src); 		
 		hasBusinessRejectRefID = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setBusinessRejectRefID(String str) {		
 		if (str == null ) return;
-		if (hasBusinessRejectRefID()) FixUtils.fillSpace(businessRejectRefID);		
+		if (hasBusinessRejectRefID()) FixUtils.fillNul(businessRejectRefID);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(businessRejectRefID, src); 		
 		hasBusinessRejectRefID = FixUtils.TAG_HAS_VALUE;		
@@ -725,14 +725,14 @@ public class FixBusinessMessageReject extends FixInMessage {
 
 	public void setText(byte[] src) {		
 		if (src == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setText(String str) {		
 		if (str == null ) return;
-		if (hasText()) FixUtils.fillSpace(text);		
+		if (hasText()) FixUtils.fillNul(text);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(text, src); 		
 		hasText = FixUtils.TAG_HAS_VALUE;		
@@ -818,14 +818,14 @@ public class FixBusinessMessageReject extends FixInMessage {
 
 	public void setEncodedText(byte[] src) {		
 		if (src == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		
 	}
 
 	public void setEncodedText(String str) {		
 		if (str == null ) return;
-		if (hasEncodedText()) FixUtils.fillSpace(encodedText);		
+		if (hasEncodedText()) FixUtils.fillNul(encodedText);		
 		byte[] src = str.getBytes(); 		
 		FixUtils.copy(encodedText, src); 		
 		hasEncodedText = FixUtils.TAG_HAS_VALUE;		
