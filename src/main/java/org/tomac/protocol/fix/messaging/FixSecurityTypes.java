@@ -169,7 +169,7 @@ public class FixSecurityTypes extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -204,7 +204,19 @@ public class FixSecurityTypes extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getSecurityReqID();		
+		getSecurityResponseID();		
+		getSecurityResponseType();		
+		getTotNoSecurityTypes();		
+		getLastFragment();		
+		getText();		
+		getEncodedTextLen();		
+		getEncodedText();		
+		getMarketID();		
+		getMarketSegmentID();		
+		getTradingSessionID();		
+		getTradingSessionSubID();		
+		getSubscriptionRequestType();		
 	}		
 		
 	@Override		

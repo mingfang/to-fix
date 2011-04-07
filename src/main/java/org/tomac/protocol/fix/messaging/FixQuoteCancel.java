@@ -193,7 +193,7 @@ public class FixQuoteCancel extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -220,7 +220,17 @@ public class FixQuoteCancel extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getQuoteReqID();		
+		getQuoteID();		
+		getQuoteMsgID();		
+		getQuoteCancelType();		
+		getQuoteType();		
+		getQuoteResponseLevel();		
+		getAccount();		
+		getAcctIDSource();		
+		getAccountType();		
+		getTradingSessionID();		
+		getTradingSessionSubID();		
 	}		
 		
 	@Override		

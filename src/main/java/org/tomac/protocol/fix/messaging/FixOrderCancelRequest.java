@@ -229,7 +229,7 @@ public class FixOrderCancelRequest extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -266,7 +266,22 @@ public class FixOrderCancelRequest extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getOrigClOrdID();		
+		getOrderID();		
+		getClOrdID();		
+		getSecondaryClOrdID();		
+		getClOrdLinkID();		
+		getListID();		
+		getOrigOrdModTime();		
+		getAccount();		
+		getAcctIDSource();		
+		getAccountType();		
+		getSide();		
+		getTransactTime();		
+		getComplianceID();		
+		getText();		
+		getEncodedTextLen();		
+		getEncodedText();		
 	}		
 		
 	@Override		

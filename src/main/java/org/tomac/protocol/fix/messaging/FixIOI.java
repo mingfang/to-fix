@@ -343,7 +343,7 @@ public class FixIOI extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -383,7 +383,23 @@ public class FixIOI extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getIOIID();		
+		getIOITransType();		
+		getIOIRefID();		
+		getSide();		
+		getQtyType();		
+		getIOIQty();		
+		getCurrency();		
+		getPriceType();		
+		getPrice();		
+		getValidUntilTime();		
+		getIOIQltyInd();		
+		getIOINaturalFlag();		
+		getText();		
+		getEncodedTextLen();		
+		getEncodedText();		
+		getTransactTime();		
+		getURLLink();		
 	}		
 		
 	@Override		

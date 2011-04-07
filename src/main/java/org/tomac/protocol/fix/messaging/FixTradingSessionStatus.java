@@ -205,7 +205,7 @@ public class FixTradingSessionStatus extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -236,7 +236,26 @@ public class FixTradingSessionStatus extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getTradSesReqID();		
+		getMarketID();		
+		getMarketSegmentID();		
+		getTradingSessionID();		
+		getTradingSessionSubID();		
+		getTradSesMethod();		
+		getTradSesMode();		
+		getUnsolicitedIndicator();		
+		getTradSesStatus();		
+		getTradSesEvent();		
+		getTradSesStatusRejReason();		
+		getTradSesStartTime();		
+		getTradSesOpenTime();		
+		getTradSesPreCloseTime();		
+		getTradSesCloseTime();		
+		getTradSesEndTime();		
+		getTotalVolumeTraded();		
+		getText();		
+		getEncodedTextLen();		
+		getEncodedText();		
 	}		
 		
 	@Override		

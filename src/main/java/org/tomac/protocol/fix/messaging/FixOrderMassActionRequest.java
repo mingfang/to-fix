@@ -199,7 +199,7 @@ public class FixOrderMassActionRequest extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -238,7 +238,19 @@ public class FixOrderMassActionRequest extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getClOrdID();		
+		getSecondaryClOrdID();		
+		getMassActionType();		
+		getMassActionScope();		
+		getMarketID();		
+		getMarketSegmentID();		
+		getTradingSessionID();		
+		getTradingSessionSubID();		
+		getSide();		
+		getTransactTime();		
+		getText();		
+		getEncodedTextLen();		
+		getEncodedText();		
 	}		
 		
 	@Override		

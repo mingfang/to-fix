@@ -12,6 +12,7 @@ import java.nio.ByteBuffer;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixValidationError;
 import org.tomac.protocol.fix.messaging.FixMarketDataSnapshotFullRefresh;
 import org.tomac.protocol.fix.messaging.FixMessageListenerImpl;
@@ -35,6 +36,9 @@ public class TestToFixPerformance {
 	
 	@Before
 	public void setUp() {
+		FixUtils.validateMsgSeqNum = false;
+		FixUtils.validateChecksum = false;
+		FixUtils.validateSendingTime = false;
 		err = new FixValidationError();
 		parser = new FixMessageParser();
 		listener = new FixMessageListenerImpl() {

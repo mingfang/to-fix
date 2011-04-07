@@ -756,7 +756,7 @@ public class FixAllocationReport extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -812,7 +812,71 @@ public class FixAllocationReport extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getAllocReportID();		
+		getAllocID();		
+		getAllocTransType();		
+		getAllocReportRefID();		
+		getAllocCancReplaceReason();		
+		getSecondaryAllocID();		
+		getAllocReportType();		
+		getAllocStatus();		
+		getAllocRejCode();		
+		getRefAllocID();		
+		getAllocIntermedReqType();		
+		getAllocLinkID();		
+		getAllocLinkType();		
+		getBookingRefID();		
+		getClearingBusinessDate();		
+		getTrdType();		
+		getTrdSubType();		
+		getMultiLegReportingType();		
+		getCustOrderCapacity();		
+		getTradeInputSource();		
+		getRndPx();		
+		getMessageEventSource();		
+		getTradeInputDevice();		
+		getAvgPxIndicator();		
+		getAllocNoOrdersType();		
+		getPreviouslyReported();		
+		getReversalIndicator();		
+		getMatchType();		
+		getSide();		
+		getQuantity();		
+		getQtyType();		
+		getLastMkt();		
+		getTradeOriginationDate();		
+		getTradingSessionID();		
+		getTradingSessionSubID();		
+		getPriceType();		
+		getAvgPx();		
+		getAvgParPx();		
+		getCurrency();		
+		getAvgPxPrecision();		
+		getTradeDate();		
+		getTransactTime();		
+		getSettlType();		
+		getSettlDate();		
+		getBookingType();		
+		getGrossTradeAmt();		
+		getConcession();		
+		getTotalTakedown();		
+		getNetMoney();		
+		getPositionEffect();		
+		getAutoAcceptIndicator();		
+		getText();		
+		getEncodedTextLen();		
+		getEncodedText();		
+		getNumDaysInterest();		
+		getAccruedInterestRate();		
+		getAccruedInterestAmt();		
+		getTotalAccruedInterestAmt();		
+		getInterestAtMaturity();		
+		getEndAccruedInterestAmt();		
+		getStartCash();		
+		getEndCash();		
+		getLegalConfirm();		
+		getTotNoAllocs();		
+		getLastFragment();		
 	}		
 		
 	@Override		

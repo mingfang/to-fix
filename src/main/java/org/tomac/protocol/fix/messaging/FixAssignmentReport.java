@@ -339,7 +339,7 @@ public class FixAssignmentReport extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -371,7 +371,29 @@ public class FixAssignmentReport extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getAsgnRptID();		
+		getPosReqID();		
+		getTotNumAssignmentReports();		
+		getLastRptRequested();		
+		getAccount();		
+		getAccountType();		
+		getCurrency();		
+		getThresholdAmount();		
+		getSettlPrice();		
+		getSettlPriceType();		
+		getUnderlyingSettlPrice();		
+		getPriorSettlPrice();		
+		getExpireDate();		
+		getAssignmentMethod();		
+		getAssignmentUnit();		
+		getOpenInterest();		
+		getExerciseMethod();		
+		getSettlSessID();		
+		getSettlSessSubID();		
+		getClearingBusinessDate();		
+		getText();		
+		getEncodedTextLen();		
+		getEncodedText();		
 	}		
 		
 	@Override		

@@ -634,7 +634,7 @@ public class FixConfirmation extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -707,7 +707,56 @@ public class FixConfirmation extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getConfirmID();		
+		getConfirmRefID();		
+		getConfirmReqID();		
+		getConfirmTransType();		
+		getConfirmType();		
+		getCopyMsgIndicator();		
+		getLegalConfirm();		
+		getConfirmStatus();		
+		getAllocID();		
+		getSecondaryAllocID();		
+		getIndividualAllocID();		
+		getTransactTime();		
+		getTradeDate();		
+		getAllocQty();		
+		getQtyType();		
+		getSide();		
+		getCurrency();		
+		getLastMkt();		
+		getAllocAccount();		
+		getAllocAcctIDSource();		
+		getAllocAccountType();		
+		getAvgPx();		
+		getAvgPxPrecision();		
+		getPriceType();		
+		getAvgParPx();		
+		getReportedPx();		
+		getText();		
+		getEncodedTextLen();		
+		getEncodedText();		
+		getProcessCode();		
+		getGrossTradeAmt();		
+		getNumDaysInterest();		
+		getExDate();		
+		getAccruedInterestRate();		
+		getAccruedInterestAmt();		
+		getInterestAtMaturity();		
+		getEndAccruedInterestAmt();		
+		getStartCash();		
+		getEndCash();		
+		getConcession();		
+		getTotalTakedown();		
+		getNetMoney();		
+		getMaturityNetMoney();		
+		getSettlCurrAmt();		
+		getSettlCurrency();		
+		getSettlCurrFxRate();		
+		getSettlCurrFxRateCalc();		
+		getSettlType();		
+		getSettlDate();		
+		getSharedCommission();		
 	}		
 		
 	@Override		

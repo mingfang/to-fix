@@ -285,7 +285,7 @@ public class FixNews extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -313,7 +313,19 @@ public class FixNews extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getNewsID();		
+		getNewsCategory();		
+		getLanguageCode();		
+		getOrigTime();		
+		getUrgency();		
+		getHeadline();		
+		getEncodedHeadlineLen();		
+		getEncodedHeadline();		
+		getMarketID();		
+		getMarketSegmentID();		
+		getURLLink();		
+		getRawDataLength();		
+		getRawData();		
 	}		
 		
 	@Override		

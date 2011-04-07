@@ -541,7 +541,7 @@ public class FixNewOrderCross extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -586,7 +586,46 @@ public class FixNewOrderCross extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getCrossID();		
+		getCrossType();		
+		getCrossPrioritization();		
+		getSettlType();		
+		getSettlDate();		
+		getHandlInst();		
+		getExecInst();		
+		getMinQty();		
+		getMatchIncrement();		
+		getMaxPriceLevels();		
+		getMaxFloor();		
+		getExDestination();		
+		getExDestinationIDSource();		
+		getProcessCode();		
+		getPrevClosePx();		
+		getLocateReqd();		
+		getTransactTime();		
+		getTransBkdTime();		
+		getOrdType();		
+		getPriceType();		
+		getPrice();		
+		getPriceProtectionScope();		
+		getStopPx();		
+		getCurrency();		
+		getComplianceID();		
+		getIOIID();		
+		getQuoteID();		
+		getTimeInForce();		
+		getEffectiveTime();		
+		getExpireDate();		
+		getExpireTime();		
+		getGTBookingInst();		
+		getMaxShow();		
+		getTargetStrategy();		
+		getTargetStrategyParameters();		
+		getParticipationRate();		
+		getCancellationRights();		
+		getMoneyLaunderingStatus();		
+		getRegistID();		
+		getDesignation();		
 	}		
 		
 	@Override		

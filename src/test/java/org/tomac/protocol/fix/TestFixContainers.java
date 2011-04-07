@@ -31,6 +31,8 @@ public class TestFixContainers {
 		listener = new TestFixMessageListener();
 		err = new FixValidationError();
 		FixUtils.validateChecksum = false;
+		FixUtils.validateMsgSeqNum = false;
+		FixUtils.validateSendingTime = false;
 		if ((new String(FixMessageInfo.BEGINSTRING_VALUE).equals("FIX.4.2") ) ) FixUtils.isNasdaqOMX =  true;
 		else FixUtils.isNasdaqOMX = false;
 		pool = new FixMessagePool<FixInMessage>();

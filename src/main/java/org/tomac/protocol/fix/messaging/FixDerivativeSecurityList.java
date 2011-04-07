@@ -142,7 +142,7 @@ public class FixDerivativeSecurityList extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -165,7 +165,14 @@ public class FixDerivativeSecurityList extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getSecurityReportID();		
+		getSecurityReqID();		
+		getSecurityResponseID();		
+		getSecurityRequestResult();		
+		getClearingBusinessDate();		
+		getTransactTime();		
+		getTotNoRelatedSym();		
+		getLastFragment();		
 	}		
 		
 	@Override		

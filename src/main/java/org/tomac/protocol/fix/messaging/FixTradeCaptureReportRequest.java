@@ -419,7 +419,7 @@ public class FixTradeCaptureReportRequest extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -450,7 +450,41 @@ public class FixTradeCaptureReportRequest extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getTradeRequestID();		
+		getTradeID();		
+		getSecondaryTradeID();		
+		getFirmTradeID();		
+		getSecondaryFirmTradeID();		
+		getTradeRequestType();		
+		getSubscriptionRequestType();		
+		getTradeReportID();		
+		getSecondaryTradeReportID();		
+		getExecID();		
+		getExecType();		
+		getOrderID();		
+		getClOrdID();		
+		getMatchStatus();		
+		getTrdType();		
+		getTrdSubType();		
+		getTradeHandlingInstr();		
+		getTransferReason();		
+		getSecondaryTrdType();		
+		getTradeLinkID();		
+		getTrdMatchID();		
+		getClearingBusinessDate();		
+		getTradingSessionID();		
+		getTradingSessionSubID();		
+		getTimeBracket();		
+		getSide();		
+		getMultiLegReportingType();		
+		getTradeInputSource();		
+		getTradeInputDevice();		
+		getResponseTransportType();		
+		getResponseDestination();		
+		getText();		
+		getEncodedTextLen();		
+		getEncodedText();		
+		getMessageEventSource();		
 	}		
 		
 	@Override		

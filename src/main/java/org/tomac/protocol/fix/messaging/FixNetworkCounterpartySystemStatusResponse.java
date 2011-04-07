@@ -95,7 +95,7 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -127,7 +127,10 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getNetworkStatusResponseType();		
+		getNetworkRequestID();		
+		getNetworkResponseID();		
+		getLastNetworkResponseID();		
 	}		
 		
 	@Override		

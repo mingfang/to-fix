@@ -2,7 +2,9 @@ package org.tomac.protocol.fix;
 
 import java.nio.ByteBuffer;
 
+import org.tomac.protocol.fix.messaging.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.FixTags;
+import org.tomac.protocol.fix.messaging.FixMessageInfo.MessageTypes;
 
 public abstract class FixInMessage extends FixMessage {
 
@@ -24,8 +26,15 @@ public abstract class FixInMessage extends FixMessage {
 
 		FixUtils.checkHeaderAndTrailer(buf, err);
 
-		if (!err.hasError())
+		if (!err.hasError() || err.sessionRejectReason != FixEvent.GARBLED ) {
+			int oldErr = err.sessionRejectReason;
+			err.sessionRejectReason = -1;
 			msgTypeInt = getMsgType(buf, err);
+			if (!err.hasError()) err.sessionRejectReason = oldErr;
+		}
+
+		if (err.hasError() && msgTypeInt == MessageTypes.LOGON_INT)  					
+			err.sessionRejectReason = FixEvent.DISCONNECT;
 
 		buf.position(startPos);
 

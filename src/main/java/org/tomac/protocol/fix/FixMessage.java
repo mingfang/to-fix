@@ -187,19 +187,19 @@ public abstract class FixMessage {
 				break;
 
 			if (c == FixUtils.SOH) {
-				err.setError((int) FixMessageInfo.SessionRejectReason.INVALID_TAG_NUMBER, "Tag number terminated by SOH");
+				err.setError((int) FixEvent.GARBLED, "Tag number terminated by SOH");
 				return getNext(buf, null);
 			}
 
 			if (!FixUtils.isNumeric(c)) {
-				err.setError((int) FixMessageInfo.SessionRejectReason.INVALID_TAG_NUMBER, "Tag not nummeric");
+				err.setError((int) FixEvent.GARBLED, "Tag not nummeric");
 				return getNext(buf, null);
 			}
 
 			tag = tag * 10 + c - '0';
 
 			if (++count > FixUtils.FIX_MAX_TAG_LENGTH) {
-				err.setError((int) FixMessageInfo.SessionRejectReason.INVALID_TAG_NUMBER, "Tag number exceeds max allowed digits");
+				err.setError((int) FixEvent.GARBLED, "Tag number exceeds max allowed digits");
 				return getNext(buf, null);
 			}
 		}

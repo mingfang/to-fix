@@ -133,7 +133,7 @@ public class FixSettlementInstructions extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -168,7 +168,15 @@ public class FixSettlementInstructions extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getSettlInstMsgID();		
+		getSettlInstReqID();		
+		getSettlInstMode();		
+		getSettlInstReqRejCode();		
+		getText();		
+		getEncodedTextLen();		
+		getEncodedText();		
+		getClOrdID();		
+		getTransactTime();		
 	}		
 		
 	@Override		

@@ -376,7 +376,7 @@ public class FixPositionReport extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -408,7 +408,34 @@ public class FixPositionReport extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getPosMaintRptID();		
+		getPosReqID();		
+		getPosReqType();		
+		getSubscriptionRequestType();		
+		getTotalNumPosReports();		
+		getPosReqResult();		
+		getUnsolicitedIndicator();		
+		getClearingBusinessDate();		
+		getSettlSessID();		
+		getSettlSessSubID();		
+		getPriceType();		
+		getSettlCurrency();		
+		getMessageEventSource();		
+		getAccount();		
+		getAcctIDSource();		
+		getAccountType();		
+		getCurrency();		
+		getSettlPrice();		
+		getSettlPriceType();		
+		getPriorSettlPrice();		
+		getMatchStatus();		
+		getRegistStatus();		
+		getDeliveryDate();		
+		getModelType();		
+		getPriceDelta();		
+		getText();		
+		getEncodedTextLen();		
+		getEncodedText();		
 	}		
 		
 	@Override		

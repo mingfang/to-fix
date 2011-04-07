@@ -159,7 +159,7 @@ public class FixListStatus extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -207,7 +207,19 @@ public class FixListStatus extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getListID();		
+		getListStatusType();		
+		getNoRpts();		
+		getListOrderStatus();		
+		getContingencyType();		
+		getListRejectReason();		
+		getRptSeq();		
+		getListStatusText();		
+		getEncodedListStatusTextLen();		
+		getEncodedListStatusText();		
+		getTransactTime();		
+		getTotNoOrders();		
+		getLastFragment();		
 	}		
 		
 	@Override		

@@ -18,7 +18,11 @@ public interface FixMessageListener
 
     public IFixSession getSession(long connectorID, FixValidationError err );
 
+    public IFixSession getSession( long connectorID, FixLogon logon, FixValidationError err );
+
     public void addValidator( FixValidator validator );
+
+    public FixValidator getValidator();
 
     public void onFixValidationError ( FixValidationError err );
 

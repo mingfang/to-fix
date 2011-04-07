@@ -192,7 +192,7 @@ public class FixOrderMassCancelRequest extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -227,7 +227,18 @@ public class FixOrderMassCancelRequest extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getClOrdID();		
+		getSecondaryClOrdID();		
+		getMassCancelRequestType();		
+		getTradingSessionID();		
+		getTradingSessionSubID();		
+		getMarketID();		
+		getMarketSegmentID();		
+		getSide();		
+		getTransactTime();		
+		getText();		
+		getEncodedTextLen();		
+		getEncodedText();		
 	}		
 		
 	@Override		

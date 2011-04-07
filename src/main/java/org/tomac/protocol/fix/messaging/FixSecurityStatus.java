@@ -305,7 +305,7 @@ public class FixSecurityStatus extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -329,7 +329,33 @@ public class FixSecurityStatus extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getSecurityStatusReqID();		
+		getCurrency();		
+		getMarketID();		
+		getMarketSegmentID();		
+		getTradingSessionID();		
+		getTradingSessionSubID();		
+		getUnsolicitedIndicator();		
+		getSecurityTradingStatus();		
+		getSecurityTradingEvent();		
+		getFinancialStatus();		
+		getCorporateAction();		
+		getHaltReason();		
+		getInViewOfCommon();		
+		getDueToRelated();		
+		getMDBookType();		
+		getMarketDepth();		
+		getBuyVolume();		
+		getSellVolume();		
+		getHighPx();		
+		getLowPx();		
+		getLastPx();		
+		getTransactTime();		
+		getAdjustment();		
+		getFirstPx();		
+		getText();		
+		getEncodedTextLen();		
+		getEncodedText();		
 	}		
 		
 	@Override		

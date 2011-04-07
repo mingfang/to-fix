@@ -154,7 +154,7 @@ public class FixQuoteRequestReject extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -186,7 +186,15 @@ public class FixQuoteRequestReject extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getQuoteReqID();		
+		getRFQReqID();		
+		getQuoteRequestRejectReason();		
+		getPrivateQuote();		
+		getRespondentType();		
+		getPreTradeAnonymity();		
+		getText();		
+		getEncodedTextLen();		
+		getEncodedText();		
 	}		
 		
 	@Override		

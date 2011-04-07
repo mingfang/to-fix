@@ -117,7 +117,7 @@ public class FixBusinessMessageReject extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -148,7 +148,16 @@ public class FixBusinessMessageReject extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getRefSeqNum();		
+		getRefMsgType();		
+		getRefApplVerID();		
+		getRefApplExtID();		
+		getRefCstmApplVerID();		
+		getBusinessRejectRefID();		
+		getBusinessRejectReason();		
+		getText();		
+		getEncodedTextLen();		
+		getEncodedText();		
 	}		
 		
 	@Override		

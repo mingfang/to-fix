@@ -782,7 +782,7 @@ public class FixOrderCancelReplaceRequest extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -823,7 +823,79 @@ public class FixOrderCancelReplaceRequest extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getOrderID();		
+		getTradeOriginationDate();		
+		getTradeDate();		
+		getOrigClOrdID();		
+		getClOrdID();		
+		getSecondaryClOrdID();		
+		getClOrdLinkID();		
+		getListID();		
+		getOrigOrdModTime();		
+		getAccount();		
+		getAcctIDSource();		
+		getAccountType();		
+		getDayBookingInst();		
+		getBookingUnit();		
+		getPreallocMethod();		
+		getAllocID();		
+		getSettlType();		
+		getSettlDate();		
+		getCashMargin();		
+		getClearingFeeIndicator();		
+		getHandlInst();		
+		getExecInst();		
+		getMinQty();		
+		getMatchIncrement();		
+		getMaxPriceLevels();		
+		getMaxFloor();		
+		getExDestination();		
+		getExDestinationIDSource();		
+		getSide();		
+		getTransactTime();		
+		getQtyType();		
+		getOrdType();		
+		getPriceType();		
+		getPrice();		
+		getPriceProtectionScope();		
+		getStopPx();		
+		getTargetStrategy();		
+		getTargetStrategyParameters();		
+		getParticipationRate();		
+		getComplianceID();		
+		getSolicitedFlag();		
+		getCurrency();		
+		getTimeInForce();		
+		getEffectiveTime();		
+		getExpireDate();		
+		getExpireTime();		
+		getGTBookingInst();		
+		getOrderCapacity();		
+		getOrderRestrictions();		
+		getPreTradeAnonymity();		
+		getCustOrderCapacity();		
+		getForexReq();		
+		getSettlCurrency();		
+		getBookingType();		
+		getText();		
+		getEncodedTextLen();		
+		getEncodedText();		
+		getSettlDate2();		
+		getOrderQty2();		
+		getPrice2();		
+		getPositionEffect();		
+		getCoveredOrUncovered();		
+		getMaxShow();		
+		getLocateReqd();		
+		getCancellationRights();		
+		getMoneyLaunderingStatus();		
+		getRegistID();		
+		getDesignation();		
+		getManualOrderIndicator();		
+		getCustDirectedOrder();		
+		getReceivedDeptID();		
+		getCustOrderHandlingInst();		
+		getOrderHandlingInstSource();		
 	}		
 		
 	@Override		

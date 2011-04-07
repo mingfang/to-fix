@@ -753,7 +753,7 @@ public class FixNewOrderMultileg extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -792,7 +792,78 @@ public class FixNewOrderMultileg extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getClOrdID();		
+		getSecondaryClOrdID();		
+		getClOrdLinkID();		
+		getTradeOriginationDate();		
+		getTradeDate();		
+		getAccount();		
+		getAcctIDSource();		
+		getAccountType();		
+		getDayBookingInst();		
+		getBookingUnit();		
+		getPreallocMethod();		
+		getAllocID();		
+		getSettlType();		
+		getSettlDate();		
+		getCashMargin();		
+		getClearingFeeIndicator();		
+		getHandlInst();		
+		getExecInst();		
+		getMinQty();		
+		getMatchIncrement();		
+		getMaxPriceLevels();		
+		getMaxFloor();		
+		getExDestination();		
+		getExDestinationIDSource();		
+		getProcessCode();		
+		getSide();		
+		getPrevClosePx();		
+		getSwapPoints();		
+		getLocateReqd();		
+		getTransactTime();		
+		getQtyType();		
+		getOrdType();		
+		getMultilegModel();		
+		getMultilegPriceMethod();		
+		getPriceType();		
+		getPrice();		
+		getPriceProtectionScope();		
+		getStopPx();		
+		getCurrency();		
+		getComplianceID();		
+		getSolicitedFlag();		
+		getIOIID();		
+		getQuoteID();		
+		getRefOrderID();		
+		getRefOrderIDSource();		
+		getTimeInForce();		
+		getEffectiveTime();		
+		getExpireDate();		
+		getExpireTime();		
+		getGTBookingInst();		
+		getOrderCapacity();		
+		getOrderRestrictions();		
+		getPreTradeAnonymity();		
+		getCustOrderCapacity();		
+		getForexReq();		
+		getSettlCurrency();		
+		getBookingType();		
+		getText();		
+		getEncodedTextLen();		
+		getEncodedText();		
+		getPositionEffect();		
+		getCoveredOrUncovered();		
+		getMaxShow();		
+		getTargetStrategy();		
+		getTargetStrategyParameters();		
+		getRiskFreeRate();		
+		getParticipationRate();		
+		getCancellationRights();		
+		getMoneyLaunderingStatus();		
+		getRegistID();		
+		getDesignation();		
+		getMultiLegRptTypeReq();		
 	}		
 		
 	@Override		

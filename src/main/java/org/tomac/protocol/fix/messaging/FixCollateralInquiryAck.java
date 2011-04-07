@@ -375,7 +375,7 @@ public class FixCollateralInquiryAck extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -406,7 +406,30 @@ public class FixCollateralInquiryAck extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getCollInquiryID();		
+		getCollInquiryStatus();		
+		getCollInquiryResult();		
+		getTotNumReports();		
+		getAccount();		
+		getAccountType();		
+		getClOrdID();		
+		getOrderID();		
+		getSecondaryOrderID();		
+		getSecondaryClOrdID();		
+		getSettlDate();		
+		getQuantity();		
+		getQtyType();		
+		getCurrency();		
+		getTradingSessionID();		
+		getTradingSessionSubID();		
+		getSettlSessID();		
+		getSettlSessSubID();		
+		getClearingBusinessDate();		
+		getResponseTransportType();		
+		getResponseDestination();		
+		getText();		
+		getEncodedTextLen();		
+		getEncodedText();		
 	}		
 		
 	@Override		

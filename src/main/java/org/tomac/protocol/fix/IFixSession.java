@@ -15,6 +15,8 @@ public interface IFixSession {
 	public long getOutMsgSeqNum();
 
 	public void setOutMsgSeqNum(long msgSeqNum);
+
+	public boolean isEstablished();
 	
 	
 }

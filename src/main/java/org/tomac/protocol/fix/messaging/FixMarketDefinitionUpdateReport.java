@@ -231,7 +231,7 @@ public class FixMarketDefinitionUpdateReport extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -262,7 +262,20 @@ public class FixMarketDefinitionUpdateReport extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getMarketReportID();		
+		getMarketReqID();		
+		getMarketUpdateAction();		
+		getMarketID();		
+		getMarketSegmentID();		
+		getMarketSegmentDesc();		
+		getEncodedMktSegmDescLen();		
+		getEncodedMktSegmDesc();		
+		getParentMktSegmID();		
+		getCurrency();		
+		getTransactTime();		
+		getText();		
+		getEncodedTextLen();		
+		getEncodedText();		
 	}		
 		
 	@Override		

@@ -10,13 +10,8 @@ import java.util.ArrayList;
 import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
 import org.tomac.protocol.fix.FixDataTypes;
-import org.tomac.protocol.fix.FixInMessage;
 import org.tomac.protocol.fix.FixUtils;
-import org.tomac.protocol.fix.FixValidationError;
-import org.tomac.protocol.fix.IFixSession;
-import org.tomac.protocol.fix.messaging.FixMessageInfo;
-import org.tomac.protocol.fix.messaging.FixStandardHeader;
-import org.tomac.protocol.fix.replay.FixValidator;
+import org.tomac.protocol.fix.messaging.FixMessageInfo.MessageTypes;
 import org.tomac.tools.converter.QuickFixComponent;
 import org.tomac.tools.converter.QuickFixField;
 import org.tomac.tools.converter.QuickFixField.QuickFixValue;
@@ -789,7 +784,9 @@ public class FixMessageGenerator {
 
 		// write out a handler for unknown message types 	
 		out.write("    public IFixSession getSession(long connectorID, FixValidationError err );\n\n");
+		out.write("    public IFixSession getSession( long connectorID, FixLogon logon, FixValidationError err );\n\n");
 		out.write("    public void addValidator( FixValidator validator );\n\n");
+		out.write("    public FixValidator getValidator();\n\n");
 		out.write("    public void onFixValidationError ( FixValidationError err );\n\n");
 		out.write("    public void onUnknownMessageType( ByteBuffer msg, int msgType );\n\n");
 
@@ -825,7 +822,13 @@ public class FixMessageGenerator {
 		out.write("    public IFixSession getSession( long connectorID, FixValidationError err ) { return dummySession; }\n\n");
 
 		out.write("    @Override\n");
+		out.write("    public IFixSession getSession( long connectorID, FixLogon logon, FixValidationError err ) { return dummySession; }\n\n");
+
+		out.write("    @Override\n");
 		out.write("    public void addValidator( FixValidator validator ) {}\n\n");
+
+		out.write("    @Override\n");
+		out.write("    public FixValidator getValidator() { return null; }\n\n");
 
 		out.write("    @Override\n");
 		out.write("    public void onFixValidationError ( FixValidationError err ) {}\n\n");
@@ -841,29 +844,33 @@ public class FixMessageGenerator {
 			out.write("    public void on" + dom.type + m.name + "( " + dom.type + m.name + " msg ) {}\n\n");
 		}
 		
-		out.write("\t\tIFixSession dummySession = new IFixSession() {\n\n");
+		out.write("\tIFixSession dummySession = new IFixSession() {\n\n");
 			
-		out.write("\t\t\t@Override\n");
-		out.write("\t\t\tpublic void setOutMsgSeqNum(long msgSeqNum) {}\n\n");
+		out.write("\t\t@Override\n");
+		out.write("\t\tpublic void setOutMsgSeqNum(long msgSeqNum) {}\n\n");
 			
-		out.write("\t\t\t@Override\n");
-		out.write("\t\t\tpublic void setInMsgSeqNum(long msgSeqNum) {}\n\n");
+		out.write("\t\t@Override\n");
+		out.write("\t\tpublic void setInMsgSeqNum(long msgSeqNum) {}\n\n");
 			
-		out.write("\t\t\t@Override\n");
-		out.write("\t\t\tpublic void incrementOutMsgSeqNum() {}\n\n");
+		out.write("\t\t@Override\n");
+		out.write("\t\tpublic void incrementOutMsgSeqNum() {}\n\n");
 			
-		out.write("\t\t\t@Override\n");
-		out.write("\t\t\tpublic void incrementInMsgSeqNum(FixInMessage msg, FixValidationError err) {}\n\n");
+		out.write("\t\t@Override\n");
+		out.write("\t\tpublic void incrementInMsgSeqNum(FixInMessage msg, FixValidationError err) {}\n\n");
 			
-		out.write("\t\t\t@Override\n");
-		out.write("\t\t\tpublic int getSessionID() {	return 0; }\n\n");
+		out.write("\t\t@Override\n");
+		out.write("\t\tpublic int getSessionID() {	return 0; }\n\n");
 			
-		out.write("\t\t\t@Override\n");
-		out.write("\t\t\tpublic long getOutMsgSeqNum() {	return 0; }\n\n");
+		out.write("\t\t@Override\n");
+		out.write("\t\tpublic long getOutMsgSeqNum() {	return 0; }\n\n");
 			
-		out.write("\t\t\t@Override\n");
-		out.write("\t\t\tpublic long getInMsgSeqNum() { return 0; }\n");
-		out.write("\t\t};\n\n");
+		out.write("\t\t@Override\n");
+		out.write("\t\tpublic long getInMsgSeqNum() { return 0; }\n");
+
+		out.write("\t\t@Override\n");
+		out.write("\t\tpublic boolean isEstablished() {	return true; }\n\n");
+		
+		out.write("\t};\n\n");
 
 		// write out the close to the interface
 		out.write("}\n");
@@ -952,7 +959,7 @@ public class FixMessageGenerator {
 
 			out.write(" 						FixMessage.getNext(buf, err);		\n");
 			out.write("                		if (err.hasError()) break; 		\n");
-			out.write("                		else break; //Ugha\n");
+			out.write("                		else break; //TODO INVALID_TAG error\n");
 			out.write("					}\n\n");
 			out.write("\t\t\t}\n\n");
 			
@@ -966,7 +973,9 @@ public class FixMessageGenerator {
 
 			out.write("	@Override		\n");
 			out.write("	public void getAll() {		\n");
-			out.write("		/* not needed, just for the inet dudes recognition */		\n");
+			for (final QuickFixField f : m.fields) {
+				out.write("		get" + capFirst(f.name) + "();		\n");
+			}
 			out.write("	}		\n");
 		}
 		out.write("		\n");
@@ -1345,6 +1354,7 @@ public class FixMessageGenerator {
 		out.write("import " + dom.packageNameBase + ".FixInMessage;\n");
 		out.write("import " + dom.packageNameBase + ".IFixSession;\n");
 		out.write("import " + dom.packageNameBase + ".FixUtils;\n\n");
+		out.write("import " + dom.packageNameBase + ".FixEvent;\n\n");
 
 		// write out the open to the parser class
 		out.write("public class " + dom.type + "MessageParser implements " + dom.type + "MessageInfo\n{\n\n");
@@ -1376,7 +1386,8 @@ public class FixMessageGenerator {
 		out.write("\t\tint msgType = FixInMessage.crackMsgType( buf ,err );\n");
 
 		out.write("\t\t// garbled message\n");
-		out.write("\t\tif (err.hasError()) return; \n\n");
+		out.write("\t\tif (err.hasError() && ( err.getSessionRejectReason() == FixEvent.GARBLED || err.getSessionRejectReason() == FixEvent.DISCONNECT) ) { return; }\n\n");
+		out.write("\t\telse if (err.hasError()) { l.onFixValidationError(err); return; }\n\n");
 
 		out.write("        switch( msgType )\n");
 		out.write("        {\n\n");
@@ -1386,20 +1397,32 @@ public class FixMessageGenerator {
 			final String name = dom.type.toLowerCase() + m.name;
 			out.write("\t\tcase MessageTypes." + m.name.toUpperCase() + "_INT:\n");
 			out.write("\t\t\t" + capFirst(dom.type.toLowerCase()) + m.name + " " + name + " = fixMessagePool.get" + capFirst(dom.type.toLowerCase()) + m.name + "(buf, err);\n");
-			out.write("\t\t\tsession = l.getSession( connectorID, err);\n");
-			out.write("\t\t\t" + uncapFirst(dom.type.toLowerCase()) + m.name + ".sessionID = (session != null) ?  session.getSessionID() : -1 * (int)connectorID;\n");
-			if (!m.name.equalsIgnoreCase("logon")) {
-				out.write("\t\t\tsession.incrementInMsgSeqNum(" + uncapFirst(dom.type.toLowerCase()) + m.name + ", err);\n");
-			}
-			out.write("\t\t\tif(err.hasError()) {\n");
-			out.write("\t\t\t\tl.onFixValidationError(err);\n");
-			out.write("\t\t\t} else {\n");
-			out.write("\t\t\t\tl.on" + capFirst(dom.type.toLowerCase()) + m.name + "(" + name + ");\n");
-			out.write("\t\t\t}\n");
 			if (m.name.equalsIgnoreCase("logon")) {
-				out.write("\t\t\tsession = l.getSession( connectorID, err);\n");
-				out.write("\t\t\tif (session != null) session.incrementInMsgSeqNum(" + uncapFirst(dom.type.toLowerCase()) + m.name + ", err);\n");
+				out.write("\t\t\t" + name + ".getAll();  // TODO why do I have to do this?\n");
 			} 
+			out.write("\t\t\tsession = FixUtils.validateStandardHeader(l, connectorID, " + name + ", err);\n");
+
+			if (m.name.equalsIgnoreCase("logon")) {
+				out.write("\t\t\tif (session != null) { \n");
+				out.write("\t\t\t\tsession.incrementInMsgSeqNum(" + uncapFirst(dom.type.toLowerCase()) + m.name + ", err);\n");
+				out.write("\t\t\t}\n");
+				out.write("\t\t\tif(err.hasError()) {\n");
+				out.write("\t\t\t\tl.onFixValidationError(err);\n");
+				out.write("\t\t\t} else {\n");
+				out.write("\t\t\t\tl.on" + capFirst(dom.type.toLowerCase()) + m.name + "(" + name + ");\n");
+				out.write("\t\t\t}\n");
+
+			} else {
+				out.write("\t\t\tif (session != null) { \n");
+				out.write("\t\t\t\tsession.incrementInMsgSeqNum(" + uncapFirst(dom.type.toLowerCase()) + m.name + ", err);\n");
+				out.write("\t\t\t\tif(err.hasError()) {\n");
+				out.write("\t\t\t\t\tl.onFixValidationError(err);\n");
+				out.write("\t\t\t\t} else {\n");
+				out.write("\t\t\t\t\tl.on" + capFirst(dom.type.toLowerCase()) + m.name + "(" + name + ");\n");
+				out.write("\t\t\t\t}\n");
+				out.write("\t\t\t}\n");
+			}
+			
 			out.write("\t\t\tfixMessagePool.return" + capFirst(dom.type.toLowerCase()) + m.name + " (" + name + ");\n");
 			out.write("\t\t\tbreak;\n");
 		}

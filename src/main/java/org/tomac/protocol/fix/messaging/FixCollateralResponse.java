@@ -496,7 +496,7 @@ public class FixCollateralResponse extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -531,7 +531,40 @@ public class FixCollateralResponse extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getCollRespID();		
+		getCollAsgnID();		
+		getCollReqID();		
+		getCollAsgnReason();		
+		getCollAsgnTransType();		
+		getCollAsgnRespType();		
+		getCollAsgnRejectReason();		
+		getTransactTime();		
+		getCollApplType();		
+		getFinancialStatus();		
+		getClearingBusinessDate();		
+		getAccount();		
+		getAccountType();		
+		getClOrdID();		
+		getOrderID();		
+		getSecondaryOrderID();		
+		getSecondaryClOrdID();		
+		getSettlDate();		
+		getQuantity();		
+		getQtyType();		
+		getCurrency();		
+		getMarginExcess();		
+		getTotalNetValue();		
+		getCashOutstanding();		
+		getSide();		
+		getPrice();		
+		getPriceType();		
+		getAccruedInterestAmt();		
+		getEndAccruedInterestAmt();		
+		getStartCash();		
+		getEndCash();		
+		getText();		
+		getEncodedTextLen();		
+		getEncodedText();		
 	}		
 		
 	@Override		

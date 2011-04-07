@@ -264,7 +264,7 @@ public class FixMarketDataSnapshotFullRefresh extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -289,7 +289,22 @@ public class FixMarketDataSnapshotFullRefresh extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getMDReportID();		
+		getClearingBusinessDate();		
+		getMDBookType();		
+		getMDFeedType();		
+		getTradeDate();		
+		getMDSubBookType();		
+		getMarketDepth();		
+		getTotNumReports();		
+		getRefreshIndicator();		
+		getMDReqID();		
+		getMDStreamID();		
+		getFinancialStatus();		
+		getCorporateAction();		
+		getNetChgPrevDay();		
+		getApplQueueDepth();		
+		getApplQueueResolution();		
 	}		
 		
 	@Override		

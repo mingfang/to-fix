@@ -274,7 +274,7 @@ public class FixOrderMassActionReport extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -313,7 +313,23 @@ public class FixOrderMassActionReport extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getClOrdID();		
+		getSecondaryClOrdID();		
+		getMassActionReportID();		
+		getMassActionType();		
+		getMassActionScope();		
+		getMassActionResponse();		
+		getMassActionRejectReason();		
+		getTotalAffectedOrders();		
+		getMarketID();		
+		getMarketSegmentID();		
+		getTradingSessionID();		
+		getTradingSessionSubID();		
+		getSide();		
+		getTransactTime();		
+		getText();		
+		getEncodedTextLen();		
+		getEncodedText();		
 	}		
 		
 	@Override		

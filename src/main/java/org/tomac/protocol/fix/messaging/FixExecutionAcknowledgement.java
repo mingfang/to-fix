@@ -217,7 +217,7 @@ public class FixExecutionAcknowledgement extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -258,7 +258,22 @@ public class FixExecutionAcknowledgement extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getOrderID();		
+		getSecondaryOrderID();		
+		getClOrdID();		
+		getExecAckStatus();		
+		getExecID();		
+		getDKReason();		
+		getSide();		
+		getLastQty();		
+		getLastPx();		
+		getPriceType();		
+		getLastParPx();		
+		getCumQty();		
+		getAvgPx();		
+		getText();		
+		getEncodedTextLen();		
+		getEncodedText();		
 	}		
 		
 	@Override		

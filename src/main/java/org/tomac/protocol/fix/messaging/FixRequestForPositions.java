@@ -276,7 +276,7 @@ public class FixRequestForPositions extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -316,7 +316,24 @@ public class FixRequestForPositions extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getPosReqID();		
+		getPosReqType();		
+		getMatchStatus();		
+		getSubscriptionRequestType();		
+		getSettlCurrency();		
+		getAccount();		
+		getAcctIDSource();		
+		getAccountType();		
+		getCurrency();		
+		getClearingBusinessDate();		
+		getSettlSessID();		
+		getSettlSessSubID();		
+		getTransactTime();		
+		getResponseTransportType();		
+		getResponseDestination();		
+		getText();		
+		getEncodedTextLen();		
+		getEncodedText();		
 	}		
 		
 	@Override		

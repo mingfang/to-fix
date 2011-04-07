@@ -152,7 +152,7 @@ public class FixOrderMassStatusRequest extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -183,7 +183,13 @@ public class FixOrderMassStatusRequest extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getMassStatusReqID();		
+		getMassStatusReqType();		
+		getAccount();		
+		getAcctIDSource();		
+		getTradingSessionID();		
+		getTradingSessionSubID();		
+		getSide();		
 	}		
 		
 	@Override		

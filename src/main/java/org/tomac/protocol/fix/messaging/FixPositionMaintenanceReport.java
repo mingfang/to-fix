@@ -366,7 +366,7 @@ public class FixPositionMaintenanceReport extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -411,7 +411,30 @@ public class FixPositionMaintenanceReport extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getPosMaintRptID();		
+		getPosTransType();		
+		getPosReqID();		
+		getPosMaintAction();		
+		getOrigPosReqRefID();		
+		getPosMaintStatus();		
+		getPosMaintResult();		
+		getClearingBusinessDate();		
+		getSettlSessID();		
+		getSettlSessSubID();		
+		getAccount();		
+		getAcctIDSource();		
+		getAccountType();		
+		getPosMaintRptRefID();		
+		getCurrency();		
+		getSettlCurrency();		
+		getContraryInstructionIndicator();		
+		getPriorSpreadIndicator();		
+		getTransactTime();		
+		getAdjustmentType();		
+		getThresholdAmount();		
+		getText();		
+		getEncodedTextLen();		
+		getEncodedText();		
 	}		
 		
 	@Override		

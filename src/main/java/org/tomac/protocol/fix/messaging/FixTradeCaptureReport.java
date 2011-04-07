@@ -838,7 +838,7 @@ public class FixTradeCaptureReport extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -871,7 +871,87 @@ public class FixTradeCaptureReport extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getTradeReportID();		
+		getTradeID();		
+		getSecondaryTradeID();		
+		getFirmTradeID();		
+		getSecondaryFirmTradeID();		
+		getTradeReportTransType();		
+		getTradeReportType();		
+		getTrdRptStatus();		
+		getTradeRequestID();		
+		getTrdType();		
+		getTrdSubType();		
+		getSecondaryTrdType();		
+		getTradeHandlingInstr();		
+		getOrigTradeHandlingInstr();		
+		getOrigTradeDate();		
+		getOrigTradeID();		
+		getOrigSecondaryTradeID();		
+		getTransferReason();		
+		getExecType();		
+		getTotNumTradeReports();		
+		getLastRptRequested();		
+		getUnsolicitedIndicator();		
+		getSubscriptionRequestType();		
+		getTradeReportRefID();		
+		getSecondaryTradeReportRefID();		
+		getSecondaryTradeReportID();		
+		getTradeLinkID();		
+		getTrdMatchID();		
+		getExecID();		
+		getSecondaryExecID();		
+		getExecRestatementReason();		
+		getPreviouslyReported();		
+		getPriceType();		
+		getAsOfIndicator();		
+		getSettlSessID();		
+		getSettlSessSubID();		
+		getVenueType();		
+		getMarketSegmentID();		
+		getMarketID();		
+		getQtyType();		
+		getUnderlyingTradingSessionID();		
+		getUnderlyingTradingSessionSubID();		
+		getLastQty();		
+		getLastPx();		
+		getCalculatedCcyLastQty();		
+		getCurrency();		
+		getSettlCurrency();		
+		getLastParPx();		
+		getLastSpotRate();		
+		getLastForwardPoints();		
+		getLastSwapPoints();		
+		getLastMkt();		
+		getTradeDate();		
+		getClearingBusinessDate();		
+		getAvgPx();		
+		getAvgPxIndicator();		
+		getMultiLegReportingType();		
+		getTradeLegRefID();		
+		getTransactTime();		
+		getSettlType();		
+		getSettlDate();		
+		getUnderlyingSettlementDate();		
+		getMatchStatus();		
+		getMatchType();		
+		getVolatility();		
+		getDividendYield();		
+		getRiskFreeRate();		
+		getCurrencyRatio();		
+		getCopyMsgIndicator();		
+		getPublishTrdIndicator();		
+		getTradePublishIndicator();		
+		getShortSaleReason();		
+		getTierCode();		
+		getMessageEventSource();		
+		getLastUpdateTime();		
+		getRndPx();		
+		getGrossTradeAmt();		
+		getTZTransactTime();		
+		getReportedPxDiff();		
+		getRejectText();		
+		getFeeMultiplier();		
 	}		
 		
 	@Override		

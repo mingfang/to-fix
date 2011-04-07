@@ -6,9 +6,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
-import java.util.zip.Checksum;
 
+import org.tomac.protocol.fix.messaging.FixLogon;
+import org.tomac.protocol.fix.messaging.FixLogout;
 import org.tomac.protocol.fix.messaging.FixMessageInfo;
+import org.tomac.protocol.fix.messaging.FixMessageListener;
+import org.tomac.protocol.fix.messaging.FixSequenceReset;
 import org.tomac.protocol.fix.messaging.FixTags;
 
 public class FixUtils {
@@ -34,7 +37,7 @@ public class FixUtils {
 	public static final int						FIX_MAX_STRING_LENGTH				= 64;
 	public static final int						UTCTIMESTAMP_LENGTH					= 24;
 	public static final int						CURRENCY_LENGTH						= 3;
-	public static final int						FIX_MAX_STRING_TEXT_LENGTH			= 64;
+	public static final int						FIX_MAX_STRING_TEXT_LENGTH			= 128;
 	public static final int						FIX_MAX_NOINGROUP					= 5;
 
 	private static byte[]						beginsStringTmp						= new byte[FixTags.BEGINSTRING_LENGTH];
@@ -47,6 +50,10 @@ public class FixUtils {
 
 	public static boolean						validateChecksum					= true;
 
+	public static boolean						validateMsgSeqNum					= true;
+	
+	public static boolean						validateSendingTime					= true;
+	
     public static final Calendar 				calendarUTC							= new GregorianCalendar(TimeZone.getTimeZone("UTC"));
     
     public static final UtcTimestampConverter   utcTimestampConverter               = fixUtils.new UtcTimestampConverter();
@@ -67,33 +74,36 @@ public class FixUtils {
 		int length = 0;
 
 		if (buf.limit() <= FixUtils.FIX_HEADER)
-			err.setError((int) FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "No room in message for body length", FixTags.BODYLENGTH_INT);
+			err.setError((int) FixEvent.GARBLED, "No room in message for body length", FixTags.BODYLENGTH_INT);
 
 		// BeginString
 		if (!err.hasError()) {
 			final int tag = FixMessage.getTag(buf, err);
 
 			if (tag != FixTags.BEGINSTRING_INT)
-				err.setError((int) FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "BeginString missing", FixTags.BEGINSTRING_INT);
+				err.setError((int) FixEvent.GARBLED, "BeginString missing", FixTags.BEGINSTRING_INT);
 			else {
 				FixMessage.getTagStringValue(buf, beginsStringTmp, 0, FixTags.BEGINSTRING_LENGTH, err);
 
-				if (!FixUtils.equals(beginsStringTmp, FixMessageInfo.BEGINSTRING_VALUE))
-					err.setError((int) FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "BeginString not set to " + new String(FixMessageInfo.BEGINSTRING_VALUE), FixTags.BEGINSTRING_INT);
+				if (!FixUtils.equals(beginsStringTmp, FixMessageInfo.BEGINSTRING_VALUE)) {
+					err.setError((int) FixEvent.BEGINSTRING_LOGOUT, "Incorrect BeginString", FixTags.BEGINSTRING_INT);
+				} 
 			}
 
 		}
 
 		// BodyLength
-		if (!err.hasError()) {
+		if (!err.hasError() || err.sessionRejectReason != FixEvent.GARBLED ) {
 			final int tag = FixMessage.getTag(buf, err);
 
-			if (!err.hasError())
+			if (!err.hasError() || err.sessionRejectReason != FixEvent.GARBLED )
 				if (tag != FixTags.BODYLENGTH_INT)
-					err.setError((int) FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "BodyLength missing", FixTags.BEGINSTRING_INT);
+					err.setError((int) FixEvent.GARBLED, "BodyLength missing", FixTags.BEGINSTRING_INT);
 				else
 					length = FixMessage.getTagIntValue(buf, err);
 		}
+		
+		
 
 		// CheckSum and trailer
 		if (!err.hasError() && validateChecksum) {
@@ -103,7 +113,7 @@ public class FixUtils {
 			buf.position(length + buf.position());
 			final int tag = FixMessage.getTag(buf, err);
 
-			if (!err.hasError())
+			if (!err.hasError()) {
 				if (tag != FixTags.CHECKSUM_INT)
 					err.setError((int) FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "CheckSum missing", FixTags.CHECKSUM_INT);
 				else {
@@ -114,7 +124,14 @@ public class FixUtils {
 						if (FixUtils.equals(currCheckSum, calcCheckSum))
 							err.setError((int) FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, "Checksum incorrect " + new String(currCheckSum), FixTags.CHECKSUM_INT);
 				}
+			} else {
+				if (err.sessionRejectReason != FixEvent.GARBLED || 
+						( tag == FixTags.BEGINSTRING_INT && err.sessionRejectReason == FixEvent.GARBLED) ) // if the length is missing tag 8 is the last successfull
+					err.setError(FixEvent.DISCONNECT, "incorrect length");
+			}
 		}
+		
+		
 
 		buf.position(startPos);
 		return length;
@@ -596,7 +613,11 @@ public class FixUtils {
 		if (msg == null || msg.length()== 0) return msg;
 		
 		if ( msg.contains(new String(FixTags.SENDINGTIME) + "=" + "<TIME>") ) {
-			msg = msg.replace("<TIME>", FixUtils.utcTimestampConverter.convert( new Date() ) ); 
+			msg = msg.replace("<TIME>", FixUtils.utcTimestampConverter.convert( FixUtils.getSystemTime() ) ); 
+		}
+
+		if ( msg.contains("<TIME+10>") ) {
+			msg = msg.replace("<TIME+10>", FixUtils.utcTimestampConverter.convert( new Date(FixUtils.getSystemTime().getTime() + 10 * 60 * 1000) ) ); 
 		}
 
 		if ( ! msg.contains("\u0001" + new String(FixTags.CHECKSUM) + "=") ) {
@@ -626,6 +647,123 @@ public class FixUtils {
 	public static Date getSystemTime() {
 		return new Date();
 	}
+
+	public static IFixSession validateStandardHeader(FixMessageListener listener, long connectorID, FixLogon msg, FixValidationError err) {
+
+		if (err.hasError() && err.refTagID == FixTags.DEFAULTAPPLVERID_INT) {
+			err.setError(FixEvent.DISCONNECT, err.text, err.refTagID);
+			return null;
+		}
+			
+		
+		IFixSession session = listener.getSession( connectorID, err);
+		
+		if (session == null) {
+			
+			session = listener.getSession(connectorID, msg, err);
+			
+		} 		
+		
+		if (session != null) {
+			
+			msg.sessionID = session.getSessionID();
+			err.setSessionID(msg.sessionID);
+
+			if (validateMsgSeqNum && !err.hasError()) {
+				
+				if (session.getInMsgSeqNum() + 1 < msg.standardHeader.getMsgSeqNum() ) { // if we get a logout continue anyhow
+
+					err.setError((int) FixEvent.MSGSEQNUM_LOGON_RESENDREQUEST, "MsgSeqNum higher than expected", FixTags.MSGSEQNUM_INT, msg.standardHeader.getMsgType());
+					err.msgSeqNum = session.getInMsgSeqNum() + 1;
+					err.setFixMessage(msg.clone());
+
+				} else if (msg.standardHeader.getMsgSeqNum() < session.getInMsgSeqNum() && !(msg.standardHeader.hasPossDupFlag() && msg.standardHeader.getPossDupFlag()) ) {
+
+					err.setError(FixEvent.MSGSEQNUM_LOGOUT, "MsgSeqNum too low, expecting " + (session.getInMsgSeqNum() + 1) + " but received " + msg.standardHeader.getMsgSeqNum(), FixTags.MSGSEQNUM_INT, msg.standardHeader.getMsgType());
+
+				}
+			} 
+			
+			validateSendingTime(err,msg);
+
+		} else { // session == null
+
+			err.setSessionID((int) (connectorID));
+
+		} 		
+		
+		return session;
+
+	}
 	
+	public static IFixSession validateStandardHeader(FixMessageListener listener, long connectorID, FixInMessage msg, FixValidationError err) {
+
+		IFixSession session = listener.getSession( connectorID, err);
+		
+		if (session != null) {
+			
+			msg.sessionID = session.getSessionID();
+			err.setSessionID(msg.sessionID);
+
+			if (validateMsgSeqNum && !err.hasError()) {
+				
+				if (session.getInMsgSeqNum() + 1 < msg.standardHeader.getMsgSeqNum() && 
+						!(msg instanceof FixLogout)) { // if we get a logout continue anyhow
+
+					err.setError((int) FixEvent.MSGSEQNUM_RESENDREQUEST, "MsgSeqNum higher than expected", FixTags.MSGSEQNUM_INT, msg.standardHeader.getMsgType());
+					err.msgSeqNum = session.getInMsgSeqNum() + 1;
+
+				}
+				else if (msg.standardHeader.getMsgSeqNum() < session.getInMsgSeqNum() && !(msg.standardHeader.hasPossDupFlag() && msg.standardHeader.getPossDupFlag()) && !(msg instanceof FixSequenceReset)) {
+
+					err.setError(FixEvent.MSGSEQNUM_LOGOUT, "MsgSeqNum too low, expecting " + (session.getInMsgSeqNum() + 1) + " but received " + msg.standardHeader.getMsgSeqNum(), FixTags.MSGSEQNUM_INT, msg.standardHeader.getMsgType());
+
+				}
+			}
+
+			validateSendingTime(err,msg);
+			
+		} else { // session == null
+
+			if (!err.hasError() && msg.standardHeader.hasMsgType() && ! FixUtils.equals(msg.standardHeader.getMsgType(), FixMessageInfo.MsgType.LOGON)) 
+				err.setError(FixEvent.DISCONNECT, "first message not a logon");
+
+			err.setSessionID((int) (-1 * connectorID));
+
+		} 		
+		
+		return session;
+	}
 	
+	private static void validateSendingTime(FixValidationError err, FixInMessage msg) {
+		if (validateSendingTime && !err.hasError()) {
+			
+			long now = FixUtils.getSystemTime().getTime();
+			long sendingTime = FixUtils.utcTimestampConverter.convert(msg.standardHeader.getSendingTime()).getTime();
+			
+			if ( sendingTime > now + (60*2*1000L) || sendingTime < now - (60*2*1000L) ) { 
+
+				err.setError((int) FixMessageInfo.SessionRejectReason.SENDINGTIME_ACCURACY_PROBLEM, "SendingTime accuracy problem", FixTags.SENDINGTIME_INT, msg.standardHeader.getMsgType());
+				err.sessionID = msg.sessionID;
+			}
+			
+			if (msg.standardHeader.hasPossDupFlag() && msg.standardHeader.getPossDupFlag()) {
+				if (!msg.standardHeader.hasOrigSendingTime()) {
+					err.setError((int) FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.ORIGSENDINGTIME_INT, msg.standardHeader.getMsgType());
+					err.sessionID = msg.sessionID;
+					err.msgSeqNum = msg.standardHeader.getMsgSeqNum();
+				} else {
+					long origSendingTime = FixUtils.utcTimestampConverter.convert(msg.standardHeader.getOrigSendingTime()).getTime();
+					if (origSendingTime > sendingTime) {
+						err.setError((int) FixMessageInfo.SessionRejectReason.SENDINGTIME_ACCURACY_PROBLEM, "SendingTime accuracy problem", FixTags.ORIGSENDINGTIME_INT, msg.standardHeader.getMsgType());
+						err.msgSeqNum = msg.standardHeader.getMsgSeqNum();
+						err.sessionID = msg.sessionID;
+					}
+				}
+					
+					
+			}
+		}			
+		
+	}
 }

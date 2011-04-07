@@ -156,7 +156,7 @@ public class FixConfirmationRequest extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -191,7 +191,18 @@ public class FixConfirmationRequest extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getConfirmReqID();		
+		getConfirmType();		
+		getAllocID();		
+		getSecondaryAllocID();		
+		getIndividualAllocID();		
+		getTransactTime();		
+		getAllocAccount();		
+		getAllocAcctIDSource();		
+		getAllocAccountType();		
+		getText();		
+		getEncodedTextLen();		
+		getEncodedText();		
 	}		
 		
 	@Override		

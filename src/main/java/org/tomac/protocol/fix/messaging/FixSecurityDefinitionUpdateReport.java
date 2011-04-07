@@ -255,7 +255,7 @@ public class FixSecurityDefinitionUpdateReport extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -278,7 +278,18 @@ public class FixSecurityDefinitionUpdateReport extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getSecurityReportID();		
+		getSecurityReqID();		
+		getSecurityResponseID();		
+		getSecurityResponseType();		
+		getClearingBusinessDate();		
+		getSecurityUpdateAction();		
+		getCorporateAction();		
+		getCurrency();		
+		getText();		
+		getEncodedTextLen();		
+		getEncodedText();		
+		getTransactTime();		
 	}		
 		
 	@Override		

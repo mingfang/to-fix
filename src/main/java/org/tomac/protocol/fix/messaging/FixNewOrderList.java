@@ -227,7 +227,7 @@ public class FixNewOrderList extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -263,7 +263,25 @@ public class FixNewOrderList extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getListID();		
+		getBidID();		
+		getClientBidID();		
+		getProgRptReqs();		
+		getBidType();		
+		getProgPeriodInterval();		
+		getCancellationRights();		
+		getMoneyLaunderingStatus();		
+		getRegistID();		
+		getListExecInstType();		
+		getListExecInst();		
+		getContingencyType();		
+		getEncodedListExecInstLen();		
+		getEncodedListExecInst();		
+		getAllowableOneSidednessPct();		
+		getAllowableOneSidednessValue();		
+		getAllowableOneSidednessCurr();		
+		getTotNoOrders();		
+		getLastFragment();		
 	}		
 		
 	@Override		

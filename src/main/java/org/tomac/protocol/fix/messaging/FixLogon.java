@@ -235,7 +235,7 @@ public class FixLogon extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -270,7 +270,29 @@ public class FixLogon extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getEncryptMethod();		
+		getHeartBtInt();		
+		getRawDataLength();		
+		getRawData();		
+		getResetSeqNumFlag();		
+		getNextExpectedMsgSeqNum();		
+		getMaxMessageSize();		
+		getTestMessageIndicator();		
+		getUsername();		
+		getPassword();		
+		getNewPassword();		
+		getEncryptedPasswordMethod();		
+		getEncryptedPasswordLen();		
+		getEncryptedPassword();		
+		getEncryptedNewPasswordLen();		
+		getEncryptedNewPassword();		
+		getSessionStatus();		
+		getDefaultApplVerID();		
+		getDefaultApplExtID();		
+		getDefaultCstmApplVerID();		
+		getText();		
+		getEncodedTextLen();		
+		getEncodedText();		
 	}		
 		
 	@Override		

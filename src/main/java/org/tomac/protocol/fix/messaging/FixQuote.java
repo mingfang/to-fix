@@ -633,7 +633,7 @@ public class FixQuote extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -661,7 +661,64 @@ public class FixQuote extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getQuoteReqID();		
+		getQuoteID();		
+		getQuoteMsgID();		
+		getQuoteRespID();		
+		getQuoteType();		
+		getPrivateQuote();		
+		getQuoteResponseLevel();		
+		getTradingSessionID();		
+		getTradingSessionSubID();		
+		getSide();		
+		getSettlType();		
+		getSettlDate();		
+		getSettlDate2();		
+		getOrderQty2();		
+		getCurrency();		
+		getSettlCurrency();		
+		getAccount();		
+		getAcctIDSource();		
+		getAccountType();		
+		getBidPx();		
+		getOfferPx();		
+		getMktBidPx();		
+		getMktOfferPx();		
+		getMinBidSize();		
+		getBidSize();		
+		getMinOfferSize();		
+		getOfferSize();		
+		getMinQty();		
+		getValidUntilTime();		
+		getBidSpotRate();		
+		getOfferSpotRate();		
+		getBidForwardPoints();		
+		getOfferForwardPoints();		
+		getBidSwapPoints();		
+		getOfferSwapPoints();		
+		getMidPx();		
+		getBidYield();		
+		getMidYield();		
+		getOfferYield();		
+		getTransactTime();		
+		getOrdType();		
+		getBidForwardPoints2();		
+		getOfferForwardPoints2();		
+		getSettlCurrBidFxRate();		
+		getSettlCurrOfferFxRate();		
+		getSettlCurrFxRateCalc();		
+		getCommType();		
+		getCommission();		
+		getCustOrderCapacity();		
+		getExDestination();		
+		getExDestinationIDSource();		
+		getBookingType();		
+		getOrderCapacity();		
+		getOrderRestrictions();		
+		getPriceType();		
+		getText();		
+		getEncodedTextLen();		
+		getEncodedText();		
 	}		
 		
 	@Override		

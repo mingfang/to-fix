@@ -718,7 +718,7 @@ public class FixAllocationInstruction extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -766,7 +766,66 @@ public class FixAllocationInstruction extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getAllocID();		
+		getAllocTransType();		
+		getAllocType();		
+		getSecondaryAllocID();		
+		getRefAllocID();		
+		getAllocCancReplaceReason();		
+		getAllocIntermedReqType();		
+		getAllocLinkID();		
+		getAllocLinkType();		
+		getBookingRefID();		
+		getAllocNoOrdersType();		
+		getPreviouslyReported();		
+		getReversalIndicator();		
+		getMatchType();		
+		getSide();		
+		getQuantity();		
+		getQtyType();		
+		getLastMkt();		
+		getTradeOriginationDate();		
+		getTradingSessionID();		
+		getTradingSessionSubID();		
+		getPriceType();		
+		getAvgPx();		
+		getAvgParPx();		
+		getCurrency();		
+		getAvgPxPrecision();		
+		getTradeDate();		
+		getTransactTime();		
+		getSettlType();		
+		getSettlDate();		
+		getBookingType();		
+		getGrossTradeAmt();		
+		getConcession();		
+		getTotalTakedown();		
+		getNetMoney();		
+		getPositionEffect();		
+		getAutoAcceptIndicator();		
+		getText();		
+		getEncodedTextLen();		
+		getEncodedText();		
+		getNumDaysInterest();		
+		getAccruedInterestRate();		
+		getAccruedInterestAmt();		
+		getTotalAccruedInterestAmt();		
+		getInterestAtMaturity();		
+		getEndAccruedInterestAmt();		
+		getStartCash();		
+		getEndCash();		
+		getLegalConfirm();		
+		getTotNoAllocs();		
+		getLastFragment();		
+		getAvgPxIndicator();		
+		getClearingBusinessDate();		
+		getTrdType();		
+		getTrdSubType();		
+		getCustOrderCapacity();		
+		getTradeInputSource();		
+		getMultiLegReportingType();		
+		getMessageEventSource();		
+		getRndPx();		
 	}		
 		
 	@Override		

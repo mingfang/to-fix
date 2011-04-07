@@ -229,7 +229,7 @@ public class FixAllocationReportAck extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -256,7 +256,25 @@ public class FixAllocationReportAck extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getAllocReportID();		
+		getAllocID();		
+		getClearingBusinessDate();		
+		getAvgPxIndicator();		
+		getQuantity();		
+		getAllocTransType();		
+		getSecondaryAllocID();		
+		getTradeDate();		
+		getTransactTime();		
+		getAllocStatus();		
+		getAllocRejCode();		
+		getAllocReportType();		
+		getAllocIntermedReqType();		
+		getMatchStatus();		
+		getProduct();		
+		getSecurityType();		
+		getText();		
+		getEncodedTextLen();		
+		getEncodedText();		
 	}		
 		
 	@Override		

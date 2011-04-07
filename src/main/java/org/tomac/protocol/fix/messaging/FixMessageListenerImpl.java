@@ -20,7 +20,13 @@ public class FixMessageListenerImpl implements FixMessageListener
     public IFixSession getSession( long connectorID, FixValidationError err ) { return dummySession; }
 
     @Override
+    public IFixSession getSession( long connectorID, FixLogon logon, FixValidationError err ) { return dummySession; }
+
+    @Override
     public void addValidator( FixValidator validator ) {}
+
+    @Override
+    public FixValidator getValidator() { return null; }
 
     @Override
     public void onFixValidationError ( FixValidationError err ) {}
@@ -379,28 +385,31 @@ public class FixMessageListenerImpl implements FixMessageListener
     @Override
     public void onFixPartyDetailsListReport( FixPartyDetailsListReport msg ) {}
 
-		IFixSession dummySession = new IFixSession() {
+	IFixSession dummySession = new IFixSession() {
 
-			@Override
-			public void setOutMsgSeqNum(long msgSeqNum) {}
+		@Override
+		public void setOutMsgSeqNum(long msgSeqNum) {}
 
-			@Override
-			public void setInMsgSeqNum(long msgSeqNum) {}
+		@Override
+		public void setInMsgSeqNum(long msgSeqNum) {}
 
-			@Override
-			public void incrementOutMsgSeqNum() {}
+		@Override
+		public void incrementOutMsgSeqNum() {}
 
-			@Override
-			public void incrementInMsgSeqNum(FixInMessage msg, FixValidationError err) {}
+		@Override
+		public void incrementInMsgSeqNum(FixInMessage msg, FixValidationError err) {}
 
-			@Override
-			public int getSessionID() {	return 0; }
+		@Override
+		public int getSessionID() {	return 0; }
 
-			@Override
-			public long getOutMsgSeqNum() {	return 0; }
+		@Override
+		public long getOutMsgSeqNum() {	return 0; }
 
-			@Override
-			public long getInMsgSeqNum() { return 0; }
-		};
+		@Override
+		public long getInMsgSeqNum() { return 0; }
+		@Override
+		public boolean isEstablished() {	return true; }
+
+	};
 
 }

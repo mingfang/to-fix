@@ -109,7 +109,7 @@ public class FixConfirmation_Ack extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -148,7 +148,15 @@ public class FixConfirmation_Ack extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getConfirmID();		
+		getTradeDate();		
+		getTransactTime();		
+		getAffirmStatus();		
+		getConfirmRejReason();		
+		getMatchStatus();		
+		getText();		
+		getEncodedTextLen();		
+		getEncodedText();		
 	}		
 		
 	@Override		

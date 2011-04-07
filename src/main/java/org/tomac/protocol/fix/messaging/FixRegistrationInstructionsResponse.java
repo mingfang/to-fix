@@ -132,7 +132,7 @@ public class FixRegistrationInstructionsResponse extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -171,7 +171,15 @@ public class FixRegistrationInstructionsResponse extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getRegistID();		
+		getRegistTransType();		
+		getRegistRefID();		
+		getClOrdID();		
+		getAccount();		
+		getAcctIDSource();		
+		getRegistStatus();		
+		getRegistRejReasonCode();		
+		getRegistRejReasonText();		
 	}		
 		
 	@Override		

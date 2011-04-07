@@ -284,7 +284,7 @@ public class FixBidRequest extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //Ugha
+                		else break; //TODO INVALID_TAG error
 					}
 
 			}
@@ -331,7 +331,33 @@ public class FixBidRequest extends FixInMessage {
 	}
 	@Override		
 	public void getAll() {		
-		/* not needed, just for the inet dudes recognition */		
+		getBidID();		
+		getClientBidID();		
+		getBidRequestTransType();		
+		getListName();		
+		getTotNoRelatedSym();		
+		getBidType();		
+		getNumTickets();		
+		getCurrency();		
+		getSideValue1();		
+		getSideValue2();		
+		getLiquidityIndType();		
+		getWtAverageLiquidity();		
+		getExchangeForPhysical();		
+		getOutMainCntryUIndex();		
+		getCrossPercent();		
+		getProgRptReqs();		
+		getProgPeriodInterval();		
+		getIncTaxInd();		
+		getForexReq();		
+		getNumBidders();		
+		getTradeDate();		
+		getBidTradeType();		
+		getBasisPxType();		
+		getStrikeTime();		
+		getText();		
+		getEncodedTextLen();		
+		getEncodedText();		
 	}		
 		
 	@Override		
