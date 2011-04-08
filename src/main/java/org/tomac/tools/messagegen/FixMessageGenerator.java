@@ -1405,7 +1405,7 @@ public class FixMessageGenerator {
 			if (m.name.equalsIgnoreCase("logon")) {
 				out.write("\t\t\t" + name + ".getAll();  // TODO why do I have to do this?\n");
 			} 
-			out.write("\t\t\tsession = FixUtils.validateStandardHeader(l, connectorID, " + name + ", err);\n");
+			out.write("\t\t\tsession = FixUtils.crackSession(l, connectorID, " + name + ", err);\n");
 
 			if (m.name.equalsIgnoreCase("logon")) {
 				out.write("\t\t\tif (session != null) { \n");

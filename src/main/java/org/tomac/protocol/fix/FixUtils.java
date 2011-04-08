@@ -12,7 +12,9 @@ import org.tomac.protocol.fix.messaging.FixLogout;
 import org.tomac.protocol.fix.messaging.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.FixMessageListener;
 import org.tomac.protocol.fix.messaging.FixSequenceReset;
+import org.tomac.protocol.fix.messaging.FixStandardHeader;
 import org.tomac.protocol.fix.messaging.FixTags;
+import org.tomac.protocol.fix.messaging.FixMessageInfo.MessageTypes;
 
 public class FixUtils {
 	private static FixUtils						fixUtils							= new FixUtils();
@@ -62,81 +64,199 @@ public class FixUtils {
 
     public static final UtcDateOnlyConverter   utcDateOnlyConverter               = fixUtils.new UtcDateOnlyConverter();
 
+	private static byte[]			tmpMsgType	= new byte[FixTags.MSGTYPE_LENGTH];
+	
+	private static byte[]		digitsBuf = new byte[FixUtils.FIX_MAX_DIGITS];
+
+	public static int getTag(final ByteBuffer buf, final FixValidationError err) {
+		int count = 0;
+		int tag = 0;
+		int c;
+
+		while (buf.hasRemaining()) {
+			c = buf.get();
+			if (c == '=')
+				break;
+
+			if (c == FixUtils.SOH) {
+				err.setError((int) FixMessageInfo.SessionRejectReason.NON_DATA_VALUE_INCLUDES_FIELD_DELIMITER_SOH_CHARACTER, "Tag number terminated by SOH");
+				return getNext(buf, null);
+			}
+
+			if (!FixUtils.isNumeric(c)) {
+				err.setError((int) FixMessageInfo.SessionRejectReason.INVALID_TAG_NUMBER, "Invalid tag number");
+				return getNext(buf, null);
+			}
+
+			tag = tag * 10 + c - '0';
+
+			if (++count > FixUtils.FIX_MAX_TAG_LENGTH) {
+				err.setError((int) FixMessageInfo.SessionRejectReason.INVALID_TAG_NUMBER, "Tag number exceeds max allowed digits");
+				return getNext(buf, null);
+			}
+		}
+		return tag;
+	}
+	
+	public static int getNext(final ByteBuffer buf, final FixValidationError err) {
+		int c = 0;
+
+		while (buf.hasRemaining()) {
+			c++;
+
+			if (buf.get() == FixUtils.SOH )
+				return c;
+		}
+		if (err != null)
+			err.setError((int)FixMessageInfo.SessionRejectReason.INVALID_TAG_NUMBER, "Invalid tag number");
+		return c;
+	}
+
 	/**
-	 * Non intrusive check of header. Returns fix length of message.
+	 * Find tag in buffer. position set to tag data if found, else unchanged.
 	 * 
+	 * @param tag
 	 * @param buf
 	 * @param err
 	 * @return
 	 */
-	public static int checkHeaderAndTrailer(final ByteBuffer buf, final FixValidationError err) {
-		final int startPos = buf.position();
-		int length = 0;
+	public static boolean getTag(final int tag, final ByteBuffer buf, final FixValidationError err) {
+		final int pos = buf.position();
 
-		if (buf.limit() <= FixUtils.FIX_HEADER)
-			err.setError((int) FixEvent.GARBLED, "No room in message for body length", FixTags.BODYLENGTH_INT);
-
-		// BeginString
-		if (!err.hasError()) {
-			final int tag = FixMessage.getHeaderTag(buf, err);
-
-			if (tag != FixTags.BEGINSTRING_INT)
-				err.setError((int) FixEvent.GARBLED, "BeginString missing", FixTags.BEGINSTRING_INT);
-			else {
-				FixMessage.getTagStringValue(buf, beginsStringTmp, 0, FixTags.BEGINSTRING_LENGTH, err);
-
-				if (!FixUtils.equals(beginsStringTmp, FixMessageInfo.BEGINSTRING_VALUE)) {
-					err.setError((int) FixEvent.BEGINSTRING_LOGOUT, "Incorrect BeginString", FixTags.BEGINSTRING_INT);
-				} 
+		while (tag != getTag(buf, err) && buf.hasRemaining()) {
+			if (err.hasError()) {
+				buf.position(pos);
+				return false;
 			}
-
-		}
-
-		// BodyLength
-		if (!err.hasError() || err.sessionRejectReason != FixEvent.GARBLED ) {
-			final int tag = FixMessage.getTag(buf, err);
-
-			if (!err.hasError() || err.sessionRejectReason != FixEvent.GARBLED )
-				if (tag != FixTags.BODYLENGTH_INT)
-					err.setError((int) FixEvent.GARBLED, "BodyLength missing", FixTags.BEGINSTRING_INT);
-				else
-					length = FixMessage.getTagIntValue(buf, err);
-		}
-		
-		
-
-		// CheckSum and trailer
-		if (!err.hasError() && validateChecksum) {
-
-			generateCheckSum(calcCheckSum, buf, buf.position(), length + buf.position());
-
-			buf.position(length + buf.position());
-			final int tag = FixMessage.getTag(buf, err);
-
-			if (!err.hasError()) {
-				if (tag != FixTags.CHECKSUM_INT)
-					err.setError((int) FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "CheckSum missing", FixTags.CHECKSUM_INT);
-				else {
-
-					FixMessage.getTagStringValue(buf, currCheckSum, 0, FixTags.CHECKSUM_LENGTH, err);
-
-					if (!err.hasError())
-						if (FixUtils.equals(currCheckSum, calcCheckSum))
-							err.setError((int) FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, "Checksum incorrect " + new String(currCheckSum), FixTags.CHECKSUM_INT);
-				}
-			} else {
-				if (err.sessionRejectReason != FixEvent.GARBLED || 
-						( tag == FixTags.BEGINSTRING_INT && err.sessionRejectReason == FixEvent.GARBLED) ) // if the length is missing tag 8 is the last successfull
-					err.setError(FixEvent.DISCONNECT, "incorrect length");
+			getNext(buf, err);
+			if (err.hasError()) {
+				buf.position(pos);
+				return false;
 			}
 		}
-		
-		
 
-		buf.position(startPos);
-		return length;
+		return true;
 	}
 
+	public static int getTagAsInt(final byte[] b, final int length) {
+		int val = 0;
+
+		val |= b[0];
+
+		if (length > 1)
+			for (int i = 1; i < length; i++) {
+				val <<= 8;
+				val |= b[i];
+			}
+
+		return val;
+	}
+
+	public static byte getTagCharValue(final ByteBuffer buf, final FixValidationError err) {
+		byte c = '0';
+
+		if (buf.hasRemaining()) {
+
+			c = buf.get();
+
+			if (c == FixUtils.SOH) {
+				err.setError((int) FixMessageInfo.SessionRejectReason.TAG_SPECIFIED_WITHOUT_A_VALUE, "Premature end of buffer missing SOH");
+				return c;
+			}
+		}
+
+		final int count = getNext(buf, null);
+
+		if (count > 1) {
+			err.setError((int) FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, "Integer value length exceeds one character");
+			return c;
+		}
+
+		return c;
+	}
+
+	public static long getTagFloatValue(final ByteBuffer buf, final FixValidationError err) {
+		byte c;
+		int start = 0;
+		final int end = FixUtils.FIX_MAX_DIGITS;
+
+		FixUtils.fillNul(digitsBuf);
+
+		while (buf.hasRemaining()) {
+
+			if ((c = buf.get()) == FixUtils.SOH)
+				break;
+
+			digitsBuf[start++] = c;
+
+			if (start == end) {
+				err.setError((int) FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, "Float value length exceeds maximum number of digits " + FixUtils.FIX_MAX_DIGITS);
+				return getNext(buf, null);
+			}
+		}
+		return FixUtils.fixFloatValueOf(digitsBuf, start);
+	}
+
+	public static int getTagIntValue(final ByteBuffer buf, final FixValidationError err) {
+		byte c;
+		int start = 0;
+		final int end = FixUtils.FIX_MAX_DIGITS;
+
+		while (buf.hasRemaining()) {
+
+			if ((c = buf.get()) == FixUtils.SOH)
+				break;
+
+			digitsBuf[start++] = c;
+
+			if (start == end) {
+				err.setError((int) FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, "Value length exceeds maximum number of digits " + FixUtils.FIX_MAX_DIGITS);
+				return getNext(buf, null);
+			}
+		}
+
+		return FixUtils.intValueOf(digitsBuf, 0, start);
+	}
+
+	public static int getTagStringValue(final ByteBuffer src, final byte[] dst, int start, final int end, final FixValidationError err) {
+		byte c;
+		final int oldPos = src.position();
+
+		FixUtils.fillNul(dst);
+		
+		while (src.hasRemaining()) {
+
+			if ((c = src.get()) == FixUtils.SOH)
+				break;
+
+			if (start >= end) {
+				err.setError((int) FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, "Value length exceeds maximum of " + (end - start));
+				return getNext(src, null);
+			} else {
+				dst[start] = c;
+				start++;
+			}
+		}
+		return src.position() - oldPos - 1;
+	}
+
+	/**
+	 * Used for standard trailer in order rewind buffer situated in next tag.
+	 * 
+	 * @param tag
+	 * @param buf
+	 */
+	public static void unreadLastTag(final int tag, final ByteBuffer buf) {
+		// take the standard case first
+		if (tag == 8) {
+			buf.position(buf.position() - 2);
+			return;
+		}
+
+		// TODO what about other tags?
+	}
+	
+	
 	public static void copy(final byte dst[], final byte src[]) {
 		int length = src.length > dst.length ? dst.length : src.length;
 
@@ -599,60 +719,233 @@ public class FixUtils {
 		
 	}
 
-	/**
-	 * msg contains a FIX incomplete message where potentially; 
-	 * - BodyLength is missing
-	 * - CheckSum is missing
-	 * - SendingTime is <TIME>
-	 * - other (ClOrdID, TargetCompID, SendingCompID...) are missing.. TODO
-	 * returns Fix message filled with default or dummy values.
-	 * @param msg 
-	 */
-	public static String fillFixMessageTemplate(String msg) {
-
-		if (msg == null || msg.length()== 0) return msg;
-		
-		if ( msg.contains(new String(FixTags.SENDINGTIME) + "=" + "<TIME>") ) {
-			msg = msg.replace("<TIME>", FixUtils.utcTimestampConverter.convert( FixUtils.getSystemTime() ) ); 
-		}
-
-		if ( msg.contains("<TIME+10>") ) {
-			msg = msg.replace("<TIME+10>", FixUtils.utcTimestampConverter.convert( new Date(FixUtils.getSystemTime().getTime() + 10 * 60 * 1000) ) ); 
-		}
-
-		if ( msg.contains("<TIME-1>") ) {
-			msg = msg.replace("<TIME-1>", FixUtils.utcTimestampConverter.convert( new Date(FixUtils.getSystemTime().getTime() - 1 * 60 * 1000) ) ); 
-		}
-		
-		if ( ! msg.contains("\u0001" + new String(FixTags.CHECKSUM) + "=") ) {
-			// get start of message being part of checksum.
-			String[] s = msg.split("35=");
-			ByteBuffer buf = ByteBuffer.wrap(msg.getBytes());
-			
-			FixUtils.generateCheckSum(calcCheckSum, buf, s[0].length(), msg.length());
-			
-			msg += new String(FixTags.CHECKSUM) + "=" + new String( trim(calcCheckSum) ) + "\u0001"; 
-		}
-
-		if ( ! msg.contains("\u0001" + new String(FixTags.BODYLENGTH) + "=") ) {
-			String[] s = msg.split("35=");
-			
-			if (s.length > 1) { 
-				String[] e = s[1].split("10=");
-				msg = s[0] + "\u0001" + new String(FixTags.BODYLENGTH) + "=" + ( e[0].length() + "35=".length() )  + "35=" + s[1];
-			}
-
-		}
-
-		
-		return msg;
-	}
-
 	public static Date getSystemTime() {
 		return new Date();
 	}
 
-	public static IFixSession validateStandardHeader(FixMessageListener listener, long connectorID, FixLogon msg, FixValidationError err) {
+	
+	/** -------------------------------------------------------------------------------------------------
+	 * FIX MESSAGE TYPE
+	 * ------------------------------------------------------------------------------------------------ 
+	 **/
+
+	/**
+	 * non intrucive cracks the msgType from IO ByteBuffer.
+	 * 
+	 * @param buf
+	 * @param backingBuf
+	 * @param err
+	 * @return
+	 */
+	public static int crackMsgType(final ByteBuffer buf, final FixValidationError err) {
+		int msgTypeInt = 0;
+		FixUtils.fillNul(tmpMsgType);
+
+		err.clear();
+
+		final int startPos = buf.position();
+
+		checkHeaderAndTrailer(buf, err);
+
+		if (!err.hasError() || err.sessionRejectReason != FixEvent.GARBLED ) {
+			int oldErr = err.sessionRejectReason;
+			err.sessionRejectReason = -1;
+			msgTypeInt = getMsgType(buf, err);
+			if (!err.hasError()) err.sessionRejectReason = oldErr;
+		}
+
+		if (err.hasError() && msgTypeInt == MessageTypes.LOGON_INT)  					
+			err.sessionRejectReason = FixEvent.DISCONNECT;
+
+		buf.position(startPos);
+
+		return msgTypeInt;
+	}
+	
+	/**
+	 * Non intrusive check of header. Returns fix length of message.
+	 * 
+	 * @param buf
+	 * @param err
+	 * @return
+	 */
+	private static int checkHeaderAndTrailer(final ByteBuffer buf, final FixValidationError err) {
+		final int startPos = buf.position();
+		int length = 0;
+
+		if (buf.limit() <= FixUtils.FIX_HEADER)
+			err.setError((int) FixEvent.GARBLED, "No room in message for body length", FixTags.BODYLENGTH_INT);
+
+		// BeginString
+		if (!err.hasError()) {
+			final int tag = getHeaderTag(buf, err);
+
+			if (tag != FixTags.BEGINSTRING_INT)
+				err.setError((int) FixEvent.GARBLED, "BeginString missing", FixTags.BEGINSTRING_INT);
+			else {
+				getTagStringValue(buf, beginsStringTmp, 0, FixTags.BEGINSTRING_LENGTH, err);
+
+				if (!FixUtils.equals(beginsStringTmp, FixMessageInfo.BEGINSTRING_VALUE)) {
+					err.setError((int) FixEvent.BEGINSTRING_LOGOUT, "Incorrect BeginString", FixTags.BEGINSTRING_INT);
+				} 
+			}
+
+		}
+
+		// BodyLength
+		if (!err.hasError() || err.sessionRejectReason != FixEvent.GARBLED ) {
+			final int tag = getTag(buf, err);
+
+			if (!err.hasError() || err.sessionRejectReason != FixEvent.GARBLED )
+				if (tag != FixTags.BODYLENGTH_INT)
+					err.setError((int) FixEvent.GARBLED, "BodyLength missing", FixTags.BEGINSTRING_INT);
+				else
+					length = getTagIntValue(buf, err);
+		}
+		
+		
+
+		// CheckSum and trailer
+		if (!err.hasError() && validateChecksum) {
+
+			generateCheckSum(calcCheckSum, buf, buf.position(), length + buf.position());
+
+			buf.position(length + buf.position());
+			final int tag = getTag(buf, err);
+
+			if (!err.hasError()) {
+				if (tag != FixTags.CHECKSUM_INT)
+					err.setError((int) FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "CheckSum missing", FixTags.CHECKSUM_INT);
+				else {
+
+					getTagStringValue(buf, currCheckSum, 0, FixTags.CHECKSUM_LENGTH, err);
+
+					if (!err.hasError())
+						if (FixUtils.equals(currCheckSum, calcCheckSum))
+							err.setError((int) FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, "Checksum incorrect " + new String(currCheckSum), FixTags.CHECKSUM_INT);
+				}
+			} else {
+				if (err.sessionRejectReason != FixEvent.GARBLED || 
+						( tag == FixTags.BEGINSTRING_INT && err.sessionRejectReason == FixEvent.GARBLED) ) // if the length is missing tag 8 is the last successfull
+					err.setError(FixEvent.DISCONNECT, "incorrect length");
+			}
+		}
+		
+		
+
+		buf.position(startPos);
+		return length;
+	}
+	
+	public static int getHeaderTag(final ByteBuffer buf, final FixValidationError err) {
+		int tag = getTag(buf, err);
+		if (err.hasError()) err.sessionRejectReason = FixEvent.GARBLED;
+		return tag;
+	}
+	
+	private static int getMsgType(final ByteBuffer buf, final FixValidationError err) {
+		int msgTypeInt = 0;
+		int length = 0;
+		final int pos = buf.position();
+
+		if (getTag(FixTags.MSGTYPE_INT, buf, err))
+			if (!err.hasError())
+				length = getTagStringValue(buf, tmpMsgType, 0, FixTags.MSGTYPE_LENGTH, err);
+			else
+				return -1;
+
+		if (FixUtils.isNasdaqOMX && tmpMsgType[0] == (byte) '8') {
+			// this is Execution Report need to figure out sub type...
+			// get tag ExecType (150)
+			if (getTag(FixTags.EXECTYPE_INT, buf, err)) {
+				if (!err.hasError()) {
+
+					final byte c = getTagCharValue(buf, err);
+
+					if (!err.hasError()) {
+
+						tmpMsgType[0] = (byte) '8';
+						tmpMsgType[1] = c;
+
+						msgTypeInt = getTagAsInt(tmpMsgType, 2);
+					}
+				}
+			} else if (getTag(FixTags.EXECTYPE_INT, buf, err))
+				if (!err.hasError()) {
+
+					final byte c = getTagCharValue(buf, err);
+
+					if (err.hasError()) {
+
+						tmpMsgType[0] = (byte) '8';
+						tmpMsgType[1] = c;
+
+						msgTypeInt = getTagAsInt(tmpMsgType, 2);
+					}
+				}
+		} else if (FixUtils.isNasdaqOMX && tmpMsgType[0] == (byte) '9') { // this is order reject...
+			// 434 CxlRejResponseTo
+			if (getTag(FixTags.CXLREJRESPONSETO_INT, buf, err))
+				if (!err.hasError()) {
+
+					final byte c = getTagCharValue(buf, err);
+
+					if (!err.hasError()) {
+						tmpMsgType[0] = (byte) '9';
+						tmpMsgType[1] = c;
+
+						msgTypeInt = getTagAsInt(tmpMsgType, 2);
+
+					}
+
+				}
+		} else if (!err.hasError())
+			msgTypeInt = getTagAsInt(tmpMsgType, length);
+		else
+			return -1;
+
+		buf.position(pos);
+		return msgTypeInt;
+	}    
+
+	/** -------------------------------------------------------------------------------------------------
+	 * FIX HEADER
+	 * ------------------------------------------------------------------------------------------------ 
+	 **/	
+	public static int crackStandardHeader(ByteBuffer buf, FixStandardHeader standardHeader, FixValidationError err) {
+		int tag = getTag(buf, err);
+
+		if (err.hasError()) {
+			// TODO convert to COMPID probelm
+		}
+
+		tag = standardHeader.setBuffer( tag, buf, err);		
+
+		if (err.hasError()) {
+			// TODO chk if it is compID or other needed for session retrival
+			// TODO AppverID special
+		}
+		
+		return tag;
+	}
+
+	/** -------------------------------------------------------------------------------------------------
+	 * FIX MESSAGE PARSE
+	 * ------------------------------------------------------------------------------------------------ 
+	 **/
+	// this is the FixMessageParesr // TODO remove connecto awareness
+	
+	
+	/** -------------------------------------------------------------------------------------------------
+	 * FIX MESSAGE SESSION
+	 * ------------------------------------------------------------------------------------------------ 
+	 **/
+
+	// TODO sendingTime and all sessionReject errors to header check
+	// TODO use boolean to indicate if logon (use err as sessionID holder) to transform to disconnect
+	// TODO it should be possible to scipp crack Session if you ignor sesion laeyr
+	
+	public static IFixSession crackSession(FixMessageListener listener, long connectorID, FixLogon msg, FixValidationError err) {
 
 		if (err.hasError() && err.refTagID == FixTags.DEFAULTAPPLVERID_INT) {
 			err.setError(FixEvent.DISCONNECT, err.text, err.refTagID);
@@ -782,4 +1075,59 @@ public class FixUtils {
 		}			
 		
 	}
+	
+	/** -------------------------------------------------------------------------------------------------
+	 * IO
+	 * ------------------------------------------------------------------------------------------------ 
+	 **/
+
+	/**
+	 * msg contains a FIX incomplete message where potentially; 
+	 * - BodyLength is missing
+	 * - CheckSum is missing
+	 * - SendingTime is <TIME>
+	 * - other (ClOrdID, TargetCompID, SendingCompID...) are missing.. TODO
+	 * returns Fix message filled with default or dummy values.
+	 * @param msg 
+	 */
+	public static String fillFixMessageTemplate(String msg) {
+
+		if (msg == null || msg.length()== 0) return msg;
+		
+		if ( msg.contains(new String(FixTags.SENDINGTIME) + "=" + "<TIME>") ) {
+			msg = msg.replace("<TIME>", FixUtils.utcTimestampConverter.convert( FixUtils.getSystemTime() ) ); 
+		}
+
+		if ( msg.contains("<TIME+10>") ) {
+			msg = msg.replace("<TIME+10>", FixUtils.utcTimestampConverter.convert( new Date(FixUtils.getSystemTime().getTime() + 10 * 60 * 1000) ) ); 
+		}
+
+		if ( msg.contains("<TIME-1>") ) {
+			msg = msg.replace("<TIME-1>", FixUtils.utcTimestampConverter.convert( new Date(FixUtils.getSystemTime().getTime() - 1 * 60 * 1000) ) ); 
+		}
+		
+		if ( ! msg.contains("\u0001" + new String(FixTags.CHECKSUM) + "=") ) {
+			// get start of message being part of checksum.
+			String[] s = msg.split("35=");
+			ByteBuffer buf = ByteBuffer.wrap(msg.getBytes());
+			
+			FixUtils.generateCheckSum(calcCheckSum, buf, s[0].length(), msg.length());
+			
+			msg += new String(FixTags.CHECKSUM) + "=" + new String( trim(calcCheckSum) ) + "\u0001"; 
+		}
+
+		if ( ! msg.contains("\u0001" + new String(FixTags.BODYLENGTH) + "=") ) {
+			String[] s = msg.split("35=");
+			
+			if (s.length > 1) { 
+				String[] e = s[1].split("10=");
+				msg = s[0] + "\u0001" + new String(FixTags.BODYLENGTH) + "=" + ( e[0].length() + "35=".length() )  + "35=" + s[1];
+			}
+
+		}
+
+		
+		return msg;
+	}
+	
 }
