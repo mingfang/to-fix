@@ -283,7 +283,10 @@ public class FixOrderMassCancelReport extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.ORDERMASSCANCELREPORT);
+                			break;
+                		}
 					}
 
 			}
@@ -301,19 +304,19 @@ public class FixOrderMassCancelReport extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasOrderID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag OrderID missing", FixTags.ORDERID_INT, FixMessageInfo.MessageTypes.ORDERMASSCANCELREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.ORDERID_INT, FixMessageInfo.MessageTypes.ORDERMASSCANCELREPORT);
 			return false;
 		}
 		if (!hasMassActionReportID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag MassActionReportID missing", FixTags.MASSACTIONREPORTID_INT, FixMessageInfo.MessageTypes.ORDERMASSCANCELREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.MASSACTIONREPORTID_INT, FixMessageInfo.MessageTypes.ORDERMASSCANCELREPORT);
 			return false;
 		}
 		if (!hasMassCancelRequestType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag MassCancelRequestType missing", FixTags.MASSCANCELREQUESTTYPE_INT, FixMessageInfo.MessageTypes.ORDERMASSCANCELREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.MASSCANCELREQUESTTYPE_INT, FixMessageInfo.MessageTypes.ORDERMASSCANCELREPORT);
 			return false;
 		}
 		if (!hasMassCancelResponse()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag MassCancelResponse missing", FixTags.MASSCANCELRESPONSE_INT, FixMessageInfo.MessageTypes.ORDERMASSCANCELREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.MASSCANCELRESPONSE_INT, FixMessageInfo.MessageTypes.ORDERMASSCANCELREPORT);
 			return false;
 		}
 		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 

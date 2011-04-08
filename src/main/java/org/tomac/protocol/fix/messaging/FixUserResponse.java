@@ -72,7 +72,10 @@ public class FixUserResponse extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.USERRESPONSE);
+                			break;
+                		}
 					}
 
 			}
@@ -90,11 +93,11 @@ public class FixUserResponse extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasUserRequestID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag UserRequestID missing", FixTags.USERREQUESTID_INT, FixMessageInfo.MessageTypes.USERRESPONSE);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.USERREQUESTID_INT, FixMessageInfo.MessageTypes.USERRESPONSE);
 			return false;
 		}
 		if (!hasUsername()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag Username missing", FixTags.USERNAME_INT, FixMessageInfo.MessageTypes.USERRESPONSE);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.USERNAME_INT, FixMessageInfo.MessageTypes.USERRESPONSE);
 			return false;
 		}
 		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 

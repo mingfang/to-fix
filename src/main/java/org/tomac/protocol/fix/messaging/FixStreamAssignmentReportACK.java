@@ -86,7 +86,10 @@ public class FixStreamAssignmentReportACK extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.STREAMASSIGNMENTREPORTACK);
+                			break;
+                		}
 					}
 
 			}
@@ -104,11 +107,11 @@ public class FixStreamAssignmentReportACK extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasStreamAsgnAckType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag StreamAsgnAckType missing", FixTags.STREAMASGNACKTYPE_INT, FixMessageInfo.MessageTypes.STREAMASSIGNMENTREPORTACK);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.STREAMASGNACKTYPE_INT, FixMessageInfo.MessageTypes.STREAMASSIGNMENTREPORTACK);
 			return false;
 		}
 		if (!hasStreamAsgnRptID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag StreamAsgnRptID missing", FixTags.STREAMASGNRPTID_INT, FixMessageInfo.MessageTypes.STREAMASSIGNMENTREPORTACK);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.STREAMASGNRPTID_INT, FixMessageInfo.MessageTypes.STREAMASSIGNMENTREPORTACK);
 			return false;
 		}
 		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 

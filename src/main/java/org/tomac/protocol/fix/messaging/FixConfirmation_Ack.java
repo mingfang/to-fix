@@ -109,7 +109,10 @@ public class FixConfirmation_Ack extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.CONFIRMATION_ACK);
+                			break;
+                		}
 					}
 
 			}
@@ -127,19 +130,19 @@ public class FixConfirmation_Ack extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasConfirmID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag ConfirmID missing", FixTags.CONFIRMID_INT, FixMessageInfo.MessageTypes.CONFIRMATION_ACK);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.CONFIRMID_INT, FixMessageInfo.MessageTypes.CONFIRMATION_ACK);
 			return false;
 		}
 		if (!hasTradeDate()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag TradeDate missing", FixTags.TRADEDATE_INT, FixMessageInfo.MessageTypes.CONFIRMATION_ACK);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TRADEDATE_INT, FixMessageInfo.MessageTypes.CONFIRMATION_ACK);
 			return false;
 		}
 		if (!hasTransactTime()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag TransactTime missing", FixTags.TRANSACTTIME_INT, FixMessageInfo.MessageTypes.CONFIRMATION_ACK);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TRANSACTTIME_INT, FixMessageInfo.MessageTypes.CONFIRMATION_ACK);
 			return false;
 		}
 		if (!hasAffirmStatus()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag AffirmStatus missing", FixTags.AFFIRMSTATUS_INT, FixMessageInfo.MessageTypes.CONFIRMATION_ACK);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.AFFIRMSTATUS_INT, FixMessageInfo.MessageTypes.CONFIRMATION_ACK);
 			return false;
 		}
 		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 

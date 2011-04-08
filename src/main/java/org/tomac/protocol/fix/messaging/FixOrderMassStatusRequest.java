@@ -152,7 +152,10 @@ public class FixOrderMassStatusRequest extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.ORDERMASSSTATUSREQUEST);
+                			break;
+                		}
 					}
 
 			}
@@ -170,11 +173,11 @@ public class FixOrderMassStatusRequest extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasMassStatusReqID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag MassStatusReqID missing", FixTags.MASSSTATUSREQID_INT, FixMessageInfo.MessageTypes.ORDERMASSSTATUSREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.MASSSTATUSREQID_INT, FixMessageInfo.MessageTypes.ORDERMASSSTATUSREQUEST);
 			return false;
 		}
 		if (!hasMassStatusReqType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag MassStatusReqType missing", FixTags.MASSSTATUSREQTYPE_INT, FixMessageInfo.MessageTypes.ORDERMASSSTATUSREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.MASSSTATUSREQTYPE_INT, FixMessageInfo.MessageTypes.ORDERMASSSTATUSREQUEST);
 			return false;
 		}
 		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 

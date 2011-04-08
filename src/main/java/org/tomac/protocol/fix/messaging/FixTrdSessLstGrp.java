@@ -229,11 +229,11 @@ public class FixTrdSessLstGrp extends FixGroup {
     }		
 	public boolean hasRequiredTags(FixValidationError err) {
 		if (!hasTradingSessionID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag TradingSessionID missing", FixTags.TRADINGSESSIONID_INT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TRADINGSESSIONID_INT);
 			return false;
 		}
 		if (!hasTradSesStatus()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag TradSesStatus missing", FixTags.TRADSESSTATUS_INT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TRADSESSTATUS_INT);
 			return false;
 		}
 		return true;

@@ -153,7 +153,10 @@ public class FixMassQuote extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.MASSQUOTE);
+                			break;
+                		}
 					}
 
 			}
@@ -171,7 +174,7 @@ public class FixMassQuote extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasQuoteID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag QuoteID missing", FixTags.QUOTEID_INT, FixMessageInfo.MessageTypes.MASSQUOTE);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.QUOTEID_INT, FixMessageInfo.MessageTypes.MASSQUOTE);
 			return false;
 		}
 		for (int i = 0; i< FixUtils.FIX_MAX_NOINGROUP; i++) { if (quotSetGrp[i].hasGroup()) quotSetGrp[i].hasRequiredTags(err); if (err.hasError()) return false; }

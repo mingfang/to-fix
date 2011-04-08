@@ -235,7 +235,10 @@ public class FixLogon extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.LOGON);
+                			break;
+                		}
 					}
 
 			}
@@ -253,15 +256,15 @@ public class FixLogon extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasEncryptMethod()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag EncryptMethod missing", FixTags.ENCRYPTMETHOD_INT, FixMessageInfo.MessageTypes.LOGON);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.ENCRYPTMETHOD_INT, FixMessageInfo.MessageTypes.LOGON);
 			return false;
 		}
 		if (!hasHeartBtInt()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag HeartBtInt missing", FixTags.HEARTBTINT_INT, FixMessageInfo.MessageTypes.LOGON);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.HEARTBTINT_INT, FixMessageInfo.MessageTypes.LOGON);
 			return false;
 		}
 		if (!hasDefaultApplVerID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag DefaultApplVerID missing", FixTags.DEFAULTAPPLVERID_INT, FixMessageInfo.MessageTypes.LOGON);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.DEFAULTAPPLVERID_INT, FixMessageInfo.MessageTypes.LOGON);
 			return false;
 		}
 		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 

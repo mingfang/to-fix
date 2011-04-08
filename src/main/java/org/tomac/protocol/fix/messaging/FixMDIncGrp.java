@@ -736,7 +736,7 @@ public class FixMDIncGrp extends FixGroup {
     }		
 	public boolean hasRequiredTags(FixValidationError err) {
 		if (!hasMDUpdateAction()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag MDUpdateAction missing", FixTags.MDUPDATEACTION_INT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.MDUPDATEACTION_INT);
 			return false;
 		}
 		return true;

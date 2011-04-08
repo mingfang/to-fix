@@ -131,7 +131,10 @@ public class FixSettlementObligationReport extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.SETTLEMENTOBLIGATIONREPORT);
+                			break;
+                		}
 					}
 
 			}
@@ -149,11 +152,11 @@ public class FixSettlementObligationReport extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasSettlObligMsgID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag SettlObligMsgID missing", FixTags.SETTLOBLIGMSGID_INT, FixMessageInfo.MessageTypes.SETTLEMENTOBLIGATIONREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.SETTLOBLIGMSGID_INT, FixMessageInfo.MessageTypes.SETTLEMENTOBLIGATIONREPORT);
 			return false;
 		}
 		if (!hasSettlObligMode()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag SettlObligMode missing", FixTags.SETTLOBLIGMODE_INT, FixMessageInfo.MessageTypes.SETTLEMENTOBLIGATIONREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.SETTLOBLIGMODE_INT, FixMessageInfo.MessageTypes.SETTLEMENTOBLIGATIONREPORT);
 			return false;
 		}
 		for (int i = 0; i< FixUtils.FIX_MAX_NOINGROUP; i++) { if (settlObligationInstructions[i].hasGroup()) settlObligationInstructions[i].hasRequiredTags(err); if (err.hasError()) return false; }

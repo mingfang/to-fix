@@ -24,9 +24,9 @@ public class FixMessageParser implements FixMessageInfo
 		this.fixMessagePool = fixMessagePool;
 	}
 
-	
-	@SuppressWarnings("unused")
-	private FixMessageParser() {}
+	public FixMessageParser() {
+		fixMessagePool = new FixMessagePool<FixMessage>();
+	}
 
 	public void parse( ByteBuffer buf, FixValidationError err, FixMessageListener l )
 	{

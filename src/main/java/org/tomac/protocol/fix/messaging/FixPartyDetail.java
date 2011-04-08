@@ -169,15 +169,15 @@ public class FixPartyDetail extends FixGroup {
     }		
 	public boolean hasRequiredTags(FixValidationError err) {
 		if (!hasPartyID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag PartyID missing", FixTags.PARTYID_INT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.PARTYID_INT);
 			return false;
 		}
 		if (!hasPartyIDSource()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag PartyIDSource missing", FixTags.PARTYIDSOURCE_INT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.PARTYIDSOURCE_INT);
 			return false;
 		}
 		if (!hasPartyRole()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag PartyRole missing", FixTags.PARTYROLE_INT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.PARTYROLE_INT);
 			return false;
 		}
 		return true;

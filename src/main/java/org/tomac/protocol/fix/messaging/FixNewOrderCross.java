@@ -541,7 +541,10 @@ public class FixNewOrderCross extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.NEWORDERCROSS);
+                			break;
+                		}
 					}
 
 			}
@@ -559,23 +562,23 @@ public class FixNewOrderCross extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasCrossID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag CrossID missing", FixTags.CROSSID_INT, FixMessageInfo.MessageTypes.NEWORDERCROSS);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.CROSSID_INT, FixMessageInfo.MessageTypes.NEWORDERCROSS);
 			return false;
 		}
 		if (!hasCrossType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag CrossType missing", FixTags.CROSSTYPE_INT, FixMessageInfo.MessageTypes.NEWORDERCROSS);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.CROSSTYPE_INT, FixMessageInfo.MessageTypes.NEWORDERCROSS);
 			return false;
 		}
 		if (!hasCrossPrioritization()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag CrossPrioritization missing", FixTags.CROSSPRIORITIZATION_INT, FixMessageInfo.MessageTypes.NEWORDERCROSS);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.CROSSPRIORITIZATION_INT, FixMessageInfo.MessageTypes.NEWORDERCROSS);
 			return false;
 		}
 		if (!hasTransactTime()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag TransactTime missing", FixTags.TRANSACTTIME_INT, FixMessageInfo.MessageTypes.NEWORDERCROSS);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TRANSACTTIME_INT, FixMessageInfo.MessageTypes.NEWORDERCROSS);
 			return false;
 		}
 		if (!hasOrdType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag OrdType missing", FixTags.ORDTYPE_INT, FixMessageInfo.MessageTypes.NEWORDERCROSS);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.ORDTYPE_INT, FixMessageInfo.MessageTypes.NEWORDERCROSS);
 			return false;
 		}
 		for (int i = 0; i< FixUtils.FIX_MAX_NOINGROUP; i++) { if (sideCrossOrdModGrp[i].hasGroup()) sideCrossOrdModGrp[i].hasRequiredTags(err); if (err.hasError()) return false; }

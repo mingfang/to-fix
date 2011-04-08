@@ -78,11 +78,11 @@ public class FixCpctyConfGrp extends FixGroup {
     }		
 	public boolean hasRequiredTags(FixValidationError err) {
 		if (!hasOrderCapacity()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag OrderCapacity missing", FixTags.ORDERCAPACITY_INT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.ORDERCAPACITY_INT);
 			return false;
 		}
 		if (!hasOrderCapacityQty()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag OrderCapacityQty missing", FixTags.ORDERCAPACITYQTY_INT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.ORDERCAPACITYQTY_INT);
 			return false;
 		}
 		return true;

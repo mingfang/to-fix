@@ -496,7 +496,10 @@ public class FixCollateralResponse extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.COLLATERALRESPONSE);
+                			break;
+                		}
 					}
 
 			}
@@ -514,15 +517,15 @@ public class FixCollateralResponse extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasCollRespID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag CollRespID missing", FixTags.COLLRESPID_INT, FixMessageInfo.MessageTypes.COLLATERALRESPONSE);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.COLLRESPID_INT, FixMessageInfo.MessageTypes.COLLATERALRESPONSE);
 			return false;
 		}
 		if (!hasCollAsgnRespType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag CollAsgnRespType missing", FixTags.COLLASGNRESPTYPE_INT, FixMessageInfo.MessageTypes.COLLATERALRESPONSE);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.COLLASGNRESPTYPE_INT, FixMessageInfo.MessageTypes.COLLATERALRESPONSE);
 			return false;
 		}
 		if (!hasTransactTime()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag TransactTime missing", FixTags.TRANSACTTIME_INT, FixMessageInfo.MessageTypes.COLLATERALRESPONSE);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TRANSACTTIME_INT, FixMessageInfo.MessageTypes.COLLATERALRESPONSE);
 			return false;
 		}
 		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 

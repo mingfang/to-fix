@@ -756,7 +756,10 @@ public class FixAllocationReport extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.ALLOCATIONREPORT);
+                			break;
+                		}
 					}
 
 			}
@@ -774,35 +777,35 @@ public class FixAllocationReport extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasAllocReportID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag AllocReportID missing", FixTags.ALLOCREPORTID_INT, FixMessageInfo.MessageTypes.ALLOCATIONREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.ALLOCREPORTID_INT, FixMessageInfo.MessageTypes.ALLOCATIONREPORT);
 			return false;
 		}
 		if (!hasAllocTransType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag AllocTransType missing", FixTags.ALLOCTRANSTYPE_INT, FixMessageInfo.MessageTypes.ALLOCATIONREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.ALLOCTRANSTYPE_INT, FixMessageInfo.MessageTypes.ALLOCATIONREPORT);
 			return false;
 		}
 		if (!hasAllocReportType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag AllocReportType missing", FixTags.ALLOCREPORTTYPE_INT, FixMessageInfo.MessageTypes.ALLOCATIONREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.ALLOCREPORTTYPE_INT, FixMessageInfo.MessageTypes.ALLOCATIONREPORT);
 			return false;
 		}
 		if (!hasAllocStatus()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag AllocStatus missing", FixTags.ALLOCSTATUS_INT, FixMessageInfo.MessageTypes.ALLOCATIONREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.ALLOCSTATUS_INT, FixMessageInfo.MessageTypes.ALLOCATIONREPORT);
 			return false;
 		}
 		if (!hasSide()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag Side missing", FixTags.SIDE_INT, FixMessageInfo.MessageTypes.ALLOCATIONREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.SIDE_INT, FixMessageInfo.MessageTypes.ALLOCATIONREPORT);
 			return false;
 		}
 		if (!hasQuantity()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag Quantity missing", FixTags.QUANTITY_INT, FixMessageInfo.MessageTypes.ALLOCATIONREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.QUANTITY_INT, FixMessageInfo.MessageTypes.ALLOCATIONREPORT);
 			return false;
 		}
 		if (!hasAvgPx()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag AvgPx missing", FixTags.AVGPX_INT, FixMessageInfo.MessageTypes.ALLOCATIONREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.AVGPX_INT, FixMessageInfo.MessageTypes.ALLOCATIONREPORT);
 			return false;
 		}
 		if (!hasTradeDate()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag TradeDate missing", FixTags.TRADEDATE_INT, FixMessageInfo.MessageTypes.ALLOCATIONREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TRADEDATE_INT, FixMessageInfo.MessageTypes.ALLOCATIONREPORT);
 			return false;
 		}
 		if (instrument.isRequired) instrument.hasRequiredTags(err); if (err.hasError()) return false;

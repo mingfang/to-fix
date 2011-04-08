@@ -171,7 +171,10 @@ public class FixPartyDetailsListRequest extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.PARTYDETAILSLISTREQUEST);
+                			break;
+                		}
 					}
 
 			}
@@ -189,7 +192,7 @@ public class FixPartyDetailsListRequest extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasPartyDetailsListRequestID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag PartyDetailsListRequestID missing", FixTags.PARTYDETAILSLISTREQUESTID_INT, FixMessageInfo.MessageTypes.PARTYDETAILSLISTREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.PARTYDETAILSLISTREQUESTID_INT, FixMessageInfo.MessageTypes.PARTYDETAILSLISTREQUEST);
 			return false;
 		}
 		for (int i = 0; i< FixUtils.FIX_MAX_NOINGROUP; i++) { if (partyListResponseTypeGrp[i].hasGroup()) partyListResponseTypeGrp[i].hasRequiredTags(err); if (err.hasError()) return false; }

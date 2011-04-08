@@ -16,11 +16,11 @@ public abstract class FixMessage {
 		while (buf.hasRemaining()) {
 			c++;
 
-			if (buf.get() == FixUtils.SOH)
+			if (buf.get() == FixUtils.SOH )
 				return c;
 		}
 		if (err != null)
-			err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, "Value has no terminating SOH");
+			err.setError((int)FixMessageInfo.SessionRejectReason.INVALID_TAG_NUMBER, "Invalid tag number");
 		return c;
 	}
 
@@ -176,6 +176,12 @@ public abstract class FixMessage {
 
 	private static byte[]		digitsBuf = new byte[FixUtils.FIX_MAX_DIGITS];
 
+	public static int getHeaderTag(final ByteBuffer buf, final FixValidationError err) {
+		int tag = getTag(buf, err);
+		if (err.hasError()) err.sessionRejectReason = FixEvent.GARBLED;
+		return tag;
+	}
+	
 	public static int getTag(final ByteBuffer buf, final FixValidationError err) {
 		int count = 0;
 		int tag = 0;
@@ -187,19 +193,19 @@ public abstract class FixMessage {
 				break;
 
 			if (c == FixUtils.SOH) {
-				err.setError((int) FixEvent.GARBLED, "Tag number terminated by SOH");
+				err.setError((int) FixMessageInfo.SessionRejectReason.NON_DATA_VALUE_INCLUDES_FIELD_DELIMITER_SOH_CHARACTER, "Tag number terminated by SOH");
 				return getNext(buf, null);
 			}
 
 			if (!FixUtils.isNumeric(c)) {
-				err.setError((int) FixEvent.GARBLED, "Tag not nummeric");
+				err.setError((int) FixMessageInfo.SessionRejectReason.INVALID_TAG_NUMBER, "Invalid tag number");
 				return getNext(buf, null);
 			}
 
 			tag = tag * 10 + c - '0';
 
 			if (++count > FixUtils.FIX_MAX_TAG_LENGTH) {
-				err.setError((int) FixEvent.GARBLED, "Tag number exceeds max allowed digits");
+				err.setError((int) FixMessageInfo.SessionRejectReason.INVALID_TAG_NUMBER, "Tag number exceeds max allowed digits");
 				return getNext(buf, null);
 			}
 		}

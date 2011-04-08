@@ -78,7 +78,7 @@ public class FixUtils {
 
 		// BeginString
 		if (!err.hasError()) {
-			final int tag = FixMessage.getTag(buf, err);
+			final int tag = FixMessage.getHeaderTag(buf, err);
 
 			if (tag != FixTags.BEGINSTRING_INT)
 				err.setError((int) FixEvent.GARBLED, "BeginString missing", FixTags.BEGINSTRING_INT);

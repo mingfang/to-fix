@@ -513,7 +513,10 @@ public class FixCollateralAssignment extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.COLLATERALASSIGNMENT);
+                			break;
+                		}
 					}
 
 			}
@@ -531,19 +534,19 @@ public class FixCollateralAssignment extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasCollAsgnID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag CollAsgnID missing", FixTags.COLLASGNID_INT, FixMessageInfo.MessageTypes.COLLATERALASSIGNMENT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.COLLASGNID_INT, FixMessageInfo.MessageTypes.COLLATERALASSIGNMENT);
 			return false;
 		}
 		if (!hasCollAsgnReason()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag CollAsgnReason missing", FixTags.COLLASGNREASON_INT, FixMessageInfo.MessageTypes.COLLATERALASSIGNMENT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.COLLASGNREASON_INT, FixMessageInfo.MessageTypes.COLLATERALASSIGNMENT);
 			return false;
 		}
 		if (!hasCollAsgnTransType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag CollAsgnTransType missing", FixTags.COLLASGNTRANSTYPE_INT, FixMessageInfo.MessageTypes.COLLATERALASSIGNMENT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.COLLASGNTRANSTYPE_INT, FixMessageInfo.MessageTypes.COLLATERALASSIGNMENT);
 			return false;
 		}
 		if (!hasTransactTime()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag TransactTime missing", FixTags.TRANSACTTIME_INT, FixMessageInfo.MessageTypes.COLLATERALASSIGNMENT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TRANSACTTIME_INT, FixMessageInfo.MessageTypes.COLLATERALASSIGNMENT);
 			return false;
 		}
 		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 

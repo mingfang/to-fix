@@ -419,7 +419,10 @@ public class FixTradeCaptureReportRequest extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.TRADECAPTUREREPORTREQUEST);
+                			break;
+                		}
 					}
 
 			}
@@ -437,11 +440,11 @@ public class FixTradeCaptureReportRequest extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasTradeRequestID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag TradeRequestID missing", FixTags.TRADEREQUESTID_INT, FixMessageInfo.MessageTypes.TRADECAPTUREREPORTREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TRADEREQUESTID_INT, FixMessageInfo.MessageTypes.TRADECAPTUREREPORTREQUEST);
 			return false;
 		}
 		if (!hasTradeRequestType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag TradeRequestType missing", FixTags.TRADEREQUESTTYPE_INT, FixMessageInfo.MessageTypes.TRADECAPTUREREPORTREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TRADEREQUESTTYPE_INT, FixMessageInfo.MessageTypes.TRADECAPTUREREPORTREQUEST);
 			return false;
 		}
 		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 

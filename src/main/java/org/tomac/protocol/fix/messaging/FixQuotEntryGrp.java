@@ -282,7 +282,7 @@ public class FixQuotEntryGrp extends FixGroup {
     }		
 	public boolean hasRequiredTags(FixValidationError err) {
 		if (!hasQuoteEntryID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag QuoteEntryID missing", FixTags.QUOTEENTRYID_INT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.QUOTEENTRYID_INT);
 			return false;
 		}
 		return true;

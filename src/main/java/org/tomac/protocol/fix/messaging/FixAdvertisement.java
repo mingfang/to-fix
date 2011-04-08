@@ -224,7 +224,10 @@ public class FixAdvertisement extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.ADVERTISEMENT);
+                			break;
+                		}
 					}
 
 			}
@@ -242,19 +245,19 @@ public class FixAdvertisement extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasAdvId()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag AdvId missing", FixTags.ADVID_INT, FixMessageInfo.MessageTypes.ADVERTISEMENT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.ADVID_INT, FixMessageInfo.MessageTypes.ADVERTISEMENT);
 			return false;
 		}
 		if (!hasAdvTransType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag AdvTransType missing", FixTags.ADVTRANSTYPE_INT, FixMessageInfo.MessageTypes.ADVERTISEMENT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.ADVTRANSTYPE_INT, FixMessageInfo.MessageTypes.ADVERTISEMENT);
 			return false;
 		}
 		if (!hasAdvSide()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag AdvSide missing", FixTags.ADVSIDE_INT, FixMessageInfo.MessageTypes.ADVERTISEMENT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.ADVSIDE_INT, FixMessageInfo.MessageTypes.ADVERTISEMENT);
 			return false;
 		}
 		if (!hasQuantity()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag Quantity missing", FixTags.QUANTITY_INT, FixMessageInfo.MessageTypes.ADVERTISEMENT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.QUANTITY_INT, FixMessageInfo.MessageTypes.ADVERTISEMENT);
 			return false;
 		}
 		if (instrument.isRequired) instrument.hasRequiredTags(err); if (err.hasError()) return false;

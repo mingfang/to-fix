@@ -233,7 +233,10 @@ public class FixEmail extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.EMAIL);
+                			break;
+                		}
 					}
 
 			}
@@ -251,15 +254,15 @@ public class FixEmail extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasEmailThreadID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag EmailThreadID missing", FixTags.EMAILTHREADID_INT, FixMessageInfo.MessageTypes.EMAIL);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.EMAILTHREADID_INT, FixMessageInfo.MessageTypes.EMAIL);
 			return false;
 		}
 		if (!hasEmailType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag EmailType missing", FixTags.EMAILTYPE_INT, FixMessageInfo.MessageTypes.EMAIL);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.EMAILTYPE_INT, FixMessageInfo.MessageTypes.EMAIL);
 			return false;
 		}
 		if (!hasSubject()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag Subject missing", FixTags.SUBJECT_INT, FixMessageInfo.MessageTypes.EMAIL);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.SUBJECT_INT, FixMessageInfo.MessageTypes.EMAIL);
 			return false;
 		}
 		for (int i = 0; i< FixUtils.FIX_MAX_NOINGROUP; i++) { if (linesOfTextGrp[i].hasGroup()) linesOfTextGrp[i].hasRequiredTags(err); if (err.hasError()) return false; }

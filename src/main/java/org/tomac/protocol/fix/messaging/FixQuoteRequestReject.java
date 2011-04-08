@@ -154,7 +154,10 @@ public class FixQuoteRequestReject extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.QUOTEREQUESTREJECT);
+                			break;
+                		}
 					}
 
 			}
@@ -172,11 +175,11 @@ public class FixQuoteRequestReject extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasQuoteReqID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag QuoteReqID missing", FixTags.QUOTEREQID_INT, FixMessageInfo.MessageTypes.QUOTEREQUESTREJECT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.QUOTEREQID_INT, FixMessageInfo.MessageTypes.QUOTEREQUESTREJECT);
 			return false;
 		}
 		if (!hasQuoteRequestRejectReason()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag QuoteRequestRejectReason missing", FixTags.QUOTEREQUESTREJECTREASON_INT, FixMessageInfo.MessageTypes.QUOTEREQUESTREJECT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.QUOTEREQUESTREJECTREASON_INT, FixMessageInfo.MessageTypes.QUOTEREQUESTREJECT);
 			return false;
 		}
 		for (int i = 0; i< FixUtils.FIX_MAX_NOINGROUP; i++) { if (quotReqRjctGrp[i].hasGroup()) quotReqRjctGrp[i].hasRequiredTags(err); if (err.hasError()) return false; }

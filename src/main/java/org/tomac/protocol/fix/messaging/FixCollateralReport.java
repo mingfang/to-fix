@@ -519,7 +519,10 @@ public class FixCollateralReport extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.COLLATERALREPORT);
+                			break;
+                		}
 					}
 
 			}
@@ -537,11 +540,11 @@ public class FixCollateralReport extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasCollRptID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag CollRptID missing", FixTags.COLLRPTID_INT, FixMessageInfo.MessageTypes.COLLATERALREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.COLLRPTID_INT, FixMessageInfo.MessageTypes.COLLATERALREPORT);
 			return false;
 		}
 		if (!hasCollStatus()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag CollStatus missing", FixTags.COLLSTATUS_INT, FixMessageInfo.MessageTypes.COLLATERALREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.COLLSTATUS_INT, FixMessageInfo.MessageTypes.COLLATERALREPORT);
 			return false;
 		}
 		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 

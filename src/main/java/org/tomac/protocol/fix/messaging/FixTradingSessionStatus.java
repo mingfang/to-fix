@@ -205,7 +205,10 @@ public class FixTradingSessionStatus extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.TRADINGSESSIONSTATUS);
+                			break;
+                		}
 					}
 
 			}
@@ -223,11 +226,11 @@ public class FixTradingSessionStatus extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasTradingSessionID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag TradingSessionID missing", FixTags.TRADINGSESSIONID_INT, FixMessageInfo.MessageTypes.TRADINGSESSIONSTATUS);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TRADINGSESSIONID_INT, FixMessageInfo.MessageTypes.TRADINGSESSIONSTATUS);
 			return false;
 		}
 		if (!hasTradSesStatus()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag TradSesStatus missing", FixTags.TRADSESSTATUS_INT, FixMessageInfo.MessageTypes.TRADINGSESSIONSTATUS);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TRADSESSTATUS_INT, FixMessageInfo.MessageTypes.TRADINGSESSIONSTATUS);
 			return false;
 		}
 		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 

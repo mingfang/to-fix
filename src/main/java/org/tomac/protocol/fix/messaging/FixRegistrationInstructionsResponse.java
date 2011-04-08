@@ -132,7 +132,10 @@ public class FixRegistrationInstructionsResponse extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.REGISTRATIONINSTRUCTIONSRESPONSE);
+                			break;
+                		}
 					}
 
 			}
@@ -150,19 +153,19 @@ public class FixRegistrationInstructionsResponse extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasRegistID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag RegistID missing", FixTags.REGISTID_INT, FixMessageInfo.MessageTypes.REGISTRATIONINSTRUCTIONSRESPONSE);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.REGISTID_INT, FixMessageInfo.MessageTypes.REGISTRATIONINSTRUCTIONSRESPONSE);
 			return false;
 		}
 		if (!hasRegistTransType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag RegistTransType missing", FixTags.REGISTTRANSTYPE_INT, FixMessageInfo.MessageTypes.REGISTRATIONINSTRUCTIONSRESPONSE);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.REGISTTRANSTYPE_INT, FixMessageInfo.MessageTypes.REGISTRATIONINSTRUCTIONSRESPONSE);
 			return false;
 		}
 		if (!hasRegistRefID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag RegistRefID missing", FixTags.REGISTREFID_INT, FixMessageInfo.MessageTypes.REGISTRATIONINSTRUCTIONSRESPONSE);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.REGISTREFID_INT, FixMessageInfo.MessageTypes.REGISTRATIONINSTRUCTIONSRESPONSE);
 			return false;
 		}
 		if (!hasRegistStatus()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag RegistStatus missing", FixTags.REGISTSTATUS_INT, FixMessageInfo.MessageTypes.REGISTRATIONINSTRUCTIONSRESPONSE);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.REGISTSTATUS_INT, FixMessageInfo.MessageTypes.REGISTRATIONINSTRUCTIONSRESPONSE);
 			return false;
 		}
 		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 

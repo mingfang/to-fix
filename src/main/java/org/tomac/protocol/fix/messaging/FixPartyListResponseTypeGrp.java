@@ -63,7 +63,7 @@ public class FixPartyListResponseTypeGrp extends FixGroup {
     }		
 	public boolean hasRequiredTags(FixValidationError err) {
 		if (!hasPartyListResponseType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag PartyListResponseType missing", FixTags.PARTYLISTRESPONSETYPE_INT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.PARTYLISTRESPONSETYPE_INT);
 			return false;
 		}
 		return true;

@@ -344,7 +344,10 @@ public class FixPositionMaintenanceRequest extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.POSITIONMAINTENANCEREQUEST);
+                			break;
+                		}
 					}
 
 			}
@@ -362,15 +365,15 @@ public class FixPositionMaintenanceRequest extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasPosTransType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag PosTransType missing", FixTags.POSTRANSTYPE_INT, FixMessageInfo.MessageTypes.POSITIONMAINTENANCEREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.POSTRANSTYPE_INT, FixMessageInfo.MessageTypes.POSITIONMAINTENANCEREQUEST);
 			return false;
 		}
 		if (!hasPosMaintAction()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag PosMaintAction missing", FixTags.POSMAINTACTION_INT, FixMessageInfo.MessageTypes.POSITIONMAINTENANCEREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.POSMAINTACTION_INT, FixMessageInfo.MessageTypes.POSITIONMAINTENANCEREQUEST);
 			return false;
 		}
 		if (!hasClearingBusinessDate()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag ClearingBusinessDate missing", FixTags.CLEARINGBUSINESSDATE_INT, FixMessageInfo.MessageTypes.POSITIONMAINTENANCEREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.CLEARINGBUSINESSDATE_INT, FixMessageInfo.MessageTypes.POSITIONMAINTENANCEREQUEST);
 			return false;
 		}
 		for (int i = 0; i< FixUtils.FIX_MAX_NOINGROUP; i++) { if (parties[i].hasGroup()) parties[i].hasRequiredTags(err); if (err.hasError()) return false; }

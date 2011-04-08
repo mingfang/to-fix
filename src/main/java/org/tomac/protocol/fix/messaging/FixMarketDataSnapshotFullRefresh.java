@@ -264,7 +264,10 @@ public class FixMarketDataSnapshotFullRefresh extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.MARKETDATASNAPSHOTFULLREFRESH);
+                			break;
+                		}
 					}
 
 			}

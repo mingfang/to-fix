@@ -159,7 +159,10 @@ public class FixListStatus extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.LISTSTATUS);
+                			break;
+                		}
 					}
 
 			}
@@ -177,27 +180,27 @@ public class FixListStatus extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasListID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag ListID missing", FixTags.LISTID_INT, FixMessageInfo.MessageTypes.LISTSTATUS);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.LISTID_INT, FixMessageInfo.MessageTypes.LISTSTATUS);
 			return false;
 		}
 		if (!hasListStatusType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag ListStatusType missing", FixTags.LISTSTATUSTYPE_INT, FixMessageInfo.MessageTypes.LISTSTATUS);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.LISTSTATUSTYPE_INT, FixMessageInfo.MessageTypes.LISTSTATUS);
 			return false;
 		}
 		if (!hasNoRpts()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag NoRpts missing", FixTags.NORPTS_INT, FixMessageInfo.MessageTypes.LISTSTATUS);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.NORPTS_INT, FixMessageInfo.MessageTypes.LISTSTATUS);
 			return false;
 		}
 		if (!hasListOrderStatus()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag ListOrderStatus missing", FixTags.LISTORDERSTATUS_INT, FixMessageInfo.MessageTypes.LISTSTATUS);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.LISTORDERSTATUS_INT, FixMessageInfo.MessageTypes.LISTSTATUS);
 			return false;
 		}
 		if (!hasRptSeq()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag RptSeq missing", FixTags.RPTSEQ_INT, FixMessageInfo.MessageTypes.LISTSTATUS);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.RPTSEQ_INT, FixMessageInfo.MessageTypes.LISTSTATUS);
 			return false;
 		}
 		if (!hasTotNoOrders()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag TotNoOrders missing", FixTags.TOTNOORDERS_INT, FixMessageInfo.MessageTypes.LISTSTATUS);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TOTNOORDERS_INT, FixMessageInfo.MessageTypes.LISTSTATUS);
 			return false;
 		}
 		for (int i = 0; i< FixUtils.FIX_MAX_NOINGROUP; i++) { if (ordListStatGrp[i].hasGroup()) ordListStatGrp[i].hasRequiredTags(err); if (err.hasError()) return false; }

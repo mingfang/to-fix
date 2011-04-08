@@ -221,7 +221,10 @@ public class FixTradeCaptureReportRequestAck extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.TRADECAPTUREREPORTREQUESTACK);
+                			break;
+                		}
 					}
 
 			}
@@ -239,19 +242,19 @@ public class FixTradeCaptureReportRequestAck extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasTradeRequestID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag TradeRequestID missing", FixTags.TRADEREQUESTID_INT, FixMessageInfo.MessageTypes.TRADECAPTUREREPORTREQUESTACK);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TRADEREQUESTID_INT, FixMessageInfo.MessageTypes.TRADECAPTUREREPORTREQUESTACK);
 			return false;
 		}
 		if (!hasTradeRequestType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag TradeRequestType missing", FixTags.TRADEREQUESTTYPE_INT, FixMessageInfo.MessageTypes.TRADECAPTUREREPORTREQUESTACK);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TRADEREQUESTTYPE_INT, FixMessageInfo.MessageTypes.TRADECAPTUREREPORTREQUESTACK);
 			return false;
 		}
 		if (!hasTradeRequestResult()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag TradeRequestResult missing", FixTags.TRADEREQUESTRESULT_INT, FixMessageInfo.MessageTypes.TRADECAPTUREREPORTREQUESTACK);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TRADEREQUESTRESULT_INT, FixMessageInfo.MessageTypes.TRADECAPTUREREPORTREQUESTACK);
 			return false;
 		}
 		if (!hasTradeRequestStatus()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag TradeRequestStatus missing", FixTags.TRADEREQUESTSTATUS_INT, FixMessageInfo.MessageTypes.TRADECAPTUREREPORTREQUESTACK);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TRADEREQUESTSTATUS_INT, FixMessageInfo.MessageTypes.TRADECAPTUREREPORTREQUESTACK);
 			return false;
 		}
 		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 

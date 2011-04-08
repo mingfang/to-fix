@@ -212,7 +212,10 @@ public class FixSecurityListRequest extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.SECURITYLISTREQUEST);
+                			break;
+                		}
 					}
 
 			}
@@ -230,11 +233,11 @@ public class FixSecurityListRequest extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasSecurityReqID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag SecurityReqID missing", FixTags.SECURITYREQID_INT, FixMessageInfo.MessageTypes.SECURITYLISTREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.SECURITYREQID_INT, FixMessageInfo.MessageTypes.SECURITYLISTREQUEST);
 			return false;
 		}
 		if (!hasSecurityListRequestType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag SecurityListRequestType missing", FixTags.SECURITYLISTREQUESTTYPE_INT, FixMessageInfo.MessageTypes.SECURITYLISTREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.SECURITYLISTREQUESTTYPE_INT, FixMessageInfo.MessageTypes.SECURITYLISTREQUEST);
 			return false;
 		}
 		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 

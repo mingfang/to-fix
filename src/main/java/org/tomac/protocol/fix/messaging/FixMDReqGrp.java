@@ -63,7 +63,7 @@ public class FixMDReqGrp extends FixGroup {
     }		
 	public boolean hasRequiredTags(FixValidationError err) {
 		if (!hasMDEntryType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag MDEntryType missing", FixTags.MDENTRYTYPE_INT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.MDENTRYTYPE_INT);
 			return false;
 		}
 		return true;

@@ -117,7 +117,10 @@ public class FixBusinessMessageReject extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.BUSINESSMESSAGEREJECT);
+                			break;
+                		}
 					}
 
 			}
@@ -135,11 +138,11 @@ public class FixBusinessMessageReject extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasRefMsgType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag RefMsgType missing", FixTags.REFMSGTYPE_INT, FixMessageInfo.MessageTypes.BUSINESSMESSAGEREJECT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.REFMSGTYPE_INT, FixMessageInfo.MessageTypes.BUSINESSMESSAGEREJECT);
 			return false;
 		}
 		if (!hasBusinessRejectReason()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag BusinessRejectReason missing", FixTags.BUSINESSREJECTREASON_INT, FixMessageInfo.MessageTypes.BUSINESSMESSAGEREJECT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.BUSINESSREJECTREASON_INT, FixMessageInfo.MessageTypes.BUSINESSMESSAGEREJECT);
 			return false;
 		}
 		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 

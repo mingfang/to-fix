@@ -193,7 +193,10 @@ public class FixQuoteCancel extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.QUOTECANCEL);
+                			break;
+                		}
 					}
 
 			}
@@ -211,7 +214,7 @@ public class FixQuoteCancel extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasQuoteCancelType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag QuoteCancelType missing", FixTags.QUOTECANCELTYPE_INT, FixMessageInfo.MessageTypes.QUOTECANCEL);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.QUOTECANCELTYPE_INT, FixMessageInfo.MessageTypes.QUOTECANCEL);
 			return false;
 		}
 		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 

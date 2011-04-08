@@ -110,7 +110,10 @@ public class FixApplicationMessageReport extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.APPLICATIONMESSAGEREPORT);
+                			break;
+                		}
 					}
 
 			}
@@ -128,11 +131,11 @@ public class FixApplicationMessageReport extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasApplReportID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag ApplReportID missing", FixTags.APPLREPORTID_INT, FixMessageInfo.MessageTypes.APPLICATIONMESSAGEREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.APPLREPORTID_INT, FixMessageInfo.MessageTypes.APPLICATIONMESSAGEREPORT);
 			return false;
 		}
 		if (!hasApplReportType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag ApplReportType missing", FixTags.APPLREPORTTYPE_INT, FixMessageInfo.MessageTypes.APPLICATIONMESSAGEREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.APPLREPORTTYPE_INT, FixMessageInfo.MessageTypes.APPLICATIONMESSAGEREPORT);
 			return false;
 		}
 		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 

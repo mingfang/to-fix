@@ -103,11 +103,11 @@ public class FixCompIDStatGrp extends FixGroup {
     }		
 	public boolean hasRequiredTags(FixValidationError err) {
 		if (!hasRefCompID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag RefCompID missing", FixTags.REFCOMPID_INT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.REFCOMPID_INT);
 			return false;
 		}
 		if (!hasStatusValue()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag StatusValue missing", FixTags.STATUSVALUE_INT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.STATUSVALUE_INT);
 			return false;
 		}
 		return true;

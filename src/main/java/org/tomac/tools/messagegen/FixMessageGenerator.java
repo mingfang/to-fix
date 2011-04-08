@@ -11,6 +11,7 @@ import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
 import org.tomac.protocol.fix.FixDataTypes;
 import org.tomac.protocol.fix.FixUtils;
+import org.tomac.protocol.fix.messaging.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.FixMessageInfo.MessageTypes;
 import org.tomac.tools.converter.QuickFixComponent;
 import org.tomac.tools.converter.QuickFixField;
@@ -959,7 +960,11 @@ public class FixMessageGenerator {
 
 			out.write(" 						FixMessage.getNext(buf, err);		\n");
 			out.write("                		if (err.hasError()) break; 		\n");
-			out.write("                		else break; //TODO INVALID_TAG error\n");
+			out.write("                		else {\n");
+			out.write("                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, \"Tag not defined for this message type\", tag, FixMessageInfo.MessageTypes." + m.name.toUpperCase()+ ");\n");
+			out.write("                			break;\n");
+			out.write("                		}\n");
+
 			out.write("					}\n\n");
 			out.write("\t\t\t}\n\n");
 			
@@ -1182,10 +1187,10 @@ public class FixMessageGenerator {
 			if (f.reqd.equalsIgnoreCase("Y")) {
 				out.write("\t\tif (!has" + capFirst(f.name) + "()) { \n");
 				if (isMessage)
-					out.write("\t\t\terr.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, \"requirde tag " + capFirst(f.name) + " missing\", FixTags." + f.name.toUpperCase() + "_INT, FixMessageInfo.MessageTypes."
+					out.write("\t\t\terr.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, \"Required tag missing\", FixTags." + f.name.toUpperCase() + "_INT, FixMessageInfo.MessageTypes."
 						+ messageName.toUpperCase() + ");\n");
 				else 
-					out.write("\t\t\terr.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, \"requirde tag " + capFirst(f.name) + " missing\", FixTags." + f.name.toUpperCase() + "_INT);\n");
+					out.write("\t\t\terr.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, \"Required tag missing\", FixTags." + f.name.toUpperCase() + "_INT);\n");
 				out.write("\t\t\treturn false;\n");
 				out.write("\t\t}\n");
 			}

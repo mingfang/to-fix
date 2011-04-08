@@ -133,7 +133,10 @@ public class FixSettlementInstructions extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.SETTLEMENTINSTRUCTIONS);
+                			break;
+                		}
 					}
 
 			}
@@ -151,15 +154,15 @@ public class FixSettlementInstructions extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasSettlInstMsgID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag SettlInstMsgID missing", FixTags.SETTLINSTMSGID_INT, FixMessageInfo.MessageTypes.SETTLEMENTINSTRUCTIONS);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.SETTLINSTMSGID_INT, FixMessageInfo.MessageTypes.SETTLEMENTINSTRUCTIONS);
 			return false;
 		}
 		if (!hasSettlInstMode()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag SettlInstMode missing", FixTags.SETTLINSTMODE_INT, FixMessageInfo.MessageTypes.SETTLEMENTINSTRUCTIONS);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.SETTLINSTMODE_INT, FixMessageInfo.MessageTypes.SETTLEMENTINSTRUCTIONS);
 			return false;
 		}
 		if (!hasTransactTime()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag TransactTime missing", FixTags.TRANSACTTIME_INT, FixMessageInfo.MessageTypes.SETTLEMENTINSTRUCTIONS);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TRANSACTTIME_INT, FixMessageInfo.MessageTypes.SETTLEMENTINSTRUCTIONS);
 			return false;
 		}
 		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 

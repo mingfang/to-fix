@@ -634,7 +634,10 @@ public class FixConfirmation extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.CONFIRMATION);
+                			break;
+                		}
 					}
 
 			}
@@ -652,51 +655,51 @@ public class FixConfirmation extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasConfirmID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag ConfirmID missing", FixTags.CONFIRMID_INT, FixMessageInfo.MessageTypes.CONFIRMATION);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.CONFIRMID_INT, FixMessageInfo.MessageTypes.CONFIRMATION);
 			return false;
 		}
 		if (!hasConfirmTransType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag ConfirmTransType missing", FixTags.CONFIRMTRANSTYPE_INT, FixMessageInfo.MessageTypes.CONFIRMATION);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.CONFIRMTRANSTYPE_INT, FixMessageInfo.MessageTypes.CONFIRMATION);
 			return false;
 		}
 		if (!hasConfirmType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag ConfirmType missing", FixTags.CONFIRMTYPE_INT, FixMessageInfo.MessageTypes.CONFIRMATION);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.CONFIRMTYPE_INT, FixMessageInfo.MessageTypes.CONFIRMATION);
 			return false;
 		}
 		if (!hasConfirmStatus()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag ConfirmStatus missing", FixTags.CONFIRMSTATUS_INT, FixMessageInfo.MessageTypes.CONFIRMATION);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.CONFIRMSTATUS_INT, FixMessageInfo.MessageTypes.CONFIRMATION);
 			return false;
 		}
 		if (!hasTransactTime()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag TransactTime missing", FixTags.TRANSACTTIME_INT, FixMessageInfo.MessageTypes.CONFIRMATION);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TRANSACTTIME_INT, FixMessageInfo.MessageTypes.CONFIRMATION);
 			return false;
 		}
 		if (!hasTradeDate()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag TradeDate missing", FixTags.TRADEDATE_INT, FixMessageInfo.MessageTypes.CONFIRMATION);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TRADEDATE_INT, FixMessageInfo.MessageTypes.CONFIRMATION);
 			return false;
 		}
 		if (!hasAllocQty()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag AllocQty missing", FixTags.ALLOCQTY_INT, FixMessageInfo.MessageTypes.CONFIRMATION);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.ALLOCQTY_INT, FixMessageInfo.MessageTypes.CONFIRMATION);
 			return false;
 		}
 		if (!hasSide()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag Side missing", FixTags.SIDE_INT, FixMessageInfo.MessageTypes.CONFIRMATION);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.SIDE_INT, FixMessageInfo.MessageTypes.CONFIRMATION);
 			return false;
 		}
 		if (!hasAllocAccount()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag AllocAccount missing", FixTags.ALLOCACCOUNT_INT, FixMessageInfo.MessageTypes.CONFIRMATION);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.ALLOCACCOUNT_INT, FixMessageInfo.MessageTypes.CONFIRMATION);
 			return false;
 		}
 		if (!hasAvgPx()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag AvgPx missing", FixTags.AVGPX_INT, FixMessageInfo.MessageTypes.CONFIRMATION);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.AVGPX_INT, FixMessageInfo.MessageTypes.CONFIRMATION);
 			return false;
 		}
 		if (!hasGrossTradeAmt()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag GrossTradeAmt missing", FixTags.GROSSTRADEAMT_INT, FixMessageInfo.MessageTypes.CONFIRMATION);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.GROSSTRADEAMT_INT, FixMessageInfo.MessageTypes.CONFIRMATION);
 			return false;
 		}
 		if (!hasNetMoney()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag NetMoney missing", FixTags.NETMONEY_INT, FixMessageInfo.MessageTypes.CONFIRMATION);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.NETMONEY_INT, FixMessageInfo.MessageTypes.CONFIRMATION);
 			return false;
 		}
 		if (instrument.isRequired) instrument.hasRequiredTags(err); if (err.hasError()) return false;

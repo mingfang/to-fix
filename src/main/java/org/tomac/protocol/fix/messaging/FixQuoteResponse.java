@@ -596,7 +596,10 @@ public class FixQuoteResponse extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.QUOTERESPONSE);
+                			break;
+                		}
 					}
 
 			}
@@ -614,11 +617,11 @@ public class FixQuoteResponse extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasQuoteRespID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag QuoteRespID missing", FixTags.QUOTERESPID_INT, FixMessageInfo.MessageTypes.QUOTERESPONSE);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.QUOTERESPID_INT, FixMessageInfo.MessageTypes.QUOTERESPONSE);
 			return false;
 		}
 		if (!hasQuoteRespType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag QuoteRespType missing", FixTags.QUOTERESPTYPE_INT, FixMessageInfo.MessageTypes.QUOTERESPONSE);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.QUOTERESPTYPE_INT, FixMessageInfo.MessageTypes.QUOTERESPONSE);
 			return false;
 		}
 		if (instrument.isRequired) instrument.hasRequiredTags(err); if (err.hasError()) return false;

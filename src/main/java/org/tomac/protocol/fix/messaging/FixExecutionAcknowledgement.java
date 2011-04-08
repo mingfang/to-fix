@@ -217,7 +217,10 @@ public class FixExecutionAcknowledgement extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.EXECUTIONACKNOWLEDGEMENT);
+                			break;
+                		}
 					}
 
 			}
@@ -235,19 +238,19 @@ public class FixExecutionAcknowledgement extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasOrderID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag OrderID missing", FixTags.ORDERID_INT, FixMessageInfo.MessageTypes.EXECUTIONACKNOWLEDGEMENT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.ORDERID_INT, FixMessageInfo.MessageTypes.EXECUTIONACKNOWLEDGEMENT);
 			return false;
 		}
 		if (!hasExecAckStatus()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag ExecAckStatus missing", FixTags.EXECACKSTATUS_INT, FixMessageInfo.MessageTypes.EXECUTIONACKNOWLEDGEMENT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.EXECACKSTATUS_INT, FixMessageInfo.MessageTypes.EXECUTIONACKNOWLEDGEMENT);
 			return false;
 		}
 		if (!hasExecID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag ExecID missing", FixTags.EXECID_INT, FixMessageInfo.MessageTypes.EXECUTIONACKNOWLEDGEMENT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.EXECID_INT, FixMessageInfo.MessageTypes.EXECUTIONACKNOWLEDGEMENT);
 			return false;
 		}
 		if (!hasSide()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag Side missing", FixTags.SIDE_INT, FixMessageInfo.MessageTypes.EXECUTIONACKNOWLEDGEMENT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.SIDE_INT, FixMessageInfo.MessageTypes.EXECUTIONACKNOWLEDGEMENT);
 			return false;
 		}
 		if (instrument.isRequired) instrument.hasRequiredTags(err); if (err.hasError()) return false;

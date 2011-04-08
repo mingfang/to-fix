@@ -303,31 +303,31 @@ public class FixStandardHeader extends FixGroup {
     }		
 	public boolean hasRequiredTags(FixValidationError err) {
 		if (!hasBeginString()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag BeginString missing", FixTags.BEGINSTRING_INT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.BEGINSTRING_INT);
 			return false;
 		}
 		if (!hasBodyLength()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag BodyLength missing", FixTags.BODYLENGTH_INT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.BODYLENGTH_INT);
 			return false;
 		}
 		if (!hasMsgType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag MsgType missing", FixTags.MSGTYPE_INT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.MSGTYPE_INT);
 			return false;
 		}
 		if (!hasSenderCompID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag SenderCompID missing", FixTags.SENDERCOMPID_INT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.SENDERCOMPID_INT);
 			return false;
 		}
 		if (!hasTargetCompID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag TargetCompID missing", FixTags.TARGETCOMPID_INT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TARGETCOMPID_INT);
 			return false;
 		}
 		if (!hasMsgSeqNum()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag MsgSeqNum missing", FixTags.MSGSEQNUM_INT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.MSGSEQNUM_INT);
 			return false;
 		}
 		if (!hasSendingTime()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag SendingTime missing", FixTags.SENDINGTIME_INT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.SENDINGTIME_INT);
 			return false;
 		}
 		return true;

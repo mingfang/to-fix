@@ -284,7 +284,10 @@ public class FixBidRequest extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.BIDREQUEST);
+                			break;
+                		}
 					}
 
 			}
@@ -302,27 +305,27 @@ public class FixBidRequest extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasClientBidID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag ClientBidID missing", FixTags.CLIENTBIDID_INT, FixMessageInfo.MessageTypes.BIDREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.CLIENTBIDID_INT, FixMessageInfo.MessageTypes.BIDREQUEST);
 			return false;
 		}
 		if (!hasBidRequestTransType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag BidRequestTransType missing", FixTags.BIDREQUESTTRANSTYPE_INT, FixMessageInfo.MessageTypes.BIDREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.BIDREQUESTTRANSTYPE_INT, FixMessageInfo.MessageTypes.BIDREQUEST);
 			return false;
 		}
 		if (!hasTotNoRelatedSym()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag TotNoRelatedSym missing", FixTags.TOTNORELATEDSYM_INT, FixMessageInfo.MessageTypes.BIDREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TOTNORELATEDSYM_INT, FixMessageInfo.MessageTypes.BIDREQUEST);
 			return false;
 		}
 		if (!hasBidType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag BidType missing", FixTags.BIDTYPE_INT, FixMessageInfo.MessageTypes.BIDREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.BIDTYPE_INT, FixMessageInfo.MessageTypes.BIDREQUEST);
 			return false;
 		}
 		if (!hasBidTradeType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag BidTradeType missing", FixTags.BIDTRADETYPE_INT, FixMessageInfo.MessageTypes.BIDREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.BIDTRADETYPE_INT, FixMessageInfo.MessageTypes.BIDREQUEST);
 			return false;
 		}
 		if (!hasBasisPxType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag BasisPxType missing", FixTags.BASISPXTYPE_INT, FixMessageInfo.MessageTypes.BIDREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.BASISPXTYPE_INT, FixMessageInfo.MessageTypes.BIDREQUEST);
 			return false;
 		}
 		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 

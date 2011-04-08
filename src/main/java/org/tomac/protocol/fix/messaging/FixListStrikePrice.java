@@ -86,7 +86,10 @@ public class FixListStrikePrice extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.LISTSTRIKEPRICE);
+                			break;
+                		}
 					}
 
 			}
@@ -104,11 +107,11 @@ public class FixListStrikePrice extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasListID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag ListID missing", FixTags.LISTID_INT, FixMessageInfo.MessageTypes.LISTSTRIKEPRICE);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.LISTID_INT, FixMessageInfo.MessageTypes.LISTSTRIKEPRICE);
 			return false;
 		}
 		if (!hasTotNoStrikes()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag TotNoStrikes missing", FixTags.TOTNOSTRIKES_INT, FixMessageInfo.MessageTypes.LISTSTRIKEPRICE);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TOTNOSTRIKES_INT, FixMessageInfo.MessageTypes.LISTSTRIKEPRICE);
 			return false;
 		}
 		for (int i = 0; i< FixUtils.FIX_MAX_NOINGROUP; i++) { if (instrmtStrkPxGrp[i].hasGroup()) instrmtStrkPxGrp[i].hasRequiredTags(err); if (err.hasError()) return false; }

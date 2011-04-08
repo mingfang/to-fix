@@ -114,11 +114,11 @@ public class FixQuotSetGrp extends FixGroup {
     }		
 	public boolean hasRequiredTags(FixValidationError err) {
 		if (!hasQuoteSetID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag QuoteSetID missing", FixTags.QUOTESETID_INT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.QUOTESETID_INT);
 			return false;
 		}
 		if (!hasTotNoQuoteEntries()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag TotNoQuoteEntries missing", FixTags.TOTNOQUOTEENTRIES_INT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TOTNOQUOTEENTRIES_INT);
 			return false;
 		}
 		for (int i = 0; i< FixUtils.FIX_MAX_NOINGROUP; i++) { if (quotEntryGrp[i].hasGroup()) quotEntryGrp[i].hasRequiredTags(err); if (err.hasError()) return false; }

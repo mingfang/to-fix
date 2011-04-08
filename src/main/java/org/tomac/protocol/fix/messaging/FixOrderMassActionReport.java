@@ -274,7 +274,10 @@ public class FixOrderMassActionReport extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.ORDERMASSACTIONREPORT);
+                			break;
+                		}
 					}
 
 			}
@@ -292,19 +295,19 @@ public class FixOrderMassActionReport extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasMassActionReportID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag MassActionReportID missing", FixTags.MASSACTIONREPORTID_INT, FixMessageInfo.MessageTypes.ORDERMASSACTIONREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.MASSACTIONREPORTID_INT, FixMessageInfo.MessageTypes.ORDERMASSACTIONREPORT);
 			return false;
 		}
 		if (!hasMassActionType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag MassActionType missing", FixTags.MASSACTIONTYPE_INT, FixMessageInfo.MessageTypes.ORDERMASSACTIONREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.MASSACTIONTYPE_INT, FixMessageInfo.MessageTypes.ORDERMASSACTIONREPORT);
 			return false;
 		}
 		if (!hasMassActionScope()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag MassActionScope missing", FixTags.MASSACTIONSCOPE_INT, FixMessageInfo.MessageTypes.ORDERMASSACTIONREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.MASSACTIONSCOPE_INT, FixMessageInfo.MessageTypes.ORDERMASSACTIONREPORT);
 			return false;
 		}
 		if (!hasMassActionResponse()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag MassActionResponse missing", FixTags.MASSACTIONRESPONSE_INT, FixMessageInfo.MessageTypes.ORDERMASSACTIONREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.MASSACTIONRESPONSE_INT, FixMessageInfo.MessageTypes.ORDERMASSACTIONREPORT);
 			return false;
 		}
 		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 

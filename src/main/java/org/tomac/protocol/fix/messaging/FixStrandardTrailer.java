@@ -79,7 +79,7 @@ public class FixStrandardTrailer extends FixGroup {
     }		
 	public boolean hasRequiredTags(FixValidationError err) {
 		if (!hasCheckSum()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag CheckSum missing", FixTags.CHECKSUM_INT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.CHECKSUM_INT);
 			return false;
 		}
 		return true;

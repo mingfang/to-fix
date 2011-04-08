@@ -95,7 +95,10 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixInMessage {
             		} else {
  						FixMessage.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else break; //TODO INVALID_TAG error
+                		else {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSRESPONSE);
+                			break;
+                		}
 					}
 
 			}
@@ -113,11 +116,11 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixInMessage {
 		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
 
 		if (!hasNetworkStatusResponseType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag NetworkStatusResponseType missing", FixTags.NETWORKSTATUSRESPONSETYPE_INT, FixMessageInfo.MessageTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSRESPONSE);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.NETWORKSTATUSRESPONSETYPE_INT, FixMessageInfo.MessageTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSRESPONSE);
 			return false;
 		}
 		if (!hasNetworkResponseID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "requirde tag NetworkResponseID missing", FixTags.NETWORKRESPONSEID_INT, FixMessageInfo.MessageTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSRESPONSE);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.NETWORKRESPONSEID_INT, FixMessageInfo.MessageTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSRESPONSE);
 			return false;
 		}
 		for (int i = 0; i< FixUtils.FIX_MAX_NOINGROUP; i++) { if (compIDStatGrp[i].hasGroup()) compIDStatGrp[i].hasRequiredTags(err); if (err.hasError()) return false; }
