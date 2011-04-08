@@ -620,6 +620,10 @@ public class FixUtils {
 			msg = msg.replace("<TIME+10>", FixUtils.utcTimestampConverter.convert( new Date(FixUtils.getSystemTime().getTime() + 10 * 60 * 1000) ) ); 
 		}
 
+		if ( msg.contains("<TIME-1>") ) {
+			msg = msg.replace("<TIME-1>", FixUtils.utcTimestampConverter.convert( new Date(FixUtils.getSystemTime().getTime() - 1 * 60 * 1000) ) ); 
+		}
+		
 		if ( ! msg.contains("\u0001" + new String(FixTags.CHECKSUM) + "=") ) {
 			// get start of message being part of checksum.
 			String[] s = msg.split("35=");
@@ -714,9 +718,21 @@ public class FixUtils {
 					err.msgSeqNum = session.getInMsgSeqNum() + 1;
 
 				}
-				else if (msg.standardHeader.getMsgSeqNum() < session.getInMsgSeqNum() && !(msg.standardHeader.hasPossDupFlag() && msg.standardHeader.getPossDupFlag()) && !(msg instanceof FixSequenceReset)) {
+				else if (msg.standardHeader.getMsgSeqNum() <= session.getInMsgSeqNum() ) {
 
-					err.setError(FixEvent.MSGSEQNUM_LOGOUT, "MsgSeqNum too low, expecting " + (session.getInMsgSeqNum() + 1) + " but received " + msg.standardHeader.getMsgSeqNum(), FixTags.MSGSEQNUM_INT, msg.standardHeader.getMsgType());
+					if (msg instanceof FixSequenceReset) {
+						if (msg.standardHeader.hasPossDupFlag() && msg.standardHeader.getPossDupFlag()) {
+							err.setError(FixEvent.IGNORE_MESSAGE, "Ignore SequenceReset");
+						} else if (!((FixSequenceReset)msg).hasGapFillFlag() || !((FixSequenceReset)msg).getGapFillFlag()) {
+							// will except msgSeqNum regardless
+						} else {
+							err.setError(FixEvent.MSGSEQNUM_LOGOUT, "MsgSeqNum too low, expecting " + (session.getInMsgSeqNum() + 1) + " but received " + msg.standardHeader.getMsgSeqNum(), FixTags.MSGSEQNUM_INT, msg.standardHeader.getMsgType());
+						}
+					} else if ( msg.standardHeader.hasPossDupFlag() && msg.standardHeader.getPossDupFlag() ) {
+						err.setError(FixEvent.IGNORE_MESSAGE, "Ignore possdup message");
+					} else {
+						err.setError(FixEvent.MSGSEQNUM_LOGOUT, "MsgSeqNum too low, expecting " + (session.getInMsgSeqNum() + 1) + " but received " + msg.standardHeader.getMsgSeqNum(), FixTags.MSGSEQNUM_INT, msg.standardHeader.getMsgType());
+					}
 
 				}
 			}

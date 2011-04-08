@@ -10,13 +10,16 @@ import static org.junit.Assert.assertFalse;
 import java.nio.ByteBuffer;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import org.tomac.protocol.fix.FixMessage;
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixValidationError;
 import org.tomac.protocol.fix.messaging.FixMarketDataSnapshotFullRefresh;
 import org.tomac.protocol.fix.messaging.FixMessageListenerImpl;
 import org.tomac.protocol.fix.messaging.FixMessageParser;
+import org.tomac.protocol.fix.messaging.FixMessagePool;
 import org.tomac.protocol.fix.messaging.FixNewOrderSingle;
 
 
@@ -33,6 +36,7 @@ public class TestToFixPerformance {
 	FixMessageParser parser;
 	FixMessageListenerImpl listener;
 	FixMarketDataSnapshotFullRefresh message;
+	FixMessagePool<FixMessage> pool = new FixMessagePool<FixMessage>();
 	
 	@Before
 	public void setUp() {
@@ -40,7 +44,7 @@ public class TestToFixPerformance {
 		FixUtils.validateChecksum = false;
 		FixUtils.validateSendingTime = false;
 		err = new FixValidationError();
-		parser = new FixMessageParser();
+		parser = new FixMessageParser(pool);
 		listener = new FixMessageListenerImpl() {
     		@Override
     		public void onFixNewOrderSingle(FixNewOrderSingle msg) {

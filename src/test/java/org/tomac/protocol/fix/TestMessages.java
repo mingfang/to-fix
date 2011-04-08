@@ -9,6 +9,7 @@ import java.util.Date;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.tomac.protocol.fix.messaging.FixExecutionReport;
@@ -23,14 +24,15 @@ import org.tomac.protocol.fix.messaging.FixNewOrderSingle;
 import org.tomac.protocol.fix.messaging.FixNews;
 
 public class TestMessages {
-	FixMessagePool<FixInMessage> pool = new FixMessagePool<FixInMessage>();
+	FixMessagePool<FixMessage> pool = new FixMessagePool<FixMessage>();;
 	TestFixMessageListener listener = new TestFixMessageListener();
 	FixValidationError err = new FixValidationError();
-	FixMessageParser parser = new FixMessageParser();
+	FixMessageParser parser;
 	ByteBuffer out = ByteBuffer.allocate(1024);
 	
 	@Before
 	public void setUp() {
+		parser = new FixMessageParser(pool);
 	}
 
 	@After

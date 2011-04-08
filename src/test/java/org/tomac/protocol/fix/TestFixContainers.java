@@ -21,11 +21,11 @@ import org.tomac.protocol.fix.messaging.FixTestRequest;
 public class TestFixContainers {
 	TestFixMessageListener listener;
 	FixValidationError err;
-	FixMessagePool<FixInMessage> pool;
+	FixMessagePool<FixMessage> pool = new FixMessagePool<FixMessage>();;
 	
 	FixInMessage inMsg;
 	FixMessage outMsg;
-	
+
 	@Before
 	public void setUp() throws Exception {
 		listener = new TestFixMessageListener();
@@ -35,7 +35,6 @@ public class TestFixContainers {
 		FixUtils.validateSendingTime = false;
 		if ((new String(FixMessageInfo.BEGINSTRING_VALUE).equals("FIX.4.2") ) ) FixUtils.isNasdaqOMX =  true;
 		else FixUtils.isNasdaqOMX = false;
-		pool = new FixMessagePool<FixInMessage>();
 	}
 
 	@After
@@ -45,7 +44,7 @@ public class TestFixContainers {
 	@Test
 	public void testParseValidFixInMessages() {
 		
-		FixMessageParser parser = new FixMessageParser();
+		FixMessageParser parser = new FixMessageParser(pool);
 		
 		String[] fixMessages  = {
 			"8=FIXT.1.1\u00019=0106\u000135=A\u000149=MSI\u000156=TOMAC\u000134=1\u000152=20101007-06:00:07.732\u000150=STOM1\u000198=0\u0001108=60\u0001141=N\u00011137=9\u0001553=MSITS1\u0001554=MWAT\u000110=241\u0001",
@@ -58,7 +57,7 @@ public class TestFixContainers {
 			ByteBuffer refBuf = ByteBuffer.wrap(s.getBytes());
 			ByteBuffer parseBuf = ByteBuffer.wrap(s.getBytes());
 
-			inMsg = pool.getFixMessage(refBuf, err);
+			inMsg = (FixInMessage) pool.getFixMessage(refBuf, err);
 
 			assertNotNull(inMsg);
 			assertFalse(err.hasError());
@@ -79,7 +78,7 @@ public class TestFixContainers {
 	@Test
 	public void testParseValidStreamOfFixInMessages() {
 		
-		FixMessageParser parser = new FixMessageParser();
+		FixMessageParser parser = new FixMessageParser(pool);
 		
 		String[] fixMessages = { 
 			"8=FIXT.1.1\u00019=0106\u000135=A\u000149=MSI\u000156=TOMAC\u000134=1\u000152=20101007-06:00:07.732\u000150=STOM1\u000198=0\u0001108=60\u0001141=N\u00011137=9\u0001553=MSITS1\u0001554=MWAT\u000110=241\u0001",
@@ -98,7 +97,7 @@ public class TestFixContainers {
 
 		while(buf.hasRemaining()) {
 			
-			inMsg = pool.getFixMessage(buf, err);
+			inMsg = (FixInMessage) pool.getFixMessage(buf, err);
 
 			assertNotNull(inMsg);
 			assertFalse(inMsg.getLastFixValidationError().hasError());
@@ -129,7 +128,7 @@ public class TestFixContainers {
 
 			ByteBuffer buf = ByteBuffer.wrap(s.getBytes());
 			
-			inMsg = pool.getFixMessage(buf, err);
+			inMsg = (FixInMessage) pool.getFixMessage(buf, err);
 
 			assertNotNull(inMsg);
 			assertFalse(err.hasError());
@@ -149,7 +148,7 @@ public class TestFixContainers {
 			assertFalse(err.hasError());
 			
 			out.position(0);
-			inMsg = pool.getFixMessage(out, err);
+			inMsg = (FixInMessage) pool.getFixMessage(out, err);
 
 
 			assertFalse(err.hasError());
@@ -172,7 +171,7 @@ public class TestFixContainers {
 
 			ByteBuffer buf = ByteBuffer.wrap(s.getBytes());
 			
-			inMsg = pool.getFixMessage(buf, err);
+			inMsg = (FixInMessage) pool.getFixMessage(buf, err);
 
 			assertNotNull(inMsg);
 			assertFalse(err.hasError());
@@ -192,7 +191,7 @@ public class TestFixContainers {
 			assertFalse(err.hasError());
 			
 			out.position(0);
-			inMsg = pool.getFixMessage(out, err);
+			inMsg = (FixInMessage) pool.getFixMessage(out, err);
 
 			assertNotNull(inMsg);
 			assertFalse(err.hasError());
@@ -212,7 +211,7 @@ public class TestFixContainers {
 
 			ByteBuffer buf = ByteBuffer.wrap(s.getBytes());
 			
-			inMsg = pool.getFixMessage(buf, err);
+			inMsg = (FixInMessage) pool.getFixMessage(buf, err);
 
 			assertNotNull(inMsg);
 			assertTrue(err.hasError());
@@ -232,7 +231,7 @@ public class TestFixContainers {
 
 			ByteBuffer buf = ByteBuffer.wrap(s.getBytes());
 			
-			inMsg = pool.getFixMessage(buf, err);
+			inMsg = (FixInMessage) pool.getFixMessage(buf, err);
 
 			assertNotNull(inMsg);
 			assertFalse(err.hasError());
@@ -252,7 +251,7 @@ public class TestFixContainers {
 			assertFalse(err.hasError());
 			
 			out.position(0);
-			inMsg = pool.getFixMessage(out, err);
+			inMsg = (FixInMessage) pool.getFixMessage(out, err);
 
 			assertNotNull(inMsg);
 			assertFalse(err.hasError());
@@ -263,7 +262,7 @@ public class TestFixContainers {
 	@Test
 	public void testParseUnknownTagFixInMessages() {
 		
-		FixMessageParser parser = new FixMessageParser();
+		FixMessageParser parser = new FixMessageParser(pool);
 		
 		String[] fixMessages = { 
 			"8=FIXT.1.1\u00019=0106\u000135=A\u000149=MSI\u000156=TOMAC\u000134=1\u000152=20101007-06:00:07.732\u000150=STOM1\u000198=0\u0001108=60\u0001141=N\u00011137=9\u0001553=MSITS1\u0001554=MWAT\u000110=241\u0001",
@@ -279,7 +278,7 @@ public class TestFixContainers {
 			
 			int startPos = buf.position();
 			
-			inMsg = pool.getFixMessage(buf, err);
+			inMsg = (FixInMessage) pool.getFixMessage(buf, err);
 
 			assertNotNull(inMsg);
 			assertFalse(inMsg.getLastFixValidationError().hasError());

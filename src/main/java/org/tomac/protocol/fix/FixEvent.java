@@ -21,5 +21,6 @@ public class FixEvent extends FixMessageInfo.SessionRejectReason {
 	public static final int	MSGSEQNUM_RESENDREQUEST	= 104;
 	public static final int	MSGSEQNUM_LOGON_RESENDREQUEST	= 105;
 	public static final int	BEGINSTRING_LOGOUT	= 106;
+	public static final int IGNORE_MESSAGE = 107;
 
 }
