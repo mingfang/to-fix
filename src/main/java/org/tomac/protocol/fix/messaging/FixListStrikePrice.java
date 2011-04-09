@@ -35,7 +35,7 @@ public class FixListStrikePrice extends FixInMessage {
 		super.setBuffer(buf, err);
         if (err.hasError()) return;
 
-        int tag = FixMessage.getTag(buf, err);
+        int tag = FixUtils.getTag(buf, err);
         if (err.hasError()) return;
 
         while ( buf.hasRemaining() ) {
@@ -43,15 +43,15 @@ public class FixListStrikePrice extends FixInMessage {
             switch (tag) {		
             	case FixTags.LISTID_INT:		
             		hasListID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TOTNOSTRIKES_INT:		
             		hasTotNoStrikes = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.LASTFRAGMENT_INT:		
             		hasLastFragment = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	default:
         			if ( standardHeader.isKeyTag(tag)) {
@@ -60,15 +60,15 @@ public class FixListStrikePrice extends FixInMessage {
                 		else continue;		
         			} else if ( standardTrailer.isKeyTag(tag)) {
         				tag = standardTrailer.setBuffer( tag, buf, err);
-        				FixMessage.unreadLastTag(tag, buf);
+        				FixUtils.unreadLastTag(tag, buf);
         				if (!err.hasError()) hasRequiredTags(err);
             			return; // always last, we are done now
         			} else if ( tag == FixTags.NOSTRIKES_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -84,10 +84,10 @@ public class FixListStrikePrice extends FixInMessage {
         				if (err.hasError()) break;
                 		else { tag = repeatingGroupTag; continue; }
             		} else {
- 						FixMessage.getNext(buf, err);		
+ 						FixUtils.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else {
-                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.LISTSTRIKEPRICE);
+                		else if (FixUtils.validateOnlyDefinedTagsAllowed) {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.LISTSTRIKEPRICE_INT);
                 			break;
                 		}
 					}
@@ -96,7 +96,7 @@ public class FixListStrikePrice extends FixInMessage {
 
         		if (err.hasError()) return;
 
-            	tag = FixMessage.getTag(buf, err);		
+            	tag = FixUtils.getTag(buf, err);		
         		if (err.hasError()) break;
 
 		}
@@ -104,19 +104,15 @@ public class FixListStrikePrice extends FixInMessage {
 	}		
 
 	public boolean hasRequiredTags(FixValidationError err) {
-		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		if (!hasListID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.LISTID_INT, FixMessageInfo.MessageTypes.LISTSTRIKEPRICE);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.LISTID_INT, FixMessageInfo.MessageTypes.LISTSTRIKEPRICE_INT);
 			return false;
 		}
 		if (!hasTotNoStrikes()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TOTNOSTRIKES_INT, FixMessageInfo.MessageTypes.LISTSTRIKEPRICE);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TOTNOSTRIKES_INT, FixMessageInfo.MessageTypes.LISTSTRIKEPRICE_INT);
 			return false;
 		}
 		for (int i = 0; i< FixUtils.FIX_MAX_NOINGROUP; i++) { if (instrmtStrkPxGrp[i].hasGroup()) instrmtStrkPxGrp[i].hasRequiredTags(err); if (err.hasError()) return false; }
-		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		return true;
 	}
 	@Override		
@@ -264,7 +260,7 @@ public class FixListStrikePrice extends FixInMessage {
 
 				buf.position(hasListID);
 
-			FixMessage.getTagStringValue(buf, listID, 0, listID.length, err);
+			FixUtils.getTagStringValue(buf, listID, 0, listID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -308,7 +304,7 @@ public class FixListStrikePrice extends FixInMessage {
 
 				buf.position(hasTotNoStrikes);
 
-			totNoStrikes = FixMessage.getTagIntValue(buf, err);
+			totNoStrikes = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -357,7 +353,7 @@ public class FixListStrikePrice extends FixInMessage {
 
 				buf.position(hasLastFragment);
 
-			lastFragment = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			lastFragment = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(0);		

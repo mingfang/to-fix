@@ -60,26 +60,26 @@ public class FixTrdCapDtGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.NODATES_INT:		
             		hasNoDates = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRADEDATE_INT:		
             		hasTradeDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LASTUPDATETIME_INT:		
             		hasLastUpdateTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRANSACTTIME_INT:		
             		hasTransactTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -184,7 +184,7 @@ public class FixTrdCapDtGrp extends FixGroup {
 		
 				buf.position(hasNoDates);		
 		
-			noDates = FixMessage.getTagIntValue(buf, err);
+			noDates = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasNoDates);		
@@ -228,7 +228,7 @@ public class FixTrdCapDtGrp extends FixGroup {
 		
 				buf.position(hasTradeDate);		
 		
-			FixMessage.getTagStringValue(buf, tradeDate, 0, tradeDate.length, err);
+			FixUtils.getTagStringValue(buf, tradeDate, 0, tradeDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTradeDate);		
@@ -267,7 +267,7 @@ public class FixTrdCapDtGrp extends FixGroup {
 		
 				buf.position(hasLastUpdateTime);		
 		
-			FixMessage.getTagStringValue(buf, lastUpdateTime, 0, lastUpdateTime.length, err);
+			FixUtils.getTagStringValue(buf, lastUpdateTime, 0, lastUpdateTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLastUpdateTime);		
@@ -306,7 +306,7 @@ public class FixTrdCapDtGrp extends FixGroup {
 		
 				buf.position(hasTransactTime);		
 		
-			FixMessage.getTagStringValue(buf, transactTime, 0, transactTime.length, err);
+			FixUtils.getTagStringValue(buf, transactTime, 0, transactTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTransactTime);		

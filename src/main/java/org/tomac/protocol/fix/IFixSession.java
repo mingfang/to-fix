@@ -4,7 +4,7 @@ public interface IFixSession {
 
 	public int getSessionID();
 
-	public void incrementInMsgSeqNum(FixInMessage msg, FixValidationError err);
+	public void incrementInMsgSeqNum();
 
 	public long getInMsgSeqNum();
 

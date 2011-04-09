@@ -72,31 +72,31 @@ public class FixStrmAsgnRptInstrmtGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.SETTLTYPE_INT:		
             		hasSettlType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.STREAMASGNTYPE_INT:		
             		hasStreamAsgnType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.MDSTREAMID_INT:		
             		hasMDStreamID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.STREAMASGNREJREASON_INT:		
             		hasStreamAsgnRejReason = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TEXT_INT:		
             		hasText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ENCODEDTEXTLEN_INT:		
             		hasEncodedTextLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ENCODEDTEXT_INT:		
             		hasEncodedText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( instrument.isKeyTag(tag)) {
@@ -106,7 +106,7 @@ public class FixStrmAsgnRptInstrmtGrp extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -268,7 +268,7 @@ public class FixStrmAsgnRptInstrmtGrp extends FixGroup {
 		
 				buf.position(hasSettlType);		
 		
-			FixMessage.getTagStringValue(buf, settlType, 0, settlType.length, err);
+			FixUtils.getTagStringValue(buf, settlType, 0, settlType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSettlType);		
@@ -307,7 +307,7 @@ public class FixStrmAsgnRptInstrmtGrp extends FixGroup {
 		
 				buf.position(hasStreamAsgnType);		
 		
-			streamAsgnType = FixMessage.getTagIntValue(buf, err);
+			streamAsgnType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasStreamAsgnType);		
@@ -351,7 +351,7 @@ public class FixStrmAsgnRptInstrmtGrp extends FixGroup {
 		
 				buf.position(hasMDStreamID);		
 		
-			FixMessage.getTagStringValue(buf, mDStreamID, 0, mDStreamID.length, err);
+			FixUtils.getTagStringValue(buf, mDStreamID, 0, mDStreamID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMDStreamID);		
@@ -390,7 +390,7 @@ public class FixStrmAsgnRptInstrmtGrp extends FixGroup {
 		
 				buf.position(hasStreamAsgnRejReason);		
 		
-			streamAsgnRejReason = FixMessage.getTagIntValue(buf, err);
+			streamAsgnRejReason = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasStreamAsgnRejReason);		
@@ -434,7 +434,7 @@ public class FixStrmAsgnRptInstrmtGrp extends FixGroup {
 		
 				buf.position(hasText);		
 		
-			FixMessage.getTagStringValue(buf, text, 0, text.length, err);
+			FixUtils.getTagStringValue(buf, text, 0, text.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasText);		
@@ -473,7 +473,7 @@ public class FixStrmAsgnRptInstrmtGrp extends FixGroup {
 		
 				buf.position(hasEncodedTextLen);		
 		
-			encodedTextLen = FixMessage.getTagIntValue(buf, err);
+			encodedTextLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasEncodedTextLen);		
@@ -517,7 +517,7 @@ public class FixStrmAsgnRptInstrmtGrp extends FixGroup {
 		
 				buf.position(hasEncodedText);		
 		
-			FixMessage.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
+			FixUtils.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasEncodedText);		

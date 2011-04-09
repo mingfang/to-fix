@@ -62,7 +62,7 @@ public class FixCrossOrderCancelRequest extends FixInMessage {
 		super.setBuffer(buf, err);
         if (err.hasError()) return;
 
-        int tag = FixMessage.getTag(buf, err);
+        int tag = FixUtils.getTag(buf, err);
         if (err.hasError()) return;
 
         while ( buf.hasRemaining() ) {
@@ -70,31 +70,31 @@ public class FixCrossOrderCancelRequest extends FixInMessage {
             switch (tag) {		
             	case FixTags.ORDERID_INT:		
             		hasOrderID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.CROSSID_INT:		
             		hasCrossID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ORIGCROSSID_INT:		
             		hasOrigCrossID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.HOSTCROSSID_INT:		
             		hasHostCrossID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.CROSSTYPE_INT:		
             		hasCrossType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.CROSSPRIORITIZATION_INT:		
             		hasCrossPrioritization = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRANSACTTIME_INT:		
             		hasTransactTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	default:
         			if ( standardHeader.isKeyTag(tag)) {
@@ -103,15 +103,15 @@ public class FixCrossOrderCancelRequest extends FixInMessage {
                 		else continue;		
         			} else if ( standardTrailer.isKeyTag(tag)) {
         				tag = standardTrailer.setBuffer( tag, buf, err);
-        				FixMessage.unreadLastTag(tag, buf);
+        				FixUtils.unreadLastTag(tag, buf);
         				if (!err.hasError()) hasRequiredTags(err);
             			return; // always last, we are done now
         			} else if ( tag == FixTags.NOROOTPARTYIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -128,10 +128,10 @@ public class FixCrossOrderCancelRequest extends FixInMessage {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NOSIDES_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -152,10 +152,10 @@ public class FixCrossOrderCancelRequest extends FixInMessage {
                 		else continue;		
         			} else if ( tag == FixTags.NOUNDERLYINGS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -172,10 +172,10 @@ public class FixCrossOrderCancelRequest extends FixInMessage {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NOLEGS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -191,10 +191,10 @@ public class FixCrossOrderCancelRequest extends FixInMessage {
         				if (err.hasError()) break;
                 		else { tag = repeatingGroupTag; continue; }
             		} else {
- 						FixMessage.getNext(buf, err);		
+ 						FixUtils.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else {
-                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.CROSSORDERCANCELREQUEST);
+                		else if (FixUtils.validateOnlyDefinedTagsAllowed) {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.CROSSORDERCANCELREQUEST_INT);
                 			break;
                 		}
 					}
@@ -203,7 +203,7 @@ public class FixCrossOrderCancelRequest extends FixInMessage {
 
         		if (err.hasError()) return;
 
-            	tag = FixMessage.getTag(buf, err);		
+            	tag = FixUtils.getTag(buf, err);		
         		if (err.hasError()) break;
 
 		}
@@ -211,32 +211,28 @@ public class FixCrossOrderCancelRequest extends FixInMessage {
 	}		
 
 	public boolean hasRequiredTags(FixValidationError err) {
-		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		if (!hasCrossID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.CROSSID_INT, FixMessageInfo.MessageTypes.CROSSORDERCANCELREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.CROSSID_INT, FixMessageInfo.MessageTypes.CROSSORDERCANCELREQUEST_INT);
 			return false;
 		}
 		if (!hasOrigCrossID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.ORIGCROSSID_INT, FixMessageInfo.MessageTypes.CROSSORDERCANCELREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.ORIGCROSSID_INT, FixMessageInfo.MessageTypes.CROSSORDERCANCELREQUEST_INT);
 			return false;
 		}
 		if (!hasCrossType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.CROSSTYPE_INT, FixMessageInfo.MessageTypes.CROSSORDERCANCELREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.CROSSTYPE_INT, FixMessageInfo.MessageTypes.CROSSORDERCANCELREQUEST_INT);
 			return false;
 		}
 		if (!hasCrossPrioritization()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.CROSSPRIORITIZATION_INT, FixMessageInfo.MessageTypes.CROSSORDERCANCELREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.CROSSPRIORITIZATION_INT, FixMessageInfo.MessageTypes.CROSSORDERCANCELREQUEST_INT);
 			return false;
 		}
 		if (!hasTransactTime()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TRANSACTTIME_INT, FixMessageInfo.MessageTypes.CROSSORDERCANCELREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TRANSACTTIME_INT, FixMessageInfo.MessageTypes.CROSSORDERCANCELREQUEST_INT);
 			return false;
 		}
 		for (int i = 0; i< FixUtils.FIX_MAX_NOINGROUP; i++) { if (sideCrossOrdCxlGrp[i].hasGroup()) sideCrossOrdCxlGrp[i].hasRequiredTags(err); if (err.hasError()) return false; }
 		if (instrument.isRequired) instrument.hasRequiredTags(err); if (err.hasError()) return false;
-		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		return true;
 	}
 	@Override		
@@ -482,7 +478,7 @@ public class FixCrossOrderCancelRequest extends FixInMessage {
 
 				buf.position(hasOrderID);
 
-			FixMessage.getTagStringValue(buf, orderID, 0, orderID.length, err);
+			FixUtils.getTagStringValue(buf, orderID, 0, orderID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -526,7 +522,7 @@ public class FixCrossOrderCancelRequest extends FixInMessage {
 
 				buf.position(hasCrossID);
 
-			FixMessage.getTagStringValue(buf, crossID, 0, crossID.length, err);
+			FixUtils.getTagStringValue(buf, crossID, 0, crossID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -570,7 +566,7 @@ public class FixCrossOrderCancelRequest extends FixInMessage {
 
 				buf.position(hasOrigCrossID);
 
-			FixMessage.getTagStringValue(buf, origCrossID, 0, origCrossID.length, err);
+			FixUtils.getTagStringValue(buf, origCrossID, 0, origCrossID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -614,7 +610,7 @@ public class FixCrossOrderCancelRequest extends FixInMessage {
 
 				buf.position(hasHostCrossID);
 
-			FixMessage.getTagStringValue(buf, hostCrossID, 0, hostCrossID.length, err);
+			FixUtils.getTagStringValue(buf, hostCrossID, 0, hostCrossID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -658,7 +654,7 @@ public class FixCrossOrderCancelRequest extends FixInMessage {
 
 				buf.position(hasCrossType);
 
-			crossType = FixMessage.getTagIntValue(buf, err);
+			crossType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -707,7 +703,7 @@ public class FixCrossOrderCancelRequest extends FixInMessage {
 
 				buf.position(hasCrossPrioritization);
 
-			crossPrioritization = FixMessage.getTagIntValue(buf, err);
+			crossPrioritization = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -756,7 +752,7 @@ public class FixCrossOrderCancelRequest extends FixInMessage {
 
 				buf.position(hasTransactTime);
 
-			FixMessage.getTagStringValue(buf, transactTime, 0, transactTime.length, err);
+			FixUtils.getTagStringValue(buf, transactTime, 0, transactTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		

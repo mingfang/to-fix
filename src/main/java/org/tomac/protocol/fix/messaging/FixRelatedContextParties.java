@@ -58,23 +58,23 @@ public class FixRelatedContextParties extends FixGroup {
             switch (tag) {		
             	case FixTags.RELATEDCONTEXTPARTYID_INT:		
             		hasRelatedContextPartyID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELATEDCONTEXTPARTYIDSOURCE_INT:		
             		hasRelatedContextPartyIDSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELATEDCONTEXTPARTYROLE_INT:		
             		hasRelatedContextPartyRole = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( tag == FixTags.NORELATEDCONTEXTPARTYSUBIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -92,7 +92,7 @@ public class FixRelatedContextParties extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -192,7 +192,7 @@ public class FixRelatedContextParties extends FixGroup {
 		
 				buf.position(hasRelatedContextPartyID);		
 		
-			FixMessage.getTagStringValue(buf, relatedContextPartyID, 0, relatedContextPartyID.length, err);
+			FixUtils.getTagStringValue(buf, relatedContextPartyID, 0, relatedContextPartyID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelatedContextPartyID);		
@@ -231,7 +231,7 @@ public class FixRelatedContextParties extends FixGroup {
 		
 				buf.position(hasRelatedContextPartyIDSource);		
 		
-			relatedContextPartyIDSource = FixMessage.getTagCharValue(buf, err);
+			relatedContextPartyIDSource = FixUtils.getTagCharValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelatedContextPartyIDSource);		
@@ -275,7 +275,7 @@ public class FixRelatedContextParties extends FixGroup {
 		
 				buf.position(hasRelatedContextPartyRole);		
 		
-			relatedContextPartyRole = FixMessage.getTagIntValue(buf, err);
+			relatedContextPartyRole = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelatedContextPartyRole);		

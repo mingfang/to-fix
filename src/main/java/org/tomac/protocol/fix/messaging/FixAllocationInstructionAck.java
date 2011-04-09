@@ -77,7 +77,7 @@ public class FixAllocationInstructionAck extends FixInMessage {
 		super.setBuffer(buf, err);
         if (err.hasError()) return;
 
-        int tag = FixMessage.getTag(buf, err);
+        int tag = FixUtils.getTag(buf, err);
         if (err.hasError()) return;
 
         while ( buf.hasRemaining() ) {
@@ -85,59 +85,59 @@ public class FixAllocationInstructionAck extends FixInMessage {
             switch (tag) {		
             	case FixTags.ALLOCID_INT:		
             		hasAllocID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SECONDARYALLOCID_INT:		
             		hasSecondaryAllocID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRADEDATE_INT:		
             		hasTradeDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRANSACTTIME_INT:		
             		hasTransactTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ALLOCSTATUS_INT:		
             		hasAllocStatus = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ALLOCREJCODE_INT:		
             		hasAllocRejCode = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ALLOCTYPE_INT:		
             		hasAllocType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ALLOCINTERMEDREQTYPE_INT:		
             		hasAllocIntermedReqType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.MATCHSTATUS_INT:		
             		hasMatchStatus = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.PRODUCT_INT:		
             		hasProduct = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SECURITYTYPE_INT:		
             		hasSecurityType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TEXT_INT:		
             		hasText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDTEXTLEN_INT:		
             		hasEncodedTextLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDTEXT_INT:		
             		hasEncodedText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	default:
         			if ( standardHeader.isKeyTag(tag)) {
@@ -146,15 +146,15 @@ public class FixAllocationInstructionAck extends FixInMessage {
                 		else continue;		
         			} else if ( standardTrailer.isKeyTag(tag)) {
         				tag = standardTrailer.setBuffer( tag, buf, err);
-        				FixMessage.unreadLastTag(tag, buf);
+        				FixUtils.unreadLastTag(tag, buf);
         				if (!err.hasError()) hasRequiredTags(err);
             			return; // always last, we are done now
         			} else if ( tag == FixTags.NOPARTYIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -171,10 +171,10 @@ public class FixAllocationInstructionAck extends FixInMessage {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NOALLOCS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -190,10 +190,10 @@ public class FixAllocationInstructionAck extends FixInMessage {
         				if (err.hasError()) break;
                 		else { tag = repeatingGroupTag; continue; }
             		} else {
- 						FixMessage.getNext(buf, err);		
+ 						FixUtils.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else {
-                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.ALLOCATIONINSTRUCTIONACK);
+                		else if (FixUtils.validateOnlyDefinedTagsAllowed) {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.ALLOCATIONINSTRUCTIONACK_INT);
                 			break;
                 		}
 					}
@@ -202,7 +202,7 @@ public class FixAllocationInstructionAck extends FixInMessage {
 
         		if (err.hasError()) return;
 
-            	tag = FixMessage.getTag(buf, err);		
+            	tag = FixUtils.getTag(buf, err);		
         		if (err.hasError()) break;
 
 		}
@@ -210,18 +210,14 @@ public class FixAllocationInstructionAck extends FixInMessage {
 	}		
 
 	public boolean hasRequiredTags(FixValidationError err) {
-		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		if (!hasAllocID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.ALLOCID_INT, FixMessageInfo.MessageTypes.ALLOCATIONINSTRUCTIONACK);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.ALLOCID_INT, FixMessageInfo.MessageTypes.ALLOCATIONINSTRUCTIONACK_INT);
 			return false;
 		}
 		if (!hasAllocStatus()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.ALLOCSTATUS_INT, FixMessageInfo.MessageTypes.ALLOCATIONINSTRUCTIONACK);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.ALLOCSTATUS_INT, FixMessageInfo.MessageTypes.ALLOCATIONINSTRUCTIONACK_INT);
 			return false;
 		}
-		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		return true;
 	}
 	@Override		
@@ -556,7 +552,7 @@ public class FixAllocationInstructionAck extends FixInMessage {
 
 				buf.position(hasAllocID);
 
-			FixMessage.getTagStringValue(buf, allocID, 0, allocID.length, err);
+			FixUtils.getTagStringValue(buf, allocID, 0, allocID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -600,7 +596,7 @@ public class FixAllocationInstructionAck extends FixInMessage {
 
 				buf.position(hasSecondaryAllocID);
 
-			FixMessage.getTagStringValue(buf, secondaryAllocID, 0, secondaryAllocID.length, err);
+			FixUtils.getTagStringValue(buf, secondaryAllocID, 0, secondaryAllocID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -644,7 +640,7 @@ public class FixAllocationInstructionAck extends FixInMessage {
 
 				buf.position(hasTradeDate);
 
-			FixMessage.getTagStringValue(buf, tradeDate, 0, tradeDate.length, err);
+			FixUtils.getTagStringValue(buf, tradeDate, 0, tradeDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -688,7 +684,7 @@ public class FixAllocationInstructionAck extends FixInMessage {
 
 				buf.position(hasTransactTime);
 
-			FixMessage.getTagStringValue(buf, transactTime, 0, transactTime.length, err);
+			FixUtils.getTagStringValue(buf, transactTime, 0, transactTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -732,7 +728,7 @@ public class FixAllocationInstructionAck extends FixInMessage {
 
 				buf.position(hasAllocStatus);
 
-			allocStatus = FixMessage.getTagIntValue(buf, err);
+			allocStatus = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -781,7 +777,7 @@ public class FixAllocationInstructionAck extends FixInMessage {
 
 				buf.position(hasAllocRejCode);
 
-			allocRejCode = FixMessage.getTagIntValue(buf, err);
+			allocRejCode = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -830,7 +826,7 @@ public class FixAllocationInstructionAck extends FixInMessage {
 
 				buf.position(hasAllocType);
 
-			allocType = FixMessage.getTagIntValue(buf, err);
+			allocType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -879,7 +875,7 @@ public class FixAllocationInstructionAck extends FixInMessage {
 
 				buf.position(hasAllocIntermedReqType);
 
-			allocIntermedReqType = FixMessage.getTagIntValue(buf, err);
+			allocIntermedReqType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -928,7 +924,7 @@ public class FixAllocationInstructionAck extends FixInMessage {
 
 				buf.position(hasMatchStatus);
 
-			matchStatus = FixMessage.getTagCharValue(buf, err);
+			matchStatus = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (matchStatus != (byte)'2') && (matchStatus != (byte)'1') && (matchStatus != (byte)'0') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 573);		
@@ -979,7 +975,7 @@ public class FixAllocationInstructionAck extends FixInMessage {
 
 				buf.position(hasProduct);
 
-			product = FixMessage.getTagIntValue(buf, err);
+			product = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1028,7 +1024,7 @@ public class FixAllocationInstructionAck extends FixInMessage {
 
 				buf.position(hasSecurityType);
 
-			FixMessage.getTagStringValue(buf, securityType, 0, securityType.length, err);
+			FixUtils.getTagStringValue(buf, securityType, 0, securityType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1072,7 +1068,7 @@ public class FixAllocationInstructionAck extends FixInMessage {
 
 				buf.position(hasText);
 
-			FixMessage.getTagStringValue(buf, text, 0, text.length, err);
+			FixUtils.getTagStringValue(buf, text, 0, text.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1116,7 +1112,7 @@ public class FixAllocationInstructionAck extends FixInMessage {
 
 				buf.position(hasEncodedTextLen);
 
-			encodedTextLen = FixMessage.getTagIntValue(buf, err);
+			encodedTextLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1165,7 +1161,7 @@ public class FixAllocationInstructionAck extends FixInMessage {
 
 				buf.position(hasEncodedText);
 
-			FixMessage.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
+			FixUtils.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		

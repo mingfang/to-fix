@@ -66,38 +66,38 @@ public class FixDiscretionInstructions extends FixGroup {
             switch (tag) {		
             	case FixTags.DISCRETIONINST_INT:		
             		hasDiscretionInst = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DISCRETIONOFFSETVALUE_INT:		
             		hasDiscretionOffsetValue = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DISCRETIONMOVETYPE_INT:		
             		hasDiscretionMoveType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DISCRETIONOFFSETTYPE_INT:		
             		hasDiscretionOffsetType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DISCRETIONLIMITTYPE_INT:		
             		hasDiscretionLimitType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DISCRETIONROUNDDIRECTION_INT:		
             		hasDiscretionRoundDirection = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DISCRETIONSCOPE_INT:		
             		hasDiscretionScope = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -256,7 +256,7 @@ public class FixDiscretionInstructions extends FixGroup {
 		
 				buf.position(hasDiscretionInst);		
 		
-			discretionInst = FixMessage.getTagCharValue(buf, err);
+			discretionInst = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (discretionInst != (byte)'3') && (discretionInst != (byte)'2') && (discretionInst != (byte)'1') && (discretionInst != (byte)'0') && (discretionInst != (byte)'7') && (discretionInst != (byte)'6') && (discretionInst != (byte)'5') && (discretionInst != (byte)'4') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 388);		
@@ -302,7 +302,7 @@ public class FixDiscretionInstructions extends FixGroup {
 		
 				buf.position(hasDiscretionOffsetValue);		
 		
-			discretionOffsetValue = FixMessage.getTagFloatValue(buf, err);
+			discretionOffsetValue = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDiscretionOffsetValue);		
@@ -346,7 +346,7 @@ public class FixDiscretionInstructions extends FixGroup {
 		
 				buf.position(hasDiscretionMoveType);		
 		
-			discretionMoveType = FixMessage.getTagIntValue(buf, err);
+			discretionMoveType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDiscretionMoveType);		
@@ -390,7 +390,7 @@ public class FixDiscretionInstructions extends FixGroup {
 		
 				buf.position(hasDiscretionOffsetType);		
 		
-			discretionOffsetType = FixMessage.getTagIntValue(buf, err);
+			discretionOffsetType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDiscretionOffsetType);		
@@ -434,7 +434,7 @@ public class FixDiscretionInstructions extends FixGroup {
 		
 				buf.position(hasDiscretionLimitType);		
 		
-			discretionLimitType = FixMessage.getTagIntValue(buf, err);
+			discretionLimitType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDiscretionLimitType);		
@@ -478,7 +478,7 @@ public class FixDiscretionInstructions extends FixGroup {
 		
 				buf.position(hasDiscretionRoundDirection);		
 		
-			discretionRoundDirection = FixMessage.getTagIntValue(buf, err);
+			discretionRoundDirection = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDiscretionRoundDirection);		
@@ -522,7 +522,7 @@ public class FixDiscretionInstructions extends FixGroup {
 		
 				buf.position(hasDiscretionScope);		
 		
-			discretionScope = FixMessage.getTagIntValue(buf, err);
+			discretionScope = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDiscretionScope);		

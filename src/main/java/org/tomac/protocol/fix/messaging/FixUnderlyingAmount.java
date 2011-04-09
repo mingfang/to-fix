@@ -59,26 +59,26 @@ public class FixUnderlyingAmount extends FixGroup {
             switch (tag) {		
             	case FixTags.UNDERLYINGPAYAMOUNT_INT:		
             		hasUnderlyingPayAmount = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGCOLLECTAMOUNT_INT:		
             		hasUnderlyingCollectAmount = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGSETTLEMENTDATE_INT:		
             		hasUnderlyingSettlementDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGSETTLEMENTSTATUS_INT:		
             		hasUnderlyingSettlementStatus = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -183,7 +183,7 @@ public class FixUnderlyingAmount extends FixGroup {
 		
 				buf.position(hasUnderlyingPayAmount);		
 		
-			underlyingPayAmount = FixMessage.getTagFloatValue(buf, err);
+			underlyingPayAmount = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingPayAmount);		
@@ -227,7 +227,7 @@ public class FixUnderlyingAmount extends FixGroup {
 		
 				buf.position(hasUnderlyingCollectAmount);		
 		
-			underlyingCollectAmount = FixMessage.getTagFloatValue(buf, err);
+			underlyingCollectAmount = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingCollectAmount);		
@@ -271,7 +271,7 @@ public class FixUnderlyingAmount extends FixGroup {
 		
 				buf.position(hasUnderlyingSettlementDate);		
 		
-			FixMessage.getTagStringValue(buf, underlyingSettlementDate, 0, underlyingSettlementDate.length, err);
+			FixUtils.getTagStringValue(buf, underlyingSettlementDate, 0, underlyingSettlementDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingSettlementDate);		
@@ -310,7 +310,7 @@ public class FixUnderlyingAmount extends FixGroup {
 		
 				buf.position(hasUnderlyingSettlementStatus);		
 		
-			FixMessage.getTagStringValue(buf, underlyingSettlementStatus, 0, underlyingSettlementStatus.length, err);
+			FixUtils.getTagStringValue(buf, underlyingSettlementStatus, 0, underlyingSettlementStatus.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingSettlementStatus);		

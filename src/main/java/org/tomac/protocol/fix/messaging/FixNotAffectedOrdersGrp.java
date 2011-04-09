@@ -53,18 +53,18 @@ public class FixNotAffectedOrdersGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.NOTAFFORIGCLORDID_INT:		
             		hasNotAffOrigClOrdID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.NOTAFFECTEDORDERID_INT:		
             		hasNotAffectedOrderID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -133,7 +133,7 @@ public class FixNotAffectedOrdersGrp extends FixGroup {
 		
 				buf.position(hasNotAffOrigClOrdID);		
 		
-			FixMessage.getTagStringValue(buf, notAffOrigClOrdID, 0, notAffOrigClOrdID.length, err);
+			FixUtils.getTagStringValue(buf, notAffOrigClOrdID, 0, notAffOrigClOrdID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasNotAffOrigClOrdID);		
@@ -172,7 +172,7 @@ public class FixNotAffectedOrdersGrp extends FixGroup {
 		
 				buf.position(hasNotAffectedOrderID);		
 		
-			FixMessage.getTagStringValue(buf, notAffectedOrderID, 0, notAffectedOrderID.length, err);
+			FixUtils.getTagStringValue(buf, notAffectedOrderID, 0, notAffectedOrderID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasNotAffectedOrderID);		

@@ -53,18 +53,18 @@ public class FixStipulations extends FixGroup {
             switch (tag) {		
             	case FixTags.STIPULATIONTYPE_INT:		
             		hasStipulationType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.STIPULATIONVALUE_INT:		
             		hasStipulationValue = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -133,7 +133,7 @@ public class FixStipulations extends FixGroup {
 		
 				buf.position(hasStipulationType);		
 		
-			FixMessage.getTagStringValue(buf, stipulationType, 0, stipulationType.length, err);
+			FixUtils.getTagStringValue(buf, stipulationType, 0, stipulationType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasStipulationType);		
@@ -172,7 +172,7 @@ public class FixStipulations extends FixGroup {
 		
 				buf.position(hasStipulationValue);		
 		
-			FixMessage.getTagStringValue(buf, stipulationValue, 0, stipulationValue.length, err);
+			FixUtils.getTagStringValue(buf, stipulationValue, 0, stipulationValue.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasStipulationValue);		

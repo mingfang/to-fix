@@ -56,22 +56,22 @@ public class FixRelationshipRiskSecAltIDGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.NORELATIONSHIPRISKSECURITYALTID_INT:		
             		hasNoRelationshipRiskSecurityAltID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELATIONSHIPRISKSECURITYALTID_INT:		
             		hasRelationshipRiskSecurityAltID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELATIONSHIPRISKSECURITYALTIDSOURCE_INT:		
             		hasRelationshipRiskSecurityAltIDSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -158,7 +158,7 @@ public class FixRelationshipRiskSecAltIDGrp extends FixGroup {
 		
 				buf.position(hasNoRelationshipRiskSecurityAltID);		
 		
-			noRelationshipRiskSecurityAltID = FixMessage.getTagIntValue(buf, err);
+			noRelationshipRiskSecurityAltID = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasNoRelationshipRiskSecurityAltID);		
@@ -202,7 +202,7 @@ public class FixRelationshipRiskSecAltIDGrp extends FixGroup {
 		
 				buf.position(hasRelationshipRiskSecurityAltID);		
 		
-			FixMessage.getTagStringValue(buf, relationshipRiskSecurityAltID, 0, relationshipRiskSecurityAltID.length, err);
+			FixUtils.getTagStringValue(buf, relationshipRiskSecurityAltID, 0, relationshipRiskSecurityAltID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelationshipRiskSecurityAltID);		
@@ -241,7 +241,7 @@ public class FixRelationshipRiskSecAltIDGrp extends FixGroup {
 		
 				buf.position(hasRelationshipRiskSecurityAltIDSource);		
 		
-			FixMessage.getTagStringValue(buf, relationshipRiskSecurityAltIDSource, 0, relationshipRiskSecurityAltIDSource.length, err);
+			FixUtils.getTagStringValue(buf, relationshipRiskSecurityAltIDSource, 0, relationshipRiskSecurityAltIDSource.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelationshipRiskSecurityAltIDSource);		

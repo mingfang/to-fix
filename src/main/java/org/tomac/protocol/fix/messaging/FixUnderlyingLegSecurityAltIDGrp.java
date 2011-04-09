@@ -53,18 +53,18 @@ public class FixUnderlyingLegSecurityAltIDGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.UNDERLYINGLEGSECURITYALTID_INT:		
             		hasUnderlyingLegSecurityAltID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGLEGSECURITYALTIDSOURCE_INT:		
             		hasUnderlyingLegSecurityAltIDSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -133,7 +133,7 @@ public class FixUnderlyingLegSecurityAltIDGrp extends FixGroup {
 		
 				buf.position(hasUnderlyingLegSecurityAltID);		
 		
-			FixMessage.getTagStringValue(buf, underlyingLegSecurityAltID, 0, underlyingLegSecurityAltID.length, err);
+			FixUtils.getTagStringValue(buf, underlyingLegSecurityAltID, 0, underlyingLegSecurityAltID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingLegSecurityAltID);		
@@ -172,7 +172,7 @@ public class FixUnderlyingLegSecurityAltIDGrp extends FixGroup {
 		
 				buf.position(hasUnderlyingLegSecurityAltIDSource);		
 		
-			FixMessage.getTagStringValue(buf, underlyingLegSecurityAltIDSource, 0, underlyingLegSecurityAltIDSource.length, err);
+			FixUtils.getTagStringValue(buf, underlyingLegSecurityAltIDSource, 0, underlyingLegSecurityAltIDSource.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingLegSecurityAltIDSource);		

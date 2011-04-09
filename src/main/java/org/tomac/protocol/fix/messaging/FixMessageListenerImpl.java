@@ -20,7 +20,7 @@ public class FixMessageListenerImpl implements FixMessageListener
     public IFixSession getSession( long connectorID, FixValidationError err ) { return dummySession; }
 
     @Override
-    public IFixSession getSession( long connectorID, FixLogon logon, FixValidationError err ) { return dummySession; }
+    public IFixSession getSession( long connectorID, FixStandardHeader standardHeader, FixValidationError err ) { return dummySession; }
 
     @Override
     public void addValidator( FixValidator validator ) {}
@@ -397,7 +397,7 @@ public class FixMessageListenerImpl implements FixMessageListener
 		public void incrementOutMsgSeqNum() {}
 
 		@Override
-		public void incrementInMsgSeqNum(FixInMessage msg, FixValidationError err) {}
+		public void incrementInMsgSeqNum() {}
 
 		@Override
 		public int getSessionID() {	return 0; }

@@ -48,14 +48,14 @@ public class FixMDReqGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.MDENTRYTYPE_INT:		
             		hasMDEntryType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -110,7 +110,7 @@ public class FixMDReqGrp extends FixGroup {
 		
 				buf.position(hasMDEntryType);		
 		
-			mDEntryType = FixMessage.getTagCharValue(buf, err);
+			mDEntryType = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (mDEntryType != (byte)'D') && (mDEntryType != (byte)'E') && (mDEntryType != (byte)'F') && (mDEntryType != (byte)'G') && (mDEntryType != (byte)'A') && (mDEntryType != (byte)'B') && (mDEntryType != (byte)'C') && (mDEntryType != (byte)'L') && (mDEntryType != (byte)'M') && (mDEntryType != (byte)'N') && (mDEntryType != (byte)'O') && (mDEntryType != (byte)'H') && (mDEntryType != (byte)'J') && (mDEntryType != (byte)'K') && (mDEntryType != (byte)'U') && (mDEntryType != (byte)'T') && (mDEntryType != (byte)'W') && (mDEntryType != (byte)'V') && (mDEntryType != (byte)'Q') && (mDEntryType != (byte)'P') && (mDEntryType != (byte)'S') && (mDEntryType != (byte)'R') && (mDEntryType != (byte)'Y') && (mDEntryType != (byte)'X') && (mDEntryType != (byte)'Z') && (mDEntryType != (byte)'a') && (mDEntryType != (byte)'3') && (mDEntryType != (byte)'2') && (mDEntryType != (byte)'1') && (mDEntryType != (byte)'0') && (mDEntryType != (byte)'7') && (mDEntryType != (byte)'6') && (mDEntryType != (byte)'5') && (mDEntryType != (byte)'4') && (mDEntryType != (byte)'9') && (mDEntryType != (byte)'8') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 269);		

@@ -10,6 +10,7 @@ public interface FixMessageInfo
 {
 
 	public static final byte[] BEGINSTRING_VALUE = "FIXT.1.1".getBytes();
+	public static final byte[] BEGINSTRING_VALUE_WITH_TAG = "8=FIXT.1.1".getBytes();
 	public static final byte[] FLAVOUR = " fixprotocol.org FIX.5.0SP2".getBytes();
 
 	public static class MessageTypes

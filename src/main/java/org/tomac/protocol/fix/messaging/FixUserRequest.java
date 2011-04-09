@@ -65,7 +65,7 @@ public class FixUserRequest extends FixInMessage {
 		super.setBuffer(buf, err);
         if (err.hasError()) return;
 
-        int tag = FixMessage.getTag(buf, err);
+        int tag = FixUtils.getTag(buf, err);
         if (err.hasError()) return;
 
         while ( buf.hasRemaining() ) {
@@ -73,51 +73,51 @@ public class FixUserRequest extends FixInMessage {
             switch (tag) {		
             	case FixTags.USERREQUESTID_INT:		
             		hasUserRequestID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.USERREQUESTTYPE_INT:		
             		hasUserRequestType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.USERNAME_INT:		
             		hasUsername = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.PASSWORD_INT:		
             		hasPassword = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.NEWPASSWORD_INT:		
             		hasNewPassword = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCRYPTEDPASSWORDMETHOD_INT:		
             		hasEncryptedPasswordMethod = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCRYPTEDPASSWORDLEN_INT:		
             		hasEncryptedPasswordLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCRYPTEDPASSWORD_INT:		
             		hasEncryptedPassword = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCRYPTEDNEWPASSWORDLEN_INT:		
             		hasEncryptedNewPasswordLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCRYPTEDNEWPASSWORD_INT:		
             		hasEncryptedNewPassword = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.RAWDATALENGTH_INT:		
             		hasRawDataLength = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.RAWDATA_INT:		
             		hasRawData = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	default:
         			if ( standardHeader.isKeyTag(tag)) {
@@ -126,14 +126,14 @@ public class FixUserRequest extends FixInMessage {
                 		else continue;		
         			} else if ( standardTrailer.isKeyTag(tag)) {
         				tag = standardTrailer.setBuffer( tag, buf, err);
-        				FixMessage.unreadLastTag(tag, buf);
+        				FixUtils.unreadLastTag(tag, buf);
         				if (!err.hasError()) hasRequiredTags(err);
             			return; // always last, we are done now
             		} else {
- 						FixMessage.getNext(buf, err);		
+ 						FixUtils.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else {
-                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.USERREQUEST);
+                		else if (FixUtils.validateOnlyDefinedTagsAllowed) {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.USERREQUEST_INT);
                 			break;
                 		}
 					}
@@ -142,7 +142,7 @@ public class FixUserRequest extends FixInMessage {
 
         		if (err.hasError()) return;
 
-            	tag = FixMessage.getTag(buf, err);		
+            	tag = FixUtils.getTag(buf, err);		
         		if (err.hasError()) break;
 
 		}
@@ -150,22 +150,18 @@ public class FixUserRequest extends FixInMessage {
 	}		
 
 	public boolean hasRequiredTags(FixValidationError err) {
-		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		if (!hasUserRequestID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.USERREQUESTID_INT, FixMessageInfo.MessageTypes.USERREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.USERREQUESTID_INT, FixMessageInfo.MessageTypes.USERREQUEST_INT);
 			return false;
 		}
 		if (!hasUserRequestType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.USERREQUESTTYPE_INT, FixMessageInfo.MessageTypes.USERREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.USERREQUESTTYPE_INT, FixMessageInfo.MessageTypes.USERREQUEST_INT);
 			return false;
 		}
 		if (!hasUsername()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.USERNAME_INT, FixMessageInfo.MessageTypes.USERREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.USERNAME_INT, FixMessageInfo.MessageTypes.USERREQUEST_INT);
 			return false;
 		}
-		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		return true;
 	}
 	@Override		
@@ -446,7 +442,7 @@ public class FixUserRequest extends FixInMessage {
 
 				buf.position(hasUserRequestID);
 
-			FixMessage.getTagStringValue(buf, userRequestID, 0, userRequestID.length, err);
+			FixUtils.getTagStringValue(buf, userRequestID, 0, userRequestID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -490,7 +486,7 @@ public class FixUserRequest extends FixInMessage {
 
 				buf.position(hasUserRequestType);
 
-			userRequestType = FixMessage.getTagIntValue(buf, err);
+			userRequestType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -539,7 +535,7 @@ public class FixUserRequest extends FixInMessage {
 
 				buf.position(hasUsername);
 
-			FixMessage.getTagStringValue(buf, username, 0, username.length, err);
+			FixUtils.getTagStringValue(buf, username, 0, username.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -583,7 +579,7 @@ public class FixUserRequest extends FixInMessage {
 
 				buf.position(hasPassword);
 
-			FixMessage.getTagStringValue(buf, password, 0, password.length, err);
+			FixUtils.getTagStringValue(buf, password, 0, password.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -627,7 +623,7 @@ public class FixUserRequest extends FixInMessage {
 
 				buf.position(hasNewPassword);
 
-			FixMessage.getTagStringValue(buf, newPassword, 0, newPassword.length, err);
+			FixUtils.getTagStringValue(buf, newPassword, 0, newPassword.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -671,7 +667,7 @@ public class FixUserRequest extends FixInMessage {
 
 				buf.position(hasEncryptedPasswordMethod);
 
-			encryptedPasswordMethod = FixMessage.getTagIntValue(buf, err);
+			encryptedPasswordMethod = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -720,7 +716,7 @@ public class FixUserRequest extends FixInMessage {
 
 				buf.position(hasEncryptedPasswordLen);
 
-			encryptedPasswordLen = FixMessage.getTagIntValue(buf, err);
+			encryptedPasswordLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -769,7 +765,7 @@ public class FixUserRequest extends FixInMessage {
 
 				buf.position(hasEncryptedPassword);
 
-			FixMessage.getTagStringValue(buf, encryptedPassword, 0, encryptedPassword.length, err);
+			FixUtils.getTagStringValue(buf, encryptedPassword, 0, encryptedPassword.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -813,7 +809,7 @@ public class FixUserRequest extends FixInMessage {
 
 				buf.position(hasEncryptedNewPasswordLen);
 
-			encryptedNewPasswordLen = FixMessage.getTagIntValue(buf, err);
+			encryptedNewPasswordLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -862,7 +858,7 @@ public class FixUserRequest extends FixInMessage {
 
 				buf.position(hasEncryptedNewPassword);
 
-			FixMessage.getTagStringValue(buf, encryptedNewPassword, 0, encryptedNewPassword.length, err);
+			FixUtils.getTagStringValue(buf, encryptedNewPassword, 0, encryptedNewPassword.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -906,7 +902,7 @@ public class FixUserRequest extends FixInMessage {
 
 				buf.position(hasRawDataLength);
 
-			rawDataLength = FixMessage.getTagIntValue(buf, err);
+			rawDataLength = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -955,7 +951,7 @@ public class FixUserRequest extends FixInMessage {
 
 				buf.position(hasRawData);
 
-			FixMessage.getTagStringValue(buf, rawData, 0, rawData.length, err);
+			FixUtils.getTagStringValue(buf, rawData, 0, rawData.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		

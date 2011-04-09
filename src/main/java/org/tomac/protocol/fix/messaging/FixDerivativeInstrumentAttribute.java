@@ -52,18 +52,18 @@ public class FixDerivativeInstrumentAttribute extends FixGroup {
             switch (tag) {		
             	case FixTags.DERIVATIVEINSTRATTRIBTYPE_INT:		
             		hasDerivativeInstrAttribType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEINSTRATTRIBVALUE_INT:		
             		hasDerivativeInstrAttribValue = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -132,7 +132,7 @@ public class FixDerivativeInstrumentAttribute extends FixGroup {
 		
 				buf.position(hasDerivativeInstrAttribType);		
 		
-			derivativeInstrAttribType = FixMessage.getTagIntValue(buf, err);
+			derivativeInstrAttribType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeInstrAttribType);		
@@ -176,7 +176,7 @@ public class FixDerivativeInstrumentAttribute extends FixGroup {
 		
 				buf.position(hasDerivativeInstrAttribValue);		
 		
-			FixMessage.getTagStringValue(buf, derivativeInstrAttribValue, 0, derivativeInstrAttribValue.length, err);
+			FixUtils.getTagStringValue(buf, derivativeInstrAttribValue, 0, derivativeInstrAttribValue.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeInstrAttribValue);		

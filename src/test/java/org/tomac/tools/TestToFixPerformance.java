@@ -40,9 +40,10 @@ public class TestToFixPerformance {
 	
 	@Before
 	public void setUp() {
-		FixUtils.validateMsgSeqNum = false;
+		FixUtils.validateSession = false;
 		FixUtils.validateChecksum = false;
 		FixUtils.validateSendingTime = false;
+		FixUtils.validateOnlyDefinedTagsAllowed = false;
 		err = new FixValidationError();
 		parser = new FixMessageParser(pool);
 		listener = new FixMessageListenerImpl() {

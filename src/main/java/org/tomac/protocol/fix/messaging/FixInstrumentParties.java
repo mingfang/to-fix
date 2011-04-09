@@ -58,23 +58,23 @@ public class FixInstrumentParties extends FixGroup {
             switch (tag) {		
             	case FixTags.INSTRUMENTPARTYID_INT:		
             		hasInstrumentPartyID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.INSTRUMENTPARTYIDSOURCE_INT:		
             		hasInstrumentPartyIDSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.INSTRUMENTPARTYROLE_INT:		
             		hasInstrumentPartyRole = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( tag == FixTags.NOINSTRUMENTPARTYSUBIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -92,7 +92,7 @@ public class FixInstrumentParties extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -192,7 +192,7 @@ public class FixInstrumentParties extends FixGroup {
 		
 				buf.position(hasInstrumentPartyID);		
 		
-			FixMessage.getTagStringValue(buf, instrumentPartyID, 0, instrumentPartyID.length, err);
+			FixUtils.getTagStringValue(buf, instrumentPartyID, 0, instrumentPartyID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasInstrumentPartyID);		
@@ -231,7 +231,7 @@ public class FixInstrumentParties extends FixGroup {
 		
 				buf.position(hasInstrumentPartyIDSource);		
 		
-			instrumentPartyIDSource = FixMessage.getTagCharValue(buf, err);
+			instrumentPartyIDSource = FixUtils.getTagCharValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasInstrumentPartyIDSource);		
@@ -275,7 +275,7 @@ public class FixInstrumentParties extends FixGroup {
 		
 				buf.position(hasInstrumentPartyRole);		
 		
-			instrumentPartyRole = FixMessage.getTagIntValue(buf, err);
+			instrumentPartyRole = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasInstrumentPartyRole);		

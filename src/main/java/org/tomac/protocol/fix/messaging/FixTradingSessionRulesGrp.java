@@ -55,11 +55,11 @@ public class FixTradingSessionRulesGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.TRADINGSESSIONID_INT:		
             		hasTradingSessionID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRADINGSESSIONSUBID_INT:		
             		hasTradingSessionSubID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( tradingSessionRules.isKeyTag(tag)) {
@@ -69,7 +69,7 @@ public class FixTradingSessionRulesGrp extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -141,7 +141,7 @@ public class FixTradingSessionRulesGrp extends FixGroup {
 		
 				buf.position(hasTradingSessionID);		
 		
-			FixMessage.getTagStringValue(buf, tradingSessionID, 0, tradingSessionID.length, err);
+			FixUtils.getTagStringValue(buf, tradingSessionID, 0, tradingSessionID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTradingSessionID);		
@@ -180,7 +180,7 @@ public class FixTradingSessionRulesGrp extends FixGroup {
 		
 				buf.position(hasTradingSessionSubID);		
 		
-			FixMessage.getTagStringValue(buf, tradingSessionSubID, 0, tradingSessionSubID.length, err);
+			FixUtils.getTagStringValue(buf, tradingSessionSubID, 0, tradingSessionSubID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTradingSessionSubID);		

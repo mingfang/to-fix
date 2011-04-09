@@ -57,26 +57,26 @@ public class FixSecondaryPriceLimits extends FixGroup {
             switch (tag) {		
             	case FixTags.SECONDARYPRICELIMITTYPE_INT:		
             		hasSecondaryPriceLimitType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SECONDARYLOWLIMITPRICE_INT:		
             		hasSecondaryLowLimitPrice = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SECONDARYHIGHLIMITPRICE_INT:		
             		hasSecondaryHighLimitPrice = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SECONDARYTRADINGREFERENCEPRICE_INT:		
             		hasSecondaryTradingReferencePrice = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -181,7 +181,7 @@ public class FixSecondaryPriceLimits extends FixGroup {
 		
 				buf.position(hasSecondaryPriceLimitType);		
 		
-			secondaryPriceLimitType = FixMessage.getTagIntValue(buf, err);
+			secondaryPriceLimitType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSecondaryPriceLimitType);		
@@ -225,7 +225,7 @@ public class FixSecondaryPriceLimits extends FixGroup {
 		
 				buf.position(hasSecondaryLowLimitPrice);		
 		
-			secondaryLowLimitPrice = FixMessage.getTagFloatValue(buf, err);
+			secondaryLowLimitPrice = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSecondaryLowLimitPrice);		
@@ -269,7 +269,7 @@ public class FixSecondaryPriceLimits extends FixGroup {
 		
 				buf.position(hasSecondaryHighLimitPrice);		
 		
-			secondaryHighLimitPrice = FixMessage.getTagFloatValue(buf, err);
+			secondaryHighLimitPrice = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSecondaryHighLimitPrice);		
@@ -313,7 +313,7 @@ public class FixSecondaryPriceLimits extends FixGroup {
 		
 				buf.position(hasSecondaryTradingReferencePrice);		
 		
-			secondaryTradingReferencePrice = FixMessage.getTagFloatValue(buf, err);
+			secondaryTradingReferencePrice = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSecondaryTradingReferencePrice);		

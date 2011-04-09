@@ -69,39 +69,39 @@ public class FixComplexEvents extends FixGroup {
             switch (tag) {		
             	case FixTags.COMPLEXEVENTTYPE_INT:		
             		hasComplexEventType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.COMPLEXOPTPAYOUTAMOUNT_INT:		
             		hasComplexOptPayoutAmount = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.COMPLEXEVENTPRICE_INT:		
             		hasComplexEventPrice = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.COMPLEXEVENTPRICEBOUNDARYMETHOD_INT:		
             		hasComplexEventPriceBoundaryMethod = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.COMPLEXEVENTPRICEBOUNDARYPRECISION_INT:		
             		hasComplexEventPriceBoundaryPrecision = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.COMPLEXEVENTPRICETIMETYPE_INT:		
             		hasComplexEventPriceTimeType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.COMPLEXEVENTCONDITION_INT:		
             		hasComplexEventCondition = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( tag == FixTags.NOCOMPLEXEVENTDATES_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -119,7 +119,7 @@ public class FixComplexEvents extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -291,7 +291,7 @@ public class FixComplexEvents extends FixGroup {
 		
 				buf.position(hasComplexEventType);		
 		
-			complexEventType = FixMessage.getTagIntValue(buf, err);
+			complexEventType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasComplexEventType);		
@@ -335,7 +335,7 @@ public class FixComplexEvents extends FixGroup {
 		
 				buf.position(hasComplexOptPayoutAmount);		
 		
-			complexOptPayoutAmount = FixMessage.getTagFloatValue(buf, err);
+			complexOptPayoutAmount = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasComplexOptPayoutAmount);		
@@ -379,7 +379,7 @@ public class FixComplexEvents extends FixGroup {
 		
 				buf.position(hasComplexEventPrice);		
 		
-			complexEventPrice = FixMessage.getTagFloatValue(buf, err);
+			complexEventPrice = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasComplexEventPrice);		
@@ -423,7 +423,7 @@ public class FixComplexEvents extends FixGroup {
 		
 				buf.position(hasComplexEventPriceBoundaryMethod);		
 		
-			complexEventPriceBoundaryMethod = FixMessage.getTagIntValue(buf, err);
+			complexEventPriceBoundaryMethod = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasComplexEventPriceBoundaryMethod);		
@@ -467,7 +467,7 @@ public class FixComplexEvents extends FixGroup {
 		
 				buf.position(hasComplexEventPriceBoundaryPrecision);		
 		
-			complexEventPriceBoundaryPrecision = FixMessage.getTagFloatValue(buf, err);
+			complexEventPriceBoundaryPrecision = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasComplexEventPriceBoundaryPrecision);		
@@ -511,7 +511,7 @@ public class FixComplexEvents extends FixGroup {
 		
 				buf.position(hasComplexEventPriceTimeType);		
 		
-			complexEventPriceTimeType = FixMessage.getTagIntValue(buf, err);
+			complexEventPriceTimeType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasComplexEventPriceTimeType);		
@@ -555,7 +555,7 @@ public class FixComplexEvents extends FixGroup {
 		
 				buf.position(hasComplexEventCondition);		
 		
-			complexEventCondition = FixMessage.getTagIntValue(buf, err);
+			complexEventCondition = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasComplexEventCondition);		

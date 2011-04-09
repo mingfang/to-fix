@@ -577,7 +577,7 @@ public class FixExecutionReport extends FixInMessage {
 		super.setBuffer(buf, err);
         if (err.hasError()) return;
 
-        int tag = FixMessage.getTag(buf, err);
+        int tag = FixUtils.getTag(buf, err);
         if (err.hasError()) return;
 
         while ( buf.hasRemaining() ) {
@@ -585,599 +585,599 @@ public class FixExecutionReport extends FixInMessage {
             switch (tag) {		
             	case FixTags.ORDERID_INT:		
             		hasOrderID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SECONDARYORDERID_INT:		
             		hasSecondaryOrderID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SECONDARYCLORDID_INT:		
             		hasSecondaryClOrdID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SECONDARYEXECID_INT:		
             		hasSecondaryExecID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.CLORDID_INT:		
             		hasClOrdID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ORIGCLORDID_INT:		
             		hasOrigClOrdID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.CLORDLINKID_INT:		
             		hasClOrdLinkID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.QUOTERESPID_INT:		
             		hasQuoteRespID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ORDSTATUSREQID_INT:		
             		hasOrdStatusReqID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.MASSSTATUSREQID_INT:		
             		hasMassStatusReqID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.HOSTCROSSID_INT:		
             		hasHostCrossID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TOTNUMREPORTS_INT:		
             		hasTotNumReports = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.LASTRPTREQUESTED_INT:		
             		hasLastRptRequested = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRADEORIGINATIONDATE_INT:		
             		hasTradeOriginationDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.LISTID_INT:		
             		hasListID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.CROSSID_INT:		
             		hasCrossID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ORIGCROSSID_INT:		
             		hasOrigCrossID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.CROSSTYPE_INT:		
             		hasCrossType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRDMATCHID_INT:		
             		hasTrdMatchID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.EXECID_INT:		
             		hasExecID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.EXECREFID_INT:		
             		hasExecRefID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.EXECTYPE_INT:		
             		hasExecType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ORDSTATUS_INT:		
             		hasOrdStatus = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.WORKINGINDICATOR_INT:		
             		hasWorkingIndicator = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ORDREJREASON_INT:		
             		hasOrdRejReason = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.EXECRESTATEMENTREASON_INT:		
             		hasExecRestatementReason = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ACCOUNT_INT:		
             		hasAccount = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ACCTIDSOURCE_INT:		
             		hasAcctIDSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ACCOUNTTYPE_INT:		
             		hasAccountType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.DAYBOOKINGINST_INT:		
             		hasDayBookingInst = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.BOOKINGUNIT_INT:		
             		hasBookingUnit = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.PREALLOCMETHOD_INT:		
             		hasPreallocMethod = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ALLOCID_INT:		
             		hasAllocID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SETTLTYPE_INT:		
             		hasSettlType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SETTLDATE_INT:		
             		hasSettlDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.MATCHTYPE_INT:		
             		hasMatchType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ORDERCATEGORY_INT:		
             		hasOrderCategory = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.CASHMARGIN_INT:		
             		hasCashMargin = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.CLEARINGFEEINDICATOR_INT:		
             		hasClearingFeeIndicator = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SIDE_INT:		
             		hasSide = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.QTYTYPE_INT:		
             		hasQtyType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.LOTTYPE_INT:		
             		hasLotType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ORDTYPE_INT:		
             		hasOrdType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.PRICETYPE_INT:		
             		hasPriceType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.PRICE_INT:		
             		hasPrice = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.PRICEPROTECTIONSCOPE_INT:		
             		hasPriceProtectionScope = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.STOPPX_INT:		
             		hasStopPx = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.PEGGEDPRICE_INT:		
             		hasPeggedPrice = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.PEGGEDREFPRICE_INT:		
             		hasPeggedRefPrice = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.DISCRETIONPRICE_INT:		
             		hasDiscretionPrice = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TARGETSTRATEGY_INT:		
             		hasTargetStrategy = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TARGETSTRATEGYPARAMETERS_INT:		
             		hasTargetStrategyParameters = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.PARTICIPATIONRATE_INT:		
             		hasParticipationRate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TARGETSTRATEGYPERFORMANCE_INT:		
             		hasTargetStrategyPerformance = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.CURRENCY_INT:		
             		hasCurrency = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.COMPLIANCEID_INT:		
             		hasComplianceID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SOLICITEDFLAG_INT:		
             		hasSolicitedFlag = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TIMEINFORCE_INT:		
             		hasTimeInForce = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.EFFECTIVETIME_INT:		
             		hasEffectiveTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.EXPIREDATE_INT:		
             		hasExpireDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.EXPIRETIME_INT:		
             		hasExpireTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.EXECINST_INT:		
             		hasExecInst = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.AGGRESSORINDICATOR_INT:		
             		hasAggressorIndicator = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ORDERCAPACITY_INT:		
             		hasOrderCapacity = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ORDERRESTRICTIONS_INT:		
             		hasOrderRestrictions = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.PRETRADEANONYMITY_INT:		
             		hasPreTradeAnonymity = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.CUSTORDERCAPACITY_INT:		
             		hasCustOrderCapacity = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.LASTQTY_INT:		
             		hasLastQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.CALCULATEDCCYLASTQTY_INT:		
             		hasCalculatedCcyLastQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.LASTSWAPPOINTS_INT:		
             		hasLastSwapPoints = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.UNDERLYINGLASTQTY_INT:		
             		hasUnderlyingLastQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.LASTPX_INT:		
             		hasLastPx = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.UNDERLYINGLASTPX_INT:		
             		hasUnderlyingLastPx = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.LASTPARPX_INT:		
             		hasLastParPx = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.LASTSPOTRATE_INT:		
             		hasLastSpotRate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.LASTFORWARDPOINTS_INT:		
             		hasLastForwardPoints = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.LASTMKT_INT:		
             		hasLastMkt = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRADINGSESSIONID_INT:		
             		hasTradingSessionID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRADINGSESSIONSUBID_INT:		
             		hasTradingSessionSubID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TIMEBRACKET_INT:		
             		hasTimeBracket = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.LASTCAPACITY_INT:		
             		hasLastCapacity = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.LEAVESQTY_INT:		
             		hasLeavesQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.CUMQTY_INT:		
             		hasCumQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.AVGPX_INT:		
             		hasAvgPx = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.DAYORDERQTY_INT:		
             		hasDayOrderQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.DAYCUMQTY_INT:		
             		hasDayCumQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.DAYAVGPX_INT:		
             		hasDayAvgPx = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TOTNOFILLS_INT:		
             		hasTotNoFills = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.LASTFRAGMENT_INT:		
             		hasLastFragment = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.GTBOOKINGINST_INT:		
             		hasGTBookingInst = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRADEDATE_INT:		
             		hasTradeDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRANSACTTIME_INT:		
             		hasTransactTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.REPORTTOEXCH_INT:		
             		hasReportToExch = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.GROSSTRADEAMT_INT:		
             		hasGrossTradeAmt = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.NUMDAYSINTEREST_INT:		
             		hasNumDaysInterest = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.EXDATE_INT:		
             		hasExDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ACCRUEDINTERESTRATE_INT:		
             		hasAccruedInterestRate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ACCRUEDINTERESTAMT_INT:		
             		hasAccruedInterestAmt = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.INTERESTATMATURITY_INT:		
             		hasInterestAtMaturity = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENDACCRUEDINTERESTAMT_INT:		
             		hasEndAccruedInterestAmt = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.STARTCASH_INT:		
             		hasStartCash = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENDCASH_INT:		
             		hasEndCash = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRADEDFLATSWITCH_INT:		
             		hasTradedFlatSwitch = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.BASISFEATUREDATE_INT:		
             		hasBasisFeatureDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.BASISFEATUREPRICE_INT:		
             		hasBasisFeaturePrice = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.CONCESSION_INT:		
             		hasConcession = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TOTALTAKEDOWN_INT:		
             		hasTotalTakedown = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.NETMONEY_INT:		
             		hasNetMoney = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SETTLCURRAMT_INT:		
             		hasSettlCurrAmt = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SETTLCURRENCY_INT:		
             		hasSettlCurrency = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SETTLCURRFXRATE_INT:		
             		hasSettlCurrFxRate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SETTLCURRFXRATECALC_INT:		
             		hasSettlCurrFxRateCalc = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.HANDLINST_INT:		
             		hasHandlInst = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.MINQTY_INT:		
             		hasMinQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.MATCHINCREMENT_INT:		
             		hasMatchIncrement = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.MAXPRICELEVELS_INT:		
             		hasMaxPriceLevels = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.MAXFLOOR_INT:		
             		hasMaxFloor = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.POSITIONEFFECT_INT:		
             		hasPositionEffect = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.MAXSHOW_INT:		
             		hasMaxShow = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.BOOKINGTYPE_INT:		
             		hasBookingType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TEXT_INT:		
             		hasText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDTEXTLEN_INT:		
             		hasEncodedTextLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDTEXT_INT:		
             		hasEncodedText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SETTLDATE2_INT:		
             		hasSettlDate2 = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ORDERQTY2_INT:		
             		hasOrderQty2 = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.LASTFORWARDPOINTS2_INT:		
             		hasLastForwardPoints2 = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.MULTILEGREPORTINGTYPE_INT:		
             		hasMultiLegReportingType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.CANCELLATIONRIGHTS_INT:		
             		hasCancellationRights = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.MONEYLAUNDERINGSTATUS_INT:		
             		hasMoneyLaunderingStatus = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.REGISTID_INT:		
             		hasRegistID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.DESIGNATION_INT:		
             		hasDesignation = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRANSBKDTIME_INT:		
             		hasTransBkdTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.EXECVALUATIONPOINT_INT:		
             		hasExecValuationPoint = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.EXECPRICETYPE_INT:		
             		hasExecPriceType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.EXECPRICEADJUSTMENT_INT:		
             		hasExecPriceAdjustment = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.PRIORITYINDICATOR_INT:		
             		hasPriorityIndicator = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.PRICEIMPROVEMENT_INT:		
             		hasPriceImprovement = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.LASTLIQUIDITYIND_INT:		
             		hasLastLiquidityInd = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.COPYMSGINDICATOR_INT:		
             		hasCopyMsgIndicator = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.MANUALORDERINDICATOR_INT:		
             		hasManualOrderIndicator = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.CUSTDIRECTEDORDER_INT:		
             		hasCustDirectedOrder = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.RECEIVEDDEPTID_INT:		
             		hasReceivedDeptID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.CUSTORDERHANDLINGINST_INT:		
             		hasCustOrderHandlingInst = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ORDERHANDLINGINSTSOURCE_INT:		
             		hasOrderHandlingInstSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.DIVIDENDYIELD_INT:		
             		hasDividendYield = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.VOLATILITY_INT:		
             		hasVolatility = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TIMETOEXPIRATION_INT:		
             		hasTimeToExpiration = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.RISKFREERATE_INT:		
             		hasRiskFreeRate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.PRICEDELTA_INT:		
             		hasPriceDelta = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	default:
         			if ( standardHeader.isKeyTag(tag)) {
@@ -1186,7 +1186,7 @@ public class FixExecutionReport extends FixInMessage {
                 		else continue;		
         			} else if ( standardTrailer.isKeyTag(tag)) {
         				tag = standardTrailer.setBuffer( tag, buf, err);
-        				FixMessage.unreadLastTag(tag, buf);
+        				FixUtils.unreadLastTag(tag, buf);
         				if (!err.hasError()) hasRequiredTags(err);
             			return; // always last, we are done now
         			} else if ( applicationSequenceControl.isKeyTag(tag)) {
@@ -1195,10 +1195,10 @@ public class FixExecutionReport extends FixInMessage {
                 		else continue;		
         			} else if ( tag == FixTags.NOPARTYIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -1215,10 +1215,10 @@ public class FixExecutionReport extends FixInMessage {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NOCONTRABROKERS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -1235,10 +1235,10 @@ public class FixExecutionReport extends FixInMessage {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NOALLOCS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -1263,10 +1263,10 @@ public class FixExecutionReport extends FixInMessage {
                 		else continue;		
         			} else if ( tag == FixTags.NOUNDERLYINGS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -1283,10 +1283,10 @@ public class FixExecutionReport extends FixInMessage {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NOSTIPULATIONS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -1319,10 +1319,10 @@ public class FixExecutionReport extends FixInMessage {
                 		else continue;		
         			} else if ( tag == FixTags.NOSTRATEGYPARAMETERS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -1339,10 +1339,10 @@ public class FixExecutionReport extends FixInMessage {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NOFILLS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -1371,10 +1371,10 @@ public class FixExecutionReport extends FixInMessage {
                 		else continue;		
         			} else if ( tag == FixTags.NORATESOURCES_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -1395,10 +1395,10 @@ public class FixExecutionReport extends FixInMessage {
                 		else continue;		
         			} else if ( tag == FixTags.NOCONTAMTS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -1415,10 +1415,10 @@ public class FixExecutionReport extends FixInMessage {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NOLEGS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -1435,10 +1435,10 @@ public class FixExecutionReport extends FixInMessage {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NOMISCFEES_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -1455,10 +1455,10 @@ public class FixExecutionReport extends FixInMessage {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NOTRDREGTIMESTAMPS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -1474,10 +1474,10 @@ public class FixExecutionReport extends FixInMessage {
         				if (err.hasError()) break;
                 		else { tag = repeatingGroupTag; continue; }
             		} else {
- 						FixMessage.getNext(buf, err);		
+ 						FixUtils.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else {
-                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.EXECUTIONREPORT);
+                		else if (FixUtils.validateOnlyDefinedTagsAllowed) {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.EXECUTIONREPORT_INT);
                 			break;
                 		}
 					}
@@ -1486,7 +1486,7 @@ public class FixExecutionReport extends FixInMessage {
 
         		if (err.hasError()) return;
 
-            	tag = FixMessage.getTag(buf, err);		
+            	tag = FixUtils.getTag(buf, err);		
         		if (err.hasError()) break;
 
 		}
@@ -1494,39 +1494,35 @@ public class FixExecutionReport extends FixInMessage {
 	}		
 
 	public boolean hasRequiredTags(FixValidationError err) {
-		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		if (!hasOrderID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.ORDERID_INT, FixMessageInfo.MessageTypes.EXECUTIONREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.ORDERID_INT, FixMessageInfo.MessageTypes.EXECUTIONREPORT_INT);
 			return false;
 		}
 		if (!hasExecID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.EXECID_INT, FixMessageInfo.MessageTypes.EXECUTIONREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.EXECID_INT, FixMessageInfo.MessageTypes.EXECUTIONREPORT_INT);
 			return false;
 		}
 		if (!hasExecType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.EXECTYPE_INT, FixMessageInfo.MessageTypes.EXECUTIONREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.EXECTYPE_INT, FixMessageInfo.MessageTypes.EXECUTIONREPORT_INT);
 			return false;
 		}
 		if (!hasOrdStatus()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.ORDSTATUS_INT, FixMessageInfo.MessageTypes.EXECUTIONREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.ORDSTATUS_INT, FixMessageInfo.MessageTypes.EXECUTIONREPORT_INT);
 			return false;
 		}
 		if (!hasSide()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.SIDE_INT, FixMessageInfo.MessageTypes.EXECUTIONREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.SIDE_INT, FixMessageInfo.MessageTypes.EXECUTIONREPORT_INT);
 			return false;
 		}
 		if (!hasLeavesQty()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.LEAVESQTY_INT, FixMessageInfo.MessageTypes.EXECUTIONREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.LEAVESQTY_INT, FixMessageInfo.MessageTypes.EXECUTIONREPORT_INT);
 			return false;
 		}
 		if (!hasCumQty()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.CUMQTY_INT, FixMessageInfo.MessageTypes.EXECUTIONREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.CUMQTY_INT, FixMessageInfo.MessageTypes.EXECUTIONREPORT_INT);
 			return false;
 		}
 		if (instrument.isRequired) instrument.hasRequiredTags(err); if (err.hasError()) return false;
-		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		return true;
 	}
 	@Override		
@@ -4142,7 +4138,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasOrderID);
 
-			FixMessage.getTagStringValue(buf, orderID, 0, orderID.length, err);
+			FixUtils.getTagStringValue(buf, orderID, 0, orderID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -4186,7 +4182,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasSecondaryOrderID);
 
-			FixMessage.getTagStringValue(buf, secondaryOrderID, 0, secondaryOrderID.length, err);
+			FixUtils.getTagStringValue(buf, secondaryOrderID, 0, secondaryOrderID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -4230,7 +4226,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasSecondaryClOrdID);
 
-			FixMessage.getTagStringValue(buf, secondaryClOrdID, 0, secondaryClOrdID.length, err);
+			FixUtils.getTagStringValue(buf, secondaryClOrdID, 0, secondaryClOrdID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -4274,7 +4270,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasSecondaryExecID);
 
-			FixMessage.getTagStringValue(buf, secondaryExecID, 0, secondaryExecID.length, err);
+			FixUtils.getTagStringValue(buf, secondaryExecID, 0, secondaryExecID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -4318,7 +4314,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasClOrdID);
 
-			FixMessage.getTagStringValue(buf, clOrdID, 0, clOrdID.length, err);
+			FixUtils.getTagStringValue(buf, clOrdID, 0, clOrdID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -4362,7 +4358,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasOrigClOrdID);
 
-			FixMessage.getTagStringValue(buf, origClOrdID, 0, origClOrdID.length, err);
+			FixUtils.getTagStringValue(buf, origClOrdID, 0, origClOrdID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -4406,7 +4402,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasClOrdLinkID);
 
-			FixMessage.getTagStringValue(buf, clOrdLinkID, 0, clOrdLinkID.length, err);
+			FixUtils.getTagStringValue(buf, clOrdLinkID, 0, clOrdLinkID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -4450,7 +4446,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasQuoteRespID);
 
-			FixMessage.getTagStringValue(buf, quoteRespID, 0, quoteRespID.length, err);
+			FixUtils.getTagStringValue(buf, quoteRespID, 0, quoteRespID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -4494,7 +4490,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasOrdStatusReqID);
 
-			FixMessage.getTagStringValue(buf, ordStatusReqID, 0, ordStatusReqID.length, err);
+			FixUtils.getTagStringValue(buf, ordStatusReqID, 0, ordStatusReqID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -4538,7 +4534,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasMassStatusReqID);
 
-			FixMessage.getTagStringValue(buf, massStatusReqID, 0, massStatusReqID.length, err);
+			FixUtils.getTagStringValue(buf, massStatusReqID, 0, massStatusReqID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -4582,7 +4578,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasHostCrossID);
 
-			FixMessage.getTagStringValue(buf, hostCrossID, 0, hostCrossID.length, err);
+			FixUtils.getTagStringValue(buf, hostCrossID, 0, hostCrossID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -4626,7 +4622,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasTotNumReports);
 
-			totNumReports = FixMessage.getTagIntValue(buf, err);
+			totNumReports = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -4675,7 +4671,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasLastRptRequested);
 
-			lastRptRequested = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			lastRptRequested = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -4724,7 +4720,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasTradeOriginationDate);
 
-			FixMessage.getTagStringValue(buf, tradeOriginationDate, 0, tradeOriginationDate.length, err);
+			FixUtils.getTagStringValue(buf, tradeOriginationDate, 0, tradeOriginationDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -4768,7 +4764,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasListID);
 
-			FixMessage.getTagStringValue(buf, listID, 0, listID.length, err);
+			FixUtils.getTagStringValue(buf, listID, 0, listID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -4812,7 +4808,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasCrossID);
 
-			FixMessage.getTagStringValue(buf, crossID, 0, crossID.length, err);
+			FixUtils.getTagStringValue(buf, crossID, 0, crossID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -4856,7 +4852,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasOrigCrossID);
 
-			FixMessage.getTagStringValue(buf, origCrossID, 0, origCrossID.length, err);
+			FixUtils.getTagStringValue(buf, origCrossID, 0, origCrossID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -4900,7 +4896,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasCrossType);
 
-			crossType = FixMessage.getTagIntValue(buf, err);
+			crossType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -4949,7 +4945,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasTrdMatchID);
 
-			FixMessage.getTagStringValue(buf, trdMatchID, 0, trdMatchID.length, err);
+			FixUtils.getTagStringValue(buf, trdMatchID, 0, trdMatchID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -4993,7 +4989,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasExecID);
 
-			FixMessage.getTagStringValue(buf, execID, 0, execID.length, err);
+			FixUtils.getTagStringValue(buf, execID, 0, execID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -5037,7 +5033,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasExecRefID);
 
-			FixMessage.getTagStringValue(buf, execRefID, 0, execRefID.length, err);
+			FixUtils.getTagStringValue(buf, execRefID, 0, execRefID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -5081,7 +5077,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasExecType);
 
-			execType = FixMessage.getTagCharValue(buf, err);
+			execType = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (execType != (byte)'D') && (execType != (byte)'E') && (execType != (byte)'F') && (execType != (byte)'G') && (execType != (byte)'A') && (execType != (byte)'B') && (execType != (byte)'C') && (execType != (byte)'L') && (execType != (byte)'H') && (execType != (byte)'I') && (execType != (byte)'J') && (execType != (byte)'K') && (execType != (byte)'3') && (execType != (byte)'0') && (execType != (byte)'7') && (execType != (byte)'6') && (execType != (byte)'5') && (execType != (byte)'4') && (execType != (byte)'9') && (execType != (byte)'8') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 150);		
@@ -5132,7 +5128,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasOrdStatus);
 
-			ordStatus = FixMessage.getTagCharValue(buf, err);
+			ordStatus = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (ordStatus != (byte)'D') && (ordStatus != (byte)'E') && (ordStatus != (byte)'A') && (ordStatus != (byte)'B') && (ordStatus != (byte)'C') && (ordStatus != (byte)'3') && (ordStatus != (byte)'2') && (ordStatus != (byte)'1') && (ordStatus != (byte)'0') && (ordStatus != (byte)'7') && (ordStatus != (byte)'6') && (ordStatus != (byte)'5') && (ordStatus != (byte)'4') && (ordStatus != (byte)'9') && (ordStatus != (byte)'8') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 39);		
@@ -5183,7 +5179,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasWorkingIndicator);
 
-			workingIndicator = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			workingIndicator = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -5232,7 +5228,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasOrdRejReason);
 
-			ordRejReason = FixMessage.getTagIntValue(buf, err);
+			ordRejReason = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -5281,7 +5277,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasExecRestatementReason);
 
-			execRestatementReason = FixMessage.getTagIntValue(buf, err);
+			execRestatementReason = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -5330,7 +5326,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasAccount);
 
-			FixMessage.getTagStringValue(buf, account, 0, account.length, err);
+			FixUtils.getTagStringValue(buf, account, 0, account.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -5374,7 +5370,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasAcctIDSource);
 
-			acctIDSource = FixMessage.getTagIntValue(buf, err);
+			acctIDSource = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -5423,7 +5419,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasAccountType);
 
-			accountType = FixMessage.getTagIntValue(buf, err);
+			accountType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -5472,7 +5468,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasDayBookingInst);
 
-			dayBookingInst = FixMessage.getTagCharValue(buf, err);
+			dayBookingInst = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (dayBookingInst != (byte)'2') && (dayBookingInst != (byte)'1') && (dayBookingInst != (byte)'0') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 589);		
@@ -5523,7 +5519,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasBookingUnit);
 
-			bookingUnit = FixMessage.getTagCharValue(buf, err);
+			bookingUnit = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (bookingUnit != (byte)'2') && (bookingUnit != (byte)'1') && (bookingUnit != (byte)'0') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 590);		
@@ -5574,7 +5570,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasPreallocMethod);
 
-			preallocMethod = FixMessage.getTagCharValue(buf, err);
+			preallocMethod = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (preallocMethod != (byte)'1') && (preallocMethod != (byte)'0') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 591);		
@@ -5625,7 +5621,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasAllocID);
 
-			FixMessage.getTagStringValue(buf, allocID, 0, allocID.length, err);
+			FixUtils.getTagStringValue(buf, allocID, 0, allocID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -5669,7 +5665,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasSettlType);
 
-			FixMessage.getTagStringValue(buf, settlType, 0, settlType.length, err);
+			FixUtils.getTagStringValue(buf, settlType, 0, settlType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -5713,7 +5709,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasSettlDate);
 
-			FixMessage.getTagStringValue(buf, settlDate, 0, settlDate.length, err);
+			FixUtils.getTagStringValue(buf, settlDate, 0, settlDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -5757,7 +5753,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasMatchType);
 
-			FixMessage.getTagStringValue(buf, matchType, 0, matchType.length, err);
+			FixUtils.getTagStringValue(buf, matchType, 0, matchType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -5801,7 +5797,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasOrderCategory);
 
-			orderCategory = FixMessage.getTagCharValue(buf, err);
+			orderCategory = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (orderCategory != (byte)'3') && (orderCategory != (byte)'2') && (orderCategory != (byte)'1') && (orderCategory != (byte)'7') && (orderCategory != (byte)'6') && (orderCategory != (byte)'5') && (orderCategory != (byte)'4') && (orderCategory != (byte)'9') && (orderCategory != (byte)'8') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 1115);		
@@ -5852,7 +5848,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasCashMargin);
 
-			cashMargin = FixMessage.getTagCharValue(buf, err);
+			cashMargin = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (cashMargin != (byte)'3') && (cashMargin != (byte)'2') && (cashMargin != (byte)'1') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 544);		
@@ -5903,7 +5899,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasClearingFeeIndicator);
 
-			FixMessage.getTagStringValue(buf, clearingFeeIndicator, 0, clearingFeeIndicator.length, err);
+			FixUtils.getTagStringValue(buf, clearingFeeIndicator, 0, clearingFeeIndicator.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -5947,7 +5943,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasSide);
 
-			side = FixMessage.getTagCharValue(buf, err);
+			side = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (side != (byte)'D') && (side != (byte)'E') && (side != (byte)'F') && (side != (byte)'G') && (side != (byte)'A') && (side != (byte)'B') && (side != (byte)'C') && (side != (byte)'3') && (side != (byte)'2') && (side != (byte)'1') && (side != (byte)'7') && (side != (byte)'6') && (side != (byte)'5') && (side != (byte)'4') && (side != (byte)'9') && (side != (byte)'8') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 54);		
@@ -5998,7 +5994,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasQtyType);
 
-			qtyType = FixMessage.getTagIntValue(buf, err);
+			qtyType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -6047,7 +6043,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasLotType);
 
-			lotType = FixMessage.getTagCharValue(buf, err);
+			lotType = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (lotType != (byte)'3') && (lotType != (byte)'2') && (lotType != (byte)'1') && (lotType != (byte)'4') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 1093);		
@@ -6098,7 +6094,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasOrdType);
 
-			ordType = FixMessage.getTagCharValue(buf, err);
+			ordType = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (ordType != (byte)'D') && (ordType != (byte)'E') && (ordType != (byte)'F') && (ordType != (byte)'G') && (ordType != (byte)'A') && (ordType != (byte)'B') && (ordType != (byte)'C') && (ordType != (byte)'L') && (ordType != (byte)'M') && (ordType != (byte)'H') && (ordType != (byte)'I') && (ordType != (byte)'J') && (ordType != (byte)'K') && (ordType != (byte)'3') && (ordType != (byte)'2') && (ordType != (byte)'1') && (ordType != (byte)'Q') && (ordType != (byte)'7') && (ordType != (byte)'P') && (ordType != (byte)'6') && (ordType != (byte)'5') && (ordType != (byte)'4') && (ordType != (byte)'9') && (ordType != (byte)'8') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 40);		
@@ -6149,7 +6145,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasPriceType);
 
-			priceType = FixMessage.getTagIntValue(buf, err);
+			priceType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -6198,7 +6194,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasPrice);
 
-			price = FixMessage.getTagFloatValue(buf, err);
+			price = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -6247,7 +6243,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasPriceProtectionScope);
 
-			priceProtectionScope = FixMessage.getTagCharValue(buf, err);
+			priceProtectionScope = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (priceProtectionScope != (byte)'3') && (priceProtectionScope != (byte)'2') && (priceProtectionScope != (byte)'1') && (priceProtectionScope != (byte)'0') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 1092);		
@@ -6298,7 +6294,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasStopPx);
 
-			stopPx = FixMessage.getTagFloatValue(buf, err);
+			stopPx = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -6347,7 +6343,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasPeggedPrice);
 
-			peggedPrice = FixMessage.getTagFloatValue(buf, err);
+			peggedPrice = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -6396,7 +6392,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasPeggedRefPrice);
 
-			peggedRefPrice = FixMessage.getTagFloatValue(buf, err);
+			peggedRefPrice = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -6445,7 +6441,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasDiscretionPrice);
 
-			discretionPrice = FixMessage.getTagFloatValue(buf, err);
+			discretionPrice = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -6494,7 +6490,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasTargetStrategy);
 
-			targetStrategy = FixMessage.getTagIntValue(buf, err);
+			targetStrategy = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -6543,7 +6539,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasTargetStrategyParameters);
 
-			FixMessage.getTagStringValue(buf, targetStrategyParameters, 0, targetStrategyParameters.length, err);
+			FixUtils.getTagStringValue(buf, targetStrategyParameters, 0, targetStrategyParameters.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -6587,7 +6583,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasParticipationRate);
 
-			participationRate = FixMessage.getTagFloatValue(buf, err);
+			participationRate = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -6636,7 +6632,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasTargetStrategyPerformance);
 
-			targetStrategyPerformance = FixMessage.getTagFloatValue(buf, err);
+			targetStrategyPerformance = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -6685,7 +6681,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasCurrency);
 
-			FixMessage.getTagStringValue(buf, currency, 0, currency.length, err);
+			FixUtils.getTagStringValue(buf, currency, 0, currency.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -6729,7 +6725,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasComplianceID);
 
-			FixMessage.getTagStringValue(buf, complianceID, 0, complianceID.length, err);
+			FixUtils.getTagStringValue(buf, complianceID, 0, complianceID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -6773,7 +6769,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasSolicitedFlag);
 
-			solicitedFlag = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			solicitedFlag = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -6822,7 +6818,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasTimeInForce);
 
-			timeInForce = FixMessage.getTagCharValue(buf, err);
+			timeInForce = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (timeInForce != (byte)'3') && (timeInForce != (byte)'2') && (timeInForce != (byte)'1') && (timeInForce != (byte)'0') && (timeInForce != (byte)'7') && (timeInForce != (byte)'6') && (timeInForce != (byte)'5') && (timeInForce != (byte)'4') && (timeInForce != (byte)'9') && (timeInForce != (byte)'8') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 59);		
@@ -6873,7 +6869,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasEffectiveTime);
 
-			FixMessage.getTagStringValue(buf, effectiveTime, 0, effectiveTime.length, err);
+			FixUtils.getTagStringValue(buf, effectiveTime, 0, effectiveTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -6917,7 +6913,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasExpireDate);
 
-			FixMessage.getTagStringValue(buf, expireDate, 0, expireDate.length, err);
+			FixUtils.getTagStringValue(buf, expireDate, 0, expireDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -6961,7 +6957,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasExpireTime);
 
-			FixMessage.getTagStringValue(buf, expireTime, 0, expireTime.length, err);
+			FixUtils.getTagStringValue(buf, expireTime, 0, expireTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -7005,7 +7001,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasExecInst);
 
-			FixMessage.getTagStringValue(buf, execInst, 0, execInst.length, err);
+			FixUtils.getTagStringValue(buf, execInst, 0, execInst.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -7049,7 +7045,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasAggressorIndicator);
 
-			aggressorIndicator = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			aggressorIndicator = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -7098,7 +7094,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasOrderCapacity);
 
-			orderCapacity = FixMessage.getTagCharValue(buf, err);
+			orderCapacity = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (orderCapacity != (byte)'W') && (orderCapacity != (byte)'G') && (orderCapacity != (byte)'P') && (orderCapacity != (byte)'A') && (orderCapacity != (byte)'R') && (orderCapacity != (byte)'I') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 528);		
@@ -7149,7 +7145,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasOrderRestrictions);
 
-			FixMessage.getTagStringValue(buf, orderRestrictions, 0, orderRestrictions.length, err);
+			FixUtils.getTagStringValue(buf, orderRestrictions, 0, orderRestrictions.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -7193,7 +7189,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasPreTradeAnonymity);
 
-			preTradeAnonymity = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			preTradeAnonymity = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -7242,7 +7238,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasCustOrderCapacity);
 
-			custOrderCapacity = FixMessage.getTagIntValue(buf, err);
+			custOrderCapacity = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -7291,7 +7287,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasLastQty);
 
-			lastQty = FixMessage.getTagFloatValue(buf, err);
+			lastQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -7340,7 +7336,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasCalculatedCcyLastQty);
 
-			calculatedCcyLastQty = FixMessage.getTagFloatValue(buf, err);
+			calculatedCcyLastQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -7389,7 +7385,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasLastSwapPoints);
 
-			lastSwapPoints = FixMessage.getTagFloatValue(buf, err);
+			lastSwapPoints = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -7438,7 +7434,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasUnderlyingLastQty);
 
-			underlyingLastQty = FixMessage.getTagFloatValue(buf, err);
+			underlyingLastQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -7487,7 +7483,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasLastPx);
 
-			lastPx = FixMessage.getTagFloatValue(buf, err);
+			lastPx = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -7536,7 +7532,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasUnderlyingLastPx);
 
-			underlyingLastPx = FixMessage.getTagFloatValue(buf, err);
+			underlyingLastPx = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -7585,7 +7581,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasLastParPx);
 
-			lastParPx = FixMessage.getTagFloatValue(buf, err);
+			lastParPx = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -7634,7 +7630,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasLastSpotRate);
 
-			lastSpotRate = FixMessage.getTagFloatValue(buf, err);
+			lastSpotRate = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -7683,7 +7679,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasLastForwardPoints);
 
-			lastForwardPoints = FixMessage.getTagFloatValue(buf, err);
+			lastForwardPoints = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -7732,7 +7728,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasLastMkt);
 
-			FixMessage.getTagStringValue(buf, lastMkt, 0, lastMkt.length, err);
+			FixUtils.getTagStringValue(buf, lastMkt, 0, lastMkt.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -7776,7 +7772,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasTradingSessionID);
 
-			FixMessage.getTagStringValue(buf, tradingSessionID, 0, tradingSessionID.length, err);
+			FixUtils.getTagStringValue(buf, tradingSessionID, 0, tradingSessionID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -7820,7 +7816,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasTradingSessionSubID);
 
-			FixMessage.getTagStringValue(buf, tradingSessionSubID, 0, tradingSessionSubID.length, err);
+			FixUtils.getTagStringValue(buf, tradingSessionSubID, 0, tradingSessionSubID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -7864,7 +7860,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasTimeBracket);
 
-			FixMessage.getTagStringValue(buf, timeBracket, 0, timeBracket.length, err);
+			FixUtils.getTagStringValue(buf, timeBracket, 0, timeBracket.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -7908,7 +7904,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasLastCapacity);
 
-			lastCapacity = FixMessage.getTagCharValue(buf, err);
+			lastCapacity = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (lastCapacity != (byte)'3') && (lastCapacity != (byte)'2') && (lastCapacity != (byte)'1') && (lastCapacity != (byte)'4') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 29);		
@@ -7959,7 +7955,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasLeavesQty);
 
-			leavesQty = FixMessage.getTagFloatValue(buf, err);
+			leavesQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -8008,7 +8004,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasCumQty);
 
-			cumQty = FixMessage.getTagFloatValue(buf, err);
+			cumQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -8057,7 +8053,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasAvgPx);
 
-			avgPx = FixMessage.getTagFloatValue(buf, err);
+			avgPx = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -8106,7 +8102,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasDayOrderQty);
 
-			dayOrderQty = FixMessage.getTagFloatValue(buf, err);
+			dayOrderQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -8155,7 +8151,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasDayCumQty);
 
-			dayCumQty = FixMessage.getTagFloatValue(buf, err);
+			dayCumQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -8204,7 +8200,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasDayAvgPx);
 
-			dayAvgPx = FixMessage.getTagFloatValue(buf, err);
+			dayAvgPx = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -8253,7 +8249,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasTotNoFills);
 
-			totNoFills = FixMessage.getTagIntValue(buf, err);
+			totNoFills = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -8302,7 +8298,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasLastFragment);
 
-			lastFragment = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			lastFragment = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -8351,7 +8347,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasGTBookingInst);
 
-			gTBookingInst = FixMessage.getTagIntValue(buf, err);
+			gTBookingInst = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -8400,7 +8396,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasTradeDate);
 
-			FixMessage.getTagStringValue(buf, tradeDate, 0, tradeDate.length, err);
+			FixUtils.getTagStringValue(buf, tradeDate, 0, tradeDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -8444,7 +8440,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasTransactTime);
 
-			FixMessage.getTagStringValue(buf, transactTime, 0, transactTime.length, err);
+			FixUtils.getTagStringValue(buf, transactTime, 0, transactTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -8488,7 +8484,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasReportToExch);
 
-			reportToExch = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			reportToExch = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -8537,7 +8533,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasGrossTradeAmt);
 
-			grossTradeAmt = FixMessage.getTagFloatValue(buf, err);
+			grossTradeAmt = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -8586,7 +8582,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasNumDaysInterest);
 
-			numDaysInterest = FixMessage.getTagIntValue(buf, err);
+			numDaysInterest = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -8635,7 +8631,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasExDate);
 
-			FixMessage.getTagStringValue(buf, exDate, 0, exDate.length, err);
+			FixUtils.getTagStringValue(buf, exDate, 0, exDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -8679,7 +8675,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasAccruedInterestRate);
 
-			accruedInterestRate = FixMessage.getTagFloatValue(buf, err);
+			accruedInterestRate = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -8728,7 +8724,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasAccruedInterestAmt);
 
-			accruedInterestAmt = FixMessage.getTagFloatValue(buf, err);
+			accruedInterestAmt = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -8777,7 +8773,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasInterestAtMaturity);
 
-			interestAtMaturity = FixMessage.getTagFloatValue(buf, err);
+			interestAtMaturity = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -8826,7 +8822,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasEndAccruedInterestAmt);
 
-			endAccruedInterestAmt = FixMessage.getTagFloatValue(buf, err);
+			endAccruedInterestAmt = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -8875,7 +8871,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasStartCash);
 
-			startCash = FixMessage.getTagFloatValue(buf, err);
+			startCash = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -8924,7 +8920,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasEndCash);
 
-			endCash = FixMessage.getTagFloatValue(buf, err);
+			endCash = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -8973,7 +8969,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasTradedFlatSwitch);
 
-			tradedFlatSwitch = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			tradedFlatSwitch = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -9022,7 +9018,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasBasisFeatureDate);
 
-			FixMessage.getTagStringValue(buf, basisFeatureDate, 0, basisFeatureDate.length, err);
+			FixUtils.getTagStringValue(buf, basisFeatureDate, 0, basisFeatureDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -9066,7 +9062,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasBasisFeaturePrice);
 
-			basisFeaturePrice = FixMessage.getTagFloatValue(buf, err);
+			basisFeaturePrice = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -9115,7 +9111,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasConcession);
 
-			concession = FixMessage.getTagFloatValue(buf, err);
+			concession = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -9164,7 +9160,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasTotalTakedown);
 
-			totalTakedown = FixMessage.getTagFloatValue(buf, err);
+			totalTakedown = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -9213,7 +9209,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasNetMoney);
 
-			netMoney = FixMessage.getTagFloatValue(buf, err);
+			netMoney = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -9262,7 +9258,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasSettlCurrAmt);
 
-			settlCurrAmt = FixMessage.getTagFloatValue(buf, err);
+			settlCurrAmt = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -9311,7 +9307,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasSettlCurrency);
 
-			FixMessage.getTagStringValue(buf, settlCurrency, 0, settlCurrency.length, err);
+			FixUtils.getTagStringValue(buf, settlCurrency, 0, settlCurrency.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -9355,7 +9351,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasSettlCurrFxRate);
 
-			settlCurrFxRate = FixMessage.getTagFloatValue(buf, err);
+			settlCurrFxRate = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -9404,7 +9400,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasSettlCurrFxRateCalc);
 
-			settlCurrFxRateCalc = FixMessage.getTagCharValue(buf, err);
+			settlCurrFxRateCalc = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (settlCurrFxRateCalc != (byte)'D') && (settlCurrFxRateCalc != (byte)'M') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 156);		
@@ -9455,7 +9451,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasHandlInst);
 
-			handlInst = FixMessage.getTagCharValue(buf, err);
+			handlInst = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (handlInst != (byte)'3') && (handlInst != (byte)'2') && (handlInst != (byte)'1') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 21);		
@@ -9506,7 +9502,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasMinQty);
 
-			minQty = FixMessage.getTagFloatValue(buf, err);
+			minQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -9555,7 +9551,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasMatchIncrement);
 
-			matchIncrement = FixMessage.getTagFloatValue(buf, err);
+			matchIncrement = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -9604,7 +9600,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasMaxPriceLevels);
 
-			maxPriceLevels = FixMessage.getTagIntValue(buf, err);
+			maxPriceLevels = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -9653,7 +9649,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasMaxFloor);
 
-			maxFloor = FixMessage.getTagFloatValue(buf, err);
+			maxFloor = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -9702,7 +9698,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasPositionEffect);
 
-			positionEffect = FixMessage.getTagCharValue(buf, err);
+			positionEffect = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (positionEffect != (byte)'D') && (positionEffect != (byte)'F') && (positionEffect != (byte)'R') && (positionEffect != (byte)'C') && (positionEffect != (byte)'N') && (positionEffect != (byte)'O') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 77);		
@@ -9753,7 +9749,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasMaxShow);
 
-			maxShow = FixMessage.getTagFloatValue(buf, err);
+			maxShow = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -9802,7 +9798,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasBookingType);
 
-			bookingType = FixMessage.getTagIntValue(buf, err);
+			bookingType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -9851,7 +9847,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasText);
 
-			FixMessage.getTagStringValue(buf, text, 0, text.length, err);
+			FixUtils.getTagStringValue(buf, text, 0, text.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -9895,7 +9891,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasEncodedTextLen);
 
-			encodedTextLen = FixMessage.getTagIntValue(buf, err);
+			encodedTextLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -9944,7 +9940,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasEncodedText);
 
-			FixMessage.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
+			FixUtils.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -9988,7 +9984,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasSettlDate2);
 
-			FixMessage.getTagStringValue(buf, settlDate2, 0, settlDate2.length, err);
+			FixUtils.getTagStringValue(buf, settlDate2, 0, settlDate2.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -10032,7 +10028,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasOrderQty2);
 
-			orderQty2 = FixMessage.getTagFloatValue(buf, err);
+			orderQty2 = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -10081,7 +10077,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasLastForwardPoints2);
 
-			lastForwardPoints2 = FixMessage.getTagFloatValue(buf, err);
+			lastForwardPoints2 = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -10130,7 +10126,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasMultiLegReportingType);
 
-			multiLegReportingType = FixMessage.getTagCharValue(buf, err);
+			multiLegReportingType = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (multiLegReportingType != (byte)'3') && (multiLegReportingType != (byte)'2') && (multiLegReportingType != (byte)'1') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 442);		
@@ -10181,7 +10177,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasCancellationRights);
 
-			cancellationRights = FixMessage.getTagCharValue(buf, err);
+			cancellationRights = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (cancellationRights != (byte)'M') && (cancellationRights != (byte)'N') && (cancellationRights != (byte)'O') && (cancellationRights != (byte)'Y') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 480);		
@@ -10232,7 +10228,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasMoneyLaunderingStatus);
 
-			moneyLaunderingStatus = FixMessage.getTagCharValue(buf, err);
+			moneyLaunderingStatus = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (moneyLaunderingStatus != (byte)'3') && (moneyLaunderingStatus != (byte)'2') && (moneyLaunderingStatus != (byte)'1') && (moneyLaunderingStatus != (byte)'N') && (moneyLaunderingStatus != (byte)'Y') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 481);		
@@ -10283,7 +10279,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasRegistID);
 
-			FixMessage.getTagStringValue(buf, registID, 0, registID.length, err);
+			FixUtils.getTagStringValue(buf, registID, 0, registID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -10327,7 +10323,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasDesignation);
 
-			FixMessage.getTagStringValue(buf, designation, 0, designation.length, err);
+			FixUtils.getTagStringValue(buf, designation, 0, designation.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -10371,7 +10367,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasTransBkdTime);
 
-			FixMessage.getTagStringValue(buf, transBkdTime, 0, transBkdTime.length, err);
+			FixUtils.getTagStringValue(buf, transBkdTime, 0, transBkdTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -10415,7 +10411,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasExecValuationPoint);
 
-			FixMessage.getTagStringValue(buf, execValuationPoint, 0, execValuationPoint.length, err);
+			FixUtils.getTagStringValue(buf, execValuationPoint, 0, execValuationPoint.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -10459,7 +10455,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasExecPriceType);
 
-			execPriceType = FixMessage.getTagCharValue(buf, err);
+			execPriceType = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (execPriceType != (byte)'D') && (execPriceType != (byte)'E') && (execPriceType != (byte)'Q') && (execPriceType != (byte)'P') && (execPriceType != (byte)'S') && (execPriceType != (byte)'B') && (execPriceType != (byte)'C') && (execPriceType != (byte)'O') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 484);		
@@ -10510,7 +10506,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasExecPriceAdjustment);
 
-			execPriceAdjustment = FixMessage.getTagFloatValue(buf, err);
+			execPriceAdjustment = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -10559,7 +10555,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasPriorityIndicator);
 
-			priorityIndicator = FixMessage.getTagIntValue(buf, err);
+			priorityIndicator = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -10608,7 +10604,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasPriceImprovement);
 
-			priceImprovement = FixMessage.getTagFloatValue(buf, err);
+			priceImprovement = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -10657,7 +10653,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasLastLiquidityInd);
 
-			lastLiquidityInd = FixMessage.getTagIntValue(buf, err);
+			lastLiquidityInd = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -10706,7 +10702,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasCopyMsgIndicator);
 
-			copyMsgIndicator = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			copyMsgIndicator = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -10755,7 +10751,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasManualOrderIndicator);
 
-			manualOrderIndicator = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			manualOrderIndicator = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -10804,7 +10800,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasCustDirectedOrder);
 
-			custDirectedOrder = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			custDirectedOrder = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -10853,7 +10849,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasReceivedDeptID);
 
-			FixMessage.getTagStringValue(buf, receivedDeptID, 0, receivedDeptID.length, err);
+			FixUtils.getTagStringValue(buf, receivedDeptID, 0, receivedDeptID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -10897,7 +10893,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasCustOrderHandlingInst);
 
-			FixMessage.getTagStringValue(buf, custOrderHandlingInst, 0, custOrderHandlingInst.length, err);
+			FixUtils.getTagStringValue(buf, custOrderHandlingInst, 0, custOrderHandlingInst.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -10941,7 +10937,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasOrderHandlingInstSource);
 
-			orderHandlingInstSource = FixMessage.getTagIntValue(buf, err);
+			orderHandlingInstSource = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -10990,7 +10986,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasDividendYield);
 
-			dividendYield = FixMessage.getTagFloatValue(buf, err);
+			dividendYield = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -11039,7 +11035,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasVolatility);
 
-			volatility = FixMessage.getTagFloatValue(buf, err);
+			volatility = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -11088,7 +11084,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasTimeToExpiration);
 
-			timeToExpiration = FixMessage.getTagFloatValue(buf, err);
+			timeToExpiration = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -11137,7 +11133,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasRiskFreeRate);
 
-			riskFreeRate = FixMessage.getTagFloatValue(buf, err);
+			riskFreeRate = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -11186,7 +11182,7 @@ public class FixExecutionReport extends FixInMessage {
 
 				buf.position(hasPriceDelta);
 
-			priceDelta = FixMessage.getTagFloatValue(buf, err);
+			priceDelta = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		

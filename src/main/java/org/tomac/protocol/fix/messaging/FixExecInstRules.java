@@ -48,14 +48,14 @@ public class FixExecInstRules extends FixGroup {
             switch (tag) {		
             	case FixTags.EXECINSTVALUE_INT:		
             		hasExecInstValue = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -106,7 +106,7 @@ public class FixExecInstRules extends FixGroup {
 		
 				buf.position(hasExecInstValue);		
 		
-			execInstValue = FixMessage.getTagCharValue(buf, err);
+			execInstValue = FixUtils.getTagCharValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasExecInstValue);		

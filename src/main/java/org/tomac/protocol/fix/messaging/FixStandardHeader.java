@@ -157,127 +157,127 @@ public class FixStandardHeader extends FixGroup {
             switch (tag) {		
             	case FixTags.BEGINSTRING_INT:		
             		hasBeginString = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.BODYLENGTH_INT:		
             		hasBodyLength = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.MSGTYPE_INT:		
             		hasMsgType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.APPLVERID_INT:		
             		hasApplVerID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.CSTMAPPLVERID_INT:		
             		hasCstmApplVerID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.APPLEXTID_INT:		
             		hasApplExtID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SENDERCOMPID_INT:		
             		hasSenderCompID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TARGETCOMPID_INT:		
             		hasTargetCompID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ONBEHALFOFCOMPID_INT:		
             		hasOnBehalfOfCompID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DELIVERTOCOMPID_INT:		
             		hasDeliverToCompID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SECUREDATALEN_INT:		
             		hasSecureDataLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SECUREDATA_INT:		
             		hasSecureData = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.MSGSEQNUM_INT:		
             		hasMsgSeqNum = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SENDERSUBID_INT:		
             		hasSenderSubID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SENDERLOCATIONID_INT:		
             		hasSenderLocationID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TARGETSUBID_INT:		
             		hasTargetSubID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TARGETLOCATIONID_INT:		
             		hasTargetLocationID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ONBEHALFOFSUBID_INT:		
             		hasOnBehalfOfSubID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ONBEHALFOFLOCATIONID_INT:		
             		hasOnBehalfOfLocationID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DELIVERTOSUBID_INT:		
             		hasDeliverToSubID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DELIVERTOLOCATIONID_INT:		
             		hasDeliverToLocationID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.POSSDUPFLAG_INT:		
             		hasPossDupFlag = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.POSSRESEND_INT:		
             		hasPossResend = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SENDINGTIME_INT:		
             		hasSendingTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ORIGSENDINGTIME_INT:		
             		hasOrigSendingTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.XMLDATALEN_INT:		
             		hasXmlDataLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.XMLDATA_INT:		
             		hasXmlData = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.MESSAGEENCODING_INT:		
             		hasMessageEncoding = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LASTMSGSEQNUMPROCESSED_INT:		
             		hasLastMsgSeqNumProcessed = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( tag == FixTags.NOHOPS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -295,7 +295,7 @@ public class FixStandardHeader extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -891,7 +891,7 @@ public class FixStandardHeader extends FixGroup {
 		
 				buf.position(hasBeginString);		
 		
-			FixMessage.getTagStringValue(buf, beginString, 0, beginString.length, err);
+			FixUtils.getTagStringValue(buf, beginString, 0, beginString.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasBeginString);		
@@ -930,7 +930,7 @@ public class FixStandardHeader extends FixGroup {
 		
 				buf.position(hasBodyLength);		
 		
-			bodyLength = FixMessage.getTagIntValue(buf, err);
+			bodyLength = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasBodyLength);		
@@ -974,7 +974,7 @@ public class FixStandardHeader extends FixGroup {
 		
 				buf.position(hasMsgType);		
 		
-			FixMessage.getTagStringValue(buf, msgType, 0, msgType.length, err);
+			FixUtils.getTagStringValue(buf, msgType, 0, msgType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMsgType);		
@@ -1013,7 +1013,7 @@ public class FixStandardHeader extends FixGroup {
 		
 				buf.position(hasApplVerID);		
 		
-			FixMessage.getTagStringValue(buf, applVerID, 0, applVerID.length, err);
+			FixUtils.getTagStringValue(buf, applVerID, 0, applVerID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasApplVerID);		
@@ -1052,7 +1052,7 @@ public class FixStandardHeader extends FixGroup {
 		
 				buf.position(hasCstmApplVerID);		
 		
-			FixMessage.getTagStringValue(buf, cstmApplVerID, 0, cstmApplVerID.length, err);
+			FixUtils.getTagStringValue(buf, cstmApplVerID, 0, cstmApplVerID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasCstmApplVerID);		
@@ -1091,7 +1091,7 @@ public class FixStandardHeader extends FixGroup {
 		
 				buf.position(hasApplExtID);		
 		
-			applExtID = FixMessage.getTagIntValue(buf, err);
+			applExtID = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasApplExtID);		
@@ -1135,7 +1135,7 @@ public class FixStandardHeader extends FixGroup {
 		
 				buf.position(hasSenderCompID);		
 		
-			FixMessage.getTagStringValue(buf, senderCompID, 0, senderCompID.length, err);
+			FixUtils.getTagStringValue(buf, senderCompID, 0, senderCompID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSenderCompID);		
@@ -1174,7 +1174,7 @@ public class FixStandardHeader extends FixGroup {
 		
 				buf.position(hasTargetCompID);		
 		
-			FixMessage.getTagStringValue(buf, targetCompID, 0, targetCompID.length, err);
+			FixUtils.getTagStringValue(buf, targetCompID, 0, targetCompID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTargetCompID);		
@@ -1213,7 +1213,7 @@ public class FixStandardHeader extends FixGroup {
 		
 				buf.position(hasOnBehalfOfCompID);		
 		
-			FixMessage.getTagStringValue(buf, onBehalfOfCompID, 0, onBehalfOfCompID.length, err);
+			FixUtils.getTagStringValue(buf, onBehalfOfCompID, 0, onBehalfOfCompID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasOnBehalfOfCompID);		
@@ -1252,7 +1252,7 @@ public class FixStandardHeader extends FixGroup {
 		
 				buf.position(hasDeliverToCompID);		
 		
-			FixMessage.getTagStringValue(buf, deliverToCompID, 0, deliverToCompID.length, err);
+			FixUtils.getTagStringValue(buf, deliverToCompID, 0, deliverToCompID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDeliverToCompID);		
@@ -1291,7 +1291,7 @@ public class FixStandardHeader extends FixGroup {
 		
 				buf.position(hasSecureDataLen);		
 		
-			secureDataLen = FixMessage.getTagIntValue(buf, err);
+			secureDataLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSecureDataLen);		
@@ -1335,7 +1335,7 @@ public class FixStandardHeader extends FixGroup {
 		
 				buf.position(hasSecureData);		
 		
-			FixMessage.getTagStringValue(buf, secureData, 0, secureData.length, err);
+			FixUtils.getTagStringValue(buf, secureData, 0, secureData.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSecureData);		
@@ -1374,7 +1374,7 @@ public class FixStandardHeader extends FixGroup {
 		
 				buf.position(hasMsgSeqNum);		
 		
-			msgSeqNum = FixMessage.getTagIntValue(buf, err);
+			msgSeqNum = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMsgSeqNum);		
@@ -1418,7 +1418,7 @@ public class FixStandardHeader extends FixGroup {
 		
 				buf.position(hasSenderSubID);		
 		
-			FixMessage.getTagStringValue(buf, senderSubID, 0, senderSubID.length, err);
+			FixUtils.getTagStringValue(buf, senderSubID, 0, senderSubID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSenderSubID);		
@@ -1457,7 +1457,7 @@ public class FixStandardHeader extends FixGroup {
 		
 				buf.position(hasSenderLocationID);		
 		
-			FixMessage.getTagStringValue(buf, senderLocationID, 0, senderLocationID.length, err);
+			FixUtils.getTagStringValue(buf, senderLocationID, 0, senderLocationID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSenderLocationID);		
@@ -1496,7 +1496,7 @@ public class FixStandardHeader extends FixGroup {
 		
 				buf.position(hasTargetSubID);		
 		
-			FixMessage.getTagStringValue(buf, targetSubID, 0, targetSubID.length, err);
+			FixUtils.getTagStringValue(buf, targetSubID, 0, targetSubID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTargetSubID);		
@@ -1535,7 +1535,7 @@ public class FixStandardHeader extends FixGroup {
 		
 				buf.position(hasTargetLocationID);		
 		
-			FixMessage.getTagStringValue(buf, targetLocationID, 0, targetLocationID.length, err);
+			FixUtils.getTagStringValue(buf, targetLocationID, 0, targetLocationID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTargetLocationID);		
@@ -1574,7 +1574,7 @@ public class FixStandardHeader extends FixGroup {
 		
 				buf.position(hasOnBehalfOfSubID);		
 		
-			FixMessage.getTagStringValue(buf, onBehalfOfSubID, 0, onBehalfOfSubID.length, err);
+			FixUtils.getTagStringValue(buf, onBehalfOfSubID, 0, onBehalfOfSubID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasOnBehalfOfSubID);		
@@ -1613,7 +1613,7 @@ public class FixStandardHeader extends FixGroup {
 		
 				buf.position(hasOnBehalfOfLocationID);		
 		
-			FixMessage.getTagStringValue(buf, onBehalfOfLocationID, 0, onBehalfOfLocationID.length, err);
+			FixUtils.getTagStringValue(buf, onBehalfOfLocationID, 0, onBehalfOfLocationID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasOnBehalfOfLocationID);		
@@ -1652,7 +1652,7 @@ public class FixStandardHeader extends FixGroup {
 		
 				buf.position(hasDeliverToSubID);		
 		
-			FixMessage.getTagStringValue(buf, deliverToSubID, 0, deliverToSubID.length, err);
+			FixUtils.getTagStringValue(buf, deliverToSubID, 0, deliverToSubID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDeliverToSubID);		
@@ -1691,7 +1691,7 @@ public class FixStandardHeader extends FixGroup {
 		
 				buf.position(hasDeliverToLocationID);		
 		
-			FixMessage.getTagStringValue(buf, deliverToLocationID, 0, deliverToLocationID.length, err);
+			FixUtils.getTagStringValue(buf, deliverToLocationID, 0, deliverToLocationID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDeliverToLocationID);		
@@ -1730,7 +1730,7 @@ public class FixStandardHeader extends FixGroup {
 		
 				buf.position(hasPossDupFlag);		
 		
-			possDupFlag = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			possDupFlag = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(hasPossDupFlag);		
@@ -1774,7 +1774,7 @@ public class FixStandardHeader extends FixGroup {
 		
 				buf.position(hasPossResend);		
 		
-			possResend = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			possResend = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(hasPossResend);		
@@ -1818,7 +1818,7 @@ public class FixStandardHeader extends FixGroup {
 		
 				buf.position(hasSendingTime);		
 		
-			FixMessage.getTagStringValue(buf, sendingTime, 0, sendingTime.length, err);
+			FixUtils.getTagStringValue(buf, sendingTime, 0, sendingTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSendingTime);		
@@ -1857,7 +1857,7 @@ public class FixStandardHeader extends FixGroup {
 		
 				buf.position(hasOrigSendingTime);		
 		
-			FixMessage.getTagStringValue(buf, origSendingTime, 0, origSendingTime.length, err);
+			FixUtils.getTagStringValue(buf, origSendingTime, 0, origSendingTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasOrigSendingTime);		
@@ -1896,7 +1896,7 @@ public class FixStandardHeader extends FixGroup {
 		
 				buf.position(hasXmlDataLen);		
 		
-			xmlDataLen = FixMessage.getTagIntValue(buf, err);
+			xmlDataLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasXmlDataLen);		
@@ -1940,7 +1940,7 @@ public class FixStandardHeader extends FixGroup {
 		
 				buf.position(hasXmlData);		
 		
-			FixMessage.getTagStringValue(buf, xmlData, 0, xmlData.length, err);
+			FixUtils.getTagStringValue(buf, xmlData, 0, xmlData.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasXmlData);		
@@ -1979,7 +1979,7 @@ public class FixStandardHeader extends FixGroup {
 		
 				buf.position(hasMessageEncoding);		
 		
-			FixMessage.getTagStringValue(buf, messageEncoding, 0, messageEncoding.length, err);
+			FixUtils.getTagStringValue(buf, messageEncoding, 0, messageEncoding.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMessageEncoding);		
@@ -2018,7 +2018,7 @@ public class FixStandardHeader extends FixGroup {
 		
 				buf.position(hasLastMsgSeqNumProcessed);		
 		
-			lastMsgSeqNumProcessed = FixMessage.getTagIntValue(buf, err);
+			lastMsgSeqNumProcessed = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLastMsgSeqNumProcessed);		

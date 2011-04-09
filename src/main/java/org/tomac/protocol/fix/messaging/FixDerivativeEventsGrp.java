@@ -63,30 +63,30 @@ public class FixDerivativeEventsGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.DERIVATIVEEVENTTYPE_INT:		
             		hasDerivativeEventType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEEVENTDATE_INT:		
             		hasDerivativeEventDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEEVENTTIME_INT:		
             		hasDerivativeEventTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEEVENTPX_INT:		
             		hasDerivativeEventPx = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEEVENTTEXT_INT:		
             		hasDerivativeEventText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -209,7 +209,7 @@ public class FixDerivativeEventsGrp extends FixGroup {
 		
 				buf.position(hasDerivativeEventType);		
 		
-			derivativeEventType = FixMessage.getTagIntValue(buf, err);
+			derivativeEventType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeEventType);		
@@ -253,7 +253,7 @@ public class FixDerivativeEventsGrp extends FixGroup {
 		
 				buf.position(hasDerivativeEventDate);		
 		
-			FixMessage.getTagStringValue(buf, derivativeEventDate, 0, derivativeEventDate.length, err);
+			FixUtils.getTagStringValue(buf, derivativeEventDate, 0, derivativeEventDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeEventDate);		
@@ -292,7 +292,7 @@ public class FixDerivativeEventsGrp extends FixGroup {
 		
 				buf.position(hasDerivativeEventTime);		
 		
-			FixMessage.getTagStringValue(buf, derivativeEventTime, 0, derivativeEventTime.length, err);
+			FixUtils.getTagStringValue(buf, derivativeEventTime, 0, derivativeEventTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeEventTime);		
@@ -331,7 +331,7 @@ public class FixDerivativeEventsGrp extends FixGroup {
 		
 				buf.position(hasDerivativeEventPx);		
 		
-			derivativeEventPx = FixMessage.getTagFloatValue(buf, err);
+			derivativeEventPx = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeEventPx);		
@@ -375,7 +375,7 @@ public class FixDerivativeEventsGrp extends FixGroup {
 		
 				buf.position(hasDerivativeEventText);		
 		
-			FixMessage.getTagStringValue(buf, derivativeEventText, 0, derivativeEventText.length, err);
+			FixUtils.getTagStringValue(buf, derivativeEventText, 0, derivativeEventText.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeEventText);		

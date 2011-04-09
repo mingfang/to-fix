@@ -51,18 +51,18 @@ public class FixExpirationQty extends FixGroup {
             switch (tag) {		
             	case FixTags.EXPIRATIONQTYTYPE_INT:		
             		hasExpirationQtyType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.EXPQTY_INT:		
             		hasExpQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -131,7 +131,7 @@ public class FixExpirationQty extends FixGroup {
 		
 				buf.position(hasExpirationQtyType);		
 		
-			expirationQtyType = FixMessage.getTagIntValue(buf, err);
+			expirationQtyType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasExpirationQtyType);		
@@ -175,7 +175,7 @@ public class FixExpirationQty extends FixGroup {
 		
 				buf.position(hasExpQty);		
 		
-			expQty = FixMessage.getTagFloatValue(buf, err);
+			expQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasExpQty);		

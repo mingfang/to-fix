@@ -73,42 +73,42 @@ public class FixExecAllocGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.LASTQTY_INT:		
             		hasLastQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.EXECID_INT:		
             		hasExecID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SECONDARYEXECID_INT:		
             		hasSecondaryExecID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LASTPX_INT:		
             		hasLastPx = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LASTPARPX_INT:		
             		hasLastParPx = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LASTCAPACITY_INT:		
             		hasLastCapacity = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRADEID_INT:		
             		hasTradeID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.FIRMTRADEID_INT:		
             		hasFirmTradeID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -285,7 +285,7 @@ public class FixExecAllocGrp extends FixGroup {
 		
 				buf.position(hasLastQty);		
 		
-			lastQty = FixMessage.getTagFloatValue(buf, err);
+			lastQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLastQty);		
@@ -329,7 +329,7 @@ public class FixExecAllocGrp extends FixGroup {
 		
 				buf.position(hasExecID);		
 		
-			FixMessage.getTagStringValue(buf, execID, 0, execID.length, err);
+			FixUtils.getTagStringValue(buf, execID, 0, execID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasExecID);		
@@ -368,7 +368,7 @@ public class FixExecAllocGrp extends FixGroup {
 		
 				buf.position(hasSecondaryExecID);		
 		
-			FixMessage.getTagStringValue(buf, secondaryExecID, 0, secondaryExecID.length, err);
+			FixUtils.getTagStringValue(buf, secondaryExecID, 0, secondaryExecID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSecondaryExecID);		
@@ -407,7 +407,7 @@ public class FixExecAllocGrp extends FixGroup {
 		
 				buf.position(hasLastPx);		
 		
-			lastPx = FixMessage.getTagFloatValue(buf, err);
+			lastPx = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLastPx);		
@@ -451,7 +451,7 @@ public class FixExecAllocGrp extends FixGroup {
 		
 				buf.position(hasLastParPx);		
 		
-			lastParPx = FixMessage.getTagFloatValue(buf, err);
+			lastParPx = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLastParPx);		
@@ -495,7 +495,7 @@ public class FixExecAllocGrp extends FixGroup {
 		
 				buf.position(hasLastCapacity);		
 		
-			lastCapacity = FixMessage.getTagCharValue(buf, err);
+			lastCapacity = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (lastCapacity != (byte)'3') && (lastCapacity != (byte)'2') && (lastCapacity != (byte)'1') && (lastCapacity != (byte)'4') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 29);		
@@ -541,7 +541,7 @@ public class FixExecAllocGrp extends FixGroup {
 		
 				buf.position(hasTradeID);		
 		
-			FixMessage.getTagStringValue(buf, tradeID, 0, tradeID.length, err);
+			FixUtils.getTagStringValue(buf, tradeID, 0, tradeID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTradeID);		
@@ -580,7 +580,7 @@ public class FixExecAllocGrp extends FixGroup {
 		
 				buf.position(hasFirmTradeID);		
 		
-			FixMessage.getTagStringValue(buf, firmTradeID, 0, firmTradeID.length, err);
+			FixUtils.getTagStringValue(buf, firmTradeID, 0, firmTradeID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasFirmTradeID);		

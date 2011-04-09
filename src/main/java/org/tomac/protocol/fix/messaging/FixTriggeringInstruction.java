@@ -96,70 +96,70 @@ public class FixTriggeringInstruction extends FixGroup {
             switch (tag) {		
             	case FixTags.TRIGGERTYPE_INT:		
             		hasTriggerType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRIGGERACTION_INT:		
             		hasTriggerAction = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRIGGERPRICE_INT:		
             		hasTriggerPrice = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRIGGERSYMBOL_INT:		
             		hasTriggerSymbol = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRIGGERSECURITYID_INT:		
             		hasTriggerSecurityID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRIGGERSECURITYIDSOURCE_INT:		
             		hasTriggerSecurityIDSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRIGGERSECURITYDESC_INT:		
             		hasTriggerSecurityDesc = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRIGGERPRICETYPE_INT:		
             		hasTriggerPriceType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRIGGERPRICETYPESCOPE_INT:		
             		hasTriggerPriceTypeScope = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRIGGERPRICEDIRECTION_INT:		
             		hasTriggerPriceDirection = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRIGGERNEWPRICE_INT:		
             		hasTriggerNewPrice = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRIGGERORDERTYPE_INT:		
             		hasTriggerOrderType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRIGGERNEWQTY_INT:		
             		hasTriggerNewQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRIGGERTRADINGSESSIONID_INT:		
             		hasTriggerTradingSessionID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRIGGERTRADINGSESSIONSUBID_INT:		
             		hasTriggerTradingSessionSubID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -462,7 +462,7 @@ public class FixTriggeringInstruction extends FixGroup {
 		
 				buf.position(hasTriggerType);		
 		
-			triggerType = FixMessage.getTagCharValue(buf, err);
+			triggerType = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (triggerType != (byte)'3') && (triggerType != (byte)'2') && (triggerType != (byte)'1') && (triggerType != (byte)'4') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 1100);		
@@ -508,7 +508,7 @@ public class FixTriggeringInstruction extends FixGroup {
 		
 				buf.position(hasTriggerAction);		
 		
-			triggerAction = FixMessage.getTagCharValue(buf, err);
+			triggerAction = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (triggerAction != (byte)'3') && (triggerAction != (byte)'2') && (triggerAction != (byte)'1') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 1101);		
@@ -554,7 +554,7 @@ public class FixTriggeringInstruction extends FixGroup {
 		
 				buf.position(hasTriggerPrice);		
 		
-			triggerPrice = FixMessage.getTagFloatValue(buf, err);
+			triggerPrice = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTriggerPrice);		
@@ -598,7 +598,7 @@ public class FixTriggeringInstruction extends FixGroup {
 		
 				buf.position(hasTriggerSymbol);		
 		
-			FixMessage.getTagStringValue(buf, triggerSymbol, 0, triggerSymbol.length, err);
+			FixUtils.getTagStringValue(buf, triggerSymbol, 0, triggerSymbol.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTriggerSymbol);		
@@ -637,7 +637,7 @@ public class FixTriggeringInstruction extends FixGroup {
 		
 				buf.position(hasTriggerSecurityID);		
 		
-			FixMessage.getTagStringValue(buf, triggerSecurityID, 0, triggerSecurityID.length, err);
+			FixUtils.getTagStringValue(buf, triggerSecurityID, 0, triggerSecurityID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTriggerSecurityID);		
@@ -676,7 +676,7 @@ public class FixTriggeringInstruction extends FixGroup {
 		
 				buf.position(hasTriggerSecurityIDSource);		
 		
-			FixMessage.getTagStringValue(buf, triggerSecurityIDSource, 0, triggerSecurityIDSource.length, err);
+			FixUtils.getTagStringValue(buf, triggerSecurityIDSource, 0, triggerSecurityIDSource.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTriggerSecurityIDSource);		
@@ -715,7 +715,7 @@ public class FixTriggeringInstruction extends FixGroup {
 		
 				buf.position(hasTriggerSecurityDesc);		
 		
-			FixMessage.getTagStringValue(buf, triggerSecurityDesc, 0, triggerSecurityDesc.length, err);
+			FixUtils.getTagStringValue(buf, triggerSecurityDesc, 0, triggerSecurityDesc.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTriggerSecurityDesc);		
@@ -754,7 +754,7 @@ public class FixTriggeringInstruction extends FixGroup {
 		
 				buf.position(hasTriggerPriceType);		
 		
-			triggerPriceType = FixMessage.getTagCharValue(buf, err);
+			triggerPriceType = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (triggerPriceType != (byte)'3') && (triggerPriceType != (byte)'2') && (triggerPriceType != (byte)'1') && (triggerPriceType != (byte)'6') && (triggerPriceType != (byte)'5') && (triggerPriceType != (byte)'4') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 1107);		
@@ -800,7 +800,7 @@ public class FixTriggeringInstruction extends FixGroup {
 		
 				buf.position(hasTriggerPriceTypeScope);		
 		
-			triggerPriceTypeScope = FixMessage.getTagCharValue(buf, err);
+			triggerPriceTypeScope = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (triggerPriceTypeScope != (byte)'3') && (triggerPriceTypeScope != (byte)'2') && (triggerPriceTypeScope != (byte)'1') && (triggerPriceTypeScope != (byte)'0') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 1108);		
@@ -846,7 +846,7 @@ public class FixTriggeringInstruction extends FixGroup {
 		
 				buf.position(hasTriggerPriceDirection);		
 		
-			triggerPriceDirection = FixMessage.getTagCharValue(buf, err);
+			triggerPriceDirection = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (triggerPriceDirection != (byte)'D') && (triggerPriceDirection != (byte)'U') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 1109);		
@@ -892,7 +892,7 @@ public class FixTriggeringInstruction extends FixGroup {
 		
 				buf.position(hasTriggerNewPrice);		
 		
-			triggerNewPrice = FixMessage.getTagFloatValue(buf, err);
+			triggerNewPrice = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTriggerNewPrice);		
@@ -936,7 +936,7 @@ public class FixTriggeringInstruction extends FixGroup {
 		
 				buf.position(hasTriggerOrderType);		
 		
-			triggerOrderType = FixMessage.getTagCharValue(buf, err);
+			triggerOrderType = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (triggerOrderType != (byte)'2') && (triggerOrderType != (byte)'1') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 1111);		
@@ -982,7 +982,7 @@ public class FixTriggeringInstruction extends FixGroup {
 		
 				buf.position(hasTriggerNewQty);		
 		
-			triggerNewQty = FixMessage.getTagFloatValue(buf, err);
+			triggerNewQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTriggerNewQty);		
@@ -1026,7 +1026,7 @@ public class FixTriggeringInstruction extends FixGroup {
 		
 				buf.position(hasTriggerTradingSessionID);		
 		
-			FixMessage.getTagStringValue(buf, triggerTradingSessionID, 0, triggerTradingSessionID.length, err);
+			FixUtils.getTagStringValue(buf, triggerTradingSessionID, 0, triggerTradingSessionID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTriggerTradingSessionID);		
@@ -1065,7 +1065,7 @@ public class FixTriggeringInstruction extends FixGroup {
 		
 				buf.position(hasTriggerTradingSessionSubID);		
 		
-			FixMessage.getTagStringValue(buf, triggerTradingSessionSubID, 0, triggerTradingSessionSubID.length, err);
+			FixUtils.getTagStringValue(buf, triggerTradingSessionSubID, 0, triggerTradingSessionSubID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTriggerTradingSessionSubID);		

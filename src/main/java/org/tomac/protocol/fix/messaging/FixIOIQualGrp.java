@@ -48,14 +48,14 @@ public class FixIOIQualGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.IOIQUALIFIER_INT:		
             		hasIOIQualifier = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -106,7 +106,7 @@ public class FixIOIQualGrp extends FixGroup {
 		
 				buf.position(hasIOIQualifier);		
 		
-			iOIQualifier = FixMessage.getTagCharValue(buf, err);
+			iOIQualifier = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (iOIQualifier != (byte)'D') && (iOIQualifier != (byte)'A') && (iOIQualifier != (byte)'B') && (iOIQualifier != (byte)'C') && (iOIQualifier != (byte)'L') && (iOIQualifier != (byte)'M') && (iOIQualifier != (byte)'O') && (iOIQualifier != (byte)'I') && (iOIQualifier != (byte)'T') && (iOIQualifier != (byte)'W') && (iOIQualifier != (byte)'V') && (iOIQualifier != (byte)'Q') && (iOIQualifier != (byte)'P') && (iOIQualifier != (byte)'S') && (iOIQualifier != (byte)'R') && (iOIQualifier != (byte)'Y') && (iOIQualifier != (byte)'X') && (iOIQualifier != (byte)'Z') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 104);		

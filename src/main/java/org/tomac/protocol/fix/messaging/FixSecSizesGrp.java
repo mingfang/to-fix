@@ -51,18 +51,18 @@ public class FixSecSizesGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.MDSECSIZETYPE_INT:		
             		hasMDSecSizeType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.MDSECSIZE_INT:		
             		hasMDSecSize = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -131,7 +131,7 @@ public class FixSecSizesGrp extends FixGroup {
 		
 				buf.position(hasMDSecSizeType);		
 		
-			mDSecSizeType = FixMessage.getTagIntValue(buf, err);
+			mDSecSizeType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMDSecSizeType);		
@@ -175,7 +175,7 @@ public class FixSecSizesGrp extends FixGroup {
 		
 				buf.position(hasMDSecSize);		
 		
-			mDSecSize = FixMessage.getTagFloatValue(buf, err);
+			mDSecSize = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMDSecSize);		

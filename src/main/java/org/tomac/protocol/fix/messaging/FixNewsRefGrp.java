@@ -52,18 +52,18 @@ public class FixNewsRefGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.NEWSREFID_INT:		
             		hasNewsRefID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.NEWSREFTYPE_INT:		
             		hasNewsRefType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -132,7 +132,7 @@ public class FixNewsRefGrp extends FixGroup {
 		
 				buf.position(hasNewsRefID);		
 		
-			FixMessage.getTagStringValue(buf, newsRefID, 0, newsRefID.length, err);
+			FixUtils.getTagStringValue(buf, newsRefID, 0, newsRefID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasNewsRefID);		
@@ -171,7 +171,7 @@ public class FixNewsRefGrp extends FixGroup {
 		
 				buf.position(hasNewsRefType);		
 		
-			newsRefType = FixMessage.getTagIntValue(buf, err);
+			newsRefType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasNewsRefType);		

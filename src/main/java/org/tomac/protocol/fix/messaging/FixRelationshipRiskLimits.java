@@ -65,27 +65,27 @@ public class FixRelationshipRiskLimits extends FixGroup {
             switch (tag) {		
             	case FixTags.RELATIONSHIPRISKLIMITTYPE_INT:		
             		hasRelationshipRiskLimitType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELATIONSHIPRISKLIMITAMOUNT_INT:		
             		hasRelationshipRiskLimitAmount = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELATIONSHIPRISKLIMITCURRENCY_INT:		
             		hasRelationshipRiskLimitCurrency = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELATIONSHIPRISKLIMITPLATFORM_INT:		
             		hasRelationshipRiskLimitPlatform = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( tag == FixTags.NORELATIONSHIPRISKINSTRUMENTS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -102,10 +102,10 @@ public class FixRelationshipRiskLimits extends FixGroup {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NORELATIONSHIPRISKWARNINGLEVELS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -123,7 +123,7 @@ public class FixRelationshipRiskLimits extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -254,7 +254,7 @@ public class FixRelationshipRiskLimits extends FixGroup {
 		
 				buf.position(hasRelationshipRiskLimitType);		
 		
-			relationshipRiskLimitType = FixMessage.getTagIntValue(buf, err);
+			relationshipRiskLimitType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelationshipRiskLimitType);		
@@ -298,7 +298,7 @@ public class FixRelationshipRiskLimits extends FixGroup {
 		
 				buf.position(hasRelationshipRiskLimitAmount);		
 		
-			relationshipRiskLimitAmount = FixMessage.getTagFloatValue(buf, err);
+			relationshipRiskLimitAmount = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelationshipRiskLimitAmount);		
@@ -342,7 +342,7 @@ public class FixRelationshipRiskLimits extends FixGroup {
 		
 				buf.position(hasRelationshipRiskLimitCurrency);		
 		
-			FixMessage.getTagStringValue(buf, relationshipRiskLimitCurrency, 0, relationshipRiskLimitCurrency.length, err);
+			FixUtils.getTagStringValue(buf, relationshipRiskLimitCurrency, 0, relationshipRiskLimitCurrency.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelationshipRiskLimitCurrency);		
@@ -381,7 +381,7 @@ public class FixRelationshipRiskLimits extends FixGroup {
 		
 				buf.position(hasRelationshipRiskLimitPlatform);		
 		
-			FixMessage.getTagStringValue(buf, relationshipRiskLimitPlatform, 0, relationshipRiskLimitPlatform.length, err);
+			FixUtils.getTagStringValue(buf, relationshipRiskLimitPlatform, 0, relationshipRiskLimitPlatform.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelationshipRiskLimitPlatform);		

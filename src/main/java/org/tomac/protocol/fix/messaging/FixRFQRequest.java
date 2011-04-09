@@ -38,7 +38,7 @@ public class FixRFQRequest extends FixInMessage {
 		super.setBuffer(buf, err);
         if (err.hasError()) return;
 
-        int tag = FixMessage.getTag(buf, err);
+        int tag = FixUtils.getTag(buf, err);
         if (err.hasError()) return;
 
         while ( buf.hasRemaining() ) {
@@ -46,15 +46,15 @@ public class FixRFQRequest extends FixInMessage {
             switch (tag) {		
             	case FixTags.RFQREQID_INT:		
             		hasRFQReqID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SUBSCRIPTIONREQUESTTYPE_INT:		
             		hasSubscriptionRequestType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.PRIVATEQUOTE_INT:		
             		hasPrivateQuote = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	default:
         			if ( standardHeader.isKeyTag(tag)) {
@@ -63,15 +63,15 @@ public class FixRFQRequest extends FixInMessage {
                 		else continue;		
         			} else if ( standardTrailer.isKeyTag(tag)) {
         				tag = standardTrailer.setBuffer( tag, buf, err);
-        				FixMessage.unreadLastTag(tag, buf);
+        				FixUtils.unreadLastTag(tag, buf);
         				if (!err.hasError()) hasRequiredTags(err);
             			return; // always last, we are done now
         			} else if ( tag == FixTags.NOPARTYIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -88,10 +88,10 @@ public class FixRFQRequest extends FixInMessage {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NORELATEDSYM_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -107,10 +107,10 @@ public class FixRFQRequest extends FixInMessage {
         				if (err.hasError()) break;
                 		else { tag = repeatingGroupTag; continue; }
             		} else {
- 						FixMessage.getNext(buf, err);		
+ 						FixUtils.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else {
-                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.RFQREQUEST);
+                		else if (FixUtils.validateOnlyDefinedTagsAllowed) {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.RFQREQUEST_INT);
                 			break;
                 		}
 					}
@@ -119,7 +119,7 @@ public class FixRFQRequest extends FixInMessage {
 
         		if (err.hasError()) return;
 
-            	tag = FixMessage.getTag(buf, err);		
+            	tag = FixUtils.getTag(buf, err);		
         		if (err.hasError()) break;
 
 		}
@@ -127,15 +127,11 @@ public class FixRFQRequest extends FixInMessage {
 	}		
 
 	public boolean hasRequiredTags(FixValidationError err) {
-		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		if (!hasRFQReqID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.RFQREQID_INT, FixMessageInfo.MessageTypes.RFQREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.RFQREQID_INT, FixMessageInfo.MessageTypes.RFQREQUEST_INT);
 			return false;
 		}
 		for (int i = 0; i< FixUtils.FIX_MAX_NOINGROUP; i++) { if (rFQReqGrp[i].hasGroup()) rFQReqGrp[i].hasRequiredTags(err); if (err.hasError()) return false; }
-		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		return true;
 	}
 	@Override		
@@ -294,7 +290,7 @@ public class FixRFQRequest extends FixInMessage {
 
 				buf.position(hasRFQReqID);
 
-			FixMessage.getTagStringValue(buf, rFQReqID, 0, rFQReqID.length, err);
+			FixUtils.getTagStringValue(buf, rFQReqID, 0, rFQReqID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -338,7 +334,7 @@ public class FixRFQRequest extends FixInMessage {
 
 				buf.position(hasSubscriptionRequestType);
 
-			subscriptionRequestType = FixMessage.getTagCharValue(buf, err);
+			subscriptionRequestType = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (subscriptionRequestType != (byte)'2') && (subscriptionRequestType != (byte)'1') && (subscriptionRequestType != (byte)'0') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 263);		
@@ -389,7 +385,7 @@ public class FixRFQRequest extends FixInMessage {
 
 				buf.position(hasPrivateQuote);
 
-			privateQuote = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			privateQuote = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(0);		

@@ -43,7 +43,7 @@ public class FixStreamAssignmentReportACK extends FixInMessage {
 		super.setBuffer(buf, err);
         if (err.hasError()) return;
 
-        int tag = FixMessage.getTag(buf, err);
+        int tag = FixUtils.getTag(buf, err);
         if (err.hasError()) return;
 
         while ( buf.hasRemaining() ) {
@@ -51,27 +51,27 @@ public class FixStreamAssignmentReportACK extends FixInMessage {
             switch (tag) {		
             	case FixTags.STREAMASGNACKTYPE_INT:		
             		hasStreamAsgnAckType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.STREAMASGNRPTID_INT:		
             		hasStreamAsgnRptID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.STREAMASGNREJREASON_INT:		
             		hasStreamAsgnRejReason = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TEXT_INT:		
             		hasText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDTEXTLEN_INT:		
             		hasEncodedTextLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDTEXT_INT:		
             		hasEncodedText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	default:
         			if ( standardHeader.isKeyTag(tag)) {
@@ -80,14 +80,14 @@ public class FixStreamAssignmentReportACK extends FixInMessage {
                 		else continue;		
         			} else if ( standardTrailer.isKeyTag(tag)) {
         				tag = standardTrailer.setBuffer( tag, buf, err);
-        				FixMessage.unreadLastTag(tag, buf);
+        				FixUtils.unreadLastTag(tag, buf);
         				if (!err.hasError()) hasRequiredTags(err);
             			return; // always last, we are done now
             		} else {
- 						FixMessage.getNext(buf, err);		
+ 						FixUtils.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else {
-                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.STREAMASSIGNMENTREPORTACK);
+                		else if (FixUtils.validateOnlyDefinedTagsAllowed) {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.STREAMASSIGNMENTREPORTACK_INT);
                 			break;
                 		}
 					}
@@ -96,7 +96,7 @@ public class FixStreamAssignmentReportACK extends FixInMessage {
 
         		if (err.hasError()) return;
 
-            	tag = FixMessage.getTag(buf, err);		
+            	tag = FixUtils.getTag(buf, err);		
         		if (err.hasError()) break;
 
 		}
@@ -104,18 +104,14 @@ public class FixStreamAssignmentReportACK extends FixInMessage {
 	}		
 
 	public boolean hasRequiredTags(FixValidationError err) {
-		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		if (!hasStreamAsgnAckType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.STREAMASGNACKTYPE_INT, FixMessageInfo.MessageTypes.STREAMASSIGNMENTREPORTACK);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.STREAMASGNACKTYPE_INT, FixMessageInfo.MessageTypes.STREAMASSIGNMENTREPORTACK_INT);
 			return false;
 		}
 		if (!hasStreamAsgnRptID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.STREAMASGNRPTID_INT, FixMessageInfo.MessageTypes.STREAMASSIGNMENTREPORTACK);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.STREAMASGNRPTID_INT, FixMessageInfo.MessageTypes.STREAMASSIGNMENTREPORTACK_INT);
 			return false;
 		}
-		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		return true;
 	}
 	@Override		
@@ -300,7 +296,7 @@ public class FixStreamAssignmentReportACK extends FixInMessage {
 
 				buf.position(hasStreamAsgnAckType);
 
-			streamAsgnAckType = FixMessage.getTagIntValue(buf, err);
+			streamAsgnAckType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -349,7 +345,7 @@ public class FixStreamAssignmentReportACK extends FixInMessage {
 
 				buf.position(hasStreamAsgnRptID);
 
-			FixMessage.getTagStringValue(buf, streamAsgnRptID, 0, streamAsgnRptID.length, err);
+			FixUtils.getTagStringValue(buf, streamAsgnRptID, 0, streamAsgnRptID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -393,7 +389,7 @@ public class FixStreamAssignmentReportACK extends FixInMessage {
 
 				buf.position(hasStreamAsgnRejReason);
 
-			streamAsgnRejReason = FixMessage.getTagIntValue(buf, err);
+			streamAsgnRejReason = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -442,7 +438,7 @@ public class FixStreamAssignmentReportACK extends FixInMessage {
 
 				buf.position(hasText);
 
-			FixMessage.getTagStringValue(buf, text, 0, text.length, err);
+			FixUtils.getTagStringValue(buf, text, 0, text.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -486,7 +482,7 @@ public class FixStreamAssignmentReportACK extends FixInMessage {
 
 				buf.position(hasEncodedTextLen);
 
-			encodedTextLen = FixMessage.getTagIntValue(buf, err);
+			encodedTextLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -535,7 +531,7 @@ public class FixStreamAssignmentReportACK extends FixInMessage {
 
 				buf.position(hasEncodedText);
 
-			FixMessage.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
+			FixUtils.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		

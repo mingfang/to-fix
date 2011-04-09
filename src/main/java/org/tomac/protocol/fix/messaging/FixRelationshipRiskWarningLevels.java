@@ -52,18 +52,18 @@ public class FixRelationshipRiskWarningLevels extends FixGroup {
             switch (tag) {		
             	case FixTags.RELATIONSHIPRISKWARNINGLEVELPERCENT_INT:		
             		hasRelationshipRiskWarningLevelPercent = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELATIONSHIPRISKWARNINGLEVELNAME_INT:		
             		hasRelationshipRiskWarningLevelName = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -132,7 +132,7 @@ public class FixRelationshipRiskWarningLevels extends FixGroup {
 		
 				buf.position(hasRelationshipRiskWarningLevelPercent);		
 		
-			relationshipRiskWarningLevelPercent = FixMessage.getTagFloatValue(buf, err);
+			relationshipRiskWarningLevelPercent = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelationshipRiskWarningLevelPercent);		
@@ -176,7 +176,7 @@ public class FixRelationshipRiskWarningLevels extends FixGroup {
 		
 				buf.position(hasRelationshipRiskWarningLevelName);		
 		
-			FixMessage.getTagStringValue(buf, relationshipRiskWarningLevelName, 0, relationshipRiskWarningLevelName.length, err);
+			FixUtils.getTagStringValue(buf, relationshipRiskWarningLevelName, 0, relationshipRiskWarningLevelName.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelationshipRiskWarningLevelName);		

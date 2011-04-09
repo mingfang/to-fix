@@ -70,23 +70,23 @@ public class FixRFQReqGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.PREVCLOSEPX_INT:		
             		hasPrevClosePx = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.QUOTEREQUESTTYPE_INT:		
             		hasQuoteRequestType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.QUOTETYPE_INT:		
             		hasQuoteType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRADINGSESSIONID_INT:		
             		hasTradingSessionID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRADINGSESSIONSUBID_INT:		
             		hasTradingSessionSubID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( instrument.isKeyTag(tag)) {
@@ -95,10 +95,10 @@ public class FixRFQReqGrp extends FixGroup {
                 		else continue;		
         			} else if ( tag == FixTags.NOUNDERLYINGS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -115,10 +115,10 @@ public class FixRFQReqGrp extends FixGroup {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NOLEGS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -136,7 +136,7 @@ public class FixRFQReqGrp extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -289,7 +289,7 @@ public class FixRFQReqGrp extends FixGroup {
 		
 				buf.position(hasPrevClosePx);		
 		
-			prevClosePx = FixMessage.getTagFloatValue(buf, err);
+			prevClosePx = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasPrevClosePx);		
@@ -333,7 +333,7 @@ public class FixRFQReqGrp extends FixGroup {
 		
 				buf.position(hasQuoteRequestType);		
 		
-			quoteRequestType = FixMessage.getTagIntValue(buf, err);
+			quoteRequestType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasQuoteRequestType);		
@@ -377,7 +377,7 @@ public class FixRFQReqGrp extends FixGroup {
 		
 				buf.position(hasQuoteType);		
 		
-			quoteType = FixMessage.getTagIntValue(buf, err);
+			quoteType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasQuoteType);		
@@ -421,7 +421,7 @@ public class FixRFQReqGrp extends FixGroup {
 		
 				buf.position(hasTradingSessionID);		
 		
-			FixMessage.getTagStringValue(buf, tradingSessionID, 0, tradingSessionID.length, err);
+			FixUtils.getTagStringValue(buf, tradingSessionID, 0, tradingSessionID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTradingSessionID);		
@@ -460,7 +460,7 @@ public class FixRFQReqGrp extends FixGroup {
 		
 				buf.position(hasTradingSessionSubID);		
 		
-			FixMessage.getTagStringValue(buf, tradingSessionSubID, 0, tradingSessionSubID.length, err);
+			FixUtils.getTagStringValue(buf, tradingSessionSubID, 0, tradingSessionSubID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTradingSessionSubID);		

@@ -62,27 +62,27 @@ public class FixApplIDRequestGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.REFAPPLID_INT:		
             		hasRefApplID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.REFAPPLREQID_INT:		
             		hasRefApplReqID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.APPLBEGSEQNUM_INT:		
             		hasApplBegSeqNum = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.APPLENDSEQNUM_INT:		
             		hasApplEndSeqNum = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( tag == FixTags.NONESTEDPARTYIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -100,7 +100,7 @@ public class FixApplIDRequestGrp extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -218,7 +218,7 @@ public class FixApplIDRequestGrp extends FixGroup {
 		
 				buf.position(hasRefApplID);		
 		
-			FixMessage.getTagStringValue(buf, refApplID, 0, refApplID.length, err);
+			FixUtils.getTagStringValue(buf, refApplID, 0, refApplID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRefApplID);		
@@ -257,7 +257,7 @@ public class FixApplIDRequestGrp extends FixGroup {
 		
 				buf.position(hasRefApplReqID);		
 		
-			FixMessage.getTagStringValue(buf, refApplReqID, 0, refApplReqID.length, err);
+			FixUtils.getTagStringValue(buf, refApplReqID, 0, refApplReqID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRefApplReqID);		
@@ -296,7 +296,7 @@ public class FixApplIDRequestGrp extends FixGroup {
 		
 				buf.position(hasApplBegSeqNum);		
 		
-			applBegSeqNum = FixMessage.getTagIntValue(buf, err);
+			applBegSeqNum = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasApplBegSeqNum);		
@@ -340,7 +340,7 @@ public class FixApplIDRequestGrp extends FixGroup {
 		
 				buf.position(hasApplEndSeqNum);		
 		
-			applEndSeqNum = FixMessage.getTagIntValue(buf, err);
+			applEndSeqNum = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasApplEndSeqNum);		

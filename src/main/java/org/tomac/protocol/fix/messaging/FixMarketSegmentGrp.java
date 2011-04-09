@@ -58,11 +58,11 @@ public class FixMarketSegmentGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.MARKETID_INT:		
             		hasMarketID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.MARKETSEGMENTID_INT:		
             		hasMarketSegmentID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( securityTradingRules.isKeyTag(tag)) {
@@ -71,10 +71,10 @@ public class FixMarketSegmentGrp extends FixGroup {
                 		else continue;		
         			} else if ( tag == FixTags.NOSTRIKERULES_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -92,7 +92,7 @@ public class FixMarketSegmentGrp extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -177,7 +177,7 @@ public class FixMarketSegmentGrp extends FixGroup {
 		
 				buf.position(hasMarketID);		
 		
-			FixMessage.getTagStringValue(buf, marketID, 0, marketID.length, err);
+			FixUtils.getTagStringValue(buf, marketID, 0, marketID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMarketID);		
@@ -216,7 +216,7 @@ public class FixMarketSegmentGrp extends FixGroup {
 		
 				buf.position(hasMarketSegmentID);		
 		
-			FixMessage.getTagStringValue(buf, marketSegmentID, 0, marketSegmentID.length, err);
+			FixUtils.getTagStringValue(buf, marketSegmentID, 0, marketSegmentID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMarketSegmentID);		

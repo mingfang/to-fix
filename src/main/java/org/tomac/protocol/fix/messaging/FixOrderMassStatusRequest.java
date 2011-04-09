@@ -57,7 +57,7 @@ public class FixOrderMassStatusRequest extends FixInMessage {
 		super.setBuffer(buf, err);
         if (err.hasError()) return;
 
-        int tag = FixMessage.getTag(buf, err);
+        int tag = FixUtils.getTag(buf, err);
         if (err.hasError()) return;
 
         while ( buf.hasRemaining() ) {
@@ -65,31 +65,31 @@ public class FixOrderMassStatusRequest extends FixInMessage {
             switch (tag) {		
             	case FixTags.MASSSTATUSREQID_INT:		
             		hasMassStatusReqID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.MASSSTATUSREQTYPE_INT:		
             		hasMassStatusReqType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ACCOUNT_INT:		
             		hasAccount = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ACCTIDSOURCE_INT:		
             		hasAcctIDSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRADINGSESSIONID_INT:		
             		hasTradingSessionID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRADINGSESSIONSUBID_INT:		
             		hasTradingSessionSubID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SIDE_INT:		
             		hasSide = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	default:
         			if ( standardHeader.isKeyTag(tag)) {
@@ -98,15 +98,15 @@ public class FixOrderMassStatusRequest extends FixInMessage {
                 		else continue;		
         			} else if ( standardTrailer.isKeyTag(tag)) {
         				tag = standardTrailer.setBuffer( tag, buf, err);
-        				FixMessage.unreadLastTag(tag, buf);
+        				FixUtils.unreadLastTag(tag, buf);
         				if (!err.hasError()) hasRequiredTags(err);
             			return; // always last, we are done now
         			} else if ( tag == FixTags.NOPARTYIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -123,10 +123,10 @@ public class FixOrderMassStatusRequest extends FixInMessage {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NOTARGETPARTYIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -150,10 +150,10 @@ public class FixOrderMassStatusRequest extends FixInMessage {
             			if (err.hasError()) break; 		
                 		else continue;		
             		} else {
- 						FixMessage.getNext(buf, err);		
+ 						FixUtils.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else {
-                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.ORDERMASSSTATUSREQUEST);
+                		else if (FixUtils.validateOnlyDefinedTagsAllowed) {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.ORDERMASSSTATUSREQUEST_INT);
                 			break;
                 		}
 					}
@@ -162,7 +162,7 @@ public class FixOrderMassStatusRequest extends FixInMessage {
 
         		if (err.hasError()) return;
 
-            	tag = FixMessage.getTag(buf, err);		
+            	tag = FixUtils.getTag(buf, err);		
         		if (err.hasError()) break;
 
 		}
@@ -170,18 +170,14 @@ public class FixOrderMassStatusRequest extends FixInMessage {
 	}		
 
 	public boolean hasRequiredTags(FixValidationError err) {
-		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		if (!hasMassStatusReqID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.MASSSTATUSREQID_INT, FixMessageInfo.MessageTypes.ORDERMASSSTATUSREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.MASSSTATUSREQID_INT, FixMessageInfo.MessageTypes.ORDERMASSSTATUSREQUEST_INT);
 			return false;
 		}
 		if (!hasMassStatusReqType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.MASSSTATUSREQTYPE_INT, FixMessageInfo.MessageTypes.ORDERMASSSTATUSREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.MASSSTATUSREQTYPE_INT, FixMessageInfo.MessageTypes.ORDERMASSSTATUSREQUEST_INT);
 			return false;
 		}
-		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		return true;
 	}
 	@Override		
@@ -406,7 +402,7 @@ public class FixOrderMassStatusRequest extends FixInMessage {
 
 				buf.position(hasMassStatusReqID);
 
-			FixMessage.getTagStringValue(buf, massStatusReqID, 0, massStatusReqID.length, err);
+			FixUtils.getTagStringValue(buf, massStatusReqID, 0, massStatusReqID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -450,7 +446,7 @@ public class FixOrderMassStatusRequest extends FixInMessage {
 
 				buf.position(hasMassStatusReqType);
 
-			massStatusReqType = FixMessage.getTagIntValue(buf, err);
+			massStatusReqType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -499,7 +495,7 @@ public class FixOrderMassStatusRequest extends FixInMessage {
 
 				buf.position(hasAccount);
 
-			FixMessage.getTagStringValue(buf, account, 0, account.length, err);
+			FixUtils.getTagStringValue(buf, account, 0, account.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -543,7 +539,7 @@ public class FixOrderMassStatusRequest extends FixInMessage {
 
 				buf.position(hasAcctIDSource);
 
-			acctIDSource = FixMessage.getTagIntValue(buf, err);
+			acctIDSource = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -592,7 +588,7 @@ public class FixOrderMassStatusRequest extends FixInMessage {
 
 				buf.position(hasTradingSessionID);
 
-			FixMessage.getTagStringValue(buf, tradingSessionID, 0, tradingSessionID.length, err);
+			FixUtils.getTagStringValue(buf, tradingSessionID, 0, tradingSessionID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -636,7 +632,7 @@ public class FixOrderMassStatusRequest extends FixInMessage {
 
 				buf.position(hasTradingSessionSubID);
 
-			FixMessage.getTagStringValue(buf, tradingSessionSubID, 0, tradingSessionSubID.length, err);
+			FixUtils.getTagStringValue(buf, tradingSessionSubID, 0, tradingSessionSubID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -680,7 +676,7 @@ public class FixOrderMassStatusRequest extends FixInMessage {
 
 				buf.position(hasSide);
 
-			side = FixMessage.getTagCharValue(buf, err);
+			side = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (side != (byte)'D') && (side != (byte)'E') && (side != (byte)'F') && (side != (byte)'G') && (side != (byte)'A') && (side != (byte)'B') && (side != (byte)'C') && (side != (byte)'3') && (side != (byte)'2') && (side != (byte)'1') && (side != (byte)'7') && (side != (byte)'6') && (side != (byte)'5') && (side != (byte)'4') && (side != (byte)'9') && (side != (byte)'8') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 54);		

@@ -66,34 +66,34 @@ public class FixMsgTypeGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.REFMSGTYPE_INT:		
             		hasRefMsgType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.MSGDIRECTION_INT:		
             		hasMsgDirection = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.REFAPPLVERID_INT:		
             		hasRefApplVerID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.REFCSTMAPPLVERID_INT:		
             		hasRefCstmApplVerID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.REFAPPLEXTID_INT:		
             		hasRefApplExtID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DEFAULTVERINDICATOR_INT:		
             		hasDefaultVerIndicator = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -234,7 +234,7 @@ public class FixMsgTypeGrp extends FixGroup {
 		
 				buf.position(hasRefMsgType);		
 		
-			FixMessage.getTagStringValue(buf, refMsgType, 0, refMsgType.length, err);
+			FixUtils.getTagStringValue(buf, refMsgType, 0, refMsgType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRefMsgType);		
@@ -273,7 +273,7 @@ public class FixMsgTypeGrp extends FixGroup {
 		
 				buf.position(hasMsgDirection);		
 		
-			msgDirection = FixMessage.getTagCharValue(buf, err);
+			msgDirection = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (msgDirection != (byte)'S') && (msgDirection != (byte)'R') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 385);		
@@ -319,7 +319,7 @@ public class FixMsgTypeGrp extends FixGroup {
 		
 				buf.position(hasRefApplVerID);		
 		
-			FixMessage.getTagStringValue(buf, refApplVerID, 0, refApplVerID.length, err);
+			FixUtils.getTagStringValue(buf, refApplVerID, 0, refApplVerID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRefApplVerID);		
@@ -358,7 +358,7 @@ public class FixMsgTypeGrp extends FixGroup {
 		
 				buf.position(hasRefCstmApplVerID);		
 		
-			FixMessage.getTagStringValue(buf, refCstmApplVerID, 0, refCstmApplVerID.length, err);
+			FixUtils.getTagStringValue(buf, refCstmApplVerID, 0, refCstmApplVerID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRefCstmApplVerID);		
@@ -397,7 +397,7 @@ public class FixMsgTypeGrp extends FixGroup {
 		
 				buf.position(hasRefApplExtID);		
 		
-			refApplExtID = FixMessage.getTagIntValue(buf, err);
+			refApplExtID = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRefApplExtID);		
@@ -441,7 +441,7 @@ public class FixMsgTypeGrp extends FixGroup {
 		
 				buf.position(hasDefaultVerIndicator);		
 		
-			defaultVerIndicator = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			defaultVerIndicator = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(hasDefaultVerIndicator);		

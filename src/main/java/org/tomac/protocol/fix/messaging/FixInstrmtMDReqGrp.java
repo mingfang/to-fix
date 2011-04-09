@@ -75,27 +75,27 @@ public class FixInstrmtMDReqGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.CURRENCY_INT:		
             		hasCurrency = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.QUOTETYPE_INT:		
             		hasQuoteType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SETTLTYPE_INT:		
             		hasSettlType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SETTLDATE_INT:		
             		hasSettlDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.MDENTRYSIZE_INT:		
             		hasMDEntrySize = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.MDSTREAMID_INT:		
             		hasMDStreamID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( instrument.isKeyTag(tag)) {
@@ -104,10 +104,10 @@ public class FixInstrmtMDReqGrp extends FixGroup {
                 		else continue;		
         			} else if ( tag == FixTags.NOUNDERLYINGS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -124,10 +124,10 @@ public class FixInstrmtMDReqGrp extends FixGroup {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NOLEGS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -145,7 +145,7 @@ public class FixInstrmtMDReqGrp extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -316,7 +316,7 @@ public class FixInstrmtMDReqGrp extends FixGroup {
 		
 				buf.position(hasCurrency);		
 		
-			FixMessage.getTagStringValue(buf, currency, 0, currency.length, err);
+			FixUtils.getTagStringValue(buf, currency, 0, currency.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasCurrency);		
@@ -355,7 +355,7 @@ public class FixInstrmtMDReqGrp extends FixGroup {
 		
 				buf.position(hasQuoteType);		
 		
-			quoteType = FixMessage.getTagIntValue(buf, err);
+			quoteType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasQuoteType);		
@@ -399,7 +399,7 @@ public class FixInstrmtMDReqGrp extends FixGroup {
 		
 				buf.position(hasSettlType);		
 		
-			FixMessage.getTagStringValue(buf, settlType, 0, settlType.length, err);
+			FixUtils.getTagStringValue(buf, settlType, 0, settlType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSettlType);		
@@ -438,7 +438,7 @@ public class FixInstrmtMDReqGrp extends FixGroup {
 		
 				buf.position(hasSettlDate);		
 		
-			FixMessage.getTagStringValue(buf, settlDate, 0, settlDate.length, err);
+			FixUtils.getTagStringValue(buf, settlDate, 0, settlDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSettlDate);		
@@ -477,7 +477,7 @@ public class FixInstrmtMDReqGrp extends FixGroup {
 		
 				buf.position(hasMDEntrySize);		
 		
-			mDEntrySize = FixMessage.getTagFloatValue(buf, err);
+			mDEntrySize = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMDEntrySize);		
@@ -521,7 +521,7 @@ public class FixInstrmtMDReqGrp extends FixGroup {
 		
 				buf.position(hasMDStreamID);		
 		
-			FixMessage.getTagStringValue(buf, mDStreamID, 0, mDStreamID.length, err);
+			FixUtils.getTagStringValue(buf, mDStreamID, 0, mDStreamID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMDStreamID);		

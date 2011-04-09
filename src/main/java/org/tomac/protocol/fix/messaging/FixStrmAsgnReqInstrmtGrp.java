@@ -58,15 +58,15 @@ public class FixStrmAsgnReqInstrmtGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.SETTLTYPE_INT:		
             		hasSettlType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.MDENTRYSIZE_INT:		
             		hasMDEntrySize = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.MDSTREAMID_INT:		
             		hasMDStreamID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( instrument.isKeyTag(tag)) {
@@ -76,7 +76,7 @@ public class FixStrmAsgnReqInstrmtGrp extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -166,7 +166,7 @@ public class FixStrmAsgnReqInstrmtGrp extends FixGroup {
 		
 				buf.position(hasSettlType);		
 		
-			FixMessage.getTagStringValue(buf, settlType, 0, settlType.length, err);
+			FixUtils.getTagStringValue(buf, settlType, 0, settlType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSettlType);		
@@ -205,7 +205,7 @@ public class FixStrmAsgnReqInstrmtGrp extends FixGroup {
 		
 				buf.position(hasMDEntrySize);		
 		
-			mDEntrySize = FixMessage.getTagFloatValue(buf, err);
+			mDEntrySize = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMDEntrySize);		
@@ -249,7 +249,7 @@ public class FixStrmAsgnReqInstrmtGrp extends FixGroup {
 		
 				buf.position(hasMDStreamID);		
 		
-			FixMessage.getTagStringValue(buf, mDStreamID, 0, mDStreamID.length, err);
+			FixUtils.getTagStringValue(buf, mDStreamID, 0, mDStreamID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMDStreamID);		

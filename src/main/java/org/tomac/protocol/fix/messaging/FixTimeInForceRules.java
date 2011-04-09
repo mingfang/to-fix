@@ -48,14 +48,14 @@ public class FixTimeInForceRules extends FixGroup {
             switch (tag) {		
             	case FixTags.TIMEINFORCE_INT:		
             		hasTimeInForce = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -106,7 +106,7 @@ public class FixTimeInForceRules extends FixGroup {
 		
 				buf.position(hasTimeInForce);		
 		
-			timeInForce = FixMessage.getTagCharValue(buf, err);
+			timeInForce = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (timeInForce != (byte)'3') && (timeInForce != (byte)'2') && (timeInForce != (byte)'1') && (timeInForce != (byte)'0') && (timeInForce != (byte)'7') && (timeInForce != (byte)'6') && (timeInForce != (byte)'5') && (timeInForce != (byte)'4') && (timeInForce != (byte)'9') && (timeInForce != (byte)'8') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 59);		

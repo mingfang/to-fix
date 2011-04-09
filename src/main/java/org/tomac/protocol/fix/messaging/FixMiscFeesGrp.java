@@ -59,26 +59,26 @@ public class FixMiscFeesGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.MISCFEEAMT_INT:		
             		hasMiscFeeAmt = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.MISCFEECURR_INT:		
             		hasMiscFeeCurr = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.MISCFEETYPE_INT:		
             		hasMiscFeeType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.MISCFEEBASIS_INT:		
             		hasMiscFeeBasis = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -183,7 +183,7 @@ public class FixMiscFeesGrp extends FixGroup {
 		
 				buf.position(hasMiscFeeAmt);		
 		
-			miscFeeAmt = FixMessage.getTagFloatValue(buf, err);
+			miscFeeAmt = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMiscFeeAmt);		
@@ -227,7 +227,7 @@ public class FixMiscFeesGrp extends FixGroup {
 		
 				buf.position(hasMiscFeeCurr);		
 		
-			FixMessage.getTagStringValue(buf, miscFeeCurr, 0, miscFeeCurr.length, err);
+			FixUtils.getTagStringValue(buf, miscFeeCurr, 0, miscFeeCurr.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMiscFeeCurr);		
@@ -266,7 +266,7 @@ public class FixMiscFeesGrp extends FixGroup {
 		
 				buf.position(hasMiscFeeType);		
 		
-			FixMessage.getTagStringValue(buf, miscFeeType, 0, miscFeeType.length, err);
+			FixUtils.getTagStringValue(buf, miscFeeType, 0, miscFeeType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMiscFeeType);		
@@ -305,7 +305,7 @@ public class FixMiscFeesGrp extends FixGroup {
 		
 				buf.position(hasMiscFeeBasis);		
 		
-			miscFeeBasis = FixMessage.getTagIntValue(buf, err);
+			miscFeeBasis = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMiscFeeBasis);		

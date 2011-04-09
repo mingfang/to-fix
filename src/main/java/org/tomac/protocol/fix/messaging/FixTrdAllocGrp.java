@@ -81,47 +81,47 @@ public class FixTrdAllocGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.ALLOCACCOUNT_INT:		
             		hasAllocAccount = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ALLOCACCTIDSOURCE_INT:		
             		hasAllocAcctIDSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ALLOCSETTLCURRENCY_INT:		
             		hasAllocSettlCurrency = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.INDIVIDUALALLOCID_INT:		
             		hasIndividualAllocID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ALLOCQTY_INT:		
             		hasAllocQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ALLOCCUSTOMERCAPACITY_INT:		
             		hasAllocCustomerCapacity = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ALLOCMETHOD_INT:		
             		hasAllocMethod = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SECONDARYINDIVIDUALALLOCID_INT:		
             		hasSecondaryIndividualAllocID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ALLOCCLEARINGFEEINDICATOR_INT:		
             		hasAllocClearingFeeIndicator = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( tag == FixTags.NONESTED2PARTYIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -139,7 +139,7 @@ public class FixTrdAllocGrp extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -347,7 +347,7 @@ public class FixTrdAllocGrp extends FixGroup {
 		
 				buf.position(hasAllocAccount);		
 		
-			FixMessage.getTagStringValue(buf, allocAccount, 0, allocAccount.length, err);
+			FixUtils.getTagStringValue(buf, allocAccount, 0, allocAccount.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasAllocAccount);		
@@ -386,7 +386,7 @@ public class FixTrdAllocGrp extends FixGroup {
 		
 				buf.position(hasAllocAcctIDSource);		
 		
-			allocAcctIDSource = FixMessage.getTagIntValue(buf, err);
+			allocAcctIDSource = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasAllocAcctIDSource);		
@@ -430,7 +430,7 @@ public class FixTrdAllocGrp extends FixGroup {
 		
 				buf.position(hasAllocSettlCurrency);		
 		
-			FixMessage.getTagStringValue(buf, allocSettlCurrency, 0, allocSettlCurrency.length, err);
+			FixUtils.getTagStringValue(buf, allocSettlCurrency, 0, allocSettlCurrency.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasAllocSettlCurrency);		
@@ -469,7 +469,7 @@ public class FixTrdAllocGrp extends FixGroup {
 		
 				buf.position(hasIndividualAllocID);		
 		
-			FixMessage.getTagStringValue(buf, individualAllocID, 0, individualAllocID.length, err);
+			FixUtils.getTagStringValue(buf, individualAllocID, 0, individualAllocID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasIndividualAllocID);		
@@ -508,7 +508,7 @@ public class FixTrdAllocGrp extends FixGroup {
 		
 				buf.position(hasAllocQty);		
 		
-			allocQty = FixMessage.getTagFloatValue(buf, err);
+			allocQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasAllocQty);		
@@ -552,7 +552,7 @@ public class FixTrdAllocGrp extends FixGroup {
 		
 				buf.position(hasAllocCustomerCapacity);		
 		
-			FixMessage.getTagStringValue(buf, allocCustomerCapacity, 0, allocCustomerCapacity.length, err);
+			FixUtils.getTagStringValue(buf, allocCustomerCapacity, 0, allocCustomerCapacity.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasAllocCustomerCapacity);		
@@ -591,7 +591,7 @@ public class FixTrdAllocGrp extends FixGroup {
 		
 				buf.position(hasAllocMethod);		
 		
-			allocMethod = FixMessage.getTagIntValue(buf, err);
+			allocMethod = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasAllocMethod);		
@@ -635,7 +635,7 @@ public class FixTrdAllocGrp extends FixGroup {
 		
 				buf.position(hasSecondaryIndividualAllocID);		
 		
-			FixMessage.getTagStringValue(buf, secondaryIndividualAllocID, 0, secondaryIndividualAllocID.length, err);
+			FixUtils.getTagStringValue(buf, secondaryIndividualAllocID, 0, secondaryIndividualAllocID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSecondaryIndividualAllocID);		
@@ -674,7 +674,7 @@ public class FixTrdAllocGrp extends FixGroup {
 		
 				buf.position(hasAllocClearingFeeIndicator);		
 		
-			FixMessage.getTagStringValue(buf, allocClearingFeeIndicator, 0, allocClearingFeeIndicator.length, err);
+			FixUtils.getTagStringValue(buf, allocClearingFeeIndicator, 0, allocClearingFeeIndicator.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasAllocClearingFeeIndicator);		

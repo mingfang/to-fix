@@ -58,26 +58,26 @@ public class FixCommissionData extends FixGroup {
             switch (tag) {		
             	case FixTags.COMMISSION_INT:		
             		hasCommission = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.COMMTYPE_INT:		
             		hasCommType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.COMMCURRENCY_INT:		
             		hasCommCurrency = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.FUNDRENEWWAIV_INT:		
             		hasFundRenewWaiv = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -182,7 +182,7 @@ public class FixCommissionData extends FixGroup {
 		
 				buf.position(hasCommission);		
 		
-			commission = FixMessage.getTagFloatValue(buf, err);
+			commission = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasCommission);		
@@ -226,7 +226,7 @@ public class FixCommissionData extends FixGroup {
 		
 				buf.position(hasCommType);		
 		
-			commType = FixMessage.getTagCharValue(buf, err);
+			commType = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (commType != (byte)'3') && (commType != (byte)'2') && (commType != (byte)'1') && (commType != (byte)'6') && (commType != (byte)'5') && (commType != (byte)'4') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 13);		
@@ -272,7 +272,7 @@ public class FixCommissionData extends FixGroup {
 		
 				buf.position(hasCommCurrency);		
 		
-			FixMessage.getTagStringValue(buf, commCurrency, 0, commCurrency.length, err);
+			FixUtils.getTagStringValue(buf, commCurrency, 0, commCurrency.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasCommCurrency);		
@@ -311,7 +311,7 @@ public class FixCommissionData extends FixGroup {
 		
 				buf.position(hasFundRenewWaiv);		
 		
-			fundRenewWaiv = FixMessage.getTagCharValue(buf, err);
+			fundRenewWaiv = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (fundRenewWaiv != (byte)'N') && (fundRenewWaiv != (byte)'Y') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 497);		

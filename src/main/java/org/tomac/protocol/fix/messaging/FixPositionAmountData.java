@@ -56,22 +56,22 @@ public class FixPositionAmountData extends FixGroup {
             switch (tag) {		
             	case FixTags.POSAMTTYPE_INT:		
             		hasPosAmtType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.POSAMT_INT:		
             		hasPosAmt = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.POSITIONCURRENCY_INT:		
             		hasPositionCurrency = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -158,7 +158,7 @@ public class FixPositionAmountData extends FixGroup {
 		
 				buf.position(hasPosAmtType);		
 		
-			FixMessage.getTagStringValue(buf, posAmtType, 0, posAmtType.length, err);
+			FixUtils.getTagStringValue(buf, posAmtType, 0, posAmtType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasPosAmtType);		
@@ -197,7 +197,7 @@ public class FixPositionAmountData extends FixGroup {
 		
 				buf.position(hasPosAmt);		
 		
-			posAmt = FixMessage.getTagFloatValue(buf, err);
+			posAmt = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasPosAmt);		
@@ -241,7 +241,7 @@ public class FixPositionAmountData extends FixGroup {
 		
 				buf.position(hasPositionCurrency);		
 		
-			FixMessage.getTagStringValue(buf, positionCurrency, 0, positionCurrency.length, err);
+			FixUtils.getTagStringValue(buf, positionCurrency, 0, positionCurrency.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasPositionCurrency);		

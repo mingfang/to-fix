@@ -137,107 +137,107 @@ public class FixRiskInstrumentScope extends FixGroup {
             switch (tag) {		
             	case FixTags.RISKINSTRUMENTOPERATOR_INT:		
             		hasRiskInstrumentOperator = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RISKSYMBOL_INT:		
             		hasRiskSymbol = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RISKSYMBOLSFX_INT:		
             		hasRiskSymbolSfx = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RISKSECURITYID_INT:		
             		hasRiskSecurityID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RISKSECURITYIDSOURCE_INT:		
             		hasRiskSecurityIDSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RISKPRODUCT_INT:		
             		hasRiskProduct = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RISKPRODUCTCOMPLEX_INT:		
             		hasRiskProductComplex = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RISKSECURITYGROUP_INT:		
             		hasRiskSecurityGroup = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RISKCFICODE_INT:		
             		hasRiskCFICode = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RISKSECURITYTYPE_INT:		
             		hasRiskSecurityType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RISKSECURITYSUBTYPE_INT:		
             		hasRiskSecuritySubType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RISKMATURITYMONTHYEAR_INT:		
             		hasRiskMaturityMonthYear = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RISKMATURITYTIME_INT:		
             		hasRiskMaturityTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RISKRESTRUCTURINGTYPE_INT:		
             		hasRiskRestructuringType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RISKSENIORITY_INT:		
             		hasRiskSeniority = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RISKPUTORCALL_INT:		
             		hasRiskPutOrCall = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RISKFLEXIBLEINDICATOR_INT:		
             		hasRiskFlexibleIndicator = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RISKCOUPONRATE_INT:		
             		hasRiskCouponRate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RISKSECURITYEXCHANGE_INT:		
             		hasRiskSecurityExchange = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RISKSECURITYDESC_INT:		
             		hasRiskSecurityDesc = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RISKENCODEDSECURITYDESCLEN_INT:		
             		hasRiskEncodedSecurityDescLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RISKENCODEDSECURITYDESC_INT:		
             		hasRiskEncodedSecurityDesc = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RISKINSTRUMENTSETTLTYPE_INT:		
             		hasRiskInstrumentSettlType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RISKINSTRUMENTMULTIPLIER_INT:		
             		hasRiskInstrumentMultiplier = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( tag == FixTags.NORISKSECURITYALTID_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -255,7 +255,7 @@ public class FixRiskInstrumentScope extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -733,7 +733,7 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRiskInstrumentOperator);		
 		
-			riskInstrumentOperator = FixMessage.getTagIntValue(buf, err);
+			riskInstrumentOperator = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRiskInstrumentOperator);		
@@ -777,7 +777,7 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRiskSymbol);		
 		
-			FixMessage.getTagStringValue(buf, riskSymbol, 0, riskSymbol.length, err);
+			FixUtils.getTagStringValue(buf, riskSymbol, 0, riskSymbol.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRiskSymbol);		
@@ -816,7 +816,7 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRiskSymbolSfx);		
 		
-			FixMessage.getTagStringValue(buf, riskSymbolSfx, 0, riskSymbolSfx.length, err);
+			FixUtils.getTagStringValue(buf, riskSymbolSfx, 0, riskSymbolSfx.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRiskSymbolSfx);		
@@ -855,7 +855,7 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRiskSecurityID);		
 		
-			FixMessage.getTagStringValue(buf, riskSecurityID, 0, riskSecurityID.length, err);
+			FixUtils.getTagStringValue(buf, riskSecurityID, 0, riskSecurityID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRiskSecurityID);		
@@ -894,7 +894,7 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRiskSecurityIDSource);		
 		
-			FixMessage.getTagStringValue(buf, riskSecurityIDSource, 0, riskSecurityIDSource.length, err);
+			FixUtils.getTagStringValue(buf, riskSecurityIDSource, 0, riskSecurityIDSource.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRiskSecurityIDSource);		
@@ -933,7 +933,7 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRiskProduct);		
 		
-			riskProduct = FixMessage.getTagIntValue(buf, err);
+			riskProduct = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRiskProduct);		
@@ -977,7 +977,7 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRiskProductComplex);		
 		
-			FixMessage.getTagStringValue(buf, riskProductComplex, 0, riskProductComplex.length, err);
+			FixUtils.getTagStringValue(buf, riskProductComplex, 0, riskProductComplex.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRiskProductComplex);		
@@ -1016,7 +1016,7 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRiskSecurityGroup);		
 		
-			FixMessage.getTagStringValue(buf, riskSecurityGroup, 0, riskSecurityGroup.length, err);
+			FixUtils.getTagStringValue(buf, riskSecurityGroup, 0, riskSecurityGroup.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRiskSecurityGroup);		
@@ -1055,7 +1055,7 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRiskCFICode);		
 		
-			FixMessage.getTagStringValue(buf, riskCFICode, 0, riskCFICode.length, err);
+			FixUtils.getTagStringValue(buf, riskCFICode, 0, riskCFICode.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRiskCFICode);		
@@ -1094,7 +1094,7 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRiskSecurityType);		
 		
-			FixMessage.getTagStringValue(buf, riskSecurityType, 0, riskSecurityType.length, err);
+			FixUtils.getTagStringValue(buf, riskSecurityType, 0, riskSecurityType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRiskSecurityType);		
@@ -1133,7 +1133,7 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRiskSecuritySubType);		
 		
-			FixMessage.getTagStringValue(buf, riskSecuritySubType, 0, riskSecuritySubType.length, err);
+			FixUtils.getTagStringValue(buf, riskSecuritySubType, 0, riskSecuritySubType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRiskSecuritySubType);		
@@ -1172,7 +1172,7 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRiskMaturityMonthYear);		
 		
-			FixMessage.getTagStringValue(buf, riskMaturityMonthYear, 0, riskMaturityMonthYear.length, err);
+			FixUtils.getTagStringValue(buf, riskMaturityMonthYear, 0, riskMaturityMonthYear.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRiskMaturityMonthYear);		
@@ -1211,7 +1211,7 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRiskMaturityTime);		
 		
-			FixMessage.getTagStringValue(buf, riskMaturityTime, 0, riskMaturityTime.length, err);
+			FixUtils.getTagStringValue(buf, riskMaturityTime, 0, riskMaturityTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRiskMaturityTime);		
@@ -1250,7 +1250,7 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRiskRestructuringType);		
 		
-			FixMessage.getTagStringValue(buf, riskRestructuringType, 0, riskRestructuringType.length, err);
+			FixUtils.getTagStringValue(buf, riskRestructuringType, 0, riskRestructuringType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRiskRestructuringType);		
@@ -1289,7 +1289,7 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRiskSeniority);		
 		
-			FixMessage.getTagStringValue(buf, riskSeniority, 0, riskSeniority.length, err);
+			FixUtils.getTagStringValue(buf, riskSeniority, 0, riskSeniority.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRiskSeniority);		
@@ -1328,7 +1328,7 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRiskPutOrCall);		
 		
-			riskPutOrCall = FixMessage.getTagIntValue(buf, err);
+			riskPutOrCall = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRiskPutOrCall);		
@@ -1372,7 +1372,7 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRiskFlexibleIndicator);		
 		
-			riskFlexibleIndicator = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			riskFlexibleIndicator = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(hasRiskFlexibleIndicator);		
@@ -1416,7 +1416,7 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRiskCouponRate);		
 		
-			riskCouponRate = FixMessage.getTagFloatValue(buf, err);
+			riskCouponRate = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRiskCouponRate);		
@@ -1460,7 +1460,7 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRiskSecurityExchange);		
 		
-			FixMessage.getTagStringValue(buf, riskSecurityExchange, 0, riskSecurityExchange.length, err);
+			FixUtils.getTagStringValue(buf, riskSecurityExchange, 0, riskSecurityExchange.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRiskSecurityExchange);		
@@ -1499,7 +1499,7 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRiskSecurityDesc);		
 		
-			FixMessage.getTagStringValue(buf, riskSecurityDesc, 0, riskSecurityDesc.length, err);
+			FixUtils.getTagStringValue(buf, riskSecurityDesc, 0, riskSecurityDesc.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRiskSecurityDesc);		
@@ -1538,7 +1538,7 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRiskEncodedSecurityDescLen);		
 		
-			riskEncodedSecurityDescLen = FixMessage.getTagIntValue(buf, err);
+			riskEncodedSecurityDescLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRiskEncodedSecurityDescLen);		
@@ -1582,7 +1582,7 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRiskEncodedSecurityDesc);		
 		
-			FixMessage.getTagStringValue(buf, riskEncodedSecurityDesc, 0, riskEncodedSecurityDesc.length, err);
+			FixUtils.getTagStringValue(buf, riskEncodedSecurityDesc, 0, riskEncodedSecurityDesc.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRiskEncodedSecurityDesc);		
@@ -1621,7 +1621,7 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRiskInstrumentSettlType);		
 		
-			FixMessage.getTagStringValue(buf, riskInstrumentSettlType, 0, riskInstrumentSettlType.length, err);
+			FixUtils.getTagStringValue(buf, riskInstrumentSettlType, 0, riskInstrumentSettlType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRiskInstrumentSettlType);		
@@ -1660,7 +1660,7 @@ public class FixRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRiskInstrumentMultiplier);		
 		
-			riskInstrumentMultiplier = FixMessage.getTagFloatValue(buf, err);
+			riskInstrumentMultiplier = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRiskInstrumentMultiplier);		

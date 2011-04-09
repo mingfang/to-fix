@@ -83,7 +83,7 @@ public class FixSecurityDefinitionRequest extends FixInMessage {
 		super.setBuffer(buf, err);
         if (err.hasError()) return;
 
-        int tag = FixMessage.getTag(buf, err);
+        int tag = FixUtils.getTag(buf, err);
         if (err.hasError()) return;
 
         while ( buf.hasRemaining() ) {
@@ -91,51 +91,51 @@ public class FixSecurityDefinitionRequest extends FixInMessage {
             switch (tag) {		
             	case FixTags.SECURITYREQID_INT:		
             		hasSecurityReqID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SECURITYREQUESTTYPE_INT:		
             		hasSecurityRequestType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.MARKETID_INT:		
             		hasMarketID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.MARKETSEGMENTID_INT:		
             		hasMarketSegmentID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.CURRENCY_INT:		
             		hasCurrency = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TEXT_INT:		
             		hasText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDTEXTLEN_INT:		
             		hasEncodedTextLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDTEXT_INT:		
             		hasEncodedText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRADINGSESSIONID_INT:		
             		hasTradingSessionID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRADINGSESSIONSUBID_INT:		
             		hasTradingSessionSubID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.EXPIRATIONCYCLE_INT:		
             		hasExpirationCycle = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SUBSCRIPTIONREQUESTTYPE_INT:		
             		hasSubscriptionRequestType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	default:
         			if ( standardHeader.isKeyTag(tag)) {
@@ -144,7 +144,7 @@ public class FixSecurityDefinitionRequest extends FixInMessage {
                 		else continue;		
         			} else if ( standardTrailer.isKeyTag(tag)) {
         				tag = standardTrailer.setBuffer( tag, buf, err);
-        				FixMessage.unreadLastTag(tag, buf);
+        				FixUtils.unreadLastTag(tag, buf);
         				if (!err.hasError()) hasRequiredTags(err);
             			return; // always last, we are done now
         			} else if ( instrument.isKeyTag(tag)) {
@@ -157,10 +157,10 @@ public class FixSecurityDefinitionRequest extends FixInMessage {
                 		else continue;		
         			} else if ( tag == FixTags.NOUNDERLYINGS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -177,10 +177,10 @@ public class FixSecurityDefinitionRequest extends FixInMessage {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NOSTIPULATIONS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -197,10 +197,10 @@ public class FixSecurityDefinitionRequest extends FixInMessage {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NOLEGS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -224,10 +224,10 @@ public class FixSecurityDefinitionRequest extends FixInMessage {
             			if (err.hasError()) break; 		
                 		else continue;		
             		} else {
- 						FixMessage.getNext(buf, err);		
+ 						FixUtils.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else {
-                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.SECURITYDEFINITIONREQUEST);
+                		else if (FixUtils.validateOnlyDefinedTagsAllowed) {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.SECURITYDEFINITIONREQUEST_INT);
                 			break;
                 		}
 					}
@@ -236,7 +236,7 @@ public class FixSecurityDefinitionRequest extends FixInMessage {
 
         		if (err.hasError()) return;
 
-            	tag = FixMessage.getTag(buf, err);		
+            	tag = FixUtils.getTag(buf, err);		
         		if (err.hasError()) break;
 
 		}
@@ -244,18 +244,14 @@ public class FixSecurityDefinitionRequest extends FixInMessage {
 	}		
 
 	public boolean hasRequiredTags(FixValidationError err) {
-		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		if (!hasSecurityReqID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.SECURITYREQID_INT, FixMessageInfo.MessageTypes.SECURITYDEFINITIONREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.SECURITYREQID_INT, FixMessageInfo.MessageTypes.SECURITYDEFINITIONREQUEST_INT);
 			return false;
 		}
 		if (!hasSecurityRequestType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.SECURITYREQUESTTYPE_INT, FixMessageInfo.MessageTypes.SECURITYDEFINITIONREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.SECURITYREQUESTTYPE_INT, FixMessageInfo.MessageTypes.SECURITYDEFINITIONREQUEST_INT);
 			return false;
 		}
-		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		return true;
 	}
 	@Override		
@@ -573,7 +569,7 @@ public class FixSecurityDefinitionRequest extends FixInMessage {
 
 				buf.position(hasSecurityReqID);
 
-			FixMessage.getTagStringValue(buf, securityReqID, 0, securityReqID.length, err);
+			FixUtils.getTagStringValue(buf, securityReqID, 0, securityReqID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -617,7 +613,7 @@ public class FixSecurityDefinitionRequest extends FixInMessage {
 
 				buf.position(hasSecurityRequestType);
 
-			securityRequestType = FixMessage.getTagIntValue(buf, err);
+			securityRequestType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -666,7 +662,7 @@ public class FixSecurityDefinitionRequest extends FixInMessage {
 
 				buf.position(hasMarketID);
 
-			FixMessage.getTagStringValue(buf, marketID, 0, marketID.length, err);
+			FixUtils.getTagStringValue(buf, marketID, 0, marketID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -710,7 +706,7 @@ public class FixSecurityDefinitionRequest extends FixInMessage {
 
 				buf.position(hasMarketSegmentID);
 
-			FixMessage.getTagStringValue(buf, marketSegmentID, 0, marketSegmentID.length, err);
+			FixUtils.getTagStringValue(buf, marketSegmentID, 0, marketSegmentID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -754,7 +750,7 @@ public class FixSecurityDefinitionRequest extends FixInMessage {
 
 				buf.position(hasCurrency);
 
-			FixMessage.getTagStringValue(buf, currency, 0, currency.length, err);
+			FixUtils.getTagStringValue(buf, currency, 0, currency.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -798,7 +794,7 @@ public class FixSecurityDefinitionRequest extends FixInMessage {
 
 				buf.position(hasText);
 
-			FixMessage.getTagStringValue(buf, text, 0, text.length, err);
+			FixUtils.getTagStringValue(buf, text, 0, text.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -842,7 +838,7 @@ public class FixSecurityDefinitionRequest extends FixInMessage {
 
 				buf.position(hasEncodedTextLen);
 
-			encodedTextLen = FixMessage.getTagIntValue(buf, err);
+			encodedTextLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -891,7 +887,7 @@ public class FixSecurityDefinitionRequest extends FixInMessage {
 
 				buf.position(hasEncodedText);
 
-			FixMessage.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
+			FixUtils.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -935,7 +931,7 @@ public class FixSecurityDefinitionRequest extends FixInMessage {
 
 				buf.position(hasTradingSessionID);
 
-			FixMessage.getTagStringValue(buf, tradingSessionID, 0, tradingSessionID.length, err);
+			FixUtils.getTagStringValue(buf, tradingSessionID, 0, tradingSessionID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -979,7 +975,7 @@ public class FixSecurityDefinitionRequest extends FixInMessage {
 
 				buf.position(hasTradingSessionSubID);
 
-			FixMessage.getTagStringValue(buf, tradingSessionSubID, 0, tradingSessionSubID.length, err);
+			FixUtils.getTagStringValue(buf, tradingSessionSubID, 0, tradingSessionSubID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1023,7 +1019,7 @@ public class FixSecurityDefinitionRequest extends FixInMessage {
 
 				buf.position(hasExpirationCycle);
 
-			expirationCycle = FixMessage.getTagIntValue(buf, err);
+			expirationCycle = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1072,7 +1068,7 @@ public class FixSecurityDefinitionRequest extends FixInMessage {
 
 				buf.position(hasSubscriptionRequestType);
 
-			subscriptionRequestType = FixMessage.getTagCharValue(buf, err);
+			subscriptionRequestType = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (subscriptionRequestType != (byte)'2') && (subscriptionRequestType != (byte)'1') && (subscriptionRequestType != (byte)'0') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 263);		

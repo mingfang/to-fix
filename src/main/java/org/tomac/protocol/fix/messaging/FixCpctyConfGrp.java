@@ -55,22 +55,22 @@ public class FixCpctyConfGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.ORDERCAPACITY_INT:		
             		hasOrderCapacity = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ORDERRESTRICTIONS_INT:		
             		hasOrderRestrictions = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ORDERCAPACITYQTY_INT:		
             		hasOrderCapacityQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -165,7 +165,7 @@ public class FixCpctyConfGrp extends FixGroup {
 		
 				buf.position(hasOrderCapacity);		
 		
-			orderCapacity = FixMessage.getTagCharValue(buf, err);
+			orderCapacity = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (orderCapacity != (byte)'W') && (orderCapacity != (byte)'G') && (orderCapacity != (byte)'P') && (orderCapacity != (byte)'A') && (orderCapacity != (byte)'R') && (orderCapacity != (byte)'I') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 528);		
@@ -211,7 +211,7 @@ public class FixCpctyConfGrp extends FixGroup {
 		
 				buf.position(hasOrderRestrictions);		
 		
-			FixMessage.getTagStringValue(buf, orderRestrictions, 0, orderRestrictions.length, err);
+			FixUtils.getTagStringValue(buf, orderRestrictions, 0, orderRestrictions.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasOrderRestrictions);		
@@ -250,7 +250,7 @@ public class FixCpctyConfGrp extends FixGroup {
 		
 				buf.position(hasOrderCapacityQty);		
 		
-			orderCapacityQty = FixMessage.getTagFloatValue(buf, err);
+			orderCapacityQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasOrderCapacityQty);		

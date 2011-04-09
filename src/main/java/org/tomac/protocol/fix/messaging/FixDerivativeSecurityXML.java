@@ -56,22 +56,22 @@ public class FixDerivativeSecurityXML extends FixGroup {
             switch (tag) {		
             	case FixTags.DERIVATIVESECURITYXMLLEN_INT:		
             		hasDerivativeSecurityXMLLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVESECURITYXML_INT:		
             		hasDerivativeSecurityXML = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVESECURITYXMLSCHEMA_INT:		
             		hasDerivativeSecurityXMLSchema = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -158,7 +158,7 @@ public class FixDerivativeSecurityXML extends FixGroup {
 		
 				buf.position(hasDerivativeSecurityXMLLen);		
 		
-			derivativeSecurityXMLLen = FixMessage.getTagIntValue(buf, err);
+			derivativeSecurityXMLLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeSecurityXMLLen);		
@@ -202,7 +202,7 @@ public class FixDerivativeSecurityXML extends FixGroup {
 		
 				buf.position(hasDerivativeSecurityXML);		
 		
-			FixMessage.getTagStringValue(buf, derivativeSecurityXML, 0, derivativeSecurityXML.length, err);
+			FixUtils.getTagStringValue(buf, derivativeSecurityXML, 0, derivativeSecurityXML.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeSecurityXML);		
@@ -241,7 +241,7 @@ public class FixDerivativeSecurityXML extends FixGroup {
 		
 				buf.position(hasDerivativeSecurityXMLSchema);		
 		
-			FixMessage.getTagStringValue(buf, derivativeSecurityXMLSchema, 0, derivativeSecurityXMLSchema.length, err);
+			FixUtils.getTagStringValue(buf, derivativeSecurityXMLSchema, 0, derivativeSecurityXMLSchema.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeSecurityXMLSchema);		

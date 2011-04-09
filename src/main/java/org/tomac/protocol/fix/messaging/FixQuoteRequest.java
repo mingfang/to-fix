@@ -70,7 +70,7 @@ public class FixQuoteRequest extends FixInMessage {
 		super.setBuffer(buf, err);
         if (err.hasError()) return;
 
-        int tag = FixMessage.getTag(buf, err);
+        int tag = FixUtils.getTag(buf, err);
         if (err.hasError()) return;
 
         while ( buf.hasRemaining() ) {
@@ -78,51 +78,51 @@ public class FixQuoteRequest extends FixInMessage {
             switch (tag) {		
             	case FixTags.QUOTEREQID_INT:		
             		hasQuoteReqID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.RFQREQID_INT:		
             		hasRFQReqID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.CLORDID_INT:		
             		hasClOrdID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.BOOKINGTYPE_INT:		
             		hasBookingType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ORDERCAPACITY_INT:		
             		hasOrderCapacity = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.PRIVATEQUOTE_INT:		
             		hasPrivateQuote = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.RESPONDENTTYPE_INT:		
             		hasRespondentType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.PRETRADEANONYMITY_INT:		
             		hasPreTradeAnonymity = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ORDERRESTRICTIONS_INT:		
             		hasOrderRestrictions = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TEXT_INT:		
             		hasText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDTEXTLEN_INT:		
             		hasEncodedTextLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDTEXT_INT:		
             		hasEncodedText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	default:
         			if ( standardHeader.isKeyTag(tag)) {
@@ -131,15 +131,15 @@ public class FixQuoteRequest extends FixInMessage {
                 		else continue;		
         			} else if ( standardTrailer.isKeyTag(tag)) {
         				tag = standardTrailer.setBuffer( tag, buf, err);
-        				FixMessage.unreadLastTag(tag, buf);
+        				FixUtils.unreadLastTag(tag, buf);
         				if (!err.hasError()) hasRequiredTags(err);
             			return; // always last, we are done now
         			} else if ( tag == FixTags.NOROOTPARTYIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -156,10 +156,10 @@ public class FixQuoteRequest extends FixInMessage {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NORELATEDSYM_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -175,10 +175,10 @@ public class FixQuoteRequest extends FixInMessage {
         				if (err.hasError()) break;
                 		else { tag = repeatingGroupTag; continue; }
             		} else {
- 						FixMessage.getNext(buf, err);		
+ 						FixUtils.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else {
-                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.QUOTEREQUEST);
+                		else if (FixUtils.validateOnlyDefinedTagsAllowed) {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.QUOTEREQUEST_INT);
                 			break;
                 		}
 					}
@@ -187,7 +187,7 @@ public class FixQuoteRequest extends FixInMessage {
 
         		if (err.hasError()) return;
 
-            	tag = FixMessage.getTag(buf, err);		
+            	tag = FixUtils.getTag(buf, err);		
         		if (err.hasError()) break;
 
 		}
@@ -195,15 +195,11 @@ public class FixQuoteRequest extends FixInMessage {
 	}		
 
 	public boolean hasRequiredTags(FixValidationError err) {
-		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		if (!hasQuoteReqID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.QUOTEREQID_INT, FixMessageInfo.MessageTypes.QUOTEREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.QUOTEREQID_INT, FixMessageInfo.MessageTypes.QUOTEREQUEST_INT);
 			return false;
 		}
 		for (int i = 0; i< FixUtils.FIX_MAX_NOINGROUP; i++) { if (quotReqGrp[i].hasGroup()) quotReqGrp[i].hasRequiredTags(err); if (err.hasError()) return false; }
-		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		return true;
 	}
 	@Override		
@@ -506,7 +502,7 @@ public class FixQuoteRequest extends FixInMessage {
 
 				buf.position(hasQuoteReqID);
 
-			FixMessage.getTagStringValue(buf, quoteReqID, 0, quoteReqID.length, err);
+			FixUtils.getTagStringValue(buf, quoteReqID, 0, quoteReqID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -550,7 +546,7 @@ public class FixQuoteRequest extends FixInMessage {
 
 				buf.position(hasRFQReqID);
 
-			FixMessage.getTagStringValue(buf, rFQReqID, 0, rFQReqID.length, err);
+			FixUtils.getTagStringValue(buf, rFQReqID, 0, rFQReqID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -594,7 +590,7 @@ public class FixQuoteRequest extends FixInMessage {
 
 				buf.position(hasClOrdID);
 
-			FixMessage.getTagStringValue(buf, clOrdID, 0, clOrdID.length, err);
+			FixUtils.getTagStringValue(buf, clOrdID, 0, clOrdID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -638,7 +634,7 @@ public class FixQuoteRequest extends FixInMessage {
 
 				buf.position(hasBookingType);
 
-			bookingType = FixMessage.getTagIntValue(buf, err);
+			bookingType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -687,7 +683,7 @@ public class FixQuoteRequest extends FixInMessage {
 
 				buf.position(hasOrderCapacity);
 
-			orderCapacity = FixMessage.getTagCharValue(buf, err);
+			orderCapacity = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (orderCapacity != (byte)'W') && (orderCapacity != (byte)'G') && (orderCapacity != (byte)'P') && (orderCapacity != (byte)'A') && (orderCapacity != (byte)'R') && (orderCapacity != (byte)'I') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 528);		
@@ -738,7 +734,7 @@ public class FixQuoteRequest extends FixInMessage {
 
 				buf.position(hasPrivateQuote);
 
-			privateQuote = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			privateQuote = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -787,7 +783,7 @@ public class FixQuoteRequest extends FixInMessage {
 
 				buf.position(hasRespondentType);
 
-			respondentType = FixMessage.getTagIntValue(buf, err);
+			respondentType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -836,7 +832,7 @@ public class FixQuoteRequest extends FixInMessage {
 
 				buf.position(hasPreTradeAnonymity);
 
-			preTradeAnonymity = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			preTradeAnonymity = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -885,7 +881,7 @@ public class FixQuoteRequest extends FixInMessage {
 
 				buf.position(hasOrderRestrictions);
 
-			FixMessage.getTagStringValue(buf, orderRestrictions, 0, orderRestrictions.length, err);
+			FixUtils.getTagStringValue(buf, orderRestrictions, 0, orderRestrictions.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -929,7 +925,7 @@ public class FixQuoteRequest extends FixInMessage {
 
 				buf.position(hasText);
 
-			FixMessage.getTagStringValue(buf, text, 0, text.length, err);
+			FixUtils.getTagStringValue(buf, text, 0, text.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -973,7 +969,7 @@ public class FixQuoteRequest extends FixInMessage {
 
 				buf.position(hasEncodedTextLen);
 
-			encodedTextLen = FixMessage.getTagIntValue(buf, err);
+			encodedTextLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1022,7 +1018,7 @@ public class FixQuoteRequest extends FixInMessage {
 
 				buf.position(hasEncodedText);
 
-			FixMessage.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
+			FixUtils.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		

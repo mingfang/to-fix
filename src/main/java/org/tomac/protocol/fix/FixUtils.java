@@ -7,10 +7,12 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+import org.tomac.protocol.fix.messaging.FixHeartbeat;
 import org.tomac.protocol.fix.messaging.FixLogon;
 import org.tomac.protocol.fix.messaging.FixLogout;
 import org.tomac.protocol.fix.messaging.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.FixMessageListener;
+import org.tomac.protocol.fix.messaging.FixMessagePool;
 import org.tomac.protocol.fix.messaging.FixSequenceReset;
 import org.tomac.protocol.fix.messaging.FixStandardHeader;
 import org.tomac.protocol.fix.messaging.FixTags;
@@ -19,9 +21,9 @@ import org.tomac.protocol.fix.messaging.FixMessageInfo.MessageTypes;
 public class FixUtils {
 	private static FixUtils						fixUtils							= new FixUtils();
 
-	public static final int						FIX_HEADER							= 5 + FixTags.BEGINSTRING_LENGTH;										// '8' + '=' + BeginString[7] + SOH + '9' + '='
-	public static final int						FIX_MESSAGE_START					= FIX_HEADER + 5;							// '8' + '=' + BeginString[7] + SOH + '9' + '=' '0000' + SOH
-	public static final int						FIX_TRAILER							= 7;										// '10' + = + checkSum[3] + SOH
+	public static final int						FIX_HEADER							= 5 + FixTags.BEGINSTRING_LENGTH;						// '8' + '=' + BeginString[7] + SOH + '9' + '='
+	public static final int						FIX_MESSAGE_START					= FIX_HEADER + 5;										// '8' + '=' + BeginString[7] + SOH + '9' + '=' '0000' + SOH
+	public static final int						FIX_TRAILER							= 7;													// '10' + = + checkSum[3] + SOH
 
 	public static final byte					SOH									= (byte) 0x01;
 	public static final byte					EQUALS								= (byte) '=';
@@ -52,21 +54,23 @@ public class FixUtils {
 
 	public static boolean						validateChecksum					= true;
 
-	public static boolean						validateMsgSeqNum					= true;
-	
+	public static boolean						validateSession						= true;
+
 	public static boolean						validateSendingTime					= true;
-	
-    public static final Calendar 				calendarUTC							= new GregorianCalendar(TimeZone.getTimeZone("UTC"));
-    
-    public static final UtcTimestampConverter   utcTimestampConverter               = fixUtils.new UtcTimestampConverter();
 
-    public static final UtcTimeOnlyConverter   utcTimeOnlyConverter               = fixUtils.new UtcTimeOnlyConverter();
+	public static boolean						validateOnlyDefinedTagsAllowed		= true;
 
-    public static final UtcDateOnlyConverter   utcDateOnlyConverter               = fixUtils.new UtcDateOnlyConverter();
+	public static final Calendar				calendarUTC							= new GregorianCalendar(TimeZone.getTimeZone("UTC"));
 
-	private static byte[]			tmpMsgType	= new byte[FixTags.MSGTYPE_LENGTH];
-	
-	private static byte[]		digitsBuf = new byte[FixUtils.FIX_MAX_DIGITS];
+	public static final UtcTimestampConverter	utcTimestampConverter				= fixUtils.new UtcTimestampConverter();
+
+	public static final UtcTimeOnlyConverter	utcTimeOnlyConverter				= fixUtils.new UtcTimeOnlyConverter();
+
+	public static final UtcDateOnlyConverter	utcDateOnlyConverter				= fixUtils.new UtcDateOnlyConverter();
+
+	private static byte[]						tmpMsgType							= new byte[FixTags.MSGTYPE_LENGTH];
+
+	private static byte[]						digitsBuf							= new byte[FixUtils.FIX_MAX_DIGITS];
 
 	public static int getTag(final ByteBuffer buf, final FixValidationError err) {
 		int count = 0;
@@ -97,18 +101,18 @@ public class FixUtils {
 		}
 		return tag;
 	}
-	
+
 	public static int getNext(final ByteBuffer buf, final FixValidationError err) {
 		int c = 0;
 
 		while (buf.hasRemaining()) {
 			c++;
 
-			if (buf.get() == FixUtils.SOH )
+			if (buf.get() == FixUtils.SOH)
 				return c;
 		}
 		if (err != null)
-			err.setError((int)FixMessageInfo.SessionRejectReason.INVALID_TAG_NUMBER, "Invalid tag number");
+			err.setError((int) FixMessageInfo.SessionRejectReason.INVALID_TAG_NUMBER, "Invalid tag number");
 		return c;
 	}
 
@@ -145,6 +149,7 @@ public class FixUtils {
 
 		if (length > 1)
 			for (int i = 1; i < length; i++) {
+				if (b[i]==0) continue;
 				val <<= 8;
 				val |= b[i];
 			}
@@ -190,7 +195,8 @@ public class FixUtils {
 			digitsBuf[start++] = c;
 
 			if (start == end) {
-				err.setError((int) FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, "Float value length exceeds maximum number of digits " + FixUtils.FIX_MAX_DIGITS);
+				err.setError((int) FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
+						"Float value length exceeds maximum number of digits " + FixUtils.FIX_MAX_DIGITS);
 				return getNext(buf, null);
 			}
 		}
@@ -210,7 +216,8 @@ public class FixUtils {
 			digitsBuf[start++] = c;
 
 			if (start == end) {
-				err.setError((int) FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, "Value length exceeds maximum number of digits " + FixUtils.FIX_MAX_DIGITS);
+				err.setError((int) FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
+						"Value length exceeds maximum number of digits " + FixUtils.FIX_MAX_DIGITS);
 				return getNext(buf, null);
 			}
 		}
@@ -223,14 +230,15 @@ public class FixUtils {
 		final int oldPos = src.position();
 
 		FixUtils.fillNul(dst);
-		
+
 		while (src.hasRemaining()) {
 
 			if ((c = src.get()) == FixUtils.SOH)
 				break;
 
 			if (start >= end) {
-				err.setError((int) FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, "Value length exceeds maximum of " + (end - start));
+				err.setError((int) FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, "Value length exceeds maximum of "
+						+ (end - start));
 				return getNext(src, null);
 			} else {
 				dst[start] = c;
@@ -252,11 +260,12 @@ public class FixUtils {
 			buf.position(buf.position() - 2);
 			return;
 		}
-
-		// TODO what about other tags?
+		
+		int i = buf.position();
+		while (buf.get(--i) != SOH) {}
+		buf.position(i + 1);
 	}
-	
-	
+
 	public static void copy(final byte dst[], final byte src[]) {
 		int length = src.length > dst.length ? dst.length : src.length;
 
@@ -283,7 +292,7 @@ public class FixUtils {
 		for (int i = 0; i < buf.length; i++)
 			buf[i] = (byte) 0;
 	}
-	
+
 	public static long fixFloatValueOf(final byte[] s, int length) {
 		int start = 0;
 		boolean negative = false;
@@ -306,11 +315,12 @@ public class FixUtils {
 			if (s[decimal] == (byte) '.')
 				break;
 
-		final int decimals = length - 1  - decimal;
+		final int decimals = length - 1 - decimal;
 
 		if (decimal > -1) {
 			value = longValueOf(s, 0, decimal) * FIX_FLOAT_NUMBER_OF_DECIMALS;
-			value += intValueOf(s, decimal + 1 < length ? decimal + 1 : length - 1, FIX_FLOAT_NUMBER_OF_DECIMALS_DIGITS < decimals ? FIX_FLOAT_NUMBER_OF_DECIMALS_DIGITS : decimals);
+			value += intValueOf(s, decimal + 1 < length ? decimal + 1 : length - 1,
+					FIX_FLOAT_NUMBER_OF_DECIMALS_DIGITS < decimals ? FIX_FLOAT_NUMBER_OF_DECIMALS_DIGITS : decimals);
 		} else
 			value = longValueOf(s, 0, decimals) * FIX_FLOAT_NUMBER_OF_DECIMALS;
 
@@ -320,7 +330,6 @@ public class FixUtils {
 
 	}
 
-	
 	public static void generateCheckSum(final byte[] checkSum, final ByteBuffer buf, final int startPos, final int endPos) {
 		final int currPos = buf.position();
 		int cks = 0;
@@ -364,8 +373,9 @@ public class FixUtils {
 
 			pos++;
 		}
-		
-		if (len != 0) throw new NumberFormatException();
+
+		if (len != 0)
+			throw new NumberFormatException();
 
 		return sign * x;
 	}
@@ -393,24 +403,25 @@ public class FixUtils {
 		count++; // the decimal
 		int decimalPos = length - offset - FIX_FLOAT_NUMBER_OF_DECIMALS_DIGITS;
 
-		while ((l /= radix) != 0 && count < length - offset )
+		while ((l /= radix) != 0 && count < length - offset)
 			count++;
-		
+
 		do {
 			int ch = 0 - (int) (j % radix);
 			if (ch > 9)
 				ch = ch - 10 + (byte) 'a';
 			else
 				ch += (byte) '0';
-			if (count == decimalPos - 1) out[--count] = (byte)'.';
+			if (count == decimalPos - 1)
+				out[--count] = (byte) '.';
 			out[--count] = (byte) ch;
 
 		} while ((j /= radix) != 0);
 		if (negative)
 			out[0] = (byte) '-';
 
-	}	
-	
+	}
+
 	public static void longToNumeric(final byte out[], final int offset, long l, final int length) {
 		final int radix = 10;
 
@@ -463,7 +474,7 @@ public class FixUtils {
 			pos++;
 
 		}
-		
+
 		if (len != 0)
 			throw new NumberFormatException();
 
@@ -549,31 +560,31 @@ public class FixUtils {
 		System.arraycopy(buf, start, ret, 0, ret.length);
 		return ret;
 	}
-	
+
 	public static int getNoInGroup(FixGroup[] groups) {
 		int i = 0;
 		for (FixGroup group : groups) {
-			if (!group.hasGroup()) break;
+			if (!group.hasGroup())
+				break;
 			i++;
 		}
 		return i;
 	}
-	
-	
 
 	/**
 	 * 
-	 * yyyyMMdd-HH:mm:SS[.sss]
-	 * HH:mm:SS[.sss]
-	 * yyyyMMdd
+	 * yyyyMMdd-HH:mm:SS[.sss] HH:mm:SS[.sss] yyyyMMdd
 	 * 
 	 **/
 	public static Date convert(byte[] buf, boolean getTime, boolean getDate) {
 
-		if (getTime && getDate && buf.length < 18) return null;
-		else if (getTime && buf.length < 9) return null;
-		else if (getDate && buf.length < 8) return null;
-		
+		if (getTime && getDate && buf.length < 18)
+			return null;
+		else if (getTime && buf.length < 9)
+			return null;
+		else if (getDate && buf.length < 8)
+			return null;
+
 		int year = 0;
 		int month = 0;
 		int date = 0;
@@ -582,31 +593,31 @@ public class FixUtils {
 		int second = 0;
 
 		int pos = 0;
-		
+
 		if (getDate) {
 			year = (int) FixUtils.longValueOf(buf, 0, 4);
-		    month = -1 + (int) FixUtils.longValueOf(buf, 4, 2);
-		    date = (int) FixUtils.longValueOf(buf, 6, 2);
-		    pos = 9;
+			month = -1 + (int) FixUtils.longValueOf(buf, 4, 2);
+			date = (int) FixUtils.longValueOf(buf, 6, 2);
+			pos = 9;
 		} else {
 			year = (int) calendarUTC.get(Calendar.YEAR);
-		    month = (int) calendarUTC.get(Calendar.MONTH);
-		    date = (int) calendarUTC.get(Calendar.DATE);
+			month = (int) calendarUTC.get(Calendar.MONTH);
+			date = (int) calendarUTC.get(Calendar.DATE);
 		}
-		
+
 		if (getTime) {
 			hourOfDay = (int) FixUtils.longValueOf(buf, pos, 2);
 			minute = (int) FixUtils.longValueOf(buf, pos + 3, 2);
 			second = (int) FixUtils.longValueOf(buf, pos + 6, 2);
 			pos += 8;
 		}
-		
+
 		calendarUTC.clear();
 		calendarUTC.set(year, month, date, hourOfDay, minute, second);
 		long basMillis = calendarUTC.getTimeInMillis();
 
 		long millis = 0;
-		
+
 		if (buf.length == pos + 4) {
 			millis = FixUtils.longValueOf(buf, pos + 1, 3);
 		}
@@ -615,7 +626,7 @@ public class FixUtils {
 
 		return calendarUTC.getTime();
 	}
-	
+
 	public static class FixFloatConverter {
 
 		public static String convert(long l) {
@@ -629,13 +640,13 @@ public class FixUtils {
 		public static String convert(long l, int count) {
 			double d = l;
 
-			while (count>0) {
+			while (count > 0) {
 				d /= 10;
 				count--;
 			}
 			return String.valueOf(d);
 		}
-		
+
 	}
 
 	public static class CharConverter {
@@ -648,7 +659,7 @@ public class FixUtils {
 			byte[] buf = s.getBytes();
 			return buf.length == 1 ? buf[0] : null;
 		}
-		
+
 	}
 
 	public static class BooleanConverter {
@@ -658,20 +669,23 @@ public class FixUtils {
 		}
 
 		public static boolean convert(String s) {
-			if (s.equals("Y")) return true;
-			else if (s.equals("N")) return false;
-			else throw new NumberFormatException();
+			if (s.equals("Y"))
+				return true;
+			else if (s.equals("N"))
+				return false;
+			else
+				throw new NumberFormatException();
 		}
-		
+
 	}
 
 	public class UtcTimestampConverter {
-		private SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd-HH:mm:ss.SSS");
+		private SimpleDateFormat	format	= new SimpleDateFormat("yyyyMMdd-HH:mm:ss.SSS");
 
 		public UtcTimestampConverter() {
 			format.setTimeZone(calendarUTC.getTimeZone());
 		}
-		
+
 		public String convert(Date date) {
 			return format.format(date);
 		}
@@ -680,16 +694,16 @@ public class FixUtils {
 		public Date convert(byte[] buf) {
 			return FixUtils.convert(buf, true, true);
 		}
-		
+
 	}
 
 	public class UtcTimeOnlyConverter {
-		private SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss.SSS");
+		private SimpleDateFormat	format	= new SimpleDateFormat("HH:mm:ss.SSS");
 
 		UtcTimeOnlyConverter() {
 			format.setTimeZone(calendarUTC.getTimeZone());
 		}
-		
+
 		public String convert(Date date) {
 			return format.format(date);
 		}
@@ -697,16 +711,16 @@ public class FixUtils {
 		public Date convert(byte[] buf) {
 			return FixUtils.convert(buf, true, false);
 		}
-		
+
 	}
 
 	public class UtcDateOnlyConverter {
-		private SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+		private SimpleDateFormat	format	= new SimpleDateFormat("yyyyMMdd");
 
 		UtcDateOnlyConverter() {
 			format.setTimeZone(calendarUTC.getTimeZone());
 		}
-		
+
 		public String convert(Date date) {
 
 			calendarUTC.setTime(date);
@@ -716,145 +730,236 @@ public class FixUtils {
 		public Date convert(byte[] buf) {
 			return FixUtils.convert(buf, false, true);
 		}
-		
+
 	}
 
 	public static Date getSystemTime() {
 		return new Date();
 	}
 
-	
-	/** -------------------------------------------------------------------------------------------------
-	 * FIX MESSAGE TYPE
-	 * ------------------------------------------------------------------------------------------------ 
+	/**
+	 * -------------------------- FIX MESSAGE PARSE ------------------------------------------
+	 **/
+	// this is the FixMessageParesr 
+	/**
+	 * -------------------------- FIX MESSAGE SESSION ----------------------------------------
+	 **/
+
+	public static IFixSession crackSession(int msgTypeInt, FixMessageListener listener, long connectorID, FixStandardHeader standardHeader,
+			FixValidationError err) {
+		IFixSession session;
+		int pos = standardHeader.buf.position();
+
+		if (MessageTypes.LOGON_INT == msgTypeInt) {
+			session = listener.getSession(connectorID, standardHeader, err);
+		} else {
+			session = listener.getSession(connectorID, err);
+		}
+
+		if (!err.hasError() && session != null && MessageTypes.LOGON_INT == msgTypeInt) {
+
+			if (!err.hasError()) {
+
+				if (session.getInMsgSeqNum() + 1 < standardHeader.getMsgSeqNum()) { // if we get a logout continue anyhow
+
+					err.setError((int) FixEvent.MSGSEQNUM_LOGON_RESENDREQUEST, "MsgSeqNum higher than expected", FixTags.MSGSEQNUM_INT, msgTypeInt);
+					err.resendRequestMsgSeqNum = session.getInMsgSeqNum() + 1;
+
+				} else if (standardHeader.getMsgSeqNum() < session.getInMsgSeqNum() && !(standardHeader.hasPossDupFlag() && standardHeader.getPossDupFlag())) {
+
+					err.setError(FixEvent.MSGSEQNUM_LOGOUT, "MsgSeqNum too low, expecting " + (session.getInMsgSeqNum() + 1) + " but received "
+							+ standardHeader.getMsgSeqNum(), FixTags.MSGSEQNUM_INT, msgTypeInt);
+
+				}
+			}
+
+		} else if (!err.hasError() && session != null) {
+
+			err.session = session;
+
+			if (!err.hasError()) {
+
+				if (session.getInMsgSeqNum() + 1 < standardHeader.getMsgSeqNum() && !(msgTypeInt != MessageTypes.LOGOUT_INT)) { // if we get a logout continue anyhow
+
+					err.setError((int) FixEvent.MSGSEQNUM_RESENDREQUEST, "MsgSeqNum higher than expected", FixTags.MSGSEQNUM_INT, msgTypeInt);
+					err.resendRequestMsgSeqNum = session.getInMsgSeqNum() + 1;
+
+				} else if (standardHeader.getMsgSeqNum() <= session.getInMsgSeqNum()) {
+
+					if (MessageTypes.SEQUENCERESET_INT == msgTypeInt) {
+						if (standardHeader.hasPossDupFlag() && standardHeader.getPossDupFlag()) {
+							err.setError(FixEvent.IGNORE_MESSAGE, "Ignore SequenceReset");
+							/*
+							 * TODO else if (!((FixSequenceReset)msg).hasGapFillFlag() || !((FixSequenceReset)msg).getGapFillFlag()) { // will except msgSeqNum regardless }
+							 */
+						} else {
+							err.setError(FixEvent.MSGSEQNUM_LOGOUT, "MsgSeqNum too low, expecting " + (session.getInMsgSeqNum() + 1) + " but received "
+									+ standardHeader.getMsgSeqNum(), FixTags.MSGSEQNUM_INT, msgTypeInt);
+						}
+					} else if (standardHeader.hasPossDupFlag() && standardHeader.getPossDupFlag()) {
+						err.setError(FixEvent.IGNORE_MESSAGE, "Ignore possdup message");
+					} else {
+						err.setError(FixEvent.MSGSEQNUM_LOGOUT, "MsgSeqNum too low, expecting " + (session.getInMsgSeqNum() + 1) + " but received "
+								+ standardHeader.getMsgSeqNum(), FixTags.MSGSEQNUM_INT, msgTypeInt);
+					}
+
+				}
+			}
+
+		} else { // session == null
+
+			err.setError(FixEvent.DISCONNECT, "first message not a logon");
+			// or
+			// this is not the first non-garbled messasge but I am still unable to get the session!!!!
+
+		}
+		standardHeader.buf.position(pos);
+		return session;
+
+	}
+
+	/**
+	 * ------------------------------------------------------------------------------------------------- FIX HEADER ------------------------------------------------------------------------------------------------
+	 **/
+
+	public static int crackStandardHeader(ByteBuffer buf, FixStandardHeader standardHeader, FixValidationError err) {
+
+		int tag = getTag(buf, err);
+
+		if (!err.hasError()) {
+
+			tag = standardHeader.setBuffer(tag, buf, err);
+			
+			if (!err.hasError()) standardHeader.hasRequiredTags(err);
+			
+			FixUtils.unreadLastTag(tag, buf);
+			int pos = buf.position();
+
+			if (err.hasError()) {
+				if (err.refTagID == FixTags.TARGETCOMPID_INT || err.refTagID == FixTags.TARGETSUBID_INT || err.refTagID == FixTags.SENDERCOMPID_INT
+						|| err.refTagID == FixTags.SENDERSUBID_INT) {
+					err.setError((int) FixMessageInfo.SessionRejectReason.COMPID_PROBLEM, "compid problem");
+				}
+			} else {
+
+				validateSendingTime(err, standardHeader);
+
+			}
+			buf.position(pos);
+		}
+		return buf.position();
+	}
+
+	private static void validateSendingTime(FixValidationError err, FixStandardHeader standardHeader) {
+		if (validateSendingTime && !err.hasError()) {
+
+			long now = FixUtils.getSystemTime().getTime();
+			long sendingTime = FixUtils.utcTimestampConverter.convert(standardHeader.getSendingTime()).getTime();
+
+			if (sendingTime > now + (60 * 2 * 1000L) || sendingTime < now - (60 * 2 * 1000L)) {
+
+				err.setError((int) FixMessageInfo.SessionRejectReason.SENDINGTIME_ACCURACY_PROBLEM, "SendingTime accuracy problem", FixTags.SENDINGTIME_INT);
+			}
+
+			if (standardHeader.hasPossDupFlag() && standardHeader.getPossDupFlag()) {
+				if (!standardHeader.hasOrigSendingTime()) {
+					err.setError((int) FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.ORIGSENDINGTIME_INT);
+				} else {
+					long origSendingTime = FixUtils.utcTimestampConverter.convert(standardHeader.getOrigSendingTime()).getTime();
+					if (origSendingTime > sendingTime) {
+						err.setError((int) FixMessageInfo.SessionRejectReason.SENDINGTIME_ACCURACY_PROBLEM, "SendingTime accuracy problem",
+								FixTags.ORIGSENDINGTIME_INT);
+					}
+				}
+
+			}
+		}
+
+	}
+
+	/**
+	 * ----------------------- FIX MESSAGE TYPE -------------------------------------------------------
 	 **/
 
 	/**
-	 * non intrucive cracks the msgType from IO ByteBuffer.
-	 * 
+	 * non-intrucive cracks the msgType from IO ByteBuffer.
+	 * buf position rewined to starting pos buf after read.
 	 * @param buf
 	 * @param backingBuf
 	 * @param err
 	 * @return
 	 */
 	public static int crackMsgType(final ByteBuffer buf, final FixValidationError err) {
-		int msgTypeInt = 0;
+		int msgTypeInt = -1;
 		FixUtils.fillNul(tmpMsgType);
-
 		err.clear();
 
 		final int startPos = buf.position();
 
-		checkHeaderAndTrailer(buf, err);
+		// see Fix Session Protocol v1.1 "What constitutes a garbled message"..
+		if (FixUtils.equals(buf.array(), FixMessageInfo.BEGINSTRING_VALUE_WITH_TAG) && buf.limit() >= FixMessageInfo.BEGINSTRING_VALUE_WITH_TAG.length) {
 
-		if (!err.hasError() || err.sessionRejectReason != FixEvent.GARBLED ) {
-			int oldErr = err.sessionRejectReason;
-			err.sessionRejectReason = -1;
-			msgTypeInt = getMsgType(buf, err);
-			if (!err.hasError()) err.sessionRejectReason = oldErr;
-		}
+			buf.position(FixMessageInfo.BEGINSTRING_VALUE_WITH_TAG.length);
+			int bodyLengthTag = FixUtils.getTag(buf, err);
 
-		if (err.hasError() && msgTypeInt == MessageTypes.LOGON_INT)  					
-			err.sessionRejectReason = FixEvent.DISCONNECT;
+			if (bodyLengthTag == FixTags.BODYLENGTH_INT && !err.hasError()) {
 
-		buf.position(startPos);
+				int bodyLength = FixUtils.getTagIntValue(buf, err);
 
-		return msgTypeInt;
-	}
-	
-	/**
-	 * Non intrusive check of header. Returns fix length of message.
-	 * 
-	 * @param buf
-	 * @param err
-	 * @return
-	 */
-	private static int checkHeaderAndTrailer(final ByteBuffer buf, final FixValidationError err) {
-		final int startPos = buf.position();
-		int length = 0;
+				if (!err.hasError() && bodyLength >= FIX_MESSAGE_START + FIX_TRAILER) { // TODO ad FIX_MAX_MESSAGE_LENGTH check
 
-		if (buf.limit() <= FixUtils.FIX_HEADER)
-			err.setError((int) FixEvent.GARBLED, "No room in message for body length", FixTags.BODYLENGTH_INT);
+					int msgTypeTag = FixUtils.getTag(buf, err);
 
-		// BeginString
-		if (!err.hasError()) {
-			final int tag = getHeaderTag(buf, err);
+					if (msgTypeTag == FixTags.MSGTYPE_INT && !err.hasError()) {
 
-			if (tag != FixTags.BEGINSTRING_INT)
-				err.setError((int) FixEvent.GARBLED, "BeginString missing", FixTags.BEGINSTRING_INT);
-			else {
-				getTagStringValue(buf, beginsStringTmp, 0, FixTags.BEGINSTRING_LENGTH, err);
+						FixUtils.getTagStringValue(buf, tmpMsgType, 0, 2, err);
+						msgTypeInt = FixUtils.getTagAsInt(tmpMsgType, 2);
 
-				if (!FixUtils.equals(beginsStringTmp, FixMessageInfo.BEGINSTRING_VALUE)) {
-					err.setError((int) FixEvent.BEGINSTRING_LOGOUT, "Incorrect BeginString", FixTags.BEGINSTRING_INT);
-				} 
-			}
+						if (!err.hasError()) {
 
-		}
+							if (!err.hasError() && validateChecksum) {
 
-		// BodyLength
-		if (!err.hasError() || err.sessionRejectReason != FixEvent.GARBLED ) {
-			final int tag = getTag(buf, err);
+								if (buf.position() + bodyLength < buf.limit() + FIX_TRAILER) {
 
-			if (!err.hasError() || err.sessionRejectReason != FixEvent.GARBLED )
-				if (tag != FixTags.BODYLENGTH_INT)
-					err.setError((int) FixEvent.GARBLED, "BodyLength missing", FixTags.BEGINSTRING_INT);
-				else
-					length = getTagIntValue(buf, err);
-		}
-		
-		
+									generateCheckSum(calcCheckSum, buf, buf.position(), bodyLength + buf.position());
 
-		// CheckSum and trailer
-		if (!err.hasError() && validateChecksum) {
+									buf.position(bodyLength + buf.position());
+									final int checkSumTag = getTag(buf, err);
 
-			generateCheckSum(calcCheckSum, buf, buf.position(), length + buf.position());
+									if (!err.hasError() && checkSumTag == FixTags.CHECKSUM_INT) {
 
-			buf.position(length + buf.position());
-			final int tag = getTag(buf, err);
+										getTagStringValue(buf, currCheckSum, 0, FixTags.CHECKSUM_LENGTH, err);
 
-			if (!err.hasError()) {
-				if (tag != FixTags.CHECKSUM_INT)
-					err.setError((int) FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "CheckSum missing", FixTags.CHECKSUM_INT);
-				else {
+										if (!err.hasError()) {
 
-					getTagStringValue(buf, currCheckSum, 0, FixTags.CHECKSUM_LENGTH, err);
-
-					if (!err.hasError())
-						if (FixUtils.equals(currCheckSum, calcCheckSum))
-							err.setError((int) FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, "Checksum incorrect " + new String(currCheckSum), FixTags.CHECKSUM_INT);
+											if (FixUtils.equals(currCheckSum, calcCheckSum)) {
+												buf.position(startPos);
+												return msgTypeInt;
+											}
+										}
+									}
+								}
+							} else {
+								buf.position(startPos);
+								return msgTypeInt;
+							}
+						} 
+					}
 				}
-			} else {
-				if (err.sessionRejectReason != FixEvent.GARBLED || 
-						( tag == FixTags.BEGINSTRING_INT && err.sessionRejectReason == FixEvent.GARBLED) ) // if the length is missing tag 8 is the last successfull
-					err.setError(FixEvent.DISCONNECT, "incorrect length");
 			}
 		}
-		
-		
 
 		buf.position(startPos);
-		return length;
+		err.setError(FixEvent.GARBLED, "garbled");
+		return -1;
 	}
-	
-	public static int getHeaderTag(final ByteBuffer buf, final FixValidationError err) {
-		int tag = getTag(buf, err);
-		if (err.hasError()) err.sessionRejectReason = FixEvent.GARBLED;
-		return tag;
-	}
-	
-	private static int getMsgType(final ByteBuffer buf, final FixValidationError err) {
+
+	public static int getNasdaqMsgTypeInt(int tmpMsgType, final ByteBuffer buf, final FixValidationError err) {
 		int msgTypeInt = 0;
-		int length = 0;
+		byte[] newMsgType = new byte[2];
 		final int pos = buf.position();
 
-		if (getTag(FixTags.MSGTYPE_INT, buf, err))
-			if (!err.hasError())
-				length = getTagStringValue(buf, tmpMsgType, 0, FixTags.MSGTYPE_LENGTH, err);
-			else
-				return -1;
-
-		if (FixUtils.isNasdaqOMX && tmpMsgType[0] == (byte) '8') {
+		if (tmpMsgType == MessageTypes.EXECUTIONREPORT_INT) {
 			// this is Execution Report need to figure out sub type...
 			// get tag ExecType (150)
 			if (getTag(FixTags.EXECTYPE_INT, buf, err)) {
@@ -864,10 +969,10 @@ public class FixUtils {
 
 					if (!err.hasError()) {
 
-						tmpMsgType[0] = (byte) '8';
-						tmpMsgType[1] = c;
+						newMsgType[0] = (byte) '8';
+						newMsgType[1] = c;
 
-						msgTypeInt = getTagAsInt(tmpMsgType, 2);
+						msgTypeInt = getTagAsInt(newMsgType, 2);
 					}
 				}
 			} else if (getTag(FixTags.EXECTYPE_INT, buf, err))
@@ -877,13 +982,13 @@ public class FixUtils {
 
 					if (err.hasError()) {
 
-						tmpMsgType[0] = (byte) '8';
-						tmpMsgType[1] = c;
+						newMsgType[0] = (byte) '8';
+						newMsgType[1] = c;
 
-						msgTypeInt = getTagAsInt(tmpMsgType, 2);
+						msgTypeInt = getTagAsInt(newMsgType, 2);
 					}
 				}
-		} else if (FixUtils.isNasdaqOMX && tmpMsgType[0] == (byte) '9') { // this is order reject...
+		} else if (tmpMsgType == MessageTypes.ORDERCANCELREJECT_INT) { // this is order reject...
 			// 434 CxlRejResponseTo
 			if (getTag(FixTags.CXLREJRESPONSETO_INT, buf, err))
 				if (!err.hasError()) {
@@ -891,243 +996,69 @@ public class FixUtils {
 					final byte c = getTagCharValue(buf, err);
 
 					if (!err.hasError()) {
-						tmpMsgType[0] = (byte) '9';
-						tmpMsgType[1] = c;
+						newMsgType[0] = (byte) '9';
+						newMsgType[1] = c;
 
-						msgTypeInt = getTagAsInt(tmpMsgType, 2);
+						msgTypeInt = getTagAsInt(newMsgType, 2);
 
 					}
 
 				}
-		} else if (!err.hasError())
-			msgTypeInt = getTagAsInt(tmpMsgType, length);
-		else
+		} else
 			return -1;
 
 		buf.position(pos);
 		return msgTypeInt;
-	}    
-
-	/** -------------------------------------------------------------------------------------------------
-	 * FIX HEADER
-	 * ------------------------------------------------------------------------------------------------ 
-	 **/	
-	public static int crackStandardHeader(ByteBuffer buf, FixStandardHeader standardHeader, FixValidationError err) {
-		int tag = getTag(buf, err);
-
-		if (err.hasError()) {
-			// TODO convert to COMPID probelm
-		}
-
-		tag = standardHeader.setBuffer( tag, buf, err);		
-
-		if (err.hasError()) {
-			// TODO chk if it is compID or other needed for session retrival
-			// TODO AppverID special
-		}
-		
-		return tag;
 	}
 
-	/** -------------------------------------------------------------------------------------------------
-	 * FIX MESSAGE PARSE
-	 * ------------------------------------------------------------------------------------------------ 
-	 **/
-	// this is the FixMessageParesr // TODO remove connecto awareness
-	
-	
-	/** -------------------------------------------------------------------------------------------------
-	 * FIX MESSAGE SESSION
-	 * ------------------------------------------------------------------------------------------------ 
-	 **/
-
-	// TODO sendingTime and all sessionReject errors to header check
-	// TODO use boolean to indicate if logon (use err as sessionID holder) to transform to disconnect
-	// TODO it should be possible to scipp crack Session if you ignor sesion laeyr
-	
-	public static IFixSession crackSession(FixMessageListener listener, long connectorID, FixLogon msg, FixValidationError err) {
-
-		if (err.hasError() && err.refTagID == FixTags.DEFAULTAPPLVERID_INT) {
-			err.setError(FixEvent.DISCONNECT, err.text, err.refTagID);
-			return null;
-		}
-			
-		
-		IFixSession session = listener.getSession( connectorID, err);
-		
-		if (session == null) {
-			
-			session = listener.getSession(connectorID, msg, err);
-			
-		} 		
-		
-		if (session != null) {
-			
-			msg.sessionID = session.getSessionID();
-			err.setSessionID(msg.sessionID);
-
-			if (validateMsgSeqNum && !err.hasError()) {
-				
-				if (session.getInMsgSeqNum() + 1 < msg.standardHeader.getMsgSeqNum() ) { // if we get a logout continue anyhow
-
-					err.setError((int) FixEvent.MSGSEQNUM_LOGON_RESENDREQUEST, "MsgSeqNum higher than expected", FixTags.MSGSEQNUM_INT, msg.standardHeader.getMsgType());
-					err.msgSeqNum = session.getInMsgSeqNum() + 1;
-					err.setFixMessage(msg.clone());
-
-				} else if (msg.standardHeader.getMsgSeqNum() < session.getInMsgSeqNum() && !(msg.standardHeader.hasPossDupFlag() && msg.standardHeader.getPossDupFlag()) ) {
-
-					err.setError(FixEvent.MSGSEQNUM_LOGOUT, "MsgSeqNum too low, expecting " + (session.getInMsgSeqNum() + 1) + " but received " + msg.standardHeader.getMsgSeqNum(), FixTags.MSGSEQNUM_INT, msg.standardHeader.getMsgType());
-
-				}
-			} 
-			
-			validateSendingTime(err,msg);
-
-		} else { // session == null
-
-			err.setSessionID((int) (connectorID));
-
-		} 		
-		
-		return session;
-
-	}
-	
-	public static IFixSession validateStandardHeader(FixMessageListener listener, long connectorID, FixInMessage msg, FixValidationError err) {
-
-		IFixSession session = listener.getSession( connectorID, err);
-		
-		if (session != null) {
-			
-			msg.sessionID = session.getSessionID();
-			err.setSessionID(msg.sessionID);
-
-			if (validateMsgSeqNum && !err.hasError()) {
-				
-				if (session.getInMsgSeqNum() + 1 < msg.standardHeader.getMsgSeqNum() && 
-						!(msg instanceof FixLogout)) { // if we get a logout continue anyhow
-
-					err.setError((int) FixEvent.MSGSEQNUM_RESENDREQUEST, "MsgSeqNum higher than expected", FixTags.MSGSEQNUM_INT, msg.standardHeader.getMsgType());
-					err.msgSeqNum = session.getInMsgSeqNum() + 1;
-
-				}
-				else if (msg.standardHeader.getMsgSeqNum() <= session.getInMsgSeqNum() ) {
-
-					if (msg instanceof FixSequenceReset) {
-						if (msg.standardHeader.hasPossDupFlag() && msg.standardHeader.getPossDupFlag()) {
-							err.setError(FixEvent.IGNORE_MESSAGE, "Ignore SequenceReset");
-						} else if (!((FixSequenceReset)msg).hasGapFillFlag() || !((FixSequenceReset)msg).getGapFillFlag()) {
-							// will except msgSeqNum regardless
-						} else {
-							err.setError(FixEvent.MSGSEQNUM_LOGOUT, "MsgSeqNum too low, expecting " + (session.getInMsgSeqNum() + 1) + " but received " + msg.standardHeader.getMsgSeqNum(), FixTags.MSGSEQNUM_INT, msg.standardHeader.getMsgType());
-						}
-					} else if ( msg.standardHeader.hasPossDupFlag() && msg.standardHeader.getPossDupFlag() ) {
-						err.setError(FixEvent.IGNORE_MESSAGE, "Ignore possdup message");
-					} else {
-						err.setError(FixEvent.MSGSEQNUM_LOGOUT, "MsgSeqNum too low, expecting " + (session.getInMsgSeqNum() + 1) + " but received " + msg.standardHeader.getMsgSeqNum(), FixTags.MSGSEQNUM_INT, msg.standardHeader.getMsgType());
-					}
-
-				}
-			}
-
-			validateSendingTime(err,msg);
-			
-		} else { // session == null
-
-			if (!err.hasError() && msg.standardHeader.hasMsgType() && ! FixUtils.equals(msg.standardHeader.getMsgType(), FixMessageInfo.MsgType.LOGON)) 
-				err.setError(FixEvent.DISCONNECT, "first message not a logon");
-
-			err.setSessionID((int) (-1 * connectorID));
-
-		} 		
-		
-		return session;
-	}
-	
-	private static void validateSendingTime(FixValidationError err, FixInMessage msg) {
-		if (validateSendingTime && !err.hasError()) {
-			
-			long now = FixUtils.getSystemTime().getTime();
-			long sendingTime = FixUtils.utcTimestampConverter.convert(msg.standardHeader.getSendingTime()).getTime();
-			
-			if ( sendingTime > now + (60*2*1000L) || sendingTime < now - (60*2*1000L) ) { 
-
-				err.setError((int) FixMessageInfo.SessionRejectReason.SENDINGTIME_ACCURACY_PROBLEM, "SendingTime accuracy problem", FixTags.SENDINGTIME_INT, msg.standardHeader.getMsgType());
-				err.sessionID = msg.sessionID;
-			}
-			
-			if (msg.standardHeader.hasPossDupFlag() && msg.standardHeader.getPossDupFlag()) {
-				if (!msg.standardHeader.hasOrigSendingTime()) {
-					err.setError((int) FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.ORIGSENDINGTIME_INT, msg.standardHeader.getMsgType());
-					err.sessionID = msg.sessionID;
-					err.msgSeqNum = msg.standardHeader.getMsgSeqNum();
-				} else {
-					long origSendingTime = FixUtils.utcTimestampConverter.convert(msg.standardHeader.getOrigSendingTime()).getTime();
-					if (origSendingTime > sendingTime) {
-						err.setError((int) FixMessageInfo.SessionRejectReason.SENDINGTIME_ACCURACY_PROBLEM, "SendingTime accuracy problem", FixTags.ORIGSENDINGTIME_INT, msg.standardHeader.getMsgType());
-						err.msgSeqNum = msg.standardHeader.getMsgSeqNum();
-						err.sessionID = msg.sessionID;
-					}
-				}
-					
-					
-			}
-		}			
-		
-	}
-	
-	/** -------------------------------------------------------------------------------------------------
-	 * IO
-	 * ------------------------------------------------------------------------------------------------ 
+	/**
+	 * ------------------------------------------------------------------------------------------------- IO ------------------------------------------------------------------------------------------------
 	 **/
 
 	/**
-	 * msg contains a FIX incomplete message where potentially; 
-	 * - BodyLength is missing
-	 * - CheckSum is missing
-	 * - SendingTime is <TIME>
-	 * - other (ClOrdID, TargetCompID, SendingCompID...) are missing.. TODO
-	 * returns Fix message filled with default or dummy values.
-	 * @param msg 
+	 * msg contains a FIX incomplete message where potentially; - BodyLength is missing - CheckSum is missing - SendingTime is <TIME> - other (ClOrdID, TargetCompID, SendingCompID...) are missing.. TODO returns Fix message filled with
+	 * default or dummy values.
+	 * 
+	 * @param msg
 	 */
 	public static String fillFixMessageTemplate(String msg) {
 
-		if (msg == null || msg.length()== 0) return msg;
-		
-		if ( msg.contains(new String(FixTags.SENDINGTIME) + "=" + "<TIME>") ) {
-			msg = msg.replace("<TIME>", FixUtils.utcTimestampConverter.convert( FixUtils.getSystemTime() ) ); 
+		if (msg == null || msg.length() == 0)
+			return msg;
+
+		if (msg.contains(new String(FixTags.SENDINGTIME) + "=" + "<TIME>")) {
+			msg = msg.replace("<TIME>", FixUtils.utcTimestampConverter.convert(FixUtils.getSystemTime()));
 		}
 
-		if ( msg.contains("<TIME+10>") ) {
-			msg = msg.replace("<TIME+10>", FixUtils.utcTimestampConverter.convert( new Date(FixUtils.getSystemTime().getTime() + 10 * 60 * 1000) ) ); 
+		if (msg.contains("<TIME+10>")) {
+			msg = msg.replace("<TIME+10>", FixUtils.utcTimestampConverter.convert(new Date(FixUtils.getSystemTime().getTime() + 10 * 60 * 1000)));
 		}
 
-		if ( msg.contains("<TIME-1>") ) {
-			msg = msg.replace("<TIME-1>", FixUtils.utcTimestampConverter.convert( new Date(FixUtils.getSystemTime().getTime() - 1 * 60 * 1000) ) ); 
+		if (msg.contains("<TIME-1>")) {
+			msg = msg.replace("<TIME-1>", FixUtils.utcTimestampConverter.convert(new Date(FixUtils.getSystemTime().getTime() - 1 * 60 * 1000)));
 		}
-		
-		if ( ! msg.contains("\u0001" + new String(FixTags.CHECKSUM) + "=") ) {
+
+		if (!msg.contains("\u0001" + new String(FixTags.CHECKSUM) + "=")) {
 			// get start of message being part of checksum.
 			String[] s = msg.split("35=");
 			ByteBuffer buf = ByteBuffer.wrap(msg.getBytes());
-			
+
 			FixUtils.generateCheckSum(calcCheckSum, buf, s[0].length(), msg.length());
-			
-			msg += new String(FixTags.CHECKSUM) + "=" + new String( trim(calcCheckSum) ) + "\u0001"; 
+
+			msg += new String(FixTags.CHECKSUM) + "=" + new String(trim(calcCheckSum)) + "\u0001";
 		}
 
-		if ( ! msg.contains("\u0001" + new String(FixTags.BODYLENGTH) + "=") ) {
+		if (!msg.contains("\u0001" + new String(FixTags.BODYLENGTH) + "=")) {
 			String[] s = msg.split("35=");
-			
-			if (s.length > 1) { 
+
+			if (s.length > 1) {
 				String[] e = s[1].split("10=");
-				msg = s[0] + "\u0001" + new String(FixTags.BODYLENGTH) + "=" + ( e[0].length() + "35=".length() )  + "35=" + s[1];
+				msg = s[0] + "\u0001" + new String(FixTags.BODYLENGTH) + "=" + (e[0].length() + "35=".length()) + "35=" + s[1];
 			}
 
 		}
 
-		
 		return msg;
 	}
-	
+
 }

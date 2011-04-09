@@ -80,31 +80,31 @@ public class FixRelSymDerivSecUpdGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.LISTUPDATEACTION_INT:		
             		hasListUpdateAction = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.CURRENCY_INT:		
             		hasCurrency = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TEXT_INT:		
             		hasText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ENCODEDTEXTLEN_INT:		
             		hasEncodedTextLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ENCODEDTEXT_INT:		
             		hasEncodedText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.CORPORATEACTION_INT:		
             		hasCorporateAction = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELSYMTRANSACTTIME_INT:		
             		hasRelSymTransactTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( instrument.isKeyTag(tag)) {
@@ -121,10 +121,10 @@ public class FixRelSymDerivSecUpdGrp extends FixGroup {
                 		else continue;		
         			} else if ( tag == FixTags.NOLEGS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -142,7 +142,7 @@ public class FixRelSymDerivSecUpdGrp extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -323,7 +323,7 @@ public class FixRelSymDerivSecUpdGrp extends FixGroup {
 		
 				buf.position(hasListUpdateAction);		
 		
-			listUpdateAction = FixMessage.getTagCharValue(buf, err);
+			listUpdateAction = FixUtils.getTagCharValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasListUpdateAction);		
@@ -367,7 +367,7 @@ public class FixRelSymDerivSecUpdGrp extends FixGroup {
 		
 				buf.position(hasCurrency);		
 		
-			FixMessage.getTagStringValue(buf, currency, 0, currency.length, err);
+			FixUtils.getTagStringValue(buf, currency, 0, currency.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasCurrency);		
@@ -406,7 +406,7 @@ public class FixRelSymDerivSecUpdGrp extends FixGroup {
 		
 				buf.position(hasText);		
 		
-			FixMessage.getTagStringValue(buf, text, 0, text.length, err);
+			FixUtils.getTagStringValue(buf, text, 0, text.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasText);		
@@ -445,7 +445,7 @@ public class FixRelSymDerivSecUpdGrp extends FixGroup {
 		
 				buf.position(hasEncodedTextLen);		
 		
-			encodedTextLen = FixMessage.getTagIntValue(buf, err);
+			encodedTextLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasEncodedTextLen);		
@@ -489,7 +489,7 @@ public class FixRelSymDerivSecUpdGrp extends FixGroup {
 		
 				buf.position(hasEncodedText);		
 		
-			FixMessage.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
+			FixUtils.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasEncodedText);		
@@ -528,7 +528,7 @@ public class FixRelSymDerivSecUpdGrp extends FixGroup {
 		
 				buf.position(hasCorporateAction);		
 		
-			FixMessage.getTagStringValue(buf, corporateAction, 0, corporateAction.length, err);
+			FixUtils.getTagStringValue(buf, corporateAction, 0, corporateAction.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasCorporateAction);		
@@ -567,7 +567,7 @@ public class FixRelSymDerivSecUpdGrp extends FixGroup {
 		
 				buf.position(hasRelSymTransactTime);		
 		
-			FixMessage.getTagStringValue(buf, relSymTransactTime, 0, relSymTransactTime.length, err);
+			FixUtils.getTagStringValue(buf, relSymTransactTime, 0, relSymTransactTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelSymTransactTime);		

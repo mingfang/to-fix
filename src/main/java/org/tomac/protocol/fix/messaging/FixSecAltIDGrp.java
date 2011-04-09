@@ -53,18 +53,18 @@ public class FixSecAltIDGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.SECURITYALTID_INT:		
             		hasSecurityAltID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SECURITYALTIDSOURCE_INT:		
             		hasSecurityAltIDSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -133,7 +133,7 @@ public class FixSecAltIDGrp extends FixGroup {
 		
 				buf.position(hasSecurityAltID);		
 		
-			FixMessage.getTagStringValue(buf, securityAltID, 0, securityAltID.length, err);
+			FixUtils.getTagStringValue(buf, securityAltID, 0, securityAltID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSecurityAltID);		
@@ -172,7 +172,7 @@ public class FixSecAltIDGrp extends FixGroup {
 		
 				buf.position(hasSecurityAltIDSource);		
 		
-			FixMessage.getTagStringValue(buf, securityAltIDSource, 0, securityAltIDSource.length, err);
+			FixUtils.getTagStringValue(buf, securityAltIDSource, 0, securityAltIDSource.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSecurityAltIDSource);		

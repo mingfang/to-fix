@@ -65,31 +65,31 @@ public class FixPositionQty extends FixGroup {
             switch (tag) {		
             	case FixTags.POSTYPE_INT:		
             		hasPosType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LONGQTY_INT:		
             		hasLongQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SHORTQTY_INT:		
             		hasShortQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.POSQTYSTATUS_INT:		
             		hasPosQtyStatus = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.QUANTITYDATE_INT:		
             		hasQuantityDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( tag == FixTags.NONESTEDPARTYIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -107,7 +107,7 @@ public class FixPositionQty extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -243,7 +243,7 @@ public class FixPositionQty extends FixGroup {
 		
 				buf.position(hasPosType);		
 		
-			FixMessage.getTagStringValue(buf, posType, 0, posType.length, err);
+			FixUtils.getTagStringValue(buf, posType, 0, posType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasPosType);		
@@ -282,7 +282,7 @@ public class FixPositionQty extends FixGroup {
 		
 				buf.position(hasLongQty);		
 		
-			longQty = FixMessage.getTagFloatValue(buf, err);
+			longQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLongQty);		
@@ -326,7 +326,7 @@ public class FixPositionQty extends FixGroup {
 		
 				buf.position(hasShortQty);		
 		
-			shortQty = FixMessage.getTagFloatValue(buf, err);
+			shortQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasShortQty);		
@@ -370,7 +370,7 @@ public class FixPositionQty extends FixGroup {
 		
 				buf.position(hasPosQtyStatus);		
 		
-			posQtyStatus = FixMessage.getTagIntValue(buf, err);
+			posQtyStatus = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasPosQtyStatus);		
@@ -414,7 +414,7 @@ public class FixPositionQty extends FixGroup {
 		
 				buf.position(hasQuantityDate);		
 		
-			FixMessage.getTagStringValue(buf, quantityDate, 0, quantityDate.length, err);
+			FixUtils.getTagStringValue(buf, quantityDate, 0, quantityDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasQuantityDate);		

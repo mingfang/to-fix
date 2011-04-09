@@ -1,20 +1,24 @@
 package org.tomac.protocol.fix;
 
-import org.tomac.protocol.fix.messaging.FixLogon;
 
 public class FixValidationError {
-	int		sessionRejectReason	= -1;
-	String	text;
-	int		refTagID;
-	byte[]	refMsgType;
-	FixInMessage msg;
-	public int	sessionID;
-	public long msgSeqNum;
+	int		sessionRejectReason;
+	public String	text;
+
+	public int		refTagID;
+
+	public int	    refMsgTypeInt;
+	
+	public IFixSession session;
+	long	resendRequestMsgSeqNum;
+
 
 	public void clear() {
 		sessionRejectReason = -1;
-		msg = null;
-		msgSeqNum = -1;
+		session = null;
+		text = null;
+		refTagID = -1;
+		refMsgTypeInt = -1;
 	}
 
 	public boolean hasError() {
@@ -32,26 +36,20 @@ public class FixValidationError {
 		this.refTagID = refTagID;
 	}
 
-	public void setError(final int sessionRejectReason, final String text, final int refTagID, final byte[] refMsgType) {
+	public void setError(final int sessionRejectReason, final String text, final int refTagID, final int refMsgType) {
 		this.sessionRejectReason = sessionRejectReason;
 		this.text = text;
 		this.refTagID = refTagID;
-		this.refMsgType = refMsgType;
+		this.refMsgTypeInt = refMsgType;
 	}
-	
-	public void setSessionID(int sessionID) { this.sessionID = sessionID; }
-
-	public void setFixMessage(FixInMessage msg) { this.msg = msg; }
-
-	public FixInMessage getFixMessage() { return msg; }
 	
 	public boolean isMsgSeqNumConsumer() {
 		return sessionRejectReason != FixEvent.DISCONNECT && sessionRejectReason != FixEvent.GARBLED ;
 	}
-
-	public int getSessionRejectReason() {
-		return sessionRejectReason;
+	
+	@Override
+	public String toString() {
+		return "sessionRejectReason=" + sessionRejectReason + " " + text + " refTagID(" + refTagID + ") refMsgTypeInt(" + refMsgTypeInt + ")";
 	}
-
 
 }

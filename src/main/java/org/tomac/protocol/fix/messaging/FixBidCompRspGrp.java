@@ -97,59 +97,59 @@ public class FixBidCompRspGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.LISTID_INT:		
             		hasListID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.COUNTRY_INT:		
             		hasCountry = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SIDE_INT:		
             		hasSide = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.PRICE_INT:		
             		hasPrice = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.PRICETYPE_INT:		
             		hasPriceType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.FAIRVALUE_INT:		
             		hasFairValue = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.NETGROSSIND_INT:		
             		hasNetGrossInd = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SETTLTYPE_INT:		
             		hasSettlType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SETTLDATE_INT:		
             		hasSettlDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRADINGSESSIONID_INT:		
             		hasTradingSessionID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRADINGSESSIONSUBID_INT:		
             		hasTradingSessionSubID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TEXT_INT:		
             		hasText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ENCODEDTEXTLEN_INT:		
             		hasEncodedTextLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ENCODEDTEXT_INT:		
             		hasEncodedText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( commissionData.isKeyTag(tag)) {
@@ -159,7 +159,7 @@ public class FixBidCompRspGrp extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -448,7 +448,7 @@ public class FixBidCompRspGrp extends FixGroup {
 		
 				buf.position(hasListID);		
 		
-			FixMessage.getTagStringValue(buf, listID, 0, listID.length, err);
+			FixUtils.getTagStringValue(buf, listID, 0, listID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasListID);		
@@ -487,7 +487,7 @@ public class FixBidCompRspGrp extends FixGroup {
 		
 				buf.position(hasCountry);		
 		
-			FixMessage.getTagStringValue(buf, country, 0, country.length, err);
+			FixUtils.getTagStringValue(buf, country, 0, country.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasCountry);		
@@ -526,7 +526,7 @@ public class FixBidCompRspGrp extends FixGroup {
 		
 				buf.position(hasSide);		
 		
-			side = FixMessage.getTagCharValue(buf, err);
+			side = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (side != (byte)'D') && (side != (byte)'E') && (side != (byte)'F') && (side != (byte)'G') && (side != (byte)'A') && (side != (byte)'B') && (side != (byte)'C') && (side != (byte)'3') && (side != (byte)'2') && (side != (byte)'1') && (side != (byte)'7') && (side != (byte)'6') && (side != (byte)'5') && (side != (byte)'4') && (side != (byte)'9') && (side != (byte)'8') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 54);		
@@ -572,7 +572,7 @@ public class FixBidCompRspGrp extends FixGroup {
 		
 				buf.position(hasPrice);		
 		
-			price = FixMessage.getTagFloatValue(buf, err);
+			price = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasPrice);		
@@ -616,7 +616,7 @@ public class FixBidCompRspGrp extends FixGroup {
 		
 				buf.position(hasPriceType);		
 		
-			priceType = FixMessage.getTagIntValue(buf, err);
+			priceType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasPriceType);		
@@ -660,7 +660,7 @@ public class FixBidCompRspGrp extends FixGroup {
 		
 				buf.position(hasFairValue);		
 		
-			fairValue = FixMessage.getTagFloatValue(buf, err);
+			fairValue = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasFairValue);		
@@ -704,7 +704,7 @@ public class FixBidCompRspGrp extends FixGroup {
 		
 				buf.position(hasNetGrossInd);		
 		
-			netGrossInd = FixMessage.getTagIntValue(buf, err);
+			netGrossInd = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasNetGrossInd);		
@@ -748,7 +748,7 @@ public class FixBidCompRspGrp extends FixGroup {
 		
 				buf.position(hasSettlType);		
 		
-			FixMessage.getTagStringValue(buf, settlType, 0, settlType.length, err);
+			FixUtils.getTagStringValue(buf, settlType, 0, settlType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSettlType);		
@@ -787,7 +787,7 @@ public class FixBidCompRspGrp extends FixGroup {
 		
 				buf.position(hasSettlDate);		
 		
-			FixMessage.getTagStringValue(buf, settlDate, 0, settlDate.length, err);
+			FixUtils.getTagStringValue(buf, settlDate, 0, settlDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSettlDate);		
@@ -826,7 +826,7 @@ public class FixBidCompRspGrp extends FixGroup {
 		
 				buf.position(hasTradingSessionID);		
 		
-			FixMessage.getTagStringValue(buf, tradingSessionID, 0, tradingSessionID.length, err);
+			FixUtils.getTagStringValue(buf, tradingSessionID, 0, tradingSessionID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTradingSessionID);		
@@ -865,7 +865,7 @@ public class FixBidCompRspGrp extends FixGroup {
 		
 				buf.position(hasTradingSessionSubID);		
 		
-			FixMessage.getTagStringValue(buf, tradingSessionSubID, 0, tradingSessionSubID.length, err);
+			FixUtils.getTagStringValue(buf, tradingSessionSubID, 0, tradingSessionSubID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTradingSessionSubID);		
@@ -904,7 +904,7 @@ public class FixBidCompRspGrp extends FixGroup {
 		
 				buf.position(hasText);		
 		
-			FixMessage.getTagStringValue(buf, text, 0, text.length, err);
+			FixUtils.getTagStringValue(buf, text, 0, text.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasText);		
@@ -943,7 +943,7 @@ public class FixBidCompRspGrp extends FixGroup {
 		
 				buf.position(hasEncodedTextLen);		
 		
-			encodedTextLen = FixMessage.getTagIntValue(buf, err);
+			encodedTextLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasEncodedTextLen);		
@@ -987,7 +987,7 @@ public class FixBidCompRspGrp extends FixGroup {
 		
 				buf.position(hasEncodedText);		
 		
-			FixMessage.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
+			FixUtils.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasEncodedText);		

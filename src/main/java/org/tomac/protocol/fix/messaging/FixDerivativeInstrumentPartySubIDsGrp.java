@@ -52,18 +52,18 @@ public class FixDerivativeInstrumentPartySubIDsGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.DERIVATIVEINSTRUMENTPARTYSUBID_INT:		
             		hasDerivativeInstrumentPartySubID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEINSTRUMENTPARTYSUBIDTYPE_INT:		
             		hasDerivativeInstrumentPartySubIDType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -132,7 +132,7 @@ public class FixDerivativeInstrumentPartySubIDsGrp extends FixGroup {
 		
 				buf.position(hasDerivativeInstrumentPartySubID);		
 		
-			FixMessage.getTagStringValue(buf, derivativeInstrumentPartySubID, 0, derivativeInstrumentPartySubID.length, err);
+			FixUtils.getTagStringValue(buf, derivativeInstrumentPartySubID, 0, derivativeInstrumentPartySubID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeInstrumentPartySubID);		
@@ -171,7 +171,7 @@ public class FixDerivativeInstrumentPartySubIDsGrp extends FixGroup {
 		
 				buf.position(hasDerivativeInstrumentPartySubIDType);		
 		
-			derivativeInstrumentPartySubIDType = FixMessage.getTagIntValue(buf, err);
+			derivativeInstrumentPartySubIDType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeInstrumentPartySubIDType);		

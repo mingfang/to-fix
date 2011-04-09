@@ -56,22 +56,22 @@ public class FixSecurityXML extends FixGroup {
             switch (tag) {		
             	case FixTags.SECURITYXMLLEN_INT:		
             		hasSecurityXMLLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SECURITYXML_INT:		
             		hasSecurityXML = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SECURITYXMLSCHEMA_INT:		
             		hasSecurityXMLSchema = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -158,7 +158,7 @@ public class FixSecurityXML extends FixGroup {
 		
 				buf.position(hasSecurityXMLLen);		
 		
-			securityXMLLen = FixMessage.getTagIntValue(buf, err);
+			securityXMLLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSecurityXMLLen);		
@@ -202,7 +202,7 @@ public class FixSecurityXML extends FixGroup {
 		
 				buf.position(hasSecurityXML);		
 		
-			FixMessage.getTagStringValue(buf, securityXML, 0, securityXML.length, err);
+			FixUtils.getTagStringValue(buf, securityXML, 0, securityXML.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSecurityXML);		
@@ -241,7 +241,7 @@ public class FixSecurityXML extends FixGroup {
 		
 				buf.position(hasSecurityXMLSchema);		
 		
-			FixMessage.getTagStringValue(buf, securityXMLSchema, 0, securityXMLSchema.length, err);
+			FixUtils.getTagStringValue(buf, securityXMLSchema, 0, securityXMLSchema.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSecurityXMLSchema);		

@@ -68,34 +68,34 @@ public class FixCompIDStatGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.REFCOMPID_INT:		
             		hasRefCompID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.REFSUBID_INT:		
             		hasRefSubID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LOCATIONID_INT:		
             		hasLocationID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DESKID_INT:		
             		hasDeskID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.STATUSVALUE_INT:		
             		hasStatusValue = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.STATUSTEXT_INT:		
             		hasStatusText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -244,7 +244,7 @@ public class FixCompIDStatGrp extends FixGroup {
 		
 				buf.position(hasRefCompID);		
 		
-			FixMessage.getTagStringValue(buf, refCompID, 0, refCompID.length, err);
+			FixUtils.getTagStringValue(buf, refCompID, 0, refCompID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRefCompID);		
@@ -283,7 +283,7 @@ public class FixCompIDStatGrp extends FixGroup {
 		
 				buf.position(hasRefSubID);		
 		
-			FixMessage.getTagStringValue(buf, refSubID, 0, refSubID.length, err);
+			FixUtils.getTagStringValue(buf, refSubID, 0, refSubID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRefSubID);		
@@ -322,7 +322,7 @@ public class FixCompIDStatGrp extends FixGroup {
 		
 				buf.position(hasLocationID);		
 		
-			FixMessage.getTagStringValue(buf, locationID, 0, locationID.length, err);
+			FixUtils.getTagStringValue(buf, locationID, 0, locationID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLocationID);		
@@ -361,7 +361,7 @@ public class FixCompIDStatGrp extends FixGroup {
 		
 				buf.position(hasDeskID);		
 		
-			FixMessage.getTagStringValue(buf, deskID, 0, deskID.length, err);
+			FixUtils.getTagStringValue(buf, deskID, 0, deskID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDeskID);		
@@ -400,7 +400,7 @@ public class FixCompIDStatGrp extends FixGroup {
 		
 				buf.position(hasStatusValue);		
 		
-			statusValue = FixMessage.getTagIntValue(buf, err);
+			statusValue = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasStatusValue);		
@@ -444,7 +444,7 @@ public class FixCompIDStatGrp extends FixGroup {
 		
 				buf.position(hasStatusText);		
 		
-			FixMessage.getTagStringValue(buf, statusText, 0, statusText.length, err);
+			FixUtils.getTagStringValue(buf, statusText, 0, statusText.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasStatusText);		

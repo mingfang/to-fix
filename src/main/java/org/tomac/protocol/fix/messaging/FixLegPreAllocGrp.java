@@ -67,31 +67,31 @@ public class FixLegPreAllocGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.LEGALLOCACCOUNT_INT:		
             		hasLegAllocAccount = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGINDIVIDUALALLOCID_INT:		
             		hasLegIndividualAllocID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGALLOCQTY_INT:		
             		hasLegAllocQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGALLOCACCTIDSOURCE_INT:		
             		hasLegAllocAcctIDSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGALLOCSETTLCURRENCY_INT:		
             		hasLegAllocSettlCurrency = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( tag == FixTags.NONESTED2PARTYIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -109,7 +109,7 @@ public class FixLegPreAllocGrp extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -245,7 +245,7 @@ public class FixLegPreAllocGrp extends FixGroup {
 		
 				buf.position(hasLegAllocAccount);		
 		
-			FixMessage.getTagStringValue(buf, legAllocAccount, 0, legAllocAccount.length, err);
+			FixUtils.getTagStringValue(buf, legAllocAccount, 0, legAllocAccount.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegAllocAccount);		
@@ -284,7 +284,7 @@ public class FixLegPreAllocGrp extends FixGroup {
 		
 				buf.position(hasLegIndividualAllocID);		
 		
-			FixMessage.getTagStringValue(buf, legIndividualAllocID, 0, legIndividualAllocID.length, err);
+			FixUtils.getTagStringValue(buf, legIndividualAllocID, 0, legIndividualAllocID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegIndividualAllocID);		
@@ -323,7 +323,7 @@ public class FixLegPreAllocGrp extends FixGroup {
 		
 				buf.position(hasLegAllocQty);		
 		
-			legAllocQty = FixMessage.getTagFloatValue(buf, err);
+			legAllocQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegAllocQty);		
@@ -367,7 +367,7 @@ public class FixLegPreAllocGrp extends FixGroup {
 		
 				buf.position(hasLegAllocAcctIDSource);		
 		
-			FixMessage.getTagStringValue(buf, legAllocAcctIDSource, 0, legAllocAcctIDSource.length, err);
+			FixUtils.getTagStringValue(buf, legAllocAcctIDSource, 0, legAllocAcctIDSource.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegAllocAcctIDSource);		
@@ -406,7 +406,7 @@ public class FixLegPreAllocGrp extends FixGroup {
 		
 				buf.position(hasLegAllocSettlCurrency);		
 		
-			FixMessage.getTagStringValue(buf, legAllocSettlCurrency, 0, legAllocSettlCurrency.length, err);
+			FixUtils.getTagStringValue(buf, legAllocSettlCurrency, 0, legAllocSettlCurrency.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegAllocSettlCurrency);		

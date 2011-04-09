@@ -66,34 +66,34 @@ public class FixMaturityRules extends FixGroup {
             switch (tag) {		
             	case FixTags.MATURITYRULEID_INT:		
             		hasMaturityRuleID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.MATURITYMONTHYEARFORMAT_INT:		
             		hasMaturityMonthYearFormat = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.MATURITYMONTHYEARINCREMENTUNITS_INT:		
             		hasMaturityMonthYearIncrementUnits = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.STARTMATURITYMONTHYEAR_INT:		
             		hasStartMaturityMonthYear = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ENDMATURITYMONTHYEAR_INT:		
             		hasEndMaturityMonthYear = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.MATURITYMONTHYEARINCREMENT_INT:		
             		hasMaturityMonthYearIncrement = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -234,7 +234,7 @@ public class FixMaturityRules extends FixGroup {
 		
 				buf.position(hasMaturityRuleID);		
 		
-			FixMessage.getTagStringValue(buf, maturityRuleID, 0, maturityRuleID.length, err);
+			FixUtils.getTagStringValue(buf, maturityRuleID, 0, maturityRuleID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMaturityRuleID);		
@@ -273,7 +273,7 @@ public class FixMaturityRules extends FixGroup {
 		
 				buf.position(hasMaturityMonthYearFormat);		
 		
-			maturityMonthYearFormat = FixMessage.getTagIntValue(buf, err);
+			maturityMonthYearFormat = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMaturityMonthYearFormat);		
@@ -317,7 +317,7 @@ public class FixMaturityRules extends FixGroup {
 		
 				buf.position(hasMaturityMonthYearIncrementUnits);		
 		
-			maturityMonthYearIncrementUnits = FixMessage.getTagIntValue(buf, err);
+			maturityMonthYearIncrementUnits = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMaturityMonthYearIncrementUnits);		
@@ -361,7 +361,7 @@ public class FixMaturityRules extends FixGroup {
 		
 				buf.position(hasStartMaturityMonthYear);		
 		
-			FixMessage.getTagStringValue(buf, startMaturityMonthYear, 0, startMaturityMonthYear.length, err);
+			FixUtils.getTagStringValue(buf, startMaturityMonthYear, 0, startMaturityMonthYear.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasStartMaturityMonthYear);		
@@ -400,7 +400,7 @@ public class FixMaturityRules extends FixGroup {
 		
 				buf.position(hasEndMaturityMonthYear);		
 		
-			FixMessage.getTagStringValue(buf, endMaturityMonthYear, 0, endMaturityMonthYear.length, err);
+			FixUtils.getTagStringValue(buf, endMaturityMonthYear, 0, endMaturityMonthYear.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasEndMaturityMonthYear);		
@@ -439,7 +439,7 @@ public class FixMaturityRules extends FixGroup {
 		
 				buf.position(hasMaturityMonthYearIncrement);		
 		
-			maturityMonthYearIncrement = FixMessage.getTagIntValue(buf, err);
+			maturityMonthYearIncrement = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMaturityMonthYearIncrement);		

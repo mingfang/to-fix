@@ -37,7 +37,7 @@ public class FixUserResponse extends FixInMessage {
 		super.setBuffer(buf, err);
         if (err.hasError()) return;
 
-        int tag = FixMessage.getTag(buf, err);
+        int tag = FixUtils.getTag(buf, err);
         if (err.hasError()) return;
 
         while ( buf.hasRemaining() ) {
@@ -45,19 +45,19 @@ public class FixUserResponse extends FixInMessage {
             switch (tag) {		
             	case FixTags.USERREQUESTID_INT:		
             		hasUserRequestID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.USERNAME_INT:		
             		hasUsername = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.USERSTATUS_INT:		
             		hasUserStatus = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.USERSTATUSTEXT_INT:		
             		hasUserStatusText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	default:
         			if ( standardHeader.isKeyTag(tag)) {
@@ -66,14 +66,14 @@ public class FixUserResponse extends FixInMessage {
                 		else continue;		
         			} else if ( standardTrailer.isKeyTag(tag)) {
         				tag = standardTrailer.setBuffer( tag, buf, err);
-        				FixMessage.unreadLastTag(tag, buf);
+        				FixUtils.unreadLastTag(tag, buf);
         				if (!err.hasError()) hasRequiredTags(err);
             			return; // always last, we are done now
             		} else {
- 						FixMessage.getNext(buf, err);		
+ 						FixUtils.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else {
-                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.USERRESPONSE);
+                		else if (FixUtils.validateOnlyDefinedTagsAllowed) {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.USERRESPONSE_INT);
                 			break;
                 		}
 					}
@@ -82,7 +82,7 @@ public class FixUserResponse extends FixInMessage {
 
         		if (err.hasError()) return;
 
-            	tag = FixMessage.getTag(buf, err);		
+            	tag = FixUtils.getTag(buf, err);		
         		if (err.hasError()) break;
 
 		}
@@ -90,18 +90,14 @@ public class FixUserResponse extends FixInMessage {
 	}		
 
 	public boolean hasRequiredTags(FixValidationError err) {
-		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		if (!hasUserRequestID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.USERREQUESTID_INT, FixMessageInfo.MessageTypes.USERRESPONSE);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.USERREQUESTID_INT, FixMessageInfo.MessageTypes.USERRESPONSE_INT);
 			return false;
 		}
 		if (!hasUsername()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.USERNAME_INT, FixMessageInfo.MessageTypes.USERRESPONSE);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.USERNAME_INT, FixMessageInfo.MessageTypes.USERRESPONSE_INT);
 			return false;
 		}
-		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		return true;
 	}
 	@Override		
@@ -254,7 +250,7 @@ public class FixUserResponse extends FixInMessage {
 
 				buf.position(hasUserRequestID);
 
-			FixMessage.getTagStringValue(buf, userRequestID, 0, userRequestID.length, err);
+			FixUtils.getTagStringValue(buf, userRequestID, 0, userRequestID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -298,7 +294,7 @@ public class FixUserResponse extends FixInMessage {
 
 				buf.position(hasUsername);
 
-			FixMessage.getTagStringValue(buf, username, 0, username.length, err);
+			FixUtils.getTagStringValue(buf, username, 0, username.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -342,7 +338,7 @@ public class FixUserResponse extends FixInMessage {
 
 				buf.position(hasUserStatus);
 
-			userStatus = FixMessage.getTagIntValue(buf, err);
+			userStatus = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -391,7 +387,7 @@ public class FixUserResponse extends FixInMessage {
 
 				buf.position(hasUserStatusText);
 
-			FixMessage.getTagStringValue(buf, userStatusText, 0, userStatusText.length, err);
+			FixUtils.getTagStringValue(buf, userStatusText, 0, userStatusText.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		

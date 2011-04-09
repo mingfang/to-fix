@@ -40,7 +40,7 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixInMessage {
 		super.setBuffer(buf, err);
         if (err.hasError()) return;
 
-        int tag = FixMessage.getTag(buf, err);
+        int tag = FixUtils.getTag(buf, err);
         if (err.hasError()) return;
 
         while ( buf.hasRemaining() ) {
@@ -48,19 +48,19 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixInMessage {
             switch (tag) {		
             	case FixTags.NETWORKSTATUSRESPONSETYPE_INT:		
             		hasNetworkStatusResponseType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.NETWORKREQUESTID_INT:		
             		hasNetworkRequestID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.NETWORKRESPONSEID_INT:		
             		hasNetworkResponseID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.LASTNETWORKRESPONSEID_INT:		
             		hasLastNetworkResponseID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	default:
         			if ( standardHeader.isKeyTag(tag)) {
@@ -69,15 +69,15 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixInMessage {
                 		else continue;		
         			} else if ( standardTrailer.isKeyTag(tag)) {
         				tag = standardTrailer.setBuffer( tag, buf, err);
-        				FixMessage.unreadLastTag(tag, buf);
+        				FixUtils.unreadLastTag(tag, buf);
         				if (!err.hasError()) hasRequiredTags(err);
             			return; // always last, we are done now
         			} else if ( tag == FixTags.NOCOMPIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -93,10 +93,10 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixInMessage {
         				if (err.hasError()) break;
                 		else { tag = repeatingGroupTag; continue; }
             		} else {
- 						FixMessage.getNext(buf, err);		
+ 						FixUtils.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else {
-                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSRESPONSE);
+                		else if (FixUtils.validateOnlyDefinedTagsAllowed) {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSRESPONSE_INT);
                 			break;
                 		}
 					}
@@ -105,7 +105,7 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixInMessage {
 
         		if (err.hasError()) return;
 
-            	tag = FixMessage.getTag(buf, err);		
+            	tag = FixUtils.getTag(buf, err);		
         		if (err.hasError()) break;
 
 		}
@@ -113,19 +113,15 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixInMessage {
 	}		
 
 	public boolean hasRequiredTags(FixValidationError err) {
-		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		if (!hasNetworkStatusResponseType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.NETWORKSTATUSRESPONSETYPE_INT, FixMessageInfo.MessageTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSRESPONSE);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.NETWORKSTATUSRESPONSETYPE_INT, FixMessageInfo.MessageTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSRESPONSE_INT);
 			return false;
 		}
 		if (!hasNetworkResponseID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.NETWORKRESPONSEID_INT, FixMessageInfo.MessageTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSRESPONSE);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.NETWORKRESPONSEID_INT, FixMessageInfo.MessageTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSRESPONSE_INT);
 			return false;
 		}
 		for (int i = 0; i< FixUtils.FIX_MAX_NOINGROUP; i++) { if (compIDStatGrp[i].hasGroup()) compIDStatGrp[i].hasRequiredTags(err); if (err.hasError()) return false; }
-		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		return true;
 	}
 	@Override		
@@ -289,7 +285,7 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixInMessage {
 
 				buf.position(hasNetworkStatusResponseType);
 
-			networkStatusResponseType = FixMessage.getTagIntValue(buf, err);
+			networkStatusResponseType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -338,7 +334,7 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixInMessage {
 
 				buf.position(hasNetworkRequestID);
 
-			FixMessage.getTagStringValue(buf, networkRequestID, 0, networkRequestID.length, err);
+			FixUtils.getTagStringValue(buf, networkRequestID, 0, networkRequestID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -382,7 +378,7 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixInMessage {
 
 				buf.position(hasNetworkResponseID);
 
-			FixMessage.getTagStringValue(buf, networkResponseID, 0, networkResponseID.length, err);
+			FixUtils.getTagStringValue(buf, networkResponseID, 0, networkResponseID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -426,7 +422,7 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixInMessage {
 
 				buf.position(hasLastNetworkResponseID);
 
-			FixMessage.getTagStringValue(buf, lastNetworkResponseID, 0, lastNetworkResponseID.length, err);
+			FixUtils.getTagStringValue(buf, lastNetworkResponseID, 0, lastNetworkResponseID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		

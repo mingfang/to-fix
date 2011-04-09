@@ -69,7 +69,7 @@ public class FixConfirmationRequest extends FixInMessage {
 		super.setBuffer(buf, err);
         if (err.hasError()) return;
 
-        int tag = FixMessage.getTag(buf, err);
+        int tag = FixUtils.getTag(buf, err);
         if (err.hasError()) return;
 
         while ( buf.hasRemaining() ) {
@@ -77,51 +77,51 @@ public class FixConfirmationRequest extends FixInMessage {
             switch (tag) {		
             	case FixTags.CONFIRMREQID_INT:		
             		hasConfirmReqID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.CONFIRMTYPE_INT:		
             		hasConfirmType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ALLOCID_INT:		
             		hasAllocID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SECONDARYALLOCID_INT:		
             		hasSecondaryAllocID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.INDIVIDUALALLOCID_INT:		
             		hasIndividualAllocID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRANSACTTIME_INT:		
             		hasTransactTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ALLOCACCOUNT_INT:		
             		hasAllocAccount = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ALLOCACCTIDSOURCE_INT:		
             		hasAllocAcctIDSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ALLOCACCOUNTTYPE_INT:		
             		hasAllocAccountType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TEXT_INT:		
             		hasText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDTEXTLEN_INT:		
             		hasEncodedTextLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDTEXT_INT:		
             		hasEncodedText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	default:
         			if ( standardHeader.isKeyTag(tag)) {
@@ -130,15 +130,15 @@ public class FixConfirmationRequest extends FixInMessage {
                 		else continue;		
         			} else if ( standardTrailer.isKeyTag(tag)) {
         				tag = standardTrailer.setBuffer( tag, buf, err);
-        				FixMessage.unreadLastTag(tag, buf);
+        				FixUtils.unreadLastTag(tag, buf);
         				if (!err.hasError()) hasRequiredTags(err);
             			return; // always last, we are done now
         			} else if ( tag == FixTags.NOORDERS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -154,10 +154,10 @@ public class FixConfirmationRequest extends FixInMessage {
         				if (err.hasError()) break;
                 		else { tag = repeatingGroupTag; continue; }
             		} else {
- 						FixMessage.getNext(buf, err);		
+ 						FixUtils.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else {
-                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.CONFIRMATIONREQUEST);
+                		else if (FixUtils.validateOnlyDefinedTagsAllowed) {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.CONFIRMATIONREQUEST_INT);
                 			break;
                 		}
 					}
@@ -166,7 +166,7 @@ public class FixConfirmationRequest extends FixInMessage {
 
         		if (err.hasError()) return;
 
-            	tag = FixMessage.getTag(buf, err);		
+            	tag = FixUtils.getTag(buf, err);		
         		if (err.hasError()) break;
 
 		}
@@ -174,22 +174,18 @@ public class FixConfirmationRequest extends FixInMessage {
 	}		
 
 	public boolean hasRequiredTags(FixValidationError err) {
-		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		if (!hasConfirmReqID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.CONFIRMREQID_INT, FixMessageInfo.MessageTypes.CONFIRMATIONREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.CONFIRMREQID_INT, FixMessageInfo.MessageTypes.CONFIRMATIONREQUEST_INT);
 			return false;
 		}
 		if (!hasConfirmType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.CONFIRMTYPE_INT, FixMessageInfo.MessageTypes.CONFIRMATIONREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.CONFIRMTYPE_INT, FixMessageInfo.MessageTypes.CONFIRMATIONREQUEST_INT);
 			return false;
 		}
 		if (!hasTransactTime()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TRANSACTTIME_INT, FixMessageInfo.MessageTypes.CONFIRMATIONREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TRANSACTTIME_INT, FixMessageInfo.MessageTypes.CONFIRMATIONREQUEST_INT);
 			return false;
 		}
-		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		return true;
 	}
 	@Override		
@@ -481,7 +477,7 @@ public class FixConfirmationRequest extends FixInMessage {
 
 				buf.position(hasConfirmReqID);
 
-			FixMessage.getTagStringValue(buf, confirmReqID, 0, confirmReqID.length, err);
+			FixUtils.getTagStringValue(buf, confirmReqID, 0, confirmReqID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -525,7 +521,7 @@ public class FixConfirmationRequest extends FixInMessage {
 
 				buf.position(hasConfirmType);
 
-			confirmType = FixMessage.getTagIntValue(buf, err);
+			confirmType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -574,7 +570,7 @@ public class FixConfirmationRequest extends FixInMessage {
 
 				buf.position(hasAllocID);
 
-			FixMessage.getTagStringValue(buf, allocID, 0, allocID.length, err);
+			FixUtils.getTagStringValue(buf, allocID, 0, allocID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -618,7 +614,7 @@ public class FixConfirmationRequest extends FixInMessage {
 
 				buf.position(hasSecondaryAllocID);
 
-			FixMessage.getTagStringValue(buf, secondaryAllocID, 0, secondaryAllocID.length, err);
+			FixUtils.getTagStringValue(buf, secondaryAllocID, 0, secondaryAllocID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -662,7 +658,7 @@ public class FixConfirmationRequest extends FixInMessage {
 
 				buf.position(hasIndividualAllocID);
 
-			FixMessage.getTagStringValue(buf, individualAllocID, 0, individualAllocID.length, err);
+			FixUtils.getTagStringValue(buf, individualAllocID, 0, individualAllocID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -706,7 +702,7 @@ public class FixConfirmationRequest extends FixInMessage {
 
 				buf.position(hasTransactTime);
 
-			FixMessage.getTagStringValue(buf, transactTime, 0, transactTime.length, err);
+			FixUtils.getTagStringValue(buf, transactTime, 0, transactTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -750,7 +746,7 @@ public class FixConfirmationRequest extends FixInMessage {
 
 				buf.position(hasAllocAccount);
 
-			FixMessage.getTagStringValue(buf, allocAccount, 0, allocAccount.length, err);
+			FixUtils.getTagStringValue(buf, allocAccount, 0, allocAccount.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -794,7 +790,7 @@ public class FixConfirmationRequest extends FixInMessage {
 
 				buf.position(hasAllocAcctIDSource);
 
-			allocAcctIDSource = FixMessage.getTagIntValue(buf, err);
+			allocAcctIDSource = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -843,7 +839,7 @@ public class FixConfirmationRequest extends FixInMessage {
 
 				buf.position(hasAllocAccountType);
 
-			allocAccountType = FixMessage.getTagIntValue(buf, err);
+			allocAccountType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -892,7 +888,7 @@ public class FixConfirmationRequest extends FixInMessage {
 
 				buf.position(hasText);
 
-			FixMessage.getTagStringValue(buf, text, 0, text.length, err);
+			FixUtils.getTagStringValue(buf, text, 0, text.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -936,7 +932,7 @@ public class FixConfirmationRequest extends FixInMessage {
 
 				buf.position(hasEncodedTextLen);
 
-			encodedTextLen = FixMessage.getTagIntValue(buf, err);
+			encodedTextLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -985,7 +981,7 @@ public class FixConfirmationRequest extends FixInMessage {
 
 				buf.position(hasEncodedText);
 
-			FixMessage.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
+			FixUtils.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		

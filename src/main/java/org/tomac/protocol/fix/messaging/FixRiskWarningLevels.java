@@ -52,18 +52,18 @@ public class FixRiskWarningLevels extends FixGroup {
             switch (tag) {		
             	case FixTags.RISKWARNINGLEVELPERCENT_INT:		
             		hasRiskWarningLevelPercent = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RISKWARNINGLEVELNAME_INT:		
             		hasRiskWarningLevelName = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -132,7 +132,7 @@ public class FixRiskWarningLevels extends FixGroup {
 		
 				buf.position(hasRiskWarningLevelPercent);		
 		
-			riskWarningLevelPercent = FixMessage.getTagFloatValue(buf, err);
+			riskWarningLevelPercent = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRiskWarningLevelPercent);		
@@ -176,7 +176,7 @@ public class FixRiskWarningLevels extends FixGroup {
 		
 				buf.position(hasRiskWarningLevelName);		
 		
-			FixMessage.getTagStringValue(buf, riskWarningLevelName, 0, riskWarningLevelName.length, err);
+			FixUtils.getTagStringValue(buf, riskWarningLevelName, 0, riskWarningLevelName.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRiskWarningLevelName);		

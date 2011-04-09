@@ -5,13 +5,22 @@ import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
 import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
 import org.tomac.protocol.fix.FixDataTypes;
+import org.tomac.protocol.fix.FixEvent;
 import org.tomac.protocol.fix.FixUtils;
+import org.tomac.protocol.fix.FixValidationError;
+import org.tomac.protocol.fix.IFixSession;
+import org.tomac.protocol.fix.messaging.FixHeartbeat;
 import org.tomac.protocol.fix.messaging.FixMessageInfo;
+import org.tomac.protocol.fix.messaging.FixMessageListener;
+import org.tomac.protocol.fix.messaging.FixMessagePool;
+import org.tomac.protocol.fix.messaging.FixStandardHeader;
+import org.tomac.protocol.fix.messaging.FixTags;
 import org.tomac.protocol.fix.messaging.FixMessageInfo.MessageTypes;
 import org.tomac.tools.converter.QuickFixComponent;
 import org.tomac.tools.converter.QuickFixField;
@@ -212,7 +221,7 @@ public class FixMessageGenerator {
 			case FixDataTypes.DATA:
 			case FixDataTypes.XMLDATA:
 			case FixDataTypes.LANGUAGE:
-				out.write("\t\t\tFixMessage.getTagStringValue(buf, " + uncapFirst(f.name) + ", 0, " + uncapFirst(f.name) + ".length, err);\n");
+				out.write("\t\t\tFixUtils.getTagStringValue(buf, " + uncapFirst(f.name) + ", 0, " + uncapFirst(f.name) + ".length, err);\n");
 				break;
 
 			case FixDataTypes.INT:
@@ -221,7 +230,7 @@ public class FixMessageGenerator {
 			case FixDataTypes.SEQNUM:
 			case FixDataTypes.NUMINGROUP:
 			case FixDataTypes.DAYOFMOUNTH:
-				out.write("\t\t\t" + uncapFirst(f.name) + " = FixMessage.getTagIntValue(buf, err);\n");
+				out.write("\t\t\t" + uncapFirst(f.name) + " = FixUtils.getTagIntValue(buf, err);\n");
 				break;
 
 			case FixDataTypes.FLOAT:
@@ -230,11 +239,11 @@ public class FixMessageGenerator {
 			case FixDataTypes.PRICEOFFSET:
 			case FixDataTypes.AMT:
 			case FixDataTypes.PERCENTAGE:
-				out.write("\t\t\t" + uncapFirst(f.name) + " = FixMessage.getTagFloatValue(buf, err);\n");
+				out.write("\t\t\t" + uncapFirst(f.name) + " = FixUtils.getTagFloatValue(buf, err);\n");
 				break;
 
 			case FixDataTypes.CHAR:
-				out.write("\t\t\t" + uncapFirst(f.name) + " = FixMessage.getTagCharValue(buf, err);\n");
+				out.write("\t\t\t" + uncapFirst(f.name) + " = FixUtils.getTagCharValue(buf, err);\n");
 				if (f.quickFixValues.size() > 0) {
 					out.write("\t\t\tif( !err.hasError() && ");
 					for (final QuickFixValue v : f.quickFixValues)
@@ -247,7 +256,7 @@ public class FixMessageGenerator {
 				break;
 
 			case FixDataTypes.BOOLEAN:
-				out.write("\t\t\t" + uncapFirst(f.name) + " = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;\n");
+				out.write("\t\t\t" + uncapFirst(f.name) + " = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;\n");
 				break;
 
 			default:
@@ -487,7 +496,7 @@ public class FixMessageGenerator {
 		for (final QuickFixField f : c.fields) {
 			out.write("            	case FixTags." + f.name.toUpperCase() + "_INT:		\n");
 			out.write("            		has" + capFirst(f.name) + " = (short) buf.position();		\n");
-			out.write("            		FixMessage.getNext(buf, err);		\n");
+			out.write("            		FixUtils.getNext(buf, err);		\n");
 			out.write("                	break; 		\n");
 		}
 
@@ -496,7 +505,7 @@ public class FixMessageGenerator {
 		processTags(dom, out, c.components, false);
 
 		out.write("            }\n\n");
-		out.write("            tag = FixMessage.getTag(buf, err);\n");
+		out.write("            tag = FixUtils.getTag(buf, err);\n");
 		out.write("            if (err.hasError()) return tag; // what to do now? \n");
 		out.write("            if (isKeyTag(tag)) return tag; // next in repeating group\n");
 
@@ -681,8 +690,10 @@ public class FixMessageGenerator {
 		final String servicepack = Integer.valueOf(dom.major) > 4 ? "SP" + dom.servicepack : "";
 		if (Integer.valueOf(dom.major) < 5) {
 			out.write("\tpublic static final byte[] BEGINSTRING_VALUE = \"" + dom.type.toUpperCase() + "." + dom.major + "." + dom.minor + servicepack + "\".getBytes();\n");
+			out.write("\tpublic static final byte[] BEGINSTRING_VALUE_WITH_TAG = \"8=" + dom.type.toUpperCase() + "." + dom.major + "." + dom.minor + servicepack + "\u0001\".getBytes();\n");
 		} else {
 			out.write("\tpublic static final byte[] BEGINSTRING_VALUE = \"FIXT.1.1\".getBytes();\n");
+			out.write("\tpublic static final byte[] BEGINSTRING_VALUE_WITH_TAG = \"8=FIXT.1.1\u0001\".getBytes();\n");
 		}
 		out.write("\tpublic static final byte[] FLAVOUR = \"" + dom.flavour + "\".getBytes();\n\n");
 
@@ -785,7 +796,7 @@ public class FixMessageGenerator {
 
 		// write out a handler for unknown message types 	
 		out.write("    public IFixSession getSession(long connectorID, FixValidationError err );\n\n");
-		out.write("    public IFixSession getSession( long connectorID, FixLogon logon, FixValidationError err );\n\n");
+		out.write("    public IFixSession getSession( long connectorID, FixStandardHeader standardHeader, FixValidationError err );\n\n");
 		out.write("    public void addValidator( FixValidator validator );\n\n");
 		out.write("    public FixValidator getValidator();\n\n");
 		out.write("    public void onFixValidationError ( FixValidationError err );\n\n");
@@ -823,7 +834,7 @@ public class FixMessageGenerator {
 		out.write("    public IFixSession getSession( long connectorID, FixValidationError err ) { return dummySession; }\n\n");
 
 		out.write("    @Override\n");
-		out.write("    public IFixSession getSession( long connectorID, FixLogon logon, FixValidationError err ) { return dummySession; }\n\n");
+		out.write("    public IFixSession getSession( long connectorID, FixStandardHeader standardHeader, FixValidationError err ) { return dummySession; }\n\n");
 
 		out.write("    @Override\n");
 		out.write("    public void addValidator( FixValidator validator ) {}\n\n");
@@ -857,7 +868,7 @@ public class FixMessageGenerator {
 		out.write("\t\tpublic void incrementOutMsgSeqNum() {}\n\n");
 			
 		out.write("\t\t@Override\n");
-		out.write("\t\tpublic void incrementInMsgSeqNum(FixInMessage msg, FixValidationError err) {}\n\n");
+		out.write("\t\tpublic void incrementInMsgSeqNum() {}\n\n");
 			
 		out.write("\t\t@Override\n");
 		out.write("\t\tpublic int getSessionID() {	return 0; }\n\n");
@@ -932,7 +943,7 @@ public class FixMessageGenerator {
 			out.write("				\n");
 			out.write("		super.setBuffer(buf, err);\n");
 			out.write("        if (err.hasError()) return;\n\n");
-			out.write("        int tag = FixMessage.getTag(buf, err);\n");
+			out.write("        int tag = FixUtils.getTag(buf, err);\n");
 			out.write("        if (err.hasError()) return;\n\n");
 
 			out.write("        while ( buf.hasRemaining() ) {\n\n");
@@ -942,7 +953,7 @@ public class FixMessageGenerator {
 			for (final QuickFixField f : m.fields) {
 				out.write("            	case FixTags." + f.name.toUpperCase() + "_INT:		\n");
 				out.write("            		has" + capFirst(f.name) + " = (short) buf.position();		\n");
-				out.write("            		FixMessage.getNext(buf, err);		\n");
+				out.write("            		FixUtils.getNext(buf, err);		\n");
 				out.write("                	break;\n");
 			}
 			out.write("            	default:\n");
@@ -952,16 +963,16 @@ public class FixMessageGenerator {
 			out.write("                		else continue;		\n");
 			out.write("        			} else if ( standardTrailer.isKeyTag(tag)) {\n");
 			out.write("        				tag = standardTrailer.setBuffer( tag, buf, err);\n");
-			out.write("        				FixMessage.unreadLastTag(tag, buf);\n");
+			out.write("        				FixUtils.unreadLastTag(tag, buf);\n");
 			out.write("        				if (!err.hasError()) hasRequiredTags(err);\n");
 			out.write("            			return; // always last, we are done now\n");
 
 			processTags(dom, out, m.components, true);
 
-			out.write(" 						FixMessage.getNext(buf, err);		\n");
+			out.write(" 						FixUtils.getNext(buf, err);		\n");
 			out.write("                		if (err.hasError()) break; 		\n");
-			out.write("                		else {\n");
-			out.write("                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, \"Tag not defined for this message type\", tag, FixMessageInfo.MessageTypes." + m.name.toUpperCase()+ ");\n");
+			out.write("                		else if (FixUtils.validateOnlyDefinedTagsAllowed) {\n");
+			out.write("                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, \"Tag not defined for this message type\", tag, FixMessageInfo.MessageTypes." + m.name.toUpperCase()+ "_INT);\n");
 			out.write("                			break;\n");
 			out.write("                		}\n");
 
@@ -969,7 +980,7 @@ public class FixMessageGenerator {
 			out.write("\t\t\t}\n\n");
 			
 			out.write("        		if (err.hasError()) return;\n\n");
-			out.write("            	tag = FixMessage.getTag(buf, err);		\n");
+			out.write("            	tag = FixUtils.getTag(buf, err);		\n");
 			out.write("        		if (err.hasError()) break;\n\n");
 			out.write("\t\t}\n\n");
 			out.write("\t}		\n\n");
@@ -1180,15 +1191,15 @@ public class FixMessageGenerator {
 	
 	private void genHasRequiredTags(boolean isMessage, FixMessageDom dom, OutputStreamWriter out, String messageName, ArrayList<QuickFixField> fields, ArrayList<QuickFixComponent> components) throws IOException {
 		out.write("\tpublic boolean hasRequiredTags(FixValidationError err) {\n");
-		if (isMessage) {
-			out.write("		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; \n\n");
-		}
+		//if (isMessage) {
+		//	out.write("		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; \n\n");
+		//}
 		for (final QuickFixField f : fields) {
 			if (f.reqd.equalsIgnoreCase("Y")) {
 				out.write("\t\tif (!has" + capFirst(f.name) + "()) { \n");
 				if (isMessage)
 					out.write("\t\t\terr.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, \"Required tag missing\", FixTags." + f.name.toUpperCase() + "_INT, FixMessageInfo.MessageTypes."
-						+ messageName.toUpperCase() + ");\n");
+						+ messageName.toUpperCase() + "_INT);\n");
 				else 
 					out.write("\t\t\terr.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, \"Required tag missing\", FixTags." + f.name.toUpperCase() + "_INT);\n");
 				out.write("\t\t\treturn false;\n");
@@ -1204,9 +1215,9 @@ public class FixMessageGenerator {
 			}
 		}
 
-		if (isMessage) {
-			out.write("		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; \n\n");
-		}
+		//if (isMessage) {
+		//	out.write("		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; \n\n");
+		//}
 		out.write("\t\treturn true;\n");
 		out.write("\t}\n");
 		
@@ -1216,10 +1227,10 @@ public class FixMessageGenerator {
 
 		out.write("package " + dom.packageName + ";\n\n");
 		out.write("import java.nio.ByteBuffer;\n");
+		out.write("import " + dom.packageNameBase + ".FixUtils;\n");
 		out.write("import " + dom.packageNameBase + ".FixValidationError;\n");
 		out.write("import " + dom.packageNameBase + ".messaging.FixMessageInfo;\n");
 		out.write("import " + dom.packageNameBase + "." + capFirst(dom.type.toLowerCase()) + "Message;\n");
-		out.write("import " + dom.packageNameBase + "." + capFirst(dom.type.toLowerCase()) + "InMessage;\n");
 		for (final QuickFixMessage m : dom.quickFixMessages) {
 			final String name = capFirst(dom.type.toLowerCase()) + m.name;
 			out.write("import " + dom.packageNameBase + ".messaging." + name + ";\n");
@@ -1245,10 +1256,13 @@ public class FixMessageGenerator {
 		out.write("	}\n\n");
 
 		out.write("\tpublic T getFixMessage(ByteBuffer buf, FixValidationError err) {\n");
-		out.write("\t\tint msgType = FixInMessage.crackMsgType( buf ,err );\n\n");
+		out.write("\t\tint pos = buf.position();\n");
+		out.write("\t\tint msgType = FixUtils.crackMsgType( buf ,err );\n\n");
 
 		out.write("\t\t// garbled message\n");
 		out.write("\t\tif (err.hasError()) return null;\n\n");
+
+		out.write("\t\tbuf.position(pos);\n\n");
 
 		out.write("\t\treturn getFixMessage(msgType, buf, err);\n");
 		out.write("\t}\n");
@@ -1364,80 +1378,103 @@ public class FixMessageGenerator {
 		// write out the open to the parser class
 		out.write("public class " + dom.type + "MessageParser implements " + dom.type + "MessageInfo\n{\n\n");
 
-		out.write("\tpublic FixMessagePool<FixMessage> fixMessagePool;\n\n");
+		out.write("\tpublic FixMessagePool<FixMessage> fixMessagePool;\n");
+		out.write("\tFixStandardHeader standardHeader;\n\n");
 
 		out.write("\tpublic FixMessageParser(FixMessagePool<FixMessage> fixMessagePool) {\n");
 		out.write("\t\tthis.fixMessagePool = fixMessagePool;\n");
+		out.write("\t\tstandardHeader = new FixStandardHeader(); \n");
 		out.write("\t}\n\n");
 
 		out.write("\tpublic FixMessageParser() {\n");
 		out.write("\t\tfixMessagePool = new FixMessagePool<FixMessage>();\n");
+		out.write("\t\tstandardHeader = new FixStandardHeader(); \n");
 		out.write("\t}\n\n");
 
-		
-
-		// crack the msgType of message
-		out.write("\tpublic void parse( ByteBuffer buf, FixValidationError err, " + dom.type + "MessageListener l )\n");
-		out.write("\t{\n\n");
-		out.write("\t\tparse( 0, buf, err, l );\n");
+		out.write("\tpublic void parse(ByteBuffer buf, FixValidationError err, FixMessageListener l) {\n");
+		out.write("\t\tparse(buf, err, l, 0);\n");
 		out.write("\t}\n\n");
 
-		
-		
-		out.write("\tpublic void parse( long connectorID, ByteBuffer buf, FixValidationError err, " + dom.type + "MessageListener l )\n");
-		out.write("\t{\n\n");
-		out.write("\t\tIFixSession session = null;\n");
+		out.write("\tpublic void parse(ByteBuffer buf, FixValidationError err, FixMessageListener l, int connectorID) {\n");
 
-		out.write("\t\tint msgType = FixInMessage.crackMsgType( buf ,err );\n");
+		out.write("\t\t// RAW\n");
+		out.write("\t\tint msgTypeInt = FixUtils.crackMsgType(buf, err);\n\n");
 
-		out.write("\t\t// garbled message\n");
-		out.write("\t\tif (err.hasError() && ( err.getSessionRejectReason() == FixEvent.GARBLED || err.getSessionRejectReason() == FixEvent.DISCONNECT) ) { return; }\n\n");
-		out.write("\t\telse if (err.hasError()) { l.onFixValidationError(err); return; }\n\n");
+		out.write("\t\tif (!err.hasError()) {\n\n");
 
-		out.write("        switch( msgType )\n");
-		out.write("        {\n\n");
+		out.write("\t\t\t// MESSAGE\n");
+		out.write("\t\t\tFixUtils.crackStandardHeader(buf, standardHeader, err);\n\n");
+
+		out.write("\t\t\t// even with error we will still try and get the session\n");
+		out.write("\t\t\tIFixSession session = FixUtils.crackSession(msgTypeInt, l, connectorID, standardHeader, err);\n\n");
+
+		out.write("\t\t\t// SESSION\n");
+		out.write("\t\t\tif (session != null && err.isMsgSeqNumConsumer()) \n\t\t\t\tsession.incrementInMsgSeqNum();\n\n");
+
+		out.write("\t\t\tif (!err.hasError()) {\n\n");
+		out.write("\t\t\t\tif (MessageTypes.LOGON_INT == msgTypeInt) {\n\n");
+
+		final String logonName = "logon";
+		final String logonCapName = "Logon";
+		out.write("\t\t\t\t\t" + capFirst(dom.type.toLowerCase()) + logonCapName + " " + logonName + " = fixMessagePool.get" + capFirst(dom.type.toLowerCase()) + logonCapName + "(buf, err);\n");
+		out.write("\t\t\t\t\tif(err.hasError()) {\n");
+		out.write("\t\t\t\t\t\tl.onFixValidationError(err);\n");
+		out.write("\t\t\t\t\t} else {\n");
+		out.write("\t\t\t\t\t\tl.on" + capFirst(dom.type.toLowerCase()) + logonCapName + "(" + logonName + ");\n");
+		out.write("\t\t\t\t\t}\n");
+		out.write("\t\t\t\t\tfixMessagePool.return" + capFirst(dom.type.toLowerCase()) + logonCapName + " (" + logonName + ");\n");
+
+		out.write("\t\t\t\t\tif (err.hasError() && err.refTagID == FixTags.DEFAULTAPPLVERID_INT)\n");
+		out.write("\t\t\t\t\t\terr.setError(FixEvent.DISCONNECT, err.text, err.refTagID, msgTypeInt);\n\n");
+
+		out.write("\t\t\t\t} else {\n\n");
+
+		out.write("\t\t\t\t\tif (FixUtils.isNasdaqOMX && (msgTypeInt == '8' || msgTypeInt == '9'))\n");
+		out.write("\t\t\t\t\t\tmsgTypeInt = FixUtils.getNasdaqMsgTypeInt(msgTypeInt, buf, err);\n\n");
+
+		out.write("\t\t\t\t// parse everything...\n");
+		out.write("\t\t\t\tswitch (msgTypeInt) {\n\n");
 
 		for (final QuickFixMessage m : dom.quickFixMessages) {
 
 			final String name = dom.type.toLowerCase() + m.name;
-			out.write("\t\tcase MessageTypes." + m.name.toUpperCase() + "_INT:\n");
-			out.write("\t\t\t" + capFirst(dom.type.toLowerCase()) + m.name + " " + name + " = fixMessagePool.get" + capFirst(dom.type.toLowerCase()) + m.name + "(buf, err);\n");
-			if (m.name.equalsIgnoreCase("logon")) {
-				out.write("\t\t\t" + name + ".getAll();  // TODO why do I have to do this?\n");
-			} 
-			out.write("\t\t\tsession = FixUtils.crackSession(l, connectorID, " + name + ", err);\n");
+			out.write("\t\t\t\tcase MessageTypes." + m.name.toUpperCase() + "_INT:\n");
+			out.write("\t\t\t\t\t" + capFirst(dom.type.toLowerCase()) + m.name + " " + name + " = fixMessagePool.get" + capFirst(dom.type.toLowerCase()) + m.name + "(buf, err);\n");
 
-			if (m.name.equalsIgnoreCase("logon")) {
-				out.write("\t\t\tif (session != null) { \n");
-				out.write("\t\t\t\tsession.incrementInMsgSeqNum(" + uncapFirst(dom.type.toLowerCase()) + m.name + ", err);\n");
-				out.write("\t\t\t}\n");
-				out.write("\t\t\tif(err.hasError()) {\n");
-				out.write("\t\t\t\tl.onFixValidationError(err);\n");
-				out.write("\t\t\t} else {\n");
-				out.write("\t\t\t\tl.on" + capFirst(dom.type.toLowerCase()) + m.name + "(" + name + ");\n");
-				out.write("\t\t\t}\n");
-
-			} else {
-				out.write("\t\t\tif (session != null) { \n");
-				out.write("\t\t\t\tsession.incrementInMsgSeqNum(" + uncapFirst(dom.type.toLowerCase()) + m.name + ", err);\n");
-				out.write("\t\t\t\tif(err.hasError()) {\n");
-				out.write("\t\t\t\t\tl.onFixValidationError(err);\n");
-				out.write("\t\t\t\t} else {\n");
-				out.write("\t\t\t\t\tl.on" + capFirst(dom.type.toLowerCase()) + m.name + "(" + name + ");\n");
-				out.write("\t\t\t\t}\n");
-				out.write("\t\t\t}\n");
-			}
+			out.write("\t\t\t\t\tif(err.hasError()) {\n");
+			out.write("\t\t\t\t\t\tl.onFixValidationError(err);\n");
+			out.write("\t\t\t\t\t} else {\n");
+			out.write("\t\t\t\t\t\tl.on" + capFirst(dom.type.toLowerCase()) + m.name + "(" + name + ");\n");
+			out.write("\t\t\t\t\t}\n");
 			
-			out.write("\t\t\tfixMessagePool.return" + capFirst(dom.type.toLowerCase()) + m.name + " (" + name + ");\n");
-			out.write("\t\t\tbreak;\n");
+			out.write("\t\t\t\t\tfixMessagePool.return" + capFirst(dom.type.toLowerCase()) + m.name + " (" + name + ");\n");
+			out.write("\t\t\t\t\tbreak;\n");
 		}
 
-		out.write("\t\tdefault:\n");
-		out.write("\t\tl.onUnknownMessageType( buf, msgType );\n");
-		out.write("\t\tbreak;\n\n");
+		out.write("\t\t\t\tdefault:\n");
+		out.write("\t\t\t\t\tl.onUnknownMessageType( buf, msgTypeInt );\n");
+		out.write("\t\t\t\t\tbreak;\n\n");
+		out.write("\t\t\t\t}\n\n");
+		out.write("\t\t\t}\n\n");
 
-		out.write("\t}\n");
-		out.write("\t}\n");
+		out.write("\t\t} else if (MessageTypes.LOGON_INT == msgTypeInt) { // MESSAGE\n");
+		out.write("\t\t\terr.setError(FixEvent.DISCONNECT, \"DISCONNECT\");\n");
+		out.write("\t\t} else { // MESSAGE\n");
+		out.write("\t\t\terr.refMsgTypeInt = msgTypeInt;\n");
+		out.write("\t\t\terr.session = session;\n\n");
+
+		out.write("\t\t\tif (session == null || session.isEstablished()) {\n");
+		out.write("\t\t\t\terr.setError(FixEvent.DISCONNECT, \"DISCONNECT\");\n");
+		out.write("\t\t\t}\n");
+		out.write("\t\t\t\tl.onFixValidationError(err);\n");
+		out.write("\t\t\t}\n\n");
+
+		out.write("\t\t} else if (MessageTypes.LOGON_INT == msgTypeInt) { // RAW\n");
+		out.write("\t\t\terr.setError(FixEvent.DISCONNECT, \"DISCONNECT\");\n");
+		out.write("\t\t} else { // RAW\n");
+		out.write("\t\t\tl.onFixValidationError(err);\n");
+		out.write("\t\t}\n");
+		out.write("\t}\n\n");
 
 		// write out the close to the parser class
 		out.write("}\n");
@@ -1781,9 +1818,9 @@ public class FixMessageGenerator {
 			if (c.isRepeating) {
 				out.write("        			" + start + " ( tag == FixTags." + c.noInGroupTag.toUpperCase() + "_INT ) {\n");
 				out.write("        				int count = 0;\n");
-				out.write("        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);\n");
+				out.write("        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);\n");
 				out.write("        				if (err.hasError()) break;\n\n");
-				out.write("        				int repeatingGroupTag = FixMessage.getTag(buf, err);\n");
+				out.write("        				int repeatingGroupTag = FixUtils.getTag(buf, err);\n");
 				out.write("        				if (err.hasError()) break;\n");
 				out.write("        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, \"no in group count exceeding max\", tag);\n");
 				if (components.size() == 0 || isMessage)

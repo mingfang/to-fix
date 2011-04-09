@@ -56,7 +56,7 @@ public class FixSettlementObligationReport extends FixInMessage {
 		super.setBuffer(buf, err);
         if (err.hasError()) return;
 
-        int tag = FixMessage.getTag(buf, err);
+        int tag = FixUtils.getTag(buf, err);
         if (err.hasError()) return;
 
         while ( buf.hasRemaining() ) {
@@ -64,35 +64,35 @@ public class FixSettlementObligationReport extends FixInMessage {
             switch (tag) {		
             	case FixTags.CLEARINGBUSINESSDATE_INT:		
             		hasClearingBusinessDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SETTLEMENTCYCLENO_INT:		
             		hasSettlementCycleNo = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SETTLOBLIGMSGID_INT:		
             		hasSettlObligMsgID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SETTLOBLIGMODE_INT:		
             		hasSettlObligMode = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TEXT_INT:		
             		hasText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDTEXTLEN_INT:		
             		hasEncodedTextLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDTEXT_INT:		
             		hasEncodedText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRANSACTTIME_INT:		
             		hasTransactTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	default:
         			if ( standardHeader.isKeyTag(tag)) {
@@ -101,7 +101,7 @@ public class FixSettlementObligationReport extends FixInMessage {
                 		else continue;		
         			} else if ( standardTrailer.isKeyTag(tag)) {
         				tag = standardTrailer.setBuffer( tag, buf, err);
-        				FixMessage.unreadLastTag(tag, buf);
+        				FixUtils.unreadLastTag(tag, buf);
         				if (!err.hasError()) hasRequiredTags(err);
             			return; // always last, we are done now
         			} else if ( applicationSequenceControl.isKeyTag(tag)) {
@@ -110,10 +110,10 @@ public class FixSettlementObligationReport extends FixInMessage {
                 		else continue;		
         			} else if ( tag == FixTags.NOSETTLOBLIG_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -129,10 +129,10 @@ public class FixSettlementObligationReport extends FixInMessage {
         				if (err.hasError()) break;
                 		else { tag = repeatingGroupTag; continue; }
             		} else {
- 						FixMessage.getNext(buf, err);		
+ 						FixUtils.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else {
-                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.SETTLEMENTOBLIGATIONREPORT);
+                		else if (FixUtils.validateOnlyDefinedTagsAllowed) {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.SETTLEMENTOBLIGATIONREPORT_INT);
                 			break;
                 		}
 					}
@@ -141,7 +141,7 @@ public class FixSettlementObligationReport extends FixInMessage {
 
         		if (err.hasError()) return;
 
-            	tag = FixMessage.getTag(buf, err);		
+            	tag = FixUtils.getTag(buf, err);		
         		if (err.hasError()) break;
 
 		}
@@ -149,19 +149,15 @@ public class FixSettlementObligationReport extends FixInMessage {
 	}		
 
 	public boolean hasRequiredTags(FixValidationError err) {
-		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		if (!hasSettlObligMsgID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.SETTLOBLIGMSGID_INT, FixMessageInfo.MessageTypes.SETTLEMENTOBLIGATIONREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.SETTLOBLIGMSGID_INT, FixMessageInfo.MessageTypes.SETTLEMENTOBLIGATIONREPORT_INT);
 			return false;
 		}
 		if (!hasSettlObligMode()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.SETTLOBLIGMODE_INT, FixMessageInfo.MessageTypes.SETTLEMENTOBLIGATIONREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.SETTLOBLIGMODE_INT, FixMessageInfo.MessageTypes.SETTLEMENTOBLIGATIONREPORT_INT);
 			return false;
 		}
 		for (int i = 0; i< FixUtils.FIX_MAX_NOINGROUP; i++) { if (settlObligationInstructions[i].hasGroup()) settlObligationInstructions[i].hasRequiredTags(err); if (err.hasError()) return false; }
-		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		return true;
 	}
 	@Override		
@@ -390,7 +386,7 @@ public class FixSettlementObligationReport extends FixInMessage {
 
 				buf.position(hasClearingBusinessDate);
 
-			FixMessage.getTagStringValue(buf, clearingBusinessDate, 0, clearingBusinessDate.length, err);
+			FixUtils.getTagStringValue(buf, clearingBusinessDate, 0, clearingBusinessDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -434,7 +430,7 @@ public class FixSettlementObligationReport extends FixInMessage {
 
 				buf.position(hasSettlementCycleNo);
 
-			settlementCycleNo = FixMessage.getTagIntValue(buf, err);
+			settlementCycleNo = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -483,7 +479,7 @@ public class FixSettlementObligationReport extends FixInMessage {
 
 				buf.position(hasSettlObligMsgID);
 
-			FixMessage.getTagStringValue(buf, settlObligMsgID, 0, settlObligMsgID.length, err);
+			FixUtils.getTagStringValue(buf, settlObligMsgID, 0, settlObligMsgID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -527,7 +523,7 @@ public class FixSettlementObligationReport extends FixInMessage {
 
 				buf.position(hasSettlObligMode);
 
-			settlObligMode = FixMessage.getTagIntValue(buf, err);
+			settlObligMode = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -576,7 +572,7 @@ public class FixSettlementObligationReport extends FixInMessage {
 
 				buf.position(hasText);
 
-			FixMessage.getTagStringValue(buf, text, 0, text.length, err);
+			FixUtils.getTagStringValue(buf, text, 0, text.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -620,7 +616,7 @@ public class FixSettlementObligationReport extends FixInMessage {
 
 				buf.position(hasEncodedTextLen);
 
-			encodedTextLen = FixMessage.getTagIntValue(buf, err);
+			encodedTextLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -669,7 +665,7 @@ public class FixSettlementObligationReport extends FixInMessage {
 
 				buf.position(hasEncodedText);
 
-			FixMessage.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
+			FixUtils.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -713,7 +709,7 @@ public class FixSettlementObligationReport extends FixInMessage {
 
 				buf.position(hasTransactTime);
 
-			FixMessage.getTagStringValue(buf, transactTime, 0, transactTime.length, err);
+			FixUtils.getTagStringValue(buf, transactTime, 0, transactTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		

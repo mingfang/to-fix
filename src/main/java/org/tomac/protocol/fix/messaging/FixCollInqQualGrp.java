@@ -48,14 +48,14 @@ public class FixCollInqQualGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.COLLINQUIRYQUALIFIER_INT:		
             		hasCollInquiryQualifier = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -106,7 +106,7 @@ public class FixCollInqQualGrp extends FixGroup {
 		
 				buf.position(hasCollInquiryQualifier);		
 		
-			collInquiryQualifier = FixMessage.getTagIntValue(buf, err);
+			collInquiryQualifier = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasCollInquiryQualifier);		

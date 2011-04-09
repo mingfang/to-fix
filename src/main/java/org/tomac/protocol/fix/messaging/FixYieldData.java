@@ -66,34 +66,34 @@ public class FixYieldData extends FixGroup {
             switch (tag) {		
             	case FixTags.YIELDTYPE_INT:		
             		hasYieldType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.YIELD_INT:		
             		hasYield = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.YIELDCALCDATE_INT:		
             		hasYieldCalcDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.YIELDREDEMPTIONDATE_INT:		
             		hasYieldRedemptionDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.YIELDREDEMPTIONPRICE_INT:		
             		hasYieldRedemptionPrice = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.YIELDREDEMPTIONPRICETYPE_INT:		
             		hasYieldRedemptionPriceType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -234,7 +234,7 @@ public class FixYieldData extends FixGroup {
 		
 				buf.position(hasYieldType);		
 		
-			FixMessage.getTagStringValue(buf, yieldType, 0, yieldType.length, err);
+			FixUtils.getTagStringValue(buf, yieldType, 0, yieldType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasYieldType);		
@@ -273,7 +273,7 @@ public class FixYieldData extends FixGroup {
 		
 				buf.position(hasYield);		
 		
-			yield = FixMessage.getTagFloatValue(buf, err);
+			yield = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasYield);		
@@ -317,7 +317,7 @@ public class FixYieldData extends FixGroup {
 		
 				buf.position(hasYieldCalcDate);		
 		
-			FixMessage.getTagStringValue(buf, yieldCalcDate, 0, yieldCalcDate.length, err);
+			FixUtils.getTagStringValue(buf, yieldCalcDate, 0, yieldCalcDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasYieldCalcDate);		
@@ -356,7 +356,7 @@ public class FixYieldData extends FixGroup {
 		
 				buf.position(hasYieldRedemptionDate);		
 		
-			FixMessage.getTagStringValue(buf, yieldRedemptionDate, 0, yieldRedemptionDate.length, err);
+			FixUtils.getTagStringValue(buf, yieldRedemptionDate, 0, yieldRedemptionDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasYieldRedemptionDate);		
@@ -395,7 +395,7 @@ public class FixYieldData extends FixGroup {
 		
 				buf.position(hasYieldRedemptionPrice);		
 		
-			yieldRedemptionPrice = FixMessage.getTagFloatValue(buf, err);
+			yieldRedemptionPrice = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasYieldRedemptionPrice);		
@@ -439,7 +439,7 @@ public class FixYieldData extends FixGroup {
 		
 				buf.position(hasYieldRedemptionPriceType);		
 		
-			yieldRedemptionPriceType = FixMessage.getTagIntValue(buf, err);
+			yieldRedemptionPriceType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasYieldRedemptionPriceType);		

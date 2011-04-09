@@ -58,7 +58,7 @@ public class FixSettlementInstructions extends FixInMessage {
 		super.setBuffer(buf, err);
         if (err.hasError()) return;
 
-        int tag = FixMessage.getTag(buf, err);
+        int tag = FixUtils.getTag(buf, err);
         if (err.hasError()) return;
 
         while ( buf.hasRemaining() ) {
@@ -66,39 +66,39 @@ public class FixSettlementInstructions extends FixInMessage {
             switch (tag) {		
             	case FixTags.SETTLINSTMSGID_INT:		
             		hasSettlInstMsgID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SETTLINSTREQID_INT:		
             		hasSettlInstReqID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SETTLINSTMODE_INT:		
             		hasSettlInstMode = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SETTLINSTREQREJCODE_INT:		
             		hasSettlInstReqRejCode = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TEXT_INT:		
             		hasText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDTEXTLEN_INT:		
             		hasEncodedTextLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDTEXT_INT:		
             		hasEncodedText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.CLORDID_INT:		
             		hasClOrdID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRANSACTTIME_INT:		
             		hasTransactTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	default:
         			if ( standardHeader.isKeyTag(tag)) {
@@ -107,15 +107,15 @@ public class FixSettlementInstructions extends FixInMessage {
                 		else continue;		
         			} else if ( standardTrailer.isKeyTag(tag)) {
         				tag = standardTrailer.setBuffer( tag, buf, err);
-        				FixMessage.unreadLastTag(tag, buf);
+        				FixUtils.unreadLastTag(tag, buf);
         				if (!err.hasError()) hasRequiredTags(err);
             			return; // always last, we are done now
         			} else if ( tag == FixTags.NOSETTLINST_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -131,10 +131,10 @@ public class FixSettlementInstructions extends FixInMessage {
         				if (err.hasError()) break;
                 		else { tag = repeatingGroupTag; continue; }
             		} else {
- 						FixMessage.getNext(buf, err);		
+ 						FixUtils.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else {
-                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.SETTLEMENTINSTRUCTIONS);
+                		else if (FixUtils.validateOnlyDefinedTagsAllowed) {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.SETTLEMENTINSTRUCTIONS_INT);
                 			break;
                 		}
 					}
@@ -143,7 +143,7 @@ public class FixSettlementInstructions extends FixInMessage {
 
         		if (err.hasError()) return;
 
-            	tag = FixMessage.getTag(buf, err);		
+            	tag = FixUtils.getTag(buf, err);		
         		if (err.hasError()) break;
 
 		}
@@ -151,22 +151,18 @@ public class FixSettlementInstructions extends FixInMessage {
 	}		
 
 	public boolean hasRequiredTags(FixValidationError err) {
-		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		if (!hasSettlInstMsgID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.SETTLINSTMSGID_INT, FixMessageInfo.MessageTypes.SETTLEMENTINSTRUCTIONS);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.SETTLINSTMSGID_INT, FixMessageInfo.MessageTypes.SETTLEMENTINSTRUCTIONS_INT);
 			return false;
 		}
 		if (!hasSettlInstMode()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.SETTLINSTMODE_INT, FixMessageInfo.MessageTypes.SETTLEMENTINSTRUCTIONS);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.SETTLINSTMODE_INT, FixMessageInfo.MessageTypes.SETTLEMENTINSTRUCTIONS_INT);
 			return false;
 		}
 		if (!hasTransactTime()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TRANSACTTIME_INT, FixMessageInfo.MessageTypes.SETTLEMENTINSTRUCTIONS);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TRANSACTTIME_INT, FixMessageInfo.MessageTypes.SETTLEMENTINSTRUCTIONS_INT);
 			return false;
 		}
-		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		return true;
 	}
 	@Override		
@@ -410,7 +406,7 @@ public class FixSettlementInstructions extends FixInMessage {
 
 				buf.position(hasSettlInstMsgID);
 
-			FixMessage.getTagStringValue(buf, settlInstMsgID, 0, settlInstMsgID.length, err);
+			FixUtils.getTagStringValue(buf, settlInstMsgID, 0, settlInstMsgID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -454,7 +450,7 @@ public class FixSettlementInstructions extends FixInMessage {
 
 				buf.position(hasSettlInstReqID);
 
-			FixMessage.getTagStringValue(buf, settlInstReqID, 0, settlInstReqID.length, err);
+			FixUtils.getTagStringValue(buf, settlInstReqID, 0, settlInstReqID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -498,7 +494,7 @@ public class FixSettlementInstructions extends FixInMessage {
 
 				buf.position(hasSettlInstMode);
 
-			settlInstMode = FixMessage.getTagCharValue(buf, err);
+			settlInstMode = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (settlInstMode != (byte)'3') && (settlInstMode != (byte)'2') && (settlInstMode != (byte)'1') && (settlInstMode != (byte)'0') && (settlInstMode != (byte)'5') && (settlInstMode != (byte)'4') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 160);		
@@ -549,7 +545,7 @@ public class FixSettlementInstructions extends FixInMessage {
 
 				buf.position(hasSettlInstReqRejCode);
 
-			settlInstReqRejCode = FixMessage.getTagIntValue(buf, err);
+			settlInstReqRejCode = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -598,7 +594,7 @@ public class FixSettlementInstructions extends FixInMessage {
 
 				buf.position(hasText);
 
-			FixMessage.getTagStringValue(buf, text, 0, text.length, err);
+			FixUtils.getTagStringValue(buf, text, 0, text.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -642,7 +638,7 @@ public class FixSettlementInstructions extends FixInMessage {
 
 				buf.position(hasEncodedTextLen);
 
-			encodedTextLen = FixMessage.getTagIntValue(buf, err);
+			encodedTextLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -691,7 +687,7 @@ public class FixSettlementInstructions extends FixInMessage {
 
 				buf.position(hasEncodedText);
 
-			FixMessage.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
+			FixUtils.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -735,7 +731,7 @@ public class FixSettlementInstructions extends FixInMessage {
 
 				buf.position(hasClOrdID);
 
-			FixMessage.getTagStringValue(buf, clOrdID, 0, clOrdID.length, err);
+			FixUtils.getTagStringValue(buf, clOrdID, 0, clOrdID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -779,7 +775,7 @@ public class FixSettlementInstructions extends FixInMessage {
 
 				buf.position(hasTransactTime);
 
-			FixMessage.getTagStringValue(buf, transactTime, 0, transactTime.length, err);
+			FixUtils.getTagStringValue(buf, transactTime, 0, transactTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		

@@ -56,22 +56,22 @@ public class FixStrategyParametersGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.STRATEGYPARAMETERNAME_INT:		
             		hasStrategyParameterName = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.STRATEGYPARAMETERTYPE_INT:		
             		hasStrategyParameterType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.STRATEGYPARAMETERVALUE_INT:		
             		hasStrategyParameterValue = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -158,7 +158,7 @@ public class FixStrategyParametersGrp extends FixGroup {
 		
 				buf.position(hasStrategyParameterName);		
 		
-			FixMessage.getTagStringValue(buf, strategyParameterName, 0, strategyParameterName.length, err);
+			FixUtils.getTagStringValue(buf, strategyParameterName, 0, strategyParameterName.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasStrategyParameterName);		
@@ -197,7 +197,7 @@ public class FixStrategyParametersGrp extends FixGroup {
 		
 				buf.position(hasStrategyParameterType);		
 		
-			strategyParameterType = FixMessage.getTagIntValue(buf, err);
+			strategyParameterType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasStrategyParameterType);		
@@ -241,7 +241,7 @@ public class FixStrategyParametersGrp extends FixGroup {
 		
 				buf.position(hasStrategyParameterValue);		
 		
-			FixMessage.getTagStringValue(buf, strategyParameterValue, 0, strategyParameterValue.length, err);
+			FixUtils.getTagStringValue(buf, strategyParameterValue, 0, strategyParameterValue.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasStrategyParameterValue);		

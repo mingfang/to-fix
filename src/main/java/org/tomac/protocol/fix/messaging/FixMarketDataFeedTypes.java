@@ -55,22 +55,22 @@ public class FixMarketDataFeedTypes extends FixGroup {
             switch (tag) {		
             	case FixTags.MDFEEDTYPE_INT:		
             		hasMDFeedType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.MARKETDEPTH_INT:		
             		hasMarketDepth = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.MDBOOKTYPE_INT:		
             		hasMDBookType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -157,7 +157,7 @@ public class FixMarketDataFeedTypes extends FixGroup {
 		
 				buf.position(hasMDFeedType);		
 		
-			FixMessage.getTagStringValue(buf, mDFeedType, 0, mDFeedType.length, err);
+			FixUtils.getTagStringValue(buf, mDFeedType, 0, mDFeedType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMDFeedType);		
@@ -196,7 +196,7 @@ public class FixMarketDataFeedTypes extends FixGroup {
 		
 				buf.position(hasMarketDepth);		
 		
-			marketDepth = FixMessage.getTagIntValue(buf, err);
+			marketDepth = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMarketDepth);		
@@ -240,7 +240,7 @@ public class FixMarketDataFeedTypes extends FixGroup {
 		
 				buf.position(hasMDBookType);		
 		
-			mDBookType = FixMessage.getTagIntValue(buf, err);
+			mDBookType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMDBookType);		

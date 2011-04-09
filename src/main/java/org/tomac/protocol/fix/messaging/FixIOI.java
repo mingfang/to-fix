@@ -112,7 +112,7 @@ public class FixIOI extends FixInMessage {
 		super.setBuffer(buf, err);
         if (err.hasError()) return;
 
-        int tag = FixMessage.getTag(buf, err);
+        int tag = FixUtils.getTag(buf, err);
         if (err.hasError()) return;
 
         while ( buf.hasRemaining() ) {
@@ -120,71 +120,71 @@ public class FixIOI extends FixInMessage {
             switch (tag) {		
             	case FixTags.IOIID_INT:		
             		hasIOIID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.IOITRANSTYPE_INT:		
             		hasIOITransType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.IOIREFID_INT:		
             		hasIOIRefID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SIDE_INT:		
             		hasSide = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.QTYTYPE_INT:		
             		hasQtyType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.IOIQTY_INT:		
             		hasIOIQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.CURRENCY_INT:		
             		hasCurrency = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.PRICETYPE_INT:		
             		hasPriceType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.PRICE_INT:		
             		hasPrice = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.VALIDUNTILTIME_INT:		
             		hasValidUntilTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.IOIQLTYIND_INT:		
             		hasIOIQltyInd = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.IOINATURALFLAG_INT:		
             		hasIOINaturalFlag = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TEXT_INT:		
             		hasText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDTEXTLEN_INT:		
             		hasEncodedTextLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDTEXT_INT:		
             		hasEncodedText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRANSACTTIME_INT:		
             		hasTransactTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.URLLINK_INT:		
             		hasURLLink = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	default:
         			if ( standardHeader.isKeyTag(tag)) {
@@ -193,7 +193,7 @@ public class FixIOI extends FixInMessage {
                 		else continue;		
         			} else if ( standardTrailer.isKeyTag(tag)) {
         				tag = standardTrailer.setBuffer( tag, buf, err);
-        				FixMessage.unreadLastTag(tag, buf);
+        				FixUtils.unreadLastTag(tag, buf);
         				if (!err.hasError()) hasRequiredTags(err);
             			return; // always last, we are done now
         			} else if ( applicationSequenceControl.isKeyTag(tag)) {
@@ -206,10 +206,10 @@ public class FixIOI extends FixInMessage {
                 		else continue;		
         			} else if ( tag == FixTags.NOPARTYIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -230,10 +230,10 @@ public class FixIOI extends FixInMessage {
                 		else continue;		
         			} else if ( tag == FixTags.NOUNDERLYINGS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -254,10 +254,10 @@ public class FixIOI extends FixInMessage {
                 		else continue;		
         			} else if ( tag == FixTags.NOSTIPULATIONS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -274,10 +274,10 @@ public class FixIOI extends FixInMessage {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NOLEGS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -294,10 +294,10 @@ public class FixIOI extends FixInMessage {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NOIOIQUALIFIERS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -314,10 +314,10 @@ public class FixIOI extends FixInMessage {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NOROUTINGIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -341,10 +341,10 @@ public class FixIOI extends FixInMessage {
             			if (err.hasError()) break; 		
                 		else continue;		
             		} else {
- 						FixMessage.getNext(buf, err);		
+ 						FixUtils.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else {
-                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.IOI);
+                		else if (FixUtils.validateOnlyDefinedTagsAllowed) {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.IOI_INT);
                 			break;
                 		}
 					}
@@ -353,7 +353,7 @@ public class FixIOI extends FixInMessage {
 
         		if (err.hasError()) return;
 
-            	tag = FixMessage.getTag(buf, err);		
+            	tag = FixUtils.getTag(buf, err);		
         		if (err.hasError()) break;
 
 		}
@@ -361,27 +361,23 @@ public class FixIOI extends FixInMessage {
 	}		
 
 	public boolean hasRequiredTags(FixValidationError err) {
-		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		if (!hasIOIID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.IOIID_INT, FixMessageInfo.MessageTypes.IOI);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.IOIID_INT, FixMessageInfo.MessageTypes.IOI_INT);
 			return false;
 		}
 		if (!hasIOITransType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.IOITRANSTYPE_INT, FixMessageInfo.MessageTypes.IOI);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.IOITRANSTYPE_INT, FixMessageInfo.MessageTypes.IOI_INT);
 			return false;
 		}
 		if (!hasSide()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.SIDE_INT, FixMessageInfo.MessageTypes.IOI);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.SIDE_INT, FixMessageInfo.MessageTypes.IOI_INT);
 			return false;
 		}
 		if (!hasIOIQty()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.IOIQTY_INT, FixMessageInfo.MessageTypes.IOI);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.IOIQTY_INT, FixMessageInfo.MessageTypes.IOI_INT);
 			return false;
 		}
 		if (instrument.isRequired) instrument.hasRequiredTags(err); if (err.hasError()) return false;
-		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		return true;
 	}
 	@Override		
@@ -814,7 +810,7 @@ public class FixIOI extends FixInMessage {
 
 				buf.position(hasIOIID);
 
-			FixMessage.getTagStringValue(buf, iOIID, 0, iOIID.length, err);
+			FixUtils.getTagStringValue(buf, iOIID, 0, iOIID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -858,7 +854,7 @@ public class FixIOI extends FixInMessage {
 
 				buf.position(hasIOITransType);
 
-			iOITransType = FixMessage.getTagCharValue(buf, err);
+			iOITransType = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (iOITransType != (byte)'R') && (iOITransType != (byte)'C') && (iOITransType != (byte)'N') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 28);		
@@ -909,7 +905,7 @@ public class FixIOI extends FixInMessage {
 
 				buf.position(hasIOIRefID);
 
-			FixMessage.getTagStringValue(buf, iOIRefID, 0, iOIRefID.length, err);
+			FixUtils.getTagStringValue(buf, iOIRefID, 0, iOIRefID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -953,7 +949,7 @@ public class FixIOI extends FixInMessage {
 
 				buf.position(hasSide);
 
-			side = FixMessage.getTagCharValue(buf, err);
+			side = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (side != (byte)'D') && (side != (byte)'E') && (side != (byte)'F') && (side != (byte)'G') && (side != (byte)'A') && (side != (byte)'B') && (side != (byte)'C') && (side != (byte)'3') && (side != (byte)'2') && (side != (byte)'1') && (side != (byte)'7') && (side != (byte)'6') && (side != (byte)'5') && (side != (byte)'4') && (side != (byte)'9') && (side != (byte)'8') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 54);		
@@ -1004,7 +1000,7 @@ public class FixIOI extends FixInMessage {
 
 				buf.position(hasQtyType);
 
-			qtyType = FixMessage.getTagIntValue(buf, err);
+			qtyType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1053,7 +1049,7 @@ public class FixIOI extends FixInMessage {
 
 				buf.position(hasIOIQty);
 
-			FixMessage.getTagStringValue(buf, iOIQty, 0, iOIQty.length, err);
+			FixUtils.getTagStringValue(buf, iOIQty, 0, iOIQty.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1097,7 +1093,7 @@ public class FixIOI extends FixInMessage {
 
 				buf.position(hasCurrency);
 
-			FixMessage.getTagStringValue(buf, currency, 0, currency.length, err);
+			FixUtils.getTagStringValue(buf, currency, 0, currency.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1141,7 +1137,7 @@ public class FixIOI extends FixInMessage {
 
 				buf.position(hasPriceType);
 
-			priceType = FixMessage.getTagIntValue(buf, err);
+			priceType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1190,7 +1186,7 @@ public class FixIOI extends FixInMessage {
 
 				buf.position(hasPrice);
 
-			price = FixMessage.getTagFloatValue(buf, err);
+			price = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1239,7 +1235,7 @@ public class FixIOI extends FixInMessage {
 
 				buf.position(hasValidUntilTime);
 
-			FixMessage.getTagStringValue(buf, validUntilTime, 0, validUntilTime.length, err);
+			FixUtils.getTagStringValue(buf, validUntilTime, 0, validUntilTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1283,7 +1279,7 @@ public class FixIOI extends FixInMessage {
 
 				buf.position(hasIOIQltyInd);
 
-			iOIQltyInd = FixMessage.getTagCharValue(buf, err);
+			iOIQltyInd = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (iOIQltyInd != (byte)'L') && (iOIQltyInd != (byte)'M') && (iOIQltyInd != (byte)'H') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 25);		
@@ -1334,7 +1330,7 @@ public class FixIOI extends FixInMessage {
 
 				buf.position(hasIOINaturalFlag);
 
-			iOINaturalFlag = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			iOINaturalFlag = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1383,7 +1379,7 @@ public class FixIOI extends FixInMessage {
 
 				buf.position(hasText);
 
-			FixMessage.getTagStringValue(buf, text, 0, text.length, err);
+			FixUtils.getTagStringValue(buf, text, 0, text.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1427,7 +1423,7 @@ public class FixIOI extends FixInMessage {
 
 				buf.position(hasEncodedTextLen);
 
-			encodedTextLen = FixMessage.getTagIntValue(buf, err);
+			encodedTextLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1476,7 +1472,7 @@ public class FixIOI extends FixInMessage {
 
 				buf.position(hasEncodedText);
 
-			FixMessage.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
+			FixUtils.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1520,7 +1516,7 @@ public class FixIOI extends FixInMessage {
 
 				buf.position(hasTransactTime);
 
-			FixMessage.getTagStringValue(buf, transactTime, 0, transactTime.length, err);
+			FixUtils.getTagStringValue(buf, transactTime, 0, transactTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1564,7 +1560,7 @@ public class FixIOI extends FixInMessage {
 
 				buf.position(hasURLLink);
 
-			FixMessage.getTagStringValue(buf, uRLLink, 0, uRLLink.length, err);
+			FixUtils.getTagStringValue(buf, uRLLink, 0, uRLLink.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		

@@ -57,22 +57,22 @@ public class FixLegSecAltIDGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.NOLEGSECURITYALTID_INT:		
             		hasNoLegSecurityAltID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGSECURITYALTID_INT:		
             		hasLegSecurityAltID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGSECURITYALTIDSOURCE_INT:		
             		hasLegSecurityAltIDSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -159,7 +159,7 @@ public class FixLegSecAltIDGrp extends FixGroup {
 		
 				buf.position(hasNoLegSecurityAltID);		
 		
-			FixMessage.getTagStringValue(buf, noLegSecurityAltID, 0, noLegSecurityAltID.length, err);
+			FixUtils.getTagStringValue(buf, noLegSecurityAltID, 0, noLegSecurityAltID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasNoLegSecurityAltID);		
@@ -198,7 +198,7 @@ public class FixLegSecAltIDGrp extends FixGroup {
 		
 				buf.position(hasLegSecurityAltID);		
 		
-			FixMessage.getTagStringValue(buf, legSecurityAltID, 0, legSecurityAltID.length, err);
+			FixUtils.getTagStringValue(buf, legSecurityAltID, 0, legSecurityAltID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegSecurityAltID);		
@@ -237,7 +237,7 @@ public class FixLegSecAltIDGrp extends FixGroup {
 		
 				buf.position(hasLegSecurityAltIDSource);		
 		
-			FixMessage.getTagStringValue(buf, legSecurityAltIDSource, 0, legSecurityAltIDSource.length, err);
+			FixUtils.getTagStringValue(buf, legSecurityAltIDSource, 0, legSecurityAltIDSource.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegSecurityAltIDSource);		

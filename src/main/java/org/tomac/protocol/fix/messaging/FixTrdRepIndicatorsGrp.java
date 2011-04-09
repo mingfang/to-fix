@@ -51,18 +51,18 @@ public class FixTrdRepIndicatorsGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.TRDREPPARTYROLE_INT:		
             		hasTrdRepPartyRole = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRDREPINDICATOR_INT:		
             		hasTrdRepIndicator = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -131,7 +131,7 @@ public class FixTrdRepIndicatorsGrp extends FixGroup {
 		
 				buf.position(hasTrdRepPartyRole);		
 		
-			trdRepPartyRole = FixMessage.getTagIntValue(buf, err);
+			trdRepPartyRole = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTrdRepPartyRole);		
@@ -175,7 +175,7 @@ public class FixTrdRepIndicatorsGrp extends FixGroup {
 		
 				buf.position(hasTrdRepIndicator);		
 		
-			trdRepIndicator = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			trdRepIndicator = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(hasTrdRepIndicator);		

@@ -1,10 +1,10 @@
 package org.tomac.protocol.fix.messaging;
 
 import java.nio.ByteBuffer;
+import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixValidationError;
 import org.tomac.protocol.fix.messaging.FixMessageInfo;
 import org.tomac.protocol.fix.FixMessage;
-import org.tomac.protocol.fix.FixInMessage;
 import org.tomac.protocol.fix.messaging.FixHeartbeat;
 import org.tomac.protocol.fix.messaging.FixTestRequest;
 import org.tomac.protocol.fix.messaging.FixResendRequest;
@@ -1183,10 +1183,13 @@ public class FixMessagePool<T extends FixMessage> {
 	}
 
 	public T getFixMessage(ByteBuffer buf, FixValidationError err) {
-		int msgType = FixInMessage.crackMsgType( buf ,err );
+		int pos = buf.position();
+		int msgType = FixUtils.crackMsgType( buf ,err );
 
 		// garbled message
 		if (err.hasError()) return null;
+
+		buf.position(pos);
 
 		return getFixMessage(msgType, buf, err);
 	}

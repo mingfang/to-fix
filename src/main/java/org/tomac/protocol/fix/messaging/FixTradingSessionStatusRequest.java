@@ -55,7 +55,7 @@ public class FixTradingSessionStatusRequest extends FixInMessage {
 		super.setBuffer(buf, err);
         if (err.hasError()) return;
 
-        int tag = FixMessage.getTag(buf, err);
+        int tag = FixUtils.getTag(buf, err);
         if (err.hasError()) return;
 
         while ( buf.hasRemaining() ) {
@@ -63,39 +63,39 @@ public class FixTradingSessionStatusRequest extends FixInMessage {
             switch (tag) {		
             	case FixTags.TRADSESREQID_INT:		
             		hasTradSesReqID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.MARKETID_INT:		
             		hasMarketID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.MARKETSEGMENTID_INT:		
             		hasMarketSegmentID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRADINGSESSIONID_INT:		
             		hasTradingSessionID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRADINGSESSIONSUBID_INT:		
             		hasTradingSessionSubID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRADSESMETHOD_INT:		
             		hasTradSesMethod = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRADSESMODE_INT:		
             		hasTradSesMode = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SUBSCRIPTIONREQUESTTYPE_INT:		
             		hasSubscriptionRequestType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SECURITYEXCHANGE_INT:		
             		hasSecurityExchange = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	default:
         			if ( standardHeader.isKeyTag(tag)) {
@@ -104,14 +104,14 @@ public class FixTradingSessionStatusRequest extends FixInMessage {
                 		else continue;		
         			} else if ( standardTrailer.isKeyTag(tag)) {
         				tag = standardTrailer.setBuffer( tag, buf, err);
-        				FixMessage.unreadLastTag(tag, buf);
+        				FixUtils.unreadLastTag(tag, buf);
         				if (!err.hasError()) hasRequiredTags(err);
             			return; // always last, we are done now
             		} else {
- 						FixMessage.getNext(buf, err);		
+ 						FixUtils.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else {
-                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.TRADINGSESSIONSTATUSREQUEST);
+                		else if (FixUtils.validateOnlyDefinedTagsAllowed) {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.TRADINGSESSIONSTATUSREQUEST_INT);
                 			break;
                 		}
 					}
@@ -120,7 +120,7 @@ public class FixTradingSessionStatusRequest extends FixInMessage {
 
         		if (err.hasError()) return;
 
-            	tag = FixMessage.getTag(buf, err);		
+            	tag = FixUtils.getTag(buf, err);		
         		if (err.hasError()) break;
 
 		}
@@ -128,18 +128,14 @@ public class FixTradingSessionStatusRequest extends FixInMessage {
 	}		
 
 	public boolean hasRequiredTags(FixValidationError err) {
-		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		if (!hasTradSesReqID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TRADSESREQID_INT, FixMessageInfo.MessageTypes.TRADINGSESSIONSTATUSREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TRADSESREQID_INT, FixMessageInfo.MessageTypes.TRADINGSESSIONSTATUSREQUEST_INT);
 			return false;
 		}
 		if (!hasSubscriptionRequestType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.SUBSCRIPTIONREQUESTTYPE_INT, FixMessageInfo.MessageTypes.TRADINGSESSIONSTATUSREQUEST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.SUBSCRIPTIONREQUESTTYPE_INT, FixMessageInfo.MessageTypes.TRADINGSESSIONSTATUSREQUEST_INT);
 			return false;
 		}
-		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		return true;
 	}
 	@Override		
@@ -372,7 +368,7 @@ public class FixTradingSessionStatusRequest extends FixInMessage {
 
 				buf.position(hasTradSesReqID);
 
-			FixMessage.getTagStringValue(buf, tradSesReqID, 0, tradSesReqID.length, err);
+			FixUtils.getTagStringValue(buf, tradSesReqID, 0, tradSesReqID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -416,7 +412,7 @@ public class FixTradingSessionStatusRequest extends FixInMessage {
 
 				buf.position(hasMarketID);
 
-			FixMessage.getTagStringValue(buf, marketID, 0, marketID.length, err);
+			FixUtils.getTagStringValue(buf, marketID, 0, marketID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -460,7 +456,7 @@ public class FixTradingSessionStatusRequest extends FixInMessage {
 
 				buf.position(hasMarketSegmentID);
 
-			FixMessage.getTagStringValue(buf, marketSegmentID, 0, marketSegmentID.length, err);
+			FixUtils.getTagStringValue(buf, marketSegmentID, 0, marketSegmentID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -504,7 +500,7 @@ public class FixTradingSessionStatusRequest extends FixInMessage {
 
 				buf.position(hasTradingSessionID);
 
-			FixMessage.getTagStringValue(buf, tradingSessionID, 0, tradingSessionID.length, err);
+			FixUtils.getTagStringValue(buf, tradingSessionID, 0, tradingSessionID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -548,7 +544,7 @@ public class FixTradingSessionStatusRequest extends FixInMessage {
 
 				buf.position(hasTradingSessionSubID);
 
-			FixMessage.getTagStringValue(buf, tradingSessionSubID, 0, tradingSessionSubID.length, err);
+			FixUtils.getTagStringValue(buf, tradingSessionSubID, 0, tradingSessionSubID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -592,7 +588,7 @@ public class FixTradingSessionStatusRequest extends FixInMessage {
 
 				buf.position(hasTradSesMethod);
 
-			tradSesMethod = FixMessage.getTagIntValue(buf, err);
+			tradSesMethod = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -641,7 +637,7 @@ public class FixTradingSessionStatusRequest extends FixInMessage {
 
 				buf.position(hasTradSesMode);
 
-			tradSesMode = FixMessage.getTagIntValue(buf, err);
+			tradSesMode = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -690,7 +686,7 @@ public class FixTradingSessionStatusRequest extends FixInMessage {
 
 				buf.position(hasSubscriptionRequestType);
 
-			subscriptionRequestType = FixMessage.getTagCharValue(buf, err);
+			subscriptionRequestType = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (subscriptionRequestType != (byte)'2') && (subscriptionRequestType != (byte)'1') && (subscriptionRequestType != (byte)'0') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 263);		
@@ -741,7 +737,7 @@ public class FixTradingSessionStatusRequest extends FixInMessage {
 
 				buf.position(hasSecurityExchange);
 
-			FixMessage.getTagStringValue(buf, securityExchange, 0, securityExchange.length, err);
+			FixUtils.getTagStringValue(buf, securityExchange, 0, securityExchange.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		

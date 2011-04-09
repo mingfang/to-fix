@@ -52,18 +52,18 @@ public class FixNstdPtysSubGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.NESTEDPARTYSUBID_INT:		
             		hasNestedPartySubID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.NESTEDPARTYSUBIDTYPE_INT:		
             		hasNestedPartySubIDType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -132,7 +132,7 @@ public class FixNstdPtysSubGrp extends FixGroup {
 		
 				buf.position(hasNestedPartySubID);		
 		
-			FixMessage.getTagStringValue(buf, nestedPartySubID, 0, nestedPartySubID.length, err);
+			FixUtils.getTagStringValue(buf, nestedPartySubID, 0, nestedPartySubID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasNestedPartySubID);		
@@ -171,7 +171,7 @@ public class FixNstdPtysSubGrp extends FixGroup {
 		
 				buf.position(hasNestedPartySubIDType);		
 		
-			nestedPartySubIDType = FixMessage.getTagIntValue(buf, err);
+			nestedPartySubIDType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasNestedPartySubIDType);		

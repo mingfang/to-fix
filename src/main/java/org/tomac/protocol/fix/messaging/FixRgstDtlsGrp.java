@@ -75,39 +75,39 @@ public class FixRgstDtlsGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.REGISTDTLS_INT:		
             		hasRegistDtls = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.REGISTEMAIL_INT:		
             		hasRegistEmail = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.MAILINGDTLS_INT:		
             		hasMailingDtls = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.MAILINGINST_INT:		
             		hasMailingInst = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.OWNERTYPE_INT:		
             		hasOwnerType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DATEOFBIRTH_INT:		
             		hasDateOfBirth = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.INVESTORCOUNTRYOFRESIDENCE_INT:		
             		hasInvestorCountryOfResidence = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( tag == FixTags.NONESTEDPARTYIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -125,7 +125,7 @@ public class FixRgstDtlsGrp extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -297,7 +297,7 @@ public class FixRgstDtlsGrp extends FixGroup {
 		
 				buf.position(hasRegistDtls);		
 		
-			FixMessage.getTagStringValue(buf, registDtls, 0, registDtls.length, err);
+			FixUtils.getTagStringValue(buf, registDtls, 0, registDtls.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRegistDtls);		
@@ -336,7 +336,7 @@ public class FixRgstDtlsGrp extends FixGroup {
 		
 				buf.position(hasRegistEmail);		
 		
-			FixMessage.getTagStringValue(buf, registEmail, 0, registEmail.length, err);
+			FixUtils.getTagStringValue(buf, registEmail, 0, registEmail.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRegistEmail);		
@@ -375,7 +375,7 @@ public class FixRgstDtlsGrp extends FixGroup {
 		
 				buf.position(hasMailingDtls);		
 		
-			FixMessage.getTagStringValue(buf, mailingDtls, 0, mailingDtls.length, err);
+			FixUtils.getTagStringValue(buf, mailingDtls, 0, mailingDtls.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMailingDtls);		
@@ -414,7 +414,7 @@ public class FixRgstDtlsGrp extends FixGroup {
 		
 				buf.position(hasMailingInst);		
 		
-			FixMessage.getTagStringValue(buf, mailingInst, 0, mailingInst.length, err);
+			FixUtils.getTagStringValue(buf, mailingInst, 0, mailingInst.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMailingInst);		
@@ -453,7 +453,7 @@ public class FixRgstDtlsGrp extends FixGroup {
 		
 				buf.position(hasOwnerType);		
 		
-			ownerType = FixMessage.getTagIntValue(buf, err);
+			ownerType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasOwnerType);		
@@ -497,7 +497,7 @@ public class FixRgstDtlsGrp extends FixGroup {
 		
 				buf.position(hasDateOfBirth);		
 		
-			FixMessage.getTagStringValue(buf, dateOfBirth, 0, dateOfBirth.length, err);
+			FixUtils.getTagStringValue(buf, dateOfBirth, 0, dateOfBirth.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDateOfBirth);		
@@ -536,7 +536,7 @@ public class FixRgstDtlsGrp extends FixGroup {
 		
 				buf.position(hasInvestorCountryOfResidence);		
 		
-			FixMessage.getTagStringValue(buf, investorCountryOfResidence, 0, investorCountryOfResidence.length, err);
+			FixUtils.getTagStringValue(buf, investorCountryOfResidence, 0, investorCountryOfResidence.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasInvestorCountryOfResidence);		

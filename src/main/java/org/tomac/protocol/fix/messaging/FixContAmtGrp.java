@@ -55,22 +55,22 @@ public class FixContAmtGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.CONTAMTTYPE_INT:		
             		hasContAmtType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.CONTAMTVALUE_INT:		
             		hasContAmtValue = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.CONTAMTCURR_INT:		
             		hasContAmtCurr = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -157,7 +157,7 @@ public class FixContAmtGrp extends FixGroup {
 		
 				buf.position(hasContAmtType);		
 		
-			contAmtType = FixMessage.getTagIntValue(buf, err);
+			contAmtType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasContAmtType);		
@@ -201,7 +201,7 @@ public class FixContAmtGrp extends FixGroup {
 		
 				buf.position(hasContAmtValue);		
 		
-			contAmtValue = FixMessage.getTagFloatValue(buf, err);
+			contAmtValue = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasContAmtValue);		
@@ -245,7 +245,7 @@ public class FixContAmtGrp extends FixGroup {
 		
 				buf.position(hasContAmtCurr);		
 		
-			FixMessage.getTagStringValue(buf, contAmtCurr, 0, contAmtCurr.length, err);
+			FixUtils.getTagStringValue(buf, contAmtCurr, 0, contAmtCurr.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasContAmtCurr);		

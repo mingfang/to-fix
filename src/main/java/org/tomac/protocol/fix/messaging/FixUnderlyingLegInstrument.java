@@ -105,71 +105,71 @@ public class FixUnderlyingLegInstrument extends FixGroup {
             switch (tag) {		
             	case FixTags.UNDERLYINGLEGSYMBOL_INT:		
             		hasUnderlyingLegSymbol = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGLEGSYMBOLSFX_INT:		
             		hasUnderlyingLegSymbolSfx = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGLEGSECURITYID_INT:		
             		hasUnderlyingLegSecurityID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGLEGSECURITYIDSOURCE_INT:		
             		hasUnderlyingLegSecurityIDSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGLEGCFICODE_INT:		
             		hasUnderlyingLegCFICode = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGLEGSECURITYTYPE_INT:		
             		hasUnderlyingLegSecurityType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGLEGSECURITYSUBTYPE_INT:		
             		hasUnderlyingLegSecuritySubType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGLEGMATURITYMONTHYEAR_INT:		
             		hasUnderlyingLegMaturityMonthYear = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGLEGMATURITYDATE_INT:		
             		hasUnderlyingLegMaturityDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGLEGMATURITYTIME_INT:		
             		hasUnderlyingLegMaturityTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGLEGSTRIKEPRICE_INT:		
             		hasUnderlyingLegStrikePrice = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGLEGOPTATTRIBUTE_INT:		
             		hasUnderlyingLegOptAttribute = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGLEGPUTORCALL_INT:		
             		hasUnderlyingLegPutOrCall = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGLEGSECURITYEXCHANGE_INT:		
             		hasUnderlyingLegSecurityExchange = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGLEGSECURITYDESC_INT:		
             		hasUnderlyingLegSecurityDesc = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( tag == FixTags.NOUNDERLYINGLEGSECURITYALTID_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -187,7 +187,7 @@ public class FixUnderlyingLegInstrument extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -503,7 +503,7 @@ public class FixUnderlyingLegInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingLegSymbol);		
 		
-			FixMessage.getTagStringValue(buf, underlyingLegSymbol, 0, underlyingLegSymbol.length, err);
+			FixUtils.getTagStringValue(buf, underlyingLegSymbol, 0, underlyingLegSymbol.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingLegSymbol);		
@@ -542,7 +542,7 @@ public class FixUnderlyingLegInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingLegSymbolSfx);		
 		
-			FixMessage.getTagStringValue(buf, underlyingLegSymbolSfx, 0, underlyingLegSymbolSfx.length, err);
+			FixUtils.getTagStringValue(buf, underlyingLegSymbolSfx, 0, underlyingLegSymbolSfx.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingLegSymbolSfx);		
@@ -581,7 +581,7 @@ public class FixUnderlyingLegInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingLegSecurityID);		
 		
-			FixMessage.getTagStringValue(buf, underlyingLegSecurityID, 0, underlyingLegSecurityID.length, err);
+			FixUtils.getTagStringValue(buf, underlyingLegSecurityID, 0, underlyingLegSecurityID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingLegSecurityID);		
@@ -620,7 +620,7 @@ public class FixUnderlyingLegInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingLegSecurityIDSource);		
 		
-			FixMessage.getTagStringValue(buf, underlyingLegSecurityIDSource, 0, underlyingLegSecurityIDSource.length, err);
+			FixUtils.getTagStringValue(buf, underlyingLegSecurityIDSource, 0, underlyingLegSecurityIDSource.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingLegSecurityIDSource);		
@@ -659,7 +659,7 @@ public class FixUnderlyingLegInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingLegCFICode);		
 		
-			FixMessage.getTagStringValue(buf, underlyingLegCFICode, 0, underlyingLegCFICode.length, err);
+			FixUtils.getTagStringValue(buf, underlyingLegCFICode, 0, underlyingLegCFICode.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingLegCFICode);		
@@ -698,7 +698,7 @@ public class FixUnderlyingLegInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingLegSecurityType);		
 		
-			FixMessage.getTagStringValue(buf, underlyingLegSecurityType, 0, underlyingLegSecurityType.length, err);
+			FixUtils.getTagStringValue(buf, underlyingLegSecurityType, 0, underlyingLegSecurityType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingLegSecurityType);		
@@ -737,7 +737,7 @@ public class FixUnderlyingLegInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingLegSecuritySubType);		
 		
-			FixMessage.getTagStringValue(buf, underlyingLegSecuritySubType, 0, underlyingLegSecuritySubType.length, err);
+			FixUtils.getTagStringValue(buf, underlyingLegSecuritySubType, 0, underlyingLegSecuritySubType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingLegSecuritySubType);		
@@ -776,7 +776,7 @@ public class FixUnderlyingLegInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingLegMaturityMonthYear);		
 		
-			FixMessage.getTagStringValue(buf, underlyingLegMaturityMonthYear, 0, underlyingLegMaturityMonthYear.length, err);
+			FixUtils.getTagStringValue(buf, underlyingLegMaturityMonthYear, 0, underlyingLegMaturityMonthYear.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingLegMaturityMonthYear);		
@@ -815,7 +815,7 @@ public class FixUnderlyingLegInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingLegMaturityDate);		
 		
-			FixMessage.getTagStringValue(buf, underlyingLegMaturityDate, 0, underlyingLegMaturityDate.length, err);
+			FixUtils.getTagStringValue(buf, underlyingLegMaturityDate, 0, underlyingLegMaturityDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingLegMaturityDate);		
@@ -854,7 +854,7 @@ public class FixUnderlyingLegInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingLegMaturityTime);		
 		
-			FixMessage.getTagStringValue(buf, underlyingLegMaturityTime, 0, underlyingLegMaturityTime.length, err);
+			FixUtils.getTagStringValue(buf, underlyingLegMaturityTime, 0, underlyingLegMaturityTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingLegMaturityTime);		
@@ -893,7 +893,7 @@ public class FixUnderlyingLegInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingLegStrikePrice);		
 		
-			underlyingLegStrikePrice = FixMessage.getTagFloatValue(buf, err);
+			underlyingLegStrikePrice = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingLegStrikePrice);		
@@ -937,7 +937,7 @@ public class FixUnderlyingLegInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingLegOptAttribute);		
 		
-			underlyingLegOptAttribute = FixMessage.getTagCharValue(buf, err);
+			underlyingLegOptAttribute = FixUtils.getTagCharValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingLegOptAttribute);		
@@ -981,7 +981,7 @@ public class FixUnderlyingLegInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingLegPutOrCall);		
 		
-			underlyingLegPutOrCall = FixMessage.getTagIntValue(buf, err);
+			underlyingLegPutOrCall = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingLegPutOrCall);		
@@ -1025,7 +1025,7 @@ public class FixUnderlyingLegInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingLegSecurityExchange);		
 		
-			FixMessage.getTagStringValue(buf, underlyingLegSecurityExchange, 0, underlyingLegSecurityExchange.length, err);
+			FixUtils.getTagStringValue(buf, underlyingLegSecurityExchange, 0, underlyingLegSecurityExchange.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingLegSecurityExchange);		
@@ -1064,7 +1064,7 @@ public class FixUnderlyingLegInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingLegSecurityDesc);		
 		
-			FixMessage.getTagStringValue(buf, underlyingLegSecurityDesc, 0, underlyingLegSecurityDesc.length, err);
+			FixUtils.getTagStringValue(buf, underlyingLegSecurityDesc, 0, underlyingLegSecurityDesc.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingLegSecurityDesc);		

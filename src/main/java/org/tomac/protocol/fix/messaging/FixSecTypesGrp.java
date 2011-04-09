@@ -64,30 +64,30 @@ public class FixSecTypesGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.SECURITYTYPE_INT:		
             		hasSecurityType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SECURITYSUBTYPE_INT:		
             		hasSecuritySubType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.PRODUCT_INT:		
             		hasProduct = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.CFICODE_INT:		
             		hasCFICode = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRANSACTTIME_INT:		
             		hasTransactTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -210,7 +210,7 @@ public class FixSecTypesGrp extends FixGroup {
 		
 				buf.position(hasSecurityType);		
 		
-			FixMessage.getTagStringValue(buf, securityType, 0, securityType.length, err);
+			FixUtils.getTagStringValue(buf, securityType, 0, securityType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSecurityType);		
@@ -249,7 +249,7 @@ public class FixSecTypesGrp extends FixGroup {
 		
 				buf.position(hasSecuritySubType);		
 		
-			FixMessage.getTagStringValue(buf, securitySubType, 0, securitySubType.length, err);
+			FixUtils.getTagStringValue(buf, securitySubType, 0, securitySubType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSecuritySubType);		
@@ -288,7 +288,7 @@ public class FixSecTypesGrp extends FixGroup {
 		
 				buf.position(hasProduct);		
 		
-			product = FixMessage.getTagIntValue(buf, err);
+			product = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasProduct);		
@@ -332,7 +332,7 @@ public class FixSecTypesGrp extends FixGroup {
 		
 				buf.position(hasCFICode);		
 		
-			FixMessage.getTagStringValue(buf, cFICode, 0, cFICode.length, err);
+			FixUtils.getTagStringValue(buf, cFICode, 0, cFICode.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasCFICode);		
@@ -371,7 +371,7 @@ public class FixSecTypesGrp extends FixGroup {
 		
 				buf.position(hasTransactTime);		
 		
-			FixMessage.getTagStringValue(buf, transactTime, 0, transactTime.length, err);
+			FixUtils.getTagStringValue(buf, transactTime, 0, transactTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTransactTime);		

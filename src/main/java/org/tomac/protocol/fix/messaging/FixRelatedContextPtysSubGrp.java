@@ -52,18 +52,18 @@ public class FixRelatedContextPtysSubGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.RELATEDCONTEXTPARTYSUBID_INT:		
             		hasRelatedContextPartySubID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELATEDCONTEXTPARTYSUBIDTYPE_INT:		
             		hasRelatedContextPartySubIDType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -132,7 +132,7 @@ public class FixRelatedContextPtysSubGrp extends FixGroup {
 		
 				buf.position(hasRelatedContextPartySubID);		
 		
-			FixMessage.getTagStringValue(buf, relatedContextPartySubID, 0, relatedContextPartySubID.length, err);
+			FixUtils.getTagStringValue(buf, relatedContextPartySubID, 0, relatedContextPartySubID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelatedContextPartySubID);		
@@ -171,7 +171,7 @@ public class FixRelatedContextPtysSubGrp extends FixGroup {
 		
 				buf.position(hasRelatedContextPartySubIDType);		
 		
-			relatedContextPartySubIDType = FixMessage.getTagIntValue(buf, err);
+			relatedContextPartySubIDType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelatedContextPartySubIDType);		

@@ -55,22 +55,22 @@ public class FixApplIDReportGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.REFAPPLID_INT:		
             		hasRefApplID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.APPLNEWSEQNUM_INT:		
             		hasApplNewSeqNum = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.REFAPPLLASTSEQNUM_INT:		
             		hasRefApplLastSeqNum = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -157,7 +157,7 @@ public class FixApplIDReportGrp extends FixGroup {
 		
 				buf.position(hasRefApplID);		
 		
-			FixMessage.getTagStringValue(buf, refApplID, 0, refApplID.length, err);
+			FixUtils.getTagStringValue(buf, refApplID, 0, refApplID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRefApplID);		
@@ -196,7 +196,7 @@ public class FixApplIDReportGrp extends FixGroup {
 		
 				buf.position(hasApplNewSeqNum);		
 		
-			applNewSeqNum = FixMessage.getTagIntValue(buf, err);
+			applNewSeqNum = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasApplNewSeqNum);		
@@ -240,7 +240,7 @@ public class FixApplIDReportGrp extends FixGroup {
 		
 				buf.position(hasRefApplLastSeqNum);		
 		
-			refApplLastSeqNum = FixMessage.getTagIntValue(buf, err);
+			refApplLastSeqNum = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRefApplLastSeqNum);		

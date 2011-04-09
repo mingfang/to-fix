@@ -51,15 +51,15 @@ public class FixSettlDetails extends FixGroup {
             switch (tag) {		
             	case FixTags.SETTLOBLIGSOURCE_INT:		
             		hasSettlObligSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( tag == FixTags.NOSETTLPARTYIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -77,7 +77,7 @@ public class FixSettlDetails extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -141,7 +141,7 @@ public class FixSettlDetails extends FixGroup {
 		
 				buf.position(hasSettlObligSource);		
 		
-			settlObligSource = FixMessage.getTagCharValue(buf, err);
+			settlObligSource = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (settlObligSource != (byte)'3') && (settlObligSource != (byte)'2') && (settlObligSource != (byte)'1') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 1164);		

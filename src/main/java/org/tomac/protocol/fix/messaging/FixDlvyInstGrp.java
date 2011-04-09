@@ -54,19 +54,19 @@ public class FixDlvyInstGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.SETTLINSTSOURCE_INT:		
             		hasSettlInstSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DLVYINSTTYPE_INT:		
             		hasDlvyInstType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( tag == FixTags.NOSETTLPARTYIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -84,7 +84,7 @@ public class FixDlvyInstGrp extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -166,7 +166,7 @@ public class FixDlvyInstGrp extends FixGroup {
 		
 				buf.position(hasSettlInstSource);		
 		
-			settlInstSource = FixMessage.getTagCharValue(buf, err);
+			settlInstSource = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (settlInstSource != (byte)'3') && (settlInstSource != (byte)'2') && (settlInstSource != (byte)'1') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 165);		
@@ -212,7 +212,7 @@ public class FixDlvyInstGrp extends FixGroup {
 		
 				buf.position(hasDlvyInstType);		
 		
-			dlvyInstType = FixMessage.getTagCharValue(buf, err);
+			dlvyInstType = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (dlvyInstType != (byte)'S') && (dlvyInstType != (byte)'C') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 787);		

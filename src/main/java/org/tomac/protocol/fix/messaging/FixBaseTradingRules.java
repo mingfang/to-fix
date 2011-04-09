@@ -84,51 +84,51 @@ public class FixBaseTradingRules extends FixGroup {
             switch (tag) {		
             	case FixTags.EXPIRATIONCYCLE_INT:		
             		hasExpirationCycle = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.MINTRADEVOL_INT:		
             		hasMinTradeVol = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.MAXTRADEVOL_INT:		
             		hasMaxTradeVol = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.MAXPRICEVARIATION_INT:		
             		hasMaxPriceVariation = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.IMPLIEDMARKETINDICATOR_INT:		
             		hasImpliedMarketIndicator = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRADINGCURRENCY_INT:		
             		hasTradingCurrency = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ROUNDLOT_INT:		
             		hasRoundLot = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.MULTILEGMODEL_INT:		
             		hasMultilegModel = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.MULTILEGPRICEMETHOD_INT:		
             		hasMultilegPriceMethod = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.PRICETYPE_INT:		
             		hasPriceType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( tag == FixTags.NOTICKRULES_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -145,10 +145,10 @@ public class FixBaseTradingRules extends FixGroup {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NOLOTTYPERULES_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -170,7 +170,7 @@ public class FixBaseTradingRules extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -412,7 +412,7 @@ public class FixBaseTradingRules extends FixGroup {
 		
 				buf.position(hasExpirationCycle);		
 		
-			expirationCycle = FixMessage.getTagIntValue(buf, err);
+			expirationCycle = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasExpirationCycle);		
@@ -456,7 +456,7 @@ public class FixBaseTradingRules extends FixGroup {
 		
 				buf.position(hasMinTradeVol);		
 		
-			minTradeVol = FixMessage.getTagFloatValue(buf, err);
+			minTradeVol = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMinTradeVol);		
@@ -500,7 +500,7 @@ public class FixBaseTradingRules extends FixGroup {
 		
 				buf.position(hasMaxTradeVol);		
 		
-			maxTradeVol = FixMessage.getTagFloatValue(buf, err);
+			maxTradeVol = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMaxTradeVol);		
@@ -544,7 +544,7 @@ public class FixBaseTradingRules extends FixGroup {
 		
 				buf.position(hasMaxPriceVariation);		
 		
-			maxPriceVariation = FixMessage.getTagFloatValue(buf, err);
+			maxPriceVariation = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMaxPriceVariation);		
@@ -588,7 +588,7 @@ public class FixBaseTradingRules extends FixGroup {
 		
 				buf.position(hasImpliedMarketIndicator);		
 		
-			impliedMarketIndicator = FixMessage.getTagIntValue(buf, err);
+			impliedMarketIndicator = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasImpliedMarketIndicator);		
@@ -632,7 +632,7 @@ public class FixBaseTradingRules extends FixGroup {
 		
 				buf.position(hasTradingCurrency);		
 		
-			FixMessage.getTagStringValue(buf, tradingCurrency, 0, tradingCurrency.length, err);
+			FixUtils.getTagStringValue(buf, tradingCurrency, 0, tradingCurrency.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTradingCurrency);		
@@ -671,7 +671,7 @@ public class FixBaseTradingRules extends FixGroup {
 		
 				buf.position(hasRoundLot);		
 		
-			roundLot = FixMessage.getTagFloatValue(buf, err);
+			roundLot = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRoundLot);		
@@ -715,7 +715,7 @@ public class FixBaseTradingRules extends FixGroup {
 		
 				buf.position(hasMultilegModel);		
 		
-			multilegModel = FixMessage.getTagIntValue(buf, err);
+			multilegModel = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMultilegModel);		
@@ -759,7 +759,7 @@ public class FixBaseTradingRules extends FixGroup {
 		
 				buf.position(hasMultilegPriceMethod);		
 		
-			multilegPriceMethod = FixMessage.getTagIntValue(buf, err);
+			multilegPriceMethod = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMultilegPriceMethod);		
@@ -803,7 +803,7 @@ public class FixBaseTradingRules extends FixGroup {
 		
 				buf.position(hasPriceType);		
 		
-			priceType = FixMessage.getTagIntValue(buf, err);
+			priceType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasPriceType);		

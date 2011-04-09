@@ -53,18 +53,18 @@ public class FixComplexEventTimes extends FixGroup {
             switch (tag) {		
             	case FixTags.COMPLEXEVENTSTARTTIME_INT:		
             		hasComplexEventStartTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.COMPLEXEVENTENDTIME_INT:		
             		hasComplexEventEndTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -133,7 +133,7 @@ public class FixComplexEventTimes extends FixGroup {
 		
 				buf.position(hasComplexEventStartTime);		
 		
-			FixMessage.getTagStringValue(buf, complexEventStartTime, 0, complexEventStartTime.length, err);
+			FixUtils.getTagStringValue(buf, complexEventStartTime, 0, complexEventStartTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasComplexEventStartTime);		
@@ -172,7 +172,7 @@ public class FixComplexEventTimes extends FixGroup {
 		
 				buf.position(hasComplexEventEndTime);		
 		
-			FixMessage.getTagStringValue(buf, complexEventEndTime, 0, complexEventEndTime.length, err);
+			FixUtils.getTagStringValue(buf, complexEventEndTime, 0, complexEventEndTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasComplexEventEndTime);		

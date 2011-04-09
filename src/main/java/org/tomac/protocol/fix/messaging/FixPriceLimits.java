@@ -57,26 +57,26 @@ public class FixPriceLimits extends FixGroup {
             switch (tag) {		
             	case FixTags.PRICELIMITTYPE_INT:		
             		hasPriceLimitType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LOWLIMITPRICE_INT:		
             		hasLowLimitPrice = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.HIGHLIMITPRICE_INT:		
             		hasHighLimitPrice = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRADINGREFERENCEPRICE_INT:		
             		hasTradingReferencePrice = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -181,7 +181,7 @@ public class FixPriceLimits extends FixGroup {
 		
 				buf.position(hasPriceLimitType);		
 		
-			priceLimitType = FixMessage.getTagIntValue(buf, err);
+			priceLimitType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasPriceLimitType);		
@@ -225,7 +225,7 @@ public class FixPriceLimits extends FixGroup {
 		
 				buf.position(hasLowLimitPrice);		
 		
-			lowLimitPrice = FixMessage.getTagFloatValue(buf, err);
+			lowLimitPrice = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLowLimitPrice);		
@@ -269,7 +269,7 @@ public class FixPriceLimits extends FixGroup {
 		
 				buf.position(hasHighLimitPrice);		
 		
-			highLimitPrice = FixMessage.getTagFloatValue(buf, err);
+			highLimitPrice = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasHighLimitPrice);		
@@ -313,7 +313,7 @@ public class FixPriceLimits extends FixGroup {
 		
 				buf.position(hasTradingReferencePrice);		
 		
-			tradingReferencePrice = FixMessage.getTagFloatValue(buf, err);
+			tradingReferencePrice = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTradingReferencePrice);		

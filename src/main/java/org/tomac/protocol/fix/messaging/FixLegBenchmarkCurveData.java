@@ -63,30 +63,30 @@ public class FixLegBenchmarkCurveData extends FixGroup {
             switch (tag) {		
             	case FixTags.LEGBENCHMARKCURVECURRENCY_INT:		
             		hasLegBenchmarkCurveCurrency = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGBENCHMARKCURVENAME_INT:		
             		hasLegBenchmarkCurveName = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGBENCHMARKCURVEPOINT_INT:		
             		hasLegBenchmarkCurvePoint = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGBENCHMARKPRICE_INT:		
             		hasLegBenchmarkPrice = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGBENCHMARKPRICETYPE_INT:		
             		hasLegBenchmarkPriceType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -209,7 +209,7 @@ public class FixLegBenchmarkCurveData extends FixGroup {
 		
 				buf.position(hasLegBenchmarkCurveCurrency);		
 		
-			FixMessage.getTagStringValue(buf, legBenchmarkCurveCurrency, 0, legBenchmarkCurveCurrency.length, err);
+			FixUtils.getTagStringValue(buf, legBenchmarkCurveCurrency, 0, legBenchmarkCurveCurrency.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegBenchmarkCurveCurrency);		
@@ -248,7 +248,7 @@ public class FixLegBenchmarkCurveData extends FixGroup {
 		
 				buf.position(hasLegBenchmarkCurveName);		
 		
-			FixMessage.getTagStringValue(buf, legBenchmarkCurveName, 0, legBenchmarkCurveName.length, err);
+			FixUtils.getTagStringValue(buf, legBenchmarkCurveName, 0, legBenchmarkCurveName.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegBenchmarkCurveName);		
@@ -287,7 +287,7 @@ public class FixLegBenchmarkCurveData extends FixGroup {
 		
 				buf.position(hasLegBenchmarkCurvePoint);		
 		
-			FixMessage.getTagStringValue(buf, legBenchmarkCurvePoint, 0, legBenchmarkCurvePoint.length, err);
+			FixUtils.getTagStringValue(buf, legBenchmarkCurvePoint, 0, legBenchmarkCurvePoint.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegBenchmarkCurvePoint);		
@@ -326,7 +326,7 @@ public class FixLegBenchmarkCurveData extends FixGroup {
 		
 				buf.position(hasLegBenchmarkPrice);		
 		
-			legBenchmarkPrice = FixMessage.getTagFloatValue(buf, err);
+			legBenchmarkPrice = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegBenchmarkPrice);		
@@ -370,7 +370,7 @@ public class FixLegBenchmarkCurveData extends FixGroup {
 		
 				buf.position(hasLegBenchmarkPriceType);		
 		
-			legBenchmarkPriceType = FixMessage.getTagIntValue(buf, err);
+			legBenchmarkPriceType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegBenchmarkPriceType);		

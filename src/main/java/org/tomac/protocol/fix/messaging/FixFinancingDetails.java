@@ -78,46 +78,46 @@ public class FixFinancingDetails extends FixGroup {
             switch (tag) {		
             	case FixTags.AGREEMENTDESC_INT:		
             		hasAgreementDesc = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.AGREEMENTID_INT:		
             		hasAgreementID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.AGREEMENTDATE_INT:		
             		hasAgreementDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.AGREEMENTCURRENCY_INT:		
             		hasAgreementCurrency = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TERMINATIONTYPE_INT:		
             		hasTerminationType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.STARTDATE_INT:		
             		hasStartDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ENDDATE_INT:		
             		hasEndDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DELIVERYTYPE_INT:		
             		hasDeliveryType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.MARGINRATIO_INT:		
             		hasMarginRatio = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -312,7 +312,7 @@ public class FixFinancingDetails extends FixGroup {
 		
 				buf.position(hasAgreementDesc);		
 		
-			FixMessage.getTagStringValue(buf, agreementDesc, 0, agreementDesc.length, err);
+			FixUtils.getTagStringValue(buf, agreementDesc, 0, agreementDesc.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasAgreementDesc);		
@@ -351,7 +351,7 @@ public class FixFinancingDetails extends FixGroup {
 		
 				buf.position(hasAgreementID);		
 		
-			FixMessage.getTagStringValue(buf, agreementID, 0, agreementID.length, err);
+			FixUtils.getTagStringValue(buf, agreementID, 0, agreementID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasAgreementID);		
@@ -390,7 +390,7 @@ public class FixFinancingDetails extends FixGroup {
 		
 				buf.position(hasAgreementDate);		
 		
-			FixMessage.getTagStringValue(buf, agreementDate, 0, agreementDate.length, err);
+			FixUtils.getTagStringValue(buf, agreementDate, 0, agreementDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasAgreementDate);		
@@ -429,7 +429,7 @@ public class FixFinancingDetails extends FixGroup {
 		
 				buf.position(hasAgreementCurrency);		
 		
-			FixMessage.getTagStringValue(buf, agreementCurrency, 0, agreementCurrency.length, err);
+			FixUtils.getTagStringValue(buf, agreementCurrency, 0, agreementCurrency.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasAgreementCurrency);		
@@ -468,7 +468,7 @@ public class FixFinancingDetails extends FixGroup {
 		
 				buf.position(hasTerminationType);		
 		
-			terminationType = FixMessage.getTagIntValue(buf, err);
+			terminationType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTerminationType);		
@@ -512,7 +512,7 @@ public class FixFinancingDetails extends FixGroup {
 		
 				buf.position(hasStartDate);		
 		
-			FixMessage.getTagStringValue(buf, startDate, 0, startDate.length, err);
+			FixUtils.getTagStringValue(buf, startDate, 0, startDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasStartDate);		
@@ -551,7 +551,7 @@ public class FixFinancingDetails extends FixGroup {
 		
 				buf.position(hasEndDate);		
 		
-			FixMessage.getTagStringValue(buf, endDate, 0, endDate.length, err);
+			FixUtils.getTagStringValue(buf, endDate, 0, endDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasEndDate);		
@@ -590,7 +590,7 @@ public class FixFinancingDetails extends FixGroup {
 		
 				buf.position(hasDeliveryType);		
 		
-			deliveryType = FixMessage.getTagIntValue(buf, err);
+			deliveryType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDeliveryType);		
@@ -634,7 +634,7 @@ public class FixFinancingDetails extends FixGroup {
 		
 				buf.position(hasMarginRatio);		
 		
-			marginRatio = FixMessage.getTagFloatValue(buf, err);
+			marginRatio = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMarginRatio);		

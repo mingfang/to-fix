@@ -56,22 +56,22 @@ public class FixSideTrdRegTS extends FixGroup {
             switch (tag) {		
             	case FixTags.SIDETRDREGTIMESTAMP_INT:		
             		hasSideTrdRegTimestamp = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SIDETRDREGTIMESTAMPTYPE_INT:		
             		hasSideTrdRegTimestampType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SIDETRDREGTIMESTAMPSRC_INT:		
             		hasSideTrdRegTimestampSrc = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -158,7 +158,7 @@ public class FixSideTrdRegTS extends FixGroup {
 		
 				buf.position(hasSideTrdRegTimestamp);		
 		
-			FixMessage.getTagStringValue(buf, sideTrdRegTimestamp, 0, sideTrdRegTimestamp.length, err);
+			FixUtils.getTagStringValue(buf, sideTrdRegTimestamp, 0, sideTrdRegTimestamp.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSideTrdRegTimestamp);		
@@ -197,7 +197,7 @@ public class FixSideTrdRegTS extends FixGroup {
 		
 				buf.position(hasSideTrdRegTimestampType);		
 		
-			sideTrdRegTimestampType = FixMessage.getTagIntValue(buf, err);
+			sideTrdRegTimestampType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSideTrdRegTimestampType);		
@@ -241,7 +241,7 @@ public class FixSideTrdRegTS extends FixGroup {
 		
 				buf.position(hasSideTrdRegTimestampSrc);		
 		
-			FixMessage.getTagStringValue(buf, sideTrdRegTimestampSrc, 0, sideTrdRegTimestampSrc.length, err);
+			FixUtils.getTagStringValue(buf, sideTrdRegTimestampSrc, 0, sideTrdRegTimestampSrc.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSideTrdRegTimestampSrc);		

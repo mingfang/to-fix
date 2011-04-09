@@ -88,7 +88,7 @@ public class FixSecurityList extends FixInMessage {
 		super.setBuffer(buf, err);
         if (err.hasError()) return;
 
-        int tag = FixMessage.getTag(buf, err);
+        int tag = FixUtils.getTag(buf, err);
         if (err.hasError()) return;
 
         while ( buf.hasRemaining() ) {
@@ -96,71 +96,71 @@ public class FixSecurityList extends FixInMessage {
             switch (tag) {		
             	case FixTags.SECURITYREPORTID_INT:		
             		hasSecurityReportID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.CLEARINGBUSINESSDATE_INT:		
             		hasClearingBusinessDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SECURITYLISTID_INT:		
             		hasSecurityListID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SECURITYLISTREFID_INT:		
             		hasSecurityListRefID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SECURITYLISTDESC_INT:		
             		hasSecurityListDesc = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDSECURITYLISTDESCLEN_INT:		
             		hasEncodedSecurityListDescLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDSECURITYLISTDESC_INT:		
             		hasEncodedSecurityListDesc = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SECURITYLISTTYPE_INT:		
             		hasSecurityListType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SECURITYLISTTYPESOURCE_INT:		
             		hasSecurityListTypeSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SECURITYREQID_INT:		
             		hasSecurityReqID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SECURITYRESPONSEID_INT:		
             		hasSecurityResponseID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SECURITYREQUESTRESULT_INT:		
             		hasSecurityRequestResult = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRANSACTTIME_INT:		
             		hasTransactTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TOTNORELATEDSYM_INT:		
             		hasTotNoRelatedSym = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.MARKETID_INT:		
             		hasMarketID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.MARKETSEGMENTID_INT:		
             		hasMarketSegmentID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.LASTFRAGMENT_INT:		
             		hasLastFragment = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	default:
         			if ( standardHeader.isKeyTag(tag)) {
@@ -169,7 +169,7 @@ public class FixSecurityList extends FixInMessage {
                 		else continue;		
         			} else if ( standardTrailer.isKeyTag(tag)) {
         				tag = standardTrailer.setBuffer( tag, buf, err);
-        				FixMessage.unreadLastTag(tag, buf);
+        				FixUtils.unreadLastTag(tag, buf);
         				if (!err.hasError()) hasRequiredTags(err);
             			return; // always last, we are done now
         			} else if ( applicationSequenceControl.isKeyTag(tag)) {
@@ -178,10 +178,10 @@ public class FixSecurityList extends FixInMessage {
                 		else continue;		
         			} else if ( tag == FixTags.NORELATEDSYM_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -197,10 +197,10 @@ public class FixSecurityList extends FixInMessage {
         				if (err.hasError()) break;
                 		else { tag = repeatingGroupTag; continue; }
             		} else {
- 						FixMessage.getNext(buf, err);		
+ 						FixUtils.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else {
-                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.SECURITYLIST);
+                		else if (FixUtils.validateOnlyDefinedTagsAllowed) {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.SECURITYLIST_INT);
                 			break;
                 		}
 					}
@@ -209,7 +209,7 @@ public class FixSecurityList extends FixInMessage {
 
         		if (err.hasError()) return;
 
-            	tag = FixMessage.getTag(buf, err);		
+            	tag = FixUtils.getTag(buf, err);		
         		if (err.hasError()) break;
 
 		}
@@ -217,10 +217,6 @@ public class FixSecurityList extends FixInMessage {
 	}		
 
 	public boolean hasRequiredTags(FixValidationError err) {
-		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
-
-		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		return true;
 	}
 	@Override		
@@ -593,7 +589,7 @@ public class FixSecurityList extends FixInMessage {
 
 				buf.position(hasSecurityReportID);
 
-			securityReportID = FixMessage.getTagIntValue(buf, err);
+			securityReportID = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -642,7 +638,7 @@ public class FixSecurityList extends FixInMessage {
 
 				buf.position(hasClearingBusinessDate);
 
-			FixMessage.getTagStringValue(buf, clearingBusinessDate, 0, clearingBusinessDate.length, err);
+			FixUtils.getTagStringValue(buf, clearingBusinessDate, 0, clearingBusinessDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -686,7 +682,7 @@ public class FixSecurityList extends FixInMessage {
 
 				buf.position(hasSecurityListID);
 
-			FixMessage.getTagStringValue(buf, securityListID, 0, securityListID.length, err);
+			FixUtils.getTagStringValue(buf, securityListID, 0, securityListID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -730,7 +726,7 @@ public class FixSecurityList extends FixInMessage {
 
 				buf.position(hasSecurityListRefID);
 
-			FixMessage.getTagStringValue(buf, securityListRefID, 0, securityListRefID.length, err);
+			FixUtils.getTagStringValue(buf, securityListRefID, 0, securityListRefID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -774,7 +770,7 @@ public class FixSecurityList extends FixInMessage {
 
 				buf.position(hasSecurityListDesc);
 
-			FixMessage.getTagStringValue(buf, securityListDesc, 0, securityListDesc.length, err);
+			FixUtils.getTagStringValue(buf, securityListDesc, 0, securityListDesc.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -818,7 +814,7 @@ public class FixSecurityList extends FixInMessage {
 
 				buf.position(hasEncodedSecurityListDescLen);
 
-			encodedSecurityListDescLen = FixMessage.getTagIntValue(buf, err);
+			encodedSecurityListDescLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -867,7 +863,7 @@ public class FixSecurityList extends FixInMessage {
 
 				buf.position(hasEncodedSecurityListDesc);
 
-			FixMessage.getTagStringValue(buf, encodedSecurityListDesc, 0, encodedSecurityListDesc.length, err);
+			FixUtils.getTagStringValue(buf, encodedSecurityListDesc, 0, encodedSecurityListDesc.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -911,7 +907,7 @@ public class FixSecurityList extends FixInMessage {
 
 				buf.position(hasSecurityListType);
 
-			securityListType = FixMessage.getTagIntValue(buf, err);
+			securityListType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -960,7 +956,7 @@ public class FixSecurityList extends FixInMessage {
 
 				buf.position(hasSecurityListTypeSource);
 
-			securityListTypeSource = FixMessage.getTagIntValue(buf, err);
+			securityListTypeSource = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1009,7 +1005,7 @@ public class FixSecurityList extends FixInMessage {
 
 				buf.position(hasSecurityReqID);
 
-			FixMessage.getTagStringValue(buf, securityReqID, 0, securityReqID.length, err);
+			FixUtils.getTagStringValue(buf, securityReqID, 0, securityReqID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1053,7 +1049,7 @@ public class FixSecurityList extends FixInMessage {
 
 				buf.position(hasSecurityResponseID);
 
-			FixMessage.getTagStringValue(buf, securityResponseID, 0, securityResponseID.length, err);
+			FixUtils.getTagStringValue(buf, securityResponseID, 0, securityResponseID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1097,7 +1093,7 @@ public class FixSecurityList extends FixInMessage {
 
 				buf.position(hasSecurityRequestResult);
 
-			securityRequestResult = FixMessage.getTagIntValue(buf, err);
+			securityRequestResult = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1146,7 +1142,7 @@ public class FixSecurityList extends FixInMessage {
 
 				buf.position(hasTransactTime);
 
-			FixMessage.getTagStringValue(buf, transactTime, 0, transactTime.length, err);
+			FixUtils.getTagStringValue(buf, transactTime, 0, transactTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1190,7 +1186,7 @@ public class FixSecurityList extends FixInMessage {
 
 				buf.position(hasTotNoRelatedSym);
 
-			totNoRelatedSym = FixMessage.getTagIntValue(buf, err);
+			totNoRelatedSym = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1239,7 +1235,7 @@ public class FixSecurityList extends FixInMessage {
 
 				buf.position(hasMarketID);
 
-			FixMessage.getTagStringValue(buf, marketID, 0, marketID.length, err);
+			FixUtils.getTagStringValue(buf, marketID, 0, marketID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1283,7 +1279,7 @@ public class FixSecurityList extends FixInMessage {
 
 				buf.position(hasMarketSegmentID);
 
-			FixMessage.getTagStringValue(buf, marketSegmentID, 0, marketSegmentID.length, err);
+			FixUtils.getTagStringValue(buf, marketSegmentID, 0, marketSegmentID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1327,7 +1323,7 @@ public class FixSecurityList extends FixInMessage {
 
 				buf.position(hasLastFragment);
 
-			lastFragment = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			lastFragment = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(0);		

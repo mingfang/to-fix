@@ -65,27 +65,27 @@ public class FixRiskLimits extends FixGroup {
             switch (tag) {		
             	case FixTags.RISKLIMITTYPE_INT:		
             		hasRiskLimitType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RISKLIMITAMOUNT_INT:		
             		hasRiskLimitAmount = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RISKLIMITCURRENCY_INT:		
             		hasRiskLimitCurrency = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RISKLIMITPLATFORM_INT:		
             		hasRiskLimitPlatform = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( tag == FixTags.NORISKINSTRUMENTS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -102,10 +102,10 @@ public class FixRiskLimits extends FixGroup {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NORISKWARNINGLEVELS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -123,7 +123,7 @@ public class FixRiskLimits extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -254,7 +254,7 @@ public class FixRiskLimits extends FixGroup {
 		
 				buf.position(hasRiskLimitType);		
 		
-			riskLimitType = FixMessage.getTagIntValue(buf, err);
+			riskLimitType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRiskLimitType);		
@@ -298,7 +298,7 @@ public class FixRiskLimits extends FixGroup {
 		
 				buf.position(hasRiskLimitAmount);		
 		
-			riskLimitAmount = FixMessage.getTagFloatValue(buf, err);
+			riskLimitAmount = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRiskLimitAmount);		
@@ -342,7 +342,7 @@ public class FixRiskLimits extends FixGroup {
 		
 				buf.position(hasRiskLimitCurrency);		
 		
-			FixMessage.getTagStringValue(buf, riskLimitCurrency, 0, riskLimitCurrency.length, err);
+			FixUtils.getTagStringValue(buf, riskLimitCurrency, 0, riskLimitCurrency.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRiskLimitCurrency);		
@@ -381,7 +381,7 @@ public class FixRiskLimits extends FixGroup {
 		
 				buf.position(hasRiskLimitPlatform);		
 		
-			FixMessage.getTagStringValue(buf, riskLimitPlatform, 0, riskLimitPlatform.length, err);
+			FixUtils.getTagStringValue(buf, riskLimitPlatform, 0, riskLimitPlatform.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRiskLimitPlatform);		

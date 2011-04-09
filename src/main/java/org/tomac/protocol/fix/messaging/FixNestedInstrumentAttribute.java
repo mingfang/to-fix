@@ -52,18 +52,18 @@ public class FixNestedInstrumentAttribute extends FixGroup {
             switch (tag) {		
             	case FixTags.NESTEDINSTRATTRIBTYPE_INT:		
             		hasNestedInstrAttribType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.NESTEDINSTRATTRIBVALUE_INT:		
             		hasNestedInstrAttribValue = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -132,7 +132,7 @@ public class FixNestedInstrumentAttribute extends FixGroup {
 		
 				buf.position(hasNestedInstrAttribType);		
 		
-			nestedInstrAttribType = FixMessage.getTagIntValue(buf, err);
+			nestedInstrAttribType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasNestedInstrAttribType);		
@@ -176,7 +176,7 @@ public class FixNestedInstrumentAttribute extends FixGroup {
 		
 				buf.position(hasNestedInstrAttribValue);		
 		
-			FixMessage.getTagStringValue(buf, nestedInstrAttribValue, 0, nestedInstrAttribValue.length, err);
+			FixUtils.getTagStringValue(buf, nestedInstrAttribValue, 0, nestedInstrAttribValue.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasNestedInstrAttribValue);		

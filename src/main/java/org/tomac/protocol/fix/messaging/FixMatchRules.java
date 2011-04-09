@@ -53,18 +53,18 @@ public class FixMatchRules extends FixGroup {
             switch (tag) {		
             	case FixTags.MATCHALGORITHM_INT:		
             		hasMatchAlgorithm = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.MATCHTYPE_INT:		
             		hasMatchType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -133,7 +133,7 @@ public class FixMatchRules extends FixGroup {
 		
 				buf.position(hasMatchAlgorithm);		
 		
-			FixMessage.getTagStringValue(buf, matchAlgorithm, 0, matchAlgorithm.length, err);
+			FixUtils.getTagStringValue(buf, matchAlgorithm, 0, matchAlgorithm.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMatchAlgorithm);		
@@ -172,7 +172,7 @@ public class FixMatchRules extends FixGroup {
 		
 				buf.position(hasMatchType);		
 		
-			FixMessage.getTagStringValue(buf, matchType, 0, matchType.length, err);
+			FixUtils.getTagStringValue(buf, matchType, 0, matchType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMatchType);		

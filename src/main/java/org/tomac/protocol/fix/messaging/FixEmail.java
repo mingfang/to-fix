@@ -74,7 +74,7 @@ public class FixEmail extends FixInMessage {
 		super.setBuffer(buf, err);
         if (err.hasError()) return;
 
-        int tag = FixMessage.getTag(buf, err);
+        int tag = FixUtils.getTag(buf, err);
         if (err.hasError()) return;
 
         while ( buf.hasRemaining() ) {
@@ -82,43 +82,43 @@ public class FixEmail extends FixInMessage {
             switch (tag) {		
             	case FixTags.EMAILTHREADID_INT:		
             		hasEmailThreadID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.EMAILTYPE_INT:		
             		hasEmailType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ORIGTIME_INT:		
             		hasOrigTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SUBJECT_INT:		
             		hasSubject = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDSUBJECTLEN_INT:		
             		hasEncodedSubjectLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDSUBJECT_INT:		
             		hasEncodedSubject = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ORDERID_INT:		
             		hasOrderID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.CLORDID_INT:		
             		hasClOrdID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.RAWDATALENGTH_INT:		
             		hasRawDataLength = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.RAWDATA_INT:		
             		hasRawData = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	default:
         			if ( standardHeader.isKeyTag(tag)) {
@@ -127,15 +127,15 @@ public class FixEmail extends FixInMessage {
                 		else continue;		
         			} else if ( standardTrailer.isKeyTag(tag)) {
         				tag = standardTrailer.setBuffer( tag, buf, err);
-        				FixMessage.unreadLastTag(tag, buf);
+        				FixUtils.unreadLastTag(tag, buf);
         				if (!err.hasError()) hasRequiredTags(err);
             			return; // always last, we are done now
         			} else if ( tag == FixTags.NOROUTINGIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -152,10 +152,10 @@ public class FixEmail extends FixInMessage {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NORELATEDSYM_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -172,10 +172,10 @@ public class FixEmail extends FixInMessage {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NOUNDERLYINGS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -192,10 +192,10 @@ public class FixEmail extends FixInMessage {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NOLEGS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -212,10 +212,10 @@ public class FixEmail extends FixInMessage {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NOLINESOFTEXT_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -231,10 +231,10 @@ public class FixEmail extends FixInMessage {
         				if (err.hasError()) break;
                 		else { tag = repeatingGroupTag; continue; }
             		} else {
- 						FixMessage.getNext(buf, err);		
+ 						FixUtils.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else {
-                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.EMAIL);
+                		else if (FixUtils.validateOnlyDefinedTagsAllowed) {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.EMAIL_INT);
                 			break;
                 		}
 					}
@@ -243,7 +243,7 @@ public class FixEmail extends FixInMessage {
 
         		if (err.hasError()) return;
 
-            	tag = FixMessage.getTag(buf, err);		
+            	tag = FixUtils.getTag(buf, err);		
         		if (err.hasError()) break;
 
 		}
@@ -251,23 +251,19 @@ public class FixEmail extends FixInMessage {
 	}		
 
 	public boolean hasRequiredTags(FixValidationError err) {
-		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		if (!hasEmailThreadID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.EMAILTHREADID_INT, FixMessageInfo.MessageTypes.EMAIL);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.EMAILTHREADID_INT, FixMessageInfo.MessageTypes.EMAIL_INT);
 			return false;
 		}
 		if (!hasEmailType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.EMAILTYPE_INT, FixMessageInfo.MessageTypes.EMAIL);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.EMAILTYPE_INT, FixMessageInfo.MessageTypes.EMAIL_INT);
 			return false;
 		}
 		if (!hasSubject()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.SUBJECT_INT, FixMessageInfo.MessageTypes.EMAIL);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.SUBJECT_INT, FixMessageInfo.MessageTypes.EMAIL_INT);
 			return false;
 		}
 		for (int i = 0; i< FixUtils.FIX_MAX_NOINGROUP; i++) { if (linesOfTextGrp[i].hasGroup()) linesOfTextGrp[i].hasRequiredTags(err); if (err.hasError()) return false; }
-		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		return true;
 	}
 	@Override		
@@ -571,7 +567,7 @@ public class FixEmail extends FixInMessage {
 
 				buf.position(hasEmailThreadID);
 
-			FixMessage.getTagStringValue(buf, emailThreadID, 0, emailThreadID.length, err);
+			FixUtils.getTagStringValue(buf, emailThreadID, 0, emailThreadID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -615,7 +611,7 @@ public class FixEmail extends FixInMessage {
 
 				buf.position(hasEmailType);
 
-			emailType = FixMessage.getTagCharValue(buf, err);
+			emailType = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (emailType != (byte)'2') && (emailType != (byte)'1') && (emailType != (byte)'0') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 94);		
@@ -666,7 +662,7 @@ public class FixEmail extends FixInMessage {
 
 				buf.position(hasOrigTime);
 
-			FixMessage.getTagStringValue(buf, origTime, 0, origTime.length, err);
+			FixUtils.getTagStringValue(buf, origTime, 0, origTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -710,7 +706,7 @@ public class FixEmail extends FixInMessage {
 
 				buf.position(hasSubject);
 
-			FixMessage.getTagStringValue(buf, subject, 0, subject.length, err);
+			FixUtils.getTagStringValue(buf, subject, 0, subject.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -754,7 +750,7 @@ public class FixEmail extends FixInMessage {
 
 				buf.position(hasEncodedSubjectLen);
 
-			encodedSubjectLen = FixMessage.getTagIntValue(buf, err);
+			encodedSubjectLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -803,7 +799,7 @@ public class FixEmail extends FixInMessage {
 
 				buf.position(hasEncodedSubject);
 
-			FixMessage.getTagStringValue(buf, encodedSubject, 0, encodedSubject.length, err);
+			FixUtils.getTagStringValue(buf, encodedSubject, 0, encodedSubject.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -847,7 +843,7 @@ public class FixEmail extends FixInMessage {
 
 				buf.position(hasOrderID);
 
-			FixMessage.getTagStringValue(buf, orderID, 0, orderID.length, err);
+			FixUtils.getTagStringValue(buf, orderID, 0, orderID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -891,7 +887,7 @@ public class FixEmail extends FixInMessage {
 
 				buf.position(hasClOrdID);
 
-			FixMessage.getTagStringValue(buf, clOrdID, 0, clOrdID.length, err);
+			FixUtils.getTagStringValue(buf, clOrdID, 0, clOrdID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -935,7 +931,7 @@ public class FixEmail extends FixInMessage {
 
 				buf.position(hasRawDataLength);
 
-			rawDataLength = FixMessage.getTagIntValue(buf, err);
+			rawDataLength = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -984,7 +980,7 @@ public class FixEmail extends FixInMessage {
 
 				buf.position(hasRawData);
 
-			FixMessage.getTagStringValue(buf, rawData, 0, rawData.length, err);
+			FixUtils.getTagStringValue(buf, rawData, 0, rawData.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		

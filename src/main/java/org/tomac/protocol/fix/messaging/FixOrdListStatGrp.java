@@ -89,62 +89,62 @@ public class FixOrdListStatGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.CLORDID_INT:		
             		hasClOrdID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ORDERID_INT:		
             		hasOrderID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SECONDARYCLORDID_INT:		
             		hasSecondaryClOrdID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.CUMQTY_INT:		
             		hasCumQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ORDSTATUS_INT:		
             		hasOrdStatus = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.WORKINGINDICATOR_INT:		
             		hasWorkingIndicator = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEAVESQTY_INT:		
             		hasLeavesQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.CXLQTY_INT:		
             		hasCxlQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.AVGPX_INT:		
             		hasAvgPx = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ORDREJREASON_INT:		
             		hasOrdRejReason = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TEXT_INT:		
             		hasText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ENCODEDTEXTLEN_INT:		
             		hasEncodedTextLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ENCODEDTEXT_INT:		
             		hasEncodedText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -431,7 +431,7 @@ public class FixOrdListStatGrp extends FixGroup {
 		
 				buf.position(hasClOrdID);		
 		
-			FixMessage.getTagStringValue(buf, clOrdID, 0, clOrdID.length, err);
+			FixUtils.getTagStringValue(buf, clOrdID, 0, clOrdID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasClOrdID);		
@@ -470,7 +470,7 @@ public class FixOrdListStatGrp extends FixGroup {
 		
 				buf.position(hasOrderID);		
 		
-			FixMessage.getTagStringValue(buf, orderID, 0, orderID.length, err);
+			FixUtils.getTagStringValue(buf, orderID, 0, orderID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasOrderID);		
@@ -509,7 +509,7 @@ public class FixOrdListStatGrp extends FixGroup {
 		
 				buf.position(hasSecondaryClOrdID);		
 		
-			FixMessage.getTagStringValue(buf, secondaryClOrdID, 0, secondaryClOrdID.length, err);
+			FixUtils.getTagStringValue(buf, secondaryClOrdID, 0, secondaryClOrdID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSecondaryClOrdID);		
@@ -548,7 +548,7 @@ public class FixOrdListStatGrp extends FixGroup {
 		
 				buf.position(hasCumQty);		
 		
-			cumQty = FixMessage.getTagFloatValue(buf, err);
+			cumQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasCumQty);		
@@ -592,7 +592,7 @@ public class FixOrdListStatGrp extends FixGroup {
 		
 				buf.position(hasOrdStatus);		
 		
-			ordStatus = FixMessage.getTagCharValue(buf, err);
+			ordStatus = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (ordStatus != (byte)'D') && (ordStatus != (byte)'E') && (ordStatus != (byte)'A') && (ordStatus != (byte)'B') && (ordStatus != (byte)'C') && (ordStatus != (byte)'3') && (ordStatus != (byte)'2') && (ordStatus != (byte)'1') && (ordStatus != (byte)'0') && (ordStatus != (byte)'7') && (ordStatus != (byte)'6') && (ordStatus != (byte)'5') && (ordStatus != (byte)'4') && (ordStatus != (byte)'9') && (ordStatus != (byte)'8') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 39);		
@@ -638,7 +638,7 @@ public class FixOrdListStatGrp extends FixGroup {
 		
 				buf.position(hasWorkingIndicator);		
 		
-			workingIndicator = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			workingIndicator = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(hasWorkingIndicator);		
@@ -682,7 +682,7 @@ public class FixOrdListStatGrp extends FixGroup {
 		
 				buf.position(hasLeavesQty);		
 		
-			leavesQty = FixMessage.getTagFloatValue(buf, err);
+			leavesQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLeavesQty);		
@@ -726,7 +726,7 @@ public class FixOrdListStatGrp extends FixGroup {
 		
 				buf.position(hasCxlQty);		
 		
-			cxlQty = FixMessage.getTagFloatValue(buf, err);
+			cxlQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasCxlQty);		
@@ -770,7 +770,7 @@ public class FixOrdListStatGrp extends FixGroup {
 		
 				buf.position(hasAvgPx);		
 		
-			avgPx = FixMessage.getTagFloatValue(buf, err);
+			avgPx = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasAvgPx);		
@@ -814,7 +814,7 @@ public class FixOrdListStatGrp extends FixGroup {
 		
 				buf.position(hasOrdRejReason);		
 		
-			ordRejReason = FixMessage.getTagIntValue(buf, err);
+			ordRejReason = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasOrdRejReason);		
@@ -858,7 +858,7 @@ public class FixOrdListStatGrp extends FixGroup {
 		
 				buf.position(hasText);		
 		
-			FixMessage.getTagStringValue(buf, text, 0, text.length, err);
+			FixUtils.getTagStringValue(buf, text, 0, text.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasText);		
@@ -897,7 +897,7 @@ public class FixOrdListStatGrp extends FixGroup {
 		
 				buf.position(hasEncodedTextLen);		
 		
-			encodedTextLen = FixMessage.getTagIntValue(buf, err);
+			encodedTextLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasEncodedTextLen);		
@@ -941,7 +941,7 @@ public class FixOrdListStatGrp extends FixGroup {
 		
 				buf.position(hasEncodedText);		
 		
-			FixMessage.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
+			FixUtils.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasEncodedText);		

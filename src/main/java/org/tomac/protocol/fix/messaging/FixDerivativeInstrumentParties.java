@@ -59,23 +59,23 @@ public class FixDerivativeInstrumentParties extends FixGroup {
             switch (tag) {		
             	case FixTags.DERIVATIVEINSTRUMENTPARTYID_INT:		
             		hasDerivativeInstrumentPartyID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEINSTRUMENTPARTYIDSOURCE_INT:		
             		hasDerivativeInstrumentPartyIDSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEINSTRUMENTPARTYROLE_INT:		
             		hasDerivativeInstrumentPartyRole = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( tag == FixTags.NODERIVATIVEINSTRUMENTPARTYSUBIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -93,7 +93,7 @@ public class FixDerivativeInstrumentParties extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -193,7 +193,7 @@ public class FixDerivativeInstrumentParties extends FixGroup {
 		
 				buf.position(hasDerivativeInstrumentPartyID);		
 		
-			FixMessage.getTagStringValue(buf, derivativeInstrumentPartyID, 0, derivativeInstrumentPartyID.length, err);
+			FixUtils.getTagStringValue(buf, derivativeInstrumentPartyID, 0, derivativeInstrumentPartyID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeInstrumentPartyID);		
@@ -232,7 +232,7 @@ public class FixDerivativeInstrumentParties extends FixGroup {
 		
 				buf.position(hasDerivativeInstrumentPartyIDSource);		
 		
-			FixMessage.getTagStringValue(buf, derivativeInstrumentPartyIDSource, 0, derivativeInstrumentPartyIDSource.length, err);
+			FixUtils.getTagStringValue(buf, derivativeInstrumentPartyIDSource, 0, derivativeInstrumentPartyIDSource.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeInstrumentPartyIDSource);		
@@ -271,7 +271,7 @@ public class FixDerivativeInstrumentParties extends FixGroup {
 		
 				buf.position(hasDerivativeInstrumentPartyRole);		
 		
-			derivativeInstrumentPartyRole = FixMessage.getTagIntValue(buf, err);
+			derivativeInstrumentPartyRole = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeInstrumentPartyRole);		

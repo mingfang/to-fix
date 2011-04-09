@@ -255,235 +255,235 @@ public class FixDerivativeInstrument extends FixGroup {
             switch (tag) {		
             	case FixTags.DERIVATIVESYMBOL_INT:		
             		hasDerivativeSymbol = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVESYMBOLSFX_INT:		
             		hasDerivativeSymbolSfx = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVESECURITYID_INT:		
             		hasDerivativeSecurityID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVESECURITYIDSOURCE_INT:		
             		hasDerivativeSecurityIDSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEPRODUCT_INT:		
             		hasDerivativeProduct = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEPRODUCTCOMPLEX_INT:		
             		hasDerivativeProductComplex = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVFLEXPRODUCTELIGIBILITYINDICATOR_INT:		
             		hasDerivFlexProductEligibilityIndicator = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVESECURITYGROUP_INT:		
             		hasDerivativeSecurityGroup = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVECFICODE_INT:		
             		hasDerivativeCFICode = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVESECURITYTYPE_INT:		
             		hasDerivativeSecurityType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVESECURITYSUBTYPE_INT:		
             		hasDerivativeSecuritySubType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEMATURITYMONTHYEAR_INT:		
             		hasDerivativeMaturityMonthYear = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEMATURITYDATE_INT:		
             		hasDerivativeMaturityDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEMATURITYTIME_INT:		
             		hasDerivativeMaturityTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVESETTLEONOPENFLAG_INT:		
             		hasDerivativeSettleOnOpenFlag = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEINSTRMTASSIGNMENTMETHOD_INT:		
             		hasDerivativeInstrmtAssignmentMethod = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVESECURITYSTATUS_INT:		
             		hasDerivativeSecurityStatus = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEISSUEDATE_INT:		
             		hasDerivativeIssueDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEINSTRREGISTRY_INT:		
             		hasDerivativeInstrRegistry = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVECOUNTRYOFISSUE_INT:		
             		hasDerivativeCountryOfIssue = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVESTATEORPROVINCEOFISSUE_INT:		
             		hasDerivativeStateOrProvinceOfIssue = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVESTRIKEPRICE_INT:		
             		hasDerivativeStrikePrice = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVELOCALEOFISSUE_INT:		
             		hasDerivativeLocaleOfIssue = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVESTRIKECURRENCY_INT:		
             		hasDerivativeStrikeCurrency = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVESTRIKEMULTIPLIER_INT:		
             		hasDerivativeStrikeMultiplier = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVESTRIKEVALUE_INT:		
             		hasDerivativeStrikeValue = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEOPTATTRIBUTE_INT:		
             		hasDerivativeOptAttribute = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVECONTRACTMULTIPLIER_INT:		
             		hasDerivativeContractMultiplier = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEMINPRICEINCREMENT_INT:		
             		hasDerivativeMinPriceIncrement = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEMINPRICEINCREMENTAMOUNT_INT:		
             		hasDerivativeMinPriceIncrementAmount = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVECONTRACTMULTIPLIERUNIT_INT:		
             		hasDerivativeContractMultiplierUnit = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEFLOWSCHEDULETYPE_INT:		
             		hasDerivativeFlowScheduleType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEUNITOFMEASURE_INT:		
             		hasDerivativeUnitOfMeasure = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEUNITOFMEASUREQTY_INT:		
             		hasDerivativeUnitOfMeasureQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEPRICEUNITOFMEASURE_INT:		
             		hasDerivativePriceUnitOfMeasure = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEPRICEUNITOFMEASUREQTY_INT:		
             		hasDerivativePriceUnitOfMeasureQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEEXERCISESTYLE_INT:		
             		hasDerivativeExerciseStyle = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEOPTPAYAMOUNT_INT:		
             		hasDerivativeOptPayAmount = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVETIMEUNIT_INT:		
             		hasDerivativeTimeUnit = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVESECURITYEXCHANGE_INT:		
             		hasDerivativeSecurityExchange = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEPOSITIONLIMIT_INT:		
             		hasDerivativePositionLimit = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVENTPOSITIONLIMIT_INT:		
             		hasDerivativeNTPositionLimit = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVESETTLMETHOD_INT:		
             		hasDerivativeSettlMethod = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEPRICEQUOTEMETHOD_INT:		
             		hasDerivativePriceQuoteMethod = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEVALUATIONMETHOD_INT:		
             		hasDerivativeValuationMethod = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVELISTMETHOD_INT:		
             		hasDerivativeListMethod = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVECAPPRICE_INT:		
             		hasDerivativeCapPrice = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEFLOORPRICE_INT:		
             		hasDerivativeFloorPrice = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEPUTORCALL_INT:		
             		hasDerivativePutOrCall = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEISSUER_INT:		
             		hasDerivativeIssuer = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEENCODEDISSUERLEN_INT:		
             		hasDerivativeEncodedIssuerLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEENCODEDISSUER_INT:		
             		hasDerivativeEncodedIssuer = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVESECURITYDESC_INT:		
             		hasDerivativeSecurityDesc = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEENCODEDSECURITYDESCLEN_INT:		
             		hasDerivativeEncodedSecurityDescLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVEENCODEDSECURITYDESC_INT:		
             		hasDerivativeEncodedSecurityDesc = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVECONTRACTSETTLMONTH_INT:		
             		hasDerivativeContractSettlMonth = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( tag == FixTags.NODERIVATIVESECURITYALTID_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -504,10 +504,10 @@ public class FixDerivativeInstrument extends FixGroup {
                 		else continue;		
         			} else if ( tag == FixTags.NODERIVATIVEEVENTS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -524,10 +524,10 @@ public class FixDerivativeInstrument extends FixGroup {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NODERIVATIVEINSTRUMENTPARTIES_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -545,7 +545,7 @@ public class FixDerivativeInstrument extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -1628,7 +1628,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeSymbol);		
 		
-			FixMessage.getTagStringValue(buf, derivativeSymbol, 0, derivativeSymbol.length, err);
+			FixUtils.getTagStringValue(buf, derivativeSymbol, 0, derivativeSymbol.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeSymbol);		
@@ -1667,7 +1667,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeSymbolSfx);		
 		
-			FixMessage.getTagStringValue(buf, derivativeSymbolSfx, 0, derivativeSymbolSfx.length, err);
+			FixUtils.getTagStringValue(buf, derivativeSymbolSfx, 0, derivativeSymbolSfx.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeSymbolSfx);		
@@ -1706,7 +1706,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeSecurityID);		
 		
-			FixMessage.getTagStringValue(buf, derivativeSecurityID, 0, derivativeSecurityID.length, err);
+			FixUtils.getTagStringValue(buf, derivativeSecurityID, 0, derivativeSecurityID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeSecurityID);		
@@ -1745,7 +1745,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeSecurityIDSource);		
 		
-			FixMessage.getTagStringValue(buf, derivativeSecurityIDSource, 0, derivativeSecurityIDSource.length, err);
+			FixUtils.getTagStringValue(buf, derivativeSecurityIDSource, 0, derivativeSecurityIDSource.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeSecurityIDSource);		
@@ -1784,7 +1784,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeProduct);		
 		
-			derivativeProduct = FixMessage.getTagIntValue(buf, err);
+			derivativeProduct = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeProduct);		
@@ -1828,7 +1828,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeProductComplex);		
 		
-			FixMessage.getTagStringValue(buf, derivativeProductComplex, 0, derivativeProductComplex.length, err);
+			FixUtils.getTagStringValue(buf, derivativeProductComplex, 0, derivativeProductComplex.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeProductComplex);		
@@ -1867,7 +1867,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivFlexProductEligibilityIndicator);		
 		
-			derivFlexProductEligibilityIndicator = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			derivFlexProductEligibilityIndicator = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivFlexProductEligibilityIndicator);		
@@ -1911,7 +1911,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeSecurityGroup);		
 		
-			FixMessage.getTagStringValue(buf, derivativeSecurityGroup, 0, derivativeSecurityGroup.length, err);
+			FixUtils.getTagStringValue(buf, derivativeSecurityGroup, 0, derivativeSecurityGroup.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeSecurityGroup);		
@@ -1950,7 +1950,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeCFICode);		
 		
-			FixMessage.getTagStringValue(buf, derivativeCFICode, 0, derivativeCFICode.length, err);
+			FixUtils.getTagStringValue(buf, derivativeCFICode, 0, derivativeCFICode.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeCFICode);		
@@ -1989,7 +1989,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeSecurityType);		
 		
-			FixMessage.getTagStringValue(buf, derivativeSecurityType, 0, derivativeSecurityType.length, err);
+			FixUtils.getTagStringValue(buf, derivativeSecurityType, 0, derivativeSecurityType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeSecurityType);		
@@ -2028,7 +2028,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeSecuritySubType);		
 		
-			FixMessage.getTagStringValue(buf, derivativeSecuritySubType, 0, derivativeSecuritySubType.length, err);
+			FixUtils.getTagStringValue(buf, derivativeSecuritySubType, 0, derivativeSecuritySubType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeSecuritySubType);		
@@ -2067,7 +2067,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeMaturityMonthYear);		
 		
-			FixMessage.getTagStringValue(buf, derivativeMaturityMonthYear, 0, derivativeMaturityMonthYear.length, err);
+			FixUtils.getTagStringValue(buf, derivativeMaturityMonthYear, 0, derivativeMaturityMonthYear.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeMaturityMonthYear);		
@@ -2106,7 +2106,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeMaturityDate);		
 		
-			FixMessage.getTagStringValue(buf, derivativeMaturityDate, 0, derivativeMaturityDate.length, err);
+			FixUtils.getTagStringValue(buf, derivativeMaturityDate, 0, derivativeMaturityDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeMaturityDate);		
@@ -2145,7 +2145,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeMaturityTime);		
 		
-			FixMessage.getTagStringValue(buf, derivativeMaturityTime, 0, derivativeMaturityTime.length, err);
+			FixUtils.getTagStringValue(buf, derivativeMaturityTime, 0, derivativeMaturityTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeMaturityTime);		
@@ -2184,7 +2184,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeSettleOnOpenFlag);		
 		
-			FixMessage.getTagStringValue(buf, derivativeSettleOnOpenFlag, 0, derivativeSettleOnOpenFlag.length, err);
+			FixUtils.getTagStringValue(buf, derivativeSettleOnOpenFlag, 0, derivativeSettleOnOpenFlag.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeSettleOnOpenFlag);		
@@ -2223,7 +2223,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeInstrmtAssignmentMethod);		
 		
-			derivativeInstrmtAssignmentMethod = FixMessage.getTagCharValue(buf, err);
+			derivativeInstrmtAssignmentMethod = FixUtils.getTagCharValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeInstrmtAssignmentMethod);		
@@ -2267,7 +2267,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeSecurityStatus);		
 		
-			FixMessage.getTagStringValue(buf, derivativeSecurityStatus, 0, derivativeSecurityStatus.length, err);
+			FixUtils.getTagStringValue(buf, derivativeSecurityStatus, 0, derivativeSecurityStatus.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeSecurityStatus);		
@@ -2306,7 +2306,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeIssueDate);		
 		
-			FixMessage.getTagStringValue(buf, derivativeIssueDate, 0, derivativeIssueDate.length, err);
+			FixUtils.getTagStringValue(buf, derivativeIssueDate, 0, derivativeIssueDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeIssueDate);		
@@ -2345,7 +2345,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeInstrRegistry);		
 		
-			FixMessage.getTagStringValue(buf, derivativeInstrRegistry, 0, derivativeInstrRegistry.length, err);
+			FixUtils.getTagStringValue(buf, derivativeInstrRegistry, 0, derivativeInstrRegistry.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeInstrRegistry);		
@@ -2384,7 +2384,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeCountryOfIssue);		
 		
-			FixMessage.getTagStringValue(buf, derivativeCountryOfIssue, 0, derivativeCountryOfIssue.length, err);
+			FixUtils.getTagStringValue(buf, derivativeCountryOfIssue, 0, derivativeCountryOfIssue.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeCountryOfIssue);		
@@ -2423,7 +2423,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeStateOrProvinceOfIssue);		
 		
-			FixMessage.getTagStringValue(buf, derivativeStateOrProvinceOfIssue, 0, derivativeStateOrProvinceOfIssue.length, err);
+			FixUtils.getTagStringValue(buf, derivativeStateOrProvinceOfIssue, 0, derivativeStateOrProvinceOfIssue.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeStateOrProvinceOfIssue);		
@@ -2462,7 +2462,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeStrikePrice);		
 		
-			derivativeStrikePrice = FixMessage.getTagFloatValue(buf, err);
+			derivativeStrikePrice = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeStrikePrice);		
@@ -2506,7 +2506,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeLocaleOfIssue);		
 		
-			FixMessage.getTagStringValue(buf, derivativeLocaleOfIssue, 0, derivativeLocaleOfIssue.length, err);
+			FixUtils.getTagStringValue(buf, derivativeLocaleOfIssue, 0, derivativeLocaleOfIssue.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeLocaleOfIssue);		
@@ -2545,7 +2545,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeStrikeCurrency);		
 		
-			FixMessage.getTagStringValue(buf, derivativeStrikeCurrency, 0, derivativeStrikeCurrency.length, err);
+			FixUtils.getTagStringValue(buf, derivativeStrikeCurrency, 0, derivativeStrikeCurrency.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeStrikeCurrency);		
@@ -2584,7 +2584,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeStrikeMultiplier);		
 		
-			derivativeStrikeMultiplier = FixMessage.getTagFloatValue(buf, err);
+			derivativeStrikeMultiplier = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeStrikeMultiplier);		
@@ -2628,7 +2628,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeStrikeValue);		
 		
-			derivativeStrikeValue = FixMessage.getTagFloatValue(buf, err);
+			derivativeStrikeValue = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeStrikeValue);		
@@ -2672,7 +2672,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeOptAttribute);		
 		
-			derivativeOptAttribute = FixMessage.getTagCharValue(buf, err);
+			derivativeOptAttribute = FixUtils.getTagCharValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeOptAttribute);		
@@ -2716,7 +2716,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeContractMultiplier);		
 		
-			derivativeContractMultiplier = FixMessage.getTagFloatValue(buf, err);
+			derivativeContractMultiplier = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeContractMultiplier);		
@@ -2760,7 +2760,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeMinPriceIncrement);		
 		
-			derivativeMinPriceIncrement = FixMessage.getTagFloatValue(buf, err);
+			derivativeMinPriceIncrement = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeMinPriceIncrement);		
@@ -2804,7 +2804,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeMinPriceIncrementAmount);		
 		
-			derivativeMinPriceIncrementAmount = FixMessage.getTagFloatValue(buf, err);
+			derivativeMinPriceIncrementAmount = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeMinPriceIncrementAmount);		
@@ -2848,7 +2848,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeContractMultiplierUnit);		
 		
-			derivativeContractMultiplierUnit = FixMessage.getTagIntValue(buf, err);
+			derivativeContractMultiplierUnit = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeContractMultiplierUnit);		
@@ -2892,7 +2892,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeFlowScheduleType);		
 		
-			derivativeFlowScheduleType = FixMessage.getTagIntValue(buf, err);
+			derivativeFlowScheduleType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeFlowScheduleType);		
@@ -2936,7 +2936,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeUnitOfMeasure);		
 		
-			FixMessage.getTagStringValue(buf, derivativeUnitOfMeasure, 0, derivativeUnitOfMeasure.length, err);
+			FixUtils.getTagStringValue(buf, derivativeUnitOfMeasure, 0, derivativeUnitOfMeasure.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeUnitOfMeasure);		
@@ -2975,7 +2975,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeUnitOfMeasureQty);		
 		
-			derivativeUnitOfMeasureQty = FixMessage.getTagFloatValue(buf, err);
+			derivativeUnitOfMeasureQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeUnitOfMeasureQty);		
@@ -3019,7 +3019,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativePriceUnitOfMeasure);		
 		
-			FixMessage.getTagStringValue(buf, derivativePriceUnitOfMeasure, 0, derivativePriceUnitOfMeasure.length, err);
+			FixUtils.getTagStringValue(buf, derivativePriceUnitOfMeasure, 0, derivativePriceUnitOfMeasure.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativePriceUnitOfMeasure);		
@@ -3058,7 +3058,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativePriceUnitOfMeasureQty);		
 		
-			derivativePriceUnitOfMeasureQty = FixMessage.getTagFloatValue(buf, err);
+			derivativePriceUnitOfMeasureQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativePriceUnitOfMeasureQty);		
@@ -3102,7 +3102,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeExerciseStyle);		
 		
-			derivativeExerciseStyle = FixMessage.getTagCharValue(buf, err);
+			derivativeExerciseStyle = FixUtils.getTagCharValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeExerciseStyle);		
@@ -3146,7 +3146,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeOptPayAmount);		
 		
-			derivativeOptPayAmount = FixMessage.getTagFloatValue(buf, err);
+			derivativeOptPayAmount = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeOptPayAmount);		
@@ -3190,7 +3190,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeTimeUnit);		
 		
-			FixMessage.getTagStringValue(buf, derivativeTimeUnit, 0, derivativeTimeUnit.length, err);
+			FixUtils.getTagStringValue(buf, derivativeTimeUnit, 0, derivativeTimeUnit.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeTimeUnit);		
@@ -3229,7 +3229,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeSecurityExchange);		
 		
-			FixMessage.getTagStringValue(buf, derivativeSecurityExchange, 0, derivativeSecurityExchange.length, err);
+			FixUtils.getTagStringValue(buf, derivativeSecurityExchange, 0, derivativeSecurityExchange.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeSecurityExchange);		
@@ -3268,7 +3268,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativePositionLimit);		
 		
-			derivativePositionLimit = FixMessage.getTagIntValue(buf, err);
+			derivativePositionLimit = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativePositionLimit);		
@@ -3312,7 +3312,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeNTPositionLimit);		
 		
-			derivativeNTPositionLimit = FixMessage.getTagIntValue(buf, err);
+			derivativeNTPositionLimit = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeNTPositionLimit);		
@@ -3356,7 +3356,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeSettlMethod);		
 		
-			derivativeSettlMethod = FixMessage.getTagCharValue(buf, err);
+			derivativeSettlMethod = FixUtils.getTagCharValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeSettlMethod);		
@@ -3400,7 +3400,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativePriceQuoteMethod);		
 		
-			FixMessage.getTagStringValue(buf, derivativePriceQuoteMethod, 0, derivativePriceQuoteMethod.length, err);
+			FixUtils.getTagStringValue(buf, derivativePriceQuoteMethod, 0, derivativePriceQuoteMethod.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativePriceQuoteMethod);		
@@ -3439,7 +3439,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeValuationMethod);		
 		
-			FixMessage.getTagStringValue(buf, derivativeValuationMethod, 0, derivativeValuationMethod.length, err);
+			FixUtils.getTagStringValue(buf, derivativeValuationMethod, 0, derivativeValuationMethod.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeValuationMethod);		
@@ -3478,7 +3478,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeListMethod);		
 		
-			derivativeListMethod = FixMessage.getTagIntValue(buf, err);
+			derivativeListMethod = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeListMethod);		
@@ -3522,7 +3522,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeCapPrice);		
 		
-			derivativeCapPrice = FixMessage.getTagFloatValue(buf, err);
+			derivativeCapPrice = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeCapPrice);		
@@ -3566,7 +3566,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeFloorPrice);		
 		
-			derivativeFloorPrice = FixMessage.getTagFloatValue(buf, err);
+			derivativeFloorPrice = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeFloorPrice);		
@@ -3610,7 +3610,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativePutOrCall);		
 		
-			derivativePutOrCall = FixMessage.getTagIntValue(buf, err);
+			derivativePutOrCall = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativePutOrCall);		
@@ -3654,7 +3654,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeIssuer);		
 		
-			FixMessage.getTagStringValue(buf, derivativeIssuer, 0, derivativeIssuer.length, err);
+			FixUtils.getTagStringValue(buf, derivativeIssuer, 0, derivativeIssuer.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeIssuer);		
@@ -3693,7 +3693,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeEncodedIssuerLen);		
 		
-			derivativeEncodedIssuerLen = FixMessage.getTagIntValue(buf, err);
+			derivativeEncodedIssuerLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeEncodedIssuerLen);		
@@ -3737,7 +3737,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeEncodedIssuer);		
 		
-			FixMessage.getTagStringValue(buf, derivativeEncodedIssuer, 0, derivativeEncodedIssuer.length, err);
+			FixUtils.getTagStringValue(buf, derivativeEncodedIssuer, 0, derivativeEncodedIssuer.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeEncodedIssuer);		
@@ -3776,7 +3776,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeSecurityDesc);		
 		
-			FixMessage.getTagStringValue(buf, derivativeSecurityDesc, 0, derivativeSecurityDesc.length, err);
+			FixUtils.getTagStringValue(buf, derivativeSecurityDesc, 0, derivativeSecurityDesc.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeSecurityDesc);		
@@ -3815,7 +3815,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeEncodedSecurityDescLen);		
 		
-			derivativeEncodedSecurityDescLen = FixMessage.getTagIntValue(buf, err);
+			derivativeEncodedSecurityDescLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeEncodedSecurityDescLen);		
@@ -3859,7 +3859,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeEncodedSecurityDesc);		
 		
-			FixMessage.getTagStringValue(buf, derivativeEncodedSecurityDesc, 0, derivativeEncodedSecurityDesc.length, err);
+			FixUtils.getTagStringValue(buf, derivativeEncodedSecurityDesc, 0, derivativeEncodedSecurityDesc.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeEncodedSecurityDesc);		
@@ -3898,7 +3898,7 @@ public class FixDerivativeInstrument extends FixGroup {
 		
 				buf.position(hasDerivativeContractSettlMonth);		
 		
-			FixMessage.getTagStringValue(buf, derivativeContractSettlMonth, 0, derivativeContractSettlMonth.length, err);
+			FixUtils.getTagStringValue(buf, derivativeContractSettlMonth, 0, derivativeContractSettlMonth.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeContractSettlMonth);		

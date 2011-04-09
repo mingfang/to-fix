@@ -51,18 +51,18 @@ public class FixLotTypeRules extends FixGroup {
             switch (tag) {		
             	case FixTags.LOTTYPE_INT:		
             		hasLotType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.MINLOTSIZE_INT:		
             		hasMinLotSize = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -131,7 +131,7 @@ public class FixLotTypeRules extends FixGroup {
 		
 				buf.position(hasLotType);		
 		
-			lotType = FixMessage.getTagCharValue(buf, err);
+			lotType = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (lotType != (byte)'3') && (lotType != (byte)'2') && (lotType != (byte)'1') && (lotType != (byte)'4') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 1093);		
@@ -177,7 +177,7 @@ public class FixLotTypeRules extends FixGroup {
 		
 				buf.position(hasMinLotSize);		
 		
-			minLotSize = FixMessage.getTagFloatValue(buf, err);
+			minLotSize = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMinLotSize);		

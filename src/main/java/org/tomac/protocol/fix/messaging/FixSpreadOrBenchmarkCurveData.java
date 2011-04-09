@@ -74,42 +74,42 @@ public class FixSpreadOrBenchmarkCurveData extends FixGroup {
             switch (tag) {		
             	case FixTags.SPREAD_INT:		
             		hasSpread = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.BENCHMARKCURVECURRENCY_INT:		
             		hasBenchmarkCurveCurrency = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.BENCHMARKCURVENAME_INT:		
             		hasBenchmarkCurveName = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.BENCHMARKCURVEPOINT_INT:		
             		hasBenchmarkCurvePoint = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.BENCHMARKPRICE_INT:		
             		hasBenchmarkPrice = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.BENCHMARKPRICETYPE_INT:		
             		hasBenchmarkPriceType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.BENCHMARKSECURITYID_INT:		
             		hasBenchmarkSecurityID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.BENCHMARKSECURITYIDSOURCE_INT:		
             		hasBenchmarkSecurityIDSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -286,7 +286,7 @@ public class FixSpreadOrBenchmarkCurveData extends FixGroup {
 		
 				buf.position(hasSpread);		
 		
-			spread = FixMessage.getTagFloatValue(buf, err);
+			spread = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSpread);		
@@ -330,7 +330,7 @@ public class FixSpreadOrBenchmarkCurveData extends FixGroup {
 		
 				buf.position(hasBenchmarkCurveCurrency);		
 		
-			FixMessage.getTagStringValue(buf, benchmarkCurveCurrency, 0, benchmarkCurveCurrency.length, err);
+			FixUtils.getTagStringValue(buf, benchmarkCurveCurrency, 0, benchmarkCurveCurrency.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasBenchmarkCurveCurrency);		
@@ -369,7 +369,7 @@ public class FixSpreadOrBenchmarkCurveData extends FixGroup {
 		
 				buf.position(hasBenchmarkCurveName);		
 		
-			FixMessage.getTagStringValue(buf, benchmarkCurveName, 0, benchmarkCurveName.length, err);
+			FixUtils.getTagStringValue(buf, benchmarkCurveName, 0, benchmarkCurveName.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasBenchmarkCurveName);		
@@ -408,7 +408,7 @@ public class FixSpreadOrBenchmarkCurveData extends FixGroup {
 		
 				buf.position(hasBenchmarkCurvePoint);		
 		
-			FixMessage.getTagStringValue(buf, benchmarkCurvePoint, 0, benchmarkCurvePoint.length, err);
+			FixUtils.getTagStringValue(buf, benchmarkCurvePoint, 0, benchmarkCurvePoint.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasBenchmarkCurvePoint);		
@@ -447,7 +447,7 @@ public class FixSpreadOrBenchmarkCurveData extends FixGroup {
 		
 				buf.position(hasBenchmarkPrice);		
 		
-			benchmarkPrice = FixMessage.getTagFloatValue(buf, err);
+			benchmarkPrice = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasBenchmarkPrice);		
@@ -491,7 +491,7 @@ public class FixSpreadOrBenchmarkCurveData extends FixGroup {
 		
 				buf.position(hasBenchmarkPriceType);		
 		
-			benchmarkPriceType = FixMessage.getTagIntValue(buf, err);
+			benchmarkPriceType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasBenchmarkPriceType);		
@@ -535,7 +535,7 @@ public class FixSpreadOrBenchmarkCurveData extends FixGroup {
 		
 				buf.position(hasBenchmarkSecurityID);		
 		
-			FixMessage.getTagStringValue(buf, benchmarkSecurityID, 0, benchmarkSecurityID.length, err);
+			FixUtils.getTagStringValue(buf, benchmarkSecurityID, 0, benchmarkSecurityID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasBenchmarkSecurityID);		
@@ -574,7 +574,7 @@ public class FixSpreadOrBenchmarkCurveData extends FixGroup {
 		
 				buf.position(hasBenchmarkSecurityIDSource);		
 		
-			FixMessage.getTagStringValue(buf, benchmarkSecurityIDSource, 0, benchmarkSecurityIDSource.length, err);
+			FixUtils.getTagStringValue(buf, benchmarkSecurityIDSource, 0, benchmarkSecurityIDSource.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasBenchmarkSecurityIDSource);		

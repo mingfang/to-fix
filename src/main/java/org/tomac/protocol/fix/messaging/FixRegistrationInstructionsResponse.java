@@ -57,7 +57,7 @@ public class FixRegistrationInstructionsResponse extends FixInMessage {
 		super.setBuffer(buf, err);
         if (err.hasError()) return;
 
-        int tag = FixMessage.getTag(buf, err);
+        int tag = FixUtils.getTag(buf, err);
         if (err.hasError()) return;
 
         while ( buf.hasRemaining() ) {
@@ -65,39 +65,39 @@ public class FixRegistrationInstructionsResponse extends FixInMessage {
             switch (tag) {		
             	case FixTags.REGISTID_INT:		
             		hasRegistID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.REGISTTRANSTYPE_INT:		
             		hasRegistTransType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.REGISTREFID_INT:		
             		hasRegistRefID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.CLORDID_INT:		
             		hasClOrdID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ACCOUNT_INT:		
             		hasAccount = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ACCTIDSOURCE_INT:		
             		hasAcctIDSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.REGISTSTATUS_INT:		
             		hasRegistStatus = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.REGISTREJREASONCODE_INT:		
             		hasRegistRejReasonCode = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.REGISTREJREASONTEXT_INT:		
             		hasRegistRejReasonText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	default:
         			if ( standardHeader.isKeyTag(tag)) {
@@ -106,15 +106,15 @@ public class FixRegistrationInstructionsResponse extends FixInMessage {
                 		else continue;		
         			} else if ( standardTrailer.isKeyTag(tag)) {
         				tag = standardTrailer.setBuffer( tag, buf, err);
-        				FixMessage.unreadLastTag(tag, buf);
+        				FixUtils.unreadLastTag(tag, buf);
         				if (!err.hasError()) hasRequiredTags(err);
             			return; // always last, we are done now
         			} else if ( tag == FixTags.NOPARTYIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -130,10 +130,10 @@ public class FixRegistrationInstructionsResponse extends FixInMessage {
         				if (err.hasError()) break;
                 		else { tag = repeatingGroupTag; continue; }
             		} else {
- 						FixMessage.getNext(buf, err);		
+ 						FixUtils.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else {
-                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.REGISTRATIONINSTRUCTIONSRESPONSE);
+                		else if (FixUtils.validateOnlyDefinedTagsAllowed) {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.REGISTRATIONINSTRUCTIONSRESPONSE_INT);
                 			break;
                 		}
 					}
@@ -142,7 +142,7 @@ public class FixRegistrationInstructionsResponse extends FixInMessage {
 
         		if (err.hasError()) return;
 
-            	tag = FixMessage.getTag(buf, err);		
+            	tag = FixUtils.getTag(buf, err);		
         		if (err.hasError()) break;
 
 		}
@@ -150,26 +150,22 @@ public class FixRegistrationInstructionsResponse extends FixInMessage {
 	}		
 
 	public boolean hasRequiredTags(FixValidationError err) {
-		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		if (!hasRegistID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.REGISTID_INT, FixMessageInfo.MessageTypes.REGISTRATIONINSTRUCTIONSRESPONSE);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.REGISTID_INT, FixMessageInfo.MessageTypes.REGISTRATIONINSTRUCTIONSRESPONSE_INT);
 			return false;
 		}
 		if (!hasRegistTransType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.REGISTTRANSTYPE_INT, FixMessageInfo.MessageTypes.REGISTRATIONINSTRUCTIONSRESPONSE);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.REGISTTRANSTYPE_INT, FixMessageInfo.MessageTypes.REGISTRATIONINSTRUCTIONSRESPONSE_INT);
 			return false;
 		}
 		if (!hasRegistRefID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.REGISTREFID_INT, FixMessageInfo.MessageTypes.REGISTRATIONINSTRUCTIONSRESPONSE);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.REGISTREFID_INT, FixMessageInfo.MessageTypes.REGISTRATIONINSTRUCTIONSRESPONSE_INT);
 			return false;
 		}
 		if (!hasRegistStatus()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.REGISTSTATUS_INT, FixMessageInfo.MessageTypes.REGISTRATIONINSTRUCTIONSRESPONSE);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.REGISTSTATUS_INT, FixMessageInfo.MessageTypes.REGISTRATIONINSTRUCTIONSRESPONSE_INT);
 			return false;
 		}
-		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		return true;
 	}
 	@Override		
@@ -413,7 +409,7 @@ public class FixRegistrationInstructionsResponse extends FixInMessage {
 
 				buf.position(hasRegistID);
 
-			FixMessage.getTagStringValue(buf, registID, 0, registID.length, err);
+			FixUtils.getTagStringValue(buf, registID, 0, registID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -457,7 +453,7 @@ public class FixRegistrationInstructionsResponse extends FixInMessage {
 
 				buf.position(hasRegistTransType);
 
-			registTransType = FixMessage.getTagCharValue(buf, err);
+			registTransType = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (registTransType != (byte)'2') && (registTransType != (byte)'1') && (registTransType != (byte)'0') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 514);		
@@ -508,7 +504,7 @@ public class FixRegistrationInstructionsResponse extends FixInMessage {
 
 				buf.position(hasRegistRefID);
 
-			FixMessage.getTagStringValue(buf, registRefID, 0, registRefID.length, err);
+			FixUtils.getTagStringValue(buf, registRefID, 0, registRefID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -552,7 +548,7 @@ public class FixRegistrationInstructionsResponse extends FixInMessage {
 
 				buf.position(hasClOrdID);
 
-			FixMessage.getTagStringValue(buf, clOrdID, 0, clOrdID.length, err);
+			FixUtils.getTagStringValue(buf, clOrdID, 0, clOrdID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -596,7 +592,7 @@ public class FixRegistrationInstructionsResponse extends FixInMessage {
 
 				buf.position(hasAccount);
 
-			FixMessage.getTagStringValue(buf, account, 0, account.length, err);
+			FixUtils.getTagStringValue(buf, account, 0, account.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -640,7 +636,7 @@ public class FixRegistrationInstructionsResponse extends FixInMessage {
 
 				buf.position(hasAcctIDSource);
 
-			acctIDSource = FixMessage.getTagIntValue(buf, err);
+			acctIDSource = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -689,7 +685,7 @@ public class FixRegistrationInstructionsResponse extends FixInMessage {
 
 				buf.position(hasRegistStatus);
 
-			registStatus = FixMessage.getTagCharValue(buf, err);
+			registStatus = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (registStatus != (byte)'A') && (registStatus != (byte)'R') && (registStatus != (byte)'N') && (registStatus != (byte)'H') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 506);		
@@ -740,7 +736,7 @@ public class FixRegistrationInstructionsResponse extends FixInMessage {
 
 				buf.position(hasRegistRejReasonCode);
 
-			registRejReasonCode = FixMessage.getTagIntValue(buf, err);
+			registRejReasonCode = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -789,7 +785,7 @@ public class FixRegistrationInstructionsResponse extends FixInMessage {
 
 				buf.position(hasRegistRejReasonText);
 
-			FixMessage.getTagStringValue(buf, registRejReasonText, 0, registRejReasonText.length, err);
+			FixUtils.getTagStringValue(buf, registRejReasonText, 0, registRejReasonText.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		

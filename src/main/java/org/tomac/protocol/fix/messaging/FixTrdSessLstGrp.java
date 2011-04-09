@@ -127,91 +127,91 @@ public class FixTrdSessLstGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.TRADINGSESSIONID_INT:		
             		hasTradingSessionID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRADINGSESSIONSUBID_INT:		
             		hasTradingSessionSubID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SECURITYEXCHANGE_INT:		
             		hasSecurityExchange = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRADSESMETHOD_INT:		
             		hasTradSesMethod = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRADSESMODE_INT:		
             		hasTradSesMode = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNSOLICITEDINDICATOR_INT:		
             		hasUnsolicitedIndicator = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRADSESSTATUS_INT:		
             		hasTradSesStatus = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRADSESSTATUSREJREASON_INT:		
             		hasTradSesStatusRejReason = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRADSESSTARTTIME_INT:		
             		hasTradSesStartTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.MARKETID_INT:		
             		hasMarketID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.MARKETSEGMENTID_INT:		
             		hasMarketSegmentID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRADINGSESSIONDESC_INT:		
             		hasTradingSessionDesc = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRADSESUPDATEACTION_INT:		
             		hasTradSesUpdateAction = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRADSESOPENTIME_INT:		
             		hasTradSesOpenTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRADSESPRECLOSETIME_INT:		
             		hasTradSesPreCloseTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRADSESCLOSETIME_INT:		
             		hasTradSesCloseTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRADSESENDTIME_INT:		
             		hasTradSesEndTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TOTALVOLUMETRADED_INT:		
             		hasTotalVolumeTraded = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TEXT_INT:		
             		hasText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ENCODEDTEXTLEN_INT:		
             		hasEncodedTextLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ENCODEDTEXT_INT:		
             		hasEncodedText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRANSACTTIME_INT:		
             		hasTransactTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( tradingSessionRules.isKeyTag(tag)) {
@@ -221,7 +221,7 @@ public class FixTrdSessLstGrp extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -661,7 +661,7 @@ public class FixTrdSessLstGrp extends FixGroup {
 		
 				buf.position(hasTradingSessionID);		
 		
-			FixMessage.getTagStringValue(buf, tradingSessionID, 0, tradingSessionID.length, err);
+			FixUtils.getTagStringValue(buf, tradingSessionID, 0, tradingSessionID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTradingSessionID);		
@@ -700,7 +700,7 @@ public class FixTrdSessLstGrp extends FixGroup {
 		
 				buf.position(hasTradingSessionSubID);		
 		
-			FixMessage.getTagStringValue(buf, tradingSessionSubID, 0, tradingSessionSubID.length, err);
+			FixUtils.getTagStringValue(buf, tradingSessionSubID, 0, tradingSessionSubID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTradingSessionSubID);		
@@ -739,7 +739,7 @@ public class FixTrdSessLstGrp extends FixGroup {
 		
 				buf.position(hasSecurityExchange);		
 		
-			FixMessage.getTagStringValue(buf, securityExchange, 0, securityExchange.length, err);
+			FixUtils.getTagStringValue(buf, securityExchange, 0, securityExchange.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSecurityExchange);		
@@ -778,7 +778,7 @@ public class FixTrdSessLstGrp extends FixGroup {
 		
 				buf.position(hasTradSesMethod);		
 		
-			tradSesMethod = FixMessage.getTagIntValue(buf, err);
+			tradSesMethod = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTradSesMethod);		
@@ -822,7 +822,7 @@ public class FixTrdSessLstGrp extends FixGroup {
 		
 				buf.position(hasTradSesMode);		
 		
-			tradSesMode = FixMessage.getTagIntValue(buf, err);
+			tradSesMode = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTradSesMode);		
@@ -866,7 +866,7 @@ public class FixTrdSessLstGrp extends FixGroup {
 		
 				buf.position(hasUnsolicitedIndicator);		
 		
-			unsolicitedIndicator = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			unsolicitedIndicator = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(hasUnsolicitedIndicator);		
@@ -910,7 +910,7 @@ public class FixTrdSessLstGrp extends FixGroup {
 		
 				buf.position(hasTradSesStatus);		
 		
-			tradSesStatus = FixMessage.getTagIntValue(buf, err);
+			tradSesStatus = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTradSesStatus);		
@@ -954,7 +954,7 @@ public class FixTrdSessLstGrp extends FixGroup {
 		
 				buf.position(hasTradSesStatusRejReason);		
 		
-			tradSesStatusRejReason = FixMessage.getTagIntValue(buf, err);
+			tradSesStatusRejReason = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTradSesStatusRejReason);		
@@ -998,7 +998,7 @@ public class FixTrdSessLstGrp extends FixGroup {
 		
 				buf.position(hasTradSesStartTime);		
 		
-			FixMessage.getTagStringValue(buf, tradSesStartTime, 0, tradSesStartTime.length, err);
+			FixUtils.getTagStringValue(buf, tradSesStartTime, 0, tradSesStartTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTradSesStartTime);		
@@ -1037,7 +1037,7 @@ public class FixTrdSessLstGrp extends FixGroup {
 		
 				buf.position(hasMarketID);		
 		
-			FixMessage.getTagStringValue(buf, marketID, 0, marketID.length, err);
+			FixUtils.getTagStringValue(buf, marketID, 0, marketID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMarketID);		
@@ -1076,7 +1076,7 @@ public class FixTrdSessLstGrp extends FixGroup {
 		
 				buf.position(hasMarketSegmentID);		
 		
-			FixMessage.getTagStringValue(buf, marketSegmentID, 0, marketSegmentID.length, err);
+			FixUtils.getTagStringValue(buf, marketSegmentID, 0, marketSegmentID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasMarketSegmentID);		
@@ -1115,7 +1115,7 @@ public class FixTrdSessLstGrp extends FixGroup {
 		
 				buf.position(hasTradingSessionDesc);		
 		
-			FixMessage.getTagStringValue(buf, tradingSessionDesc, 0, tradingSessionDesc.length, err);
+			FixUtils.getTagStringValue(buf, tradingSessionDesc, 0, tradingSessionDesc.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTradingSessionDesc);		
@@ -1154,7 +1154,7 @@ public class FixTrdSessLstGrp extends FixGroup {
 		
 				buf.position(hasTradSesUpdateAction);		
 		
-			tradSesUpdateAction = FixMessage.getTagCharValue(buf, err);
+			tradSesUpdateAction = FixUtils.getTagCharValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTradSesUpdateAction);		
@@ -1198,7 +1198,7 @@ public class FixTrdSessLstGrp extends FixGroup {
 		
 				buf.position(hasTradSesOpenTime);		
 		
-			FixMessage.getTagStringValue(buf, tradSesOpenTime, 0, tradSesOpenTime.length, err);
+			FixUtils.getTagStringValue(buf, tradSesOpenTime, 0, tradSesOpenTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTradSesOpenTime);		
@@ -1237,7 +1237,7 @@ public class FixTrdSessLstGrp extends FixGroup {
 		
 				buf.position(hasTradSesPreCloseTime);		
 		
-			FixMessage.getTagStringValue(buf, tradSesPreCloseTime, 0, tradSesPreCloseTime.length, err);
+			FixUtils.getTagStringValue(buf, tradSesPreCloseTime, 0, tradSesPreCloseTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTradSesPreCloseTime);		
@@ -1276,7 +1276,7 @@ public class FixTrdSessLstGrp extends FixGroup {
 		
 				buf.position(hasTradSesCloseTime);		
 		
-			FixMessage.getTagStringValue(buf, tradSesCloseTime, 0, tradSesCloseTime.length, err);
+			FixUtils.getTagStringValue(buf, tradSesCloseTime, 0, tradSesCloseTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTradSesCloseTime);		
@@ -1315,7 +1315,7 @@ public class FixTrdSessLstGrp extends FixGroup {
 		
 				buf.position(hasTradSesEndTime);		
 		
-			FixMessage.getTagStringValue(buf, tradSesEndTime, 0, tradSesEndTime.length, err);
+			FixUtils.getTagStringValue(buf, tradSesEndTime, 0, tradSesEndTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTradSesEndTime);		
@@ -1354,7 +1354,7 @@ public class FixTrdSessLstGrp extends FixGroup {
 		
 				buf.position(hasTotalVolumeTraded);		
 		
-			totalVolumeTraded = FixMessage.getTagFloatValue(buf, err);
+			totalVolumeTraded = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTotalVolumeTraded);		
@@ -1398,7 +1398,7 @@ public class FixTrdSessLstGrp extends FixGroup {
 		
 				buf.position(hasText);		
 		
-			FixMessage.getTagStringValue(buf, text, 0, text.length, err);
+			FixUtils.getTagStringValue(buf, text, 0, text.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasText);		
@@ -1437,7 +1437,7 @@ public class FixTrdSessLstGrp extends FixGroup {
 		
 				buf.position(hasEncodedTextLen);		
 		
-			encodedTextLen = FixMessage.getTagIntValue(buf, err);
+			encodedTextLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasEncodedTextLen);		
@@ -1481,7 +1481,7 @@ public class FixTrdSessLstGrp extends FixGroup {
 		
 				buf.position(hasEncodedText);		
 		
-			FixMessage.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
+			FixUtils.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasEncodedText);		
@@ -1520,7 +1520,7 @@ public class FixTrdSessLstGrp extends FixGroup {
 		
 				buf.position(hasTransactTime);		
 		
-			FixMessage.getTagStringValue(buf, transactTime, 0, transactTime.length, err);
+			FixUtils.getTagStringValue(buf, transactTime, 0, transactTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTransactTime);		

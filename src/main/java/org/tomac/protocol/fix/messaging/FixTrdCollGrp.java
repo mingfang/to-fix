@@ -53,18 +53,18 @@ public class FixTrdCollGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.TRADEREPORTID_INT:		
             		hasTradeReportID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SECONDARYTRADEREPORTID_INT:		
             		hasSecondaryTradeReportID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -133,7 +133,7 @@ public class FixTrdCollGrp extends FixGroup {
 		
 				buf.position(hasTradeReportID);		
 		
-			FixMessage.getTagStringValue(buf, tradeReportID, 0, tradeReportID.length, err);
+			FixUtils.getTagStringValue(buf, tradeReportID, 0, tradeReportID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTradeReportID);		
@@ -172,7 +172,7 @@ public class FixTrdCollGrp extends FixGroup {
 		
 				buf.position(hasSecondaryTradeReportID);		
 		
-			FixMessage.getTagStringValue(buf, secondaryTradeReportID, 0, secondaryTradeReportID.length, err);
+			FixUtils.getTagStringValue(buf, secondaryTradeReportID, 0, secondaryTradeReportID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSecondaryTradeReportID);		

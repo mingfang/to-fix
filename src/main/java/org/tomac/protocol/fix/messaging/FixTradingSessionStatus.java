@@ -98,7 +98,7 @@ public class FixTradingSessionStatus extends FixInMessage {
 		super.setBuffer(buf, err);
         if (err.hasError()) return;
 
-        int tag = FixMessage.getTag(buf, err);
+        int tag = FixUtils.getTag(buf, err);
         if (err.hasError()) return;
 
         while ( buf.hasRemaining() ) {
@@ -106,83 +106,83 @@ public class FixTradingSessionStatus extends FixInMessage {
             switch (tag) {		
             	case FixTags.TRADSESREQID_INT:		
             		hasTradSesReqID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.MARKETID_INT:		
             		hasMarketID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.MARKETSEGMENTID_INT:		
             		hasMarketSegmentID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRADINGSESSIONID_INT:		
             		hasTradingSessionID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRADINGSESSIONSUBID_INT:		
             		hasTradingSessionSubID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRADSESMETHOD_INT:		
             		hasTradSesMethod = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRADSESMODE_INT:		
             		hasTradSesMode = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.UNSOLICITEDINDICATOR_INT:		
             		hasUnsolicitedIndicator = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRADSESSTATUS_INT:		
             		hasTradSesStatus = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRADSESEVENT_INT:		
             		hasTradSesEvent = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRADSESSTATUSREJREASON_INT:		
             		hasTradSesStatusRejReason = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRADSESSTARTTIME_INT:		
             		hasTradSesStartTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRADSESOPENTIME_INT:		
             		hasTradSesOpenTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRADSESPRECLOSETIME_INT:		
             		hasTradSesPreCloseTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRADSESCLOSETIME_INT:		
             		hasTradSesCloseTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRADSESENDTIME_INT:		
             		hasTradSesEndTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TOTALVOLUMETRADED_INT:		
             		hasTotalVolumeTraded = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TEXT_INT:		
             		hasText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDTEXTLEN_INT:		
             		hasEncodedTextLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDTEXT_INT:		
             		hasEncodedText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	default:
         			if ( standardHeader.isKeyTag(tag)) {
@@ -191,7 +191,7 @@ public class FixTradingSessionStatus extends FixInMessage {
                 		else continue;		
         			} else if ( standardTrailer.isKeyTag(tag)) {
         				tag = standardTrailer.setBuffer( tag, buf, err);
-        				FixMessage.unreadLastTag(tag, buf);
+        				FixUtils.unreadLastTag(tag, buf);
         				if (!err.hasError()) hasRequiredTags(err);
             			return; // always last, we are done now
         			} else if ( applicationSequenceControl.isKeyTag(tag)) {
@@ -203,10 +203,10 @@ public class FixTradingSessionStatus extends FixInMessage {
             			if (err.hasError()) break; 		
                 		else continue;		
             		} else {
- 						FixMessage.getNext(buf, err);		
+ 						FixUtils.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else {
-                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.TRADINGSESSIONSTATUS);
+                		else if (FixUtils.validateOnlyDefinedTagsAllowed) {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.TRADINGSESSIONSTATUS_INT);
                 			break;
                 		}
 					}
@@ -215,7 +215,7 @@ public class FixTradingSessionStatus extends FixInMessage {
 
         		if (err.hasError()) return;
 
-            	tag = FixMessage.getTag(buf, err);		
+            	tag = FixUtils.getTag(buf, err);		
         		if (err.hasError()) break;
 
 		}
@@ -223,18 +223,14 @@ public class FixTradingSessionStatus extends FixInMessage {
 	}		
 
 	public boolean hasRequiredTags(FixValidationError err) {
-		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		if (!hasTradingSessionID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TRADINGSESSIONID_INT, FixMessageInfo.MessageTypes.TRADINGSESSIONSTATUS);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TRADINGSESSIONID_INT, FixMessageInfo.MessageTypes.TRADINGSESSIONSTATUS_INT);
 			return false;
 		}
 		if (!hasTradSesStatus()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TRADSESSTATUS_INT, FixMessageInfo.MessageTypes.TRADINGSESSIONSTATUS);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TRADSESSTATUS_INT, FixMessageInfo.MessageTypes.TRADINGSESSIONSTATUS_INT);
 			return false;
 		}
-		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		return true;
 	}
 	@Override		
@@ -645,7 +641,7 @@ public class FixTradingSessionStatus extends FixInMessage {
 
 				buf.position(hasTradSesReqID);
 
-			FixMessage.getTagStringValue(buf, tradSesReqID, 0, tradSesReqID.length, err);
+			FixUtils.getTagStringValue(buf, tradSesReqID, 0, tradSesReqID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -689,7 +685,7 @@ public class FixTradingSessionStatus extends FixInMessage {
 
 				buf.position(hasMarketID);
 
-			FixMessage.getTagStringValue(buf, marketID, 0, marketID.length, err);
+			FixUtils.getTagStringValue(buf, marketID, 0, marketID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -733,7 +729,7 @@ public class FixTradingSessionStatus extends FixInMessage {
 
 				buf.position(hasMarketSegmentID);
 
-			FixMessage.getTagStringValue(buf, marketSegmentID, 0, marketSegmentID.length, err);
+			FixUtils.getTagStringValue(buf, marketSegmentID, 0, marketSegmentID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -777,7 +773,7 @@ public class FixTradingSessionStatus extends FixInMessage {
 
 				buf.position(hasTradingSessionID);
 
-			FixMessage.getTagStringValue(buf, tradingSessionID, 0, tradingSessionID.length, err);
+			FixUtils.getTagStringValue(buf, tradingSessionID, 0, tradingSessionID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -821,7 +817,7 @@ public class FixTradingSessionStatus extends FixInMessage {
 
 				buf.position(hasTradingSessionSubID);
 
-			FixMessage.getTagStringValue(buf, tradingSessionSubID, 0, tradingSessionSubID.length, err);
+			FixUtils.getTagStringValue(buf, tradingSessionSubID, 0, tradingSessionSubID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -865,7 +861,7 @@ public class FixTradingSessionStatus extends FixInMessage {
 
 				buf.position(hasTradSesMethod);
 
-			tradSesMethod = FixMessage.getTagIntValue(buf, err);
+			tradSesMethod = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -914,7 +910,7 @@ public class FixTradingSessionStatus extends FixInMessage {
 
 				buf.position(hasTradSesMode);
 
-			tradSesMode = FixMessage.getTagIntValue(buf, err);
+			tradSesMode = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -963,7 +959,7 @@ public class FixTradingSessionStatus extends FixInMessage {
 
 				buf.position(hasUnsolicitedIndicator);
 
-			unsolicitedIndicator = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			unsolicitedIndicator = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1012,7 +1008,7 @@ public class FixTradingSessionStatus extends FixInMessage {
 
 				buf.position(hasTradSesStatus);
 
-			tradSesStatus = FixMessage.getTagIntValue(buf, err);
+			tradSesStatus = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1061,7 +1057,7 @@ public class FixTradingSessionStatus extends FixInMessage {
 
 				buf.position(hasTradSesEvent);
 
-			tradSesEvent = FixMessage.getTagIntValue(buf, err);
+			tradSesEvent = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1110,7 +1106,7 @@ public class FixTradingSessionStatus extends FixInMessage {
 
 				buf.position(hasTradSesStatusRejReason);
 
-			tradSesStatusRejReason = FixMessage.getTagIntValue(buf, err);
+			tradSesStatusRejReason = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1159,7 +1155,7 @@ public class FixTradingSessionStatus extends FixInMessage {
 
 				buf.position(hasTradSesStartTime);
 
-			FixMessage.getTagStringValue(buf, tradSesStartTime, 0, tradSesStartTime.length, err);
+			FixUtils.getTagStringValue(buf, tradSesStartTime, 0, tradSesStartTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1203,7 +1199,7 @@ public class FixTradingSessionStatus extends FixInMessage {
 
 				buf.position(hasTradSesOpenTime);
 
-			FixMessage.getTagStringValue(buf, tradSesOpenTime, 0, tradSesOpenTime.length, err);
+			FixUtils.getTagStringValue(buf, tradSesOpenTime, 0, tradSesOpenTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1247,7 +1243,7 @@ public class FixTradingSessionStatus extends FixInMessage {
 
 				buf.position(hasTradSesPreCloseTime);
 
-			FixMessage.getTagStringValue(buf, tradSesPreCloseTime, 0, tradSesPreCloseTime.length, err);
+			FixUtils.getTagStringValue(buf, tradSesPreCloseTime, 0, tradSesPreCloseTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1291,7 +1287,7 @@ public class FixTradingSessionStatus extends FixInMessage {
 
 				buf.position(hasTradSesCloseTime);
 
-			FixMessage.getTagStringValue(buf, tradSesCloseTime, 0, tradSesCloseTime.length, err);
+			FixUtils.getTagStringValue(buf, tradSesCloseTime, 0, tradSesCloseTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1335,7 +1331,7 @@ public class FixTradingSessionStatus extends FixInMessage {
 
 				buf.position(hasTradSesEndTime);
 
-			FixMessage.getTagStringValue(buf, tradSesEndTime, 0, tradSesEndTime.length, err);
+			FixUtils.getTagStringValue(buf, tradSesEndTime, 0, tradSesEndTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1379,7 +1375,7 @@ public class FixTradingSessionStatus extends FixInMessage {
 
 				buf.position(hasTotalVolumeTraded);
 
-			totalVolumeTraded = FixMessage.getTagFloatValue(buf, err);
+			totalVolumeTraded = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1428,7 +1424,7 @@ public class FixTradingSessionStatus extends FixInMessage {
 
 				buf.position(hasText);
 
-			FixMessage.getTagStringValue(buf, text, 0, text.length, err);
+			FixUtils.getTagStringValue(buf, text, 0, text.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1472,7 +1468,7 @@ public class FixTradingSessionStatus extends FixInMessage {
 
 				buf.position(hasEncodedTextLen);
 
-			encodedTextLen = FixMessage.getTagIntValue(buf, err);
+			encodedTextLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1521,7 +1517,7 @@ public class FixTradingSessionStatus extends FixInMessage {
 
 				buf.position(hasEncodedText);
 
-			FixMessage.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
+			FixUtils.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		

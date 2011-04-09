@@ -56,19 +56,19 @@ public class FixComplexEventDates extends FixGroup {
             switch (tag) {		
             	case FixTags.COMPLEXEVENTSTARTDATE_INT:		
             		hasComplexEventStartDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.COMPLEXEVENTENDDATE_INT:		
             		hasComplexEventEndDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( tag == FixTags.NOCOMPLEXEVENTTIMES_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -86,7 +86,7 @@ public class FixComplexEventDates extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -168,7 +168,7 @@ public class FixComplexEventDates extends FixGroup {
 		
 				buf.position(hasComplexEventStartDate);		
 		
-			FixMessage.getTagStringValue(buf, complexEventStartDate, 0, complexEventStartDate.length, err);
+			FixUtils.getTagStringValue(buf, complexEventStartDate, 0, complexEventStartDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasComplexEventStartDate);		
@@ -207,7 +207,7 @@ public class FixComplexEventDates extends FixGroup {
 		
 				buf.position(hasComplexEventEndDate);		
 		
-			FixMessage.getTagStringValue(buf, complexEventEndDate, 0, complexEventEndDate.length, err);
+			FixUtils.getTagStringValue(buf, complexEventEndDate, 0, complexEventEndDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasComplexEventEndDate);		

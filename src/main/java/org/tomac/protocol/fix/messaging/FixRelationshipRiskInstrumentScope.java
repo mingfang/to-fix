@@ -137,107 +137,107 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
             switch (tag) {		
             	case FixTags.RELATIONSHIPRISKINSTRUMENTOPERATOR_INT:		
             		hasRelationshipRiskInstrumentOperator = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELATIONSHIPRISKSYMBOL_INT:		
             		hasRelationshipRiskSymbol = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELATIONSHIPRISKSYMBOLSFX_INT:		
             		hasRelationshipRiskSymbolSfx = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELATIONSHIPRISKSECURITYID_INT:		
             		hasRelationshipRiskSecurityID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELATIONSHIPRISKSECURITYIDSOURCE_INT:		
             		hasRelationshipRiskSecurityIDSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELATIONSHIPRISKPRODUCT_INT:		
             		hasRelationshipRiskProduct = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELATIONSHIPRISKPRODUCTCOMPLEX_INT:		
             		hasRelationshipRiskProductComplex = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELATIONSHIPRISKSECURITYGROUP_INT:		
             		hasRelationshipRiskSecurityGroup = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELATIONSHIPRISKCFICODE_INT:		
             		hasRelationshipRiskCFICode = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELATIONSHIPRISKSECURITYTYPE_INT:		
             		hasRelationshipRiskSecurityType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELATIONSHIPRISKSECURITYSUBTYPE_INT:		
             		hasRelationshipRiskSecuritySubType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELATIONSHIPRISKMATURITYMONTHYEAR_INT:		
             		hasRelationshipRiskMaturityMonthYear = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELATIONSHIPRISKMATURITYTIME_INT:		
             		hasRelationshipRiskMaturityTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELATIONSHIPRISKRESTRUCTURINGTYPE_INT:		
             		hasRelationshipRiskRestructuringType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELATIONSHIPRISKSENIORITY_INT:		
             		hasRelationshipRiskSeniority = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELATIONSHIPRISKPUTORCALL_INT:		
             		hasRelationshipRiskPutOrCall = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELATIONSHIPRISKFLEXIBLEINDICATOR_INT:		
             		hasRelationshipRiskFlexibleIndicator = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELATIONSHIPRISKCOUPONRATE_INT:		
             		hasRelationshipRiskCouponRate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELATIONSHIPRISKSECURITYEXCHANGE_INT:		
             		hasRelationshipRiskSecurityExchange = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELATIONSHIPRISKSECURITYDESC_INT:		
             		hasRelationshipRiskSecurityDesc = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELATIONSHIPRISKENCODEDSECURITYDESCLEN_INT:		
             		hasRelationshipRiskEncodedSecurityDescLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELATIONSHIPRISKENCODEDSECURITYDESC_INT:		
             		hasRelationshipRiskEncodedSecurityDesc = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELATIONSHIPRISKINSTRUMENTSETTLTYPE_INT:		
             		hasRelationshipRiskInstrumentSettlType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RELATIONSHIPRISKINSTRUMENTMULTIPLIER_INT:		
             		hasRelationshipRiskInstrumentMultiplier = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( tag == FixTags.NORELATIONSHIPRISKSECURITYALTID_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -255,7 +255,7 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -733,7 +733,7 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRelationshipRiskInstrumentOperator);		
 		
-			relationshipRiskInstrumentOperator = FixMessage.getTagIntValue(buf, err);
+			relationshipRiskInstrumentOperator = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelationshipRiskInstrumentOperator);		
@@ -777,7 +777,7 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRelationshipRiskSymbol);		
 		
-			FixMessage.getTagStringValue(buf, relationshipRiskSymbol, 0, relationshipRiskSymbol.length, err);
+			FixUtils.getTagStringValue(buf, relationshipRiskSymbol, 0, relationshipRiskSymbol.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelationshipRiskSymbol);		
@@ -816,7 +816,7 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRelationshipRiskSymbolSfx);		
 		
-			FixMessage.getTagStringValue(buf, relationshipRiskSymbolSfx, 0, relationshipRiskSymbolSfx.length, err);
+			FixUtils.getTagStringValue(buf, relationshipRiskSymbolSfx, 0, relationshipRiskSymbolSfx.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelationshipRiskSymbolSfx);		
@@ -855,7 +855,7 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRelationshipRiskSecurityID);		
 		
-			FixMessage.getTagStringValue(buf, relationshipRiskSecurityID, 0, relationshipRiskSecurityID.length, err);
+			FixUtils.getTagStringValue(buf, relationshipRiskSecurityID, 0, relationshipRiskSecurityID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelationshipRiskSecurityID);		
@@ -894,7 +894,7 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRelationshipRiskSecurityIDSource);		
 		
-			FixMessage.getTagStringValue(buf, relationshipRiskSecurityIDSource, 0, relationshipRiskSecurityIDSource.length, err);
+			FixUtils.getTagStringValue(buf, relationshipRiskSecurityIDSource, 0, relationshipRiskSecurityIDSource.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelationshipRiskSecurityIDSource);		
@@ -933,7 +933,7 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRelationshipRiskProduct);		
 		
-			relationshipRiskProduct = FixMessage.getTagIntValue(buf, err);
+			relationshipRiskProduct = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelationshipRiskProduct);		
@@ -977,7 +977,7 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRelationshipRiskProductComplex);		
 		
-			FixMessage.getTagStringValue(buf, relationshipRiskProductComplex, 0, relationshipRiskProductComplex.length, err);
+			FixUtils.getTagStringValue(buf, relationshipRiskProductComplex, 0, relationshipRiskProductComplex.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelationshipRiskProductComplex);		
@@ -1016,7 +1016,7 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRelationshipRiskSecurityGroup);		
 		
-			FixMessage.getTagStringValue(buf, relationshipRiskSecurityGroup, 0, relationshipRiskSecurityGroup.length, err);
+			FixUtils.getTagStringValue(buf, relationshipRiskSecurityGroup, 0, relationshipRiskSecurityGroup.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelationshipRiskSecurityGroup);		
@@ -1055,7 +1055,7 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRelationshipRiskCFICode);		
 		
-			FixMessage.getTagStringValue(buf, relationshipRiskCFICode, 0, relationshipRiskCFICode.length, err);
+			FixUtils.getTagStringValue(buf, relationshipRiskCFICode, 0, relationshipRiskCFICode.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelationshipRiskCFICode);		
@@ -1094,7 +1094,7 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRelationshipRiskSecurityType);		
 		
-			FixMessage.getTagStringValue(buf, relationshipRiskSecurityType, 0, relationshipRiskSecurityType.length, err);
+			FixUtils.getTagStringValue(buf, relationshipRiskSecurityType, 0, relationshipRiskSecurityType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelationshipRiskSecurityType);		
@@ -1133,7 +1133,7 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRelationshipRiskSecuritySubType);		
 		
-			FixMessage.getTagStringValue(buf, relationshipRiskSecuritySubType, 0, relationshipRiskSecuritySubType.length, err);
+			FixUtils.getTagStringValue(buf, relationshipRiskSecuritySubType, 0, relationshipRiskSecuritySubType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelationshipRiskSecuritySubType);		
@@ -1172,7 +1172,7 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRelationshipRiskMaturityMonthYear);		
 		
-			FixMessage.getTagStringValue(buf, relationshipRiskMaturityMonthYear, 0, relationshipRiskMaturityMonthYear.length, err);
+			FixUtils.getTagStringValue(buf, relationshipRiskMaturityMonthYear, 0, relationshipRiskMaturityMonthYear.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelationshipRiskMaturityMonthYear);		
@@ -1211,7 +1211,7 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRelationshipRiskMaturityTime);		
 		
-			FixMessage.getTagStringValue(buf, relationshipRiskMaturityTime, 0, relationshipRiskMaturityTime.length, err);
+			FixUtils.getTagStringValue(buf, relationshipRiskMaturityTime, 0, relationshipRiskMaturityTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelationshipRiskMaturityTime);		
@@ -1250,7 +1250,7 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRelationshipRiskRestructuringType);		
 		
-			FixMessage.getTagStringValue(buf, relationshipRiskRestructuringType, 0, relationshipRiskRestructuringType.length, err);
+			FixUtils.getTagStringValue(buf, relationshipRiskRestructuringType, 0, relationshipRiskRestructuringType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelationshipRiskRestructuringType);		
@@ -1289,7 +1289,7 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRelationshipRiskSeniority);		
 		
-			FixMessage.getTagStringValue(buf, relationshipRiskSeniority, 0, relationshipRiskSeniority.length, err);
+			FixUtils.getTagStringValue(buf, relationshipRiskSeniority, 0, relationshipRiskSeniority.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelationshipRiskSeniority);		
@@ -1328,7 +1328,7 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRelationshipRiskPutOrCall);		
 		
-			relationshipRiskPutOrCall = FixMessage.getTagIntValue(buf, err);
+			relationshipRiskPutOrCall = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelationshipRiskPutOrCall);		
@@ -1372,7 +1372,7 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRelationshipRiskFlexibleIndicator);		
 		
-			relationshipRiskFlexibleIndicator = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			relationshipRiskFlexibleIndicator = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(hasRelationshipRiskFlexibleIndicator);		
@@ -1416,7 +1416,7 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRelationshipRiskCouponRate);		
 		
-			relationshipRiskCouponRate = FixMessage.getTagFloatValue(buf, err);
+			relationshipRiskCouponRate = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelationshipRiskCouponRate);		
@@ -1460,7 +1460,7 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRelationshipRiskSecurityExchange);		
 		
-			FixMessage.getTagStringValue(buf, relationshipRiskSecurityExchange, 0, relationshipRiskSecurityExchange.length, err);
+			FixUtils.getTagStringValue(buf, relationshipRiskSecurityExchange, 0, relationshipRiskSecurityExchange.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelationshipRiskSecurityExchange);		
@@ -1499,7 +1499,7 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRelationshipRiskSecurityDesc);		
 		
-			FixMessage.getTagStringValue(buf, relationshipRiskSecurityDesc, 0, relationshipRiskSecurityDesc.length, err);
+			FixUtils.getTagStringValue(buf, relationshipRiskSecurityDesc, 0, relationshipRiskSecurityDesc.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelationshipRiskSecurityDesc);		
@@ -1538,7 +1538,7 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRelationshipRiskEncodedSecurityDescLen);		
 		
-			relationshipRiskEncodedSecurityDescLen = FixMessage.getTagIntValue(buf, err);
+			relationshipRiskEncodedSecurityDescLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelationshipRiskEncodedSecurityDescLen);		
@@ -1582,7 +1582,7 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRelationshipRiskEncodedSecurityDesc);		
 		
-			FixMessage.getTagStringValue(buf, relationshipRiskEncodedSecurityDesc, 0, relationshipRiskEncodedSecurityDesc.length, err);
+			FixUtils.getTagStringValue(buf, relationshipRiskEncodedSecurityDesc, 0, relationshipRiskEncodedSecurityDesc.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelationshipRiskEncodedSecurityDesc);		
@@ -1621,7 +1621,7 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRelationshipRiskInstrumentSettlType);		
 		
-			FixMessage.getTagStringValue(buf, relationshipRiskInstrumentSettlType, 0, relationshipRiskInstrumentSettlType.length, err);
+			FixUtils.getTagStringValue(buf, relationshipRiskInstrumentSettlType, 0, relationshipRiskInstrumentSettlType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelationshipRiskInstrumentSettlType);		
@@ -1660,7 +1660,7 @@ public class FixRelationshipRiskInstrumentScope extends FixGroup {
 		
 				buf.position(hasRelationshipRiskInstrumentMultiplier);		
 		
-			relationshipRiskInstrumentMultiplier = FixMessage.getTagFloatValue(buf, err);
+			relationshipRiskInstrumentMultiplier = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRelationshipRiskInstrumentMultiplier);		

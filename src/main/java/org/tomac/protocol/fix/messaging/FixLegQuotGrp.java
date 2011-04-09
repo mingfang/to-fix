@@ -90,47 +90,47 @@ public class FixLegQuotGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.LEGQTY_INT:		
             		hasLegQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGORDERQTY_INT:		
             		hasLegOrderQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGSWAPTYPE_INT:		
             		hasLegSwapType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGSETTLTYPE_INT:		
             		hasLegSettlType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGSETTLDATE_INT:		
             		hasLegSettlDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGPRICETYPE_INT:		
             		hasLegPriceType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGBIDPX_INT:		
             		hasLegBidPx = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGOFFERPX_INT:		
             		hasLegOfferPx = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGREFID_INT:		
             		hasLegRefID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGBIDFORWARDPOINTS_INT:		
             		hasLegBidForwardPoints = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGOFFERFORWARDPOINTS_INT:		
             		hasLegOfferForwardPoints = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( instrumentLeg.isKeyTag(tag)) {
@@ -139,10 +139,10 @@ public class FixLegQuotGrp extends FixGroup {
                 		else continue;		
         			} else if ( tag == FixTags.NOLEGSTIPULATIONS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -159,10 +159,10 @@ public class FixLegQuotGrp extends FixGroup {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NONESTEDPARTYIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -184,7 +184,7 @@ public class FixLegQuotGrp extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -447,7 +447,7 @@ public class FixLegQuotGrp extends FixGroup {
 		
 				buf.position(hasLegQty);		
 		
-			legQty = FixMessage.getTagFloatValue(buf, err);
+			legQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegQty);		
@@ -491,7 +491,7 @@ public class FixLegQuotGrp extends FixGroup {
 		
 				buf.position(hasLegOrderQty);		
 		
-			legOrderQty = FixMessage.getTagFloatValue(buf, err);
+			legOrderQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegOrderQty);		
@@ -535,7 +535,7 @@ public class FixLegQuotGrp extends FixGroup {
 		
 				buf.position(hasLegSwapType);		
 		
-			legSwapType = FixMessage.getTagIntValue(buf, err);
+			legSwapType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegSwapType);		
@@ -579,7 +579,7 @@ public class FixLegQuotGrp extends FixGroup {
 		
 				buf.position(hasLegSettlType);		
 		
-			legSettlType = FixMessage.getTagCharValue(buf, err);
+			legSettlType = FixUtils.getTagCharValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegSettlType);		
@@ -623,7 +623,7 @@ public class FixLegQuotGrp extends FixGroup {
 		
 				buf.position(hasLegSettlDate);		
 		
-			FixMessage.getTagStringValue(buf, legSettlDate, 0, legSettlDate.length, err);
+			FixUtils.getTagStringValue(buf, legSettlDate, 0, legSettlDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegSettlDate);		
@@ -662,7 +662,7 @@ public class FixLegQuotGrp extends FixGroup {
 		
 				buf.position(hasLegPriceType);		
 		
-			legPriceType = FixMessage.getTagIntValue(buf, err);
+			legPriceType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegPriceType);		
@@ -706,7 +706,7 @@ public class FixLegQuotGrp extends FixGroup {
 		
 				buf.position(hasLegBidPx);		
 		
-			legBidPx = FixMessage.getTagFloatValue(buf, err);
+			legBidPx = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegBidPx);		
@@ -750,7 +750,7 @@ public class FixLegQuotGrp extends FixGroup {
 		
 				buf.position(hasLegOfferPx);		
 		
-			legOfferPx = FixMessage.getTagFloatValue(buf, err);
+			legOfferPx = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegOfferPx);		
@@ -794,7 +794,7 @@ public class FixLegQuotGrp extends FixGroup {
 		
 				buf.position(hasLegRefID);		
 		
-			FixMessage.getTagStringValue(buf, legRefID, 0, legRefID.length, err);
+			FixUtils.getTagStringValue(buf, legRefID, 0, legRefID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegRefID);		
@@ -833,7 +833,7 @@ public class FixLegQuotGrp extends FixGroup {
 		
 				buf.position(hasLegBidForwardPoints);		
 		
-			legBidForwardPoints = FixMessage.getTagFloatValue(buf, err);
+			legBidForwardPoints = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegBidForwardPoints);		
@@ -877,7 +877,7 @@ public class FixLegQuotGrp extends FixGroup {
 		
 				buf.position(hasLegOfferForwardPoints);		
 		
-			legOfferForwardPoints = FixMessage.getTagFloatValue(buf, err);
+			legOfferForwardPoints = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegOfferForwardPoints);		

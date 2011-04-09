@@ -31,10 +31,10 @@ public class TestFixContainers {
 		listener = new TestFixMessageListener();
 		err = new FixValidationError();
 		FixUtils.validateChecksum = false;
-		FixUtils.validateMsgSeqNum = false;
+		FixUtils.validateOnlyDefinedTagsAllowed = false;
+		FixUtils.validateSession = false;
 		FixUtils.validateSendingTime = false;
-		if ((new String(FixMessageInfo.BEGINSTRING_VALUE).equals("FIX.4.2") ) ) FixUtils.isNasdaqOMX =  true;
-		else FixUtils.isNasdaqOMX = false;
+		FixUtils.isNasdaqOMX = false;
 	}
 
 	@After
@@ -69,8 +69,8 @@ public class TestFixContainers {
 				assertTrue(l.toString().length() > 0);
 			}
 			
-			parser.parse(parseBuf, err, listener);
-			assertFalse(err.hasError());
+			parser.parse(parseBuf, err, listener, 0);
+			assertFalse(err.toString(), err.hasError());
 			err.clear();
 		}
 	}
@@ -100,7 +100,7 @@ public class TestFixContainers {
 			inMsg = (FixInMessage) pool.getFixMessage(buf, err);
 
 			assertNotNull(inMsg);
-			assertFalse(inMsg.getLastFixValidationError().hasError());
+			assertFalse(inMsg.getLastFixValidationError().toString(), inMsg.getLastFixValidationError().hasError());
 
 			ByteBuffer old = buf.duplicate();
 			old.flip();
@@ -150,8 +150,7 @@ public class TestFixContainers {
 			out.position(0);
 			inMsg = (FixInMessage) pool.getFixMessage(out, err);
 
-
-			assertFalse(err.hasError());
+			assertFalse(err.toString(), err.hasError());
 
 		}
 	}
@@ -188,13 +187,13 @@ public class TestFixContainers {
 			ByteBuffer out = ByteBuffer.wrap(bytes);
 			outMsg.encode(out);
 			// ?
-			assertFalse(err.hasError());
+			assertFalse(err.toString(), err.hasError());
 			
 			out.position(0);
 			inMsg = (FixInMessage) pool.getFixMessage(out, err);
 
 			assertNotNull(inMsg);
-			assertFalse(err.hasError());
+			assertFalse(err.toString(), err.hasError());
 
 		}
 	}
@@ -214,7 +213,7 @@ public class TestFixContainers {
 			inMsg = (FixInMessage) pool.getFixMessage(buf, err);
 
 			assertNotNull(inMsg);
-			assertTrue(err.hasError());
+			assertTrue(err.toString(), err.hasError());
 			assertEquals(err.sessionRejectReason, (int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING);
 
 		}
@@ -234,7 +233,7 @@ public class TestFixContainers {
 			inMsg = (FixInMessage) pool.getFixMessage(buf, err);
 
 			assertNotNull(inMsg);
-			assertFalse(err.hasError());
+			assertFalse(err.toString(), err.hasError());
 			
 			outMsg = (FixMessage) inMsg.clone();
 
@@ -248,7 +247,7 @@ public class TestFixContainers {
 			ByteBuffer out = ByteBuffer.wrap(bytes);
 			outMsg.encode(out);
 			// ?
-			assertFalse(err.hasError());
+			assertFalse(err.toString(), err.hasError());
 			
 			out.position(0);
 			inMsg = (FixInMessage) pool.getFixMessage(out, err);

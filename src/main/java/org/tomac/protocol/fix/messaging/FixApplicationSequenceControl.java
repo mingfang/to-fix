@@ -58,26 +58,26 @@ public class FixApplicationSequenceControl extends FixGroup {
             switch (tag) {		
             	case FixTags.APPLID_INT:		
             		hasApplID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.APPLSEQNUM_INT:		
             		hasApplSeqNum = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.APPLLASTSEQNUM_INT:		
             		hasApplLastSeqNum = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.APPLRESENDFLAG_INT:		
             		hasApplResendFlag = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -182,7 +182,7 @@ public class FixApplicationSequenceControl extends FixGroup {
 		
 				buf.position(hasApplID);		
 		
-			FixMessage.getTagStringValue(buf, applID, 0, applID.length, err);
+			FixUtils.getTagStringValue(buf, applID, 0, applID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasApplID);		
@@ -221,7 +221,7 @@ public class FixApplicationSequenceControl extends FixGroup {
 		
 				buf.position(hasApplSeqNum);		
 		
-			applSeqNum = FixMessage.getTagIntValue(buf, err);
+			applSeqNum = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasApplSeqNum);		
@@ -265,7 +265,7 @@ public class FixApplicationSequenceControl extends FixGroup {
 		
 				buf.position(hasApplLastSeqNum);		
 		
-			applLastSeqNum = FixMessage.getTagIntValue(buf, err);
+			applLastSeqNum = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasApplLastSeqNum);		
@@ -309,7 +309,7 @@ public class FixApplicationSequenceControl extends FixGroup {
 		
 				buf.position(hasApplResendFlag);		
 		
-			applResendFlag = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			applResendFlag = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(hasApplResendFlag);		

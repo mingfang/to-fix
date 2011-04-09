@@ -33,7 +33,7 @@ public class FixBidResponse extends FixInMessage {
 		super.setBuffer(buf, err);
         if (err.hasError()) return;
 
-        int tag = FixMessage.getTag(buf, err);
+        int tag = FixUtils.getTag(buf, err);
         if (err.hasError()) return;
 
         while ( buf.hasRemaining() ) {
@@ -41,11 +41,11 @@ public class FixBidResponse extends FixInMessage {
             switch (tag) {		
             	case FixTags.BIDID_INT:		
             		hasBidID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.CLIENTBIDID_INT:		
             		hasClientBidID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	default:
         			if ( standardHeader.isKeyTag(tag)) {
@@ -54,15 +54,15 @@ public class FixBidResponse extends FixInMessage {
                 		else continue;		
         			} else if ( standardTrailer.isKeyTag(tag)) {
         				tag = standardTrailer.setBuffer( tag, buf, err);
-        				FixMessage.unreadLastTag(tag, buf);
+        				FixUtils.unreadLastTag(tag, buf);
         				if (!err.hasError()) hasRequiredTags(err);
             			return; // always last, we are done now
         			} else if ( tag == FixTags.NOBIDCOMPONENTS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -78,10 +78,10 @@ public class FixBidResponse extends FixInMessage {
         				if (err.hasError()) break;
                 		else { tag = repeatingGroupTag; continue; }
             		} else {
- 						FixMessage.getNext(buf, err);		
+ 						FixUtils.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else {
-                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.BIDRESPONSE);
+                		else if (FixUtils.validateOnlyDefinedTagsAllowed) {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.BIDRESPONSE_INT);
                 			break;
                 		}
 					}
@@ -90,7 +90,7 @@ public class FixBidResponse extends FixInMessage {
 
         		if (err.hasError()) return;
 
-            	tag = FixMessage.getTag(buf, err);		
+            	tag = FixUtils.getTag(buf, err);		
         		if (err.hasError()) break;
 
 		}
@@ -98,11 +98,7 @@ public class FixBidResponse extends FixInMessage {
 	}		
 
 	public boolean hasRequiredTags(FixValidationError err) {
-		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		for (int i = 0; i< FixUtils.FIX_MAX_NOINGROUP; i++) { if (bidCompRspGrp[i].hasGroup()) bidCompRspGrp[i].hasRequiredTags(err); if (err.hasError()) return false; }
-		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		return true;
 	}
 	@Override		
@@ -234,7 +230,7 @@ public class FixBidResponse extends FixInMessage {
 
 				buf.position(hasBidID);
 
-			FixMessage.getTagStringValue(buf, bidID, 0, bidID.length, err);
+			FixUtils.getTagStringValue(buf, bidID, 0, bidID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -278,7 +274,7 @@ public class FixBidResponse extends FixInMessage {
 
 				buf.position(hasClientBidID);
 
-			FixMessage.getTagStringValue(buf, clientBidID, 0, clientBidID.length, err);
+			FixUtils.getTagStringValue(buf, clientBidID, 0, clientBidID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		

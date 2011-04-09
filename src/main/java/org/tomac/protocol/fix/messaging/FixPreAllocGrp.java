@@ -66,31 +66,31 @@ public class FixPreAllocGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.ALLOCACCOUNT_INT:		
             		hasAllocAccount = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ALLOCACCTIDSOURCE_INT:		
             		hasAllocAcctIDSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ALLOCSETTLCURRENCY_INT:		
             		hasAllocSettlCurrency = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.INDIVIDUALALLOCID_INT:		
             		hasIndividualAllocID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ALLOCQTY_INT:		
             		hasAllocQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( tag == FixTags.NONESTEDPARTYIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -108,7 +108,7 @@ public class FixPreAllocGrp extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -244,7 +244,7 @@ public class FixPreAllocGrp extends FixGroup {
 		
 				buf.position(hasAllocAccount);		
 		
-			FixMessage.getTagStringValue(buf, allocAccount, 0, allocAccount.length, err);
+			FixUtils.getTagStringValue(buf, allocAccount, 0, allocAccount.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasAllocAccount);		
@@ -283,7 +283,7 @@ public class FixPreAllocGrp extends FixGroup {
 		
 				buf.position(hasAllocAcctIDSource);		
 		
-			allocAcctIDSource = FixMessage.getTagIntValue(buf, err);
+			allocAcctIDSource = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasAllocAcctIDSource);		
@@ -327,7 +327,7 @@ public class FixPreAllocGrp extends FixGroup {
 		
 				buf.position(hasAllocSettlCurrency);		
 		
-			FixMessage.getTagStringValue(buf, allocSettlCurrency, 0, allocSettlCurrency.length, err);
+			FixUtils.getTagStringValue(buf, allocSettlCurrency, 0, allocSettlCurrency.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasAllocSettlCurrency);		
@@ -366,7 +366,7 @@ public class FixPreAllocGrp extends FixGroup {
 		
 				buf.position(hasIndividualAllocID);		
 		
-			FixMessage.getTagStringValue(buf, individualAllocID, 0, individualAllocID.length, err);
+			FixUtils.getTagStringValue(buf, individualAllocID, 0, individualAllocID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasIndividualAllocID);		
@@ -405,7 +405,7 @@ public class FixPreAllocGrp extends FixGroup {
 		
 				buf.position(hasAllocQty);		
 		
-			allocQty = FixMessage.getTagFloatValue(buf, err);
+			allocQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasAllocQty);		

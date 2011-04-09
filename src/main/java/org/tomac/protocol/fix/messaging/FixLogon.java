@@ -104,7 +104,7 @@ public class FixLogon extends FixInMessage {
 		super.setBuffer(buf, err);
         if (err.hasError()) return;
 
-        int tag = FixMessage.getTag(buf, err);
+        int tag = FixUtils.getTag(buf, err);
         if (err.hasError()) return;
 
         while ( buf.hasRemaining() ) {
@@ -112,95 +112,95 @@ public class FixLogon extends FixInMessage {
             switch (tag) {		
             	case FixTags.ENCRYPTMETHOD_INT:		
             		hasEncryptMethod = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.HEARTBTINT_INT:		
             		hasHeartBtInt = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.RAWDATALENGTH_INT:		
             		hasRawDataLength = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.RAWDATA_INT:		
             		hasRawData = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.RESETSEQNUMFLAG_INT:		
             		hasResetSeqNumFlag = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.NEXTEXPECTEDMSGSEQNUM_INT:		
             		hasNextExpectedMsgSeqNum = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.MAXMESSAGESIZE_INT:		
             		hasMaxMessageSize = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TESTMESSAGEINDICATOR_INT:		
             		hasTestMessageIndicator = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.USERNAME_INT:		
             		hasUsername = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.PASSWORD_INT:		
             		hasPassword = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.NEWPASSWORD_INT:		
             		hasNewPassword = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCRYPTEDPASSWORDMETHOD_INT:		
             		hasEncryptedPasswordMethod = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCRYPTEDPASSWORDLEN_INT:		
             		hasEncryptedPasswordLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCRYPTEDPASSWORD_INT:		
             		hasEncryptedPassword = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCRYPTEDNEWPASSWORDLEN_INT:		
             		hasEncryptedNewPasswordLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCRYPTEDNEWPASSWORD_INT:		
             		hasEncryptedNewPassword = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SESSIONSTATUS_INT:		
             		hasSessionStatus = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.DEFAULTAPPLVERID_INT:		
             		hasDefaultApplVerID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.DEFAULTAPPLEXTID_INT:		
             		hasDefaultApplExtID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.DEFAULTCSTMAPPLVERID_INT:		
             		hasDefaultCstmApplVerID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TEXT_INT:		
             		hasText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDTEXTLEN_INT:		
             		hasEncodedTextLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDTEXT_INT:		
             		hasEncodedText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	default:
         			if ( standardHeader.isKeyTag(tag)) {
@@ -209,15 +209,15 @@ public class FixLogon extends FixInMessage {
                 		else continue;		
         			} else if ( standardTrailer.isKeyTag(tag)) {
         				tag = standardTrailer.setBuffer( tag, buf, err);
-        				FixMessage.unreadLastTag(tag, buf);
+        				FixUtils.unreadLastTag(tag, buf);
         				if (!err.hasError()) hasRequiredTags(err);
             			return; // always last, we are done now
         			} else if ( tag == FixTags.NOMSGTYPES_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -233,10 +233,10 @@ public class FixLogon extends FixInMessage {
         				if (err.hasError()) break;
                 		else { tag = repeatingGroupTag; continue; }
             		} else {
- 						FixMessage.getNext(buf, err);		
+ 						FixUtils.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else {
-                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.LOGON);
+                		else if (FixUtils.validateOnlyDefinedTagsAllowed) {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.LOGON_INT);
                 			break;
                 		}
 					}
@@ -245,7 +245,7 @@ public class FixLogon extends FixInMessage {
 
         		if (err.hasError()) return;
 
-            	tag = FixMessage.getTag(buf, err);		
+            	tag = FixUtils.getTag(buf, err);		
         		if (err.hasError()) break;
 
 		}
@@ -253,22 +253,18 @@ public class FixLogon extends FixInMessage {
 	}		
 
 	public boolean hasRequiredTags(FixValidationError err) {
-		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		if (!hasEncryptMethod()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.ENCRYPTMETHOD_INT, FixMessageInfo.MessageTypes.LOGON);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.ENCRYPTMETHOD_INT, FixMessageInfo.MessageTypes.LOGON_INT);
 			return false;
 		}
 		if (!hasHeartBtInt()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.HEARTBTINT_INT, FixMessageInfo.MessageTypes.LOGON);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.HEARTBTINT_INT, FixMessageInfo.MessageTypes.LOGON_INT);
 			return false;
 		}
 		if (!hasDefaultApplVerID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.DEFAULTAPPLVERID_INT, FixMessageInfo.MessageTypes.LOGON);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.DEFAULTAPPLVERID_INT, FixMessageInfo.MessageTypes.LOGON_INT);
 			return false;
 		}
-		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		return true;
 	}
 	@Override		
@@ -736,7 +732,7 @@ public class FixLogon extends FixInMessage {
 
 				buf.position(hasEncryptMethod);
 
-			encryptMethod = FixMessage.getTagIntValue(buf, err);
+			encryptMethod = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -785,7 +781,7 @@ public class FixLogon extends FixInMessage {
 
 				buf.position(hasHeartBtInt);
 
-			heartBtInt = FixMessage.getTagIntValue(buf, err);
+			heartBtInt = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -834,7 +830,7 @@ public class FixLogon extends FixInMessage {
 
 				buf.position(hasRawDataLength);
 
-			rawDataLength = FixMessage.getTagIntValue(buf, err);
+			rawDataLength = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -883,7 +879,7 @@ public class FixLogon extends FixInMessage {
 
 				buf.position(hasRawData);
 
-			FixMessage.getTagStringValue(buf, rawData, 0, rawData.length, err);
+			FixUtils.getTagStringValue(buf, rawData, 0, rawData.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -927,7 +923,7 @@ public class FixLogon extends FixInMessage {
 
 				buf.position(hasResetSeqNumFlag);
 
-			resetSeqNumFlag = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			resetSeqNumFlag = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -976,7 +972,7 @@ public class FixLogon extends FixInMessage {
 
 				buf.position(hasNextExpectedMsgSeqNum);
 
-			nextExpectedMsgSeqNum = FixMessage.getTagIntValue(buf, err);
+			nextExpectedMsgSeqNum = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1025,7 +1021,7 @@ public class FixLogon extends FixInMessage {
 
 				buf.position(hasMaxMessageSize);
 
-			maxMessageSize = FixMessage.getTagIntValue(buf, err);
+			maxMessageSize = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1074,7 +1070,7 @@ public class FixLogon extends FixInMessage {
 
 				buf.position(hasTestMessageIndicator);
 
-			testMessageIndicator = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			testMessageIndicator = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1123,7 +1119,7 @@ public class FixLogon extends FixInMessage {
 
 				buf.position(hasUsername);
 
-			FixMessage.getTagStringValue(buf, username, 0, username.length, err);
+			FixUtils.getTagStringValue(buf, username, 0, username.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1167,7 +1163,7 @@ public class FixLogon extends FixInMessage {
 
 				buf.position(hasPassword);
 
-			FixMessage.getTagStringValue(buf, password, 0, password.length, err);
+			FixUtils.getTagStringValue(buf, password, 0, password.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1211,7 +1207,7 @@ public class FixLogon extends FixInMessage {
 
 				buf.position(hasNewPassword);
 
-			FixMessage.getTagStringValue(buf, newPassword, 0, newPassword.length, err);
+			FixUtils.getTagStringValue(buf, newPassword, 0, newPassword.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1255,7 +1251,7 @@ public class FixLogon extends FixInMessage {
 
 				buf.position(hasEncryptedPasswordMethod);
 
-			encryptedPasswordMethod = FixMessage.getTagIntValue(buf, err);
+			encryptedPasswordMethod = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1304,7 +1300,7 @@ public class FixLogon extends FixInMessage {
 
 				buf.position(hasEncryptedPasswordLen);
 
-			encryptedPasswordLen = FixMessage.getTagIntValue(buf, err);
+			encryptedPasswordLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1353,7 +1349,7 @@ public class FixLogon extends FixInMessage {
 
 				buf.position(hasEncryptedPassword);
 
-			FixMessage.getTagStringValue(buf, encryptedPassword, 0, encryptedPassword.length, err);
+			FixUtils.getTagStringValue(buf, encryptedPassword, 0, encryptedPassword.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1397,7 +1393,7 @@ public class FixLogon extends FixInMessage {
 
 				buf.position(hasEncryptedNewPasswordLen);
 
-			encryptedNewPasswordLen = FixMessage.getTagIntValue(buf, err);
+			encryptedNewPasswordLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1446,7 +1442,7 @@ public class FixLogon extends FixInMessage {
 
 				buf.position(hasEncryptedNewPassword);
 
-			FixMessage.getTagStringValue(buf, encryptedNewPassword, 0, encryptedNewPassword.length, err);
+			FixUtils.getTagStringValue(buf, encryptedNewPassword, 0, encryptedNewPassword.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1490,7 +1486,7 @@ public class FixLogon extends FixInMessage {
 
 				buf.position(hasSessionStatus);
 
-			sessionStatus = FixMessage.getTagIntValue(buf, err);
+			sessionStatus = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1539,7 +1535,7 @@ public class FixLogon extends FixInMessage {
 
 				buf.position(hasDefaultApplVerID);
 
-			FixMessage.getTagStringValue(buf, defaultApplVerID, 0, defaultApplVerID.length, err);
+			FixUtils.getTagStringValue(buf, defaultApplVerID, 0, defaultApplVerID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1583,7 +1579,7 @@ public class FixLogon extends FixInMessage {
 
 				buf.position(hasDefaultApplExtID);
 
-			defaultApplExtID = FixMessage.getTagIntValue(buf, err);
+			defaultApplExtID = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1632,7 +1628,7 @@ public class FixLogon extends FixInMessage {
 
 				buf.position(hasDefaultCstmApplVerID);
 
-			FixMessage.getTagStringValue(buf, defaultCstmApplVerID, 0, defaultCstmApplVerID.length, err);
+			FixUtils.getTagStringValue(buf, defaultCstmApplVerID, 0, defaultCstmApplVerID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1676,7 +1672,7 @@ public class FixLogon extends FixInMessage {
 
 				buf.position(hasText);
 
-			FixMessage.getTagStringValue(buf, text, 0, text.length, err);
+			FixUtils.getTagStringValue(buf, text, 0, text.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1720,7 +1716,7 @@ public class FixLogon extends FixInMessage {
 
 				buf.position(hasEncodedTextLen);
 
-			encodedTextLen = FixMessage.getTagIntValue(buf, err);
+			encodedTextLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1769,7 +1765,7 @@ public class FixLogon extends FixInMessage {
 
 				buf.position(hasEncodedText);
 
-			FixMessage.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
+			FixUtils.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		

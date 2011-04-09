@@ -64,31 +64,31 @@ public class FixStrikeRules extends FixGroup {
             switch (tag) {		
             	case FixTags.STRIKERULEID_INT:		
             		hasStrikeRuleID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.STARTSTRIKEPXRANGE_INT:		
             		hasStartStrikePxRange = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ENDSTRIKEPXRANGE_INT:		
             		hasEndStrikePxRange = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.STRIKEINCREMENT_INT:		
             		hasStrikeIncrement = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.STRIKEEXERCISESTYLE_INT:		
             		hasStrikeExerciseStyle = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( tag == FixTags.NOMATURITYRULES_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -106,7 +106,7 @@ public class FixStrikeRules extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -242,7 +242,7 @@ public class FixStrikeRules extends FixGroup {
 		
 				buf.position(hasStrikeRuleID);		
 		
-			FixMessage.getTagStringValue(buf, strikeRuleID, 0, strikeRuleID.length, err);
+			FixUtils.getTagStringValue(buf, strikeRuleID, 0, strikeRuleID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasStrikeRuleID);		
@@ -281,7 +281,7 @@ public class FixStrikeRules extends FixGroup {
 		
 				buf.position(hasStartStrikePxRange);		
 		
-			startStrikePxRange = FixMessage.getTagFloatValue(buf, err);
+			startStrikePxRange = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasStartStrikePxRange);		
@@ -325,7 +325,7 @@ public class FixStrikeRules extends FixGroup {
 		
 				buf.position(hasEndStrikePxRange);		
 		
-			endStrikePxRange = FixMessage.getTagFloatValue(buf, err);
+			endStrikePxRange = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasEndStrikePxRange);		
@@ -369,7 +369,7 @@ public class FixStrikeRules extends FixGroup {
 		
 				buf.position(hasStrikeIncrement);		
 		
-			strikeIncrement = FixMessage.getTagFloatValue(buf, err);
+			strikeIncrement = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasStrikeIncrement);		
@@ -413,7 +413,7 @@ public class FixStrikeRules extends FixGroup {
 		
 				buf.position(hasStrikeExerciseStyle);		
 		
-			strikeExerciseStyle = FixMessage.getTagIntValue(buf, err);
+			strikeExerciseStyle = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasStrikeExerciseStyle);		

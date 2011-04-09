@@ -239,223 +239,223 @@ public class FixInstrumentLeg extends FixGroup {
             switch (tag) {		
             	case FixTags.LEGSYMBOL_INT:		
             		hasLegSymbol = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGSYMBOLSFX_INT:		
             		hasLegSymbolSfx = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGSECURITYID_INT:		
             		hasLegSecurityID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGSECURITYIDSOURCE_INT:		
             		hasLegSecurityIDSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGPRODUCT_INT:		
             		hasLegProduct = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGCFICODE_INT:		
             		hasLegCFICode = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGSECURITYTYPE_INT:		
             		hasLegSecurityType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGSECURITYSUBTYPE_INT:		
             		hasLegSecuritySubType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGMATURITYMONTHYEAR_INT:		
             		hasLegMaturityMonthYear = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGMATURITYDATE_INT:		
             		hasLegMaturityDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGMATURITYTIME_INT:		
             		hasLegMaturityTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGCOUPONPAYMENTDATE_INT:		
             		hasLegCouponPaymentDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGISSUEDATE_INT:		
             		hasLegIssueDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGREPOCOLLATERALSECURITYTYPE_INT:		
             		hasLegRepoCollateralSecurityType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGREPURCHASETERM_INT:		
             		hasLegRepurchaseTerm = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGREPURCHASERATE_INT:		
             		hasLegRepurchaseRate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGFACTOR_INT:		
             		hasLegFactor = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGCREDITRATING_INT:		
             		hasLegCreditRating = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGINSTRREGISTRY_INT:		
             		hasLegInstrRegistry = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGCOUNTRYOFISSUE_INT:		
             		hasLegCountryOfIssue = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGSTATEORPROVINCEOFISSUE_INT:		
             		hasLegStateOrProvinceOfIssue = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGLOCALEOFISSUE_INT:		
             		hasLegLocaleOfIssue = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGREDEMPTIONDATE_INT:		
             		hasLegRedemptionDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGSTRIKEPRICE_INT:		
             		hasLegStrikePrice = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGSTRIKECURRENCY_INT:		
             		hasLegStrikeCurrency = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGOPTATTRIBUTE_INT:		
             		hasLegOptAttribute = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGCONTRACTMULTIPLIER_INT:		
             		hasLegContractMultiplier = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGUNITOFMEASURE_INT:		
             		hasLegUnitOfMeasure = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGTIMEUNIT_INT:		
             		hasLegTimeUnit = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGEXERCISESTYLE_INT:		
             		hasLegExerciseStyle = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGUNITOFMEASUREQTY_INT:		
             		hasLegUnitOfMeasureQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGPRICEUNITOFMEASURE_INT:		
             		hasLegPriceUnitOfMeasure = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGPRICEUNITOFMEASUREQTY_INT:		
             		hasLegPriceUnitOfMeasureQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGCONTRACTMULTIPLIERUNIT_INT:		
             		hasLegContractMultiplierUnit = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGFLOWSCHEDULETYPE_INT:		
             		hasLegFlowScheduleType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGCOUPONRATE_INT:		
             		hasLegCouponRate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGSECURITYEXCHANGE_INT:		
             		hasLegSecurityExchange = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGISSUER_INT:		
             		hasLegIssuer = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ENCODEDLEGISSUERLEN_INT:		
             		hasEncodedLegIssuerLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ENCODEDLEGISSUER_INT:		
             		hasEncodedLegIssuer = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGSECURITYDESC_INT:		
             		hasLegSecurityDesc = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ENCODEDLEGSECURITYDESCLEN_INT:		
             		hasEncodedLegSecurityDescLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ENCODEDLEGSECURITYDESC_INT:		
             		hasEncodedLegSecurityDesc = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGRATIOQTY_INT:		
             		hasLegRatioQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGSIDE_INT:		
             		hasLegSide = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGCURRENCY_INT:		
             		hasLegCurrency = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGPOOL_INT:		
             		hasLegPool = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGDATEDDATE_INT:		
             		hasLegDatedDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGCONTRACTSETTLMONTH_INT:		
             		hasLegContractSettlMonth = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGINTERESTACCRUALDATE_INT:		
             		hasLegInterestAccrualDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGOPTIONRATIO_INT:		
             		hasLegOptionRatio = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGPRICE_INT:		
             		hasLegPrice = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGPUTORCALL_INT:		
             		hasLegPutOrCall = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( tag == FixTags.NOLEGSECURITYALTID_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -473,7 +473,7 @@ public class FixInstrumentLeg extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -1473,7 +1473,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegSymbol);		
 		
-			FixMessage.getTagStringValue(buf, legSymbol, 0, legSymbol.length, err);
+			FixUtils.getTagStringValue(buf, legSymbol, 0, legSymbol.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegSymbol);		
@@ -1512,7 +1512,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegSymbolSfx);		
 		
-			FixMessage.getTagStringValue(buf, legSymbolSfx, 0, legSymbolSfx.length, err);
+			FixUtils.getTagStringValue(buf, legSymbolSfx, 0, legSymbolSfx.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegSymbolSfx);		
@@ -1551,7 +1551,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegSecurityID);		
 		
-			FixMessage.getTagStringValue(buf, legSecurityID, 0, legSecurityID.length, err);
+			FixUtils.getTagStringValue(buf, legSecurityID, 0, legSecurityID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegSecurityID);		
@@ -1590,7 +1590,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegSecurityIDSource);		
 		
-			FixMessage.getTagStringValue(buf, legSecurityIDSource, 0, legSecurityIDSource.length, err);
+			FixUtils.getTagStringValue(buf, legSecurityIDSource, 0, legSecurityIDSource.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegSecurityIDSource);		
@@ -1629,7 +1629,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegProduct);		
 		
-			legProduct = FixMessage.getTagIntValue(buf, err);
+			legProduct = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegProduct);		
@@ -1673,7 +1673,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegCFICode);		
 		
-			FixMessage.getTagStringValue(buf, legCFICode, 0, legCFICode.length, err);
+			FixUtils.getTagStringValue(buf, legCFICode, 0, legCFICode.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegCFICode);		
@@ -1712,7 +1712,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegSecurityType);		
 		
-			FixMessage.getTagStringValue(buf, legSecurityType, 0, legSecurityType.length, err);
+			FixUtils.getTagStringValue(buf, legSecurityType, 0, legSecurityType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegSecurityType);		
@@ -1751,7 +1751,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegSecuritySubType);		
 		
-			FixMessage.getTagStringValue(buf, legSecuritySubType, 0, legSecuritySubType.length, err);
+			FixUtils.getTagStringValue(buf, legSecuritySubType, 0, legSecuritySubType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegSecuritySubType);		
@@ -1790,7 +1790,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegMaturityMonthYear);		
 		
-			FixMessage.getTagStringValue(buf, legMaturityMonthYear, 0, legMaturityMonthYear.length, err);
+			FixUtils.getTagStringValue(buf, legMaturityMonthYear, 0, legMaturityMonthYear.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegMaturityMonthYear);		
@@ -1829,7 +1829,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegMaturityDate);		
 		
-			FixMessage.getTagStringValue(buf, legMaturityDate, 0, legMaturityDate.length, err);
+			FixUtils.getTagStringValue(buf, legMaturityDate, 0, legMaturityDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegMaturityDate);		
@@ -1868,7 +1868,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegMaturityTime);		
 		
-			FixMessage.getTagStringValue(buf, legMaturityTime, 0, legMaturityTime.length, err);
+			FixUtils.getTagStringValue(buf, legMaturityTime, 0, legMaturityTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegMaturityTime);		
@@ -1907,7 +1907,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegCouponPaymentDate);		
 		
-			FixMessage.getTagStringValue(buf, legCouponPaymentDate, 0, legCouponPaymentDate.length, err);
+			FixUtils.getTagStringValue(buf, legCouponPaymentDate, 0, legCouponPaymentDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegCouponPaymentDate);		
@@ -1946,7 +1946,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegIssueDate);		
 		
-			FixMessage.getTagStringValue(buf, legIssueDate, 0, legIssueDate.length, err);
+			FixUtils.getTagStringValue(buf, legIssueDate, 0, legIssueDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegIssueDate);		
@@ -1985,7 +1985,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegRepoCollateralSecurityType);		
 		
-			legRepoCollateralSecurityType = FixMessage.getTagIntValue(buf, err);
+			legRepoCollateralSecurityType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegRepoCollateralSecurityType);		
@@ -2029,7 +2029,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegRepurchaseTerm);		
 		
-			legRepurchaseTerm = FixMessage.getTagIntValue(buf, err);
+			legRepurchaseTerm = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegRepurchaseTerm);		
@@ -2073,7 +2073,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegRepurchaseRate);		
 		
-			legRepurchaseRate = FixMessage.getTagFloatValue(buf, err);
+			legRepurchaseRate = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegRepurchaseRate);		
@@ -2117,7 +2117,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegFactor);		
 		
-			legFactor = FixMessage.getTagFloatValue(buf, err);
+			legFactor = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegFactor);		
@@ -2161,7 +2161,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegCreditRating);		
 		
-			FixMessage.getTagStringValue(buf, legCreditRating, 0, legCreditRating.length, err);
+			FixUtils.getTagStringValue(buf, legCreditRating, 0, legCreditRating.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegCreditRating);		
@@ -2200,7 +2200,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegInstrRegistry);		
 		
-			FixMessage.getTagStringValue(buf, legInstrRegistry, 0, legInstrRegistry.length, err);
+			FixUtils.getTagStringValue(buf, legInstrRegistry, 0, legInstrRegistry.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegInstrRegistry);		
@@ -2239,7 +2239,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegCountryOfIssue);		
 		
-			FixMessage.getTagStringValue(buf, legCountryOfIssue, 0, legCountryOfIssue.length, err);
+			FixUtils.getTagStringValue(buf, legCountryOfIssue, 0, legCountryOfIssue.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegCountryOfIssue);		
@@ -2278,7 +2278,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegStateOrProvinceOfIssue);		
 		
-			FixMessage.getTagStringValue(buf, legStateOrProvinceOfIssue, 0, legStateOrProvinceOfIssue.length, err);
+			FixUtils.getTagStringValue(buf, legStateOrProvinceOfIssue, 0, legStateOrProvinceOfIssue.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegStateOrProvinceOfIssue);		
@@ -2317,7 +2317,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegLocaleOfIssue);		
 		
-			FixMessage.getTagStringValue(buf, legLocaleOfIssue, 0, legLocaleOfIssue.length, err);
+			FixUtils.getTagStringValue(buf, legLocaleOfIssue, 0, legLocaleOfIssue.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegLocaleOfIssue);		
@@ -2356,7 +2356,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegRedemptionDate);		
 		
-			FixMessage.getTagStringValue(buf, legRedemptionDate, 0, legRedemptionDate.length, err);
+			FixUtils.getTagStringValue(buf, legRedemptionDate, 0, legRedemptionDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegRedemptionDate);		
@@ -2395,7 +2395,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegStrikePrice);		
 		
-			legStrikePrice = FixMessage.getTagFloatValue(buf, err);
+			legStrikePrice = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegStrikePrice);		
@@ -2439,7 +2439,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegStrikeCurrency);		
 		
-			FixMessage.getTagStringValue(buf, legStrikeCurrency, 0, legStrikeCurrency.length, err);
+			FixUtils.getTagStringValue(buf, legStrikeCurrency, 0, legStrikeCurrency.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegStrikeCurrency);		
@@ -2478,7 +2478,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegOptAttribute);		
 		
-			legOptAttribute = FixMessage.getTagCharValue(buf, err);
+			legOptAttribute = FixUtils.getTagCharValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegOptAttribute);		
@@ -2522,7 +2522,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegContractMultiplier);		
 		
-			legContractMultiplier = FixMessage.getTagFloatValue(buf, err);
+			legContractMultiplier = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegContractMultiplier);		
@@ -2566,7 +2566,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegUnitOfMeasure);		
 		
-			FixMessage.getTagStringValue(buf, legUnitOfMeasure, 0, legUnitOfMeasure.length, err);
+			FixUtils.getTagStringValue(buf, legUnitOfMeasure, 0, legUnitOfMeasure.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegUnitOfMeasure);		
@@ -2605,7 +2605,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegTimeUnit);		
 		
-			FixMessage.getTagStringValue(buf, legTimeUnit, 0, legTimeUnit.length, err);
+			FixUtils.getTagStringValue(buf, legTimeUnit, 0, legTimeUnit.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegTimeUnit);		
@@ -2644,7 +2644,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegExerciseStyle);		
 		
-			legExerciseStyle = FixMessage.getTagIntValue(buf, err);
+			legExerciseStyle = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegExerciseStyle);		
@@ -2688,7 +2688,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegUnitOfMeasureQty);		
 		
-			legUnitOfMeasureQty = FixMessage.getTagFloatValue(buf, err);
+			legUnitOfMeasureQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegUnitOfMeasureQty);		
@@ -2732,7 +2732,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegPriceUnitOfMeasure);		
 		
-			FixMessage.getTagStringValue(buf, legPriceUnitOfMeasure, 0, legPriceUnitOfMeasure.length, err);
+			FixUtils.getTagStringValue(buf, legPriceUnitOfMeasure, 0, legPriceUnitOfMeasure.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegPriceUnitOfMeasure);		
@@ -2771,7 +2771,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegPriceUnitOfMeasureQty);		
 		
-			legPriceUnitOfMeasureQty = FixMessage.getTagFloatValue(buf, err);
+			legPriceUnitOfMeasureQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegPriceUnitOfMeasureQty);		
@@ -2815,7 +2815,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegContractMultiplierUnit);		
 		
-			legContractMultiplierUnit = FixMessage.getTagIntValue(buf, err);
+			legContractMultiplierUnit = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegContractMultiplierUnit);		
@@ -2859,7 +2859,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegFlowScheduleType);		
 		
-			legFlowScheduleType = FixMessage.getTagIntValue(buf, err);
+			legFlowScheduleType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegFlowScheduleType);		
@@ -2903,7 +2903,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegCouponRate);		
 		
-			legCouponRate = FixMessage.getTagFloatValue(buf, err);
+			legCouponRate = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegCouponRate);		
@@ -2947,7 +2947,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegSecurityExchange);		
 		
-			FixMessage.getTagStringValue(buf, legSecurityExchange, 0, legSecurityExchange.length, err);
+			FixUtils.getTagStringValue(buf, legSecurityExchange, 0, legSecurityExchange.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegSecurityExchange);		
@@ -2986,7 +2986,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegIssuer);		
 		
-			FixMessage.getTagStringValue(buf, legIssuer, 0, legIssuer.length, err);
+			FixUtils.getTagStringValue(buf, legIssuer, 0, legIssuer.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegIssuer);		
@@ -3025,7 +3025,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasEncodedLegIssuerLen);		
 		
-			encodedLegIssuerLen = FixMessage.getTagIntValue(buf, err);
+			encodedLegIssuerLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasEncodedLegIssuerLen);		
@@ -3069,7 +3069,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasEncodedLegIssuer);		
 		
-			FixMessage.getTagStringValue(buf, encodedLegIssuer, 0, encodedLegIssuer.length, err);
+			FixUtils.getTagStringValue(buf, encodedLegIssuer, 0, encodedLegIssuer.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasEncodedLegIssuer);		
@@ -3108,7 +3108,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegSecurityDesc);		
 		
-			FixMessage.getTagStringValue(buf, legSecurityDesc, 0, legSecurityDesc.length, err);
+			FixUtils.getTagStringValue(buf, legSecurityDesc, 0, legSecurityDesc.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegSecurityDesc);		
@@ -3147,7 +3147,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasEncodedLegSecurityDescLen);		
 		
-			encodedLegSecurityDescLen = FixMessage.getTagIntValue(buf, err);
+			encodedLegSecurityDescLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasEncodedLegSecurityDescLen);		
@@ -3191,7 +3191,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasEncodedLegSecurityDesc);		
 		
-			FixMessage.getTagStringValue(buf, encodedLegSecurityDesc, 0, encodedLegSecurityDesc.length, err);
+			FixUtils.getTagStringValue(buf, encodedLegSecurityDesc, 0, encodedLegSecurityDesc.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasEncodedLegSecurityDesc);		
@@ -3230,7 +3230,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegRatioQty);		
 		
-			legRatioQty = FixMessage.getTagFloatValue(buf, err);
+			legRatioQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegRatioQty);		
@@ -3274,7 +3274,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegSide);		
 		
-			legSide = FixMessage.getTagCharValue(buf, err);
+			legSide = FixUtils.getTagCharValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegSide);		
@@ -3318,7 +3318,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegCurrency);		
 		
-			FixMessage.getTagStringValue(buf, legCurrency, 0, legCurrency.length, err);
+			FixUtils.getTagStringValue(buf, legCurrency, 0, legCurrency.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegCurrency);		
@@ -3357,7 +3357,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegPool);		
 		
-			FixMessage.getTagStringValue(buf, legPool, 0, legPool.length, err);
+			FixUtils.getTagStringValue(buf, legPool, 0, legPool.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegPool);		
@@ -3396,7 +3396,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegDatedDate);		
 		
-			FixMessage.getTagStringValue(buf, legDatedDate, 0, legDatedDate.length, err);
+			FixUtils.getTagStringValue(buf, legDatedDate, 0, legDatedDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegDatedDate);		
@@ -3435,7 +3435,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegContractSettlMonth);		
 		
-			FixMessage.getTagStringValue(buf, legContractSettlMonth, 0, legContractSettlMonth.length, err);
+			FixUtils.getTagStringValue(buf, legContractSettlMonth, 0, legContractSettlMonth.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegContractSettlMonth);		
@@ -3474,7 +3474,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegInterestAccrualDate);		
 		
-			FixMessage.getTagStringValue(buf, legInterestAccrualDate, 0, legInterestAccrualDate.length, err);
+			FixUtils.getTagStringValue(buf, legInterestAccrualDate, 0, legInterestAccrualDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegInterestAccrualDate);		
@@ -3513,7 +3513,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegOptionRatio);		
 		
-			legOptionRatio = FixMessage.getTagFloatValue(buf, err);
+			legOptionRatio = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegOptionRatio);		
@@ -3557,7 +3557,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegPrice);		
 		
-			legPrice = FixMessage.getTagFloatValue(buf, err);
+			legPrice = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegPrice);		
@@ -3601,7 +3601,7 @@ public class FixInstrumentLeg extends FixGroup {
 		
 				buf.position(hasLegPutOrCall);		
 		
-			legPutOrCall = FixMessage.getTagIntValue(buf, err);
+			legPutOrCall = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegPutOrCall);		

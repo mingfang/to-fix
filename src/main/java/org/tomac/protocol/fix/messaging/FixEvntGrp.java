@@ -63,30 +63,30 @@ public class FixEvntGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.EVENTTYPE_INT:		
             		hasEventType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.EVENTDATE_INT:		
             		hasEventDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.EVENTTIME_INT:		
             		hasEventTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.EVENTPX_INT:		
             		hasEventPx = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.EVENTTEXT_INT:		
             		hasEventText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -209,7 +209,7 @@ public class FixEvntGrp extends FixGroup {
 		
 				buf.position(hasEventType);		
 		
-			eventType = FixMessage.getTagIntValue(buf, err);
+			eventType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasEventType);		
@@ -253,7 +253,7 @@ public class FixEvntGrp extends FixGroup {
 		
 				buf.position(hasEventDate);		
 		
-			FixMessage.getTagStringValue(buf, eventDate, 0, eventDate.length, err);
+			FixUtils.getTagStringValue(buf, eventDate, 0, eventDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasEventDate);		
@@ -292,7 +292,7 @@ public class FixEvntGrp extends FixGroup {
 		
 				buf.position(hasEventTime);		
 		
-			FixMessage.getTagStringValue(buf, eventTime, 0, eventTime.length, err);
+			FixUtils.getTagStringValue(buf, eventTime, 0, eventTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasEventTime);		
@@ -331,7 +331,7 @@ public class FixEvntGrp extends FixGroup {
 		
 				buf.position(hasEventPx);		
 		
-			eventPx = FixMessage.getTagFloatValue(buf, err);
+			eventPx = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasEventPx);		
@@ -375,7 +375,7 @@ public class FixEvntGrp extends FixGroup {
 		
 				buf.position(hasEventText);		
 		
-			FixMessage.getTagStringValue(buf, eventText, 0, eventText.length, err);
+			FixUtils.getTagStringValue(buf, eventText, 0, eventText.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasEventText);		

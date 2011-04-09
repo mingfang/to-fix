@@ -67,34 +67,34 @@ public class FixTrdRegTimestamps extends FixGroup {
             switch (tag) {		
             	case FixTags.TRDREGTIMESTAMP_INT:		
             		hasTrdRegTimestamp = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRDREGTIMESTAMPTYPE_INT:		
             		hasTrdRegTimestampType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TRDREGTIMESTAMPORIGIN_INT:		
             		hasTrdRegTimestampOrigin = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DESKTYPE_INT:		
             		hasDeskType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DESKTYPESOURCE_INT:		
             		hasDeskTypeSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DESKORDERHANDLINGINST_INT:		
             		hasDeskOrderHandlingInst = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -235,7 +235,7 @@ public class FixTrdRegTimestamps extends FixGroup {
 		
 				buf.position(hasTrdRegTimestamp);		
 		
-			FixMessage.getTagStringValue(buf, trdRegTimestamp, 0, trdRegTimestamp.length, err);
+			FixUtils.getTagStringValue(buf, trdRegTimestamp, 0, trdRegTimestamp.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTrdRegTimestamp);		
@@ -274,7 +274,7 @@ public class FixTrdRegTimestamps extends FixGroup {
 		
 				buf.position(hasTrdRegTimestampType);		
 		
-			trdRegTimestampType = FixMessage.getTagIntValue(buf, err);
+			trdRegTimestampType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTrdRegTimestampType);		
@@ -318,7 +318,7 @@ public class FixTrdRegTimestamps extends FixGroup {
 		
 				buf.position(hasTrdRegTimestampOrigin);		
 		
-			FixMessage.getTagStringValue(buf, trdRegTimestampOrigin, 0, trdRegTimestampOrigin.length, err);
+			FixUtils.getTagStringValue(buf, trdRegTimestampOrigin, 0, trdRegTimestampOrigin.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTrdRegTimestampOrigin);		
@@ -357,7 +357,7 @@ public class FixTrdRegTimestamps extends FixGroup {
 		
 				buf.position(hasDeskType);		
 		
-			FixMessage.getTagStringValue(buf, deskType, 0, deskType.length, err);
+			FixUtils.getTagStringValue(buf, deskType, 0, deskType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDeskType);		
@@ -396,7 +396,7 @@ public class FixTrdRegTimestamps extends FixGroup {
 		
 				buf.position(hasDeskTypeSource);		
 		
-			deskTypeSource = FixMessage.getTagIntValue(buf, err);
+			deskTypeSource = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDeskTypeSource);		
@@ -440,7 +440,7 @@ public class FixTrdRegTimestamps extends FixGroup {
 		
 				buf.position(hasDeskOrderHandlingInst);		
 		
-			FixMessage.getTagStringValue(buf, deskOrderHandlingInst, 0, deskOrderHandlingInst.length, err);
+			FixUtils.getTagStringValue(buf, deskOrderHandlingInst, 0, deskOrderHandlingInst.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDeskOrderHandlingInst);		

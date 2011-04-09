@@ -58,11 +58,11 @@ public class FixSecLstUpdRelSymsLegGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.LEGSWAPTYPE_INT:		
             		hasLegSwapType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGSETTLTYPE_INT:		
             		hasLegSettlType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( instrumentLeg.isKeyTag(tag)) {
@@ -71,10 +71,10 @@ public class FixSecLstUpdRelSymsLegGrp extends FixGroup {
                 		else continue;		
         			} else if ( tag == FixTags.NOLEGSTIPULATIONS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -96,7 +96,7 @@ public class FixSecLstUpdRelSymsLegGrp extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -184,7 +184,7 @@ public class FixSecLstUpdRelSymsLegGrp extends FixGroup {
 		
 				buf.position(hasLegSwapType);		
 		
-			legSwapType = FixMessage.getTagIntValue(buf, err);
+			legSwapType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegSwapType);		
@@ -228,7 +228,7 @@ public class FixSecLstUpdRelSymsLegGrp extends FixGroup {
 		
 				buf.position(hasLegSettlType);		
 		
-			legSettlType = FixMessage.getTagCharValue(buf, err);
+			legSettlType = FixUtils.getTagCharValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegSettlType);		

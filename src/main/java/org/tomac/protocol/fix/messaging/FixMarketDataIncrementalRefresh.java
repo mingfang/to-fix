@@ -51,7 +51,7 @@ public class FixMarketDataIncrementalRefresh extends FixInMessage {
 		super.setBuffer(buf, err);
         if (err.hasError()) return;
 
-        int tag = FixMessage.getTag(buf, err);
+        int tag = FixUtils.getTag(buf, err);
         if (err.hasError()) return;
 
         while ( buf.hasRemaining() ) {
@@ -59,27 +59,27 @@ public class FixMarketDataIncrementalRefresh extends FixInMessage {
             switch (tag) {		
             	case FixTags.MDBOOKTYPE_INT:		
             		hasMDBookType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.MDFEEDTYPE_INT:		
             		hasMDFeedType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TRADEDATE_INT:		
             		hasTradeDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.MDREQID_INT:		
             		hasMDReqID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.APPLQUEUEDEPTH_INT:		
             		hasApplQueueDepth = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.APPLQUEUERESOLUTION_INT:		
             		hasApplQueueResolution = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	default:
         			if ( standardHeader.isKeyTag(tag)) {
@@ -88,7 +88,7 @@ public class FixMarketDataIncrementalRefresh extends FixInMessage {
                 		else continue;		
         			} else if ( standardTrailer.isKeyTag(tag)) {
         				tag = standardTrailer.setBuffer( tag, buf, err);
-        				FixMessage.unreadLastTag(tag, buf);
+        				FixUtils.unreadLastTag(tag, buf);
         				if (!err.hasError()) hasRequiredTags(err);
             			return; // always last, we are done now
         			} else if ( applicationSequenceControl.isKeyTag(tag)) {
@@ -97,10 +97,10 @@ public class FixMarketDataIncrementalRefresh extends FixInMessage {
                 		else continue;		
         			} else if ( tag == FixTags.NOMDENTRIES_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -117,10 +117,10 @@ public class FixMarketDataIncrementalRefresh extends FixInMessage {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NOROUTINGIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -136,10 +136,10 @@ public class FixMarketDataIncrementalRefresh extends FixInMessage {
         				if (err.hasError()) break;
                 		else { tag = repeatingGroupTag; continue; }
             		} else {
- 						FixMessage.getNext(buf, err);		
+ 						FixUtils.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else {
-                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.MARKETDATAINCREMENTALREFRESH);
+                		else if (FixUtils.validateOnlyDefinedTagsAllowed) {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.MARKETDATAINCREMENTALREFRESH_INT);
                 			break;
                 		}
 					}
@@ -148,7 +148,7 @@ public class FixMarketDataIncrementalRefresh extends FixInMessage {
 
         		if (err.hasError()) return;
 
-            	tag = FixMessage.getTag(buf, err);		
+            	tag = FixUtils.getTag(buf, err);		
         		if (err.hasError()) break;
 
 		}
@@ -156,11 +156,7 @@ public class FixMarketDataIncrementalRefresh extends FixInMessage {
 	}		
 
 	public boolean hasRequiredTags(FixValidationError err) {
-		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		for (int i = 0; i< FixUtils.FIX_MAX_NOINGROUP; i++) { if (mDIncGrp[i].hasGroup()) mDIncGrp[i].hasRequiredTags(err); if (err.hasError()) return false; }
-		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		return true;
 	}
 	@Override		
@@ -368,7 +364,7 @@ public class FixMarketDataIncrementalRefresh extends FixInMessage {
 
 				buf.position(hasMDBookType);
 
-			mDBookType = FixMessage.getTagIntValue(buf, err);
+			mDBookType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -417,7 +413,7 @@ public class FixMarketDataIncrementalRefresh extends FixInMessage {
 
 				buf.position(hasMDFeedType);
 
-			FixMessage.getTagStringValue(buf, mDFeedType, 0, mDFeedType.length, err);
+			FixUtils.getTagStringValue(buf, mDFeedType, 0, mDFeedType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -461,7 +457,7 @@ public class FixMarketDataIncrementalRefresh extends FixInMessage {
 
 				buf.position(hasTradeDate);
 
-			FixMessage.getTagStringValue(buf, tradeDate, 0, tradeDate.length, err);
+			FixUtils.getTagStringValue(buf, tradeDate, 0, tradeDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -505,7 +501,7 @@ public class FixMarketDataIncrementalRefresh extends FixInMessage {
 
 				buf.position(hasMDReqID);
 
-			FixMessage.getTagStringValue(buf, mDReqID, 0, mDReqID.length, err);
+			FixUtils.getTagStringValue(buf, mDReqID, 0, mDReqID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -549,7 +545,7 @@ public class FixMarketDataIncrementalRefresh extends FixInMessage {
 
 				buf.position(hasApplQueueDepth);
 
-			applQueueDepth = FixMessage.getTagIntValue(buf, err);
+			applQueueDepth = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -598,7 +594,7 @@ public class FixMarketDataIncrementalRefresh extends FixInMessage {
 
 				buf.position(hasApplQueueResolution);
 
-			applQueueResolution = FixMessage.getTagIntValue(buf, err);
+			applQueueResolution = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		

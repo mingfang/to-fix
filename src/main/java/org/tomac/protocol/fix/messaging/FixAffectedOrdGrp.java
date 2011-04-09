@@ -57,22 +57,22 @@ public class FixAffectedOrdGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.ORIGCLORDID_INT:		
             		hasOrigClOrdID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.AFFECTEDORDERID_INT:		
             		hasAffectedOrderID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.AFFECTEDSECONDARYORDERID_INT:		
             		hasAffectedSecondaryOrderID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -159,7 +159,7 @@ public class FixAffectedOrdGrp extends FixGroup {
 		
 				buf.position(hasOrigClOrdID);		
 		
-			FixMessage.getTagStringValue(buf, origClOrdID, 0, origClOrdID.length, err);
+			FixUtils.getTagStringValue(buf, origClOrdID, 0, origClOrdID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasOrigClOrdID);		
@@ -198,7 +198,7 @@ public class FixAffectedOrdGrp extends FixGroup {
 		
 				buf.position(hasAffectedOrderID);		
 		
-			FixMessage.getTagStringValue(buf, affectedOrderID, 0, affectedOrderID.length, err);
+			FixUtils.getTagStringValue(buf, affectedOrderID, 0, affectedOrderID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasAffectedOrderID);		
@@ -237,7 +237,7 @@ public class FixAffectedOrdGrp extends FixGroup {
 		
 				buf.position(hasAffectedSecondaryOrderID);		
 		
-			FixMessage.getTagStringValue(buf, affectedSecondaryOrderID, 0, affectedSecondaryOrderID.length, err);
+			FixUtils.getTagStringValue(buf, affectedSecondaryOrderID, 0, affectedSecondaryOrderID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasAffectedSecondaryOrderID);		

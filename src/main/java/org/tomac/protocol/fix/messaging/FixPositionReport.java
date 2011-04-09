@@ -137,7 +137,7 @@ public class FixPositionReport extends FixInMessage {
 		super.setBuffer(buf, err);
         if (err.hasError()) return;
 
-        int tag = FixMessage.getTag(buf, err);
+        int tag = FixUtils.getTag(buf, err);
         if (err.hasError()) return;
 
         while ( buf.hasRemaining() ) {
@@ -145,115 +145,115 @@ public class FixPositionReport extends FixInMessage {
             switch (tag) {		
             	case FixTags.POSMAINTRPTID_INT:		
             		hasPosMaintRptID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.POSREQID_INT:		
             		hasPosReqID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.POSREQTYPE_INT:		
             		hasPosReqType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SUBSCRIPTIONREQUESTTYPE_INT:		
             		hasSubscriptionRequestType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TOTALNUMPOSREPORTS_INT:		
             		hasTotalNumPosReports = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.POSREQRESULT_INT:		
             		hasPosReqResult = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.UNSOLICITEDINDICATOR_INT:		
             		hasUnsolicitedIndicator = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.CLEARINGBUSINESSDATE_INT:		
             		hasClearingBusinessDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SETTLSESSID_INT:		
             		hasSettlSessID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SETTLSESSSUBID_INT:		
             		hasSettlSessSubID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.PRICETYPE_INT:		
             		hasPriceType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SETTLCURRENCY_INT:		
             		hasSettlCurrency = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.MESSAGEEVENTSOURCE_INT:		
             		hasMessageEventSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ACCOUNT_INT:		
             		hasAccount = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ACCTIDSOURCE_INT:		
             		hasAcctIDSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ACCOUNTTYPE_INT:		
             		hasAccountType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.CURRENCY_INT:		
             		hasCurrency = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SETTLPRICE_INT:		
             		hasSettlPrice = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.SETTLPRICETYPE_INT:		
             		hasSettlPriceType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.PRIORSETTLPRICE_INT:		
             		hasPriorSettlPrice = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.MATCHSTATUS_INT:		
             		hasMatchStatus = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.REGISTSTATUS_INT:		
             		hasRegistStatus = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.DELIVERYDATE_INT:		
             		hasDeliveryDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.MODELTYPE_INT:		
             		hasModelType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.PRICEDELTA_INT:		
             		hasPriceDelta = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TEXT_INT:		
             		hasText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDTEXTLEN_INT:		
             		hasEncodedTextLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDTEXT_INT:		
             		hasEncodedText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	default:
         			if ( standardHeader.isKeyTag(tag)) {
@@ -262,7 +262,7 @@ public class FixPositionReport extends FixInMessage {
                 		else continue;		
         			} else if ( standardTrailer.isKeyTag(tag)) {
         				tag = standardTrailer.setBuffer( tag, buf, err);
-        				FixMessage.unreadLastTag(tag, buf);
+        				FixUtils.unreadLastTag(tag, buf);
         				if (!err.hasError()) hasRequiredTags(err);
             			return; // always last, we are done now
         			} else if ( applicationSequenceControl.isKeyTag(tag)) {
@@ -271,10 +271,10 @@ public class FixPositionReport extends FixInMessage {
                 		else continue;		
         			} else if ( tag == FixTags.NOPARTYIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -295,10 +295,10 @@ public class FixPositionReport extends FixInMessage {
                 		else continue;		
         			} else if ( tag == FixTags.NOLEGS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -315,10 +315,10 @@ public class FixPositionReport extends FixInMessage {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NOUNDERLYINGS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -335,10 +335,10 @@ public class FixPositionReport extends FixInMessage {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NOPOSITIONS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -355,10 +355,10 @@ public class FixPositionReport extends FixInMessage {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NOPOSAMT_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -374,10 +374,10 @@ public class FixPositionReport extends FixInMessage {
         				if (err.hasError()) break;
                 		else { tag = repeatingGroupTag; continue; }
             		} else {
- 						FixMessage.getNext(buf, err);		
+ 						FixUtils.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else {
-                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.POSITIONREPORT);
+                		else if (FixUtils.validateOnlyDefinedTagsAllowed) {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.POSITIONREPORT_INT);
                 			break;
                 		}
 					}
@@ -386,7 +386,7 @@ public class FixPositionReport extends FixInMessage {
 
         		if (err.hasError()) return;
 
-            	tag = FixMessage.getTag(buf, err);		
+            	tag = FixUtils.getTag(buf, err);		
         		if (err.hasError()) break;
 
 		}
@@ -394,19 +394,15 @@ public class FixPositionReport extends FixInMessage {
 	}		
 
 	public boolean hasRequiredTags(FixValidationError err) {
-		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		if (!hasPosMaintRptID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.POSMAINTRPTID_INT, FixMessageInfo.MessageTypes.POSITIONREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.POSMAINTRPTID_INT, FixMessageInfo.MessageTypes.POSITIONREPORT_INT);
 			return false;
 		}
 		if (!hasClearingBusinessDate()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.CLEARINGBUSINESSDATE_INT, FixMessageInfo.MessageTypes.POSITIONREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.CLEARINGBUSINESSDATE_INT, FixMessageInfo.MessageTypes.POSITIONREPORT_INT);
 			return false;
 		}
 		for (int i = 0; i< FixUtils.FIX_MAX_NOINGROUP; i++) { if (parties[i].hasGroup()) parties[i].hasRequiredTags(err); if (err.hasError()) return false; }
-		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		return true;
 	}
 	@Override		
@@ -1000,7 +996,7 @@ public class FixPositionReport extends FixInMessage {
 
 				buf.position(hasPosMaintRptID);
 
-			FixMessage.getTagStringValue(buf, posMaintRptID, 0, posMaintRptID.length, err);
+			FixUtils.getTagStringValue(buf, posMaintRptID, 0, posMaintRptID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1044,7 +1040,7 @@ public class FixPositionReport extends FixInMessage {
 
 				buf.position(hasPosReqID);
 
-			FixMessage.getTagStringValue(buf, posReqID, 0, posReqID.length, err);
+			FixUtils.getTagStringValue(buf, posReqID, 0, posReqID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1088,7 +1084,7 @@ public class FixPositionReport extends FixInMessage {
 
 				buf.position(hasPosReqType);
 
-			posReqType = FixMessage.getTagIntValue(buf, err);
+			posReqType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1137,7 +1133,7 @@ public class FixPositionReport extends FixInMessage {
 
 				buf.position(hasSubscriptionRequestType);
 
-			subscriptionRequestType = FixMessage.getTagCharValue(buf, err);
+			subscriptionRequestType = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (subscriptionRequestType != (byte)'2') && (subscriptionRequestType != (byte)'1') && (subscriptionRequestType != (byte)'0') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 263);		
@@ -1188,7 +1184,7 @@ public class FixPositionReport extends FixInMessage {
 
 				buf.position(hasTotalNumPosReports);
 
-			totalNumPosReports = FixMessage.getTagIntValue(buf, err);
+			totalNumPosReports = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1237,7 +1233,7 @@ public class FixPositionReport extends FixInMessage {
 
 				buf.position(hasPosReqResult);
 
-			posReqResult = FixMessage.getTagIntValue(buf, err);
+			posReqResult = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1286,7 +1282,7 @@ public class FixPositionReport extends FixInMessage {
 
 				buf.position(hasUnsolicitedIndicator);
 
-			unsolicitedIndicator = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			unsolicitedIndicator = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1335,7 +1331,7 @@ public class FixPositionReport extends FixInMessage {
 
 				buf.position(hasClearingBusinessDate);
 
-			FixMessage.getTagStringValue(buf, clearingBusinessDate, 0, clearingBusinessDate.length, err);
+			FixUtils.getTagStringValue(buf, clearingBusinessDate, 0, clearingBusinessDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1379,7 +1375,7 @@ public class FixPositionReport extends FixInMessage {
 
 				buf.position(hasSettlSessID);
 
-			FixMessage.getTagStringValue(buf, settlSessID, 0, settlSessID.length, err);
+			FixUtils.getTagStringValue(buf, settlSessID, 0, settlSessID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1423,7 +1419,7 @@ public class FixPositionReport extends FixInMessage {
 
 				buf.position(hasSettlSessSubID);
 
-			FixMessage.getTagStringValue(buf, settlSessSubID, 0, settlSessSubID.length, err);
+			FixUtils.getTagStringValue(buf, settlSessSubID, 0, settlSessSubID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1467,7 +1463,7 @@ public class FixPositionReport extends FixInMessage {
 
 				buf.position(hasPriceType);
 
-			priceType = FixMessage.getTagIntValue(buf, err);
+			priceType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1516,7 +1512,7 @@ public class FixPositionReport extends FixInMessage {
 
 				buf.position(hasSettlCurrency);
 
-			FixMessage.getTagStringValue(buf, settlCurrency, 0, settlCurrency.length, err);
+			FixUtils.getTagStringValue(buf, settlCurrency, 0, settlCurrency.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1560,7 +1556,7 @@ public class FixPositionReport extends FixInMessage {
 
 				buf.position(hasMessageEventSource);
 
-			FixMessage.getTagStringValue(buf, messageEventSource, 0, messageEventSource.length, err);
+			FixUtils.getTagStringValue(buf, messageEventSource, 0, messageEventSource.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1604,7 +1600,7 @@ public class FixPositionReport extends FixInMessage {
 
 				buf.position(hasAccount);
 
-			FixMessage.getTagStringValue(buf, account, 0, account.length, err);
+			FixUtils.getTagStringValue(buf, account, 0, account.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1648,7 +1644,7 @@ public class FixPositionReport extends FixInMessage {
 
 				buf.position(hasAcctIDSource);
 
-			acctIDSource = FixMessage.getTagIntValue(buf, err);
+			acctIDSource = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1697,7 +1693,7 @@ public class FixPositionReport extends FixInMessage {
 
 				buf.position(hasAccountType);
 
-			accountType = FixMessage.getTagIntValue(buf, err);
+			accountType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1746,7 +1742,7 @@ public class FixPositionReport extends FixInMessage {
 
 				buf.position(hasCurrency);
 
-			FixMessage.getTagStringValue(buf, currency, 0, currency.length, err);
+			FixUtils.getTagStringValue(buf, currency, 0, currency.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1790,7 +1786,7 @@ public class FixPositionReport extends FixInMessage {
 
 				buf.position(hasSettlPrice);
 
-			settlPrice = FixMessage.getTagFloatValue(buf, err);
+			settlPrice = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1839,7 +1835,7 @@ public class FixPositionReport extends FixInMessage {
 
 				buf.position(hasSettlPriceType);
 
-			settlPriceType = FixMessage.getTagIntValue(buf, err);
+			settlPriceType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1888,7 +1884,7 @@ public class FixPositionReport extends FixInMessage {
 
 				buf.position(hasPriorSettlPrice);
 
-			priorSettlPrice = FixMessage.getTagFloatValue(buf, err);
+			priorSettlPrice = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1937,7 +1933,7 @@ public class FixPositionReport extends FixInMessage {
 
 				buf.position(hasMatchStatus);
 
-			matchStatus = FixMessage.getTagCharValue(buf, err);
+			matchStatus = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (matchStatus != (byte)'2') && (matchStatus != (byte)'1') && (matchStatus != (byte)'0') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 573);		
@@ -1988,7 +1984,7 @@ public class FixPositionReport extends FixInMessage {
 
 				buf.position(hasRegistStatus);
 
-			registStatus = FixMessage.getTagCharValue(buf, err);
+			registStatus = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (registStatus != (byte)'A') && (registStatus != (byte)'R') && (registStatus != (byte)'N') && (registStatus != (byte)'H') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 506);		
@@ -2039,7 +2035,7 @@ public class FixPositionReport extends FixInMessage {
 
 				buf.position(hasDeliveryDate);
 
-			FixMessage.getTagStringValue(buf, deliveryDate, 0, deliveryDate.length, err);
+			FixUtils.getTagStringValue(buf, deliveryDate, 0, deliveryDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -2083,7 +2079,7 @@ public class FixPositionReport extends FixInMessage {
 
 				buf.position(hasModelType);
 
-			modelType = FixMessage.getTagIntValue(buf, err);
+			modelType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -2132,7 +2128,7 @@ public class FixPositionReport extends FixInMessage {
 
 				buf.position(hasPriceDelta);
 
-			priceDelta = FixMessage.getTagFloatValue(buf, err);
+			priceDelta = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -2181,7 +2177,7 @@ public class FixPositionReport extends FixInMessage {
 
 				buf.position(hasText);
 
-			FixMessage.getTagStringValue(buf, text, 0, text.length, err);
+			FixUtils.getTagStringValue(buf, text, 0, text.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -2225,7 +2221,7 @@ public class FixPositionReport extends FixInMessage {
 
 				buf.position(hasEncodedTextLen);
 
-			encodedTextLen = FixMessage.getTagIntValue(buf, err);
+			encodedTextLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -2274,7 +2270,7 @@ public class FixPositionReport extends FixInMessage {
 
 				buf.position(hasEncodedText);
 
-			FixMessage.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
+			FixUtils.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		

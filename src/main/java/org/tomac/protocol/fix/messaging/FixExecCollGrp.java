@@ -49,14 +49,14 @@ public class FixExecCollGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.EXECID_INT:		
             		hasExecID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -107,7 +107,7 @@ public class FixExecCollGrp extends FixGroup {
 		
 				buf.position(hasExecID);		
 		
-			FixMessage.getTagStringValue(buf, execID, 0, execID.length, err);
+			FixUtils.getTagStringValue(buf, execID, 0, execID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasExecID);		

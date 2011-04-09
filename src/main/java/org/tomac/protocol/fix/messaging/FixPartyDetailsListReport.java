@@ -55,7 +55,7 @@ public class FixPartyDetailsListReport extends FixInMessage {
 		super.setBuffer(buf, err);
         if (err.hasError()) return;
 
-        int tag = FixMessage.getTag(buf, err);
+        int tag = FixUtils.getTag(buf, err);
         if (err.hasError()) return;
 
         while ( buf.hasRemaining() ) {
@@ -63,35 +63,35 @@ public class FixPartyDetailsListReport extends FixInMessage {
             switch (tag) {		
             	case FixTags.PARTYDETAILSLISTREPORTID_INT:		
             		hasPartyDetailsListReportID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.PARTYDETAILSLISTREQUESTID_INT:		
             		hasPartyDetailsListRequestID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.PARTYDETAILSREQUESTRESULT_INT:		
             		hasPartyDetailsRequestResult = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TOTNOPARTYLIST_INT:		
             		hasTotNoPartyList = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.LASTFRAGMENT_INT:		
             		hasLastFragment = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TEXT_INT:		
             		hasText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDTEXTLEN_INT:		
             		hasEncodedTextLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDTEXT_INT:		
             		hasEncodedText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	default:
         			if ( standardHeader.isKeyTag(tag)) {
@@ -100,7 +100,7 @@ public class FixPartyDetailsListReport extends FixInMessage {
                 		else continue;		
         			} else if ( standardTrailer.isKeyTag(tag)) {
         				tag = standardTrailer.setBuffer( tag, buf, err);
-        				FixMessage.unreadLastTag(tag, buf);
+        				FixUtils.unreadLastTag(tag, buf);
         				if (!err.hasError()) hasRequiredTags(err);
             			return; // always last, we are done now
         			} else if ( applicationSequenceControl.isKeyTag(tag)) {
@@ -109,10 +109,10 @@ public class FixPartyDetailsListReport extends FixInMessage {
                 		else continue;		
         			} else if ( tag == FixTags.NOPARTYLIST_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -128,10 +128,10 @@ public class FixPartyDetailsListReport extends FixInMessage {
         				if (err.hasError()) break;
                 		else { tag = repeatingGroupTag; continue; }
             		} else {
- 						FixMessage.getNext(buf, err);		
+ 						FixUtils.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else {
-                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.PARTYDETAILSLISTREPORT);
+                		else if (FixUtils.validateOnlyDefinedTagsAllowed) {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.PARTYDETAILSLISTREPORT_INT);
                 			break;
                 		}
 					}
@@ -140,7 +140,7 @@ public class FixPartyDetailsListReport extends FixInMessage {
 
         		if (err.hasError()) return;
 
-            	tag = FixMessage.getTag(buf, err);		
+            	tag = FixUtils.getTag(buf, err);		
         		if (err.hasError()) break;
 
 		}
@@ -148,14 +148,10 @@ public class FixPartyDetailsListReport extends FixInMessage {
 	}		
 
 	public boolean hasRequiredTags(FixValidationError err) {
-		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		if (!hasPartyDetailsListReportID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.PARTYDETAILSLISTREPORTID_INT, FixMessageInfo.MessageTypes.PARTYDETAILSLISTREPORT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.PARTYDETAILSLISTREPORTID_INT, FixMessageInfo.MessageTypes.PARTYDETAILSLISTREPORT_INT);
 			return false;
 		}
-		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		return true;
 	}
 	@Override		
@@ -384,7 +380,7 @@ public class FixPartyDetailsListReport extends FixInMessage {
 
 				buf.position(hasPartyDetailsListReportID);
 
-			FixMessage.getTagStringValue(buf, partyDetailsListReportID, 0, partyDetailsListReportID.length, err);
+			FixUtils.getTagStringValue(buf, partyDetailsListReportID, 0, partyDetailsListReportID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -428,7 +424,7 @@ public class FixPartyDetailsListReport extends FixInMessage {
 
 				buf.position(hasPartyDetailsListRequestID);
 
-			FixMessage.getTagStringValue(buf, partyDetailsListRequestID, 0, partyDetailsListRequestID.length, err);
+			FixUtils.getTagStringValue(buf, partyDetailsListRequestID, 0, partyDetailsListRequestID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -472,7 +468,7 @@ public class FixPartyDetailsListReport extends FixInMessage {
 
 				buf.position(hasPartyDetailsRequestResult);
 
-			partyDetailsRequestResult = FixMessage.getTagIntValue(buf, err);
+			partyDetailsRequestResult = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -521,7 +517,7 @@ public class FixPartyDetailsListReport extends FixInMessage {
 
 				buf.position(hasTotNoPartyList);
 
-			totNoPartyList = FixMessage.getTagIntValue(buf, err);
+			totNoPartyList = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -570,7 +566,7 @@ public class FixPartyDetailsListReport extends FixInMessage {
 
 				buf.position(hasLastFragment);
 
-			lastFragment = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			lastFragment = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -619,7 +615,7 @@ public class FixPartyDetailsListReport extends FixInMessage {
 
 				buf.position(hasText);
 
-			FixMessage.getTagStringValue(buf, text, 0, text.length, err);
+			FixUtils.getTagStringValue(buf, text, 0, text.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -663,7 +659,7 @@ public class FixPartyDetailsListReport extends FixInMessage {
 
 				buf.position(hasEncodedTextLen);
 
-			encodedTextLen = FixMessage.getTagIntValue(buf, err);
+			encodedTextLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -712,7 +708,7 @@ public class FixPartyDetailsListReport extends FixInMessage {
 
 				buf.position(hasEncodedText);
 
-			FixMessage.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
+			FixUtils.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		

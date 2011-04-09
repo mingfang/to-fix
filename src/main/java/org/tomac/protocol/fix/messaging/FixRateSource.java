@@ -55,22 +55,22 @@ public class FixRateSource extends FixGroup {
             switch (tag) {		
             	case FixTags.RATESOURCE_INT:		
             		hasRateSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.RATESOURCETYPE_INT:		
             		hasRateSourceType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.REFERENCEPAGE_INT:		
             		hasReferencePage = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -157,7 +157,7 @@ public class FixRateSource extends FixGroup {
 		
 				buf.position(hasRateSource);		
 		
-			rateSource = FixMessage.getTagIntValue(buf, err);
+			rateSource = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRateSource);		
@@ -201,7 +201,7 @@ public class FixRateSource extends FixGroup {
 		
 				buf.position(hasRateSourceType);		
 		
-			rateSourceType = FixMessage.getTagIntValue(buf, err);
+			rateSourceType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRateSourceType);		
@@ -245,7 +245,7 @@ public class FixRateSource extends FixGroup {
 		
 				buf.position(hasReferencePage);		
 		
-			FixMessage.getTagStringValue(buf, referencePage, 0, referencePage.length, err);
+			FixUtils.getTagStringValue(buf, referencePage, 0, referencePage.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasReferencePage);		

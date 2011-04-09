@@ -92,7 +92,7 @@ public class FixNewOrderList extends FixInMessage {
 		super.setBuffer(buf, err);
         if (err.hasError()) return;
 
-        int tag = FixMessage.getTag(buf, err);
+        int tag = FixUtils.getTag(buf, err);
         if (err.hasError()) return;
 
         while ( buf.hasRemaining() ) {
@@ -100,79 +100,79 @@ public class FixNewOrderList extends FixInMessage {
             switch (tag) {		
             	case FixTags.LISTID_INT:		
             		hasListID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.BIDID_INT:		
             		hasBidID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.CLIENTBIDID_INT:		
             		hasClientBidID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.PROGRPTREQS_INT:		
             		hasProgRptReqs = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.BIDTYPE_INT:		
             		hasBidType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.PROGPERIODINTERVAL_INT:		
             		hasProgPeriodInterval = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.CANCELLATIONRIGHTS_INT:		
             		hasCancellationRights = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.MONEYLAUNDERINGSTATUS_INT:		
             		hasMoneyLaunderingStatus = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.REGISTID_INT:		
             		hasRegistID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.LISTEXECINSTTYPE_INT:		
             		hasListExecInstType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.LISTEXECINST_INT:		
             		hasListExecInst = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.CONTINGENCYTYPE_INT:		
             		hasContingencyType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDLISTEXECINSTLEN_INT:		
             		hasEncodedListExecInstLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDLISTEXECINST_INT:		
             		hasEncodedListExecInst = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ALLOWABLEONESIDEDNESSPCT_INT:		
             		hasAllowableOneSidednessPct = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ALLOWABLEONESIDEDNESSVALUE_INT:		
             		hasAllowableOneSidednessValue = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ALLOWABLEONESIDEDNESSCURR_INT:		
             		hasAllowableOneSidednessCurr = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TOTNOORDERS_INT:		
             		hasTotNoOrders = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.LASTFRAGMENT_INT:		
             		hasLastFragment = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	default:
         			if ( standardHeader.isKeyTag(tag)) {
@@ -181,15 +181,15 @@ public class FixNewOrderList extends FixInMessage {
                 		else continue;		
         			} else if ( standardTrailer.isKeyTag(tag)) {
         				tag = standardTrailer.setBuffer( tag, buf, err);
-        				FixMessage.unreadLastTag(tag, buf);
+        				FixUtils.unreadLastTag(tag, buf);
         				if (!err.hasError()) hasRequiredTags(err);
             			return; // always last, we are done now
         			} else if ( tag == FixTags.NOROOTPARTYIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -206,10 +206,10 @@ public class FixNewOrderList extends FixInMessage {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NOORDERS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return; }
@@ -225,10 +225,10 @@ public class FixNewOrderList extends FixInMessage {
         				if (err.hasError()) break;
                 		else { tag = repeatingGroupTag; continue; }
             		} else {
- 						FixMessage.getNext(buf, err);		
+ 						FixUtils.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else {
-                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.NEWORDERLIST);
+                		else if (FixUtils.validateOnlyDefinedTagsAllowed) {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.NEWORDERLIST_INT);
                 			break;
                 		}
 					}
@@ -237,7 +237,7 @@ public class FixNewOrderList extends FixInMessage {
 
         		if (err.hasError()) return;
 
-            	tag = FixMessage.getTag(buf, err);		
+            	tag = FixUtils.getTag(buf, err);		
         		if (err.hasError()) break;
 
 		}
@@ -245,23 +245,19 @@ public class FixNewOrderList extends FixInMessage {
 	}		
 
 	public boolean hasRequiredTags(FixValidationError err) {
-		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		if (!hasListID()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.LISTID_INT, FixMessageInfo.MessageTypes.NEWORDERLIST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.LISTID_INT, FixMessageInfo.MessageTypes.NEWORDERLIST_INT);
 			return false;
 		}
 		if (!hasBidType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.BIDTYPE_INT, FixMessageInfo.MessageTypes.NEWORDERLIST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.BIDTYPE_INT, FixMessageInfo.MessageTypes.NEWORDERLIST_INT);
 			return false;
 		}
 		if (!hasTotNoOrders()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TOTNOORDERS_INT, FixMessageInfo.MessageTypes.NEWORDERLIST);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.TOTNOORDERS_INT, FixMessageInfo.MessageTypes.NEWORDERLIST_INT);
 			return false;
 		}
 		for (int i = 0; i< FixUtils.FIX_MAX_NOINGROUP; i++) { if (listOrdGrp[i].hasGroup()) listOrdGrp[i].hasRequiredTags(err); if (err.hasError()) return false; }
-		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		return true;
 	}
 	@Override		
@@ -676,7 +672,7 @@ public class FixNewOrderList extends FixInMessage {
 
 				buf.position(hasListID);
 
-			FixMessage.getTagStringValue(buf, listID, 0, listID.length, err);
+			FixUtils.getTagStringValue(buf, listID, 0, listID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -720,7 +716,7 @@ public class FixNewOrderList extends FixInMessage {
 
 				buf.position(hasBidID);
 
-			FixMessage.getTagStringValue(buf, bidID, 0, bidID.length, err);
+			FixUtils.getTagStringValue(buf, bidID, 0, bidID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -764,7 +760,7 @@ public class FixNewOrderList extends FixInMessage {
 
 				buf.position(hasClientBidID);
 
-			FixMessage.getTagStringValue(buf, clientBidID, 0, clientBidID.length, err);
+			FixUtils.getTagStringValue(buf, clientBidID, 0, clientBidID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -808,7 +804,7 @@ public class FixNewOrderList extends FixInMessage {
 
 				buf.position(hasProgRptReqs);
 
-			progRptReqs = FixMessage.getTagIntValue(buf, err);
+			progRptReqs = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -857,7 +853,7 @@ public class FixNewOrderList extends FixInMessage {
 
 				buf.position(hasBidType);
 
-			bidType = FixMessage.getTagIntValue(buf, err);
+			bidType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -906,7 +902,7 @@ public class FixNewOrderList extends FixInMessage {
 
 				buf.position(hasProgPeriodInterval);
 
-			progPeriodInterval = FixMessage.getTagIntValue(buf, err);
+			progPeriodInterval = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -955,7 +951,7 @@ public class FixNewOrderList extends FixInMessage {
 
 				buf.position(hasCancellationRights);
 
-			cancellationRights = FixMessage.getTagCharValue(buf, err);
+			cancellationRights = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (cancellationRights != (byte)'M') && (cancellationRights != (byte)'N') && (cancellationRights != (byte)'O') && (cancellationRights != (byte)'Y') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 480);		
@@ -1006,7 +1002,7 @@ public class FixNewOrderList extends FixInMessage {
 
 				buf.position(hasMoneyLaunderingStatus);
 
-			moneyLaunderingStatus = FixMessage.getTagCharValue(buf, err);
+			moneyLaunderingStatus = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (moneyLaunderingStatus != (byte)'3') && (moneyLaunderingStatus != (byte)'2') && (moneyLaunderingStatus != (byte)'1') && (moneyLaunderingStatus != (byte)'N') && (moneyLaunderingStatus != (byte)'Y') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 481);		
@@ -1057,7 +1053,7 @@ public class FixNewOrderList extends FixInMessage {
 
 				buf.position(hasRegistID);
 
-			FixMessage.getTagStringValue(buf, registID, 0, registID.length, err);
+			FixUtils.getTagStringValue(buf, registID, 0, registID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1101,7 +1097,7 @@ public class FixNewOrderList extends FixInMessage {
 
 				buf.position(hasListExecInstType);
 
-			listExecInstType = FixMessage.getTagCharValue(buf, err);
+			listExecInstType = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (listExecInstType != (byte)'3') && (listExecInstType != (byte)'2') && (listExecInstType != (byte)'1') && (listExecInstType != (byte)'5') && (listExecInstType != (byte)'4') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 433);		
@@ -1152,7 +1148,7 @@ public class FixNewOrderList extends FixInMessage {
 
 				buf.position(hasListExecInst);
 
-			FixMessage.getTagStringValue(buf, listExecInst, 0, listExecInst.length, err);
+			FixUtils.getTagStringValue(buf, listExecInst, 0, listExecInst.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1196,7 +1192,7 @@ public class FixNewOrderList extends FixInMessage {
 
 				buf.position(hasContingencyType);
 
-			contingencyType = FixMessage.getTagIntValue(buf, err);
+			contingencyType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1245,7 +1241,7 @@ public class FixNewOrderList extends FixInMessage {
 
 				buf.position(hasEncodedListExecInstLen);
 
-			encodedListExecInstLen = FixMessage.getTagIntValue(buf, err);
+			encodedListExecInstLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1294,7 +1290,7 @@ public class FixNewOrderList extends FixInMessage {
 
 				buf.position(hasEncodedListExecInst);
 
-			FixMessage.getTagStringValue(buf, encodedListExecInst, 0, encodedListExecInst.length, err);
+			FixUtils.getTagStringValue(buf, encodedListExecInst, 0, encodedListExecInst.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1338,7 +1334,7 @@ public class FixNewOrderList extends FixInMessage {
 
 				buf.position(hasAllowableOneSidednessPct);
 
-			allowableOneSidednessPct = FixMessage.getTagFloatValue(buf, err);
+			allowableOneSidednessPct = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1387,7 +1383,7 @@ public class FixNewOrderList extends FixInMessage {
 
 				buf.position(hasAllowableOneSidednessValue);
 
-			allowableOneSidednessValue = FixMessage.getTagFloatValue(buf, err);
+			allowableOneSidednessValue = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1436,7 +1432,7 @@ public class FixNewOrderList extends FixInMessage {
 
 				buf.position(hasAllowableOneSidednessCurr);
 
-			FixMessage.getTagStringValue(buf, allowableOneSidednessCurr, 0, allowableOneSidednessCurr.length, err);
+			FixUtils.getTagStringValue(buf, allowableOneSidednessCurr, 0, allowableOneSidednessCurr.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1480,7 +1476,7 @@ public class FixNewOrderList extends FixInMessage {
 
 				buf.position(hasTotNoOrders);
 
-			totNoOrders = FixMessage.getTagIntValue(buf, err);
+			totNoOrders = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -1529,7 +1525,7 @@ public class FixNewOrderList extends FixInMessage {
 
 				buf.position(hasLastFragment);
 
-			lastFragment = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			lastFragment = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(0);		

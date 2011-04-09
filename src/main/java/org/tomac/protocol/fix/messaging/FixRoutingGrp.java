@@ -52,18 +52,18 @@ public class FixRoutingGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.ROUTINGTYPE_INT:		
             		hasRoutingType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ROUTINGID_INT:		
             		hasRoutingID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -132,7 +132,7 @@ public class FixRoutingGrp extends FixGroup {
 		
 				buf.position(hasRoutingType);		
 		
-			routingType = FixMessage.getTagIntValue(buf, err);
+			routingType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRoutingType);		
@@ -176,7 +176,7 @@ public class FixRoutingGrp extends FixGroup {
 		
 				buf.position(hasRoutingID);		
 		
-			FixMessage.getTagStringValue(buf, routingID, 0, routingID.length, err);
+			FixUtils.getTagStringValue(buf, routingID, 0, routingID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRoutingID);		

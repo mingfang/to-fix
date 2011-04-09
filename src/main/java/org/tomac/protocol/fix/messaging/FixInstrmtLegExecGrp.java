@@ -118,79 +118,79 @@ public class FixInstrmtLegExecGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.LEGQTY_INT:		
             		hasLegQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGORDERQTY_INT:		
             		hasLegOrderQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGSWAPTYPE_INT:		
             		hasLegSwapType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGALLOCID_INT:		
             		hasLegAllocID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGPOSITIONEFFECT_INT:		
             		hasLegPositionEffect = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGCOVEREDORUNCOVERED_INT:		
             		hasLegCoveredOrUncovered = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGREFID_INT:		
             		hasLegRefID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGSETTLTYPE_INT:		
             		hasLegSettlType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGSETTLDATE_INT:		
             		hasLegSettlDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGLASTPX_INT:		
             		hasLegLastPx = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGSETTLCURRENCY_INT:		
             		hasLegSettlCurrency = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGLASTFORWARDPOINTS_INT:		
             		hasLegLastForwardPoints = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGCALCULATEDCCYLASTQTY_INT:		
             		hasLegCalculatedCcyLastQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGGROSSTRADEAMT_INT:		
             		hasLegGrossTradeAmt = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGVOLATILITY_INT:		
             		hasLegVolatility = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGDIVIDENDYIELD_INT:		
             		hasLegDividendYield = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGCURRENCYRATIO_INT:		
             		hasLegCurrencyRatio = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGEXECINST_INT:		
             		hasLegExecInst = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LEGLASTQTY_INT:		
             		hasLegLastQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( instrumentLeg.isKeyTag(tag)) {
@@ -199,10 +199,10 @@ public class FixInstrmtLegExecGrp extends FixGroup {
                 		else continue;		
         			} else if ( tag == FixTags.NOLEGSTIPULATIONS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -219,10 +219,10 @@ public class FixInstrmtLegExecGrp extends FixGroup {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NOLEGALLOCS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -239,10 +239,10 @@ public class FixInstrmtLegExecGrp extends FixGroup {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NONESTED3PARTYIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -260,7 +260,7 @@ public class FixInstrmtLegExecGrp extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -677,7 +677,7 @@ public class FixInstrmtLegExecGrp extends FixGroup {
 		
 				buf.position(hasLegQty);		
 		
-			legQty = FixMessage.getTagFloatValue(buf, err);
+			legQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegQty);		
@@ -721,7 +721,7 @@ public class FixInstrmtLegExecGrp extends FixGroup {
 		
 				buf.position(hasLegOrderQty);		
 		
-			legOrderQty = FixMessage.getTagFloatValue(buf, err);
+			legOrderQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegOrderQty);		
@@ -765,7 +765,7 @@ public class FixInstrmtLegExecGrp extends FixGroup {
 		
 				buf.position(hasLegSwapType);		
 		
-			legSwapType = FixMessage.getTagIntValue(buf, err);
+			legSwapType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegSwapType);		
@@ -809,7 +809,7 @@ public class FixInstrmtLegExecGrp extends FixGroup {
 		
 				buf.position(hasLegAllocID);		
 		
-			FixMessage.getTagStringValue(buf, legAllocID, 0, legAllocID.length, err);
+			FixUtils.getTagStringValue(buf, legAllocID, 0, legAllocID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegAllocID);		
@@ -848,7 +848,7 @@ public class FixInstrmtLegExecGrp extends FixGroup {
 		
 				buf.position(hasLegPositionEffect);		
 		
-			legPositionEffect = FixMessage.getTagCharValue(buf, err);
+			legPositionEffect = FixUtils.getTagCharValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegPositionEffect);		
@@ -892,7 +892,7 @@ public class FixInstrmtLegExecGrp extends FixGroup {
 		
 				buf.position(hasLegCoveredOrUncovered);		
 		
-			legCoveredOrUncovered = FixMessage.getTagIntValue(buf, err);
+			legCoveredOrUncovered = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegCoveredOrUncovered);		
@@ -936,7 +936,7 @@ public class FixInstrmtLegExecGrp extends FixGroup {
 		
 				buf.position(hasLegRefID);		
 		
-			FixMessage.getTagStringValue(buf, legRefID, 0, legRefID.length, err);
+			FixUtils.getTagStringValue(buf, legRefID, 0, legRefID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegRefID);		
@@ -975,7 +975,7 @@ public class FixInstrmtLegExecGrp extends FixGroup {
 		
 				buf.position(hasLegSettlType);		
 		
-			legSettlType = FixMessage.getTagCharValue(buf, err);
+			legSettlType = FixUtils.getTagCharValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegSettlType);		
@@ -1019,7 +1019,7 @@ public class FixInstrmtLegExecGrp extends FixGroup {
 		
 				buf.position(hasLegSettlDate);		
 		
-			FixMessage.getTagStringValue(buf, legSettlDate, 0, legSettlDate.length, err);
+			FixUtils.getTagStringValue(buf, legSettlDate, 0, legSettlDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegSettlDate);		
@@ -1058,7 +1058,7 @@ public class FixInstrmtLegExecGrp extends FixGroup {
 		
 				buf.position(hasLegLastPx);		
 		
-			legLastPx = FixMessage.getTagFloatValue(buf, err);
+			legLastPx = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegLastPx);		
@@ -1102,7 +1102,7 @@ public class FixInstrmtLegExecGrp extends FixGroup {
 		
 				buf.position(hasLegSettlCurrency);		
 		
-			FixMessage.getTagStringValue(buf, legSettlCurrency, 0, legSettlCurrency.length, err);
+			FixUtils.getTagStringValue(buf, legSettlCurrency, 0, legSettlCurrency.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegSettlCurrency);		
@@ -1141,7 +1141,7 @@ public class FixInstrmtLegExecGrp extends FixGroup {
 		
 				buf.position(hasLegLastForwardPoints);		
 		
-			legLastForwardPoints = FixMessage.getTagFloatValue(buf, err);
+			legLastForwardPoints = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegLastForwardPoints);		
@@ -1185,7 +1185,7 @@ public class FixInstrmtLegExecGrp extends FixGroup {
 		
 				buf.position(hasLegCalculatedCcyLastQty);		
 		
-			legCalculatedCcyLastQty = FixMessage.getTagFloatValue(buf, err);
+			legCalculatedCcyLastQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegCalculatedCcyLastQty);		
@@ -1229,7 +1229,7 @@ public class FixInstrmtLegExecGrp extends FixGroup {
 		
 				buf.position(hasLegGrossTradeAmt);		
 		
-			legGrossTradeAmt = FixMessage.getTagFloatValue(buf, err);
+			legGrossTradeAmt = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegGrossTradeAmt);		
@@ -1273,7 +1273,7 @@ public class FixInstrmtLegExecGrp extends FixGroup {
 		
 				buf.position(hasLegVolatility);		
 		
-			legVolatility = FixMessage.getTagFloatValue(buf, err);
+			legVolatility = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegVolatility);		
@@ -1317,7 +1317,7 @@ public class FixInstrmtLegExecGrp extends FixGroup {
 		
 				buf.position(hasLegDividendYield);		
 		
-			legDividendYield = FixMessage.getTagFloatValue(buf, err);
+			legDividendYield = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegDividendYield);		
@@ -1361,7 +1361,7 @@ public class FixInstrmtLegExecGrp extends FixGroup {
 		
 				buf.position(hasLegCurrencyRatio);		
 		
-			legCurrencyRatio = FixMessage.getTagFloatValue(buf, err);
+			legCurrencyRatio = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegCurrencyRatio);		
@@ -1405,7 +1405,7 @@ public class FixInstrmtLegExecGrp extends FixGroup {
 		
 				buf.position(hasLegExecInst);		
 		
-			FixMessage.getTagStringValue(buf, legExecInst, 0, legExecInst.length, err);
+			FixUtils.getTagStringValue(buf, legExecInst, 0, legExecInst.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegExecInst);		
@@ -1444,7 +1444,7 @@ public class FixInstrmtLegExecGrp extends FixGroup {
 		
 				buf.position(hasLegLastQty);		
 		
-			legLastQty = FixMessage.getTagFloatValue(buf, err);
+			legLastQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLegLastQty);		

@@ -60,30 +60,30 @@ public class FixOrderQtyData extends FixGroup {
             switch (tag) {		
             	case FixTags.ORDERQTY_INT:		
             		hasOrderQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.CASHORDERQTY_INT:		
             		hasCashOrderQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ORDERPERCENT_INT:		
             		hasOrderPercent = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ROUNDINGDIRECTION_INT:		
             		hasRoundingDirection = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ROUNDINGMODULUS_INT:		
             		hasRoundingModulus = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -206,7 +206,7 @@ public class FixOrderQtyData extends FixGroup {
 		
 				buf.position(hasOrderQty);		
 		
-			orderQty = FixMessage.getTagFloatValue(buf, err);
+			orderQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasOrderQty);		
@@ -250,7 +250,7 @@ public class FixOrderQtyData extends FixGroup {
 		
 				buf.position(hasCashOrderQty);		
 		
-			cashOrderQty = FixMessage.getTagFloatValue(buf, err);
+			cashOrderQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasCashOrderQty);		
@@ -294,7 +294,7 @@ public class FixOrderQtyData extends FixGroup {
 		
 				buf.position(hasOrderPercent);		
 		
-			orderPercent = FixMessage.getTagFloatValue(buf, err);
+			orderPercent = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasOrderPercent);		
@@ -338,7 +338,7 @@ public class FixOrderQtyData extends FixGroup {
 		
 				buf.position(hasRoundingDirection);		
 		
-			roundingDirection = FixMessage.getTagCharValue(buf, err);
+			roundingDirection = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (roundingDirection != (byte)'2') && (roundingDirection != (byte)'1') && (roundingDirection != (byte)'0') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 468);		
@@ -384,7 +384,7 @@ public class FixOrderQtyData extends FixGroup {
 		
 				buf.position(hasRoundingModulus);		
 		
-			roundingModulus = FixMessage.getTagFloatValue(buf, err);
+			roundingModulus = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRoundingModulus);		

@@ -126,91 +126,91 @@ public class FixSettlInstGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.SETTLINSTID_INT:		
             		hasSettlInstID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SETTLINSTTRANSTYPE_INT:		
             		hasSettlInstTransType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SETTLINSTREFID_INT:		
             		hasSettlInstRefID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SIDE_INT:		
             		hasSide = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.PRODUCT_INT:		
             		hasProduct = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SECURITYTYPE_INT:		
             		hasSecurityType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.CFICODE_INT:		
             		hasCFICode = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SETTLCURRENCY_INT:		
             		hasSettlCurrency = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.EFFECTIVETIME_INT:		
             		hasEffectiveTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.EXPIRETIME_INT:		
             		hasExpireTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LASTUPDATETIME_INT:		
             		hasLastUpdateTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.PAYMENTMETHOD_INT:		
             		hasPaymentMethod = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.PAYMENTREF_INT:		
             		hasPaymentRef = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.CARDHOLDERNAME_INT:		
             		hasCardHolderName = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.CARDNUMBER_INT:		
             		hasCardNumber = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.CARDSTARTDATE_INT:		
             		hasCardStartDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.CARDEXPDATE_INT:		
             		hasCardExpDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.CARDISSNUM_INT:		
             		hasCardIssNum = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.PAYMENTDATE_INT:		
             		hasPaymentDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.PAYMENTREMITTERID_INT:		
             		hasPaymentRemitterID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( tag == FixTags.NOPARTYIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -232,7 +232,7 @@ public class FixSettlInstGrp extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -641,7 +641,7 @@ public class FixSettlInstGrp extends FixGroup {
 		
 				buf.position(hasSettlInstID);		
 		
-			FixMessage.getTagStringValue(buf, settlInstID, 0, settlInstID.length, err);
+			FixUtils.getTagStringValue(buf, settlInstID, 0, settlInstID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSettlInstID);		
@@ -680,7 +680,7 @@ public class FixSettlInstGrp extends FixGroup {
 		
 				buf.position(hasSettlInstTransType);		
 		
-			settlInstTransType = FixMessage.getTagCharValue(buf, err);
+			settlInstTransType = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (settlInstTransType != (byte)'T') && (settlInstTransType != (byte)'R') && (settlInstTransType != (byte)'C') && (settlInstTransType != (byte)'N') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 163);		
@@ -726,7 +726,7 @@ public class FixSettlInstGrp extends FixGroup {
 		
 				buf.position(hasSettlInstRefID);		
 		
-			FixMessage.getTagStringValue(buf, settlInstRefID, 0, settlInstRefID.length, err);
+			FixUtils.getTagStringValue(buf, settlInstRefID, 0, settlInstRefID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSettlInstRefID);		
@@ -765,7 +765,7 @@ public class FixSettlInstGrp extends FixGroup {
 		
 				buf.position(hasSide);		
 		
-			side = FixMessage.getTagCharValue(buf, err);
+			side = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (side != (byte)'D') && (side != (byte)'E') && (side != (byte)'F') && (side != (byte)'G') && (side != (byte)'A') && (side != (byte)'B') && (side != (byte)'C') && (side != (byte)'3') && (side != (byte)'2') && (side != (byte)'1') && (side != (byte)'7') && (side != (byte)'6') && (side != (byte)'5') && (side != (byte)'4') && (side != (byte)'9') && (side != (byte)'8') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 54);		
@@ -811,7 +811,7 @@ public class FixSettlInstGrp extends FixGroup {
 		
 				buf.position(hasProduct);		
 		
-			product = FixMessage.getTagIntValue(buf, err);
+			product = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasProduct);		
@@ -855,7 +855,7 @@ public class FixSettlInstGrp extends FixGroup {
 		
 				buf.position(hasSecurityType);		
 		
-			FixMessage.getTagStringValue(buf, securityType, 0, securityType.length, err);
+			FixUtils.getTagStringValue(buf, securityType, 0, securityType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSecurityType);		
@@ -894,7 +894,7 @@ public class FixSettlInstGrp extends FixGroup {
 		
 				buf.position(hasCFICode);		
 		
-			FixMessage.getTagStringValue(buf, cFICode, 0, cFICode.length, err);
+			FixUtils.getTagStringValue(buf, cFICode, 0, cFICode.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasCFICode);		
@@ -933,7 +933,7 @@ public class FixSettlInstGrp extends FixGroup {
 		
 				buf.position(hasSettlCurrency);		
 		
-			FixMessage.getTagStringValue(buf, settlCurrency, 0, settlCurrency.length, err);
+			FixUtils.getTagStringValue(buf, settlCurrency, 0, settlCurrency.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSettlCurrency);		
@@ -972,7 +972,7 @@ public class FixSettlInstGrp extends FixGroup {
 		
 				buf.position(hasEffectiveTime);		
 		
-			FixMessage.getTagStringValue(buf, effectiveTime, 0, effectiveTime.length, err);
+			FixUtils.getTagStringValue(buf, effectiveTime, 0, effectiveTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasEffectiveTime);		
@@ -1011,7 +1011,7 @@ public class FixSettlInstGrp extends FixGroup {
 		
 				buf.position(hasExpireTime);		
 		
-			FixMessage.getTagStringValue(buf, expireTime, 0, expireTime.length, err);
+			FixUtils.getTagStringValue(buf, expireTime, 0, expireTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasExpireTime);		
@@ -1050,7 +1050,7 @@ public class FixSettlInstGrp extends FixGroup {
 		
 				buf.position(hasLastUpdateTime);		
 		
-			FixMessage.getTagStringValue(buf, lastUpdateTime, 0, lastUpdateTime.length, err);
+			FixUtils.getTagStringValue(buf, lastUpdateTime, 0, lastUpdateTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLastUpdateTime);		
@@ -1089,7 +1089,7 @@ public class FixSettlInstGrp extends FixGroup {
 		
 				buf.position(hasPaymentMethod);		
 		
-			paymentMethod = FixMessage.getTagIntValue(buf, err);
+			paymentMethod = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasPaymentMethod);		
@@ -1133,7 +1133,7 @@ public class FixSettlInstGrp extends FixGroup {
 		
 				buf.position(hasPaymentRef);		
 		
-			FixMessage.getTagStringValue(buf, paymentRef, 0, paymentRef.length, err);
+			FixUtils.getTagStringValue(buf, paymentRef, 0, paymentRef.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasPaymentRef);		
@@ -1172,7 +1172,7 @@ public class FixSettlInstGrp extends FixGroup {
 		
 				buf.position(hasCardHolderName);		
 		
-			FixMessage.getTagStringValue(buf, cardHolderName, 0, cardHolderName.length, err);
+			FixUtils.getTagStringValue(buf, cardHolderName, 0, cardHolderName.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasCardHolderName);		
@@ -1211,7 +1211,7 @@ public class FixSettlInstGrp extends FixGroup {
 		
 				buf.position(hasCardNumber);		
 		
-			FixMessage.getTagStringValue(buf, cardNumber, 0, cardNumber.length, err);
+			FixUtils.getTagStringValue(buf, cardNumber, 0, cardNumber.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasCardNumber);		
@@ -1250,7 +1250,7 @@ public class FixSettlInstGrp extends FixGroup {
 		
 				buf.position(hasCardStartDate);		
 		
-			FixMessage.getTagStringValue(buf, cardStartDate, 0, cardStartDate.length, err);
+			FixUtils.getTagStringValue(buf, cardStartDate, 0, cardStartDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasCardStartDate);		
@@ -1289,7 +1289,7 @@ public class FixSettlInstGrp extends FixGroup {
 		
 				buf.position(hasCardExpDate);		
 		
-			FixMessage.getTagStringValue(buf, cardExpDate, 0, cardExpDate.length, err);
+			FixUtils.getTagStringValue(buf, cardExpDate, 0, cardExpDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasCardExpDate);		
@@ -1328,7 +1328,7 @@ public class FixSettlInstGrp extends FixGroup {
 		
 				buf.position(hasCardIssNum);		
 		
-			FixMessage.getTagStringValue(buf, cardIssNum, 0, cardIssNum.length, err);
+			FixUtils.getTagStringValue(buf, cardIssNum, 0, cardIssNum.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasCardIssNum);		
@@ -1367,7 +1367,7 @@ public class FixSettlInstGrp extends FixGroup {
 		
 				buf.position(hasPaymentDate);		
 		
-			FixMessage.getTagStringValue(buf, paymentDate, 0, paymentDate.length, err);
+			FixUtils.getTagStringValue(buf, paymentDate, 0, paymentDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasPaymentDate);		
@@ -1406,7 +1406,7 @@ public class FixSettlInstGrp extends FixGroup {
 		
 				buf.position(hasPaymentRemitterID);		
 		
-			FixMessage.getTagStringValue(buf, paymentRemitterID, 0, paymentRemitterID.length, err);
+			FixUtils.getTagStringValue(buf, paymentRemitterID, 0, paymentRemitterID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasPaymentRemitterID);		

@@ -100,55 +100,55 @@ public class FixSettlObligationInstructions extends FixGroup {
             switch (tag) {		
             	case FixTags.NETGROSSIND_INT:		
             		hasNetGrossInd = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SETTLOBLIGID_INT:		
             		hasSettlObligID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SETTLOBLIGTRANSTYPE_INT:		
             		hasSettlObligTransType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SETTLOBLIGREFID_INT:		
             		hasSettlObligRefID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.CCYAMT_INT:		
             		hasCcyAmt = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SETTLCURRAMT_INT:		
             		hasSettlCurrAmt = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.CURRENCY_INT:		
             		hasCurrency = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SETTLCURRENCY_INT:		
             		hasSettlCurrency = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SETTLCURRFXRATE_INT:		
             		hasSettlCurrFxRate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SETTLDATE_INT:		
             		hasSettlDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.EFFECTIVETIME_INT:		
             		hasEffectiveTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.EXPIRETIME_INT:		
             		hasExpireTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LASTUPDATETIME_INT:		
             		hasLastUpdateTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( instrument.isKeyTag(tag)) {
@@ -157,10 +157,10 @@ public class FixSettlObligationInstructions extends FixGroup {
                 		else continue;		
         			} else if ( tag == FixTags.NOPARTYIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -177,10 +177,10 @@ public class FixSettlObligationInstructions extends FixGroup {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NOSETTLDETAILS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -198,7 +198,7 @@ public class FixSettlObligationInstructions extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -494,7 +494,7 @@ public class FixSettlObligationInstructions extends FixGroup {
 		
 				buf.position(hasNetGrossInd);		
 		
-			netGrossInd = FixMessage.getTagIntValue(buf, err);
+			netGrossInd = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasNetGrossInd);		
@@ -538,7 +538,7 @@ public class FixSettlObligationInstructions extends FixGroup {
 		
 				buf.position(hasSettlObligID);		
 		
-			FixMessage.getTagStringValue(buf, settlObligID, 0, settlObligID.length, err);
+			FixUtils.getTagStringValue(buf, settlObligID, 0, settlObligID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSettlObligID);		
@@ -577,7 +577,7 @@ public class FixSettlObligationInstructions extends FixGroup {
 		
 				buf.position(hasSettlObligTransType);		
 		
-			settlObligTransType = FixMessage.getTagCharValue(buf, err);
+			settlObligTransType = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (settlObligTransType != (byte)'T') && (settlObligTransType != (byte)'R') && (settlObligTransType != (byte)'C') && (settlObligTransType != (byte)'N') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 1162);		
@@ -623,7 +623,7 @@ public class FixSettlObligationInstructions extends FixGroup {
 		
 				buf.position(hasSettlObligRefID);		
 		
-			FixMessage.getTagStringValue(buf, settlObligRefID, 0, settlObligRefID.length, err);
+			FixUtils.getTagStringValue(buf, settlObligRefID, 0, settlObligRefID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSettlObligRefID);		
@@ -662,7 +662,7 @@ public class FixSettlObligationInstructions extends FixGroup {
 		
 				buf.position(hasCcyAmt);		
 		
-			ccyAmt = FixMessage.getTagFloatValue(buf, err);
+			ccyAmt = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasCcyAmt);		
@@ -706,7 +706,7 @@ public class FixSettlObligationInstructions extends FixGroup {
 		
 				buf.position(hasSettlCurrAmt);		
 		
-			settlCurrAmt = FixMessage.getTagFloatValue(buf, err);
+			settlCurrAmt = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSettlCurrAmt);		
@@ -750,7 +750,7 @@ public class FixSettlObligationInstructions extends FixGroup {
 		
 				buf.position(hasCurrency);		
 		
-			FixMessage.getTagStringValue(buf, currency, 0, currency.length, err);
+			FixUtils.getTagStringValue(buf, currency, 0, currency.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasCurrency);		
@@ -789,7 +789,7 @@ public class FixSettlObligationInstructions extends FixGroup {
 		
 				buf.position(hasSettlCurrency);		
 		
-			FixMessage.getTagStringValue(buf, settlCurrency, 0, settlCurrency.length, err);
+			FixUtils.getTagStringValue(buf, settlCurrency, 0, settlCurrency.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSettlCurrency);		
@@ -828,7 +828,7 @@ public class FixSettlObligationInstructions extends FixGroup {
 		
 				buf.position(hasSettlCurrFxRate);		
 		
-			settlCurrFxRate = FixMessage.getTagFloatValue(buf, err);
+			settlCurrFxRate = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSettlCurrFxRate);		
@@ -872,7 +872,7 @@ public class FixSettlObligationInstructions extends FixGroup {
 		
 				buf.position(hasSettlDate);		
 		
-			FixMessage.getTagStringValue(buf, settlDate, 0, settlDate.length, err);
+			FixUtils.getTagStringValue(buf, settlDate, 0, settlDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSettlDate);		
@@ -911,7 +911,7 @@ public class FixSettlObligationInstructions extends FixGroup {
 		
 				buf.position(hasEffectiveTime);		
 		
-			FixMessage.getTagStringValue(buf, effectiveTime, 0, effectiveTime.length, err);
+			FixUtils.getTagStringValue(buf, effectiveTime, 0, effectiveTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasEffectiveTime);		
@@ -950,7 +950,7 @@ public class FixSettlObligationInstructions extends FixGroup {
 		
 				buf.position(hasExpireTime);		
 		
-			FixMessage.getTagStringValue(buf, expireTime, 0, expireTime.length, err);
+			FixUtils.getTagStringValue(buf, expireTime, 0, expireTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasExpireTime);		
@@ -989,7 +989,7 @@ public class FixSettlObligationInstructions extends FixGroup {
 		
 				buf.position(hasLastUpdateTime);		
 		
-			FixMessage.getTagStringValue(buf, lastUpdateTime, 0, lastUpdateTime.length, err);
+			FixUtils.getTagStringValue(buf, lastUpdateTime, 0, lastUpdateTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLastUpdateTime);		

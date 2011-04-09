@@ -58,7 +58,7 @@ public class FixBusinessMessageReject extends FixInMessage {
 		super.setBuffer(buf, err);
         if (err.hasError()) return;
 
-        int tag = FixMessage.getTag(buf, err);
+        int tag = FixUtils.getTag(buf, err);
         if (err.hasError()) return;
 
         while ( buf.hasRemaining() ) {
@@ -66,43 +66,43 @@ public class FixBusinessMessageReject extends FixInMessage {
             switch (tag) {		
             	case FixTags.REFSEQNUM_INT:		
             		hasRefSeqNum = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.REFMSGTYPE_INT:		
             		hasRefMsgType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.REFAPPLVERID_INT:		
             		hasRefApplVerID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.REFAPPLEXTID_INT:		
             		hasRefApplExtID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.REFCSTMAPPLVERID_INT:		
             		hasRefCstmApplVerID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.BUSINESSREJECTREFID_INT:		
             		hasBusinessRejectRefID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.BUSINESSREJECTREASON_INT:		
             		hasBusinessRejectReason = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.TEXT_INT:		
             		hasText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDTEXTLEN_INT:		
             		hasEncodedTextLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	case FixTags.ENCODEDTEXT_INT:		
             		hasEncodedText = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break;
             	default:
         			if ( standardHeader.isKeyTag(tag)) {
@@ -111,14 +111,14 @@ public class FixBusinessMessageReject extends FixInMessage {
                 		else continue;		
         			} else if ( standardTrailer.isKeyTag(tag)) {
         				tag = standardTrailer.setBuffer( tag, buf, err);
-        				FixMessage.unreadLastTag(tag, buf);
+        				FixUtils.unreadLastTag(tag, buf);
         				if (!err.hasError()) hasRequiredTags(err);
             			return; // always last, we are done now
             		} else {
- 						FixMessage.getNext(buf, err);		
+ 						FixUtils.getNext(buf, err);		
                 		if (err.hasError()) break; 		
-                		else {
-                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.BUSINESSMESSAGEREJECT);
+                		else if (FixUtils.validateOnlyDefinedTagsAllowed) {
+                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, "Tag not defined for this message type", tag, FixMessageInfo.MessageTypes.BUSINESSMESSAGEREJECT_INT);
                 			break;
                 		}
 					}
@@ -127,7 +127,7 @@ public class FixBusinessMessageReject extends FixInMessage {
 
         		if (err.hasError()) return;
 
-            	tag = FixMessage.getTag(buf, err);		
+            	tag = FixUtils.getTag(buf, err);		
         		if (err.hasError()) break;
 
 		}
@@ -135,18 +135,14 @@ public class FixBusinessMessageReject extends FixInMessage {
 	}		
 
 	public boolean hasRequiredTags(FixValidationError err) {
-		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		if (!hasRefMsgType()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.REFMSGTYPE_INT, FixMessageInfo.MessageTypes.BUSINESSMESSAGEREJECT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.REFMSGTYPE_INT, FixMessageInfo.MessageTypes.BUSINESSMESSAGEREJECT_INT);
 			return false;
 		}
 		if (!hasBusinessRejectReason()) { 
-			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.BUSINESSREJECTREASON_INT, FixMessageInfo.MessageTypes.BUSINESSMESSAGEREJECT);
+			err.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing", FixTags.BUSINESSREJECTREASON_INT, FixMessageInfo.MessageTypes.BUSINESSMESSAGEREJECT_INT);
 			return false;
 		}
-		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; 
-
 		return true;
 	}
 	@Override		
@@ -395,7 +391,7 @@ public class FixBusinessMessageReject extends FixInMessage {
 
 				buf.position(hasRefSeqNum);
 
-			refSeqNum = FixMessage.getTagIntValue(buf, err);
+			refSeqNum = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -444,7 +440,7 @@ public class FixBusinessMessageReject extends FixInMessage {
 
 				buf.position(hasRefMsgType);
 
-			FixMessage.getTagStringValue(buf, refMsgType, 0, refMsgType.length, err);
+			FixUtils.getTagStringValue(buf, refMsgType, 0, refMsgType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -488,7 +484,7 @@ public class FixBusinessMessageReject extends FixInMessage {
 
 				buf.position(hasRefApplVerID);
 
-			FixMessage.getTagStringValue(buf, refApplVerID, 0, refApplVerID.length, err);
+			FixUtils.getTagStringValue(buf, refApplVerID, 0, refApplVerID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -532,7 +528,7 @@ public class FixBusinessMessageReject extends FixInMessage {
 
 				buf.position(hasRefApplExtID);
 
-			refApplExtID = FixMessage.getTagIntValue(buf, err);
+			refApplExtID = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -581,7 +577,7 @@ public class FixBusinessMessageReject extends FixInMessage {
 
 				buf.position(hasRefCstmApplVerID);
 
-			FixMessage.getTagStringValue(buf, refCstmApplVerID, 0, refCstmApplVerID.length, err);
+			FixUtils.getTagStringValue(buf, refCstmApplVerID, 0, refCstmApplVerID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -625,7 +621,7 @@ public class FixBusinessMessageReject extends FixInMessage {
 
 				buf.position(hasBusinessRejectRefID);
 
-			FixMessage.getTagStringValue(buf, businessRejectRefID, 0, businessRejectRefID.length, err);
+			FixUtils.getTagStringValue(buf, businessRejectRefID, 0, businessRejectRefID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -669,7 +665,7 @@ public class FixBusinessMessageReject extends FixInMessage {
 
 				buf.position(hasBusinessRejectReason);
 
-			businessRejectReason = FixMessage.getTagIntValue(buf, err);
+			businessRejectReason = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -718,7 +714,7 @@ public class FixBusinessMessageReject extends FixInMessage {
 
 				buf.position(hasText);
 
-			FixMessage.getTagStringValue(buf, text, 0, text.length, err);
+			FixUtils.getTagStringValue(buf, text, 0, text.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -762,7 +758,7 @@ public class FixBusinessMessageReject extends FixInMessage {
 
 				buf.position(hasEncodedTextLen);
 
-			encodedTextLen = FixMessage.getTagIntValue(buf, err);
+			encodedTextLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		
@@ -811,7 +807,7 @@ public class FixBusinessMessageReject extends FixInMessage {
 
 				buf.position(hasEncodedText);
 
-			FixMessage.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
+			FixUtils.getTagStringValue(buf, encodedText, 0, encodedText.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(0);		

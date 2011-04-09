@@ -79,54 +79,54 @@ public class FixBidDescReqGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.BIDDESCRIPTORTYPE_INT:		
             		hasBidDescriptorType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.BIDDESCRIPTOR_INT:		
             		hasBidDescriptor = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SIDEVALUEIND_INT:		
             		hasSideValueInd = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LIQUIDITYVALUE_INT:		
             		hasLiquidityValue = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LIQUIDITYNUMSECURITIES_INT:		
             		hasLiquidityNumSecurities = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LIQUIDITYPCTLOW_INT:		
             		hasLiquidityPctLow = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LIQUIDITYPCTHIGH_INT:		
             		hasLiquidityPctHigh = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.EFPTRACKINGERROR_INT:		
             		hasEFPTrackingError = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.FAIRVALUE_INT:		
             		hasFairValue = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.OUTSIDEINDEXPCT_INT:		
             		hasOutsideIndexPct = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.VALUEOFFUTURES_INT:		
             		hasValueOfFutures = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -357,7 +357,7 @@ public class FixBidDescReqGrp extends FixGroup {
 		
 				buf.position(hasBidDescriptorType);		
 		
-			bidDescriptorType = FixMessage.getTagIntValue(buf, err);
+			bidDescriptorType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasBidDescriptorType);		
@@ -401,7 +401,7 @@ public class FixBidDescReqGrp extends FixGroup {
 		
 				buf.position(hasBidDescriptor);		
 		
-			FixMessage.getTagStringValue(buf, bidDescriptor, 0, bidDescriptor.length, err);
+			FixUtils.getTagStringValue(buf, bidDescriptor, 0, bidDescriptor.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasBidDescriptor);		
@@ -440,7 +440,7 @@ public class FixBidDescReqGrp extends FixGroup {
 		
 				buf.position(hasSideValueInd);		
 		
-			sideValueInd = FixMessage.getTagIntValue(buf, err);
+			sideValueInd = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSideValueInd);		
@@ -484,7 +484,7 @@ public class FixBidDescReqGrp extends FixGroup {
 		
 				buf.position(hasLiquidityValue);		
 		
-			liquidityValue = FixMessage.getTagFloatValue(buf, err);
+			liquidityValue = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLiquidityValue);		
@@ -528,7 +528,7 @@ public class FixBidDescReqGrp extends FixGroup {
 		
 				buf.position(hasLiquidityNumSecurities);		
 		
-			liquidityNumSecurities = FixMessage.getTagIntValue(buf, err);
+			liquidityNumSecurities = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLiquidityNumSecurities);		
@@ -572,7 +572,7 @@ public class FixBidDescReqGrp extends FixGroup {
 		
 				buf.position(hasLiquidityPctLow);		
 		
-			liquidityPctLow = FixMessage.getTagFloatValue(buf, err);
+			liquidityPctLow = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLiquidityPctLow);		
@@ -616,7 +616,7 @@ public class FixBidDescReqGrp extends FixGroup {
 		
 				buf.position(hasLiquidityPctHigh);		
 		
-			liquidityPctHigh = FixMessage.getTagFloatValue(buf, err);
+			liquidityPctHigh = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasLiquidityPctHigh);		
@@ -660,7 +660,7 @@ public class FixBidDescReqGrp extends FixGroup {
 		
 				buf.position(hasEFPTrackingError);		
 		
-			eFPTrackingError = FixMessage.getTagFloatValue(buf, err);
+			eFPTrackingError = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasEFPTrackingError);		
@@ -704,7 +704,7 @@ public class FixBidDescReqGrp extends FixGroup {
 		
 				buf.position(hasFairValue);		
 		
-			fairValue = FixMessage.getTagFloatValue(buf, err);
+			fairValue = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasFairValue);		
@@ -748,7 +748,7 @@ public class FixBidDescReqGrp extends FixGroup {
 		
 				buf.position(hasOutsideIndexPct);		
 		
-			outsideIndexPct = FixMessage.getTagFloatValue(buf, err);
+			outsideIndexPct = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasOutsideIndexPct);		
@@ -792,7 +792,7 @@ public class FixBidDescReqGrp extends FixGroup {
 		
 				buf.position(hasValueOfFutures);		
 		
-			valueOfFutures = FixMessage.getTagFloatValue(buf, err);
+			valueOfFutures = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasValueOfFutures);		

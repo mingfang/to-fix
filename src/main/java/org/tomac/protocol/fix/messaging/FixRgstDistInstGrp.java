@@ -75,42 +75,42 @@ public class FixRgstDistInstGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.DISTRIBPAYMENTMETHOD_INT:		
             		hasDistribPaymentMethod = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DISTRIBPERCENTAGE_INT:		
             		hasDistribPercentage = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.CASHDISTRIBCURR_INT:		
             		hasCashDistribCurr = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.CASHDISTRIBAGENTNAME_INT:		
             		hasCashDistribAgentName = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.CASHDISTRIBAGENTCODE_INT:		
             		hasCashDistribAgentCode = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.CASHDISTRIBAGENTACCTNUMBER_INT:		
             		hasCashDistribAgentAcctNumber = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.CASHDISTRIBPAYREF_INT:		
             		hasCashDistribPayRef = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.CASHDISTRIBAGENTACCTNAME_INT:		
             		hasCashDistribAgentAcctName = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -287,7 +287,7 @@ public class FixRgstDistInstGrp extends FixGroup {
 		
 				buf.position(hasDistribPaymentMethod);		
 		
-			distribPaymentMethod = FixMessage.getTagIntValue(buf, err);
+			distribPaymentMethod = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDistribPaymentMethod);		
@@ -331,7 +331,7 @@ public class FixRgstDistInstGrp extends FixGroup {
 		
 				buf.position(hasDistribPercentage);		
 		
-			distribPercentage = FixMessage.getTagFloatValue(buf, err);
+			distribPercentage = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDistribPercentage);		
@@ -375,7 +375,7 @@ public class FixRgstDistInstGrp extends FixGroup {
 		
 				buf.position(hasCashDistribCurr);		
 		
-			FixMessage.getTagStringValue(buf, cashDistribCurr, 0, cashDistribCurr.length, err);
+			FixUtils.getTagStringValue(buf, cashDistribCurr, 0, cashDistribCurr.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasCashDistribCurr);		
@@ -414,7 +414,7 @@ public class FixRgstDistInstGrp extends FixGroup {
 		
 				buf.position(hasCashDistribAgentName);		
 		
-			FixMessage.getTagStringValue(buf, cashDistribAgentName, 0, cashDistribAgentName.length, err);
+			FixUtils.getTagStringValue(buf, cashDistribAgentName, 0, cashDistribAgentName.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasCashDistribAgentName);		
@@ -453,7 +453,7 @@ public class FixRgstDistInstGrp extends FixGroup {
 		
 				buf.position(hasCashDistribAgentCode);		
 		
-			FixMessage.getTagStringValue(buf, cashDistribAgentCode, 0, cashDistribAgentCode.length, err);
+			FixUtils.getTagStringValue(buf, cashDistribAgentCode, 0, cashDistribAgentCode.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasCashDistribAgentCode);		
@@ -492,7 +492,7 @@ public class FixRgstDistInstGrp extends FixGroup {
 		
 				buf.position(hasCashDistribAgentAcctNumber);		
 		
-			FixMessage.getTagStringValue(buf, cashDistribAgentAcctNumber, 0, cashDistribAgentAcctNumber.length, err);
+			FixUtils.getTagStringValue(buf, cashDistribAgentAcctNumber, 0, cashDistribAgentAcctNumber.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasCashDistribAgentAcctNumber);		
@@ -531,7 +531,7 @@ public class FixRgstDistInstGrp extends FixGroup {
 		
 				buf.position(hasCashDistribPayRef);		
 		
-			FixMessage.getTagStringValue(buf, cashDistribPayRef, 0, cashDistribPayRef.length, err);
+			FixUtils.getTagStringValue(buf, cashDistribPayRef, 0, cashDistribPayRef.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasCashDistribPayRef);		
@@ -570,7 +570,7 @@ public class FixRgstDistInstGrp extends FixGroup {
 		
 				buf.position(hasCashDistribAgentAcctName);		
 		
-			FixMessage.getTagStringValue(buf, cashDistribAgentAcctName, 0, cashDistribAgentAcctName.length, err);
+			FixUtils.getTagStringValue(buf, cashDistribAgentAcctName, 0, cashDistribAgentAcctName.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasCashDistribAgentAcctName);		

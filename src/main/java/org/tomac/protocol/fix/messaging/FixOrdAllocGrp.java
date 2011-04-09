@@ -77,43 +77,43 @@ public class FixOrdAllocGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.CLORDID_INT:		
             		hasClOrdID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ORDERID_INT:		
             		hasOrderID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SECONDARYORDERID_INT:		
             		hasSecondaryOrderID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SECONDARYCLORDID_INT:		
             		hasSecondaryClOrdID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LISTID_INT:		
             		hasListID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ORDERQTY_INT:		
             		hasOrderQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ORDERAVGPX_INT:		
             		hasOrderAvgPx = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ORDERBOOKINGQTY_INT:		
             		hasOrderBookingQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( tag == FixTags.NONESTED2PARTYIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -131,7 +131,7 @@ public class FixOrdAllocGrp extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -321,7 +321,7 @@ public class FixOrdAllocGrp extends FixGroup {
 		
 				buf.position(hasClOrdID);		
 		
-			FixMessage.getTagStringValue(buf, clOrdID, 0, clOrdID.length, err);
+			FixUtils.getTagStringValue(buf, clOrdID, 0, clOrdID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasClOrdID);		
@@ -360,7 +360,7 @@ public class FixOrdAllocGrp extends FixGroup {
 		
 				buf.position(hasOrderID);		
 		
-			FixMessage.getTagStringValue(buf, orderID, 0, orderID.length, err);
+			FixUtils.getTagStringValue(buf, orderID, 0, orderID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasOrderID);		
@@ -399,7 +399,7 @@ public class FixOrdAllocGrp extends FixGroup {
 		
 				buf.position(hasSecondaryOrderID);		
 		
-			FixMessage.getTagStringValue(buf, secondaryOrderID, 0, secondaryOrderID.length, err);
+			FixUtils.getTagStringValue(buf, secondaryOrderID, 0, secondaryOrderID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSecondaryOrderID);		
@@ -438,7 +438,7 @@ public class FixOrdAllocGrp extends FixGroup {
 		
 				buf.position(hasSecondaryClOrdID);		
 		
-			FixMessage.getTagStringValue(buf, secondaryClOrdID, 0, secondaryClOrdID.length, err);
+			FixUtils.getTagStringValue(buf, secondaryClOrdID, 0, secondaryClOrdID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSecondaryClOrdID);		
@@ -477,7 +477,7 @@ public class FixOrdAllocGrp extends FixGroup {
 		
 				buf.position(hasListID);		
 		
-			FixMessage.getTagStringValue(buf, listID, 0, listID.length, err);
+			FixUtils.getTagStringValue(buf, listID, 0, listID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasListID);		
@@ -516,7 +516,7 @@ public class FixOrdAllocGrp extends FixGroup {
 		
 				buf.position(hasOrderQty);		
 		
-			orderQty = FixMessage.getTagFloatValue(buf, err);
+			orderQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasOrderQty);		
@@ -560,7 +560,7 @@ public class FixOrdAllocGrp extends FixGroup {
 		
 				buf.position(hasOrderAvgPx);		
 		
-			orderAvgPx = FixMessage.getTagFloatValue(buf, err);
+			orderAvgPx = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasOrderAvgPx);		
@@ -604,7 +604,7 @@ public class FixOrdAllocGrp extends FixGroup {
 		
 				buf.position(hasOrderBookingQty);		
 		
-			orderBookingQty = FixMessage.getTagFloatValue(buf, err);
+			orderBookingQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasOrderBookingQty);		

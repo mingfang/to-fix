@@ -295,287 +295,287 @@ public class FixUnderlyingInstrument extends FixGroup {
             switch (tag) {		
             	case FixTags.UNDERLYINGSYMBOL_INT:		
             		hasUnderlyingSymbol = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGSYMBOLSFX_INT:		
             		hasUnderlyingSymbolSfx = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGSECURITYID_INT:		
             		hasUnderlyingSecurityID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGSECURITYIDSOURCE_INT:		
             		hasUnderlyingSecurityIDSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGPRODUCT_INT:		
             		hasUnderlyingProduct = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGCFICODE_INT:		
             		hasUnderlyingCFICode = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGSECURITYTYPE_INT:		
             		hasUnderlyingSecurityType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGSECURITYSUBTYPE_INT:		
             		hasUnderlyingSecuritySubType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGMATURITYMONTHYEAR_INT:		
             		hasUnderlyingMaturityMonthYear = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGMATURITYDATE_INT:		
             		hasUnderlyingMaturityDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGMATURITYTIME_INT:		
             		hasUnderlyingMaturityTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGCOUPONPAYMENTDATE_INT:		
             		hasUnderlyingCouponPaymentDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGRESTRUCTURINGTYPE_INT:		
             		hasUnderlyingRestructuringType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGSENIORITY_INT:		
             		hasUnderlyingSeniority = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGNOTIONALPERCENTAGEOUTSTANDING_INT:		
             		hasUnderlyingNotionalPercentageOutstanding = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGORIGINALNOTIONALPERCENTAGEOUTSTANDING_INT:		
             		hasUnderlyingOriginalNotionalPercentageOutstanding = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGATTACHMENTPOINT_INT:		
             		hasUnderlyingAttachmentPoint = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGDETACHMENTPOINT_INT:		
             		hasUnderlyingDetachmentPoint = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGISSUEDATE_INT:		
             		hasUnderlyingIssueDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGREPOCOLLATERALSECURITYTYPE_INT:		
             		hasUnderlyingRepoCollateralSecurityType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGREPURCHASETERM_INT:		
             		hasUnderlyingRepurchaseTerm = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGREPURCHASERATE_INT:		
             		hasUnderlyingRepurchaseRate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGFACTOR_INT:		
             		hasUnderlyingFactor = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGCREDITRATING_INT:		
             		hasUnderlyingCreditRating = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGINSTRREGISTRY_INT:		
             		hasUnderlyingInstrRegistry = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGCOUNTRYOFISSUE_INT:		
             		hasUnderlyingCountryOfIssue = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGSTATEORPROVINCEOFISSUE_INT:		
             		hasUnderlyingStateOrProvinceOfIssue = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGLOCALEOFISSUE_INT:		
             		hasUnderlyingLocaleOfIssue = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGREDEMPTIONDATE_INT:		
             		hasUnderlyingRedemptionDate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGSTRIKEPRICE_INT:		
             		hasUnderlyingStrikePrice = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGSTRIKECURRENCY_INT:		
             		hasUnderlyingStrikeCurrency = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGOPTATTRIBUTE_INT:		
             		hasUnderlyingOptAttribute = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGCONTRACTMULTIPLIER_INT:		
             		hasUnderlyingContractMultiplier = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGUNITOFMEASURE_INT:		
             		hasUnderlyingUnitOfMeasure = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGTIMEUNIT_INT:		
             		hasUnderlyingTimeUnit = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGEXERCISESTYLE_INT:		
             		hasUnderlyingExerciseStyle = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGUNITOFMEASUREQTY_INT:		
             		hasUnderlyingUnitOfMeasureQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGPRICEUNITOFMEASURE_INT:		
             		hasUnderlyingPriceUnitOfMeasure = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGPRICEUNITOFMEASUREQTY_INT:		
             		hasUnderlyingPriceUnitOfMeasureQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGCONTRACTMULTIPLIERUNIT_INT:		
             		hasUnderlyingContractMultiplierUnit = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGFLOWSCHEDULETYPE_INT:		
             		hasUnderlyingFlowScheduleType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGCOUPONRATE_INT:		
             		hasUnderlyingCouponRate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGSECURITYEXCHANGE_INT:		
             		hasUnderlyingSecurityExchange = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGISSUER_INT:		
             		hasUnderlyingIssuer = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ENCODEDUNDERLYINGISSUERLEN_INT:		
             		hasEncodedUnderlyingIssuerLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ENCODEDUNDERLYINGISSUER_INT:		
             		hasEncodedUnderlyingIssuer = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGSECURITYDESC_INT:		
             		hasUnderlyingSecurityDesc = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ENCODEDUNDERLYINGSECURITYDESCLEN_INT:		
             		hasEncodedUnderlyingSecurityDescLen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ENCODEDUNDERLYINGSECURITYDESC_INT:		
             		hasEncodedUnderlyingSecurityDesc = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGCPPROGRAM_INT:		
             		hasUnderlyingCPProgram = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGCPREGTYPE_INT:		
             		hasUnderlyingCPRegType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGALLOCATIONPERCENT_INT:		
             		hasUnderlyingAllocationPercent = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGCURRENCY_INT:		
             		hasUnderlyingCurrency = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGQTY_INT:		
             		hasUnderlyingQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGSETTLEMENTTYPE_INT:		
             		hasUnderlyingSettlementType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGCASHAMOUNT_INT:		
             		hasUnderlyingCashAmount = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGCASHTYPE_INT:		
             		hasUnderlyingCashType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGPX_INT:		
             		hasUnderlyingPx = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGDIRTYPRICE_INT:		
             		hasUnderlyingDirtyPrice = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGENDPRICE_INT:		
             		hasUnderlyingEndPrice = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGSTARTVALUE_INT:		
             		hasUnderlyingStartValue = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGCURRENTVALUE_INT:		
             		hasUnderlyingCurrentValue = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGENDVALUE_INT:		
             		hasUnderlyingEndValue = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGADJUSTEDQUANTITY_INT:		
             		hasUnderlyingAdjustedQuantity = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGFXRATE_INT:		
             		hasUnderlyingFXRate = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGFXRATECALC_INT:		
             		hasUnderlyingFXRateCalc = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGCAPVALUE_INT:		
             		hasUnderlyingCapValue = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGSETTLMETHOD_INT:		
             		hasUnderlyingSettlMethod = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGPUTORCALL_INT:		
             		hasUnderlyingPutOrCall = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( tag == FixTags.NOUNDERLYINGSECURITYALTID_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -592,10 +592,10 @@ public class FixUnderlyingInstrument extends FixGroup {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NOUNDERLYINGSTIPS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -612,10 +612,10 @@ public class FixUnderlyingInstrument extends FixGroup {
                 		else { tag = repeatingGroupTag; continue; }
         			} else if ( tag == FixTags.NOUNDLYINSTRUMENTPARTIES_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -633,7 +633,7 @@ public class FixUnderlyingInstrument extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -1947,7 +1947,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingSymbol);		
 		
-			FixMessage.getTagStringValue(buf, underlyingSymbol, 0, underlyingSymbol.length, err);
+			FixUtils.getTagStringValue(buf, underlyingSymbol, 0, underlyingSymbol.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingSymbol);		
@@ -1986,7 +1986,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingSymbolSfx);		
 		
-			FixMessage.getTagStringValue(buf, underlyingSymbolSfx, 0, underlyingSymbolSfx.length, err);
+			FixUtils.getTagStringValue(buf, underlyingSymbolSfx, 0, underlyingSymbolSfx.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingSymbolSfx);		
@@ -2025,7 +2025,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingSecurityID);		
 		
-			FixMessage.getTagStringValue(buf, underlyingSecurityID, 0, underlyingSecurityID.length, err);
+			FixUtils.getTagStringValue(buf, underlyingSecurityID, 0, underlyingSecurityID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingSecurityID);		
@@ -2064,7 +2064,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingSecurityIDSource);		
 		
-			FixMessage.getTagStringValue(buf, underlyingSecurityIDSource, 0, underlyingSecurityIDSource.length, err);
+			FixUtils.getTagStringValue(buf, underlyingSecurityIDSource, 0, underlyingSecurityIDSource.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingSecurityIDSource);		
@@ -2103,7 +2103,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingProduct);		
 		
-			underlyingProduct = FixMessage.getTagIntValue(buf, err);
+			underlyingProduct = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingProduct);		
@@ -2147,7 +2147,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingCFICode);		
 		
-			FixMessage.getTagStringValue(buf, underlyingCFICode, 0, underlyingCFICode.length, err);
+			FixUtils.getTagStringValue(buf, underlyingCFICode, 0, underlyingCFICode.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingCFICode);		
@@ -2186,7 +2186,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingSecurityType);		
 		
-			FixMessage.getTagStringValue(buf, underlyingSecurityType, 0, underlyingSecurityType.length, err);
+			FixUtils.getTagStringValue(buf, underlyingSecurityType, 0, underlyingSecurityType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingSecurityType);		
@@ -2225,7 +2225,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingSecuritySubType);		
 		
-			FixMessage.getTagStringValue(buf, underlyingSecuritySubType, 0, underlyingSecuritySubType.length, err);
+			FixUtils.getTagStringValue(buf, underlyingSecuritySubType, 0, underlyingSecuritySubType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingSecuritySubType);		
@@ -2264,7 +2264,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingMaturityMonthYear);		
 		
-			FixMessage.getTagStringValue(buf, underlyingMaturityMonthYear, 0, underlyingMaturityMonthYear.length, err);
+			FixUtils.getTagStringValue(buf, underlyingMaturityMonthYear, 0, underlyingMaturityMonthYear.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingMaturityMonthYear);		
@@ -2303,7 +2303,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingMaturityDate);		
 		
-			FixMessage.getTagStringValue(buf, underlyingMaturityDate, 0, underlyingMaturityDate.length, err);
+			FixUtils.getTagStringValue(buf, underlyingMaturityDate, 0, underlyingMaturityDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingMaturityDate);		
@@ -2342,7 +2342,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingMaturityTime);		
 		
-			FixMessage.getTagStringValue(buf, underlyingMaturityTime, 0, underlyingMaturityTime.length, err);
+			FixUtils.getTagStringValue(buf, underlyingMaturityTime, 0, underlyingMaturityTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingMaturityTime);		
@@ -2381,7 +2381,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingCouponPaymentDate);		
 		
-			FixMessage.getTagStringValue(buf, underlyingCouponPaymentDate, 0, underlyingCouponPaymentDate.length, err);
+			FixUtils.getTagStringValue(buf, underlyingCouponPaymentDate, 0, underlyingCouponPaymentDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingCouponPaymentDate);		
@@ -2420,7 +2420,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingRestructuringType);		
 		
-			FixMessage.getTagStringValue(buf, underlyingRestructuringType, 0, underlyingRestructuringType.length, err);
+			FixUtils.getTagStringValue(buf, underlyingRestructuringType, 0, underlyingRestructuringType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingRestructuringType);		
@@ -2459,7 +2459,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingSeniority);		
 		
-			FixMessage.getTagStringValue(buf, underlyingSeniority, 0, underlyingSeniority.length, err);
+			FixUtils.getTagStringValue(buf, underlyingSeniority, 0, underlyingSeniority.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingSeniority);		
@@ -2498,7 +2498,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingNotionalPercentageOutstanding);		
 		
-			underlyingNotionalPercentageOutstanding = FixMessage.getTagFloatValue(buf, err);
+			underlyingNotionalPercentageOutstanding = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingNotionalPercentageOutstanding);		
@@ -2542,7 +2542,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingOriginalNotionalPercentageOutstanding);		
 		
-			underlyingOriginalNotionalPercentageOutstanding = FixMessage.getTagFloatValue(buf, err);
+			underlyingOriginalNotionalPercentageOutstanding = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingOriginalNotionalPercentageOutstanding);		
@@ -2586,7 +2586,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingAttachmentPoint);		
 		
-			underlyingAttachmentPoint = FixMessage.getTagFloatValue(buf, err);
+			underlyingAttachmentPoint = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingAttachmentPoint);		
@@ -2630,7 +2630,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingDetachmentPoint);		
 		
-			underlyingDetachmentPoint = FixMessage.getTagFloatValue(buf, err);
+			underlyingDetachmentPoint = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingDetachmentPoint);		
@@ -2674,7 +2674,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingIssueDate);		
 		
-			FixMessage.getTagStringValue(buf, underlyingIssueDate, 0, underlyingIssueDate.length, err);
+			FixUtils.getTagStringValue(buf, underlyingIssueDate, 0, underlyingIssueDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingIssueDate);		
@@ -2713,7 +2713,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingRepoCollateralSecurityType);		
 		
-			underlyingRepoCollateralSecurityType = FixMessage.getTagIntValue(buf, err);
+			underlyingRepoCollateralSecurityType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingRepoCollateralSecurityType);		
@@ -2757,7 +2757,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingRepurchaseTerm);		
 		
-			underlyingRepurchaseTerm = FixMessage.getTagIntValue(buf, err);
+			underlyingRepurchaseTerm = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingRepurchaseTerm);		
@@ -2801,7 +2801,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingRepurchaseRate);		
 		
-			underlyingRepurchaseRate = FixMessage.getTagFloatValue(buf, err);
+			underlyingRepurchaseRate = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingRepurchaseRate);		
@@ -2845,7 +2845,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingFactor);		
 		
-			underlyingFactor = FixMessage.getTagFloatValue(buf, err);
+			underlyingFactor = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingFactor);		
@@ -2889,7 +2889,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingCreditRating);		
 		
-			FixMessage.getTagStringValue(buf, underlyingCreditRating, 0, underlyingCreditRating.length, err);
+			FixUtils.getTagStringValue(buf, underlyingCreditRating, 0, underlyingCreditRating.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingCreditRating);		
@@ -2928,7 +2928,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingInstrRegistry);		
 		
-			FixMessage.getTagStringValue(buf, underlyingInstrRegistry, 0, underlyingInstrRegistry.length, err);
+			FixUtils.getTagStringValue(buf, underlyingInstrRegistry, 0, underlyingInstrRegistry.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingInstrRegistry);		
@@ -2967,7 +2967,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingCountryOfIssue);		
 		
-			FixMessage.getTagStringValue(buf, underlyingCountryOfIssue, 0, underlyingCountryOfIssue.length, err);
+			FixUtils.getTagStringValue(buf, underlyingCountryOfIssue, 0, underlyingCountryOfIssue.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingCountryOfIssue);		
@@ -3006,7 +3006,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingStateOrProvinceOfIssue);		
 		
-			FixMessage.getTagStringValue(buf, underlyingStateOrProvinceOfIssue, 0, underlyingStateOrProvinceOfIssue.length, err);
+			FixUtils.getTagStringValue(buf, underlyingStateOrProvinceOfIssue, 0, underlyingStateOrProvinceOfIssue.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingStateOrProvinceOfIssue);		
@@ -3045,7 +3045,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingLocaleOfIssue);		
 		
-			FixMessage.getTagStringValue(buf, underlyingLocaleOfIssue, 0, underlyingLocaleOfIssue.length, err);
+			FixUtils.getTagStringValue(buf, underlyingLocaleOfIssue, 0, underlyingLocaleOfIssue.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingLocaleOfIssue);		
@@ -3084,7 +3084,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingRedemptionDate);		
 		
-			FixMessage.getTagStringValue(buf, underlyingRedemptionDate, 0, underlyingRedemptionDate.length, err);
+			FixUtils.getTagStringValue(buf, underlyingRedemptionDate, 0, underlyingRedemptionDate.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingRedemptionDate);		
@@ -3123,7 +3123,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingStrikePrice);		
 		
-			underlyingStrikePrice = FixMessage.getTagFloatValue(buf, err);
+			underlyingStrikePrice = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingStrikePrice);		
@@ -3167,7 +3167,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingStrikeCurrency);		
 		
-			FixMessage.getTagStringValue(buf, underlyingStrikeCurrency, 0, underlyingStrikeCurrency.length, err);
+			FixUtils.getTagStringValue(buf, underlyingStrikeCurrency, 0, underlyingStrikeCurrency.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingStrikeCurrency);		
@@ -3206,7 +3206,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingOptAttribute);		
 		
-			underlyingOptAttribute = FixMessage.getTagCharValue(buf, err);
+			underlyingOptAttribute = FixUtils.getTagCharValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingOptAttribute);		
@@ -3250,7 +3250,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingContractMultiplier);		
 		
-			underlyingContractMultiplier = FixMessage.getTagFloatValue(buf, err);
+			underlyingContractMultiplier = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingContractMultiplier);		
@@ -3294,7 +3294,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingUnitOfMeasure);		
 		
-			FixMessage.getTagStringValue(buf, underlyingUnitOfMeasure, 0, underlyingUnitOfMeasure.length, err);
+			FixUtils.getTagStringValue(buf, underlyingUnitOfMeasure, 0, underlyingUnitOfMeasure.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingUnitOfMeasure);		
@@ -3333,7 +3333,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingTimeUnit);		
 		
-			FixMessage.getTagStringValue(buf, underlyingTimeUnit, 0, underlyingTimeUnit.length, err);
+			FixUtils.getTagStringValue(buf, underlyingTimeUnit, 0, underlyingTimeUnit.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingTimeUnit);		
@@ -3372,7 +3372,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingExerciseStyle);		
 		
-			underlyingExerciseStyle = FixMessage.getTagIntValue(buf, err);
+			underlyingExerciseStyle = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingExerciseStyle);		
@@ -3416,7 +3416,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingUnitOfMeasureQty);		
 		
-			underlyingUnitOfMeasureQty = FixMessage.getTagFloatValue(buf, err);
+			underlyingUnitOfMeasureQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingUnitOfMeasureQty);		
@@ -3460,7 +3460,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingPriceUnitOfMeasure);		
 		
-			FixMessage.getTagStringValue(buf, underlyingPriceUnitOfMeasure, 0, underlyingPriceUnitOfMeasure.length, err);
+			FixUtils.getTagStringValue(buf, underlyingPriceUnitOfMeasure, 0, underlyingPriceUnitOfMeasure.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingPriceUnitOfMeasure);		
@@ -3499,7 +3499,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingPriceUnitOfMeasureQty);		
 		
-			underlyingPriceUnitOfMeasureQty = FixMessage.getTagFloatValue(buf, err);
+			underlyingPriceUnitOfMeasureQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingPriceUnitOfMeasureQty);		
@@ -3543,7 +3543,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingContractMultiplierUnit);		
 		
-			underlyingContractMultiplierUnit = FixMessage.getTagIntValue(buf, err);
+			underlyingContractMultiplierUnit = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingContractMultiplierUnit);		
@@ -3587,7 +3587,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingFlowScheduleType);		
 		
-			underlyingFlowScheduleType = FixMessage.getTagIntValue(buf, err);
+			underlyingFlowScheduleType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingFlowScheduleType);		
@@ -3631,7 +3631,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingCouponRate);		
 		
-			underlyingCouponRate = FixMessage.getTagFloatValue(buf, err);
+			underlyingCouponRate = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingCouponRate);		
@@ -3675,7 +3675,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingSecurityExchange);		
 		
-			FixMessage.getTagStringValue(buf, underlyingSecurityExchange, 0, underlyingSecurityExchange.length, err);
+			FixUtils.getTagStringValue(buf, underlyingSecurityExchange, 0, underlyingSecurityExchange.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingSecurityExchange);		
@@ -3714,7 +3714,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingIssuer);		
 		
-			FixMessage.getTagStringValue(buf, underlyingIssuer, 0, underlyingIssuer.length, err);
+			FixUtils.getTagStringValue(buf, underlyingIssuer, 0, underlyingIssuer.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingIssuer);		
@@ -3753,7 +3753,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasEncodedUnderlyingIssuerLen);		
 		
-			encodedUnderlyingIssuerLen = FixMessage.getTagIntValue(buf, err);
+			encodedUnderlyingIssuerLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasEncodedUnderlyingIssuerLen);		
@@ -3797,7 +3797,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasEncodedUnderlyingIssuer);		
 		
-			FixMessage.getTagStringValue(buf, encodedUnderlyingIssuer, 0, encodedUnderlyingIssuer.length, err);
+			FixUtils.getTagStringValue(buf, encodedUnderlyingIssuer, 0, encodedUnderlyingIssuer.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasEncodedUnderlyingIssuer);		
@@ -3836,7 +3836,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingSecurityDesc);		
 		
-			FixMessage.getTagStringValue(buf, underlyingSecurityDesc, 0, underlyingSecurityDesc.length, err);
+			FixUtils.getTagStringValue(buf, underlyingSecurityDesc, 0, underlyingSecurityDesc.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingSecurityDesc);		
@@ -3875,7 +3875,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasEncodedUnderlyingSecurityDescLen);		
 		
-			encodedUnderlyingSecurityDescLen = FixMessage.getTagIntValue(buf, err);
+			encodedUnderlyingSecurityDescLen = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasEncodedUnderlyingSecurityDescLen);		
@@ -3919,7 +3919,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasEncodedUnderlyingSecurityDesc);		
 		
-			FixMessage.getTagStringValue(buf, encodedUnderlyingSecurityDesc, 0, encodedUnderlyingSecurityDesc.length, err);
+			FixUtils.getTagStringValue(buf, encodedUnderlyingSecurityDesc, 0, encodedUnderlyingSecurityDesc.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasEncodedUnderlyingSecurityDesc);		
@@ -3958,7 +3958,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingCPProgram);		
 		
-			FixMessage.getTagStringValue(buf, underlyingCPProgram, 0, underlyingCPProgram.length, err);
+			FixUtils.getTagStringValue(buf, underlyingCPProgram, 0, underlyingCPProgram.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingCPProgram);		
@@ -3997,7 +3997,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingCPRegType);		
 		
-			FixMessage.getTagStringValue(buf, underlyingCPRegType, 0, underlyingCPRegType.length, err);
+			FixUtils.getTagStringValue(buf, underlyingCPRegType, 0, underlyingCPRegType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingCPRegType);		
@@ -4036,7 +4036,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingAllocationPercent);		
 		
-			underlyingAllocationPercent = FixMessage.getTagFloatValue(buf, err);
+			underlyingAllocationPercent = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingAllocationPercent);		
@@ -4080,7 +4080,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingCurrency);		
 		
-			FixMessage.getTagStringValue(buf, underlyingCurrency, 0, underlyingCurrency.length, err);
+			FixUtils.getTagStringValue(buf, underlyingCurrency, 0, underlyingCurrency.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingCurrency);		
@@ -4119,7 +4119,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingQty);		
 		
-			underlyingQty = FixMessage.getTagFloatValue(buf, err);
+			underlyingQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingQty);		
@@ -4163,7 +4163,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingSettlementType);		
 		
-			underlyingSettlementType = FixMessage.getTagIntValue(buf, err);
+			underlyingSettlementType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingSettlementType);		
@@ -4207,7 +4207,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingCashAmount);		
 		
-			underlyingCashAmount = FixMessage.getTagFloatValue(buf, err);
+			underlyingCashAmount = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingCashAmount);		
@@ -4251,7 +4251,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingCashType);		
 		
-			FixMessage.getTagStringValue(buf, underlyingCashType, 0, underlyingCashType.length, err);
+			FixUtils.getTagStringValue(buf, underlyingCashType, 0, underlyingCashType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingCashType);		
@@ -4290,7 +4290,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingPx);		
 		
-			underlyingPx = FixMessage.getTagFloatValue(buf, err);
+			underlyingPx = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingPx);		
@@ -4334,7 +4334,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingDirtyPrice);		
 		
-			underlyingDirtyPrice = FixMessage.getTagFloatValue(buf, err);
+			underlyingDirtyPrice = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingDirtyPrice);		
@@ -4378,7 +4378,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingEndPrice);		
 		
-			underlyingEndPrice = FixMessage.getTagFloatValue(buf, err);
+			underlyingEndPrice = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingEndPrice);		
@@ -4422,7 +4422,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingStartValue);		
 		
-			underlyingStartValue = FixMessage.getTagFloatValue(buf, err);
+			underlyingStartValue = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingStartValue);		
@@ -4466,7 +4466,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingCurrentValue);		
 		
-			underlyingCurrentValue = FixMessage.getTagFloatValue(buf, err);
+			underlyingCurrentValue = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingCurrentValue);		
@@ -4510,7 +4510,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingEndValue);		
 		
-			underlyingEndValue = FixMessage.getTagFloatValue(buf, err);
+			underlyingEndValue = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingEndValue);		
@@ -4554,7 +4554,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingAdjustedQuantity);		
 		
-			underlyingAdjustedQuantity = FixMessage.getTagFloatValue(buf, err);
+			underlyingAdjustedQuantity = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingAdjustedQuantity);		
@@ -4598,7 +4598,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingFXRate);		
 		
-			underlyingFXRate = FixMessage.getTagFloatValue(buf, err);
+			underlyingFXRate = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingFXRate);		
@@ -4642,7 +4642,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingFXRateCalc);		
 		
-			underlyingFXRateCalc = FixMessage.getTagCharValue(buf, err);
+			underlyingFXRateCalc = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (underlyingFXRateCalc != (byte)'D') && (underlyingFXRateCalc != (byte)'M') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 1046);		
@@ -4688,7 +4688,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingCapValue);		
 		
-			underlyingCapValue = FixMessage.getTagFloatValue(buf, err);
+			underlyingCapValue = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingCapValue);		
@@ -4732,7 +4732,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingSettlMethod);		
 		
-			FixMessage.getTagStringValue(buf, underlyingSettlMethod, 0, underlyingSettlMethod.length, err);
+			FixUtils.getTagStringValue(buf, underlyingSettlMethod, 0, underlyingSettlMethod.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingSettlMethod);		
@@ -4771,7 +4771,7 @@ public class FixUnderlyingInstrument extends FixGroup {
 		
 				buf.position(hasUnderlyingPutOrCall);		
 		
-			underlyingPutOrCall = FixMessage.getTagIntValue(buf, err);
+			underlyingPutOrCall = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingPutOrCall);		

@@ -19,1560 +19,1138 @@ public class FixMessageParser implements FixMessageInfo
 {
 
 	public FixMessagePool<FixMessage> fixMessagePool;
+	FixStandardHeader standardHeader;
 
 	public FixMessageParser(FixMessagePool<FixMessage> fixMessagePool) {
 		this.fixMessagePool = fixMessagePool;
+		standardHeader = new FixStandardHeader(); 
 	}
 
 	public FixMessageParser() {
 		fixMessagePool = new FixMessagePool<FixMessage>();
+		standardHeader = new FixStandardHeader(); 
 	}
 
-	public void parse( ByteBuffer buf, FixValidationError err, FixMessageListener l )
-	{
-
-		parse( 0, buf, err, l );
+	public void parse(ByteBuffer buf, FixValidationError err, FixMessageListener l) {
+		parse(buf, err, l, 0);
 	}
 
-	public void parse( long connectorID, ByteBuffer buf, FixValidationError err, FixMessageListener l )
-	{
+	public void parse(ByteBuffer buf, FixValidationError err, FixMessageListener l, int connectorID) {
+		// RAW
+		int msgTypeInt = FixUtils.crackMsgType(buf, err);
 
-		IFixSession session = null;
-		int msgType = FixInMessage.crackMsgType( buf ,err );
-		// garbled message
-		if (err.hasError() && ( err.getSessionRejectReason() == FixEvent.GARBLED || err.getSessionRejectReason() == FixEvent.DISCONNECT) ) { return; }
+		if (!err.hasError()) {
 
-		else if (err.hasError()) { l.onFixValidationError(err); return; }
+			// MESSAGE
+			FixUtils.crackStandardHeader(buf, standardHeader, err);
 
-        switch( msgType )
-        {
+			// even with error we will still try and get the session
+			IFixSession session = FixUtils.crackSession(msgTypeInt, l, connectorID, standardHeader, err);
 
-		case MessageTypes.HEARTBEAT_INT:
-			FixHeartbeat fixHeartbeat = fixMessagePool.getFixHeartbeat(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixHeartbeat, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixHeartbeat, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
+			// SESSION
+			if (session != null && err.isMsgSeqNumConsumer()) 
+				session.incrementInMsgSeqNum();
+
+			if (!err.hasError()) {
+
+				if (MessageTypes.LOGON_INT == msgTypeInt) {
+
+					FixLogon logon = fixMessagePool.getFixLogon(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixLogon(logon);
+					}
+					fixMessagePool.returnFixLogon (logon);
+					if (err.hasError() && err.refTagID == FixTags.DEFAULTAPPLVERID_INT)
+						err.setError(FixEvent.DISCONNECT, err.text, err.refTagID, msgTypeInt);
+
 				} else {
-					l.onFixHeartbeat(fixHeartbeat);
+
+					if (FixUtils.isNasdaqOMX && (msgTypeInt == '8' || msgTypeInt == '9'))
+						msgTypeInt = FixUtils.getNasdaqMsgTypeInt(msgTypeInt, buf, err);
+
+				// parse everything...
+				switch (msgTypeInt) {
+
+				case MessageTypes.HEARTBEAT_INT:
+					FixHeartbeat fixHeartbeat = fixMessagePool.getFixHeartbeat(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixHeartbeat(fixHeartbeat);
+					}
+					fixMessagePool.returnFixHeartbeat (fixHeartbeat);
+					break;
+				case MessageTypes.TESTREQUEST_INT:
+					FixTestRequest fixTestRequest = fixMessagePool.getFixTestRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixTestRequest(fixTestRequest);
+					}
+					fixMessagePool.returnFixTestRequest (fixTestRequest);
+					break;
+				case MessageTypes.RESENDREQUEST_INT:
+					FixResendRequest fixResendRequest = fixMessagePool.getFixResendRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixResendRequest(fixResendRequest);
+					}
+					fixMessagePool.returnFixResendRequest (fixResendRequest);
+					break;
+				case MessageTypes.REJECT_INT:
+					FixReject fixReject = fixMessagePool.getFixReject(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixReject(fixReject);
+					}
+					fixMessagePool.returnFixReject (fixReject);
+					break;
+				case MessageTypes.SEQUENCERESET_INT:
+					FixSequenceReset fixSequenceReset = fixMessagePool.getFixSequenceReset(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixSequenceReset(fixSequenceReset);
+					}
+					fixMessagePool.returnFixSequenceReset (fixSequenceReset);
+					break;
+				case MessageTypes.LOGOUT_INT:
+					FixLogout fixLogout = fixMessagePool.getFixLogout(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixLogout(fixLogout);
+					}
+					fixMessagePool.returnFixLogout (fixLogout);
+					break;
+				case MessageTypes.IOI_INT:
+					FixIOI fixIOI = fixMessagePool.getFixIOI(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixIOI(fixIOI);
+					}
+					fixMessagePool.returnFixIOI (fixIOI);
+					break;
+				case MessageTypes.ADVERTISEMENT_INT:
+					FixAdvertisement fixAdvertisement = fixMessagePool.getFixAdvertisement(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixAdvertisement(fixAdvertisement);
+					}
+					fixMessagePool.returnFixAdvertisement (fixAdvertisement);
+					break;
+				case MessageTypes.EXECUTIONREPORT_INT:
+					FixExecutionReport fixExecutionReport = fixMessagePool.getFixExecutionReport(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixExecutionReport(fixExecutionReport);
+					}
+					fixMessagePool.returnFixExecutionReport (fixExecutionReport);
+					break;
+				case MessageTypes.ORDERCANCELREJECT_INT:
+					FixOrderCancelReject fixOrderCancelReject = fixMessagePool.getFixOrderCancelReject(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixOrderCancelReject(fixOrderCancelReject);
+					}
+					fixMessagePool.returnFixOrderCancelReject (fixOrderCancelReject);
+					break;
+				case MessageTypes.LOGON_INT:
+					FixLogon fixLogon = fixMessagePool.getFixLogon(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixLogon(fixLogon);
+					}
+					fixMessagePool.returnFixLogon (fixLogon);
+					break;
+				case MessageTypes.NEWS_INT:
+					FixNews fixNews = fixMessagePool.getFixNews(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixNews(fixNews);
+					}
+					fixMessagePool.returnFixNews (fixNews);
+					break;
+				case MessageTypes.EMAIL_INT:
+					FixEmail fixEmail = fixMessagePool.getFixEmail(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixEmail(fixEmail);
+					}
+					fixMessagePool.returnFixEmail (fixEmail);
+					break;
+				case MessageTypes.NEWORDERSINGLE_INT:
+					FixNewOrderSingle fixNewOrderSingle = fixMessagePool.getFixNewOrderSingle(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixNewOrderSingle(fixNewOrderSingle);
+					}
+					fixMessagePool.returnFixNewOrderSingle (fixNewOrderSingle);
+					break;
+				case MessageTypes.NEWORDERLIST_INT:
+					FixNewOrderList fixNewOrderList = fixMessagePool.getFixNewOrderList(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixNewOrderList(fixNewOrderList);
+					}
+					fixMessagePool.returnFixNewOrderList (fixNewOrderList);
+					break;
+				case MessageTypes.ORDERCANCELREQUEST_INT:
+					FixOrderCancelRequest fixOrderCancelRequest = fixMessagePool.getFixOrderCancelRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixOrderCancelRequest(fixOrderCancelRequest);
+					}
+					fixMessagePool.returnFixOrderCancelRequest (fixOrderCancelRequest);
+					break;
+				case MessageTypes.ORDERCANCELREPLACEREQUEST_INT:
+					FixOrderCancelReplaceRequest fixOrderCancelReplaceRequest = fixMessagePool.getFixOrderCancelReplaceRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixOrderCancelReplaceRequest(fixOrderCancelReplaceRequest);
+					}
+					fixMessagePool.returnFixOrderCancelReplaceRequest (fixOrderCancelReplaceRequest);
+					break;
+				case MessageTypes.ORDERSTATUSREQUEST_INT:
+					FixOrderStatusRequest fixOrderStatusRequest = fixMessagePool.getFixOrderStatusRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixOrderStatusRequest(fixOrderStatusRequest);
+					}
+					fixMessagePool.returnFixOrderStatusRequest (fixOrderStatusRequest);
+					break;
+				case MessageTypes.ALLOCATIONINSTRUCTION_INT:
+					FixAllocationInstruction fixAllocationInstruction = fixMessagePool.getFixAllocationInstruction(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixAllocationInstruction(fixAllocationInstruction);
+					}
+					fixMessagePool.returnFixAllocationInstruction (fixAllocationInstruction);
+					break;
+				case MessageTypes.LISTCANCELREQUEST_INT:
+					FixListCancelRequest fixListCancelRequest = fixMessagePool.getFixListCancelRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixListCancelRequest(fixListCancelRequest);
+					}
+					fixMessagePool.returnFixListCancelRequest (fixListCancelRequest);
+					break;
+				case MessageTypes.LISTEXECUTE_INT:
+					FixListExecute fixListExecute = fixMessagePool.getFixListExecute(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixListExecute(fixListExecute);
+					}
+					fixMessagePool.returnFixListExecute (fixListExecute);
+					break;
+				case MessageTypes.LISTSTATUSREQUEST_INT:
+					FixListStatusRequest fixListStatusRequest = fixMessagePool.getFixListStatusRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixListStatusRequest(fixListStatusRequest);
+					}
+					fixMessagePool.returnFixListStatusRequest (fixListStatusRequest);
+					break;
+				case MessageTypes.LISTSTATUS_INT:
+					FixListStatus fixListStatus = fixMessagePool.getFixListStatus(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixListStatus(fixListStatus);
+					}
+					fixMessagePool.returnFixListStatus (fixListStatus);
+					break;
+				case MessageTypes.ALLOCATIONINSTRUCTIONACK_INT:
+					FixAllocationInstructionAck fixAllocationInstructionAck = fixMessagePool.getFixAllocationInstructionAck(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixAllocationInstructionAck(fixAllocationInstructionAck);
+					}
+					fixMessagePool.returnFixAllocationInstructionAck (fixAllocationInstructionAck);
+					break;
+				case MessageTypes.DONTKNOWTRADEDK_INT:
+					FixDontKnowTradeDK fixDontKnowTradeDK = fixMessagePool.getFixDontKnowTradeDK(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixDontKnowTradeDK(fixDontKnowTradeDK);
+					}
+					fixMessagePool.returnFixDontKnowTradeDK (fixDontKnowTradeDK);
+					break;
+				case MessageTypes.QUOTEREQUEST_INT:
+					FixQuoteRequest fixQuoteRequest = fixMessagePool.getFixQuoteRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixQuoteRequest(fixQuoteRequest);
+					}
+					fixMessagePool.returnFixQuoteRequest (fixQuoteRequest);
+					break;
+				case MessageTypes.QUOTE_INT:
+					FixQuote fixQuote = fixMessagePool.getFixQuote(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixQuote(fixQuote);
+					}
+					fixMessagePool.returnFixQuote (fixQuote);
+					break;
+				case MessageTypes.SETTLEMENTINSTRUCTIONS_INT:
+					FixSettlementInstructions fixSettlementInstructions = fixMessagePool.getFixSettlementInstructions(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixSettlementInstructions(fixSettlementInstructions);
+					}
+					fixMessagePool.returnFixSettlementInstructions (fixSettlementInstructions);
+					break;
+				case MessageTypes.MARKETDATAREQUEST_INT:
+					FixMarketDataRequest fixMarketDataRequest = fixMessagePool.getFixMarketDataRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixMarketDataRequest(fixMarketDataRequest);
+					}
+					fixMessagePool.returnFixMarketDataRequest (fixMarketDataRequest);
+					break;
+				case MessageTypes.MARKETDATASNAPSHOTFULLREFRESH_INT:
+					FixMarketDataSnapshotFullRefresh fixMarketDataSnapshotFullRefresh = fixMessagePool.getFixMarketDataSnapshotFullRefresh(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixMarketDataSnapshotFullRefresh(fixMarketDataSnapshotFullRefresh);
+					}
+					fixMessagePool.returnFixMarketDataSnapshotFullRefresh (fixMarketDataSnapshotFullRefresh);
+					break;
+				case MessageTypes.MARKETDATAINCREMENTALREFRESH_INT:
+					FixMarketDataIncrementalRefresh fixMarketDataIncrementalRefresh = fixMessagePool.getFixMarketDataIncrementalRefresh(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixMarketDataIncrementalRefresh(fixMarketDataIncrementalRefresh);
+					}
+					fixMessagePool.returnFixMarketDataIncrementalRefresh (fixMarketDataIncrementalRefresh);
+					break;
+				case MessageTypes.MARKETDATAREQUESTREJECT_INT:
+					FixMarketDataRequestReject fixMarketDataRequestReject = fixMessagePool.getFixMarketDataRequestReject(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixMarketDataRequestReject(fixMarketDataRequestReject);
+					}
+					fixMessagePool.returnFixMarketDataRequestReject (fixMarketDataRequestReject);
+					break;
+				case MessageTypes.QUOTECANCEL_INT:
+					FixQuoteCancel fixQuoteCancel = fixMessagePool.getFixQuoteCancel(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixQuoteCancel(fixQuoteCancel);
+					}
+					fixMessagePool.returnFixQuoteCancel (fixQuoteCancel);
+					break;
+				case MessageTypes.QUOTESTATUSREQUEST_INT:
+					FixQuoteStatusRequest fixQuoteStatusRequest = fixMessagePool.getFixQuoteStatusRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixQuoteStatusRequest(fixQuoteStatusRequest);
+					}
+					fixMessagePool.returnFixQuoteStatusRequest (fixQuoteStatusRequest);
+					break;
+				case MessageTypes.MASSQUOTEACKNOWLEDGEMENT_INT:
+					FixMassQuoteAcknowledgement fixMassQuoteAcknowledgement = fixMessagePool.getFixMassQuoteAcknowledgement(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixMassQuoteAcknowledgement(fixMassQuoteAcknowledgement);
+					}
+					fixMessagePool.returnFixMassQuoteAcknowledgement (fixMassQuoteAcknowledgement);
+					break;
+				case MessageTypes.SECURITYDEFINITIONREQUEST_INT:
+					FixSecurityDefinitionRequest fixSecurityDefinitionRequest = fixMessagePool.getFixSecurityDefinitionRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixSecurityDefinitionRequest(fixSecurityDefinitionRequest);
+					}
+					fixMessagePool.returnFixSecurityDefinitionRequest (fixSecurityDefinitionRequest);
+					break;
+				case MessageTypes.SECURITYDEFINITION_INT:
+					FixSecurityDefinition fixSecurityDefinition = fixMessagePool.getFixSecurityDefinition(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixSecurityDefinition(fixSecurityDefinition);
+					}
+					fixMessagePool.returnFixSecurityDefinition (fixSecurityDefinition);
+					break;
+				case MessageTypes.SECURITYSTATUSREQUEST_INT:
+					FixSecurityStatusRequest fixSecurityStatusRequest = fixMessagePool.getFixSecurityStatusRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixSecurityStatusRequest(fixSecurityStatusRequest);
+					}
+					fixMessagePool.returnFixSecurityStatusRequest (fixSecurityStatusRequest);
+					break;
+				case MessageTypes.SECURITYSTATUS_INT:
+					FixSecurityStatus fixSecurityStatus = fixMessagePool.getFixSecurityStatus(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixSecurityStatus(fixSecurityStatus);
+					}
+					fixMessagePool.returnFixSecurityStatus (fixSecurityStatus);
+					break;
+				case MessageTypes.TRADINGSESSIONSTATUSREQUEST_INT:
+					FixTradingSessionStatusRequest fixTradingSessionStatusRequest = fixMessagePool.getFixTradingSessionStatusRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixTradingSessionStatusRequest(fixTradingSessionStatusRequest);
+					}
+					fixMessagePool.returnFixTradingSessionStatusRequest (fixTradingSessionStatusRequest);
+					break;
+				case MessageTypes.TRADINGSESSIONSTATUS_INT:
+					FixTradingSessionStatus fixTradingSessionStatus = fixMessagePool.getFixTradingSessionStatus(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixTradingSessionStatus(fixTradingSessionStatus);
+					}
+					fixMessagePool.returnFixTradingSessionStatus (fixTradingSessionStatus);
+					break;
+				case MessageTypes.MASSQUOTE_INT:
+					FixMassQuote fixMassQuote = fixMessagePool.getFixMassQuote(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixMassQuote(fixMassQuote);
+					}
+					fixMessagePool.returnFixMassQuote (fixMassQuote);
+					break;
+				case MessageTypes.BUSINESSMESSAGEREJECT_INT:
+					FixBusinessMessageReject fixBusinessMessageReject = fixMessagePool.getFixBusinessMessageReject(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixBusinessMessageReject(fixBusinessMessageReject);
+					}
+					fixMessagePool.returnFixBusinessMessageReject (fixBusinessMessageReject);
+					break;
+				case MessageTypes.BIDREQUEST_INT:
+					FixBidRequest fixBidRequest = fixMessagePool.getFixBidRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixBidRequest(fixBidRequest);
+					}
+					fixMessagePool.returnFixBidRequest (fixBidRequest);
+					break;
+				case MessageTypes.BIDRESPONSE_INT:
+					FixBidResponse fixBidResponse = fixMessagePool.getFixBidResponse(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixBidResponse(fixBidResponse);
+					}
+					fixMessagePool.returnFixBidResponse (fixBidResponse);
+					break;
+				case MessageTypes.LISTSTRIKEPRICE_INT:
+					FixListStrikePrice fixListStrikePrice = fixMessagePool.getFixListStrikePrice(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixListStrikePrice(fixListStrikePrice);
+					}
+					fixMessagePool.returnFixListStrikePrice (fixListStrikePrice);
+					break;
+				case MessageTypes.REGISTRATIONINSTRUCTIONS_INT:
+					FixRegistrationInstructions fixRegistrationInstructions = fixMessagePool.getFixRegistrationInstructions(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixRegistrationInstructions(fixRegistrationInstructions);
+					}
+					fixMessagePool.returnFixRegistrationInstructions (fixRegistrationInstructions);
+					break;
+				case MessageTypes.REGISTRATIONINSTRUCTIONSRESPONSE_INT:
+					FixRegistrationInstructionsResponse fixRegistrationInstructionsResponse = fixMessagePool.getFixRegistrationInstructionsResponse(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixRegistrationInstructionsResponse(fixRegistrationInstructionsResponse);
+					}
+					fixMessagePool.returnFixRegistrationInstructionsResponse (fixRegistrationInstructionsResponse);
+					break;
+				case MessageTypes.ORDERMASSCANCELREQUEST_INT:
+					FixOrderMassCancelRequest fixOrderMassCancelRequest = fixMessagePool.getFixOrderMassCancelRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixOrderMassCancelRequest(fixOrderMassCancelRequest);
+					}
+					fixMessagePool.returnFixOrderMassCancelRequest (fixOrderMassCancelRequest);
+					break;
+				case MessageTypes.ORDERMASSCANCELREPORT_INT:
+					FixOrderMassCancelReport fixOrderMassCancelReport = fixMessagePool.getFixOrderMassCancelReport(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixOrderMassCancelReport(fixOrderMassCancelReport);
+					}
+					fixMessagePool.returnFixOrderMassCancelReport (fixOrderMassCancelReport);
+					break;
+				case MessageTypes.NEWORDERCROSS_INT:
+					FixNewOrderCross fixNewOrderCross = fixMessagePool.getFixNewOrderCross(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixNewOrderCross(fixNewOrderCross);
+					}
+					fixMessagePool.returnFixNewOrderCross (fixNewOrderCross);
+					break;
+				case MessageTypes.CROSSORDERCANCELREPLACEREQUEST_INT:
+					FixCrossOrderCancelReplaceRequest fixCrossOrderCancelReplaceRequest = fixMessagePool.getFixCrossOrderCancelReplaceRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixCrossOrderCancelReplaceRequest(fixCrossOrderCancelReplaceRequest);
+					}
+					fixMessagePool.returnFixCrossOrderCancelReplaceRequest (fixCrossOrderCancelReplaceRequest);
+					break;
+				case MessageTypes.CROSSORDERCANCELREQUEST_INT:
+					FixCrossOrderCancelRequest fixCrossOrderCancelRequest = fixMessagePool.getFixCrossOrderCancelRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixCrossOrderCancelRequest(fixCrossOrderCancelRequest);
+					}
+					fixMessagePool.returnFixCrossOrderCancelRequest (fixCrossOrderCancelRequest);
+					break;
+				case MessageTypes.SECURITYTYPEREQUEST_INT:
+					FixSecurityTypeRequest fixSecurityTypeRequest = fixMessagePool.getFixSecurityTypeRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixSecurityTypeRequest(fixSecurityTypeRequest);
+					}
+					fixMessagePool.returnFixSecurityTypeRequest (fixSecurityTypeRequest);
+					break;
+				case MessageTypes.SECURITYTYPES_INT:
+					FixSecurityTypes fixSecurityTypes = fixMessagePool.getFixSecurityTypes(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixSecurityTypes(fixSecurityTypes);
+					}
+					fixMessagePool.returnFixSecurityTypes (fixSecurityTypes);
+					break;
+				case MessageTypes.SECURITYLISTREQUEST_INT:
+					FixSecurityListRequest fixSecurityListRequest = fixMessagePool.getFixSecurityListRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixSecurityListRequest(fixSecurityListRequest);
+					}
+					fixMessagePool.returnFixSecurityListRequest (fixSecurityListRequest);
+					break;
+				case MessageTypes.SECURITYLIST_INT:
+					FixSecurityList fixSecurityList = fixMessagePool.getFixSecurityList(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixSecurityList(fixSecurityList);
+					}
+					fixMessagePool.returnFixSecurityList (fixSecurityList);
+					break;
+				case MessageTypes.DERIVATIVESECURITYLISTREQUEST_INT:
+					FixDerivativeSecurityListRequest fixDerivativeSecurityListRequest = fixMessagePool.getFixDerivativeSecurityListRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixDerivativeSecurityListRequest(fixDerivativeSecurityListRequest);
+					}
+					fixMessagePool.returnFixDerivativeSecurityListRequest (fixDerivativeSecurityListRequest);
+					break;
+				case MessageTypes.DERIVATIVESECURITYLIST_INT:
+					FixDerivativeSecurityList fixDerivativeSecurityList = fixMessagePool.getFixDerivativeSecurityList(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixDerivativeSecurityList(fixDerivativeSecurityList);
+					}
+					fixMessagePool.returnFixDerivativeSecurityList (fixDerivativeSecurityList);
+					break;
+				case MessageTypes.NEWORDERMULTILEG_INT:
+					FixNewOrderMultileg fixNewOrderMultileg = fixMessagePool.getFixNewOrderMultileg(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixNewOrderMultileg(fixNewOrderMultileg);
+					}
+					fixMessagePool.returnFixNewOrderMultileg (fixNewOrderMultileg);
+					break;
+				case MessageTypes.MULTILEGORDERCANCELREPLACE_INT:
+					FixMultilegOrderCancelReplace fixMultilegOrderCancelReplace = fixMessagePool.getFixMultilegOrderCancelReplace(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixMultilegOrderCancelReplace(fixMultilegOrderCancelReplace);
+					}
+					fixMessagePool.returnFixMultilegOrderCancelReplace (fixMultilegOrderCancelReplace);
+					break;
+				case MessageTypes.TRADECAPTUREREPORTREQUEST_INT:
+					FixTradeCaptureReportRequest fixTradeCaptureReportRequest = fixMessagePool.getFixTradeCaptureReportRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixTradeCaptureReportRequest(fixTradeCaptureReportRequest);
+					}
+					fixMessagePool.returnFixTradeCaptureReportRequest (fixTradeCaptureReportRequest);
+					break;
+				case MessageTypes.TRADECAPTUREREPORT_INT:
+					FixTradeCaptureReport fixTradeCaptureReport = fixMessagePool.getFixTradeCaptureReport(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixTradeCaptureReport(fixTradeCaptureReport);
+					}
+					fixMessagePool.returnFixTradeCaptureReport (fixTradeCaptureReport);
+					break;
+				case MessageTypes.ORDERMASSSTATUSREQUEST_INT:
+					FixOrderMassStatusRequest fixOrderMassStatusRequest = fixMessagePool.getFixOrderMassStatusRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixOrderMassStatusRequest(fixOrderMassStatusRequest);
+					}
+					fixMessagePool.returnFixOrderMassStatusRequest (fixOrderMassStatusRequest);
+					break;
+				case MessageTypes.QUOTEREQUESTREJECT_INT:
+					FixQuoteRequestReject fixQuoteRequestReject = fixMessagePool.getFixQuoteRequestReject(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixQuoteRequestReject(fixQuoteRequestReject);
+					}
+					fixMessagePool.returnFixQuoteRequestReject (fixQuoteRequestReject);
+					break;
+				case MessageTypes.RFQREQUEST_INT:
+					FixRFQRequest fixRFQRequest = fixMessagePool.getFixRFQRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixRFQRequest(fixRFQRequest);
+					}
+					fixMessagePool.returnFixRFQRequest (fixRFQRequest);
+					break;
+				case MessageTypes.QUOTESTATUSREPORT_INT:
+					FixQuoteStatusReport fixQuoteStatusReport = fixMessagePool.getFixQuoteStatusReport(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixQuoteStatusReport(fixQuoteStatusReport);
+					}
+					fixMessagePool.returnFixQuoteStatusReport (fixQuoteStatusReport);
+					break;
+				case MessageTypes.QUOTERESPONSE_INT:
+					FixQuoteResponse fixQuoteResponse = fixMessagePool.getFixQuoteResponse(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixQuoteResponse(fixQuoteResponse);
+					}
+					fixMessagePool.returnFixQuoteResponse (fixQuoteResponse);
+					break;
+				case MessageTypes.CONFIRMATION_INT:
+					FixConfirmation fixConfirmation = fixMessagePool.getFixConfirmation(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixConfirmation(fixConfirmation);
+					}
+					fixMessagePool.returnFixConfirmation (fixConfirmation);
+					break;
+				case MessageTypes.POSITIONMAINTENANCEREQUEST_INT:
+					FixPositionMaintenanceRequest fixPositionMaintenanceRequest = fixMessagePool.getFixPositionMaintenanceRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixPositionMaintenanceRequest(fixPositionMaintenanceRequest);
+					}
+					fixMessagePool.returnFixPositionMaintenanceRequest (fixPositionMaintenanceRequest);
+					break;
+				case MessageTypes.POSITIONMAINTENANCEREPORT_INT:
+					FixPositionMaintenanceReport fixPositionMaintenanceReport = fixMessagePool.getFixPositionMaintenanceReport(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixPositionMaintenanceReport(fixPositionMaintenanceReport);
+					}
+					fixMessagePool.returnFixPositionMaintenanceReport (fixPositionMaintenanceReport);
+					break;
+				case MessageTypes.REQUESTFORPOSITIONS_INT:
+					FixRequestForPositions fixRequestForPositions = fixMessagePool.getFixRequestForPositions(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixRequestForPositions(fixRequestForPositions);
+					}
+					fixMessagePool.returnFixRequestForPositions (fixRequestForPositions);
+					break;
+				case MessageTypes.REQUESTFORPOSITIONSACK_INT:
+					FixRequestForPositionsAck fixRequestForPositionsAck = fixMessagePool.getFixRequestForPositionsAck(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixRequestForPositionsAck(fixRequestForPositionsAck);
+					}
+					fixMessagePool.returnFixRequestForPositionsAck (fixRequestForPositionsAck);
+					break;
+				case MessageTypes.POSITIONREPORT_INT:
+					FixPositionReport fixPositionReport = fixMessagePool.getFixPositionReport(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixPositionReport(fixPositionReport);
+					}
+					fixMessagePool.returnFixPositionReport (fixPositionReport);
+					break;
+				case MessageTypes.TRADECAPTUREREPORTREQUESTACK_INT:
+					FixTradeCaptureReportRequestAck fixTradeCaptureReportRequestAck = fixMessagePool.getFixTradeCaptureReportRequestAck(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixTradeCaptureReportRequestAck(fixTradeCaptureReportRequestAck);
+					}
+					fixMessagePool.returnFixTradeCaptureReportRequestAck (fixTradeCaptureReportRequestAck);
+					break;
+				case MessageTypes.TRADECAPTUREREPORTACK_INT:
+					FixTradeCaptureReportAck fixTradeCaptureReportAck = fixMessagePool.getFixTradeCaptureReportAck(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixTradeCaptureReportAck(fixTradeCaptureReportAck);
+					}
+					fixMessagePool.returnFixTradeCaptureReportAck (fixTradeCaptureReportAck);
+					break;
+				case MessageTypes.ALLOCATIONREPORT_INT:
+					FixAllocationReport fixAllocationReport = fixMessagePool.getFixAllocationReport(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixAllocationReport(fixAllocationReport);
+					}
+					fixMessagePool.returnFixAllocationReport (fixAllocationReport);
+					break;
+				case MessageTypes.ALLOCATIONREPORTACK_INT:
+					FixAllocationReportAck fixAllocationReportAck = fixMessagePool.getFixAllocationReportAck(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixAllocationReportAck(fixAllocationReportAck);
+					}
+					fixMessagePool.returnFixAllocationReportAck (fixAllocationReportAck);
+					break;
+				case MessageTypes.CONFIRMATION_ACK_INT:
+					FixConfirmation_Ack fixConfirmation_Ack = fixMessagePool.getFixConfirmation_Ack(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixConfirmation_Ack(fixConfirmation_Ack);
+					}
+					fixMessagePool.returnFixConfirmation_Ack (fixConfirmation_Ack);
+					break;
+				case MessageTypes.SETTLEMENTINSTRUCTIONREQUEST_INT:
+					FixSettlementInstructionRequest fixSettlementInstructionRequest = fixMessagePool.getFixSettlementInstructionRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixSettlementInstructionRequest(fixSettlementInstructionRequest);
+					}
+					fixMessagePool.returnFixSettlementInstructionRequest (fixSettlementInstructionRequest);
+					break;
+				case MessageTypes.ASSIGNMENTREPORT_INT:
+					FixAssignmentReport fixAssignmentReport = fixMessagePool.getFixAssignmentReport(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixAssignmentReport(fixAssignmentReport);
+					}
+					fixMessagePool.returnFixAssignmentReport (fixAssignmentReport);
+					break;
+				case MessageTypes.COLLATERALREQUEST_INT:
+					FixCollateralRequest fixCollateralRequest = fixMessagePool.getFixCollateralRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixCollateralRequest(fixCollateralRequest);
+					}
+					fixMessagePool.returnFixCollateralRequest (fixCollateralRequest);
+					break;
+				case MessageTypes.COLLATERALASSIGNMENT_INT:
+					FixCollateralAssignment fixCollateralAssignment = fixMessagePool.getFixCollateralAssignment(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixCollateralAssignment(fixCollateralAssignment);
+					}
+					fixMessagePool.returnFixCollateralAssignment (fixCollateralAssignment);
+					break;
+				case MessageTypes.COLLATERALRESPONSE_INT:
+					FixCollateralResponse fixCollateralResponse = fixMessagePool.getFixCollateralResponse(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixCollateralResponse(fixCollateralResponse);
+					}
+					fixMessagePool.returnFixCollateralResponse (fixCollateralResponse);
+					break;
+				case MessageTypes.COLLATERALREPORT_INT:
+					FixCollateralReport fixCollateralReport = fixMessagePool.getFixCollateralReport(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixCollateralReport(fixCollateralReport);
+					}
+					fixMessagePool.returnFixCollateralReport (fixCollateralReport);
+					break;
+				case MessageTypes.COLLATERALINQUIRY_INT:
+					FixCollateralInquiry fixCollateralInquiry = fixMessagePool.getFixCollateralInquiry(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixCollateralInquiry(fixCollateralInquiry);
+					}
+					fixMessagePool.returnFixCollateralInquiry (fixCollateralInquiry);
+					break;
+				case MessageTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSREQUEST_INT:
+					FixNetworkCounterpartySystemStatusRequest fixNetworkCounterpartySystemStatusRequest = fixMessagePool.getFixNetworkCounterpartySystemStatusRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixNetworkCounterpartySystemStatusRequest(fixNetworkCounterpartySystemStatusRequest);
+					}
+					fixMessagePool.returnFixNetworkCounterpartySystemStatusRequest (fixNetworkCounterpartySystemStatusRequest);
+					break;
+				case MessageTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSRESPONSE_INT:
+					FixNetworkCounterpartySystemStatusResponse fixNetworkCounterpartySystemStatusResponse = fixMessagePool.getFixNetworkCounterpartySystemStatusResponse(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixNetworkCounterpartySystemStatusResponse(fixNetworkCounterpartySystemStatusResponse);
+					}
+					fixMessagePool.returnFixNetworkCounterpartySystemStatusResponse (fixNetworkCounterpartySystemStatusResponse);
+					break;
+				case MessageTypes.USERREQUEST_INT:
+					FixUserRequest fixUserRequest = fixMessagePool.getFixUserRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixUserRequest(fixUserRequest);
+					}
+					fixMessagePool.returnFixUserRequest (fixUserRequest);
+					break;
+				case MessageTypes.USERRESPONSE_INT:
+					FixUserResponse fixUserResponse = fixMessagePool.getFixUserResponse(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixUserResponse(fixUserResponse);
+					}
+					fixMessagePool.returnFixUserResponse (fixUserResponse);
+					break;
+				case MessageTypes.COLLATERALINQUIRYACK_INT:
+					FixCollateralInquiryAck fixCollateralInquiryAck = fixMessagePool.getFixCollateralInquiryAck(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixCollateralInquiryAck(fixCollateralInquiryAck);
+					}
+					fixMessagePool.returnFixCollateralInquiryAck (fixCollateralInquiryAck);
+					break;
+				case MessageTypes.CONFIRMATIONREQUEST_INT:
+					FixConfirmationRequest fixConfirmationRequest = fixMessagePool.getFixConfirmationRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixConfirmationRequest(fixConfirmationRequest);
+					}
+					fixMessagePool.returnFixConfirmationRequest (fixConfirmationRequest);
+					break;
+				case MessageTypes.CONTRARYINTENTIONREPORT_INT:
+					FixContraryIntentionReport fixContraryIntentionReport = fixMessagePool.getFixContraryIntentionReport(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixContraryIntentionReport(fixContraryIntentionReport);
+					}
+					fixMessagePool.returnFixContraryIntentionReport (fixContraryIntentionReport);
+					break;
+				case MessageTypes.SECURITYDEFINITIONUPDATEREPORT_INT:
+					FixSecurityDefinitionUpdateReport fixSecurityDefinitionUpdateReport = fixMessagePool.getFixSecurityDefinitionUpdateReport(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixSecurityDefinitionUpdateReport(fixSecurityDefinitionUpdateReport);
+					}
+					fixMessagePool.returnFixSecurityDefinitionUpdateReport (fixSecurityDefinitionUpdateReport);
+					break;
+				case MessageTypes.SECURITYLISTUPDATEREPORT_INT:
+					FixSecurityListUpdateReport fixSecurityListUpdateReport = fixMessagePool.getFixSecurityListUpdateReport(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixSecurityListUpdateReport(fixSecurityListUpdateReport);
+					}
+					fixMessagePool.returnFixSecurityListUpdateReport (fixSecurityListUpdateReport);
+					break;
+				case MessageTypes.ADJUSTEDPOSITIONREPORT_INT:
+					FixAdjustedPositionReport fixAdjustedPositionReport = fixMessagePool.getFixAdjustedPositionReport(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixAdjustedPositionReport(fixAdjustedPositionReport);
+					}
+					fixMessagePool.returnFixAdjustedPositionReport (fixAdjustedPositionReport);
+					break;
+				case MessageTypes.ALLOCATIONINSTRUCTIONALERT_INT:
+					FixAllocationInstructionAlert fixAllocationInstructionAlert = fixMessagePool.getFixAllocationInstructionAlert(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixAllocationInstructionAlert(fixAllocationInstructionAlert);
+					}
+					fixMessagePool.returnFixAllocationInstructionAlert (fixAllocationInstructionAlert);
+					break;
+				case MessageTypes.EXECUTIONACKNOWLEDGEMENT_INT:
+					FixExecutionAcknowledgement fixExecutionAcknowledgement = fixMessagePool.getFixExecutionAcknowledgement(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixExecutionAcknowledgement(fixExecutionAcknowledgement);
+					}
+					fixMessagePool.returnFixExecutionAcknowledgement (fixExecutionAcknowledgement);
+					break;
+				case MessageTypes.TRADINGSESSIONLIST_INT:
+					FixTradingSessionList fixTradingSessionList = fixMessagePool.getFixTradingSessionList(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixTradingSessionList(fixTradingSessionList);
+					}
+					fixMessagePool.returnFixTradingSessionList (fixTradingSessionList);
+					break;
+				case MessageTypes.TRADINGSESSIONLISTREQUEST_INT:
+					FixTradingSessionListRequest fixTradingSessionListRequest = fixMessagePool.getFixTradingSessionListRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixTradingSessionListRequest(fixTradingSessionListRequest);
+					}
+					fixMessagePool.returnFixTradingSessionListRequest (fixTradingSessionListRequest);
+					break;
+				case MessageTypes.SETTLEMENTOBLIGATIONREPORT_INT:
+					FixSettlementObligationReport fixSettlementObligationReport = fixMessagePool.getFixSettlementObligationReport(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixSettlementObligationReport(fixSettlementObligationReport);
+					}
+					fixMessagePool.returnFixSettlementObligationReport (fixSettlementObligationReport);
+					break;
+				case MessageTypes.DERIVATIVESECURITYLISTUPDATEREPORT_INT:
+					FixDerivativeSecurityListUpdateReport fixDerivativeSecurityListUpdateReport = fixMessagePool.getFixDerivativeSecurityListUpdateReport(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixDerivativeSecurityListUpdateReport(fixDerivativeSecurityListUpdateReport);
+					}
+					fixMessagePool.returnFixDerivativeSecurityListUpdateReport (fixDerivativeSecurityListUpdateReport);
+					break;
+				case MessageTypes.TRADINGSESSIONLISTUPDATEREPORT_INT:
+					FixTradingSessionListUpdateReport fixTradingSessionListUpdateReport = fixMessagePool.getFixTradingSessionListUpdateReport(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixTradingSessionListUpdateReport(fixTradingSessionListUpdateReport);
+					}
+					fixMessagePool.returnFixTradingSessionListUpdateReport (fixTradingSessionListUpdateReport);
+					break;
+				case MessageTypes.MARKETDEFINITIONREQUEST_INT:
+					FixMarketDefinitionRequest fixMarketDefinitionRequest = fixMessagePool.getFixMarketDefinitionRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixMarketDefinitionRequest(fixMarketDefinitionRequest);
+					}
+					fixMessagePool.returnFixMarketDefinitionRequest (fixMarketDefinitionRequest);
+					break;
+				case MessageTypes.MARKETDEFINITION_INT:
+					FixMarketDefinition fixMarketDefinition = fixMessagePool.getFixMarketDefinition(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixMarketDefinition(fixMarketDefinition);
+					}
+					fixMessagePool.returnFixMarketDefinition (fixMarketDefinition);
+					break;
+				case MessageTypes.MARKETDEFINITIONUPDATEREPORT_INT:
+					FixMarketDefinitionUpdateReport fixMarketDefinitionUpdateReport = fixMessagePool.getFixMarketDefinitionUpdateReport(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixMarketDefinitionUpdateReport(fixMarketDefinitionUpdateReport);
+					}
+					fixMessagePool.returnFixMarketDefinitionUpdateReport (fixMarketDefinitionUpdateReport);
+					break;
+				case MessageTypes.USERNOTIFICATION_INT:
+					FixUserNotification fixUserNotification = fixMessagePool.getFixUserNotification(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixUserNotification(fixUserNotification);
+					}
+					fixMessagePool.returnFixUserNotification (fixUserNotification);
+					break;
+				case MessageTypes.ORDERMASSACTIONREPORT_INT:
+					FixOrderMassActionReport fixOrderMassActionReport = fixMessagePool.getFixOrderMassActionReport(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixOrderMassActionReport(fixOrderMassActionReport);
+					}
+					fixMessagePool.returnFixOrderMassActionReport (fixOrderMassActionReport);
+					break;
+				case MessageTypes.ORDERMASSACTIONREQUEST_INT:
+					FixOrderMassActionRequest fixOrderMassActionRequest = fixMessagePool.getFixOrderMassActionRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixOrderMassActionRequest(fixOrderMassActionRequest);
+					}
+					fixMessagePool.returnFixOrderMassActionRequest (fixOrderMassActionRequest);
+					break;
+				case MessageTypes.APPLICATIONMESSAGEREQUEST_INT:
+					FixApplicationMessageRequest fixApplicationMessageRequest = fixMessagePool.getFixApplicationMessageRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixApplicationMessageRequest(fixApplicationMessageRequest);
+					}
+					fixMessagePool.returnFixApplicationMessageRequest (fixApplicationMessageRequest);
+					break;
+				case MessageTypes.APPLICATIONMESSAGEREQUESTACK_INT:
+					FixApplicationMessageRequestAck fixApplicationMessageRequestAck = fixMessagePool.getFixApplicationMessageRequestAck(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixApplicationMessageRequestAck(fixApplicationMessageRequestAck);
+					}
+					fixMessagePool.returnFixApplicationMessageRequestAck (fixApplicationMessageRequestAck);
+					break;
+				case MessageTypes.APPLICATIONMESSAGEREPORT_INT:
+					FixApplicationMessageReport fixApplicationMessageReport = fixMessagePool.getFixApplicationMessageReport(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixApplicationMessageReport(fixApplicationMessageReport);
+					}
+					fixMessagePool.returnFixApplicationMessageReport (fixApplicationMessageReport);
+					break;
+				case MessageTypes.STREAMASSIGNMENTREQUEST_INT:
+					FixStreamAssignmentRequest fixStreamAssignmentRequest = fixMessagePool.getFixStreamAssignmentRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixStreamAssignmentRequest(fixStreamAssignmentRequest);
+					}
+					fixMessagePool.returnFixStreamAssignmentRequest (fixStreamAssignmentRequest);
+					break;
+				case MessageTypes.STREAMASSIGNMENTREPORT_INT:
+					FixStreamAssignmentReport fixStreamAssignmentReport = fixMessagePool.getFixStreamAssignmentReport(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixStreamAssignmentReport(fixStreamAssignmentReport);
+					}
+					fixMessagePool.returnFixStreamAssignmentReport (fixStreamAssignmentReport);
+					break;
+				case MessageTypes.STREAMASSIGNMENTREPORTACK_INT:
+					FixStreamAssignmentReportACK fixStreamAssignmentReportACK = fixMessagePool.getFixStreamAssignmentReportACK(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixStreamAssignmentReportACK(fixStreamAssignmentReportACK);
+					}
+					fixMessagePool.returnFixStreamAssignmentReportACK (fixStreamAssignmentReportACK);
+					break;
+				case MessageTypes.PARTYDETAILSLISTREQUEST_INT:
+					FixPartyDetailsListRequest fixPartyDetailsListRequest = fixMessagePool.getFixPartyDetailsListRequest(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixPartyDetailsListRequest(fixPartyDetailsListRequest);
+					}
+					fixMessagePool.returnFixPartyDetailsListRequest (fixPartyDetailsListRequest);
+					break;
+				case MessageTypes.PARTYDETAILSLISTREPORT_INT:
+					FixPartyDetailsListReport fixPartyDetailsListReport = fixMessagePool.getFixPartyDetailsListReport(buf, err);
+					if(err.hasError()) {
+						l.onFixValidationError(err);
+					} else {
+						l.onFixPartyDetailsListReport(fixPartyDetailsListReport);
+					}
+					fixMessagePool.returnFixPartyDetailsListReport (fixPartyDetailsListReport);
+					break;
+				default:
+					l.onUnknownMessageType( buf, msgTypeInt );
+					break;
+
 				}
+
 			}
-			fixMessagePool.returnFixHeartbeat (fixHeartbeat);
-			break;
-		case MessageTypes.TESTREQUEST_INT:
-			FixTestRequest fixTestRequest = fixMessagePool.getFixTestRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixTestRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixTestRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixTestRequest(fixTestRequest);
-				}
+
+		} else if (MessageTypes.LOGON_INT == msgTypeInt) { // MESSAGE
+			err.setError(FixEvent.DISCONNECT, "DISCONNECT");
+		} else { // MESSAGE
+			err.refMsgTypeInt = msgTypeInt;
+			err.session = session;
+
+			if (session == null || session.isEstablished()) {
+				err.setError(FixEvent.DISCONNECT, "DISCONNECT");
 			}
-			fixMessagePool.returnFixTestRequest (fixTestRequest);
-			break;
-		case MessageTypes.RESENDREQUEST_INT:
-			FixResendRequest fixResendRequest = fixMessagePool.getFixResendRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixResendRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixResendRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixResendRequest(fixResendRequest);
-				}
-			}
-			fixMessagePool.returnFixResendRequest (fixResendRequest);
-			break;
-		case MessageTypes.REJECT_INT:
-			FixReject fixReject = fixMessagePool.getFixReject(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixReject, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixReject, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixReject(fixReject);
-				}
-			}
-			fixMessagePool.returnFixReject (fixReject);
-			break;
-		case MessageTypes.SEQUENCERESET_INT:
-			FixSequenceReset fixSequenceReset = fixMessagePool.getFixSequenceReset(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixSequenceReset, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixSequenceReset, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixSequenceReset(fixSequenceReset);
-				}
-			}
-			fixMessagePool.returnFixSequenceReset (fixSequenceReset);
-			break;
-		case MessageTypes.LOGOUT_INT:
-			FixLogout fixLogout = fixMessagePool.getFixLogout(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixLogout, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixLogout, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixLogout(fixLogout);
-				}
-			}
-			fixMessagePool.returnFixLogout (fixLogout);
-			break;
-		case MessageTypes.IOI_INT:
-			FixIOI fixIOI = fixMessagePool.getFixIOI(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixIOI, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixIOI, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixIOI(fixIOI);
-				}
-			}
-			fixMessagePool.returnFixIOI (fixIOI);
-			break;
-		case MessageTypes.ADVERTISEMENT_INT:
-			FixAdvertisement fixAdvertisement = fixMessagePool.getFixAdvertisement(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixAdvertisement, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixAdvertisement, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixAdvertisement(fixAdvertisement);
-				}
-			}
-			fixMessagePool.returnFixAdvertisement (fixAdvertisement);
-			break;
-		case MessageTypes.EXECUTIONREPORT_INT:
-			FixExecutionReport fixExecutionReport = fixMessagePool.getFixExecutionReport(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixExecutionReport, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixExecutionReport, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixExecutionReport(fixExecutionReport);
-				}
-			}
-			fixMessagePool.returnFixExecutionReport (fixExecutionReport);
-			break;
-		case MessageTypes.ORDERCANCELREJECT_INT:
-			FixOrderCancelReject fixOrderCancelReject = fixMessagePool.getFixOrderCancelReject(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixOrderCancelReject, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixOrderCancelReject, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixOrderCancelReject(fixOrderCancelReject);
-				}
-			}
-			fixMessagePool.returnFixOrderCancelReject (fixOrderCancelReject);
-			break;
-		case MessageTypes.LOGON_INT:
-			FixLogon fixLogon = fixMessagePool.getFixLogon(buf, err);
-			fixLogon.getAll();  // TODO why do I have to do this?
-			session = FixUtils.validateStandardHeader(l, connectorID, fixLogon, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixLogon, err);
-			}
-			if(err.hasError()) {
 				l.onFixValidationError(err);
-			} else {
-				l.onFixLogon(fixLogon);
 			}
-			fixMessagePool.returnFixLogon (fixLogon);
-			break;
-		case MessageTypes.NEWS_INT:
-			FixNews fixNews = fixMessagePool.getFixNews(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixNews, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixNews, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixNews(fixNews);
-				}
-			}
-			fixMessagePool.returnFixNews (fixNews);
-			break;
-		case MessageTypes.EMAIL_INT:
-			FixEmail fixEmail = fixMessagePool.getFixEmail(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixEmail, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixEmail, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixEmail(fixEmail);
-				}
-			}
-			fixMessagePool.returnFixEmail (fixEmail);
-			break;
-		case MessageTypes.NEWORDERSINGLE_INT:
-			FixNewOrderSingle fixNewOrderSingle = fixMessagePool.getFixNewOrderSingle(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixNewOrderSingle, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixNewOrderSingle, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixNewOrderSingle(fixNewOrderSingle);
-				}
-			}
-			fixMessagePool.returnFixNewOrderSingle (fixNewOrderSingle);
-			break;
-		case MessageTypes.NEWORDERLIST_INT:
-			FixNewOrderList fixNewOrderList = fixMessagePool.getFixNewOrderList(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixNewOrderList, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixNewOrderList, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixNewOrderList(fixNewOrderList);
-				}
-			}
-			fixMessagePool.returnFixNewOrderList (fixNewOrderList);
-			break;
-		case MessageTypes.ORDERCANCELREQUEST_INT:
-			FixOrderCancelRequest fixOrderCancelRequest = fixMessagePool.getFixOrderCancelRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixOrderCancelRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixOrderCancelRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixOrderCancelRequest(fixOrderCancelRequest);
-				}
-			}
-			fixMessagePool.returnFixOrderCancelRequest (fixOrderCancelRequest);
-			break;
-		case MessageTypes.ORDERCANCELREPLACEREQUEST_INT:
-			FixOrderCancelReplaceRequest fixOrderCancelReplaceRequest = fixMessagePool.getFixOrderCancelReplaceRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixOrderCancelReplaceRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixOrderCancelReplaceRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixOrderCancelReplaceRequest(fixOrderCancelReplaceRequest);
-				}
-			}
-			fixMessagePool.returnFixOrderCancelReplaceRequest (fixOrderCancelReplaceRequest);
-			break;
-		case MessageTypes.ORDERSTATUSREQUEST_INT:
-			FixOrderStatusRequest fixOrderStatusRequest = fixMessagePool.getFixOrderStatusRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixOrderStatusRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixOrderStatusRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixOrderStatusRequest(fixOrderStatusRequest);
-				}
-			}
-			fixMessagePool.returnFixOrderStatusRequest (fixOrderStatusRequest);
-			break;
-		case MessageTypes.ALLOCATIONINSTRUCTION_INT:
-			FixAllocationInstruction fixAllocationInstruction = fixMessagePool.getFixAllocationInstruction(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixAllocationInstruction, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixAllocationInstruction, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixAllocationInstruction(fixAllocationInstruction);
-				}
-			}
-			fixMessagePool.returnFixAllocationInstruction (fixAllocationInstruction);
-			break;
-		case MessageTypes.LISTCANCELREQUEST_INT:
-			FixListCancelRequest fixListCancelRequest = fixMessagePool.getFixListCancelRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixListCancelRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixListCancelRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixListCancelRequest(fixListCancelRequest);
-				}
-			}
-			fixMessagePool.returnFixListCancelRequest (fixListCancelRequest);
-			break;
-		case MessageTypes.LISTEXECUTE_INT:
-			FixListExecute fixListExecute = fixMessagePool.getFixListExecute(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixListExecute, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixListExecute, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixListExecute(fixListExecute);
-				}
-			}
-			fixMessagePool.returnFixListExecute (fixListExecute);
-			break;
-		case MessageTypes.LISTSTATUSREQUEST_INT:
-			FixListStatusRequest fixListStatusRequest = fixMessagePool.getFixListStatusRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixListStatusRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixListStatusRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixListStatusRequest(fixListStatusRequest);
-				}
-			}
-			fixMessagePool.returnFixListStatusRequest (fixListStatusRequest);
-			break;
-		case MessageTypes.LISTSTATUS_INT:
-			FixListStatus fixListStatus = fixMessagePool.getFixListStatus(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixListStatus, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixListStatus, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixListStatus(fixListStatus);
-				}
-			}
-			fixMessagePool.returnFixListStatus (fixListStatus);
-			break;
-		case MessageTypes.ALLOCATIONINSTRUCTIONACK_INT:
-			FixAllocationInstructionAck fixAllocationInstructionAck = fixMessagePool.getFixAllocationInstructionAck(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixAllocationInstructionAck, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixAllocationInstructionAck, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixAllocationInstructionAck(fixAllocationInstructionAck);
-				}
-			}
-			fixMessagePool.returnFixAllocationInstructionAck (fixAllocationInstructionAck);
-			break;
-		case MessageTypes.DONTKNOWTRADEDK_INT:
-			FixDontKnowTradeDK fixDontKnowTradeDK = fixMessagePool.getFixDontKnowTradeDK(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixDontKnowTradeDK, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixDontKnowTradeDK, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixDontKnowTradeDK(fixDontKnowTradeDK);
-				}
-			}
-			fixMessagePool.returnFixDontKnowTradeDK (fixDontKnowTradeDK);
-			break;
-		case MessageTypes.QUOTEREQUEST_INT:
-			FixQuoteRequest fixQuoteRequest = fixMessagePool.getFixQuoteRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixQuoteRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixQuoteRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixQuoteRequest(fixQuoteRequest);
-				}
-			}
-			fixMessagePool.returnFixQuoteRequest (fixQuoteRequest);
-			break;
-		case MessageTypes.QUOTE_INT:
-			FixQuote fixQuote = fixMessagePool.getFixQuote(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixQuote, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixQuote, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixQuote(fixQuote);
-				}
-			}
-			fixMessagePool.returnFixQuote (fixQuote);
-			break;
-		case MessageTypes.SETTLEMENTINSTRUCTIONS_INT:
-			FixSettlementInstructions fixSettlementInstructions = fixMessagePool.getFixSettlementInstructions(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixSettlementInstructions, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixSettlementInstructions, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixSettlementInstructions(fixSettlementInstructions);
-				}
-			}
-			fixMessagePool.returnFixSettlementInstructions (fixSettlementInstructions);
-			break;
-		case MessageTypes.MARKETDATAREQUEST_INT:
-			FixMarketDataRequest fixMarketDataRequest = fixMessagePool.getFixMarketDataRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixMarketDataRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixMarketDataRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixMarketDataRequest(fixMarketDataRequest);
-				}
-			}
-			fixMessagePool.returnFixMarketDataRequest (fixMarketDataRequest);
-			break;
-		case MessageTypes.MARKETDATASNAPSHOTFULLREFRESH_INT:
-			FixMarketDataSnapshotFullRefresh fixMarketDataSnapshotFullRefresh = fixMessagePool.getFixMarketDataSnapshotFullRefresh(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixMarketDataSnapshotFullRefresh, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixMarketDataSnapshotFullRefresh, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixMarketDataSnapshotFullRefresh(fixMarketDataSnapshotFullRefresh);
-				}
-			}
-			fixMessagePool.returnFixMarketDataSnapshotFullRefresh (fixMarketDataSnapshotFullRefresh);
-			break;
-		case MessageTypes.MARKETDATAINCREMENTALREFRESH_INT:
-			FixMarketDataIncrementalRefresh fixMarketDataIncrementalRefresh = fixMessagePool.getFixMarketDataIncrementalRefresh(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixMarketDataIncrementalRefresh, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixMarketDataIncrementalRefresh, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixMarketDataIncrementalRefresh(fixMarketDataIncrementalRefresh);
-				}
-			}
-			fixMessagePool.returnFixMarketDataIncrementalRefresh (fixMarketDataIncrementalRefresh);
-			break;
-		case MessageTypes.MARKETDATAREQUESTREJECT_INT:
-			FixMarketDataRequestReject fixMarketDataRequestReject = fixMessagePool.getFixMarketDataRequestReject(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixMarketDataRequestReject, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixMarketDataRequestReject, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixMarketDataRequestReject(fixMarketDataRequestReject);
-				}
-			}
-			fixMessagePool.returnFixMarketDataRequestReject (fixMarketDataRequestReject);
-			break;
-		case MessageTypes.QUOTECANCEL_INT:
-			FixQuoteCancel fixQuoteCancel = fixMessagePool.getFixQuoteCancel(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixQuoteCancel, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixQuoteCancel, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixQuoteCancel(fixQuoteCancel);
-				}
-			}
-			fixMessagePool.returnFixQuoteCancel (fixQuoteCancel);
-			break;
-		case MessageTypes.QUOTESTATUSREQUEST_INT:
-			FixQuoteStatusRequest fixQuoteStatusRequest = fixMessagePool.getFixQuoteStatusRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixQuoteStatusRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixQuoteStatusRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixQuoteStatusRequest(fixQuoteStatusRequest);
-				}
-			}
-			fixMessagePool.returnFixQuoteStatusRequest (fixQuoteStatusRequest);
-			break;
-		case MessageTypes.MASSQUOTEACKNOWLEDGEMENT_INT:
-			FixMassQuoteAcknowledgement fixMassQuoteAcknowledgement = fixMessagePool.getFixMassQuoteAcknowledgement(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixMassQuoteAcknowledgement, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixMassQuoteAcknowledgement, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixMassQuoteAcknowledgement(fixMassQuoteAcknowledgement);
-				}
-			}
-			fixMessagePool.returnFixMassQuoteAcknowledgement (fixMassQuoteAcknowledgement);
-			break;
-		case MessageTypes.SECURITYDEFINITIONREQUEST_INT:
-			FixSecurityDefinitionRequest fixSecurityDefinitionRequest = fixMessagePool.getFixSecurityDefinitionRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixSecurityDefinitionRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixSecurityDefinitionRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixSecurityDefinitionRequest(fixSecurityDefinitionRequest);
-				}
-			}
-			fixMessagePool.returnFixSecurityDefinitionRequest (fixSecurityDefinitionRequest);
-			break;
-		case MessageTypes.SECURITYDEFINITION_INT:
-			FixSecurityDefinition fixSecurityDefinition = fixMessagePool.getFixSecurityDefinition(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixSecurityDefinition, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixSecurityDefinition, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixSecurityDefinition(fixSecurityDefinition);
-				}
-			}
-			fixMessagePool.returnFixSecurityDefinition (fixSecurityDefinition);
-			break;
-		case MessageTypes.SECURITYSTATUSREQUEST_INT:
-			FixSecurityStatusRequest fixSecurityStatusRequest = fixMessagePool.getFixSecurityStatusRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixSecurityStatusRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixSecurityStatusRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixSecurityStatusRequest(fixSecurityStatusRequest);
-				}
-			}
-			fixMessagePool.returnFixSecurityStatusRequest (fixSecurityStatusRequest);
-			break;
-		case MessageTypes.SECURITYSTATUS_INT:
-			FixSecurityStatus fixSecurityStatus = fixMessagePool.getFixSecurityStatus(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixSecurityStatus, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixSecurityStatus, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixSecurityStatus(fixSecurityStatus);
-				}
-			}
-			fixMessagePool.returnFixSecurityStatus (fixSecurityStatus);
-			break;
-		case MessageTypes.TRADINGSESSIONSTATUSREQUEST_INT:
-			FixTradingSessionStatusRequest fixTradingSessionStatusRequest = fixMessagePool.getFixTradingSessionStatusRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixTradingSessionStatusRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixTradingSessionStatusRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixTradingSessionStatusRequest(fixTradingSessionStatusRequest);
-				}
-			}
-			fixMessagePool.returnFixTradingSessionStatusRequest (fixTradingSessionStatusRequest);
-			break;
-		case MessageTypes.TRADINGSESSIONSTATUS_INT:
-			FixTradingSessionStatus fixTradingSessionStatus = fixMessagePool.getFixTradingSessionStatus(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixTradingSessionStatus, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixTradingSessionStatus, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixTradingSessionStatus(fixTradingSessionStatus);
-				}
-			}
-			fixMessagePool.returnFixTradingSessionStatus (fixTradingSessionStatus);
-			break;
-		case MessageTypes.MASSQUOTE_INT:
-			FixMassQuote fixMassQuote = fixMessagePool.getFixMassQuote(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixMassQuote, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixMassQuote, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixMassQuote(fixMassQuote);
-				}
-			}
-			fixMessagePool.returnFixMassQuote (fixMassQuote);
-			break;
-		case MessageTypes.BUSINESSMESSAGEREJECT_INT:
-			FixBusinessMessageReject fixBusinessMessageReject = fixMessagePool.getFixBusinessMessageReject(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixBusinessMessageReject, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixBusinessMessageReject, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixBusinessMessageReject(fixBusinessMessageReject);
-				}
-			}
-			fixMessagePool.returnFixBusinessMessageReject (fixBusinessMessageReject);
-			break;
-		case MessageTypes.BIDREQUEST_INT:
-			FixBidRequest fixBidRequest = fixMessagePool.getFixBidRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixBidRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixBidRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixBidRequest(fixBidRequest);
-				}
-			}
-			fixMessagePool.returnFixBidRequest (fixBidRequest);
-			break;
-		case MessageTypes.BIDRESPONSE_INT:
-			FixBidResponse fixBidResponse = fixMessagePool.getFixBidResponse(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixBidResponse, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixBidResponse, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixBidResponse(fixBidResponse);
-				}
-			}
-			fixMessagePool.returnFixBidResponse (fixBidResponse);
-			break;
-		case MessageTypes.LISTSTRIKEPRICE_INT:
-			FixListStrikePrice fixListStrikePrice = fixMessagePool.getFixListStrikePrice(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixListStrikePrice, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixListStrikePrice, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixListStrikePrice(fixListStrikePrice);
-				}
-			}
-			fixMessagePool.returnFixListStrikePrice (fixListStrikePrice);
-			break;
-		case MessageTypes.REGISTRATIONINSTRUCTIONS_INT:
-			FixRegistrationInstructions fixRegistrationInstructions = fixMessagePool.getFixRegistrationInstructions(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixRegistrationInstructions, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixRegistrationInstructions, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixRegistrationInstructions(fixRegistrationInstructions);
-				}
-			}
-			fixMessagePool.returnFixRegistrationInstructions (fixRegistrationInstructions);
-			break;
-		case MessageTypes.REGISTRATIONINSTRUCTIONSRESPONSE_INT:
-			FixRegistrationInstructionsResponse fixRegistrationInstructionsResponse = fixMessagePool.getFixRegistrationInstructionsResponse(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixRegistrationInstructionsResponse, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixRegistrationInstructionsResponse, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixRegistrationInstructionsResponse(fixRegistrationInstructionsResponse);
-				}
-			}
-			fixMessagePool.returnFixRegistrationInstructionsResponse (fixRegistrationInstructionsResponse);
-			break;
-		case MessageTypes.ORDERMASSCANCELREQUEST_INT:
-			FixOrderMassCancelRequest fixOrderMassCancelRequest = fixMessagePool.getFixOrderMassCancelRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixOrderMassCancelRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixOrderMassCancelRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixOrderMassCancelRequest(fixOrderMassCancelRequest);
-				}
-			}
-			fixMessagePool.returnFixOrderMassCancelRequest (fixOrderMassCancelRequest);
-			break;
-		case MessageTypes.ORDERMASSCANCELREPORT_INT:
-			FixOrderMassCancelReport fixOrderMassCancelReport = fixMessagePool.getFixOrderMassCancelReport(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixOrderMassCancelReport, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixOrderMassCancelReport, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixOrderMassCancelReport(fixOrderMassCancelReport);
-				}
-			}
-			fixMessagePool.returnFixOrderMassCancelReport (fixOrderMassCancelReport);
-			break;
-		case MessageTypes.NEWORDERCROSS_INT:
-			FixNewOrderCross fixNewOrderCross = fixMessagePool.getFixNewOrderCross(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixNewOrderCross, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixNewOrderCross, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixNewOrderCross(fixNewOrderCross);
-				}
-			}
-			fixMessagePool.returnFixNewOrderCross (fixNewOrderCross);
-			break;
-		case MessageTypes.CROSSORDERCANCELREPLACEREQUEST_INT:
-			FixCrossOrderCancelReplaceRequest fixCrossOrderCancelReplaceRequest = fixMessagePool.getFixCrossOrderCancelReplaceRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixCrossOrderCancelReplaceRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixCrossOrderCancelReplaceRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixCrossOrderCancelReplaceRequest(fixCrossOrderCancelReplaceRequest);
-				}
-			}
-			fixMessagePool.returnFixCrossOrderCancelReplaceRequest (fixCrossOrderCancelReplaceRequest);
-			break;
-		case MessageTypes.CROSSORDERCANCELREQUEST_INT:
-			FixCrossOrderCancelRequest fixCrossOrderCancelRequest = fixMessagePool.getFixCrossOrderCancelRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixCrossOrderCancelRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixCrossOrderCancelRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixCrossOrderCancelRequest(fixCrossOrderCancelRequest);
-				}
-			}
-			fixMessagePool.returnFixCrossOrderCancelRequest (fixCrossOrderCancelRequest);
-			break;
-		case MessageTypes.SECURITYTYPEREQUEST_INT:
-			FixSecurityTypeRequest fixSecurityTypeRequest = fixMessagePool.getFixSecurityTypeRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixSecurityTypeRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixSecurityTypeRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixSecurityTypeRequest(fixSecurityTypeRequest);
-				}
-			}
-			fixMessagePool.returnFixSecurityTypeRequest (fixSecurityTypeRequest);
-			break;
-		case MessageTypes.SECURITYTYPES_INT:
-			FixSecurityTypes fixSecurityTypes = fixMessagePool.getFixSecurityTypes(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixSecurityTypes, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixSecurityTypes, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixSecurityTypes(fixSecurityTypes);
-				}
-			}
-			fixMessagePool.returnFixSecurityTypes (fixSecurityTypes);
-			break;
-		case MessageTypes.SECURITYLISTREQUEST_INT:
-			FixSecurityListRequest fixSecurityListRequest = fixMessagePool.getFixSecurityListRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixSecurityListRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixSecurityListRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixSecurityListRequest(fixSecurityListRequest);
-				}
-			}
-			fixMessagePool.returnFixSecurityListRequest (fixSecurityListRequest);
-			break;
-		case MessageTypes.SECURITYLIST_INT:
-			FixSecurityList fixSecurityList = fixMessagePool.getFixSecurityList(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixSecurityList, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixSecurityList, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixSecurityList(fixSecurityList);
-				}
-			}
-			fixMessagePool.returnFixSecurityList (fixSecurityList);
-			break;
-		case MessageTypes.DERIVATIVESECURITYLISTREQUEST_INT:
-			FixDerivativeSecurityListRequest fixDerivativeSecurityListRequest = fixMessagePool.getFixDerivativeSecurityListRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixDerivativeSecurityListRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixDerivativeSecurityListRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixDerivativeSecurityListRequest(fixDerivativeSecurityListRequest);
-				}
-			}
-			fixMessagePool.returnFixDerivativeSecurityListRequest (fixDerivativeSecurityListRequest);
-			break;
-		case MessageTypes.DERIVATIVESECURITYLIST_INT:
-			FixDerivativeSecurityList fixDerivativeSecurityList = fixMessagePool.getFixDerivativeSecurityList(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixDerivativeSecurityList, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixDerivativeSecurityList, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixDerivativeSecurityList(fixDerivativeSecurityList);
-				}
-			}
-			fixMessagePool.returnFixDerivativeSecurityList (fixDerivativeSecurityList);
-			break;
-		case MessageTypes.NEWORDERMULTILEG_INT:
-			FixNewOrderMultileg fixNewOrderMultileg = fixMessagePool.getFixNewOrderMultileg(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixNewOrderMultileg, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixNewOrderMultileg, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixNewOrderMultileg(fixNewOrderMultileg);
-				}
-			}
-			fixMessagePool.returnFixNewOrderMultileg (fixNewOrderMultileg);
-			break;
-		case MessageTypes.MULTILEGORDERCANCELREPLACE_INT:
-			FixMultilegOrderCancelReplace fixMultilegOrderCancelReplace = fixMessagePool.getFixMultilegOrderCancelReplace(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixMultilegOrderCancelReplace, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixMultilegOrderCancelReplace, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixMultilegOrderCancelReplace(fixMultilegOrderCancelReplace);
-				}
-			}
-			fixMessagePool.returnFixMultilegOrderCancelReplace (fixMultilegOrderCancelReplace);
-			break;
-		case MessageTypes.TRADECAPTUREREPORTREQUEST_INT:
-			FixTradeCaptureReportRequest fixTradeCaptureReportRequest = fixMessagePool.getFixTradeCaptureReportRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixTradeCaptureReportRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixTradeCaptureReportRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixTradeCaptureReportRequest(fixTradeCaptureReportRequest);
-				}
-			}
-			fixMessagePool.returnFixTradeCaptureReportRequest (fixTradeCaptureReportRequest);
-			break;
-		case MessageTypes.TRADECAPTUREREPORT_INT:
-			FixTradeCaptureReport fixTradeCaptureReport = fixMessagePool.getFixTradeCaptureReport(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixTradeCaptureReport, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixTradeCaptureReport, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixTradeCaptureReport(fixTradeCaptureReport);
-				}
-			}
-			fixMessagePool.returnFixTradeCaptureReport (fixTradeCaptureReport);
-			break;
-		case MessageTypes.ORDERMASSSTATUSREQUEST_INT:
-			FixOrderMassStatusRequest fixOrderMassStatusRequest = fixMessagePool.getFixOrderMassStatusRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixOrderMassStatusRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixOrderMassStatusRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixOrderMassStatusRequest(fixOrderMassStatusRequest);
-				}
-			}
-			fixMessagePool.returnFixOrderMassStatusRequest (fixOrderMassStatusRequest);
-			break;
-		case MessageTypes.QUOTEREQUESTREJECT_INT:
-			FixQuoteRequestReject fixQuoteRequestReject = fixMessagePool.getFixQuoteRequestReject(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixQuoteRequestReject, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixQuoteRequestReject, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixQuoteRequestReject(fixQuoteRequestReject);
-				}
-			}
-			fixMessagePool.returnFixQuoteRequestReject (fixQuoteRequestReject);
-			break;
-		case MessageTypes.RFQREQUEST_INT:
-			FixRFQRequest fixRFQRequest = fixMessagePool.getFixRFQRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixRFQRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixRFQRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixRFQRequest(fixRFQRequest);
-				}
-			}
-			fixMessagePool.returnFixRFQRequest (fixRFQRequest);
-			break;
-		case MessageTypes.QUOTESTATUSREPORT_INT:
-			FixQuoteStatusReport fixQuoteStatusReport = fixMessagePool.getFixQuoteStatusReport(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixQuoteStatusReport, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixQuoteStatusReport, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixQuoteStatusReport(fixQuoteStatusReport);
-				}
-			}
-			fixMessagePool.returnFixQuoteStatusReport (fixQuoteStatusReport);
-			break;
-		case MessageTypes.QUOTERESPONSE_INT:
-			FixQuoteResponse fixQuoteResponse = fixMessagePool.getFixQuoteResponse(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixQuoteResponse, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixQuoteResponse, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixQuoteResponse(fixQuoteResponse);
-				}
-			}
-			fixMessagePool.returnFixQuoteResponse (fixQuoteResponse);
-			break;
-		case MessageTypes.CONFIRMATION_INT:
-			FixConfirmation fixConfirmation = fixMessagePool.getFixConfirmation(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixConfirmation, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixConfirmation, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixConfirmation(fixConfirmation);
-				}
-			}
-			fixMessagePool.returnFixConfirmation (fixConfirmation);
-			break;
-		case MessageTypes.POSITIONMAINTENANCEREQUEST_INT:
-			FixPositionMaintenanceRequest fixPositionMaintenanceRequest = fixMessagePool.getFixPositionMaintenanceRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixPositionMaintenanceRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixPositionMaintenanceRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixPositionMaintenanceRequest(fixPositionMaintenanceRequest);
-				}
-			}
-			fixMessagePool.returnFixPositionMaintenanceRequest (fixPositionMaintenanceRequest);
-			break;
-		case MessageTypes.POSITIONMAINTENANCEREPORT_INT:
-			FixPositionMaintenanceReport fixPositionMaintenanceReport = fixMessagePool.getFixPositionMaintenanceReport(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixPositionMaintenanceReport, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixPositionMaintenanceReport, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixPositionMaintenanceReport(fixPositionMaintenanceReport);
-				}
-			}
-			fixMessagePool.returnFixPositionMaintenanceReport (fixPositionMaintenanceReport);
-			break;
-		case MessageTypes.REQUESTFORPOSITIONS_INT:
-			FixRequestForPositions fixRequestForPositions = fixMessagePool.getFixRequestForPositions(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixRequestForPositions, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixRequestForPositions, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixRequestForPositions(fixRequestForPositions);
-				}
-			}
-			fixMessagePool.returnFixRequestForPositions (fixRequestForPositions);
-			break;
-		case MessageTypes.REQUESTFORPOSITIONSACK_INT:
-			FixRequestForPositionsAck fixRequestForPositionsAck = fixMessagePool.getFixRequestForPositionsAck(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixRequestForPositionsAck, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixRequestForPositionsAck, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixRequestForPositionsAck(fixRequestForPositionsAck);
-				}
-			}
-			fixMessagePool.returnFixRequestForPositionsAck (fixRequestForPositionsAck);
-			break;
-		case MessageTypes.POSITIONREPORT_INT:
-			FixPositionReport fixPositionReport = fixMessagePool.getFixPositionReport(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixPositionReport, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixPositionReport, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixPositionReport(fixPositionReport);
-				}
-			}
-			fixMessagePool.returnFixPositionReport (fixPositionReport);
-			break;
-		case MessageTypes.TRADECAPTUREREPORTREQUESTACK_INT:
-			FixTradeCaptureReportRequestAck fixTradeCaptureReportRequestAck = fixMessagePool.getFixTradeCaptureReportRequestAck(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixTradeCaptureReportRequestAck, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixTradeCaptureReportRequestAck, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixTradeCaptureReportRequestAck(fixTradeCaptureReportRequestAck);
-				}
-			}
-			fixMessagePool.returnFixTradeCaptureReportRequestAck (fixTradeCaptureReportRequestAck);
-			break;
-		case MessageTypes.TRADECAPTUREREPORTACK_INT:
-			FixTradeCaptureReportAck fixTradeCaptureReportAck = fixMessagePool.getFixTradeCaptureReportAck(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixTradeCaptureReportAck, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixTradeCaptureReportAck, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixTradeCaptureReportAck(fixTradeCaptureReportAck);
-				}
-			}
-			fixMessagePool.returnFixTradeCaptureReportAck (fixTradeCaptureReportAck);
-			break;
-		case MessageTypes.ALLOCATIONREPORT_INT:
-			FixAllocationReport fixAllocationReport = fixMessagePool.getFixAllocationReport(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixAllocationReport, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixAllocationReport, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixAllocationReport(fixAllocationReport);
-				}
-			}
-			fixMessagePool.returnFixAllocationReport (fixAllocationReport);
-			break;
-		case MessageTypes.ALLOCATIONREPORTACK_INT:
-			FixAllocationReportAck fixAllocationReportAck = fixMessagePool.getFixAllocationReportAck(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixAllocationReportAck, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixAllocationReportAck, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixAllocationReportAck(fixAllocationReportAck);
-				}
-			}
-			fixMessagePool.returnFixAllocationReportAck (fixAllocationReportAck);
-			break;
-		case MessageTypes.CONFIRMATION_ACK_INT:
-			FixConfirmation_Ack fixConfirmation_Ack = fixMessagePool.getFixConfirmation_Ack(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixConfirmation_Ack, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixConfirmation_Ack, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixConfirmation_Ack(fixConfirmation_Ack);
-				}
-			}
-			fixMessagePool.returnFixConfirmation_Ack (fixConfirmation_Ack);
-			break;
-		case MessageTypes.SETTLEMENTINSTRUCTIONREQUEST_INT:
-			FixSettlementInstructionRequest fixSettlementInstructionRequest = fixMessagePool.getFixSettlementInstructionRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixSettlementInstructionRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixSettlementInstructionRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixSettlementInstructionRequest(fixSettlementInstructionRequest);
-				}
-			}
-			fixMessagePool.returnFixSettlementInstructionRequest (fixSettlementInstructionRequest);
-			break;
-		case MessageTypes.ASSIGNMENTREPORT_INT:
-			FixAssignmentReport fixAssignmentReport = fixMessagePool.getFixAssignmentReport(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixAssignmentReport, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixAssignmentReport, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixAssignmentReport(fixAssignmentReport);
-				}
-			}
-			fixMessagePool.returnFixAssignmentReport (fixAssignmentReport);
-			break;
-		case MessageTypes.COLLATERALREQUEST_INT:
-			FixCollateralRequest fixCollateralRequest = fixMessagePool.getFixCollateralRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixCollateralRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixCollateralRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixCollateralRequest(fixCollateralRequest);
-				}
-			}
-			fixMessagePool.returnFixCollateralRequest (fixCollateralRequest);
-			break;
-		case MessageTypes.COLLATERALASSIGNMENT_INT:
-			FixCollateralAssignment fixCollateralAssignment = fixMessagePool.getFixCollateralAssignment(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixCollateralAssignment, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixCollateralAssignment, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixCollateralAssignment(fixCollateralAssignment);
-				}
-			}
-			fixMessagePool.returnFixCollateralAssignment (fixCollateralAssignment);
-			break;
-		case MessageTypes.COLLATERALRESPONSE_INT:
-			FixCollateralResponse fixCollateralResponse = fixMessagePool.getFixCollateralResponse(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixCollateralResponse, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixCollateralResponse, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixCollateralResponse(fixCollateralResponse);
-				}
-			}
-			fixMessagePool.returnFixCollateralResponse (fixCollateralResponse);
-			break;
-		case MessageTypes.COLLATERALREPORT_INT:
-			FixCollateralReport fixCollateralReport = fixMessagePool.getFixCollateralReport(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixCollateralReport, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixCollateralReport, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixCollateralReport(fixCollateralReport);
-				}
-			}
-			fixMessagePool.returnFixCollateralReport (fixCollateralReport);
-			break;
-		case MessageTypes.COLLATERALINQUIRY_INT:
-			FixCollateralInquiry fixCollateralInquiry = fixMessagePool.getFixCollateralInquiry(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixCollateralInquiry, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixCollateralInquiry, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixCollateralInquiry(fixCollateralInquiry);
-				}
-			}
-			fixMessagePool.returnFixCollateralInquiry (fixCollateralInquiry);
-			break;
-		case MessageTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSREQUEST_INT:
-			FixNetworkCounterpartySystemStatusRequest fixNetworkCounterpartySystemStatusRequest = fixMessagePool.getFixNetworkCounterpartySystemStatusRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixNetworkCounterpartySystemStatusRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixNetworkCounterpartySystemStatusRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixNetworkCounterpartySystemStatusRequest(fixNetworkCounterpartySystemStatusRequest);
-				}
-			}
-			fixMessagePool.returnFixNetworkCounterpartySystemStatusRequest (fixNetworkCounterpartySystemStatusRequest);
-			break;
-		case MessageTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSRESPONSE_INT:
-			FixNetworkCounterpartySystemStatusResponse fixNetworkCounterpartySystemStatusResponse = fixMessagePool.getFixNetworkCounterpartySystemStatusResponse(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixNetworkCounterpartySystemStatusResponse, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixNetworkCounterpartySystemStatusResponse, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixNetworkCounterpartySystemStatusResponse(fixNetworkCounterpartySystemStatusResponse);
-				}
-			}
-			fixMessagePool.returnFixNetworkCounterpartySystemStatusResponse (fixNetworkCounterpartySystemStatusResponse);
-			break;
-		case MessageTypes.USERREQUEST_INT:
-			FixUserRequest fixUserRequest = fixMessagePool.getFixUserRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixUserRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixUserRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixUserRequest(fixUserRequest);
-				}
-			}
-			fixMessagePool.returnFixUserRequest (fixUserRequest);
-			break;
-		case MessageTypes.USERRESPONSE_INT:
-			FixUserResponse fixUserResponse = fixMessagePool.getFixUserResponse(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixUserResponse, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixUserResponse, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixUserResponse(fixUserResponse);
-				}
-			}
-			fixMessagePool.returnFixUserResponse (fixUserResponse);
-			break;
-		case MessageTypes.COLLATERALINQUIRYACK_INT:
-			FixCollateralInquiryAck fixCollateralInquiryAck = fixMessagePool.getFixCollateralInquiryAck(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixCollateralInquiryAck, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixCollateralInquiryAck, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixCollateralInquiryAck(fixCollateralInquiryAck);
-				}
-			}
-			fixMessagePool.returnFixCollateralInquiryAck (fixCollateralInquiryAck);
-			break;
-		case MessageTypes.CONFIRMATIONREQUEST_INT:
-			FixConfirmationRequest fixConfirmationRequest = fixMessagePool.getFixConfirmationRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixConfirmationRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixConfirmationRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixConfirmationRequest(fixConfirmationRequest);
-				}
-			}
-			fixMessagePool.returnFixConfirmationRequest (fixConfirmationRequest);
-			break;
-		case MessageTypes.CONTRARYINTENTIONREPORT_INT:
-			FixContraryIntentionReport fixContraryIntentionReport = fixMessagePool.getFixContraryIntentionReport(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixContraryIntentionReport, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixContraryIntentionReport, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixContraryIntentionReport(fixContraryIntentionReport);
-				}
-			}
-			fixMessagePool.returnFixContraryIntentionReport (fixContraryIntentionReport);
-			break;
-		case MessageTypes.SECURITYDEFINITIONUPDATEREPORT_INT:
-			FixSecurityDefinitionUpdateReport fixSecurityDefinitionUpdateReport = fixMessagePool.getFixSecurityDefinitionUpdateReport(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixSecurityDefinitionUpdateReport, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixSecurityDefinitionUpdateReport, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixSecurityDefinitionUpdateReport(fixSecurityDefinitionUpdateReport);
-				}
-			}
-			fixMessagePool.returnFixSecurityDefinitionUpdateReport (fixSecurityDefinitionUpdateReport);
-			break;
-		case MessageTypes.SECURITYLISTUPDATEREPORT_INT:
-			FixSecurityListUpdateReport fixSecurityListUpdateReport = fixMessagePool.getFixSecurityListUpdateReport(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixSecurityListUpdateReport, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixSecurityListUpdateReport, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixSecurityListUpdateReport(fixSecurityListUpdateReport);
-				}
-			}
-			fixMessagePool.returnFixSecurityListUpdateReport (fixSecurityListUpdateReport);
-			break;
-		case MessageTypes.ADJUSTEDPOSITIONREPORT_INT:
-			FixAdjustedPositionReport fixAdjustedPositionReport = fixMessagePool.getFixAdjustedPositionReport(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixAdjustedPositionReport, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixAdjustedPositionReport, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixAdjustedPositionReport(fixAdjustedPositionReport);
-				}
-			}
-			fixMessagePool.returnFixAdjustedPositionReport (fixAdjustedPositionReport);
-			break;
-		case MessageTypes.ALLOCATIONINSTRUCTIONALERT_INT:
-			FixAllocationInstructionAlert fixAllocationInstructionAlert = fixMessagePool.getFixAllocationInstructionAlert(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixAllocationInstructionAlert, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixAllocationInstructionAlert, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixAllocationInstructionAlert(fixAllocationInstructionAlert);
-				}
-			}
-			fixMessagePool.returnFixAllocationInstructionAlert (fixAllocationInstructionAlert);
-			break;
-		case MessageTypes.EXECUTIONACKNOWLEDGEMENT_INT:
-			FixExecutionAcknowledgement fixExecutionAcknowledgement = fixMessagePool.getFixExecutionAcknowledgement(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixExecutionAcknowledgement, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixExecutionAcknowledgement, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixExecutionAcknowledgement(fixExecutionAcknowledgement);
-				}
-			}
-			fixMessagePool.returnFixExecutionAcknowledgement (fixExecutionAcknowledgement);
-			break;
-		case MessageTypes.TRADINGSESSIONLIST_INT:
-			FixTradingSessionList fixTradingSessionList = fixMessagePool.getFixTradingSessionList(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixTradingSessionList, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixTradingSessionList, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixTradingSessionList(fixTradingSessionList);
-				}
-			}
-			fixMessagePool.returnFixTradingSessionList (fixTradingSessionList);
-			break;
-		case MessageTypes.TRADINGSESSIONLISTREQUEST_INT:
-			FixTradingSessionListRequest fixTradingSessionListRequest = fixMessagePool.getFixTradingSessionListRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixTradingSessionListRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixTradingSessionListRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixTradingSessionListRequest(fixTradingSessionListRequest);
-				}
-			}
-			fixMessagePool.returnFixTradingSessionListRequest (fixTradingSessionListRequest);
-			break;
-		case MessageTypes.SETTLEMENTOBLIGATIONREPORT_INT:
-			FixSettlementObligationReport fixSettlementObligationReport = fixMessagePool.getFixSettlementObligationReport(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixSettlementObligationReport, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixSettlementObligationReport, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixSettlementObligationReport(fixSettlementObligationReport);
-				}
-			}
-			fixMessagePool.returnFixSettlementObligationReport (fixSettlementObligationReport);
-			break;
-		case MessageTypes.DERIVATIVESECURITYLISTUPDATEREPORT_INT:
-			FixDerivativeSecurityListUpdateReport fixDerivativeSecurityListUpdateReport = fixMessagePool.getFixDerivativeSecurityListUpdateReport(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixDerivativeSecurityListUpdateReport, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixDerivativeSecurityListUpdateReport, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixDerivativeSecurityListUpdateReport(fixDerivativeSecurityListUpdateReport);
-				}
-			}
-			fixMessagePool.returnFixDerivativeSecurityListUpdateReport (fixDerivativeSecurityListUpdateReport);
-			break;
-		case MessageTypes.TRADINGSESSIONLISTUPDATEREPORT_INT:
-			FixTradingSessionListUpdateReport fixTradingSessionListUpdateReport = fixMessagePool.getFixTradingSessionListUpdateReport(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixTradingSessionListUpdateReport, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixTradingSessionListUpdateReport, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixTradingSessionListUpdateReport(fixTradingSessionListUpdateReport);
-				}
-			}
-			fixMessagePool.returnFixTradingSessionListUpdateReport (fixTradingSessionListUpdateReport);
-			break;
-		case MessageTypes.MARKETDEFINITIONREQUEST_INT:
-			FixMarketDefinitionRequest fixMarketDefinitionRequest = fixMessagePool.getFixMarketDefinitionRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixMarketDefinitionRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixMarketDefinitionRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixMarketDefinitionRequest(fixMarketDefinitionRequest);
-				}
-			}
-			fixMessagePool.returnFixMarketDefinitionRequest (fixMarketDefinitionRequest);
-			break;
-		case MessageTypes.MARKETDEFINITION_INT:
-			FixMarketDefinition fixMarketDefinition = fixMessagePool.getFixMarketDefinition(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixMarketDefinition, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixMarketDefinition, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixMarketDefinition(fixMarketDefinition);
-				}
-			}
-			fixMessagePool.returnFixMarketDefinition (fixMarketDefinition);
-			break;
-		case MessageTypes.MARKETDEFINITIONUPDATEREPORT_INT:
-			FixMarketDefinitionUpdateReport fixMarketDefinitionUpdateReport = fixMessagePool.getFixMarketDefinitionUpdateReport(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixMarketDefinitionUpdateReport, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixMarketDefinitionUpdateReport, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixMarketDefinitionUpdateReport(fixMarketDefinitionUpdateReport);
-				}
-			}
-			fixMessagePool.returnFixMarketDefinitionUpdateReport (fixMarketDefinitionUpdateReport);
-			break;
-		case MessageTypes.USERNOTIFICATION_INT:
-			FixUserNotification fixUserNotification = fixMessagePool.getFixUserNotification(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixUserNotification, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixUserNotification, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixUserNotification(fixUserNotification);
-				}
-			}
-			fixMessagePool.returnFixUserNotification (fixUserNotification);
-			break;
-		case MessageTypes.ORDERMASSACTIONREPORT_INT:
-			FixOrderMassActionReport fixOrderMassActionReport = fixMessagePool.getFixOrderMassActionReport(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixOrderMassActionReport, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixOrderMassActionReport, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixOrderMassActionReport(fixOrderMassActionReport);
-				}
-			}
-			fixMessagePool.returnFixOrderMassActionReport (fixOrderMassActionReport);
-			break;
-		case MessageTypes.ORDERMASSACTIONREQUEST_INT:
-			FixOrderMassActionRequest fixOrderMassActionRequest = fixMessagePool.getFixOrderMassActionRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixOrderMassActionRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixOrderMassActionRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixOrderMassActionRequest(fixOrderMassActionRequest);
-				}
-			}
-			fixMessagePool.returnFixOrderMassActionRequest (fixOrderMassActionRequest);
-			break;
-		case MessageTypes.APPLICATIONMESSAGEREQUEST_INT:
-			FixApplicationMessageRequest fixApplicationMessageRequest = fixMessagePool.getFixApplicationMessageRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixApplicationMessageRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixApplicationMessageRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixApplicationMessageRequest(fixApplicationMessageRequest);
-				}
-			}
-			fixMessagePool.returnFixApplicationMessageRequest (fixApplicationMessageRequest);
-			break;
-		case MessageTypes.APPLICATIONMESSAGEREQUESTACK_INT:
-			FixApplicationMessageRequestAck fixApplicationMessageRequestAck = fixMessagePool.getFixApplicationMessageRequestAck(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixApplicationMessageRequestAck, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixApplicationMessageRequestAck, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixApplicationMessageRequestAck(fixApplicationMessageRequestAck);
-				}
-			}
-			fixMessagePool.returnFixApplicationMessageRequestAck (fixApplicationMessageRequestAck);
-			break;
-		case MessageTypes.APPLICATIONMESSAGEREPORT_INT:
-			FixApplicationMessageReport fixApplicationMessageReport = fixMessagePool.getFixApplicationMessageReport(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixApplicationMessageReport, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixApplicationMessageReport, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixApplicationMessageReport(fixApplicationMessageReport);
-				}
-			}
-			fixMessagePool.returnFixApplicationMessageReport (fixApplicationMessageReport);
-			break;
-		case MessageTypes.STREAMASSIGNMENTREQUEST_INT:
-			FixStreamAssignmentRequest fixStreamAssignmentRequest = fixMessagePool.getFixStreamAssignmentRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixStreamAssignmentRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixStreamAssignmentRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixStreamAssignmentRequest(fixStreamAssignmentRequest);
-				}
-			}
-			fixMessagePool.returnFixStreamAssignmentRequest (fixStreamAssignmentRequest);
-			break;
-		case MessageTypes.STREAMASSIGNMENTREPORT_INT:
-			FixStreamAssignmentReport fixStreamAssignmentReport = fixMessagePool.getFixStreamAssignmentReport(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixStreamAssignmentReport, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixStreamAssignmentReport, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixStreamAssignmentReport(fixStreamAssignmentReport);
-				}
-			}
-			fixMessagePool.returnFixStreamAssignmentReport (fixStreamAssignmentReport);
-			break;
-		case MessageTypes.STREAMASSIGNMENTREPORTACK_INT:
-			FixStreamAssignmentReportACK fixStreamAssignmentReportACK = fixMessagePool.getFixStreamAssignmentReportACK(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixStreamAssignmentReportACK, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixStreamAssignmentReportACK, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixStreamAssignmentReportACK(fixStreamAssignmentReportACK);
-				}
-			}
-			fixMessagePool.returnFixStreamAssignmentReportACK (fixStreamAssignmentReportACK);
-			break;
-		case MessageTypes.PARTYDETAILSLISTREQUEST_INT:
-			FixPartyDetailsListRequest fixPartyDetailsListRequest = fixMessagePool.getFixPartyDetailsListRequest(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixPartyDetailsListRequest, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixPartyDetailsListRequest, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixPartyDetailsListRequest(fixPartyDetailsListRequest);
-				}
-			}
-			fixMessagePool.returnFixPartyDetailsListRequest (fixPartyDetailsListRequest);
-			break;
-		case MessageTypes.PARTYDETAILSLISTREPORT_INT:
-			FixPartyDetailsListReport fixPartyDetailsListReport = fixMessagePool.getFixPartyDetailsListReport(buf, err);
-			session = FixUtils.validateStandardHeader(l, connectorID, fixPartyDetailsListReport, err);
-			if (session != null) { 
-				session.incrementInMsgSeqNum(fixPartyDetailsListReport, err);
-				if(err.hasError()) {
-					l.onFixValidationError(err);
-				} else {
-					l.onFixPartyDetailsListReport(fixPartyDetailsListReport);
-				}
-			}
-			fixMessagePool.returnFixPartyDetailsListReport (fixPartyDetailsListReport);
-			break;
-		default:
-		l.onUnknownMessageType( buf, msgType );
-		break;
 
+		} else if (MessageTypes.LOGON_INT == msgTypeInt) { // RAW
+			err.setError(FixEvent.DISCONNECT, "DISCONNECT");
+		} else { // RAW
+			l.onFixValidationError(err);
+		}
 	}
-	}
+
 }

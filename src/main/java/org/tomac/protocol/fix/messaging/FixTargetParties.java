@@ -55,22 +55,22 @@ public class FixTargetParties extends FixGroup {
             switch (tag) {		
             	case FixTags.TARGETPARTYID_INT:		
             		hasTargetPartyID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TARGETPARTYIDSOURCE_INT:		
             		hasTargetPartyIDSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TARGETPARTYROLE_INT:		
             		hasTargetPartyRole = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -157,7 +157,7 @@ public class FixTargetParties extends FixGroup {
 		
 				buf.position(hasTargetPartyID);		
 		
-			FixMessage.getTagStringValue(buf, targetPartyID, 0, targetPartyID.length, err);
+			FixUtils.getTagStringValue(buf, targetPartyID, 0, targetPartyID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTargetPartyID);		
@@ -196,7 +196,7 @@ public class FixTargetParties extends FixGroup {
 		
 				buf.position(hasTargetPartyIDSource);		
 		
-			targetPartyIDSource = FixMessage.getTagCharValue(buf, err);
+			targetPartyIDSource = FixUtils.getTagCharValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTargetPartyIDSource);		
@@ -240,7 +240,7 @@ public class FixTargetParties extends FixGroup {
 		
 				buf.position(hasTargetPartyRole);		
 		
-			targetPartyRole = FixMessage.getTagIntValue(buf, err);
+			targetPartyRole = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTargetPartyRole);		

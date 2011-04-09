@@ -58,23 +58,23 @@ public class FixNestedParties2 extends FixGroup {
             switch (tag) {		
             	case FixTags.NESTED2PARTYID_INT:		
             		hasNested2PartyID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.NESTED2PARTYIDSOURCE_INT:		
             		hasNested2PartyIDSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.NESTED2PARTYROLE_INT:		
             		hasNested2PartyRole = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( tag == FixTags.NONESTED2PARTYSUBIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -92,7 +92,7 @@ public class FixNestedParties2 extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -192,7 +192,7 @@ public class FixNestedParties2 extends FixGroup {
 		
 				buf.position(hasNested2PartyID);		
 		
-			FixMessage.getTagStringValue(buf, nested2PartyID, 0, nested2PartyID.length, err);
+			FixUtils.getTagStringValue(buf, nested2PartyID, 0, nested2PartyID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasNested2PartyID);		
@@ -231,7 +231,7 @@ public class FixNestedParties2 extends FixGroup {
 		
 				buf.position(hasNested2PartyIDSource);		
 		
-			nested2PartyIDSource = FixMessage.getTagCharValue(buf, err);
+			nested2PartyIDSource = FixUtils.getTagCharValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasNested2PartyIDSource);		
@@ -275,7 +275,7 @@ public class FixNestedParties2 extends FixGroup {
 		
 				buf.position(hasNested2PartyRole);		
 		
-			nested2PartyRole = FixMessage.getTagIntValue(buf, err);
+			nested2PartyRole = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasNested2PartyRole);		

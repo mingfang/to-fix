@@ -62,27 +62,27 @@ public class FixSettlInstructionsData extends FixGroup {
             switch (tag) {		
             	case FixTags.SETTLDELIVERYTYPE_INT:		
             		hasSettlDeliveryType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.STANDINSTDBTYPE_INT:		
             		hasStandInstDbType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.STANDINSTDBNAME_INT:		
             		hasStandInstDbName = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.STANDINSTDBID_INT:		
             		hasStandInstDbID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( tag == FixTags.NODLVYINST_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -100,7 +100,7 @@ public class FixSettlInstructionsData extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -218,7 +218,7 @@ public class FixSettlInstructionsData extends FixGroup {
 		
 				buf.position(hasSettlDeliveryType);		
 		
-			settlDeliveryType = FixMessage.getTagIntValue(buf, err);
+			settlDeliveryType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSettlDeliveryType);		
@@ -262,7 +262,7 @@ public class FixSettlInstructionsData extends FixGroup {
 		
 				buf.position(hasStandInstDbType);		
 		
-			standInstDbType = FixMessage.getTagIntValue(buf, err);
+			standInstDbType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasStandInstDbType);		
@@ -306,7 +306,7 @@ public class FixSettlInstructionsData extends FixGroup {
 		
 				buf.position(hasStandInstDbName);		
 		
-			FixMessage.getTagStringValue(buf, standInstDbName, 0, standInstDbName.length, err);
+			FixUtils.getTagStringValue(buf, standInstDbName, 0, standInstDbName.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasStandInstDbName);		
@@ -345,7 +345,7 @@ public class FixSettlInstructionsData extends FixGroup {
 		
 				buf.position(hasStandInstDbID);		
 		
-			FixMessage.getTagStringValue(buf, standInstDbID, 0, standInstDbID.length, err);
+			FixUtils.getTagStringValue(buf, standInstDbID, 0, standInstDbID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasStandInstDbID);		

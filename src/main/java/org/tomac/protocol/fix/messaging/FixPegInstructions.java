@@ -82,54 +82,54 @@ public class FixPegInstructions extends FixGroup {
             switch (tag) {		
             	case FixTags.PEGOFFSETVALUE_INT:		
             		hasPegOffsetValue = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.PEGPRICETYPE_INT:		
             		hasPegPriceType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.PEGMOVETYPE_INT:		
             		hasPegMoveType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.PEGOFFSETTYPE_INT:		
             		hasPegOffsetType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.PEGLIMITTYPE_INT:		
             		hasPegLimitType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.PEGROUNDDIRECTION_INT:		
             		hasPegRoundDirection = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.PEGSCOPE_INT:		
             		hasPegScope = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.PEGSECURITYIDSOURCE_INT:		
             		hasPegSecurityIDSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.PEGSECURITYID_INT:		
             		hasPegSecurityID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.PEGSYMBOL_INT:		
             		hasPegSymbol = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.PEGSECURITYDESC_INT:		
             		hasPegSecurityDesc = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -360,7 +360,7 @@ public class FixPegInstructions extends FixGroup {
 		
 				buf.position(hasPegOffsetValue);		
 		
-			pegOffsetValue = FixMessage.getTagFloatValue(buf, err);
+			pegOffsetValue = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasPegOffsetValue);		
@@ -404,7 +404,7 @@ public class FixPegInstructions extends FixGroup {
 		
 				buf.position(hasPegPriceType);		
 		
-			pegPriceType = FixMessage.getTagIntValue(buf, err);
+			pegPriceType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasPegPriceType);		
@@ -448,7 +448,7 @@ public class FixPegInstructions extends FixGroup {
 		
 				buf.position(hasPegMoveType);		
 		
-			pegMoveType = FixMessage.getTagIntValue(buf, err);
+			pegMoveType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasPegMoveType);		
@@ -492,7 +492,7 @@ public class FixPegInstructions extends FixGroup {
 		
 				buf.position(hasPegOffsetType);		
 		
-			pegOffsetType = FixMessage.getTagIntValue(buf, err);
+			pegOffsetType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasPegOffsetType);		
@@ -536,7 +536,7 @@ public class FixPegInstructions extends FixGroup {
 		
 				buf.position(hasPegLimitType);		
 		
-			pegLimitType = FixMessage.getTagIntValue(buf, err);
+			pegLimitType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasPegLimitType);		
@@ -580,7 +580,7 @@ public class FixPegInstructions extends FixGroup {
 		
 				buf.position(hasPegRoundDirection);		
 		
-			pegRoundDirection = FixMessage.getTagIntValue(buf, err);
+			pegRoundDirection = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasPegRoundDirection);		
@@ -624,7 +624,7 @@ public class FixPegInstructions extends FixGroup {
 		
 				buf.position(hasPegScope);		
 		
-			pegScope = FixMessage.getTagIntValue(buf, err);
+			pegScope = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasPegScope);		
@@ -668,7 +668,7 @@ public class FixPegInstructions extends FixGroup {
 		
 				buf.position(hasPegSecurityIDSource);		
 		
-			FixMessage.getTagStringValue(buf, pegSecurityIDSource, 0, pegSecurityIDSource.length, err);
+			FixUtils.getTagStringValue(buf, pegSecurityIDSource, 0, pegSecurityIDSource.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasPegSecurityIDSource);		
@@ -707,7 +707,7 @@ public class FixPegInstructions extends FixGroup {
 		
 				buf.position(hasPegSecurityID);		
 		
-			FixMessage.getTagStringValue(buf, pegSecurityID, 0, pegSecurityID.length, err);
+			FixUtils.getTagStringValue(buf, pegSecurityID, 0, pegSecurityID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasPegSecurityID);		
@@ -746,7 +746,7 @@ public class FixPegInstructions extends FixGroup {
 		
 				buf.position(hasPegSymbol);		
 		
-			FixMessage.getTagStringValue(buf, pegSymbol, 0, pegSymbol.length, err);
+			FixUtils.getTagStringValue(buf, pegSymbol, 0, pegSymbol.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasPegSymbol);		
@@ -785,7 +785,7 @@ public class FixPegInstructions extends FixGroup {
 		
 				buf.position(hasPegSecurityDesc);		
 		
-			FixMessage.getTagStringValue(buf, pegSecurityDesc, 0, pegSecurityDesc.length, err);
+			FixUtils.getTagStringValue(buf, pegSecurityDesc, 0, pegSecurityDesc.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasPegSecurityDesc);		

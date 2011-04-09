@@ -53,18 +53,18 @@ public class FixDerivativeSecurityAltIDGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.DERIVATIVESECURITYALTID_INT:		
             		hasDerivativeSecurityAltID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DERIVATIVESECURITYALTIDSOURCE_INT:		
             		hasDerivativeSecurityAltIDSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -133,7 +133,7 @@ public class FixDerivativeSecurityAltIDGrp extends FixGroup {
 		
 				buf.position(hasDerivativeSecurityAltID);		
 		
-			FixMessage.getTagStringValue(buf, derivativeSecurityAltID, 0, derivativeSecurityAltID.length, err);
+			FixUtils.getTagStringValue(buf, derivativeSecurityAltID, 0, derivativeSecurityAltID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeSecurityAltID);		
@@ -172,7 +172,7 @@ public class FixDerivativeSecurityAltIDGrp extends FixGroup {
 		
 				buf.position(hasDerivativeSecurityAltIDSource);		
 		
-			FixMessage.getTagStringValue(buf, derivativeSecurityAltIDSource, 0, derivativeSecurityAltIDSource.length, err);
+			FixUtils.getTagStringValue(buf, derivativeSecurityAltIDSource, 0, derivativeSecurityAltIDSource.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDerivativeSecurityAltIDSource);		

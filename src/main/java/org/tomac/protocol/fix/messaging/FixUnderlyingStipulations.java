@@ -53,18 +53,18 @@ public class FixUnderlyingStipulations extends FixGroup {
             switch (tag) {		
             	case FixTags.UNDERLYINGSTIPTYPE_INT:		
             		hasUnderlyingStipType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.UNDERLYINGSTIPVALUE_INT:		
             		hasUnderlyingStipValue = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -133,7 +133,7 @@ public class FixUnderlyingStipulations extends FixGroup {
 		
 				buf.position(hasUnderlyingStipType);		
 		
-			FixMessage.getTagStringValue(buf, underlyingStipType, 0, underlyingStipType.length, err);
+			FixUtils.getTagStringValue(buf, underlyingStipType, 0, underlyingStipType.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingStipType);		
@@ -172,7 +172,7 @@ public class FixUnderlyingStipulations extends FixGroup {
 		
 				buf.position(hasUnderlyingStipValue);		
 		
-			FixMessage.getTagStringValue(buf, underlyingStipValue, 0, underlyingStipValue.length, err);
+			FixUtils.getTagStringValue(buf, underlyingStipValue, 0, underlyingStipValue.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasUnderlyingStipValue);		

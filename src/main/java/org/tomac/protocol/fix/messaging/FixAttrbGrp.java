@@ -52,18 +52,18 @@ public class FixAttrbGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.INSTRATTRIBTYPE_INT:		
             		hasInstrAttribType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.INSTRATTRIBVALUE_INT:		
             		hasInstrAttribValue = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -132,7 +132,7 @@ public class FixAttrbGrp extends FixGroup {
 		
 				buf.position(hasInstrAttribType);		
 		
-			instrAttribType = FixMessage.getTagIntValue(buf, err);
+			instrAttribType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasInstrAttribType);		
@@ -176,7 +176,7 @@ public class FixAttrbGrp extends FixGroup {
 		
 				buf.position(hasInstrAttribValue);		
 		
-			FixMessage.getTagStringValue(buf, instrAttribValue, 0, instrAttribValue.length, err);
+			FixUtils.getTagStringValue(buf, instrAttribValue, 0, instrAttribValue.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasInstrAttribValue);		

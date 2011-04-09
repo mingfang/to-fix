@@ -56,22 +56,22 @@ public class FixStrandardTrailer extends FixGroup {
             switch (tag) {		
             	case FixTags.SIGNATURELENGTH_INT:		
             		hasSignatureLength = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SIGNATURE_INT:		
             		hasSignature = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.CHECKSUM_INT:		
             		hasCheckSum = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -162,7 +162,7 @@ public class FixStrandardTrailer extends FixGroup {
 		
 				buf.position(hasSignatureLength);		
 		
-			signatureLength = FixMessage.getTagIntValue(buf, err);
+			signatureLength = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSignatureLength);		
@@ -206,7 +206,7 @@ public class FixStrandardTrailer extends FixGroup {
 		
 				buf.position(hasSignature);		
 		
-			FixMessage.getTagStringValue(buf, signature, 0, signature.length, err);
+			FixUtils.getTagStringValue(buf, signature, 0, signature.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSignature);		
@@ -245,7 +245,7 @@ public class FixStrandardTrailer extends FixGroup {
 		
 				buf.position(hasCheckSum);		
 		
-			FixMessage.getTagStringValue(buf, checkSum, 0, checkSum.length, err);
+			FixUtils.getTagStringValue(buf, checkSum, 0, checkSum.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasCheckSum);		

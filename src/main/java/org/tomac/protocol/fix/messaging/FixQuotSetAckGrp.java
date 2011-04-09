@@ -73,31 +73,31 @@ public class FixQuotSetAckGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.QUOTESETID_INT:		
             		hasQuoteSetID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.QUOTESETVALIDUNTILTIME_INT:		
             		hasQuoteSetValidUntilTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TOTNOQUOTEENTRIES_INT:		
             		hasTotNoQuoteEntries = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TOTNOCXLDQUOTES_INT:		
             		hasTotNoCxldQuotes = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TOTNOACCQUOTES_INT:		
             		hasTotNoAccQuotes = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TOTNOREJQUOTES_INT:		
             		hasTotNoRejQuotes = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.LASTFRAGMENT_INT:		
             		hasLastFragment = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( underlyingInstrument.isKeyTag(tag)) {
@@ -106,10 +106,10 @@ public class FixQuotSetAckGrp extends FixGroup {
                 		else continue;		
         			} else if ( tag == FixTags.NOQUOTEENTRIES_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -127,7 +127,7 @@ public class FixQuotSetAckGrp extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -302,7 +302,7 @@ public class FixQuotSetAckGrp extends FixGroup {
 		
 				buf.position(hasQuoteSetID);		
 		
-			FixMessage.getTagStringValue(buf, quoteSetID, 0, quoteSetID.length, err);
+			FixUtils.getTagStringValue(buf, quoteSetID, 0, quoteSetID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasQuoteSetID);		
@@ -341,7 +341,7 @@ public class FixQuotSetAckGrp extends FixGroup {
 		
 				buf.position(hasQuoteSetValidUntilTime);		
 		
-			FixMessage.getTagStringValue(buf, quoteSetValidUntilTime, 0, quoteSetValidUntilTime.length, err);
+			FixUtils.getTagStringValue(buf, quoteSetValidUntilTime, 0, quoteSetValidUntilTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasQuoteSetValidUntilTime);		
@@ -380,7 +380,7 @@ public class FixQuotSetAckGrp extends FixGroup {
 		
 				buf.position(hasTotNoQuoteEntries);		
 		
-			totNoQuoteEntries = FixMessage.getTagIntValue(buf, err);
+			totNoQuoteEntries = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTotNoQuoteEntries);		
@@ -424,7 +424,7 @@ public class FixQuotSetAckGrp extends FixGroup {
 		
 				buf.position(hasTotNoCxldQuotes);		
 		
-			totNoCxldQuotes = FixMessage.getTagIntValue(buf, err);
+			totNoCxldQuotes = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTotNoCxldQuotes);		
@@ -468,7 +468,7 @@ public class FixQuotSetAckGrp extends FixGroup {
 		
 				buf.position(hasTotNoAccQuotes);		
 		
-			totNoAccQuotes = FixMessage.getTagIntValue(buf, err);
+			totNoAccQuotes = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTotNoAccQuotes);		
@@ -512,7 +512,7 @@ public class FixQuotSetAckGrp extends FixGroup {
 		
 				buf.position(hasTotNoRejQuotes);		
 		
-			totNoRejQuotes = FixMessage.getTagIntValue(buf, err);
+			totNoRejQuotes = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTotNoRejQuotes);		
@@ -556,7 +556,7 @@ public class FixQuotSetAckGrp extends FixGroup {
 		
 				buf.position(hasLastFragment);		
 		
-			lastFragment = FixMessage.getTagCharValue(buf, err)=='Y'?true:false;
+			lastFragment = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;
 		
 				if (err.hasError()) {		
 					buf.position(hasLastFragment);		

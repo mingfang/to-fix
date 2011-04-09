@@ -52,18 +52,18 @@ public class FixRootSubParties extends FixGroup {
             switch (tag) {		
             	case FixTags.ROOTPARTYSUBID_INT:		
             		hasRootPartySubID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ROOTPARTYSUBIDTYPE_INT:		
             		hasRootPartySubIDType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -132,7 +132,7 @@ public class FixRootSubParties extends FixGroup {
 		
 				buf.position(hasRootPartySubID);		
 		
-			FixMessage.getTagStringValue(buf, rootPartySubID, 0, rootPartySubID.length, err);
+			FixUtils.getTagStringValue(buf, rootPartySubID, 0, rootPartySubID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRootPartySubID);		
@@ -171,7 +171,7 @@ public class FixRootSubParties extends FixGroup {
 		
 				buf.position(hasRootPartySubIDType);		
 		
-			rootPartySubIDType = FixMessage.getTagIntValue(buf, err);
+			rootPartySubIDType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRootPartySubIDType);		

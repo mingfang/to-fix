@@ -58,23 +58,23 @@ public class FixSettlParties extends FixGroup {
             switch (tag) {		
             	case FixTags.SETTLPARTYID_INT:		
             		hasSettlPartyID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SETTLPARTYIDSOURCE_INT:		
             		hasSettlPartyIDSource = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SETTLPARTYROLE_INT:		
             		hasSettlPartyRole = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
         			if ( tag == FixTags.NOSETTLPARTYSUBIDS_INT ) {
         				int count = 0;
-        				int noInGroupNumber = FixMessage.getTagIntValue(buf, err);
+        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);
         				if (err.hasError()) break;
 
-        				int repeatingGroupTag = FixMessage.getTag(buf, err);
+        				int repeatingGroupTag = FixUtils.getTag(buf, err);
         				if (err.hasError()) break;
         				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "no in group count exceeding max", tag);
         							return repeatingGroupTag; }
@@ -92,7 +92,7 @@ public class FixSettlParties extends FixGroup {
             		} else { return tag; }
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -192,7 +192,7 @@ public class FixSettlParties extends FixGroup {
 		
 				buf.position(hasSettlPartyID);		
 		
-			FixMessage.getTagStringValue(buf, settlPartyID, 0, settlPartyID.length, err);
+			FixUtils.getTagStringValue(buf, settlPartyID, 0, settlPartyID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSettlPartyID);		
@@ -231,7 +231,7 @@ public class FixSettlParties extends FixGroup {
 		
 				buf.position(hasSettlPartyIDSource);		
 		
-			settlPartyIDSource = FixMessage.getTagCharValue(buf, err);
+			settlPartyIDSource = FixUtils.getTagCharValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSettlPartyIDSource);		
@@ -275,7 +275,7 @@ public class FixSettlParties extends FixGroup {
 		
 				buf.position(hasSettlPartyRole);		
 		
-			settlPartyRole = FixMessage.getTagIntValue(buf, err);
+			settlPartyRole = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSettlPartyRole);		

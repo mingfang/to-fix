@@ -57,26 +57,26 @@ public class FixTickRules extends FixGroup {
             switch (tag) {		
             	case FixTags.STARTTICKPRICERANGE_INT:		
             		hasStartTickPriceRange = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.ENDTICKPRICERANGE_INT:		
             		hasEndTickPriceRange = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TICKINCREMENT_INT:		
             		hasTickIncrement = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.TICKRULETYPE_INT:		
             		hasTickRuleType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -181,7 +181,7 @@ public class FixTickRules extends FixGroup {
 		
 				buf.position(hasStartTickPriceRange);		
 		
-			startTickPriceRange = FixMessage.getTagFloatValue(buf, err);
+			startTickPriceRange = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasStartTickPriceRange);		
@@ -225,7 +225,7 @@ public class FixTickRules extends FixGroup {
 		
 				buf.position(hasEndTickPriceRange);		
 		
-			endTickPriceRange = FixMessage.getTagFloatValue(buf, err);
+			endTickPriceRange = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasEndTickPriceRange);		
@@ -269,7 +269,7 @@ public class FixTickRules extends FixGroup {
 		
 				buf.position(hasTickIncrement);		
 		
-			tickIncrement = FixMessage.getTagFloatValue(buf, err);
+			tickIncrement = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTickIncrement);		
@@ -313,7 +313,7 @@ public class FixTickRules extends FixGroup {
 		
 				buf.position(hasTickRuleType);		
 		
-			tickRuleType = FixMessage.getTagIntValue(buf, err);
+			tickRuleType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasTickRuleType);		

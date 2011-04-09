@@ -64,30 +64,30 @@ public class FixContraGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.CONTRABROKER_INT:		
             		hasContraBroker = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.CONTRATRADER_INT:		
             		hasContraTrader = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.CONTRATRADEQTY_INT:		
             		hasContraTradeQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.CONTRATRADETIME_INT:		
             		hasContraTradeTime = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.CONTRALEGREFID_INT:		
             		hasContraLegRefID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -210,7 +210,7 @@ public class FixContraGrp extends FixGroup {
 		
 				buf.position(hasContraBroker);		
 		
-			FixMessage.getTagStringValue(buf, contraBroker, 0, contraBroker.length, err);
+			FixUtils.getTagStringValue(buf, contraBroker, 0, contraBroker.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasContraBroker);		
@@ -249,7 +249,7 @@ public class FixContraGrp extends FixGroup {
 		
 				buf.position(hasContraTrader);		
 		
-			FixMessage.getTagStringValue(buf, contraTrader, 0, contraTrader.length, err);
+			FixUtils.getTagStringValue(buf, contraTrader, 0, contraTrader.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasContraTrader);		
@@ -288,7 +288,7 @@ public class FixContraGrp extends FixGroup {
 		
 				buf.position(hasContraTradeQty);		
 		
-			contraTradeQty = FixMessage.getTagFloatValue(buf, err);
+			contraTradeQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasContraTradeQty);		
@@ -332,7 +332,7 @@ public class FixContraGrp extends FixGroup {
 		
 				buf.position(hasContraTradeTime);		
 		
-			FixMessage.getTagStringValue(buf, contraTradeTime, 0, contraTradeTime.length, err);
+			FixUtils.getTagStringValue(buf, contraTradeTime, 0, contraTradeTime.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasContraTradeTime);		
@@ -371,7 +371,7 @@ public class FixContraGrp extends FixGroup {
 		
 				buf.position(hasContraLegRefID);		
 		
-			FixMessage.getTagStringValue(buf, contraLegRefID, 0, contraLegRefID.length, err);
+			FixUtils.getTagStringValue(buf, contraLegRefID, 0, contraLegRefID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasContraLegRefID);		

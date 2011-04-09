@@ -52,18 +52,18 @@ public class FixPtysSubGrp extends FixGroup {
             switch (tag) {		
             	case FixTags.PARTYSUBID_INT:		
             		hasPartySubID = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.PARTYSUBIDTYPE_INT:		
             		hasPartySubIDType = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -132,7 +132,7 @@ public class FixPtysSubGrp extends FixGroup {
 		
 				buf.position(hasPartySubID);		
 		
-			FixMessage.getTagStringValue(buf, partySubID, 0, partySubID.length, err);
+			FixUtils.getTagStringValue(buf, partySubID, 0, partySubID.length, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasPartySubID);		
@@ -171,7 +171,7 @@ public class FixPtysSubGrp extends FixGroup {
 		
 				buf.position(hasPartySubIDType);		
 		
-			partySubIDType = FixMessage.getTagIntValue(buf, err);
+			partySubIDType = FixUtils.getTagIntValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasPartySubIDType);		

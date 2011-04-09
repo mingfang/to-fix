@@ -69,42 +69,42 @@ public class FixDisplayInstruction extends FixGroup {
             switch (tag) {		
             	case FixTags.DISPLAYQTY_INT:		
             		hasDisplayQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.SECONDARYDISPLAYQTY_INT:		
             		hasSecondaryDisplayQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DISPLAYWHEN_INT:		
             		hasDisplayWhen = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DISPLAYMETHOD_INT:		
             		hasDisplayMethod = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DISPLAYLOWQTY_INT:		
             		hasDisplayLowQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DISPLAYHIGHQTY_INT:		
             		hasDisplayHighQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.DISPLAYMININCR_INT:		
             		hasDisplayMinIncr = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	case FixTags.REFRESHQTY_INT:		
             		hasRefreshQty = (short) buf.position();		
-            		FixMessage.getNext(buf, err);		
+            		FixUtils.getNext(buf, err);		
                 	break; 		
             	default:
             		return tag;
 
             }
 
-            tag = FixMessage.getTag(buf, err);
+            tag = FixUtils.getTag(buf, err);
             if (err.hasError()) return tag; // what to do now? 
             if (isKeyTag(tag)) return tag; // next in repeating group
         }		
@@ -281,7 +281,7 @@ public class FixDisplayInstruction extends FixGroup {
 		
 				buf.position(hasDisplayQty);		
 		
-			displayQty = FixMessage.getTagFloatValue(buf, err);
+			displayQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDisplayQty);		
@@ -325,7 +325,7 @@ public class FixDisplayInstruction extends FixGroup {
 		
 				buf.position(hasSecondaryDisplayQty);		
 		
-			secondaryDisplayQty = FixMessage.getTagFloatValue(buf, err);
+			secondaryDisplayQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasSecondaryDisplayQty);		
@@ -369,7 +369,7 @@ public class FixDisplayInstruction extends FixGroup {
 		
 				buf.position(hasDisplayWhen);		
 		
-			displayWhen = FixMessage.getTagCharValue(buf, err);
+			displayWhen = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (displayWhen != (byte)'2') && (displayWhen != (byte)'1') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 1083);		
@@ -415,7 +415,7 @@ public class FixDisplayInstruction extends FixGroup {
 		
 				buf.position(hasDisplayMethod);		
 		
-			displayMethod = FixMessage.getTagCharValue(buf, err);
+			displayMethod = FixUtils.getTagCharValue(buf, err);
 			if( !err.hasError() && (displayMethod != (byte)'3') && (displayMethod != (byte)'2') && (displayMethod != (byte)'1') && (displayMethod != (byte)'4') && true)
 				err.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
 					"Tag msgType missing got " + 1084);		
@@ -461,7 +461,7 @@ public class FixDisplayInstruction extends FixGroup {
 		
 				buf.position(hasDisplayLowQty);		
 		
-			displayLowQty = FixMessage.getTagFloatValue(buf, err);
+			displayLowQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDisplayLowQty);		
@@ -505,7 +505,7 @@ public class FixDisplayInstruction extends FixGroup {
 		
 				buf.position(hasDisplayHighQty);		
 		
-			displayHighQty = FixMessage.getTagFloatValue(buf, err);
+			displayHighQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDisplayHighQty);		
@@ -549,7 +549,7 @@ public class FixDisplayInstruction extends FixGroup {
 		
 				buf.position(hasDisplayMinIncr);		
 		
-			displayMinIncr = FixMessage.getTagFloatValue(buf, err);
+			displayMinIncr = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasDisplayMinIncr);		
@@ -593,7 +593,7 @@ public class FixDisplayInstruction extends FixGroup {
 		
 				buf.position(hasRefreshQty);		
 		
-			refreshQty = FixMessage.getTagFloatValue(buf, err);
+			refreshQty = FixUtils.getTagFloatValue(buf, err);
 		
 				if (err.hasError()) {		
 					buf.position(hasRefreshQty);		
