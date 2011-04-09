@@ -59,6 +59,7 @@ public class FixMessageParser implements FixMessageInfo
 					if(err.hasError()) {
 						l.onFixValidationError(err);
 					} else {
+						logon.sessionID = session.getSessionID();
 						l.onFixLogon(logon);
 					}
 					fixMessagePool.returnFixLogon (logon);
@@ -76,8 +77,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.HEARTBEAT_INT:
 					FixHeartbeat fixHeartbeat = fixMessagePool.getFixHeartbeat(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.HEARTBEAT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixHeartbeat.sessionID = session.getSessionID();
 						l.onFixHeartbeat(fixHeartbeat);
 					}
 					fixMessagePool.returnFixHeartbeat (fixHeartbeat);
@@ -85,8 +88,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.TESTREQUEST_INT:
 					FixTestRequest fixTestRequest = fixMessagePool.getFixTestRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.TESTREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixTestRequest.sessionID = session.getSessionID();
 						l.onFixTestRequest(fixTestRequest);
 					}
 					fixMessagePool.returnFixTestRequest (fixTestRequest);
@@ -94,8 +99,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.RESENDREQUEST_INT:
 					FixResendRequest fixResendRequest = fixMessagePool.getFixResendRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.RESENDREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixResendRequest.sessionID = session.getSessionID();
 						l.onFixResendRequest(fixResendRequest);
 					}
 					fixMessagePool.returnFixResendRequest (fixResendRequest);
@@ -103,17 +110,27 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.REJECT_INT:
 					FixReject fixReject = fixMessagePool.getFixReject(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.REJECT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixReject.sessionID = session.getSessionID();
 						l.onFixReject(fixReject);
 					}
 					fixMessagePool.returnFixReject (fixReject);
 					break;
 				case MessageTypes.SEQUENCERESET_INT:
 					FixSequenceReset fixSequenceReset = fixMessagePool.getFixSequenceReset(buf, err);
+				if (!err.hasError() && standardHeader.getMsgSeqNum() < session.getInMsgSeqNum() - 1 ) { // we have incremented already to next
+					if (fixSequenceReset.hasGapFillFlag() && fixSequenceReset.getGapFillFlag()) { 
+						err.setError(FixEvent.MSGSEQNUM_LOGOUT, "MsgSeqNum too low, expecting " + (session.getInMsgSeqNum() + 1) + " but received "
+							+ standardHeader.getMsgSeqNum(), FixTags.MSGSEQNUM_INT, msgTypeInt);
+					}
+				}
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.SEQUENCERESET_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixSequenceReset.sessionID = session.getSessionID();
 						l.onFixSequenceReset(fixSequenceReset);
 					}
 					fixMessagePool.returnFixSequenceReset (fixSequenceReset);
@@ -121,8 +138,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.LOGOUT_INT:
 					FixLogout fixLogout = fixMessagePool.getFixLogout(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.LOGOUT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixLogout.sessionID = session.getSessionID();
 						l.onFixLogout(fixLogout);
 					}
 					fixMessagePool.returnFixLogout (fixLogout);
@@ -130,8 +149,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.IOI_INT:
 					FixIOI fixIOI = fixMessagePool.getFixIOI(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.IOI_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixIOI.sessionID = session.getSessionID();
 						l.onFixIOI(fixIOI);
 					}
 					fixMessagePool.returnFixIOI (fixIOI);
@@ -139,8 +160,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.ADVERTISEMENT_INT:
 					FixAdvertisement fixAdvertisement = fixMessagePool.getFixAdvertisement(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.ADVERTISEMENT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixAdvertisement.sessionID = session.getSessionID();
 						l.onFixAdvertisement(fixAdvertisement);
 					}
 					fixMessagePool.returnFixAdvertisement (fixAdvertisement);
@@ -148,8 +171,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.EXECUTIONREPORT_INT:
 					FixExecutionReport fixExecutionReport = fixMessagePool.getFixExecutionReport(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.EXECUTIONREPORT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixExecutionReport.sessionID = session.getSessionID();
 						l.onFixExecutionReport(fixExecutionReport);
 					}
 					fixMessagePool.returnFixExecutionReport (fixExecutionReport);
@@ -157,8 +182,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.ORDERCANCELREJECT_INT:
 					FixOrderCancelReject fixOrderCancelReject = fixMessagePool.getFixOrderCancelReject(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.ORDERCANCELREJECT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixOrderCancelReject.sessionID = session.getSessionID();
 						l.onFixOrderCancelReject(fixOrderCancelReject);
 					}
 					fixMessagePool.returnFixOrderCancelReject (fixOrderCancelReject);
@@ -166,8 +193,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.LOGON_INT:
 					FixLogon fixLogon = fixMessagePool.getFixLogon(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.LOGON_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixLogon.sessionID = session.getSessionID();
 						l.onFixLogon(fixLogon);
 					}
 					fixMessagePool.returnFixLogon (fixLogon);
@@ -175,8 +204,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.NEWS_INT:
 					FixNews fixNews = fixMessagePool.getFixNews(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.NEWS_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixNews.sessionID = session.getSessionID();
 						l.onFixNews(fixNews);
 					}
 					fixMessagePool.returnFixNews (fixNews);
@@ -184,8 +215,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.EMAIL_INT:
 					FixEmail fixEmail = fixMessagePool.getFixEmail(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.EMAIL_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixEmail.sessionID = session.getSessionID();
 						l.onFixEmail(fixEmail);
 					}
 					fixMessagePool.returnFixEmail (fixEmail);
@@ -193,8 +226,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.NEWORDERSINGLE_INT:
 					FixNewOrderSingle fixNewOrderSingle = fixMessagePool.getFixNewOrderSingle(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.NEWORDERSINGLE_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixNewOrderSingle.sessionID = session.getSessionID();
 						l.onFixNewOrderSingle(fixNewOrderSingle);
 					}
 					fixMessagePool.returnFixNewOrderSingle (fixNewOrderSingle);
@@ -202,8 +237,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.NEWORDERLIST_INT:
 					FixNewOrderList fixNewOrderList = fixMessagePool.getFixNewOrderList(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.NEWORDERLIST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixNewOrderList.sessionID = session.getSessionID();
 						l.onFixNewOrderList(fixNewOrderList);
 					}
 					fixMessagePool.returnFixNewOrderList (fixNewOrderList);
@@ -211,8 +248,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.ORDERCANCELREQUEST_INT:
 					FixOrderCancelRequest fixOrderCancelRequest = fixMessagePool.getFixOrderCancelRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.ORDERCANCELREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixOrderCancelRequest.sessionID = session.getSessionID();
 						l.onFixOrderCancelRequest(fixOrderCancelRequest);
 					}
 					fixMessagePool.returnFixOrderCancelRequest (fixOrderCancelRequest);
@@ -220,8 +259,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.ORDERCANCELREPLACEREQUEST_INT:
 					FixOrderCancelReplaceRequest fixOrderCancelReplaceRequest = fixMessagePool.getFixOrderCancelReplaceRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.ORDERCANCELREPLACEREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixOrderCancelReplaceRequest.sessionID = session.getSessionID();
 						l.onFixOrderCancelReplaceRequest(fixOrderCancelReplaceRequest);
 					}
 					fixMessagePool.returnFixOrderCancelReplaceRequest (fixOrderCancelReplaceRequest);
@@ -229,8 +270,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.ORDERSTATUSREQUEST_INT:
 					FixOrderStatusRequest fixOrderStatusRequest = fixMessagePool.getFixOrderStatusRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.ORDERSTATUSREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixOrderStatusRequest.sessionID = session.getSessionID();
 						l.onFixOrderStatusRequest(fixOrderStatusRequest);
 					}
 					fixMessagePool.returnFixOrderStatusRequest (fixOrderStatusRequest);
@@ -238,8 +281,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.ALLOCATIONINSTRUCTION_INT:
 					FixAllocationInstruction fixAllocationInstruction = fixMessagePool.getFixAllocationInstruction(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.ALLOCATIONINSTRUCTION_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixAllocationInstruction.sessionID = session.getSessionID();
 						l.onFixAllocationInstruction(fixAllocationInstruction);
 					}
 					fixMessagePool.returnFixAllocationInstruction (fixAllocationInstruction);
@@ -247,8 +292,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.LISTCANCELREQUEST_INT:
 					FixListCancelRequest fixListCancelRequest = fixMessagePool.getFixListCancelRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.LISTCANCELREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixListCancelRequest.sessionID = session.getSessionID();
 						l.onFixListCancelRequest(fixListCancelRequest);
 					}
 					fixMessagePool.returnFixListCancelRequest (fixListCancelRequest);
@@ -256,8 +303,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.LISTEXECUTE_INT:
 					FixListExecute fixListExecute = fixMessagePool.getFixListExecute(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.LISTEXECUTE_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixListExecute.sessionID = session.getSessionID();
 						l.onFixListExecute(fixListExecute);
 					}
 					fixMessagePool.returnFixListExecute (fixListExecute);
@@ -265,8 +314,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.LISTSTATUSREQUEST_INT:
 					FixListStatusRequest fixListStatusRequest = fixMessagePool.getFixListStatusRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.LISTSTATUSREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixListStatusRequest.sessionID = session.getSessionID();
 						l.onFixListStatusRequest(fixListStatusRequest);
 					}
 					fixMessagePool.returnFixListStatusRequest (fixListStatusRequest);
@@ -274,8 +325,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.LISTSTATUS_INT:
 					FixListStatus fixListStatus = fixMessagePool.getFixListStatus(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.LISTSTATUS_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixListStatus.sessionID = session.getSessionID();
 						l.onFixListStatus(fixListStatus);
 					}
 					fixMessagePool.returnFixListStatus (fixListStatus);
@@ -283,8 +336,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.ALLOCATIONINSTRUCTIONACK_INT:
 					FixAllocationInstructionAck fixAllocationInstructionAck = fixMessagePool.getFixAllocationInstructionAck(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.ALLOCATIONINSTRUCTIONACK_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixAllocationInstructionAck.sessionID = session.getSessionID();
 						l.onFixAllocationInstructionAck(fixAllocationInstructionAck);
 					}
 					fixMessagePool.returnFixAllocationInstructionAck (fixAllocationInstructionAck);
@@ -292,8 +347,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.DONTKNOWTRADEDK_INT:
 					FixDontKnowTradeDK fixDontKnowTradeDK = fixMessagePool.getFixDontKnowTradeDK(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.DONTKNOWTRADEDK_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixDontKnowTradeDK.sessionID = session.getSessionID();
 						l.onFixDontKnowTradeDK(fixDontKnowTradeDK);
 					}
 					fixMessagePool.returnFixDontKnowTradeDK (fixDontKnowTradeDK);
@@ -301,8 +358,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.QUOTEREQUEST_INT:
 					FixQuoteRequest fixQuoteRequest = fixMessagePool.getFixQuoteRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.QUOTEREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixQuoteRequest.sessionID = session.getSessionID();
 						l.onFixQuoteRequest(fixQuoteRequest);
 					}
 					fixMessagePool.returnFixQuoteRequest (fixQuoteRequest);
@@ -310,8 +369,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.QUOTE_INT:
 					FixQuote fixQuote = fixMessagePool.getFixQuote(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.QUOTE_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixQuote.sessionID = session.getSessionID();
 						l.onFixQuote(fixQuote);
 					}
 					fixMessagePool.returnFixQuote (fixQuote);
@@ -319,8 +380,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.SETTLEMENTINSTRUCTIONS_INT:
 					FixSettlementInstructions fixSettlementInstructions = fixMessagePool.getFixSettlementInstructions(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.SETTLEMENTINSTRUCTIONS_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixSettlementInstructions.sessionID = session.getSessionID();
 						l.onFixSettlementInstructions(fixSettlementInstructions);
 					}
 					fixMessagePool.returnFixSettlementInstructions (fixSettlementInstructions);
@@ -328,8 +391,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.MARKETDATAREQUEST_INT:
 					FixMarketDataRequest fixMarketDataRequest = fixMessagePool.getFixMarketDataRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.MARKETDATAREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixMarketDataRequest.sessionID = session.getSessionID();
 						l.onFixMarketDataRequest(fixMarketDataRequest);
 					}
 					fixMessagePool.returnFixMarketDataRequest (fixMarketDataRequest);
@@ -337,8 +402,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.MARKETDATASNAPSHOTFULLREFRESH_INT:
 					FixMarketDataSnapshotFullRefresh fixMarketDataSnapshotFullRefresh = fixMessagePool.getFixMarketDataSnapshotFullRefresh(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.MARKETDATASNAPSHOTFULLREFRESH_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixMarketDataSnapshotFullRefresh.sessionID = session.getSessionID();
 						l.onFixMarketDataSnapshotFullRefresh(fixMarketDataSnapshotFullRefresh);
 					}
 					fixMessagePool.returnFixMarketDataSnapshotFullRefresh (fixMarketDataSnapshotFullRefresh);
@@ -346,8 +413,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.MARKETDATAINCREMENTALREFRESH_INT:
 					FixMarketDataIncrementalRefresh fixMarketDataIncrementalRefresh = fixMessagePool.getFixMarketDataIncrementalRefresh(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.MARKETDATAINCREMENTALREFRESH_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixMarketDataIncrementalRefresh.sessionID = session.getSessionID();
 						l.onFixMarketDataIncrementalRefresh(fixMarketDataIncrementalRefresh);
 					}
 					fixMessagePool.returnFixMarketDataIncrementalRefresh (fixMarketDataIncrementalRefresh);
@@ -355,8 +424,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.MARKETDATAREQUESTREJECT_INT:
 					FixMarketDataRequestReject fixMarketDataRequestReject = fixMessagePool.getFixMarketDataRequestReject(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.MARKETDATAREQUESTREJECT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixMarketDataRequestReject.sessionID = session.getSessionID();
 						l.onFixMarketDataRequestReject(fixMarketDataRequestReject);
 					}
 					fixMessagePool.returnFixMarketDataRequestReject (fixMarketDataRequestReject);
@@ -364,8 +435,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.QUOTECANCEL_INT:
 					FixQuoteCancel fixQuoteCancel = fixMessagePool.getFixQuoteCancel(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.QUOTECANCEL_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixQuoteCancel.sessionID = session.getSessionID();
 						l.onFixQuoteCancel(fixQuoteCancel);
 					}
 					fixMessagePool.returnFixQuoteCancel (fixQuoteCancel);
@@ -373,8 +446,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.QUOTESTATUSREQUEST_INT:
 					FixQuoteStatusRequest fixQuoteStatusRequest = fixMessagePool.getFixQuoteStatusRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.QUOTESTATUSREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixQuoteStatusRequest.sessionID = session.getSessionID();
 						l.onFixQuoteStatusRequest(fixQuoteStatusRequest);
 					}
 					fixMessagePool.returnFixQuoteStatusRequest (fixQuoteStatusRequest);
@@ -382,8 +457,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.MASSQUOTEACKNOWLEDGEMENT_INT:
 					FixMassQuoteAcknowledgement fixMassQuoteAcknowledgement = fixMessagePool.getFixMassQuoteAcknowledgement(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.MASSQUOTEACKNOWLEDGEMENT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixMassQuoteAcknowledgement.sessionID = session.getSessionID();
 						l.onFixMassQuoteAcknowledgement(fixMassQuoteAcknowledgement);
 					}
 					fixMessagePool.returnFixMassQuoteAcknowledgement (fixMassQuoteAcknowledgement);
@@ -391,8 +468,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.SECURITYDEFINITIONREQUEST_INT:
 					FixSecurityDefinitionRequest fixSecurityDefinitionRequest = fixMessagePool.getFixSecurityDefinitionRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.SECURITYDEFINITIONREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixSecurityDefinitionRequest.sessionID = session.getSessionID();
 						l.onFixSecurityDefinitionRequest(fixSecurityDefinitionRequest);
 					}
 					fixMessagePool.returnFixSecurityDefinitionRequest (fixSecurityDefinitionRequest);
@@ -400,8 +479,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.SECURITYDEFINITION_INT:
 					FixSecurityDefinition fixSecurityDefinition = fixMessagePool.getFixSecurityDefinition(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.SECURITYDEFINITION_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixSecurityDefinition.sessionID = session.getSessionID();
 						l.onFixSecurityDefinition(fixSecurityDefinition);
 					}
 					fixMessagePool.returnFixSecurityDefinition (fixSecurityDefinition);
@@ -409,8 +490,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.SECURITYSTATUSREQUEST_INT:
 					FixSecurityStatusRequest fixSecurityStatusRequest = fixMessagePool.getFixSecurityStatusRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.SECURITYSTATUSREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixSecurityStatusRequest.sessionID = session.getSessionID();
 						l.onFixSecurityStatusRequest(fixSecurityStatusRequest);
 					}
 					fixMessagePool.returnFixSecurityStatusRequest (fixSecurityStatusRequest);
@@ -418,8 +501,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.SECURITYSTATUS_INT:
 					FixSecurityStatus fixSecurityStatus = fixMessagePool.getFixSecurityStatus(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.SECURITYSTATUS_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixSecurityStatus.sessionID = session.getSessionID();
 						l.onFixSecurityStatus(fixSecurityStatus);
 					}
 					fixMessagePool.returnFixSecurityStatus (fixSecurityStatus);
@@ -427,8 +512,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.TRADINGSESSIONSTATUSREQUEST_INT:
 					FixTradingSessionStatusRequest fixTradingSessionStatusRequest = fixMessagePool.getFixTradingSessionStatusRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.TRADINGSESSIONSTATUSREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixTradingSessionStatusRequest.sessionID = session.getSessionID();
 						l.onFixTradingSessionStatusRequest(fixTradingSessionStatusRequest);
 					}
 					fixMessagePool.returnFixTradingSessionStatusRequest (fixTradingSessionStatusRequest);
@@ -436,8 +523,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.TRADINGSESSIONSTATUS_INT:
 					FixTradingSessionStatus fixTradingSessionStatus = fixMessagePool.getFixTradingSessionStatus(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.TRADINGSESSIONSTATUS_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixTradingSessionStatus.sessionID = session.getSessionID();
 						l.onFixTradingSessionStatus(fixTradingSessionStatus);
 					}
 					fixMessagePool.returnFixTradingSessionStatus (fixTradingSessionStatus);
@@ -445,8 +534,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.MASSQUOTE_INT:
 					FixMassQuote fixMassQuote = fixMessagePool.getFixMassQuote(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.MASSQUOTE_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixMassQuote.sessionID = session.getSessionID();
 						l.onFixMassQuote(fixMassQuote);
 					}
 					fixMessagePool.returnFixMassQuote (fixMassQuote);
@@ -454,8 +545,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.BUSINESSMESSAGEREJECT_INT:
 					FixBusinessMessageReject fixBusinessMessageReject = fixMessagePool.getFixBusinessMessageReject(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.BUSINESSMESSAGEREJECT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixBusinessMessageReject.sessionID = session.getSessionID();
 						l.onFixBusinessMessageReject(fixBusinessMessageReject);
 					}
 					fixMessagePool.returnFixBusinessMessageReject (fixBusinessMessageReject);
@@ -463,8 +556,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.BIDREQUEST_INT:
 					FixBidRequest fixBidRequest = fixMessagePool.getFixBidRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.BIDREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixBidRequest.sessionID = session.getSessionID();
 						l.onFixBidRequest(fixBidRequest);
 					}
 					fixMessagePool.returnFixBidRequest (fixBidRequest);
@@ -472,8 +567,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.BIDRESPONSE_INT:
 					FixBidResponse fixBidResponse = fixMessagePool.getFixBidResponse(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.BIDRESPONSE_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixBidResponse.sessionID = session.getSessionID();
 						l.onFixBidResponse(fixBidResponse);
 					}
 					fixMessagePool.returnFixBidResponse (fixBidResponse);
@@ -481,8 +578,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.LISTSTRIKEPRICE_INT:
 					FixListStrikePrice fixListStrikePrice = fixMessagePool.getFixListStrikePrice(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.LISTSTRIKEPRICE_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixListStrikePrice.sessionID = session.getSessionID();
 						l.onFixListStrikePrice(fixListStrikePrice);
 					}
 					fixMessagePool.returnFixListStrikePrice (fixListStrikePrice);
@@ -490,8 +589,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.REGISTRATIONINSTRUCTIONS_INT:
 					FixRegistrationInstructions fixRegistrationInstructions = fixMessagePool.getFixRegistrationInstructions(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.REGISTRATIONINSTRUCTIONS_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixRegistrationInstructions.sessionID = session.getSessionID();
 						l.onFixRegistrationInstructions(fixRegistrationInstructions);
 					}
 					fixMessagePool.returnFixRegistrationInstructions (fixRegistrationInstructions);
@@ -499,8 +600,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.REGISTRATIONINSTRUCTIONSRESPONSE_INT:
 					FixRegistrationInstructionsResponse fixRegistrationInstructionsResponse = fixMessagePool.getFixRegistrationInstructionsResponse(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.REGISTRATIONINSTRUCTIONSRESPONSE_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixRegistrationInstructionsResponse.sessionID = session.getSessionID();
 						l.onFixRegistrationInstructionsResponse(fixRegistrationInstructionsResponse);
 					}
 					fixMessagePool.returnFixRegistrationInstructionsResponse (fixRegistrationInstructionsResponse);
@@ -508,8 +611,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.ORDERMASSCANCELREQUEST_INT:
 					FixOrderMassCancelRequest fixOrderMassCancelRequest = fixMessagePool.getFixOrderMassCancelRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.ORDERMASSCANCELREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixOrderMassCancelRequest.sessionID = session.getSessionID();
 						l.onFixOrderMassCancelRequest(fixOrderMassCancelRequest);
 					}
 					fixMessagePool.returnFixOrderMassCancelRequest (fixOrderMassCancelRequest);
@@ -517,8 +622,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.ORDERMASSCANCELREPORT_INT:
 					FixOrderMassCancelReport fixOrderMassCancelReport = fixMessagePool.getFixOrderMassCancelReport(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.ORDERMASSCANCELREPORT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixOrderMassCancelReport.sessionID = session.getSessionID();
 						l.onFixOrderMassCancelReport(fixOrderMassCancelReport);
 					}
 					fixMessagePool.returnFixOrderMassCancelReport (fixOrderMassCancelReport);
@@ -526,8 +633,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.NEWORDERCROSS_INT:
 					FixNewOrderCross fixNewOrderCross = fixMessagePool.getFixNewOrderCross(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.NEWORDERCROSS_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixNewOrderCross.sessionID = session.getSessionID();
 						l.onFixNewOrderCross(fixNewOrderCross);
 					}
 					fixMessagePool.returnFixNewOrderCross (fixNewOrderCross);
@@ -535,8 +644,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.CROSSORDERCANCELREPLACEREQUEST_INT:
 					FixCrossOrderCancelReplaceRequest fixCrossOrderCancelReplaceRequest = fixMessagePool.getFixCrossOrderCancelReplaceRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.CROSSORDERCANCELREPLACEREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixCrossOrderCancelReplaceRequest.sessionID = session.getSessionID();
 						l.onFixCrossOrderCancelReplaceRequest(fixCrossOrderCancelReplaceRequest);
 					}
 					fixMessagePool.returnFixCrossOrderCancelReplaceRequest (fixCrossOrderCancelReplaceRequest);
@@ -544,8 +655,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.CROSSORDERCANCELREQUEST_INT:
 					FixCrossOrderCancelRequest fixCrossOrderCancelRequest = fixMessagePool.getFixCrossOrderCancelRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.CROSSORDERCANCELREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixCrossOrderCancelRequest.sessionID = session.getSessionID();
 						l.onFixCrossOrderCancelRequest(fixCrossOrderCancelRequest);
 					}
 					fixMessagePool.returnFixCrossOrderCancelRequest (fixCrossOrderCancelRequest);
@@ -553,8 +666,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.SECURITYTYPEREQUEST_INT:
 					FixSecurityTypeRequest fixSecurityTypeRequest = fixMessagePool.getFixSecurityTypeRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.SECURITYTYPEREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixSecurityTypeRequest.sessionID = session.getSessionID();
 						l.onFixSecurityTypeRequest(fixSecurityTypeRequest);
 					}
 					fixMessagePool.returnFixSecurityTypeRequest (fixSecurityTypeRequest);
@@ -562,8 +677,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.SECURITYTYPES_INT:
 					FixSecurityTypes fixSecurityTypes = fixMessagePool.getFixSecurityTypes(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.SECURITYTYPES_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixSecurityTypes.sessionID = session.getSessionID();
 						l.onFixSecurityTypes(fixSecurityTypes);
 					}
 					fixMessagePool.returnFixSecurityTypes (fixSecurityTypes);
@@ -571,8 +688,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.SECURITYLISTREQUEST_INT:
 					FixSecurityListRequest fixSecurityListRequest = fixMessagePool.getFixSecurityListRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.SECURITYLISTREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixSecurityListRequest.sessionID = session.getSessionID();
 						l.onFixSecurityListRequest(fixSecurityListRequest);
 					}
 					fixMessagePool.returnFixSecurityListRequest (fixSecurityListRequest);
@@ -580,8 +699,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.SECURITYLIST_INT:
 					FixSecurityList fixSecurityList = fixMessagePool.getFixSecurityList(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.SECURITYLIST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixSecurityList.sessionID = session.getSessionID();
 						l.onFixSecurityList(fixSecurityList);
 					}
 					fixMessagePool.returnFixSecurityList (fixSecurityList);
@@ -589,8 +710,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.DERIVATIVESECURITYLISTREQUEST_INT:
 					FixDerivativeSecurityListRequest fixDerivativeSecurityListRequest = fixMessagePool.getFixDerivativeSecurityListRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.DERIVATIVESECURITYLISTREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixDerivativeSecurityListRequest.sessionID = session.getSessionID();
 						l.onFixDerivativeSecurityListRequest(fixDerivativeSecurityListRequest);
 					}
 					fixMessagePool.returnFixDerivativeSecurityListRequest (fixDerivativeSecurityListRequest);
@@ -598,8 +721,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.DERIVATIVESECURITYLIST_INT:
 					FixDerivativeSecurityList fixDerivativeSecurityList = fixMessagePool.getFixDerivativeSecurityList(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.DERIVATIVESECURITYLIST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixDerivativeSecurityList.sessionID = session.getSessionID();
 						l.onFixDerivativeSecurityList(fixDerivativeSecurityList);
 					}
 					fixMessagePool.returnFixDerivativeSecurityList (fixDerivativeSecurityList);
@@ -607,8 +732,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.NEWORDERMULTILEG_INT:
 					FixNewOrderMultileg fixNewOrderMultileg = fixMessagePool.getFixNewOrderMultileg(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.NEWORDERMULTILEG_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixNewOrderMultileg.sessionID = session.getSessionID();
 						l.onFixNewOrderMultileg(fixNewOrderMultileg);
 					}
 					fixMessagePool.returnFixNewOrderMultileg (fixNewOrderMultileg);
@@ -616,8 +743,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.MULTILEGORDERCANCELREPLACE_INT:
 					FixMultilegOrderCancelReplace fixMultilegOrderCancelReplace = fixMessagePool.getFixMultilegOrderCancelReplace(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.MULTILEGORDERCANCELREPLACE_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixMultilegOrderCancelReplace.sessionID = session.getSessionID();
 						l.onFixMultilegOrderCancelReplace(fixMultilegOrderCancelReplace);
 					}
 					fixMessagePool.returnFixMultilegOrderCancelReplace (fixMultilegOrderCancelReplace);
@@ -625,8 +754,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.TRADECAPTUREREPORTREQUEST_INT:
 					FixTradeCaptureReportRequest fixTradeCaptureReportRequest = fixMessagePool.getFixTradeCaptureReportRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.TRADECAPTUREREPORTREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixTradeCaptureReportRequest.sessionID = session.getSessionID();
 						l.onFixTradeCaptureReportRequest(fixTradeCaptureReportRequest);
 					}
 					fixMessagePool.returnFixTradeCaptureReportRequest (fixTradeCaptureReportRequest);
@@ -634,8 +765,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.TRADECAPTUREREPORT_INT:
 					FixTradeCaptureReport fixTradeCaptureReport = fixMessagePool.getFixTradeCaptureReport(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.TRADECAPTUREREPORT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixTradeCaptureReport.sessionID = session.getSessionID();
 						l.onFixTradeCaptureReport(fixTradeCaptureReport);
 					}
 					fixMessagePool.returnFixTradeCaptureReport (fixTradeCaptureReport);
@@ -643,8 +776,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.ORDERMASSSTATUSREQUEST_INT:
 					FixOrderMassStatusRequest fixOrderMassStatusRequest = fixMessagePool.getFixOrderMassStatusRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.ORDERMASSSTATUSREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixOrderMassStatusRequest.sessionID = session.getSessionID();
 						l.onFixOrderMassStatusRequest(fixOrderMassStatusRequest);
 					}
 					fixMessagePool.returnFixOrderMassStatusRequest (fixOrderMassStatusRequest);
@@ -652,8 +787,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.QUOTEREQUESTREJECT_INT:
 					FixQuoteRequestReject fixQuoteRequestReject = fixMessagePool.getFixQuoteRequestReject(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.QUOTEREQUESTREJECT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixQuoteRequestReject.sessionID = session.getSessionID();
 						l.onFixQuoteRequestReject(fixQuoteRequestReject);
 					}
 					fixMessagePool.returnFixQuoteRequestReject (fixQuoteRequestReject);
@@ -661,8 +798,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.RFQREQUEST_INT:
 					FixRFQRequest fixRFQRequest = fixMessagePool.getFixRFQRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.RFQREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixRFQRequest.sessionID = session.getSessionID();
 						l.onFixRFQRequest(fixRFQRequest);
 					}
 					fixMessagePool.returnFixRFQRequest (fixRFQRequest);
@@ -670,8 +809,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.QUOTESTATUSREPORT_INT:
 					FixQuoteStatusReport fixQuoteStatusReport = fixMessagePool.getFixQuoteStatusReport(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.QUOTESTATUSREPORT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixQuoteStatusReport.sessionID = session.getSessionID();
 						l.onFixQuoteStatusReport(fixQuoteStatusReport);
 					}
 					fixMessagePool.returnFixQuoteStatusReport (fixQuoteStatusReport);
@@ -679,8 +820,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.QUOTERESPONSE_INT:
 					FixQuoteResponse fixQuoteResponse = fixMessagePool.getFixQuoteResponse(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.QUOTERESPONSE_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixQuoteResponse.sessionID = session.getSessionID();
 						l.onFixQuoteResponse(fixQuoteResponse);
 					}
 					fixMessagePool.returnFixQuoteResponse (fixQuoteResponse);
@@ -688,8 +831,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.CONFIRMATION_INT:
 					FixConfirmation fixConfirmation = fixMessagePool.getFixConfirmation(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.CONFIRMATION_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixConfirmation.sessionID = session.getSessionID();
 						l.onFixConfirmation(fixConfirmation);
 					}
 					fixMessagePool.returnFixConfirmation (fixConfirmation);
@@ -697,8 +842,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.POSITIONMAINTENANCEREQUEST_INT:
 					FixPositionMaintenanceRequest fixPositionMaintenanceRequest = fixMessagePool.getFixPositionMaintenanceRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.POSITIONMAINTENANCEREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixPositionMaintenanceRequest.sessionID = session.getSessionID();
 						l.onFixPositionMaintenanceRequest(fixPositionMaintenanceRequest);
 					}
 					fixMessagePool.returnFixPositionMaintenanceRequest (fixPositionMaintenanceRequest);
@@ -706,8 +853,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.POSITIONMAINTENANCEREPORT_INT:
 					FixPositionMaintenanceReport fixPositionMaintenanceReport = fixMessagePool.getFixPositionMaintenanceReport(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.POSITIONMAINTENANCEREPORT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixPositionMaintenanceReport.sessionID = session.getSessionID();
 						l.onFixPositionMaintenanceReport(fixPositionMaintenanceReport);
 					}
 					fixMessagePool.returnFixPositionMaintenanceReport (fixPositionMaintenanceReport);
@@ -715,8 +864,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.REQUESTFORPOSITIONS_INT:
 					FixRequestForPositions fixRequestForPositions = fixMessagePool.getFixRequestForPositions(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.REQUESTFORPOSITIONS_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixRequestForPositions.sessionID = session.getSessionID();
 						l.onFixRequestForPositions(fixRequestForPositions);
 					}
 					fixMessagePool.returnFixRequestForPositions (fixRequestForPositions);
@@ -724,8 +875,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.REQUESTFORPOSITIONSACK_INT:
 					FixRequestForPositionsAck fixRequestForPositionsAck = fixMessagePool.getFixRequestForPositionsAck(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.REQUESTFORPOSITIONSACK_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixRequestForPositionsAck.sessionID = session.getSessionID();
 						l.onFixRequestForPositionsAck(fixRequestForPositionsAck);
 					}
 					fixMessagePool.returnFixRequestForPositionsAck (fixRequestForPositionsAck);
@@ -733,8 +886,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.POSITIONREPORT_INT:
 					FixPositionReport fixPositionReport = fixMessagePool.getFixPositionReport(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.POSITIONREPORT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixPositionReport.sessionID = session.getSessionID();
 						l.onFixPositionReport(fixPositionReport);
 					}
 					fixMessagePool.returnFixPositionReport (fixPositionReport);
@@ -742,8 +897,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.TRADECAPTUREREPORTREQUESTACK_INT:
 					FixTradeCaptureReportRequestAck fixTradeCaptureReportRequestAck = fixMessagePool.getFixTradeCaptureReportRequestAck(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.TRADECAPTUREREPORTREQUESTACK_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixTradeCaptureReportRequestAck.sessionID = session.getSessionID();
 						l.onFixTradeCaptureReportRequestAck(fixTradeCaptureReportRequestAck);
 					}
 					fixMessagePool.returnFixTradeCaptureReportRequestAck (fixTradeCaptureReportRequestAck);
@@ -751,8 +908,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.TRADECAPTUREREPORTACK_INT:
 					FixTradeCaptureReportAck fixTradeCaptureReportAck = fixMessagePool.getFixTradeCaptureReportAck(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.TRADECAPTUREREPORTACK_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixTradeCaptureReportAck.sessionID = session.getSessionID();
 						l.onFixTradeCaptureReportAck(fixTradeCaptureReportAck);
 					}
 					fixMessagePool.returnFixTradeCaptureReportAck (fixTradeCaptureReportAck);
@@ -760,8 +919,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.ALLOCATIONREPORT_INT:
 					FixAllocationReport fixAllocationReport = fixMessagePool.getFixAllocationReport(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.ALLOCATIONREPORT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixAllocationReport.sessionID = session.getSessionID();
 						l.onFixAllocationReport(fixAllocationReport);
 					}
 					fixMessagePool.returnFixAllocationReport (fixAllocationReport);
@@ -769,8 +930,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.ALLOCATIONREPORTACK_INT:
 					FixAllocationReportAck fixAllocationReportAck = fixMessagePool.getFixAllocationReportAck(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.ALLOCATIONREPORTACK_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixAllocationReportAck.sessionID = session.getSessionID();
 						l.onFixAllocationReportAck(fixAllocationReportAck);
 					}
 					fixMessagePool.returnFixAllocationReportAck (fixAllocationReportAck);
@@ -778,8 +941,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.CONFIRMATION_ACK_INT:
 					FixConfirmation_Ack fixConfirmation_Ack = fixMessagePool.getFixConfirmation_Ack(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.CONFIRMATION_ACK_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixConfirmation_Ack.sessionID = session.getSessionID();
 						l.onFixConfirmation_Ack(fixConfirmation_Ack);
 					}
 					fixMessagePool.returnFixConfirmation_Ack (fixConfirmation_Ack);
@@ -787,8 +952,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.SETTLEMENTINSTRUCTIONREQUEST_INT:
 					FixSettlementInstructionRequest fixSettlementInstructionRequest = fixMessagePool.getFixSettlementInstructionRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.SETTLEMENTINSTRUCTIONREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixSettlementInstructionRequest.sessionID = session.getSessionID();
 						l.onFixSettlementInstructionRequest(fixSettlementInstructionRequest);
 					}
 					fixMessagePool.returnFixSettlementInstructionRequest (fixSettlementInstructionRequest);
@@ -796,8 +963,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.ASSIGNMENTREPORT_INT:
 					FixAssignmentReport fixAssignmentReport = fixMessagePool.getFixAssignmentReport(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.ASSIGNMENTREPORT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixAssignmentReport.sessionID = session.getSessionID();
 						l.onFixAssignmentReport(fixAssignmentReport);
 					}
 					fixMessagePool.returnFixAssignmentReport (fixAssignmentReport);
@@ -805,8 +974,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.COLLATERALREQUEST_INT:
 					FixCollateralRequest fixCollateralRequest = fixMessagePool.getFixCollateralRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.COLLATERALREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixCollateralRequest.sessionID = session.getSessionID();
 						l.onFixCollateralRequest(fixCollateralRequest);
 					}
 					fixMessagePool.returnFixCollateralRequest (fixCollateralRequest);
@@ -814,8 +985,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.COLLATERALASSIGNMENT_INT:
 					FixCollateralAssignment fixCollateralAssignment = fixMessagePool.getFixCollateralAssignment(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.COLLATERALASSIGNMENT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixCollateralAssignment.sessionID = session.getSessionID();
 						l.onFixCollateralAssignment(fixCollateralAssignment);
 					}
 					fixMessagePool.returnFixCollateralAssignment (fixCollateralAssignment);
@@ -823,8 +996,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.COLLATERALRESPONSE_INT:
 					FixCollateralResponse fixCollateralResponse = fixMessagePool.getFixCollateralResponse(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.COLLATERALRESPONSE_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixCollateralResponse.sessionID = session.getSessionID();
 						l.onFixCollateralResponse(fixCollateralResponse);
 					}
 					fixMessagePool.returnFixCollateralResponse (fixCollateralResponse);
@@ -832,8 +1007,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.COLLATERALREPORT_INT:
 					FixCollateralReport fixCollateralReport = fixMessagePool.getFixCollateralReport(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.COLLATERALREPORT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixCollateralReport.sessionID = session.getSessionID();
 						l.onFixCollateralReport(fixCollateralReport);
 					}
 					fixMessagePool.returnFixCollateralReport (fixCollateralReport);
@@ -841,8 +1018,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.COLLATERALINQUIRY_INT:
 					FixCollateralInquiry fixCollateralInquiry = fixMessagePool.getFixCollateralInquiry(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.COLLATERALINQUIRY_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixCollateralInquiry.sessionID = session.getSessionID();
 						l.onFixCollateralInquiry(fixCollateralInquiry);
 					}
 					fixMessagePool.returnFixCollateralInquiry (fixCollateralInquiry);
@@ -850,8 +1029,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSREQUEST_INT:
 					FixNetworkCounterpartySystemStatusRequest fixNetworkCounterpartySystemStatusRequest = fixMessagePool.getFixNetworkCounterpartySystemStatusRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixNetworkCounterpartySystemStatusRequest.sessionID = session.getSessionID();
 						l.onFixNetworkCounterpartySystemStatusRequest(fixNetworkCounterpartySystemStatusRequest);
 					}
 					fixMessagePool.returnFixNetworkCounterpartySystemStatusRequest (fixNetworkCounterpartySystemStatusRequest);
@@ -859,8 +1040,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSRESPONSE_INT:
 					FixNetworkCounterpartySystemStatusResponse fixNetworkCounterpartySystemStatusResponse = fixMessagePool.getFixNetworkCounterpartySystemStatusResponse(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSRESPONSE_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixNetworkCounterpartySystemStatusResponse.sessionID = session.getSessionID();
 						l.onFixNetworkCounterpartySystemStatusResponse(fixNetworkCounterpartySystemStatusResponse);
 					}
 					fixMessagePool.returnFixNetworkCounterpartySystemStatusResponse (fixNetworkCounterpartySystemStatusResponse);
@@ -868,8 +1051,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.USERREQUEST_INT:
 					FixUserRequest fixUserRequest = fixMessagePool.getFixUserRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.USERREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixUserRequest.sessionID = session.getSessionID();
 						l.onFixUserRequest(fixUserRequest);
 					}
 					fixMessagePool.returnFixUserRequest (fixUserRequest);
@@ -877,8 +1062,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.USERRESPONSE_INT:
 					FixUserResponse fixUserResponse = fixMessagePool.getFixUserResponse(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.USERRESPONSE_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixUserResponse.sessionID = session.getSessionID();
 						l.onFixUserResponse(fixUserResponse);
 					}
 					fixMessagePool.returnFixUserResponse (fixUserResponse);
@@ -886,8 +1073,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.COLLATERALINQUIRYACK_INT:
 					FixCollateralInquiryAck fixCollateralInquiryAck = fixMessagePool.getFixCollateralInquiryAck(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.COLLATERALINQUIRYACK_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixCollateralInquiryAck.sessionID = session.getSessionID();
 						l.onFixCollateralInquiryAck(fixCollateralInquiryAck);
 					}
 					fixMessagePool.returnFixCollateralInquiryAck (fixCollateralInquiryAck);
@@ -895,8 +1084,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.CONFIRMATIONREQUEST_INT:
 					FixConfirmationRequest fixConfirmationRequest = fixMessagePool.getFixConfirmationRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.CONFIRMATIONREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixConfirmationRequest.sessionID = session.getSessionID();
 						l.onFixConfirmationRequest(fixConfirmationRequest);
 					}
 					fixMessagePool.returnFixConfirmationRequest (fixConfirmationRequest);
@@ -904,8 +1095,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.CONTRARYINTENTIONREPORT_INT:
 					FixContraryIntentionReport fixContraryIntentionReport = fixMessagePool.getFixContraryIntentionReport(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.CONTRARYINTENTIONREPORT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixContraryIntentionReport.sessionID = session.getSessionID();
 						l.onFixContraryIntentionReport(fixContraryIntentionReport);
 					}
 					fixMessagePool.returnFixContraryIntentionReport (fixContraryIntentionReport);
@@ -913,8 +1106,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.SECURITYDEFINITIONUPDATEREPORT_INT:
 					FixSecurityDefinitionUpdateReport fixSecurityDefinitionUpdateReport = fixMessagePool.getFixSecurityDefinitionUpdateReport(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.SECURITYDEFINITIONUPDATEREPORT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixSecurityDefinitionUpdateReport.sessionID = session.getSessionID();
 						l.onFixSecurityDefinitionUpdateReport(fixSecurityDefinitionUpdateReport);
 					}
 					fixMessagePool.returnFixSecurityDefinitionUpdateReport (fixSecurityDefinitionUpdateReport);
@@ -922,8 +1117,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.SECURITYLISTUPDATEREPORT_INT:
 					FixSecurityListUpdateReport fixSecurityListUpdateReport = fixMessagePool.getFixSecurityListUpdateReport(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.SECURITYLISTUPDATEREPORT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixSecurityListUpdateReport.sessionID = session.getSessionID();
 						l.onFixSecurityListUpdateReport(fixSecurityListUpdateReport);
 					}
 					fixMessagePool.returnFixSecurityListUpdateReport (fixSecurityListUpdateReport);
@@ -931,8 +1128,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.ADJUSTEDPOSITIONREPORT_INT:
 					FixAdjustedPositionReport fixAdjustedPositionReport = fixMessagePool.getFixAdjustedPositionReport(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.ADJUSTEDPOSITIONREPORT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixAdjustedPositionReport.sessionID = session.getSessionID();
 						l.onFixAdjustedPositionReport(fixAdjustedPositionReport);
 					}
 					fixMessagePool.returnFixAdjustedPositionReport (fixAdjustedPositionReport);
@@ -940,8 +1139,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.ALLOCATIONINSTRUCTIONALERT_INT:
 					FixAllocationInstructionAlert fixAllocationInstructionAlert = fixMessagePool.getFixAllocationInstructionAlert(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.ALLOCATIONINSTRUCTIONALERT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixAllocationInstructionAlert.sessionID = session.getSessionID();
 						l.onFixAllocationInstructionAlert(fixAllocationInstructionAlert);
 					}
 					fixMessagePool.returnFixAllocationInstructionAlert (fixAllocationInstructionAlert);
@@ -949,8 +1150,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.EXECUTIONACKNOWLEDGEMENT_INT:
 					FixExecutionAcknowledgement fixExecutionAcknowledgement = fixMessagePool.getFixExecutionAcknowledgement(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.EXECUTIONACKNOWLEDGEMENT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixExecutionAcknowledgement.sessionID = session.getSessionID();
 						l.onFixExecutionAcknowledgement(fixExecutionAcknowledgement);
 					}
 					fixMessagePool.returnFixExecutionAcknowledgement (fixExecutionAcknowledgement);
@@ -958,8 +1161,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.TRADINGSESSIONLIST_INT:
 					FixTradingSessionList fixTradingSessionList = fixMessagePool.getFixTradingSessionList(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.TRADINGSESSIONLIST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixTradingSessionList.sessionID = session.getSessionID();
 						l.onFixTradingSessionList(fixTradingSessionList);
 					}
 					fixMessagePool.returnFixTradingSessionList (fixTradingSessionList);
@@ -967,8 +1172,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.TRADINGSESSIONLISTREQUEST_INT:
 					FixTradingSessionListRequest fixTradingSessionListRequest = fixMessagePool.getFixTradingSessionListRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.TRADINGSESSIONLISTREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixTradingSessionListRequest.sessionID = session.getSessionID();
 						l.onFixTradingSessionListRequest(fixTradingSessionListRequest);
 					}
 					fixMessagePool.returnFixTradingSessionListRequest (fixTradingSessionListRequest);
@@ -976,8 +1183,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.SETTLEMENTOBLIGATIONREPORT_INT:
 					FixSettlementObligationReport fixSettlementObligationReport = fixMessagePool.getFixSettlementObligationReport(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.SETTLEMENTOBLIGATIONREPORT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixSettlementObligationReport.sessionID = session.getSessionID();
 						l.onFixSettlementObligationReport(fixSettlementObligationReport);
 					}
 					fixMessagePool.returnFixSettlementObligationReport (fixSettlementObligationReport);
@@ -985,8 +1194,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.DERIVATIVESECURITYLISTUPDATEREPORT_INT:
 					FixDerivativeSecurityListUpdateReport fixDerivativeSecurityListUpdateReport = fixMessagePool.getFixDerivativeSecurityListUpdateReport(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.DERIVATIVESECURITYLISTUPDATEREPORT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixDerivativeSecurityListUpdateReport.sessionID = session.getSessionID();
 						l.onFixDerivativeSecurityListUpdateReport(fixDerivativeSecurityListUpdateReport);
 					}
 					fixMessagePool.returnFixDerivativeSecurityListUpdateReport (fixDerivativeSecurityListUpdateReport);
@@ -994,8 +1205,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.TRADINGSESSIONLISTUPDATEREPORT_INT:
 					FixTradingSessionListUpdateReport fixTradingSessionListUpdateReport = fixMessagePool.getFixTradingSessionListUpdateReport(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.TRADINGSESSIONLISTUPDATEREPORT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixTradingSessionListUpdateReport.sessionID = session.getSessionID();
 						l.onFixTradingSessionListUpdateReport(fixTradingSessionListUpdateReport);
 					}
 					fixMessagePool.returnFixTradingSessionListUpdateReport (fixTradingSessionListUpdateReport);
@@ -1003,8 +1216,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.MARKETDEFINITIONREQUEST_INT:
 					FixMarketDefinitionRequest fixMarketDefinitionRequest = fixMessagePool.getFixMarketDefinitionRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.MARKETDEFINITIONREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixMarketDefinitionRequest.sessionID = session.getSessionID();
 						l.onFixMarketDefinitionRequest(fixMarketDefinitionRequest);
 					}
 					fixMessagePool.returnFixMarketDefinitionRequest (fixMarketDefinitionRequest);
@@ -1012,8 +1227,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.MARKETDEFINITION_INT:
 					FixMarketDefinition fixMarketDefinition = fixMessagePool.getFixMarketDefinition(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.MARKETDEFINITION_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixMarketDefinition.sessionID = session.getSessionID();
 						l.onFixMarketDefinition(fixMarketDefinition);
 					}
 					fixMessagePool.returnFixMarketDefinition (fixMarketDefinition);
@@ -1021,8 +1238,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.MARKETDEFINITIONUPDATEREPORT_INT:
 					FixMarketDefinitionUpdateReport fixMarketDefinitionUpdateReport = fixMessagePool.getFixMarketDefinitionUpdateReport(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.MARKETDEFINITIONUPDATEREPORT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixMarketDefinitionUpdateReport.sessionID = session.getSessionID();
 						l.onFixMarketDefinitionUpdateReport(fixMarketDefinitionUpdateReport);
 					}
 					fixMessagePool.returnFixMarketDefinitionUpdateReport (fixMarketDefinitionUpdateReport);
@@ -1030,8 +1249,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.USERNOTIFICATION_INT:
 					FixUserNotification fixUserNotification = fixMessagePool.getFixUserNotification(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.USERNOTIFICATION_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixUserNotification.sessionID = session.getSessionID();
 						l.onFixUserNotification(fixUserNotification);
 					}
 					fixMessagePool.returnFixUserNotification (fixUserNotification);
@@ -1039,8 +1260,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.ORDERMASSACTIONREPORT_INT:
 					FixOrderMassActionReport fixOrderMassActionReport = fixMessagePool.getFixOrderMassActionReport(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.ORDERMASSACTIONREPORT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixOrderMassActionReport.sessionID = session.getSessionID();
 						l.onFixOrderMassActionReport(fixOrderMassActionReport);
 					}
 					fixMessagePool.returnFixOrderMassActionReport (fixOrderMassActionReport);
@@ -1048,8 +1271,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.ORDERMASSACTIONREQUEST_INT:
 					FixOrderMassActionRequest fixOrderMassActionRequest = fixMessagePool.getFixOrderMassActionRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.ORDERMASSACTIONREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixOrderMassActionRequest.sessionID = session.getSessionID();
 						l.onFixOrderMassActionRequest(fixOrderMassActionRequest);
 					}
 					fixMessagePool.returnFixOrderMassActionRequest (fixOrderMassActionRequest);
@@ -1057,8 +1282,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.APPLICATIONMESSAGEREQUEST_INT:
 					FixApplicationMessageRequest fixApplicationMessageRequest = fixMessagePool.getFixApplicationMessageRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.APPLICATIONMESSAGEREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixApplicationMessageRequest.sessionID = session.getSessionID();
 						l.onFixApplicationMessageRequest(fixApplicationMessageRequest);
 					}
 					fixMessagePool.returnFixApplicationMessageRequest (fixApplicationMessageRequest);
@@ -1066,8 +1293,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.APPLICATIONMESSAGEREQUESTACK_INT:
 					FixApplicationMessageRequestAck fixApplicationMessageRequestAck = fixMessagePool.getFixApplicationMessageRequestAck(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.APPLICATIONMESSAGEREQUESTACK_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixApplicationMessageRequestAck.sessionID = session.getSessionID();
 						l.onFixApplicationMessageRequestAck(fixApplicationMessageRequestAck);
 					}
 					fixMessagePool.returnFixApplicationMessageRequestAck (fixApplicationMessageRequestAck);
@@ -1075,8 +1304,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.APPLICATIONMESSAGEREPORT_INT:
 					FixApplicationMessageReport fixApplicationMessageReport = fixMessagePool.getFixApplicationMessageReport(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.APPLICATIONMESSAGEREPORT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixApplicationMessageReport.sessionID = session.getSessionID();
 						l.onFixApplicationMessageReport(fixApplicationMessageReport);
 					}
 					fixMessagePool.returnFixApplicationMessageReport (fixApplicationMessageReport);
@@ -1084,8 +1315,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.STREAMASSIGNMENTREQUEST_INT:
 					FixStreamAssignmentRequest fixStreamAssignmentRequest = fixMessagePool.getFixStreamAssignmentRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.STREAMASSIGNMENTREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixStreamAssignmentRequest.sessionID = session.getSessionID();
 						l.onFixStreamAssignmentRequest(fixStreamAssignmentRequest);
 					}
 					fixMessagePool.returnFixStreamAssignmentRequest (fixStreamAssignmentRequest);
@@ -1093,8 +1326,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.STREAMASSIGNMENTREPORT_INT:
 					FixStreamAssignmentReport fixStreamAssignmentReport = fixMessagePool.getFixStreamAssignmentReport(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.STREAMASSIGNMENTREPORT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixStreamAssignmentReport.sessionID = session.getSessionID();
 						l.onFixStreamAssignmentReport(fixStreamAssignmentReport);
 					}
 					fixMessagePool.returnFixStreamAssignmentReport (fixStreamAssignmentReport);
@@ -1102,8 +1337,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.STREAMASSIGNMENTREPORTACK_INT:
 					FixStreamAssignmentReportACK fixStreamAssignmentReportACK = fixMessagePool.getFixStreamAssignmentReportACK(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.STREAMASSIGNMENTREPORTACK_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixStreamAssignmentReportACK.sessionID = session.getSessionID();
 						l.onFixStreamAssignmentReportACK(fixStreamAssignmentReportACK);
 					}
 					fixMessagePool.returnFixStreamAssignmentReportACK (fixStreamAssignmentReportACK);
@@ -1111,8 +1348,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.PARTYDETAILSLISTREQUEST_INT:
 					FixPartyDetailsListRequest fixPartyDetailsListRequest = fixMessagePool.getFixPartyDetailsListRequest(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.PARTYDETAILSLISTREQUEST_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixPartyDetailsListRequest.sessionID = session.getSessionID();
 						l.onFixPartyDetailsListRequest(fixPartyDetailsListRequest);
 					}
 					fixMessagePool.returnFixPartyDetailsListRequest (fixPartyDetailsListRequest);
@@ -1120,8 +1359,10 @@ public class FixMessageParser implements FixMessageInfo
 				case MessageTypes.PARTYDETAILSLISTREPORT_INT:
 					FixPartyDetailsListReport fixPartyDetailsListReport = fixMessagePool.getFixPartyDetailsListReport(buf, err);
 					if(err.hasError()) {
+						err.refMsgTypeInt = MessageTypes.PARTYDETAILSLISTREPORT_INT;
 						l.onFixValidationError(err);
 					} else {
+						fixPartyDetailsListReport.sessionID = session.getSessionID();
 						l.onFixPartyDetailsListReport(fixPartyDetailsListReport);
 					}
 					fixMessagePool.returnFixPartyDetailsListReport (fixPartyDetailsListReport);
@@ -1134,13 +1375,13 @@ public class FixMessageParser implements FixMessageInfo
 
 			}
 
-		} else if (MessageTypes.LOGON_INT == msgTypeInt) { // MESSAGE
+		} else if (MessageTypes.LOGON_INT == msgTypeInt && session == null) { // MESSAGE
 			err.setError(FixEvent.DISCONNECT, "DISCONNECT");
 		} else { // MESSAGE
 			err.refMsgTypeInt = msgTypeInt;
 			err.session = session;
 
-			if (session == null || session.isEstablished()) {
+			if (session == null || !session.isEstablished()) {
 				err.setError(FixEvent.DISCONNECT, "DISCONNECT");
 			}
 				l.onFixValidationError(err);
@@ -1148,9 +1389,9 @@ public class FixMessageParser implements FixMessageInfo
 
 		} else if (MessageTypes.LOGON_INT == msgTypeInt) { // RAW
 			err.setError(FixEvent.DISCONNECT, "DISCONNECT");
-		} else { // RAW
-			l.onFixValidationError(err);
 		}
+
+		standardHeader.clear();
 	}
 
 }

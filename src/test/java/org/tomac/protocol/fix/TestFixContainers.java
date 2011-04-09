@@ -53,7 +53,7 @@ public class TestFixContainers {
 		};
 
 		for (String s : fixMessages) {
-			
+			err.clear();
 			ByteBuffer refBuf = ByteBuffer.wrap(s.getBytes());
 			ByteBuffer parseBuf = ByteBuffer.wrap(s.getBytes());
 
@@ -69,6 +69,7 @@ public class TestFixContainers {
 				assertTrue(l.toString().length() > 0);
 			}
 			
+			err.clear();
 			parser.parse(parseBuf, err, listener, 0);
 			assertFalse(err.toString(), err.hasError());
 			err.clear();
@@ -96,6 +97,7 @@ public class TestFixContainers {
 		ByteBuffer buf = ByteBuffer.wrap(ss.getBytes());
 
 		while(buf.hasRemaining()) {
+			err.clear();
 			
 			inMsg = (FixInMessage) pool.getFixMessage(buf, err);
 
@@ -125,6 +127,7 @@ public class TestFixContainers {
 		};
 		
 		for (String s : fixMessages) {
+			err.clear();
 
 			ByteBuffer buf = ByteBuffer.wrap(s.getBytes());
 			
@@ -167,6 +170,7 @@ public class TestFixContainers {
 		};
 		
 		for (String s : fixMessages) {
+			err.clear();
 
 			ByteBuffer buf = ByteBuffer.wrap(s.getBytes());
 			
@@ -207,6 +211,7 @@ public class TestFixContainers {
 		};
 		
 		for (String s : fixMessages) {
+			err.clear();
 
 			ByteBuffer buf = ByteBuffer.wrap(s.getBytes());
 			
@@ -227,10 +232,12 @@ public class TestFixContainers {
 		};
 		
 		for (String s : fixMessages) {
+			err.clear();
 
 			ByteBuffer buf = ByteBuffer.wrap(s.getBytes());
 			
 			inMsg = (FixInMessage) pool.getFixMessage(buf, err);
+			err.clear();
 
 			assertNotNull(inMsg);
 			assertFalse(err.toString(), err.hasError());
@@ -272,6 +279,7 @@ public class TestFixContainers {
 		// 35=D contains unknown tag Text(58)
 		
 		for (String s : fixMessages) {
+			err.clear();
 
 			ByteBuffer buf = ByteBuffer.wrap(s.getBytes());
 			

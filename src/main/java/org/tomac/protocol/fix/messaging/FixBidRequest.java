@@ -252,7 +252,7 @@ public class FixBidRequest extends FixInMessage {
         							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !bidDescReqGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NOBIDDESCRIPTORS_INT);
         						return;
         					}
         					count++;
@@ -272,7 +272,7 @@ public class FixBidRequest extends FixInMessage {
         							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !bidCompReqGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NOBIDCOMPONENTS_INT);
         						return;
         					}
         					count++;

@@ -486,7 +486,6 @@ public class FixMessageGenerator {
 		out.write("    public int setBuffer( int tag, ByteBuffer buf, FixValidationError err)\n");
 		out.write("    {\n\n");
 		out.write("		super.err = err;\n");
-		out.write("		super.err.clear();\n");
 		out.write("		super.setBuffer(buf, err);\n\n\n");
 
 		out.write("        while ( buf.hasRemaining() ) {\n\n");
@@ -1420,6 +1419,7 @@ public class FixMessageGenerator {
 		out.write("\t\t\t\t\tif(err.hasError()) {\n");
 		out.write("\t\t\t\t\t\tl.onFixValidationError(err);\n");
 		out.write("\t\t\t\t\t} else {\n");
+		out.write("\t\t\t\t\t\t" + logonName + ".sessionID = session.getSessionID();\n");
 		out.write("\t\t\t\t\t\tl.on" + capFirst(dom.type.toLowerCase()) + logonCapName + "(" + logonName + ");\n");
 		out.write("\t\t\t\t\t}\n");
 		out.write("\t\t\t\t\tfixMessagePool.return" + capFirst(dom.type.toLowerCase()) + logonCapName + " (" + logonName + ");\n");
@@ -1441,9 +1441,20 @@ public class FixMessageGenerator {
 			out.write("\t\t\t\tcase MessageTypes." + m.name.toUpperCase() + "_INT:\n");
 			out.write("\t\t\t\t\t" + capFirst(dom.type.toLowerCase()) + m.name + " " + name + " = fixMessagePool.get" + capFirst(dom.type.toLowerCase()) + m.name + "(buf, err);\n");
 
+			if (m.name.equalsIgnoreCase("sequenceReset")) {
+				out.write("\t\t\t\tif (!err.hasError() && standardHeader.getMsgSeqNum() < session.getInMsgSeqNum() - 1 ) { // we have incremented already to next\n");
+				out.write("\t\t\t\t\tif (fixSequenceReset.hasGapFillFlag() && fixSequenceReset.getGapFillFlag()) { \n");
+				out.write("\t\t\t\t\t\terr.setError(FixEvent.MSGSEQNUM_LOGOUT, \"MsgSeqNum too low, expecting \" + (session.getInMsgSeqNum() + 1) + \" but received \"\n");
+				out.write("\t\t\t\t\t\t\t+ standardHeader.getMsgSeqNum(), FixTags.MSGSEQNUM_INT, msgTypeInt);\n");
+				out.write("\t\t\t\t\t}\n");
+				out.write("\t\t\t\t}\n");
+			}
+			
 			out.write("\t\t\t\t\tif(err.hasError()) {\n");
+			out.write("\t\t\t\t\t\terr.refMsgTypeInt = MessageTypes." + m.name.toUpperCase() + "_INT;\n");
 			out.write("\t\t\t\t\t\tl.onFixValidationError(err);\n");
 			out.write("\t\t\t\t\t} else {\n");
+			out.write("\t\t\t\t\t\t" + name + ".sessionID = session.getSessionID();\n");
 			out.write("\t\t\t\t\t\tl.on" + capFirst(dom.type.toLowerCase()) + m.name + "(" + name + ");\n");
 			out.write("\t\t\t\t\t}\n");
 			
@@ -1457,13 +1468,13 @@ public class FixMessageGenerator {
 		out.write("\t\t\t\t}\n\n");
 		out.write("\t\t\t}\n\n");
 
-		out.write("\t\t} else if (MessageTypes.LOGON_INT == msgTypeInt) { // MESSAGE\n");
+		out.write("\t\t} else if (MessageTypes.LOGON_INT == msgTypeInt && session == null) { // MESSAGE\n");
 		out.write("\t\t\terr.setError(FixEvent.DISCONNECT, \"DISCONNECT\");\n");
 		out.write("\t\t} else { // MESSAGE\n");
 		out.write("\t\t\terr.refMsgTypeInt = msgTypeInt;\n");
 		out.write("\t\t\terr.session = session;\n\n");
 
-		out.write("\t\t\tif (session == null || session.isEstablished()) {\n");
+		out.write("\t\t\tif (session == null || !session.isEstablished()) {\n");
 		out.write("\t\t\t\terr.setError(FixEvent.DISCONNECT, \"DISCONNECT\");\n");
 		out.write("\t\t\t}\n");
 		out.write("\t\t\t\tl.onFixValidationError(err);\n");
@@ -1471,9 +1482,8 @@ public class FixMessageGenerator {
 
 		out.write("\t\t} else if (MessageTypes.LOGON_INT == msgTypeInt) { // RAW\n");
 		out.write("\t\t\terr.setError(FixEvent.DISCONNECT, \"DISCONNECT\");\n");
-		out.write("\t\t} else { // RAW\n");
-		out.write("\t\t\tl.onFixValidationError(err);\n");
-		out.write("\t\t}\n");
+		out.write("\t\t}\n\n");
+		out.write("\t\tstandardHeader.clear();\n");
 		out.write("\t}\n\n");
 
 		// write out the close to the parser class
@@ -1829,7 +1839,7 @@ public class FixMessageGenerator {
 					out.write("        							return repeatingGroupTag; }\n");
 				out.write("        				while ( count < noInGroupNumber ) {\n");
 				out.write("        					if ( !" + uncapFirst(c.name) + "[count].isKeyTag(repeatingGroupTag) ) {\n");
-				out.write("        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, \"no in group tag missing\", repeatingGroupTag);\n");
+				out.write("        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, \"Incorrect NumInGroup count for repeating group\", FixTags." + c.noInGroupTag.toUpperCase() + "_INT);\n");
 				if (components.size() == 0 || isMessage)
 					out.write("        						return;\n");
 				else

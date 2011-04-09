@@ -179,7 +179,7 @@ public class FixMarketDefinitionUpdateReport extends FixInMessage {
         							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !ordTypeRules[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NOORDTYPERULES_INT);
         						return;
         					}
         					count++;
@@ -199,7 +199,7 @@ public class FixMarketDefinitionUpdateReport extends FixInMessage {
         							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !timeInForceRules[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NOTIMEINFORCERULES_INT);
         						return;
         					}
         					count++;
@@ -219,7 +219,7 @@ public class FixMarketDefinitionUpdateReport extends FixInMessage {
         							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !execInstRules[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NOEXECINSTRULES_INT);
         						return;
         					}
         					count++;

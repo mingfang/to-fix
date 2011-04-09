@@ -345,7 +345,7 @@ public class FixCollateralAssignment extends FixInMessage {
         							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !parties[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NOPARTYIDS_INT);
         						return;
         					}
         					count++;
@@ -365,7 +365,7 @@ public class FixCollateralAssignment extends FixInMessage {
         							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !execCollGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NOEXECS_INT);
         						return;
         					}
         					count++;
@@ -385,7 +385,7 @@ public class FixCollateralAssignment extends FixInMessage {
         							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !trdCollGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NOTRADES_INT);
         						return;
         					}
         					count++;
@@ -413,7 +413,7 @@ public class FixCollateralAssignment extends FixInMessage {
         							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !instrmtLegGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NOLEGS_INT);
         						return;
         					}
         					count++;
@@ -433,7 +433,7 @@ public class FixCollateralAssignment extends FixInMessage {
         							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !undInstrmtCollGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NOUNDERLYINGS_INT);
         						return;
         					}
         					count++;
@@ -453,7 +453,7 @@ public class FixCollateralAssignment extends FixInMessage {
         							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !trdRegTimestamps[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NOTRDREGTIMESTAMPS_INT);
         						return;
         					}
         					count++;
@@ -473,7 +473,7 @@ public class FixCollateralAssignment extends FixInMessage {
         							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !miscFeesGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NOMISCFEES_INT);
         						return;
         					}
         					count++;
@@ -497,7 +497,7 @@ public class FixCollateralAssignment extends FixInMessage {
         							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !stipulations[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NOSTIPULATIONS_INT);
         						return;
         					}
         					count++;

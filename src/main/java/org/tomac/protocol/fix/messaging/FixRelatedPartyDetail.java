@@ -58,7 +58,6 @@ public class FixRelatedPartyDetail extends FixGroup {
     {
 
 		super.err = err;
-		super.err.clear();
 		super.setBuffer(buf, err);
 
 
@@ -89,7 +88,7 @@ public class FixRelatedPartyDetail extends FixGroup {
         							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !relatedPtysSubGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NORELATEDPARTYSUBIDS_INT);
         						return repeatingGroupTag;
         					}
         					count++;
@@ -109,7 +108,7 @@ public class FixRelatedPartyDetail extends FixGroup {
         							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !relatedPartyAltIDs[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NORELATEDPARTYALTIDS_INT);
         						return repeatingGroupTag;
         					}
         					count++;
@@ -129,7 +128,7 @@ public class FixRelatedPartyDetail extends FixGroup {
         							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !relatedContextParties[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NORELATEDCONTEXTPARTYIDS_INT);
         						return repeatingGroupTag;
         					}
         					count++;
@@ -149,7 +148,7 @@ public class FixRelatedPartyDetail extends FixGroup {
         							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !relationshipRiskLimits[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NORELATIONSHIPRISKLIMITS_INT);
         						return repeatingGroupTag;
         					}
         					count++;

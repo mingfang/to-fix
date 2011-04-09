@@ -44,7 +44,6 @@ public class FixSecurityTradingRules extends FixGroup {
     {
 
 		super.err = err;
-		super.err.clear();
 		super.setBuffer(buf, err);
 
 
@@ -67,7 +66,7 @@ public class FixSecurityTradingRules extends FixGroup {
         							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !tradingSessionRulesGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NOTRADINGSESSIONRULES_INT);
         						return repeatingGroupTag;
         					}
         					count++;
@@ -87,7 +86,7 @@ public class FixSecurityTradingRules extends FixGroup {
         							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !nestedInstrumentAttribute[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NONESTEDINSTRATTRIB_INT);
         						return repeatingGroupTag;
         					}
         					count++;

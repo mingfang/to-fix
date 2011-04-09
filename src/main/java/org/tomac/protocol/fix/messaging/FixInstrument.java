@@ -333,7 +333,6 @@ public class FixInstrument extends FixGroup {
     {
 
 		super.err = err;
-		super.err.clear();
 		super.setBuffer(buf, err);
 
 
@@ -676,7 +675,7 @@ public class FixInstrument extends FixGroup {
         							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !secAltIDGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NOSECURITYALTID_INT);
         						return repeatingGroupTag;
         					}
         					count++;
@@ -700,7 +699,7 @@ public class FixInstrument extends FixGroup {
         							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !evntGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NOEVENTS_INT);
         						return repeatingGroupTag;
         					}
         					count++;
@@ -720,7 +719,7 @@ public class FixInstrument extends FixGroup {
         							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !instrumentParties[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NOINSTRUMENTPARTIES_INT);
         						return repeatingGroupTag;
         					}
         					count++;
@@ -740,7 +739,7 @@ public class FixInstrument extends FixGroup {
         							return repeatingGroupTag; }
         				while ( count < noInGroupNumber ) {
         					if ( !complexEvents[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NOCOMPLEXEVENTS_INT);
         						return repeatingGroupTag;
         					}
         					count++;

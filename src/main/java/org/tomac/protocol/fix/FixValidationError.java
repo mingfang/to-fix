@@ -2,7 +2,7 @@ package org.tomac.protocol.fix;
 
 
 public class FixValidationError {
-	int		sessionRejectReason;
+	public int		sessionRejectReason;
 	public String	text;
 
 	public int		refTagID;
@@ -44,7 +44,7 @@ public class FixValidationError {
 	}
 	
 	public boolean isMsgSeqNumConsumer() {
-		return sessionRejectReason != FixEvent.DISCONNECT && sessionRejectReason != FixEvent.GARBLED ;
+		return sessionRejectReason != FixEvent.DISCONNECT && sessionRejectReason != FixEvent.GARBLED && sessionRejectReason != FixEvent.IGNORE_MESSAGE;
 	}
 	
 	@Override

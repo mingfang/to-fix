@@ -47,7 +47,6 @@ public class FixRelationshipRiskSecAltIDGrp extends FixGroup {
     {
 
 		super.err = err;
-		super.err.clear();
 		super.setBuffer(buf, err);
 
 

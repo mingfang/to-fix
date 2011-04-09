@@ -35,6 +35,7 @@ public class TestMessages {
 		parser = new FixMessageParser(pool);
 		FixUtils.validateChecksum = false;
 		FixUtils.validateSendingTime = false;
+		FixUtils.validateSession = false;
 	}
 
 	@After
@@ -349,7 +350,7 @@ public class TestMessages {
 		assertTrue(err.hasError());
 		// assertEquals(xxx, err.refTagID);
 	}
-
+    
     /*
      * TODO port all the rest of the test cases 
      * 

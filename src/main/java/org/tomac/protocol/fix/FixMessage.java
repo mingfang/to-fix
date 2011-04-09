@@ -19,7 +19,7 @@ public abstract class FixMessage {
 		standardTrailer = new FixStrandardTrailer();
 		standardHeader = new FixStandardHeader();
 		standardHeader.setMsgType(msgType);
-		this.msgType = FixUtils.getTagAsInt(msgType, msgType.length);
+		this.msgType = FixUtils.getMsgTypeAsInt(msgType, msgType.length);
 	}
 
 	public void clear() {

@@ -106,7 +106,7 @@ public class FixMarketDataIncrementalRefresh extends FixInMessage {
         							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !mDIncGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NOMDENTRIES_INT);
         						return;
         					}
         					count++;
@@ -126,7 +126,7 @@ public class FixMarketDataIncrementalRefresh extends FixInMessage {
         							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !routingGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NOROUTINGIDS_INT);
         						return;
         					}
         					count++;

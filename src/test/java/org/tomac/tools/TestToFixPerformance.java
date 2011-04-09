@@ -73,6 +73,7 @@ public class TestToFixPerformance {
 
         System.out.println("toFIX testInBoundLatency");
         while (count < ITERATIONS) {
+			err.clear();
         	long t0 = System.nanoTime();
         	parser.parse(buf, err, listener);
         	long t1 = System.nanoTime();
@@ -115,6 +116,7 @@ public class TestToFixPerformance {
         
         System.out.println("toFIX testOutBoundLatency");
         while (count < ITERATIONS) {
+			err.clear();
         	long t0 = System.nanoTime();
         	message.encode(out);
         	long t1 = System.nanoTime();

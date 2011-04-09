@@ -17,6 +17,7 @@ public class TestRepeatingGroup extends TestCase {
 	@Before
 	public void setUp() throws Exception {
 		err = new FixValidationError();
+		FixUtils.validateSession = false;
 	}
 	
 	@After

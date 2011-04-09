@@ -173,7 +173,7 @@ public class FixNews extends FixInMessage {
         							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !newsRefGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NONEWSREFIDS_INT);
         						return;
         					}
         					count++;
@@ -193,7 +193,7 @@ public class FixNews extends FixInMessage {
         							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !routingGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NOROUTINGIDS_INT);
         						return;
         					}
         					count++;
@@ -213,7 +213,7 @@ public class FixNews extends FixInMessage {
         							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !instrmtGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NORELATEDSYM_INT);
         						return;
         					}
         					count++;
@@ -233,7 +233,7 @@ public class FixNews extends FixInMessage {
         							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !instrmtLegGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NOLEGS_INT);
         						return;
         					}
         					count++;
@@ -253,7 +253,7 @@ public class FixNews extends FixInMessage {
         							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !undInstrmtGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NOUNDERLYINGS_INT);
         						return;
         					}
         					count++;
@@ -273,7 +273,7 @@ public class FixNews extends FixInMessage {
         							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !linesOfTextGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NOLINESOFTEXT_INT);
         						return;
         					}
         					count++;

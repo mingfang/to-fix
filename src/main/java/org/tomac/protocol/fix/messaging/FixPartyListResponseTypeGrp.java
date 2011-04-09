@@ -39,7 +39,6 @@ public class FixPartyListResponseTypeGrp extends FixGroup {
     {
 
 		super.err = err;
-		super.err.clear();
 		super.setBuffer(buf, err);
 
 

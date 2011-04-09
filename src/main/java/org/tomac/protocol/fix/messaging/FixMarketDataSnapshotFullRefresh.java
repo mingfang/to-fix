@@ -192,7 +192,7 @@ public class FixMarketDataSnapshotFullRefresh extends FixInMessage {
         							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !undInstrmtGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NOUNDERLYINGS_INT);
         						return;
         					}
         					count++;
@@ -212,7 +212,7 @@ public class FixMarketDataSnapshotFullRefresh extends FixInMessage {
         							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !instrmtLegGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NOLEGS_INT);
         						return;
         					}
         					count++;
@@ -232,7 +232,7 @@ public class FixMarketDataSnapshotFullRefresh extends FixInMessage {
         							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !mDFullGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NOMDENTRIES_INT);
         						return;
         					}
         					count++;
@@ -252,7 +252,7 @@ public class FixMarketDataSnapshotFullRefresh extends FixInMessage {
         							return; }
         				while ( count < noInGroupNumber ) {
         					if ( !routingGrp[count].isKeyTag(repeatingGroupTag) ) {
-        						err.setError((int)FixMessageInfo.SessionRejectReason.REPEATING_GROUP_FIELDS_OUT_OF_ORDER, "no in group tag missing", repeatingGroupTag);
+        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, "Incorrect NumInGroup count for repeating group", FixTags.NOROUTINGIDS_INT);
         						return;
         					}
         					count++;

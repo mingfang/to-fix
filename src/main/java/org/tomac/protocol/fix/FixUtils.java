@@ -7,16 +7,11 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
-import org.tomac.protocol.fix.messaging.FixHeartbeat;
-import org.tomac.protocol.fix.messaging.FixLogon;
-import org.tomac.protocol.fix.messaging.FixLogout;
 import org.tomac.protocol.fix.messaging.FixMessageInfo;
+import org.tomac.protocol.fix.messaging.FixMessageInfo.MessageTypes;
 import org.tomac.protocol.fix.messaging.FixMessageListener;
-import org.tomac.protocol.fix.messaging.FixMessagePool;
-import org.tomac.protocol.fix.messaging.FixSequenceReset;
 import org.tomac.protocol.fix.messaging.FixStandardHeader;
 import org.tomac.protocol.fix.messaging.FixTags;
-import org.tomac.protocol.fix.messaging.FixMessageInfo.MessageTypes;
 
 public class FixUtils {
 	private static FixUtils						fixUtils							= new FixUtils();
@@ -142,7 +137,7 @@ public class FixUtils {
 		return true;
 	}
 
-	public static int getTagAsInt(final byte[] b, final int length) {
+	public static int getMsgTypeAsInt(final byte[] b, final int length) {
 		int val = 0;
 
 		val |= b[0];
@@ -157,6 +152,15 @@ public class FixUtils {
 		return val;
 	}
 
+	public static int getMsgTypeAsByteArray(byte[] dest, final int val) {
+		int length = dest.length;
+		fillNul(dest);
+		
+		dest[0] = (byte)val; // TODO my brain is small
+
+		return val;
+	}
+	
 	public static byte getTagCharValue(final ByteBuffer buf, final FixValidationError err) {
 		byte c = '0';
 
@@ -196,11 +200,18 @@ public class FixUtils {
 
 			if (start == end) {
 				err.setError((int) FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
-						"Float value length exceeds maximum number of digits " + FixUtils.FIX_MAX_DIGITS);
+						"Value is incorrect or out of range for this tag" + FixUtils.FIX_MAX_DIGITS);
 				return getNext(buf, null);
 			}
 		}
-		return FixUtils.fixFloatValueOf(digitsBuf, start);
+		try {
+			long val = FixUtils.fixFloatValueOf(digitsBuf, start);
+			return val;
+		} catch (NumberFormatException n) {
+			err.setError((int) FixMessageInfo.SessionRejectReason.INCORRECT_DATA_FORMAT_FOR_VALUE,
+					"Incorrect data format for value");
+		}
+		return 0;
 	}
 
 	public static int getTagIntValue(final ByteBuffer buf, final FixValidationError err) {
@@ -304,10 +315,10 @@ public class FixUtils {
 			++start;
 			--length;
 			negative = true;
-		} else if (c == '+') {
+		} /*else if (c == '+') {
 			++start;
 			--length;
-		}
+		}*/
 		if (length == 0)
 			throw new NumberFormatException("to short number");
 
@@ -758,9 +769,9 @@ public class FixUtils {
 
 		if (!err.hasError() && session != null && MessageTypes.LOGON_INT == msgTypeInt) {
 
-			if (!err.hasError()) {
+			if (!err.hasError() && FixUtils.validateSession) {
 
-				if (session.getInMsgSeqNum() + 1 < standardHeader.getMsgSeqNum()) { // if we get a logout continue anyhow
+				if (standardHeader.getMsgSeqNum() > session.getInMsgSeqNum() + 1 ) { // if we get a logout continue anyhow
 
 					err.setError((int) FixEvent.MSGSEQNUM_LOGON_RESENDREQUEST, "MsgSeqNum higher than expected", FixTags.MSGSEQNUM_INT, msgTypeInt);
 					err.resendRequestMsgSeqNum = session.getInMsgSeqNum() + 1;
@@ -777,9 +788,9 @@ public class FixUtils {
 
 			err.session = session;
 
-			if (!err.hasError()) {
+			if (!err.hasError() && FixUtils.validateSession) {
 
-				if (session.getInMsgSeqNum() + 1 < standardHeader.getMsgSeqNum() && !(msgTypeInt != MessageTypes.LOGOUT_INT)) { // if we get a logout continue anyhow
+				if (standardHeader.getMsgSeqNum() > session.getInMsgSeqNum() + 1 && msgTypeInt != MessageTypes.LOGOUT_INT) { // if we get a logout continue anyhow
 
 					err.setError((int) FixEvent.MSGSEQNUM_RESENDREQUEST, "MsgSeqNum higher than expected", FixTags.MSGSEQNUM_INT, msgTypeInt);
 					err.resendRequestMsgSeqNum = session.getInMsgSeqNum() + 1;
@@ -789,13 +800,7 @@ public class FixUtils {
 					if (MessageTypes.SEQUENCERESET_INT == msgTypeInt) {
 						if (standardHeader.hasPossDupFlag() && standardHeader.getPossDupFlag()) {
 							err.setError(FixEvent.IGNORE_MESSAGE, "Ignore SequenceReset");
-							/*
-							 * TODO else if (!((FixSequenceReset)msg).hasGapFillFlag() || !((FixSequenceReset)msg).getGapFillFlag()) { // will except msgSeqNum regardless }
-							 */
-						} else {
-							err.setError(FixEvent.MSGSEQNUM_LOGOUT, "MsgSeqNum too low, expecting " + (session.getInMsgSeqNum() + 1) + " but received "
-									+ standardHeader.getMsgSeqNum(), FixTags.MSGSEQNUM_INT, msgTypeInt);
-						}
+						} // else -> do in the parser as we need to know GapFill flag settings :-(
 					} else if (standardHeader.hasPossDupFlag() && standardHeader.getPossDupFlag()) {
 						err.setError(FixEvent.IGNORE_MESSAGE, "Ignore possdup message");
 					} else {
@@ -806,12 +811,14 @@ public class FixUtils {
 				}
 			}
 
-		} else { // session == null
+		} else if (session == null) { 
 
 			err.setError(FixEvent.DISCONNECT, "first message not a logon");
 			// or
 			// this is not the first non-garbled messasge but I am still unable to get the session!!!!
 
+		} else {
+			// fall throu
 		}
 		standardHeader.buf.position(pos);
 		return session;
@@ -892,7 +899,6 @@ public class FixUtils {
 	public static int crackMsgType(final ByteBuffer buf, final FixValidationError err) {
 		int msgTypeInt = -1;
 		FixUtils.fillNul(tmpMsgType);
-		err.clear();
 
 		final int startPos = buf.position();
 
@@ -913,7 +919,7 @@ public class FixUtils {
 					if (msgTypeTag == FixTags.MSGTYPE_INT && !err.hasError()) {
 
 						FixUtils.getTagStringValue(buf, tmpMsgType, 0, 2, err);
-						msgTypeInt = FixUtils.getTagAsInt(tmpMsgType, 2);
+						msgTypeInt = FixUtils.getMsgTypeAsInt(tmpMsgType, 2);
 
 						if (!err.hasError()) {
 
@@ -972,7 +978,7 @@ public class FixUtils {
 						newMsgType[0] = (byte) '8';
 						newMsgType[1] = c;
 
-						msgTypeInt = getTagAsInt(newMsgType, 2);
+						msgTypeInt = getMsgTypeAsInt(newMsgType, 2);
 					}
 				}
 			} else if (getTag(FixTags.EXECTYPE_INT, buf, err))
@@ -985,7 +991,7 @@ public class FixUtils {
 						newMsgType[0] = (byte) '8';
 						newMsgType[1] = c;
 
-						msgTypeInt = getTagAsInt(newMsgType, 2);
+						msgTypeInt = getMsgTypeAsInt(newMsgType, 2);
 					}
 				}
 		} else if (tmpMsgType == MessageTypes.ORDERCANCELREJECT_INT) { // this is order reject...
@@ -999,7 +1005,7 @@ public class FixUtils {
 						newMsgType[0] = (byte) '9';
 						newMsgType[1] = c;
 
-						msgTypeInt = getTagAsInt(newMsgType, 2);
+						msgTypeInt = getMsgTypeAsInt(newMsgType, 2);
 
 					}
 
