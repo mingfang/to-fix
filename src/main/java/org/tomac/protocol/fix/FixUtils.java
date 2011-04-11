@@ -305,6 +305,11 @@ public class FixUtils {
 			buf[i] = (byte) 0;
 	}
 
+	public static void fill(final byte[] buf, byte b) {
+		for (int i = 0; i < buf.length; i++)
+			buf[i] = b;
+	}
+
 	public static long fixFloatValueOf(final byte[] s, int length) {
 		int start = 0;
 		boolean negative = false;
