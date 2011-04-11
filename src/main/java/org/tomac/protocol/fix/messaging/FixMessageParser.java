@@ -53,19 +53,23 @@ public class FixMessageParser implements FixMessageInfo
 
 			if (!err.hasError()) {
 
+				err.refSeqNum = standardHeader.getMsgSeqNum();
+				err.refMsgTypeInt = msgTypeInt;
+				err.session = session;
+
 				if (MessageTypes.LOGON_INT == msgTypeInt) {
 
 					FixLogon logon = fixMessagePool.getFixLogon(buf, err);
 					if(err.hasError()) {
+						if (err.hasError() && err.refTagID == FixTags.DEFAULTAPPLVERID_INT)
+							err.setError(FixEvent.DISCONNECT, err.text, err.refTagID, msgTypeInt);
+
 						l.onFixValidationError(err);
 					} else {
 						logon.sessionID = session.getSessionID();
 						l.onFixLogon(logon);
 					}
 					fixMessagePool.returnFixLogon (logon);
-					if (err.hasError() && err.refTagID == FixTags.DEFAULTAPPLVERID_INT)
-						err.setError(FixEvent.DISCONNECT, err.text, err.refTagID, msgTypeInt);
-
 				} else {
 
 					if (FixUtils.isNasdaqOMX && (msgTypeInt == '8' || msgTypeInt == '9'))
@@ -1378,17 +1382,24 @@ public class FixMessageParser implements FixMessageInfo
 		} else if (MessageTypes.LOGON_INT == msgTypeInt && session == null) { // MESSAGE
 			err.setError(FixEvent.DISCONNECT, "DISCONNECT");
 		} else { // MESSAGE
+			err.refSeqNum = standardHeader.getMsgSeqNum();
 			err.refMsgTypeInt = msgTypeInt;
 			err.session = session;
 
 			if (session == null || !session.isEstablished()) {
 				err.setError(FixEvent.DISCONNECT, "DISCONNECT");
-			}
+			} else {
+				err.session = session;
 				l.onFixValidationError(err);
 			}
 
+		}
+
 		} else if (MessageTypes.LOGON_INT == msgTypeInt) { // RAW
 			err.setError(FixEvent.DISCONNECT, "DISCONNECT");
+		} else {
+		IFixSession session = l.getSession(connectorID, err);
+		if (session == null || ! session.isEstablished()) err.setError(FixEvent.DISCONNECT, "DISCONNECT");
 		}
 
 		standardHeader.clear();

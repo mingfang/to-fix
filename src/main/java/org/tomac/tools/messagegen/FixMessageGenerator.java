@@ -881,6 +881,9 @@ public class FixMessageGenerator {
 		out.write("\t\t@Override\n");
 		out.write("\t\tpublic boolean isEstablished() {	return true; }\n\n");
 		
+		out.write("\t\t@Override\n");
+		out.write("\t\tpublic boolean validate(FixStandardHeader standardHeader) {	return true; }\n\n");
+
 		out.write("\t};\n\n");
 
 		// write out the close to the interface
@@ -1411,21 +1414,24 @@ public class FixMessageGenerator {
 		out.write("\t\t\tif (session != null && err.isMsgSeqNumConsumer()) \n\t\t\t\tsession.incrementInMsgSeqNum();\n\n");
 
 		out.write("\t\t\tif (!err.hasError()) {\n\n");
+		out.write("\t\t\t\terr.refSeqNum = standardHeader.getMsgSeqNum();\n");
+		out.write("\t\t\t\terr.refMsgTypeInt = msgTypeInt;\n");
+		out.write("\t\t\t\terr.session = session;\n\n");
+
 		out.write("\t\t\t\tif (MessageTypes.LOGON_INT == msgTypeInt) {\n\n");
 
 		final String logonName = "logon";
 		final String logonCapName = "Logon";
 		out.write("\t\t\t\t\t" + capFirst(dom.type.toLowerCase()) + logonCapName + " " + logonName + " = fixMessagePool.get" + capFirst(dom.type.toLowerCase()) + logonCapName + "(buf, err);\n");
 		out.write("\t\t\t\t\tif(err.hasError()) {\n");
+		out.write("\t\t\t\t\t\tif (err.hasError() && err.refTagID == FixTags.DEFAULTAPPLVERID_INT)\n");
+		out.write("\t\t\t\t\t\t\terr.setError(FixEvent.DISCONNECT, err.text, err.refTagID, msgTypeInt);\n\n");
 		out.write("\t\t\t\t\t\tl.onFixValidationError(err);\n");
 		out.write("\t\t\t\t\t} else {\n");
 		out.write("\t\t\t\t\t\t" + logonName + ".sessionID = session.getSessionID();\n");
 		out.write("\t\t\t\t\t\tl.on" + capFirst(dom.type.toLowerCase()) + logonCapName + "(" + logonName + ");\n");
 		out.write("\t\t\t\t\t}\n");
 		out.write("\t\t\t\t\tfixMessagePool.return" + capFirst(dom.type.toLowerCase()) + logonCapName + " (" + logonName + ");\n");
-
-		out.write("\t\t\t\t\tif (err.hasError() && err.refTagID == FixTags.DEFAULTAPPLVERID_INT)\n");
-		out.write("\t\t\t\t\t\terr.setError(FixEvent.DISCONNECT, err.text, err.refTagID, msgTypeInt);\n\n");
 
 		out.write("\t\t\t\t} else {\n\n");
 
@@ -1471,18 +1477,26 @@ public class FixMessageGenerator {
 		out.write("\t\t} else if (MessageTypes.LOGON_INT == msgTypeInt && session == null) { // MESSAGE\n");
 		out.write("\t\t\terr.setError(FixEvent.DISCONNECT, \"DISCONNECT\");\n");
 		out.write("\t\t} else { // MESSAGE\n");
+		out.write("\t\t\terr.refSeqNum = standardHeader.getMsgSeqNum();\n");
 		out.write("\t\t\terr.refMsgTypeInt = msgTypeInt;\n");
 		out.write("\t\t\terr.session = session;\n\n");
 
 		out.write("\t\t\tif (session == null || !session.isEstablished()) {\n");
 		out.write("\t\t\t\terr.setError(FixEvent.DISCONNECT, \"DISCONNECT\");\n");
-		out.write("\t\t\t}\n");
+		out.write("\t\t\t} else {\n");
+		out.write("\t\t\t\terr.session = session;\n");
 		out.write("\t\t\t\tl.onFixValidationError(err);\n");
 		out.write("\t\t\t}\n\n");
+		
+		out.write("\t\t}\n\n");
 
 		out.write("\t\t} else if (MessageTypes.LOGON_INT == msgTypeInt) { // RAW\n");
 		out.write("\t\t\terr.setError(FixEvent.DISCONNECT, \"DISCONNECT\");\n");
+		out.write("\t\t} else {\n");
+		out.write("\t\tIFixSession session = l.getSession(connectorID, err);\n");
+		out.write("\t\tif (session == null || ! session.isEstablished()) err.setError(FixEvent.DISCONNECT, \"DISCONNECT\");\n");
 		out.write("\t\t}\n\n");
+		
 		out.write("\t\tstandardHeader.clear();\n");
 		out.write("\t}\n\n");
 

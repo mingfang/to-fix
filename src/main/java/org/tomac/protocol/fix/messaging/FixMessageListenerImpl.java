@@ -410,6 +410,9 @@ public class FixMessageListenerImpl implements FixMessageListener
 		@Override
 		public boolean isEstablished() {	return true; }
 
+		@Override
+		public boolean validate(FixStandardHeader standardHeader) {	return true; }
+
 	};
 
 }

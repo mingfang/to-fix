@@ -1,24 +1,28 @@
 package org.tomac.protocol.fix;
 
+import org.tomac.protocol.fix.messaging.FixMessageInfo;
+import org.tomac.protocol.fix.messaging.FixTags;
+
 
 public class FixValidationError {
 	public int		sessionRejectReason;
 	public String	text;
 
 	public int		refTagID;
-
+	public long		refSeqNum;
 	public int	    refMsgTypeInt;
 	
 	public IFixSession session;
-	long	resendRequestMsgSeqNum;
+	public long	resendRequestMsgSeqNum;
 
 
 	public void clear() {
 		sessionRejectReason = -1;
 		session = null;
 		text = null;
-		refTagID = -1;
+		refTagID = Integer.MIN_VALUE;
 		refMsgTypeInt = -1;
+		refSeqNum = -1;
 	}
 
 	public boolean hasError() {
@@ -44,7 +48,18 @@ public class FixValidationError {
 	}
 	
 	public boolean isMsgSeqNumConsumer() {
-		return sessionRejectReason != FixEvent.DISCONNECT && sessionRejectReason != FixEvent.GARBLED && sessionRejectReason != FixEvent.IGNORE_MESSAGE;
+		boolean consumer = sessionRejectReason != FixEvent.DISCONNECT &&
+		sessionRejectReason != FixEvent.GARBLED &&
+		sessionRejectReason != FixEvent.IGNORE_MESSAGE &&
+		sessionRejectReason != FixEvent.MSGSEQNUM_RESENDREQUEST; // propbaly MSGSEQNUM_LOGON_RESENDREQUEST also
+		
+		if (sessionRejectReason == FixMessageInfo.SessionRejectReason.SENDINGTIME_ACCURACY_PROBLEM && session != null)
+			if (refSeqNum < session.getInMsgSeqNum()) return false;
+		if (sessionRejectReason == FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING && refTagID == FixTags.ORIGSENDINGTIME_INT && session != null)
+			if (refSeqNum < session.getInMsgSeqNum()) return false;
+		
+			
+		return consumer;
 	}
 	
 	@Override
