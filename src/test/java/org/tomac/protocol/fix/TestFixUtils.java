@@ -35,10 +35,129 @@ public class TestFixUtils {
 	}
 	
 	@Test
+	public void testLongToNumericPadding() {
+		byte[] buf = new byte[6];
+		long val = 1234;
+		
+		try {
+			FixUtils.fill(buf, (byte) ' ');
+			FixUtils.longToNumeric(buf, 0, val, buf.length);
+			int i = 0;
+			byte[] expected = "  1234".getBytes();
+			for (byte b : expected) {
+				assertEquals(b, buf[i]);
+				i++;
+			}
+		} catch (NumberFormatException n) {
+			fail();
+		}
+
+		try {
+			FixUtils.fill(buf, (byte) 0);
+			FixUtils.longToNumeric(buf, 0, val, buf.length);
+			int i = 0;
+			byte[] expected = "  1234".getBytes();
+			expected[0] = (byte) 0;
+			expected[1] = (byte) 0;
+			for (byte b : expected) {
+				assertEquals(b, buf[i]);
+				i++;
+			}
+		} catch (NumberFormatException n) {
+			fail();
+		}
+	
+	}
+	
+	@Test
+	public void testLongValueOfPadding() {
+
+		try {
+			byte[] buf = "1234  ".getBytes();
+			long val = FixUtils.longValueOf(buf, 0, buf.length);
+			long expected = 1234;
+			fail();
+		} catch (NumberFormatException n) {
+			assertTrue(true);
+		}
+
+		try {
+			byte[] buf = "  1234".getBytes();
+			long val = FixUtils.longValueOf(buf, 0, buf.length);
+			long expected = 1234;
+			assertEquals(expected, val);
+		} catch (NumberFormatException n) {
+			fail();
+		}
+
+		try {
+			byte[] buf = "1234\0\0".getBytes();
+			long val = FixUtils.longValueOf(buf, 0, buf.length);
+			long expected = 1234;
+			fail();
+		} catch (NumberFormatException n) {
+			assertTrue(true);
+		}
+
+		try {
+			byte[] buf = "  1234".getBytes();
+			buf[0] = (byte) 0;
+			buf[1] = (byte) 0;
+			long val = FixUtils.longValueOf(buf, 0, buf.length);
+			long expected = 1234;
+			assertEquals(expected, val);
+		} catch (NumberFormatException n) {
+			fail();
+		}
+		
+	}	
+	
+	@Test
+	public void testIntValueOfPadding() {
+
+		try {
+			byte[] buf = "1234  ".getBytes();
+			int val = FixUtils.intValueOf(buf, 0, buf.length);
+			int expected = 1234;
+		} catch (NumberFormatException n) {
+			assertTrue(true);
+		}
+
+		try {
+			byte[] buf = "  1234".getBytes();
+			int val = FixUtils.intValueOf(buf, 0, buf.length);
+			int expected = 1234;
+			assertEquals(expected, val);
+		} catch (NumberFormatException n) {
+			fail();
+		}
+
+		try {
+			byte[] buf = "1234\0\0".getBytes();
+			int val = FixUtils.intValueOf(buf, 0, buf.length);
+			int expected = 1234;
+		} catch (NumberFormatException n) {
+			assertTrue(true);
+		}
+
+		try {
+			byte[] buf = "  1234".getBytes();
+			buf[0] = (byte) 0;
+			buf[1] = (byte) 0;
+			int val = FixUtils.intValueOf(buf, 0, buf.length);
+			int expected = 1234;
+			assertEquals(expected, val);
+		} catch (NumberFormatException n) {
+			fail();
+		}
+		
+	}		
+	
+	@Test
 	public void testLongToNumeric() {
-		byte[] buf = new byte[12];
+		byte[] buf = new byte[4];
 		long l = 1234;
-		FixUtils.longToNumeric(buf, 0, l, 12);
+		FixUtils.longToNumeric(buf, 0, l, 4);
 		
 		int i = 0;
 		byte[] expected = "1234".getBytes();

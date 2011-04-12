@@ -39,8 +39,9 @@ public class TestFieldConverters {
     	FixUtils.longToNumeric(out, 0, 123, out.length);
         assertTrue(FixUtils.equals("123".getBytes(), out));
         assertEquals(123L, FixUtils.longValueOf("123".getBytes(), 0 , 3));
+        FixUtils.fill(out, (byte) ' ');
     	FixUtils.longToNumeric(out, 0, -1, out.length);
-        assertTrue(FixUtils.equals("-1".getBytes(), out));
+        assertTrue(FixUtils.equals(" -1".getBytes(), out));
         try {
         	FixUtils.longValueOf("abc".getBytes(), 0 , 3);
         	fail();

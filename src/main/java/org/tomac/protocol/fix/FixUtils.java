@@ -360,7 +360,7 @@ public class FixUtils {
 
 	public static int intValueOf(final byte[] b, int pos, int len) {
 
-		while (len > 0 && b[pos] == (byte) 0) {
+		while (len > 0 && ( b[pos] == (byte) 0 || b[pos] == (byte) ' ' )) {
 			pos++;
 			len--;
 		}
@@ -442,7 +442,7 @@ public class FixUtils {
 		final int radix = 10;
 
 		if (l == 0) {
-			out[offset] = (byte) '0';
+			out[offset + length - 1] = (byte) '0';
 			return;
 		}
 
@@ -456,23 +456,25 @@ public class FixUtils {
 		while ((l /= radix) != 0)
 			count++;
 
+		int pos = offset + length;
+		
 		do {
 			int ch = 0 - (int) (j % radix);
 			if (ch > 9)
 				ch = ch - 10 + (byte) 'a';
 			else
 				ch += (byte) '0';
-			out[--count] = (byte) ch;
+			out[--pos] = (byte) ch;
 
 		} while ((j /= radix) != 0);
 		if (negative)
-			out[0] = (byte) '-';
+			out[--pos] = (byte) '-';
 
 	}
 
 	public static long longValueOf(final byte[] b, int pos, int len) {
 
-		while (len > 0 && b[pos] == (byte) 0) {
+		while (len > 0 && (  b[pos] ==  (byte) 0 || b[pos] == (byte)' ' ) ) {
 			pos++;
 			len--;
 		}
