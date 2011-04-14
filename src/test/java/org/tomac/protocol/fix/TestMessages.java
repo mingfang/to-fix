@@ -24,7 +24,6 @@ import org.tomac.protocol.fix.messaging.FixNewOrderSingle;
 import org.tomac.protocol.fix.messaging.FixNews;
 
 public class TestMessages {
-	FixMessagePool<FixMessage> pool = new FixMessagePool<FixMessage>();;
 	TestFixMessageListener listener = new TestFixMessageListener();
 	FixValidationError err = new FixValidationError();
 	FixMessageParser parser;
@@ -32,7 +31,7 @@ public class TestMessages {
 	
 	@Before
 	public void setUp() {
-		parser = new FixMessageParser(pool);
+		parser = new FixMessageParser();
 		FixUtils.validateChecksum = false;
 		FixUtils.validateSendingTime = false;
 		FixUtils.validateSession = false;
@@ -66,7 +65,7 @@ public class TestMessages {
     }
 
     private FixNewOrderSingle createNewOrderSingle() {
-    	FixNewOrderSingle msg = pool.getFixNewOrderSingle();
+    	FixNewOrderSingle msg = FixMessagePool.pool.getFixNewOrderSingle();
     	msg.setClOrdID("CLIENT".getBytes());
     	msg.setHandlInst(FixMessageInfo.HandlInst.AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION);
     	msg.instrument.setSymbol("ORCL");
@@ -89,7 +88,7 @@ public class TestMessages {
     }
     
     private FixExecutionReport createExecutionReport() {
-    	FixExecutionReport msg = pool.getFixExecutionReport();
+    	FixExecutionReport msg = FixMessagePool.pool.getFixExecutionReport();
     	msg.setOrderID("ORDER".getBytes());
     	msg.setExecID("EXEC".getBytes());
     	msg.setSide(FixMessageInfo.Side.BUY);

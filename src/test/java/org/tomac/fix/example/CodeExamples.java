@@ -49,23 +49,22 @@ public class CodeExamples {
 	
 	@Test
 	public void SimpleExampleUsingMessagePool() {
-		FixMessagePool<FixMessage> pool = new FixMessagePool<FixMessage>();
 		FixValidationError err = new FixValidationError();
 		ByteBuffer buf = ByteBuffer.wrap(new String("8=FIXT.1.1\u00019=75\u000135=A\u000149=TOC\u000156=TOMAC\u000134=1\u000150=TOC\u000157=S\u000152=20110211-05:40:09.425\u000198=0\u0001108=30\u000110=167\u0001").getBytes());
 		// in-bound message from your message Pool and raw fix message byteBuffer
-		FixLogon inLogon = (FixLogon) pool.getFixMessage(buf, err);
+		FixLogon inLogon = (FixLogon) FixMessagePool.pool.getFixMessage(buf, err);
 		// process the message, then return it to to pool
-		pool.returnFixLogon(inLogon);
+		FixMessagePool.pool.returnFixLogon(inLogon);
 		
 		// out bound message from your message Pool
-		FixLogon logon = pool.getFixLogon();
+		FixLogon logon = FixMessagePool.pool.getFixLogon();
 		// populate the fields
 		logon.setHeartBtInt(10);
 		// convert to raw message for sending..
 		ByteBuffer out = ByteBuffer.allocate(1024);
 		logon.encode(out);
 		// when you are done return the message to the pool
-		pool.returnFixLogon(logon);
+		FixMessagePool.pool.returnFixLogon(logon);
 		
 		
 	}
@@ -75,8 +74,7 @@ public class CodeExamples {
 		// create a listener, parser and error holder for in-bound FIX messages
 		MyFixMessageListener listener = new MyFixMessageListener();
 		FixValidationError err = new FixValidationError();
-		FixMessagePool<FixMessage> pool = new FixMessagePool<FixMessage>();
-		FixMessageParser parser = new FixMessageParser(pool);
+		FixMessageParser parser = new FixMessageParser();
 		
 		ByteBuffer buf = ByteBuffer.wrap(new String("8=FIXT.1.1\u00019=75\u000135=A\u000149=TOC\u000156=TOMAC\u000134=1\u000150=TOC\u000157=S\u000152=20110211-05:40:09.425\u000198=0\u0001108=30\u000110=167\u0001").getBytes());
 		// the buf ByteBuffer contains the raw fix message

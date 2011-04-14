@@ -2,6 +2,7 @@ package org.tomac.protocol.fix.messaging;
 
 import java.nio.ByteBuffer;
 import org.tomac.protocol.fix.FixUtils;
+import org.tomac.protocol.fix.FixInMessage;
 import org.tomac.protocol.fix.FixValidationError;
 import org.tomac.protocol.fix.messaging.FixMessageInfo;
 import org.tomac.protocol.fix.FixMessage;
@@ -125,6 +126,7 @@ import org.tomac.protocol.fix.messaging.FixPartyDetailsListReport;
 
 public class FixMessagePool<T extends FixMessage> {
 
+	static public FixMessagePool<FixInMessage> pool = new FixMessagePool<FixInMessage>();
 	FixHeartbeat[] poolFixHeartbeat;
 	boolean[] inUseFixHeartbeat;
 	FixTestRequest[] poolFixTestRequest;

@@ -9,17 +9,16 @@ import org.tomac.protocol.fix.messaging.FixMessagePool;
 import org.tomac.protocol.fix.messaging.FixNews;
 
 public class TestFixMessagePool {
-    private FixMessagePool<FixInMessage> pool = new FixMessagePool<FixInMessage>();
 
     @Test
     public void testMessageCreate() throws Exception {
-        assertMessage(new FixAdvertisement().getClass(), pool.getFixAdvertisement());
+        assertMessage(new FixAdvertisement().getClass(), FixMessagePool.pool.getFixAdvertisement());
     }
     
     @Test
     public void testGroupCreate() throws Exception {
 
-    	FixNews news = pool.getFixNews();
+    	FixNews news = FixMessagePool.pool.getFixNews();
 
     	news.linesOfTextGrp[0].setText("test");
         assertEquals(news.linesOfTextGrp[0].hasGroup(), true);

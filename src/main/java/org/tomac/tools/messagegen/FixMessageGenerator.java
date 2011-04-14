@@ -5,23 +5,13 @@ import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
 import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
 import org.tomac.protocol.fix.FixDataTypes;
-import org.tomac.protocol.fix.FixEvent;
-import org.tomac.protocol.fix.FixUtils;
-import org.tomac.protocol.fix.FixValidationError;
-import org.tomac.protocol.fix.IFixSession;
-import org.tomac.protocol.fix.messaging.FixHeartbeat;
-import org.tomac.protocol.fix.messaging.FixMessageInfo;
-import org.tomac.protocol.fix.messaging.FixMessageListener;
+import org.tomac.protocol.fix.FixInMessage;
 import org.tomac.protocol.fix.messaging.FixMessagePool;
-import org.tomac.protocol.fix.messaging.FixStandardHeader;
-import org.tomac.protocol.fix.messaging.FixTags;
-import org.tomac.protocol.fix.messaging.FixMessageInfo.MessageTypes;
 import org.tomac.tools.converter.QuickFixComponent;
 import org.tomac.tools.converter.QuickFixField;
 import org.tomac.tools.converter.QuickFixField.QuickFixValue;
@@ -1230,6 +1220,7 @@ public class FixMessageGenerator {
 		out.write("package " + dom.packageName + ";\n\n");
 		out.write("import java.nio.ByteBuffer;\n");
 		out.write("import " + dom.packageNameBase + ".FixUtils;\n");
+		out.write("import " + dom.packageNameBase + ".FixInMessage;\n");
 		out.write("import " + dom.packageNameBase + ".FixValidationError;\n");
 		out.write("import " + dom.packageNameBase + ".messaging.FixMessageInfo;\n");
 		out.write("import " + dom.packageNameBase + "." + capFirst(dom.type.toLowerCase()) + "Message;\n");
@@ -1239,6 +1230,9 @@ public class FixMessageGenerator {
 		}
 		out.write("\n");
 		out.write("public class Fix" + "MessagePool<T extends FixMessage> {\n\n");
+		
+		out.write("	static public FixMessagePool<FixInMessage> pool = new FixMessagePool<FixInMessage>();\n");
+		
 		for (final QuickFixMessage m : dom.quickFixMessages) {
 			final String name = capFirst(dom.type.toLowerCase()) + m.name;
 			out.write("	" + name + "[] pool" + name + ";\n");
@@ -1380,16 +1374,11 @@ public class FixMessageGenerator {
 		// write out the open to the parser class
 		out.write("public class " + dom.type + "MessageParser implements " + dom.type + "MessageInfo\n{\n\n");
 
-		out.write("\tpublic FixMessagePool<FixMessage> fixMessagePool;\n");
+		out.write("\tpublic FixMessagePool<FixInMessage> fixMessagePool;\n");
 		out.write("\tFixStandardHeader standardHeader;\n\n");
 
-		out.write("\tpublic FixMessageParser(FixMessagePool<FixMessage> fixMessagePool) {\n");
-		out.write("\t\tthis.fixMessagePool = fixMessagePool;\n");
-		out.write("\t\tstandardHeader = new FixStandardHeader(); \n");
-		out.write("\t}\n\n");
-
 		out.write("\tpublic FixMessageParser() {\n");
-		out.write("\t\tfixMessagePool = new FixMessagePool<FixMessage>();\n");
+		out.write("\t\tfixMessagePool = FixMessagePool.pool;\n");
 		out.write("\t\tstandardHeader = new FixStandardHeader(); \n");
 		out.write("\t}\n\n");
 

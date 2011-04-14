@@ -18,16 +18,11 @@ import org.tomac.protocol.fix.FixEvent;
 public class FixMessageParser implements FixMessageInfo
 {
 
-	public FixMessagePool<FixMessage> fixMessagePool;
+	public FixMessagePool<FixInMessage> fixMessagePool;
 	FixStandardHeader standardHeader;
 
-	public FixMessageParser(FixMessagePool<FixMessage> fixMessagePool) {
-		this.fixMessagePool = fixMessagePool;
-		standardHeader = new FixStandardHeader(); 
-	}
-
 	public FixMessageParser() {
-		fixMessagePool = new FixMessagePool<FixMessage>();
+		fixMessagePool = FixMessagePool.pool;
 		standardHeader = new FixStandardHeader(); 
 	}
 

@@ -36,7 +36,6 @@ public class TestToFixPerformance {
 	FixMessageParser parser;
 	FixMessageListenerImpl listener;
 	FixMarketDataSnapshotFullRefresh message;
-	FixMessagePool<FixMessage> pool = new FixMessagePool<FixMessage>();
 	
 	@Before
 	public void setUp() {
@@ -45,7 +44,7 @@ public class TestToFixPerformance {
 		FixUtils.validateSendingTime = false;
 		FixUtils.validateOnlyDefinedTagsAllowed = false;
 		err = new FixValidationError();
-		parser = new FixMessageParser(pool);
+		parser = new FixMessageParser();
 		listener = new FixMessageListenerImpl() {
     		@Override
     		public void onFixNewOrderSingle(FixNewOrderSingle msg) {
