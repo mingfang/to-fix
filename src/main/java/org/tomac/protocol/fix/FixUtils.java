@@ -944,6 +944,8 @@ public class FixUtils {
 
 				if (!err.hasError() && bodyLength >= FIX_MESSAGE_START + FIX_TRAILER) { // TODO ad FIX_MAX_MESSAGE_LENGTH check
 
+					int messageStartPos = buf.position();
+					
 					int msgTypeTag = FixUtils.getTag(buf, err);
 
 					if (msgTypeTag == FixTags.MSGTYPE_INT && !err.hasError()) {
@@ -953,12 +955,12 @@ public class FixUtils {
 
 						if (!err.hasError()) {
 
-							if (buf.position() + bodyLength < buf.limit() + FIX_TRAILER) {
+							if (messageStartPos + bodyLength < buf.limit() + FIX_TRAILER) {
 								if (!err.hasError() && validateChecksum) {
+									FixUtils.fill(calcCheckSum, (byte)'0');
+									generateCheckSum(calcCheckSum, buf, messageStartPos, bodyLength + messageStartPos);
 
-									generateCheckSum(calcCheckSum, buf, buf.position(), bodyLength + buf.position());
-
-									buf.position(bodyLength + buf.position());
+									buf.position(bodyLength + messageStartPos);
 									final int checkSumTag = getTag(buf, err);
 
 									if (!err.hasError() && checkSumTag == FixTags.CHECKSUM_INT) {

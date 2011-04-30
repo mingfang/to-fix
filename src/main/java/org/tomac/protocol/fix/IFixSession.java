@@ -19,7 +19,7 @@ public interface IFixSession {
 	public void setOutMsgSeqNum(long msgSeqNum);
 
 	public boolean isEstablished();
-
+	
 	public boolean validate(FixStandardHeader standardHeader);
 	
 	

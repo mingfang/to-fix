@@ -64,7 +64,7 @@ public class FixStrandardTrailer extends FixGroup {
             	case FixTags.CHECKSUM_INT:		
             		hasCheckSum = (short) buf.position();		
             		FixUtils.getNext(buf, err);		
-                	break; 		
+                	return -1; // always last
             	default:
             		return tag;
 

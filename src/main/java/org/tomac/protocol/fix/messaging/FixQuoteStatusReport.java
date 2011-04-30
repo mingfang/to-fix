@@ -495,7 +495,6 @@ public class FixQuoteStatusReport extends FixInMessage {
                 		else continue;		
         			} else if ( standardTrailer.isKeyTag(tag)) {
         				tag = standardTrailer.setBuffer( tag, buf, err);
-        				FixUtils.unreadLastTag(tag, buf);
         				if (!err.hasError()) hasRequiredTags(err);
             			return; // always last, we are done now
         			} else if ( tag == FixTags.NOPARTYIDS_INT ) {
@@ -1359,7 +1358,8 @@ public class FixQuoteStatusReport extends FixInMessage {
 			FixUtils.put(out, super.standardHeader.getBodyLength());
 		}
 		final byte[] tmpCheckSum = new byte[FixTags.CHECKSUM_LENGTH];
-		FixUtils.generateCheckSum(tmpCheckSum, out, startPos, endPos);
+		FixUtils.fill(tmpCheckSum, (byte)'0');
+		FixUtils.generateCheckSum(tmpCheckSum, out, startPos + FixUtils.FIX_MESSAGE_START, endPos);
 		super.standardTrailer.setCheckSum(tmpCheckSum);
 
 		out.position(endPos);

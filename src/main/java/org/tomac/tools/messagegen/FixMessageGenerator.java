@@ -486,7 +486,11 @@ public class FixMessageGenerator {
 			out.write("            	case FixTags." + f.name.toUpperCase() + "_INT:		\n");
 			out.write("            		has" + capFirst(f.name) + " = (short) buf.position();		\n");
 			out.write("            		FixUtils.getNext(buf, err);		\n");
-			out.write("                	break; 		\n");
+			if (f.name.equalsIgnoreCase("checkSum")) {
+				out.write("                	return -1; // always last\n");
+			} else {
+				out.write("                	break; 		\n");
+			}
 		}
 
 		out.write("            	default:\n");
@@ -955,7 +959,6 @@ public class FixMessageGenerator {
 			out.write("                		else continue;		\n");
 			out.write("        			} else if ( standardTrailer.isKeyTag(tag)) {\n");
 			out.write("        				tag = standardTrailer.setBuffer( tag, buf, err);\n");
-			out.write("        				FixUtils.unreadLastTag(tag, buf);\n");
 			out.write("        				if (!err.hasError()) hasRequiredTags(err);\n");
 			out.write("            			return; // always last, we are done now\n");
 
@@ -1044,7 +1047,8 @@ public class FixMessageGenerator {
 		out.write("		}\n");
 
 		out.write("		final byte[] tmpCheckSum = new byte[FixTags.CHECKSUM_LENGTH];\n");
-		out.write("		FixUtils.generateCheckSum(tmpCheckSum, out, startPos, endPos);\n");
+		out.write("		FixUtils.fill(tmpCheckSum, (byte)'0');\n");
+		out.write("		FixUtils.generateCheckSum(tmpCheckSum, out, startPos + FixUtils.FIX_MESSAGE_START, endPos);\n");
 		out.write("		super.standardTrailer.setCheckSum(tmpCheckSum);\n\n");
 
 		out.write("		out.position(endPos);\n\n");
