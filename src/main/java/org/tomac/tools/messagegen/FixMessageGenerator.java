@@ -1,27 +1,44 @@
 package org.tomac.tools.messagegen;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
-import org.tomac.protocol.fix.FixDataTypes;
-import org.tomac.protocol.fix.FixInMessage;
-import org.tomac.protocol.fix.messaging.FixMessagePool;
-import org.tomac.tools.converter.QuickFixComponent;
-import org.tomac.tools.converter.QuickFixField;
-import org.tomac.tools.converter.QuickFixField.QuickFixValue;
-import org.tomac.tools.converter.QuickFixMessage;
+import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixUtils;
+import org.tomac.protocol.fix.messaging.fix42nordic.FixMessageInfo;
+import org.tomac.protocol.fix.messaging.fix42nordic.FixTags;
+import org.tomac.protocol.fix.messaging.fix42nordic.FixMessageInfo.MsgTypes;
+import org.tomac.tools.messagegen.FixMessageDom.DomFixField;
+import org.tomac.tools.messagegen.FixMessageDom.DomFixField.DomFixValue;
+import org.tomac.tools.messagegen.FixMessageDom.DomFixMessage;
+import org.tomac.utils.Utils;
+
 
 public class FixMessageGenerator {
+	
+	// static include strings, allowing for cahnging the import libraries.
+	private static String strInByteBuffer = "import java.nio.ByteBuffer;";
+	private static String strOutByteBuffer = "";
+	private static String strUtils = "import org.tomac.utils.Utils;";
+	private static String strFixUtils = "import org.tomac.protocol.fix.FixUtils;";
+	private static String strOtherUtils = "";
+	private static String strFixException = "import org.tomac.protocol.fix.FixSessionException;";
+	private static String strConstants = "import org.tomac.protocol.fix.FixConstants;";
+	private static String strBaseUtils = "";
+	
+	private static String strReadableByteBuffer = "ByteBuffer";
+	private static String strWritableByteBuffer = "ByteBuffer";
+	private static String strUtil = "Utils";
+	private static String strOtherUtil = "Utils";
 
-	public static final ArrayList<String>	reservedNames	= new ArrayList<String>();
-
-	public static String capFirst(final String s) {
+	
+	private static String capFirst(final String s) {
 		return s.substring(0, 1).toUpperCase() + s.substring(1);
 	}
 
@@ -36,7 +53,7 @@ public class FixMessageGenerator {
 		return fixDom;
 	}
 
-	public static int getTagAsInt(final byte[] b, final int length) {
+	private static int getMsgTypeTagAsInt(final byte[] b, final int length) {
 		int val = 0;
 
 		val |= b[0];
@@ -53,7 +70,6 @@ public class FixMessageGenerator {
 	public static void main(final String[] args) {
 		if (args.length < 1) {
 			System.out.println("Usage: FixMessageGenerator [spec file] [output directory]");
-
 			return;
 		}
 
@@ -100,583 +116,334 @@ public class FixMessageGenerator {
 		System.out.println("Done.");
 	}
 
-	public static String uncapFirst(final String s) {
+	private static String uncapFirst(final String s) {
 		return s.substring(0, 1).toLowerCase() + s.substring(1);
 	}
 
-	protected void allocateField(final QuickFixField f, final OutputStreamWriter out) throws IOException {
-
-		switch (FixDataTypes.toInt(f.type)) {
-			// TODO more lenghts
-			case FixDataTypes.STRING:
-			case FixDataTypes.MULTIPLECHARVALUE:
-			case FixDataTypes.MULTIPLESTRINGVALUE:
-			case FixDataTypes.COUNTRY:
-			case FixDataTypes.EXCHANGE:
-			case FixDataTypes.MONTHYEAR:
-			case FixDataTypes.UTCTIMEONLY:
-			case FixDataTypes.UTCDATEONLY:
-			case FixDataTypes.LOCALMKTDATE:
-			case FixDataTypes.TZTIMEONLY:
-			case FixDataTypes.TZTIMESTAMP:
-			case FixDataTypes.DATA:
-			case FixDataTypes.XMLDATA:
-			case FixDataTypes.LANGUAGE:
-				out.write("		" + uncapFirst(f.name) + " = new byte[" + getJavaLength(f) + "];		\n");
-				break;
-
-			case FixDataTypes.UTCTIMESTAMP:
-				out.write("		" + uncapFirst(f.name) + " = new byte[FixUtils." + "UTCTIMESTAMP_LENGTH];		\n");
-				break;
-
-			case FixDataTypes.CURRENCY:
-				out.write("		" + uncapFirst(f.name) + " = new byte[FixUtils." + "CURRENCY_LENGTH];		\n");
-				break;
-
-			default:
-		}
-	}
-
-	protected void declareField(final QuickFixField f, final OutputStreamWriter out) throws IOException {
-
-		switch (FixDataTypes.toInt(f.type)) {
-
-			case FixDataTypes.STRING:
-			case FixDataTypes.MULTIPLECHARVALUE:
-			case FixDataTypes.MULTIPLESTRINGVALUE:
-			case FixDataTypes.COUNTRY:
-			case FixDataTypes.CURRENCY:
-			case FixDataTypes.EXCHANGE:
-			case FixDataTypes.MONTHYEAR:
-			case FixDataTypes.UTCTIMESTAMP:
-			case FixDataTypes.UTCTIMEONLY:
-			case FixDataTypes.UTCDATEONLY:
-			case FixDataTypes.LOCALMKTDATE:
-			case FixDataTypes.TZTIMEONLY:
-			case FixDataTypes.TZTIMESTAMP:
-			case FixDataTypes.DATA:
-			case FixDataTypes.XMLDATA:
-			case FixDataTypes.LANGUAGE:
-				out.write("	byte[] " + uncapFirst(f.name) + " = new byte[" + getJavaLength(f) + "];		\n");
-				break;
-
-			case FixDataTypes.CHAR:
-				out.write("	byte " + uncapFirst(f.name) + " = (byte)' ';		\n");
-				break;
-
-			case FixDataTypes.INT:
-			case FixDataTypes.LENGTH:
-			case FixDataTypes.TAGNUM:
-			case FixDataTypes.SEQNUM:
-			case FixDataTypes.NUMINGROUP:
-			case FixDataTypes.DAYOFMOUNTH:
-				out.write("	long " + uncapFirst(f.name) + " = 0;		\n");
-				break;
-
-			case FixDataTypes.FLOAT:
-			case FixDataTypes.PRICE:
-			case FixDataTypes.QTY:
-			case FixDataTypes.PRICEOFFSET:
-			case FixDataTypes.AMT:
-			case FixDataTypes.PERCENTAGE:
-				out.write("	long " + uncapFirst(f.name) + " = 0;		\n");
-				break;
-
-			case FixDataTypes.BOOLEAN:
-				out.write("		boolean " + uncapFirst(f.name) + " = false;		\n");
-				break;
-
-			default:
-				throw new RuntimeException("No idea how to parse this field: " + f.name);
-		}
-	}
-
-	private void decodeField(final QuickFixField f, final OutputStreamWriter out) throws IOException {
-
-		switch (FixDataTypes.toInt(f.type)) {
-
-			case FixDataTypes.STRING:
-			case FixDataTypes.MULTIPLECHARVALUE:
-			case FixDataTypes.MULTIPLESTRINGVALUE:
-			case FixDataTypes.COUNTRY:
-			case FixDataTypes.CURRENCY:
-			case FixDataTypes.EXCHANGE:
-			case FixDataTypes.MONTHYEAR:
-			case FixDataTypes.UTCTIMESTAMP:
-			case FixDataTypes.UTCTIMEONLY:
-			case FixDataTypes.UTCDATEONLY:
-			case FixDataTypes.LOCALMKTDATE:
-			case FixDataTypes.TZTIMEONLY:
-			case FixDataTypes.TZTIMESTAMP:
-			case FixDataTypes.DATA:
-			case FixDataTypes.XMLDATA:
-			case FixDataTypes.LANGUAGE:
-				out.write("\t\t\tFixUtils.getTagStringValue(buf, " + uncapFirst(f.name) + ", 0, " + uncapFirst(f.name) + ".length, err);\n");
-				break;
-
-			case FixDataTypes.INT:
-			case FixDataTypes.LENGTH:
-			case FixDataTypes.TAGNUM:
-			case FixDataTypes.SEQNUM:
-			case FixDataTypes.NUMINGROUP:
-			case FixDataTypes.DAYOFMOUNTH:
-				out.write("\t\t\t" + uncapFirst(f.name) + " = FixUtils.getTagIntValue(buf, err);\n");
-				break;
-
-			case FixDataTypes.FLOAT:
-			case FixDataTypes.PRICE:
-			case FixDataTypes.QTY:
-			case FixDataTypes.PRICEOFFSET:
-			case FixDataTypes.AMT:
-			case FixDataTypes.PERCENTAGE:
-				out.write("\t\t\t" + uncapFirst(f.name) + " = FixUtils.getTagFloatValue(buf, err);\n");
-				break;
-
-			case FixDataTypes.CHAR:
-				out.write("\t\t\t" + uncapFirst(f.name) + " = FixUtils.getTagCharValue(buf, err);\n");
-				if (f.quickFixValues.size() > 0) {
-					out.write("\t\t\tif( !err.hasError() && ");
-					for (final QuickFixValue v : f.quickFixValues)
-						out.write("(" + uncapFirst(f.name) + " != (byte)'" + v.fixEnum + "') && ");
-					out.write("true)\n");
-					out.write("\t\t\t\terr.setError((int)FixMessageInfo.SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,\n");
-					out.write("\t\t\t\t\t\"Tag msgType missing got \" + " + f.number + ");");
-
-				}
-				break;
-
-			case FixDataTypes.BOOLEAN:
-				out.write("\t\t\t" + uncapFirst(f.name) + " = FixUtils.getTagCharValue(buf, err)=='Y'?true:false;\n");
-				break;
-
-			default:
-				throw new RuntimeException("No idea how to parse this field: " + f.name);
-		}
-
-	}
-
-	private void encodeField(final QuickFixField f, final OutputStreamWriter out) throws IOException {
-
-		switch (FixDataTypes.toInt(f.type)) {
-
-			case FixDataTypes.STRING:
-			case FixDataTypes.MULTIPLECHARVALUE:
-			case FixDataTypes.MULTIPLESTRINGVALUE:
-			case FixDataTypes.COUNTRY:
-			case FixDataTypes.CURRENCY:
-			case FixDataTypes.EXCHANGE:
-			case FixDataTypes.MONTHYEAR:
-			case FixDataTypes.UTCTIMESTAMP:
-			case FixDataTypes.UTCTIMEONLY:
-			case FixDataTypes.UTCDATEONLY:
-			case FixDataTypes.LOCALMKTDATE:
-			case FixDataTypes.TZTIMEONLY:
-			case FixDataTypes.TZTIMESTAMP:
-			case FixDataTypes.DATA:
-			case FixDataTypes.XMLDATA:
-			case FixDataTypes.LANGUAGE:
-			case FixDataTypes.CHAR:
-				out.write("\t\t\tFixUtils.put(out," + uncapFirst(f.name) + "); 		\n");
-				break;
-
-			case FixDataTypes.INT:
-			case FixDataTypes.LENGTH:
-			case FixDataTypes.TAGNUM:
-			case FixDataTypes.SEQNUM:
-			case FixDataTypes.NUMINGROUP:
-			case FixDataTypes.DAYOFMOUNTH:
-			case FixDataTypes.FLOAT:
-			case FixDataTypes.PRICE:
-			case FixDataTypes.QTY:
-			case FixDataTypes.PRICEOFFSET:
-			case FixDataTypes.AMT:
-			case FixDataTypes.PERCENTAGE:
-				out.write("\t\t\tFixUtils.put(out, (long)" + uncapFirst(f.name) + ");\n");
-				break;
-
-			case FixDataTypes.BOOLEAN:
-				out.write("\t\t\tout.put(" + uncapFirst(f.name) + "?(byte)'Y':(byte)'N' );\n");
-				break;
-
-			default:
-				throw new RuntimeException("No idea how to parse this field: " + f.name);
-		}
-
-	}
-
-	public void genAllMessages(final FixMessageDom dom, final File packageDir) throws IOException {
-
-		// dependent on FixMessage, FixInMessage and FixOutMessage in common.io.fix
-
-		for (final QuickFixMessage m : dom.quickFixMessages) {
-
-			final File f = new File(packageDir, dom.type + m.name + ".java");
-
-			genMessage(m, dom, new FileWriter(f));
-
-		}
-
-		for (final QuickFixComponent c : dom.quickFixComponents) {
-
-			final File f = new File(packageDir, dom.type + c.msgId + ".java");
-
-			genComponent(c, dom, new FileWriter(f));
-
-		}
-
-		File f = new File(packageDir, dom.type + "StandardHeader" + ".java");
-
-		dom.quickFixHeader.msgId = "StandardHeader";
-		genComponent(dom.quickFixHeader, dom, new FileWriter(f));
-
-		f = new File(packageDir, dom.type + "StrandardTrailer" + ".java");
-
-		dom.quickFixTrailer.msgId = "StrandardTrailer";
-		genComponent(dom.quickFixTrailer, dom, new FileWriter(f));
-
-		f = new File(packageDir, dom.type + "MessagePool" + ".java");
-
-		genMessagePool(dom, new FileWriter(f));
-
-	}
-
-	private void genCloneMethod(final boolean isMessage, final FixMessageDom dom, final String name, final ArrayList<QuickFixField> fields, final ArrayList<QuickFixComponent> components, final OutputStreamWriter out) throws IOException {
-
-		if (isMessage) {
-			out.write("\t@Override\n");
-			out.write("\tpublic " + name + " clone () {\n");
-			out.write("\t\t" + name + " out = new " + name + "();\n\n");
-
-			out.write("\t\tstandardHeader.clone(out.standardHeader);\n");
-			out.write("\t\tstandardTrailer.clone(out.standardTrailer);\n");
-
-			out.write("\t\treturn clone(out);\n");
-			out.write("\t}\n\n");
-		}
-
-		out.write("\tpublic " + name + " clone ( " + name + " out ) {\n");
-		for (final QuickFixField f : fields) {
-			out.write("\t\tif ( has" + capFirst(f.name) + "())\n");
-			out.write("\t\t\tout.set" + capFirst(f.name) + "(get" + capFirst(f.name) + "());\n");
-		}
-		boolean first = true;
-		for (final QuickFixComponent cc : components) {
-			final QuickFixComponent c = dom.quickFixNamedComponents.get(cc.name);
-			if (c.isRepeating) {
-				if (first) {
-					out.write("\t\tint count = 0;\n");
-					first = false;
-				}
-
-				out.write("\t\tcount = 0;\n");
-				out.write("\t\tfor (Fix" + capFirst(c.name) + " fix" + capFirst(c.name) + " : " + uncapFirst(c.name) + ") {\n");
-
-				out.write("\t\t\tif (!fix" + capFirst(c.name) + ".hasGroup()) continue;\n");
-				out.write("\t\t\tout." + uncapFirst(c.name) + "[count] = fix" + capFirst(c.name) + ".clone( out." + uncapFirst(c.name) + "[count] );\n");
-				out.write("\t\t\tcount++;\n");
-				out.write("\t\t}\n");
-			} else {
-				out.write("\t\tif (" + uncapFirst(c.name) + ".hasGroup())\n");
-				out.write("\t\t\tout." + uncapFirst(c.name) + " = " + uncapFirst(c.name) + ".clone( out." + uncapFirst(c.name) + ");\n");
-			}
-		}
-		out.write("\t\treturn out;\n");
-		out.write("\t}\n\n");
-
-	}
-
-	public void genComponent(final QuickFixComponent c, final FixMessageDom dom, final FileWriter out) throws IOException {
-
-		String name = dom.type + c.msgId;
-
-		out.write("package " + dom.packageName + ";\n");
-		out.write("\n");
-		out.write("import java.nio.ByteBuffer;\n");
-		out.write("import " + dom.packageNameBase + ".FixGroup;\n");
-		out.write("import " + dom.packageNameBase + ".FixMessage;\n");
-		out.write("import " + dom.packageNameBase + ".FixValidationError;\n");
-		out.write("import " + dom.packageNameBase + ".FixUtils;\n");
-		out.write("import " + dom.packageNameBase + ".messaging.FixTags;\n");
-
-		out.write("		\n");
-		out.write("public class " + name + " extends FixGroup {\n");
-
-		for (final QuickFixField f : c.fields) {
-			out.write("	private short has" + capFirst(f.name) + ";\n");
-			declareField(f, out);
-		}
-
-		for (final QuickFixComponent cc : c.components) {
-			final QuickFixComponent ccc = dom.quickFixNamedComponents.get(cc.name);
-			if (ccc.isRepeating)
-				out.write("		public Fix" + ccc.name + "[] " + uncapFirst(ccc.name) + ";\n");
-			else
-				out.write("		public Fix" + ccc.name + " " + uncapFirst(ccc.name) + ";\n");
-		}
-
-		out.write("	\n");
-
-		// The constructor
-		out.write("	public " + name + "() {\n");
-		out.write("		this(false);\n");
-		out.write("	}\n\n");
+	private void clearField(DomFixField f, BufferedWriter out) throws Exception {
 		
-		out.write("	public " + name + "(boolean isRequired) {\n");
-		if (c.name.equals("trailer")) // special case. Trailer CheckSum is last field but always the key tag.
-			out.write("		super(FixTags." + "CheckSum".toUpperCase() + "_INT);\n\n");
-		else
-			out.write("		super(FixTags." + getKeyTagForComponent(dom, c.keyTag).toUpperCase() + "_INT);\n\n");
-		out.write("		this.isRequired = isRequired;\n");
-		if (c.msgId.equals("StandardHeader"))
-			out.write("		System.arraycopy( msgType, 0, this.msgType, 0, msgType.length );\n");
-		out.write("		\n");
+		switch (FixMessageDom.toInt(f.type)) {
 
-		for (final QuickFixField f : c.fields) {
-			out.write("		has" + capFirst(f.name) + " = FixUtils.TAG_HAS_NO_VALUE;		\n");
-			allocateField(f, out);
+		case FixMessageDom.STRING:
+		case FixMessageDom.MULTIPLECHARVALUE:
+		case FixMessageDom.MULTIPLESTRINGVALUE:
+		case FixMessageDom.COUNTRY:
+		case FixMessageDom.CURRENCY:
+		case FixMessageDom.EXCHANGE:
+		case FixMessageDom.MONTHYEAR:
+		case FixMessageDom.UTCTIMESTAMP:
+		case FixMessageDom.UTCTIMEONLY:
+		case FixMessageDom.UTCDATEONLY:
+		case FixMessageDom.LOCALMKTDATE:
+		case FixMessageDom.TZTIMEONLY:
+		case FixMessageDom.TZTIMESTAMP:
+		case FixMessageDom.DATA:
+		case FixMessageDom.XMLDATA:
+		case FixMessageDom.LANGUAGE:
+			out.write("\t\t" + strUtil + ".fill( " + uncapFirst(f.name) + ", (byte)0 );\n");
+			break;
+
+		case FixMessageDom.CHAR:
+			out.write("\t\t" + uncapFirst(f.name) + " = Byte.MAX_VALUE;		\n");
+			break;
+
+		case FixMessageDom.INT:
+		case FixMessageDom.LENGTH:
+		case FixMessageDom.TAGNUM:
+		case FixMessageDom.SEQNUM:
+		case FixMessageDom.NUMINGROUP:
+		case FixMessageDom.DAYOFMOUNTH:
+			out.write("\t\t" + uncapFirst(f.name) + " = Long.MAX_VALUE;		\n");
+			break;
+
+		case FixMessageDom.FLOAT:
+		case FixMessageDom.PRICE:
+		case FixMessageDom.QTY:
+		case FixMessageDom.PRICEOFFSET:
+		case FixMessageDom.AMT:
+		case FixMessageDom.PERCENTAGE:
+			out.write("\t\t" + uncapFirst(f.name) + " = Long.MAX_VALUE;		\n");
+			break;
+
+		case FixMessageDom.BOOLEAN:
+			out.write("\t\t" + uncapFirst(f.name) + " = false;		\n");
+			break;
+
+		default:
+			throw new RuntimeException("No idea how to parse this field: " + f.name);
 		}
-		for (final QuickFixComponent cc : c.components) {
-			final QuickFixComponent ccc = dom.quickFixNamedComponents.get(cc.name);
-			if (ccc.isRepeating) {
-				out.write("		" + uncapFirst(ccc.name) + " = new Fix" + ccc.name + "[FixUtils.FIX_MAX_NOINGROUP];\n");
-				if (cc.reqd.equals("Y"))
-					out.write("		for (int i= 0; i<FixUtils.FIX_MAX_NOINGROUP; i++) " + uncapFirst(ccc.name) + "[i] = new Fix" + ccc.name + "(true);\n");
-				else
-					out.write("		for (int i= 0; i<FixUtils.FIX_MAX_NOINGROUP; i++) " + uncapFirst(ccc.name) + "[i] = new Fix" + ccc.name + "();\n");
-			} else
-				if (cc.reqd.equals("Y"))
-					out.write("		" + uncapFirst(ccc.name) + " = new Fix" + ccc.name + "(true);\n");
-				else
-					out.write("		" + uncapFirst(ccc.name) + " = new Fix" + ccc.name + "();\n");
-		}
-
-		out.write("		\n");
-		out.write("	}		\n");
-		out.write("			\n");
-
-		out.write("\n");
-		out.write("	@Override\n");
-		out.write("	public boolean hasGroup() {\n");
-
-		final QuickFixComponent cc = dom.quickFixNamedComponents.get(c.keyTag);
-		if (cc != null && !c.keyTag.equalsIgnoreCase("derivativeSecurityXML") && !c.keyTag.equalsIgnoreCase("rateSource") && !c.keyTag.equalsIgnoreCase("securityXML")) { // fixprotocol.org bug
-			if (!cc.isRepeating)
-				out.write("		if (" + uncapFirst(c.keyTag) + ".hasGroup()) return true;\n");
-			else
-				out.write("		if (" + uncapFirst(c.keyTag) + "[0].hasGroup()) return true;\n");
-		} else
-			out.write("		if (has" + capFirst(c.keyTag) + "()) return true;\n");
-		out.write("		else return false;\n");
-		out.write("	}\n");
-		out.write("\n\n");
-
-		out.write("	/**\n");
-		out.write("     * Parse FIX Group. The buffer is positioned at the value of the tag.\n");
-		out.write("     */\n");
-		out.write("    public int setBuffer( int tag, ByteBuffer buf, FixValidationError err)\n");
-		out.write("    {\n\n");
-		out.write("		super.err = err;\n");
-		out.write("		super.setBuffer(buf, err);\n\n\n");
-
-		out.write("        while ( buf.hasRemaining() ) {\n\n");
-
-		out.write("            switch (tag) {		\n");
-
-		for (final QuickFixField f : c.fields) {
-			out.write("            	case FixTags." + f.name.toUpperCase() + "_INT:		\n");
-			out.write("            		has" + capFirst(f.name) + " = (short) buf.position();		\n");
-			out.write("            		FixUtils.getNext(buf, err);		\n");
-			if (f.name.equalsIgnoreCase("checkSum")) {
-				out.write("                	return -1; // always last\n");
-			} else {
-				out.write("                	break; 		\n");
-			}
-		}
-
-		out.write("            	default:\n");
-
-		processTags(dom, out, c.components, false);
-
-		out.write("            }\n\n");
-		out.write("            tag = FixUtils.getTag(buf, err);\n");
-		out.write("            if (err.hasError()) return tag; // what to do now? \n");
-		out.write("            if (isKeyTag(tag)) return tag; // next in repeating group\n");
-
-		out.write("        }		\n");
-		out.write("        return tag;\n");
-		out.write("    }		\n");
-
-		genHasRequiredTags(false, dom, out, c.name, c.fields, c.components);
-
-		out.write("	@Override\n");
-		out.write("	public void clear() {\n");
-		out.write("		// just set the length to header + trailer but still we set it...\n");
-		for (final QuickFixField f : c.fields)
-			out.write("		has" + capFirst(f.name) + " = FixUtils.TAG_HAS_NO_VALUE;\n");
-		for (final QuickFixComponent nnc : c.components) {
-			final QuickFixComponent nc = dom.quickFixNamedComponents.get(nnc.name);
-			if (nc.isRepeating)
-				out.write("		for (Fix" + nc.name + " fix" + nc.name + " : " + uncapFirst(nc.name) + ") fix" + nc.name + ".clear();\n");
-			else
-				out.write("		" + uncapFirst(nc.name) + ".clear();\n");
-		}
-		out.write("	}\n");
-		out.write("\n");
-
-		out.write("	@Override		\n");
-		out.write("	public void encode(ByteBuffer out) {\n\n");
-
-		for (final QuickFixField f : c.fields) {
-			out.write("		if (has" + capFirst(f.name) + "()) {		\n");
-			out.write("			out.put(FixTags." + f.name.toUpperCase() + ");\n\n");
-			out.write("			out.put((byte) '=');\n\n");
-			encodeField(f, out);
-			out.write("		\n");
-			out.write("			out.put(FixUtils.SOH);\n\n");
-			out.write("            }\n\n");
-		}
-		for (final QuickFixComponent nnc : c.components) {
-			final QuickFixComponent nc = dom.quickFixNamedComponents.get(nnc.name);
-			if (nc.isRepeating) {
-				out.write("		if (FixUtils.getNoInGroup(" + uncapFirst(nc.name) + ")>0) {\n");
-				out.write("			out.put(FixTags." + nc.noInGroupTag.toUpperCase() + ");\n\n");
-				out.write("			out.put((byte) '=' );\n\n");
-				out.write("			FixUtils.put(out, FixUtils.getNoInGroup(" + uncapFirst(nc.name) + "));\n\n");
-				out.write("			out.put(FixUtils.SOH);\n\n");
-				out.write("		}\n");
-				out.write("		for (Fix" + nc.name + " fix" + nc.name + " : " + uncapFirst(nc.name) + ") if (fix" + nc.name + ".hasGroup()) fix" + nc.name + ".encode(out);\n");
-			}
-			else {
-				out.write("		" + uncapFirst(nc.name) + ".encode(out);\n");
-			}
-		}
-
-		out.write("	}\n\n");
-
-		out.write("			\n");
-		out.write("	@Override		\n");
-		out.write("	public void printBuffer(ByteBuffer out) {		\n");
-		out.write("		\n");
-
-		for (final QuickFixField f : c.fields) {
-			out.write("		if (has" + capFirst(f.name) + "()) {		\n");
-			encodeField(f, out);
-			out.write("		\n");
-			out.write("	        out.put( (byte)' ' );		\n");
-			out.write("		}		\n");
-			out.write("		\n");
-		}
-		for (final QuickFixComponent nnc : c.components) {
-			final QuickFixComponent nc = dom.quickFixNamedComponents.get(nnc.name);
-			if (nc.isRepeating)
-				out.write("		for (Fix" + nc.name + " fix" + nc.name + " : " + uncapFirst(nc.name) + ") fix" + nc.name + ".printBuffer(out);\n");
-			else
-				out.write("		" + uncapFirst(nc.name) + ".printBuffer(out);\n");
-		}
-		out.write("	}\n\n");
-
-		for (final QuickFixField f : c.fields) {
-			out.write("	public " + getJavaType(f) + " get" + capFirst(f.name) + "() { 		\n");
-			out.write("		if ( has" + capFirst(f.name) + "()) {		\n");
-			out.write("			if (has" + capFirst(f.name) + " == FixUtils.TAG_HAS_VALUE) {		\n");
-			out.write("				return " + uncapFirst(f.name) + "; 		\n");
-			out.write("			} else {		\n");
-			out.write("		\n");
-			out.write("				buf.position(has" + capFirst(f.name) + ");		\n");
-			out.write("		\n");
-			decodeField(f, out);
-			out.write("		\n");
-			out.write("				if (err.hasError()) {		\n");
-			out.write("					buf.position(has" + capFirst(f.name) + ");		\n");
-			out.write("					return " + getJavaTypeNull(f) + ";		\n");
-			out.write("				}		\n");
-			out.write("			}		\n");
-			out.write("			has" + capFirst(f.name) + " = FixUtils.TAG_HAS_VALUE;		\n");
-			out.write("			return " + uncapFirst(f.name) + ";		\n");
-			out.write("		} else {		\n");
-			out.write("			return " + getJavaTypeNull(f) + "; 		\n");
-			out.write("		}		\n");
-			out.write("	}		\n");
-			out.write("			\n");
-			out.write("	public boolean has" + capFirst(f.name) + "() { return has" + capFirst(f.name) + " != FixUtils.TAG_HAS_NO_VALUE; } 		\n");
-			out.write("		\n");
-
-			if (!getJavaType(f).equals("byte[]")) {
-				out.write("	public void set" + capFirst(f.name) + "(" + getJavaType(f) + " src) {		\n");
-				out.write("		" + uncapFirst(f.name) + " = src;\n");
-				out.write("		has" + capFirst(f.name) + " = FixUtils.TAG_HAS_VALUE;		\n");
-				out.write("	}\n\n");
-			}
-
-			out.write("	public void set" + capFirst(f.name) + "(byte[] src) {		\n");
-			out.write("		if (src == null ) return;\n");
-			zeroField(f, out);
-			setFieldByteArrayValue(f, out);
-			out.write("		has" + capFirst(f.name) + " = FixUtils.TAG_HAS_VALUE;		\n");
-			out.write("	}		\n");
-			out.write("			\n");
-			out.write("	public void set" + capFirst(f.name) + "(String str) {		\n");
-			out.write("		if (str == null ) return;\n");
-			zeroField(f, out);
-			out.write("		byte[] src = str.getBytes(); 		\n");
-			setFieldByteArrayValue(f, out);
-			out.write("		has" + capFirst(f.name) + " = FixUtils.TAG_HAS_VALUE;		\n");
-			out.write("	}		\n");
-			out.write("			\n");
-		}
-
-		// toString
-		out.write("	/**\n");
-		out.write("	 * If you use toString for any other purpose than administrative printout.\n");
-		out.write("	 * You will burn in hell!\n");
-		out.write("	**/\n");
-		out.write("	@Override\n");
-		out.write("	public String toString() {\n");
-		out.write("		String s = \"\";\n");
-		out.write("		" + printToString(c.fields, "") + "\n");
-		for (final QuickFixComponent nnc : c.components) {
-			final QuickFixComponent nc = dom.quickFixNamedComponents.get(nnc.name);
-			if (nc.isRepeating)
-				out.write("		for (Fix" + nc.name + " fix" + nc.name + " : " + uncapFirst(nc.name) + ") fix" + nc.name + ".toString();\n");
-			else
-				out.write("\t\ts += " + uncapFirst(nc.name) + ".toString();\n");
-		}
-		out.write("\t\t\treturn s;\n");
-		out.write("	}\n\n");
-
-		// equals
-		name = capFirst(dom.type) + capFirst(c.msgId);
-		out.write("	@Override\n");
-		out.write("	public boolean equals(Object o) {\n");
-		out.write("		if (! ( o instanceof " + name + ")) return false;\n\n");
-		out.write("		" + name + " msg = (" + name + ") o;\n\n");
-		for (final QuickFixComponent nnc : c.components) {
-			final QuickFixComponent nc = dom.quickFixNamedComponents.get(nnc.name);
-			if (nc.isRepeating) {
-				out.write("		for (int i = 0; i < " + uncapFirst(nc.name) + ".length; i++)\n");
-				out.write("			if (!" + uncapFirst(nc.name) + "[i].equals(msg." + uncapFirst(nc.name) + "[i])) return false;\n");
-			} else
-				out.write("\t\tif (!" + uncapFirst(nc.name) + ".equals(msg." + uncapFirst(nc.name) + ")) return false;\n");
-		}
-		printEquals(out, c.fields);
-		out.write("	}\n");
-
-		genCloneMethod(false, dom, name, c.fields, c.components, out);
-
-		// write out the close to the class
-		out.write("}\n");
-
-		// done. close out the file
-		out.close();
-
 	}
 
-	public void genConstants(final FixMessageDom dom, final OutputStreamWriter out) throws Exception {
+	private void allocateField(final DomFixField f, final BufferedWriter out) throws IOException {
 
+		switch (FixMessageDom.toInt(f.type)) {
+
+			case FixMessageDom.STRING:
+			case FixMessageDom.MULTIPLECHARVALUE:
+			case FixMessageDom.MULTIPLESTRINGVALUE:
+			case FixMessageDom.COUNTRY:
+			case FixMessageDom.CURRENCY:
+			case FixMessageDom.EXCHANGE:
+			case FixMessageDom.MONTHYEAR:
+			case FixMessageDom.UTCTIMESTAMP:
+			case FixMessageDom.UTCTIMEONLY:
+			case FixMessageDom.UTCDATEONLY:
+			case FixMessageDom.LOCALMKTDATE:
+			case FixMessageDom.TZTIMEONLY:
+			case FixMessageDom.TZTIMESTAMP:
+			case FixMessageDom.DATA:
+			case FixMessageDom.XMLDATA:
+			case FixMessageDom.LANGUAGE:
+				out.write("\t\t" + uncapFirst(f.name) + " = new byte[" + getJavaLength(f) + "];\n");
+				break;
+		}
+	}	
+	private void declareField(final DomFixField f, final BufferedWriter out) throws IOException {
+
+		switch (FixMessageDom.toInt(f.type)) {
+
+			case FixMessageDom.STRING:
+			case FixMessageDom.MULTIPLECHARVALUE:
+			case FixMessageDom.MULTIPLESTRINGVALUE:
+			case FixMessageDom.COUNTRY:
+			case FixMessageDom.CURRENCY:
+			case FixMessageDom.EXCHANGE:
+			case FixMessageDom.MONTHYEAR:
+			case FixMessageDom.UTCTIMESTAMP:
+			case FixMessageDom.UTCTIMEONLY:
+			case FixMessageDom.UTCDATEONLY:
+			case FixMessageDom.LOCALMKTDATE:
+			case FixMessageDom.TZTIMEONLY:
+			case FixMessageDom.TZTIMESTAMP:
+			case FixMessageDom.DATA:
+			case FixMessageDom.XMLDATA:
+			case FixMessageDom.LANGUAGE:
+				out.write("\tpublic byte[] " + uncapFirst(f.name) + ";\n");
+				break;
+
+			case FixMessageDom.CHAR:
+				out.write("\tpublic byte " + uncapFirst(f.name) + " = (byte)' ';\n");
+				break;
+
+			case FixMessageDom.INT:
+			case FixMessageDom.LENGTH:
+			case FixMessageDom.TAGNUM:
+			case FixMessageDom.SEQNUM:
+			case FixMessageDom.NUMINGROUP:
+			case FixMessageDom.DAYOFMOUNTH:
+				out.write("\tpublic long " + uncapFirst(f.name) + " = 0;\n");
+				break;
+
+			case FixMessageDom.FLOAT:
+			case FixMessageDom.PRICE:
+			case FixMessageDom.QTY:
+			case FixMessageDom.PRICEOFFSET:
+			case FixMessageDom.AMT:
+			case FixMessageDom.PERCENTAGE:
+				out.write("\tpublic long " + uncapFirst(f.name) + " = 0;\n");
+				break;
+
+			case FixMessageDom.BOOLEAN:
+				out.write("\tpublic boolean " + uncapFirst(f.name) + " = false;\n");
+				break;
+
+			default:
+				throw new RuntimeException("No idea how to parse this field: " + f.name);
+		}
+	}
+
+	private void decodeFieldValue(final DomFixField f, final BufferedWriter out) throws IOException {
+
+ 		out.write("\t\t\t\t" + uncapFirst(f.name) + " = ");
+
+		switch (FixMessageDom.toInt(f.type)) {
+
+			case FixMessageDom.STRING:
+			case FixMessageDom.MULTIPLECHARVALUE:
+			case FixMessageDom.MULTIPLESTRINGVALUE:
+			case FixMessageDom.COUNTRY:
+			case FixMessageDom.CURRENCY:
+			case FixMessageDom.EXCHANGE:
+			case FixMessageDom.MONTHYEAR:
+			case FixMessageDom.UTCTIMESTAMP:
+			case FixMessageDom.UTCTIMEONLY:
+			case FixMessageDom.UTCDATEONLY:
+			case FixMessageDom.LOCALMKTDATE:
+			case FixMessageDom.TZTIMEONLY:
+			case FixMessageDom.TZTIMESTAMP:
+			case FixMessageDom.DATA:
+			case FixMessageDom.XMLDATA:
+			case FixMessageDom.LANGUAGE:
+				out.write("FixUtils.getTagStringValue(value, " + uncapFirst(f.name) + ")");
+				break;
+
+			case FixMessageDom.INT:
+			case FixMessageDom.LENGTH:
+			case FixMessageDom.TAGNUM:
+			case FixMessageDom.SEQNUM:
+			case FixMessageDom.NUMINGROUP:
+			case FixMessageDom.DAYOFMOUNTH:
+				out.write("FixUtils.getTagIntValue( value )");
+				break;
+			case FixMessageDom.FLOAT:
+			case FixMessageDom.PRICE:
+			case FixMessageDom.QTY:
+			case FixMessageDom.PRICEOFFSET:
+			case FixMessageDom.AMT:
+			case FixMessageDom.PERCENTAGE:
+				out.write("FixUtils.getTagFloatValue(value)");
+				break;
+			case FixMessageDom.CHAR:
+				out.write("FixUtils.getTagCharValue( value )");
+				break;
+			case FixMessageDom.BOOLEAN:
+				out.write("FixUtils.getTagBooleanValue( value )");
+				break;
+			default:
+				throw new RuntimeException("No idea how to parse this field: " + f.name);
+		}
+		
+ 		out.write(";\n");
+
+	}	
+	
+	private void encodeTagField(final DomFixField f, final BufferedWriter out) throws IOException {
+		String chk = "";
+		
+		switch (FixMessageDom.toInt(f.type)) {
+
+			case FixMessageDom.STRING:
+			case FixMessageDom.MULTIPLECHARVALUE:
+			case FixMessageDom.MULTIPLESTRINGVALUE:
+			case FixMessageDom.COUNTRY:
+			case FixMessageDom.CURRENCY:
+			case FixMessageDom.EXCHANGE:
+			case FixMessageDom.DATA:
+			case FixMessageDom.XMLDATA:
+			case FixMessageDom.LANGUAGE:
+				if (printIsSetCheck(f) != null) chk = "if (" + printIsSetCheck(f) + ") ";
+				out.write("\t\t" + chk + "FixUtils.putFixTag( out, FixTags." + f.name.toUpperCase() + "_INT, " + uncapFirst(f.name) + ", 0, Utils.lastIndexTrim(" + uncapFirst(f.name) + ", (byte)0) );\n");
+				break;
+
+			case FixMessageDom.CHAR:
+				if (printIsSetCheck(f) != null) chk = "if (" + printIsSetCheck(f) + ") ";
+				out.write("\t\t" + chk + "FixUtils.putFixTag( out, FixTags." + f.name.toUpperCase() + "_INT, " + uncapFirst(f.name) + " );\n");
+				break;
+
+			case FixMessageDom.MONTHYEAR:
+			case FixMessageDom.UTCTIMESTAMP: // TODO currently this is the only one that works, and the only one used.
+			case FixMessageDom.UTCTIMEONLY:
+			case FixMessageDom.UTCDATEONLY: 
+			case FixMessageDom.LOCALMKTDATE: 
+			case FixMessageDom.TZTIMEONLY:
+			case FixMessageDom.TZTIMESTAMP:
+				if (printIsSetCheck(f) != null) chk = "if (" + printIsSetCheck(f) + ") ";
+				out.write("\t\t" + chk + "FixUtils.putFixTag( out, FixTags." + f.name.toUpperCase() + "_INT, " + uncapFirst(f.name) + ");\n");
+				break;
+
+			case FixMessageDom.INT:
+			case FixMessageDom.LENGTH:
+			case FixMessageDom.TAGNUM:
+			case FixMessageDom.SEQNUM:
+			case FixMessageDom.NUMINGROUP:
+			case FixMessageDom.DAYOFMOUNTH:
+			case FixMessageDom.AMT:
+				if (printIsSetCheck(f) != null) chk = "if (" + printIsSetCheck(f) + ") ";
+				out.write("\t\t" + chk + "FixUtils.putFixTag( out, FixTags." + f.name.toUpperCase() + "_INT, " + uncapFirst(f.name) + ");\n");
+				break;
+
+			case FixMessageDom.FLOAT:
+			case FixMessageDom.PRICE:
+			case FixMessageDom.PRICEOFFSET:
+			case FixMessageDom.PERCENTAGE:
+			case FixMessageDom.QTY:
+				if (printIsSetCheck(f) != null) chk = "if (" + printIsSetCheck(f) + ") ";
+				out.write("\t\t" + chk + "FixUtils.putFixFloatTag( out, FixTags." + f.name.toUpperCase() + "_INT, " + uncapFirst(f.name) + ");\n");
+				break;
+
+			case FixMessageDom.BOOLEAN:
+				if (printIsSetCheck(f) != null) chk = "if (" + printIsSetCheck(f) + ") ";
+				out.write("\t\t" + chk + "FixUtils.putFixTag( out, FixTags." + f.name.toUpperCase() + "_INT, " + uncapFirst(f.name) + "?(byte)'Y':(byte)'N' );\n");
+				break;
+
+			default:
+				throw new RuntimeException("No idea how to parse this field: " + f.name);
+		}
+		
+	}
+	
+	private void printTagField(final DomFixField f, final BufferedWriter out) throws IOException {
+		String chk = "";
+		
+		switch (FixMessageDom.toInt(f.type)) {
+
+		case FixMessageDom.STRING:
+		case FixMessageDom.MULTIPLECHARVALUE:
+		case FixMessageDom.MULTIPLESTRINGVALUE:
+		case FixMessageDom.COUNTRY:
+		case FixMessageDom.CURRENCY:
+		case FixMessageDom.EXCHANGE:
+		case FixMessageDom.MONTHYEAR:
+		case FixMessageDom.UTCTIMESTAMP:
+		case FixMessageDom.UTCTIMEONLY:
+		case FixMessageDom.UTCDATEONLY:
+		case FixMessageDom.LOCALMKTDATE:
+		case FixMessageDom.TZTIMEONLY:
+		case FixMessageDom.TZTIMESTAMP:
+		case FixMessageDom.DATA:
+		case FixMessageDom.XMLDATA:
+		case FixMessageDom.LANGUAGE:
+			if (printIsSetCheck(f) != null) chk = "if (" + printIsSetCheck(f) + ")";
+			out.write("\t\t\t" + chk + " s += \"" + f.name + "(" + f.number + ")=\" + new String(" + uncapFirst(f.name) + ") + sep;\n");
+			break;
+			
+		case FixMessageDom.CHAR:
+			if (printIsSetCheck(f) != null) chk = "if (" + printIsSetCheck(f) + ")";
+			out.write("\t\t\t" + chk + " s += \"" + f.name + "(" + f.number + ")=\" + String.valueOf(" + uncapFirst(f.name) + ") + sep;\n");
+			break;
+
+		case FixMessageDom.INT:
+		case FixMessageDom.LENGTH:
+		case FixMessageDom.TAGNUM:
+		case FixMessageDom.SEQNUM:
+		case FixMessageDom.NUMINGROUP:
+		case FixMessageDom.DAYOFMOUNTH:
+		case FixMessageDom.FLOAT:
+		case FixMessageDom.PRICE:
+		case FixMessageDom.QTY:
+		case FixMessageDom.PRICEOFFSET:
+		case FixMessageDom.AMT:
+		case FixMessageDom.PERCENTAGE:
+			if (printIsSetCheck(f) != null) chk = "if (" + printIsSetCheck(f) + ")";
+			out.write("\t\t\t" + chk + " s += \"" + f.name + "(" + f.number + ")=\" + String.valueOf(" + uncapFirst(f.name) + ") + sep;\n");
+			break;
+
+		case FixMessageDom.BOOLEAN:
+			if (printIsSetCheck(f) != null) chk = "if (" + printIsSetCheck(f) + ")";
+			out.write("\t\t\t" + chk + " s += \"" + f.name + "(" + f.number + ")=\" + String.valueOf(" + uncapFirst(f.name) + ") + sep;\n");
+			break;
+
+		default:
+			throw new RuntimeException("No idea how to parse this field: " + f.name);
+		}
+	}		
+	
+	private String printIsSetCheck(DomFixField f) {
+		
+		if (f.reqd.equals("Y")) return null;
+
+		return "FixUtils.isSet(" + uncapFirst(f.name) + ")";
+	}
+
+	private void genConstants(final FixMessageDom dom, final BufferedWriter out) throws Exception {
+		String unknown = "U0";
+		
 		// write package line
 		out.write("package " + dom.packageName + ";\n\n");
 
 		writeGeneratedFileHeader(out);
+
+		out.write(strUtils + "\n\n");
 
 		out.write("public interface " + dom.type + "MessageInfo\n");
 		out.write("{\n\n");
@@ -688,34 +455,46 @@ public class FixMessageGenerator {
 			out.write("\tpublic static final byte[] BEGINSTRING_VALUE = \"FIXT.1.1\".getBytes();\n");
 			out.write("\tpublic static final byte[] BEGINSTRING_VALUE_WITH_TAG = \"8=FIXT.1.1\u0001\".getBytes();\n");
 		}
-		out.write("\tpublic static final byte[] FLAVOUR = \"" + dom.flavour + "\".getBytes();\n\n");
+		out.write("\tpublic static final byte[] FLAVOUR = \"" + dom.flavour + "\".getBytes();\n");
+		out.write("\tpublic static final byte SOH = ( byte )0x01;\n");
+		out.write("\tpublic static final byte EQUALS = ( byte )'=';\n");
+		out.write("\tpublic static final byte DECIMAL = ( byte )'.';\n\n");
 
-		out.write("\tpublic static class MessageTypes\n");
+		out.write("\tpublic static class MsgTypes\n");
 		out.write("\t{\n");
 
-		out.write("\t\tpublic static final byte[] UNKNOWN         = \"U0\".getBytes();\n");
-		for (final QuickFixMessage m : dom.quickFixMessages) {
+		out.write("\t\tpublic static final byte[] UNKNOWN = \""+ unknown + "\".getBytes();\n");
+		for (final DomFixMessage m : dom.domFixMessages) {
 			final String name = m.name.toUpperCase();
 			out.write("\t\tpublic static final byte[] " + name + " = \"" + m.msgtype + "\".getBytes();\n");
 		}
 		out.write("\n");
 
-		out.write("\t\tpublic static final int UNKNOWN_INT         = " + getTagAsInt("U0".getBytes(), 2) + ";\n");
-		for (final QuickFixMessage m : dom.quickFixMessages) {
-			// TODO isNasdaqOMX
+		out.write("\t\tpublic static final int UNKNOWN_INT = " + getMsgTypeTagAsInt(unknown.getBytes(), unknown.getBytes().length) + ";\n");
+		for (final DomFixMessage m : dom.domFixMessages) {
 			final String msgType = m.msgtype + (m.msgsubtype.length() > 0 ? m.msgsubtype : "");
-			final int tmp = getTagAsInt(msgType.getBytes(), msgType.getBytes().length);
-			out.write("\t\tpublic static final int " + m.name.toUpperCase() + "_INT = " + tmp + ";\n");
+			final int tmp = getMsgTypeTagAsInt(msgType.getBytes(), msgType.getBytes().length);
+			out.write("\t\tpublic static final int "+ m.name.toUpperCase() + "_INT = " + tmp + ";\n");
 		}
-		out.write("}\n\n");
+		
+		out.write("\t}\n\n");
 
-		for (final QuickFixField f : dom.quickFixFields)
-			if (f.quickFixValues.size() > 0) {
-				out.write("\tpublic class " + f.name + " {\n");
+		for (final DomFixField f : dom.domFixFields)
+			if (f.domFixValues.size() > 0) {
+				out.write("\tpublic static class " + f.name + " {\n");
 
-				for (final QuickFixValue v : f.quickFixValues)
+				for (final DomFixValue v : f.domFixValues)
 					writeEnum(out, f, v);
-				out.write("\t\t}\n\n");
+
+				out.write("\t\tpublic static boolean isValid(" + getJavaType(f) + " val) {\n");
+				for (final DomFixValue v : f.domFixValues) {
+					out.write("\t\t\tif (" + getEqualExpression(v.description, f.type, "val"));
+					out.write(") return true;\n");
+				}
+				out.write("\t\t\treturn false;\n");
+				out.write("\t\t}\n");
+				
+				out.write("\t}\n\n");
 			}
 
 		out.write("}\n");
@@ -724,7 +503,7 @@ public class FixMessageGenerator {
 		out.close();
 	}
 
-	public void generate(final FixMessageDom dom, final File outputDir) throws Exception {
+	private void generate(final FixMessageDom dom, final File outputDir) throws Exception {
 
 		final File packageDir = new File(outputDir, dom.packageName.replace('.', File.separatorChar));
 
@@ -743,61 +522,358 @@ public class FixMessageGenerator {
 		// generate the tags
 		File f = new File(packageDir, dom.type + "Tags.java");
 
-		genTags(dom, new FileWriter(f));
+		genTags(dom, new BufferedWriter((new FileWriter(f))));
 
 		// generate the constants
 		f = new File(packageDir, dom.type + "MessageInfo.java");
 
-		genConstants(dom, new FileWriter(f));
+		genConstants(dom, new BufferedWriter(new FileWriter(f)));
+
+		// generate the generated base message
+		f = new File(packageDir, dom.type + "GeneratedBaseMessage.java");
+
+		genBaseMessage(dom, new BufferedWriter(new FileWriter(f)));
+
+		// generate the fix message
+		f = new File(packageDir, dom.type + "Message.java");
+
+		genFixMessage(dom, new BufferedWriter(new FileWriter(f), 8 * 1024));
 
 		// generate the messages
-		genAllMessages(dom, packageDir);
+		for (final DomFixMessage m : dom.domFixMessages) {
+
+			f = new File(packageDir, dom.type + m.name + ".java");
+
+			genMessage(m, dom, new BufferedWriter(new FileWriter(f)));
+
+		}
 
 		// generate a listener interface
 		f = new File(packageDir, dom.type + "MessageListener.java");
 
-		genListenerInterface(dom, new FileWriter(f));
-
-		// generate a listener interface
-		f = new File(packageDir, dom.type + "MessageListenerImpl.java");
-
-		genListenerInterfaceImpl(dom, new FileWriter(f));
+		genListenerInterface(dom, new BufferedWriter(new FileWriter(f)));
 
 		// generate a parser
 		f = new File(packageDir, dom.type + "MessageParser.java");
 
-		genParser(dom, new FileWriter(f));
-
+		genParser(dom, new BufferedWriter(new FileWriter(f)));
 	}
 
-	public void genListenerInterface(final FixMessageDom dom, final OutputStreamWriter out) throws Exception {
-
+	private void genFixMessage(FixMessageDom dom, final BufferedWriter out) throws Exception 
+	{
+		
 		// write package line
 		out.write("package " + dom.packageName + ";\n\n");
 
 		writeGeneratedFileHeader(out);
 
 		// import ByteBuffer
-		out.write("import java.nio.ByteBuffer;\n\n");
-		out.write("import " + dom.packageNameBase + ".replay.FixValidator;\n");
-		out.write("import " + dom.packageNameBase + ".FixValidationError;\n");
-		out.write("import " + dom.packageNameBase + ".FixInMessage;\n");
-		out.write("import " + dom.packageNameBase + ".IFixSession;\n\n");
+		out.write(strInByteBuffer + "\n");
+		out.write(strOutByteBuffer + "\n");
+		out.write(strFixUtils + "\n");
+		out.write(strFixException + "\n");
+		out.write(strUtils + "\n\n");
+		out.write(strOtherUtils + "\n\n");
+		
+		// write out the open to the interface
+		out.write("public abstract class FixMessage extends FixGeneratedBaseMessage\n{\n\n");
+		
+		out.write("\tpublic static boolean IGNORE_CHECKSUM = false;\n\n");
+		out.write("\tprivate int msgTypeEnd;\n");
+		out.write("\tint msgEnd = 0;\n\n");
+		
+		for (DomFixField f : dom.domFixTrailer.fields )
+			declareField(f, out);
+		for (DomFixField f : dom.domFixHeader.fields ) {
+			if (f.name.equals("MsgType")) continue;
+			declareField(f, out);
+		}
+		
+		out.write("\t\n");
+		out.write("\tprivate static byte[] tmpMsgType = new byte[4];\n");
+		out.write("\tprivate static byte[] tmpBeginString = new byte[7];\n\n");
+
+		out.write("\t/**\n");
+		out.write("\t * crackMsgType performs a garbled check on the fix message. \n");
+		out.write("\t * @param data\n");
+		out.write("\t * @return msgType as an int.\n");
+		out.write("\t * @throws FixSessionException\n");
+		out.write("\t */\n");
+		out.write("\tpublic static int crackMsgType( " + strReadableByteBuffer + " buf ) throws FixSessionException {\n");
+		out.write("\t\tint startPos;\n");
+		out.write("\t\tint checkSum;\n");
+		out.write("\t\tint msgType = MsgTypes.UNKNOWN_INT;\n");
+		
+		genGetMsgType(dom, out, true);
+		
+		out.write("\t\treturn msgType;\n");
+		out.write("\t}\n");
+    
+		out.write("\tpublic FixMessage() {\n");
+		out.write("\t\tsuper();\n\n");
+		for (DomFixField f : dom.domFixTrailer.fields )
+			allocateField(f, out);
+		for (DomFixField f : dom.domFixHeader.fields ) {
+			if (f.name.equals("MsgType")) continue;
+			allocateField(f, out);
+		}
+		out.write("\n\n");
+		out.write("	}\n\n");
+		
+		out.write("\t@Override\n");
+		out.write("\tpublic void clear()\n");
+		out.write("\t{\n\n");
+
+		out.write("\t\t// clear out all the fields that aren't msgType\n\n");
+		for (DomFixField f : dom.domFixTrailer.fields )
+			clearField(f, out);
+		for (DomFixField f : dom.domFixHeader.fields ) {
+			if (f.name.equals("MsgType")) continue;
+			clearField(f, out);
+		}
+
+		out.write("\t}\n\n");
+
+		out.write("\t/**\n");
+		out.write("\t * getAll performs stateless session level message validations. Throws a FixSessionException if this fails \n");
+		out.write("\t */\n");
+		out.write("\t@Override\n");
+		out.write("\tpublic void getAll() throws FixSessionException, IllegalStateException\n");
+		out.write("\t{\n\n");
+		
+ 		genGetMsgType(dom, out, false);
+
+ 		out.write("\t\t// assumption message is full otherwise decode would return null\n");
+ 		out.write("\t\t// so negative id means that we are at the end of the message\n");
+ 		out.write("\t\tint id;\n");
+ 		out.write("\t\tbuf.position(msgTypeEnd);\n");
+ 		out.write("\t\tint lastTagPosition = msgTypeEnd;\n");
+ 		out.write("\t\twhile ( ( id = FixUtils.getTagId( buf ) ) > 0 )\n");
+ 		out.write("\t\t{\n");
+ 		out.write("\t\t\t" + strReadableByteBuffer + " value;\n\n");
+			
+ 		out.write("\t\t\tvalue = buf;\n\n");
+
+ 		out.write("\t\t\tswitch( id ) {\n\n");
+ 		
+		for (DomFixField f : dom.domFixHeader.fields ) {
+			if (f.name.contains("BeginString") || f.name.contains("BodyLength") || f.name.equals("MsgType") ) continue;
+	 		out.write("\t\t\tcase FixTags." + f.name.toUpperCase() + "_INT:\n");
+	 		decodeFieldValue(f, out);
+			if (f.domFixValues.size() > 0 && FixMessageDom.toInt(f.type) != FixMessageDom.BOOLEAN ) {
+				out.write("\t\t\tif (");
+				for (final DomFixValue v : f.domFixValues)
+					out.write(" ( " + uncapFirst(f.name) + " != (byte)'" + v.fixEnum + "') && ");
+				out.write("true)\n");
+				out.write("\t\t\tthrow new FixSessionException(buf, \"Value is incorrect or out of range for this tag: " + f.name + "(" + f.number + ")\" );\n\n");
+			}
+	 		out.write("\t\t\t\tbreak;\n\n");
+		} 		
+ 		
+ 		out.write("\t\t\tdefault:\n");
+ 		// tag not in header, we are done\n");
+ 		out.write("\t\t\t\tbuf.position( lastTagPosition );\n\n");
+
+ 		out.write("\t\t\t\treturn;\n\n");
+
+ 		out.write("\t\t\t}\n\n");
+
+ 		out.write("\t\t\tlastTagPosition = buf.position();\n\n");
+
+		out.write("\t\t}\n");
+		out.write("\t}\n\n");
+
+		out.write("\t/**\n");
+		out.write("\t * @return the length written\n");
+		out.write("\t *\n");
+		out.write("\t */\n");
+		out.write("\t@Override\n");
+		out.write("\tpublic abstract void encode( " + strWritableByteBuffer + " out );\n\n");
+    
+		out.write("\t@Override\n");
+		out.write("\tpublic abstract void printBuffer( " + strWritableByteBuffer + " out );\n\n");
+
+		// equals
+		out.write("\t@Override\n");
+		out.write("\tpublic boolean equals(Object o) {\n");
+		out.write("\t\tif (! ( o instanceof FixMessage)) return false;\n\n");
+		out.write("\t\t\tFixMessage msg = (FixMessage) o;\n\n");
+		printEquals(out, dom.domFixHeader.fields);
+
+		out.write("\n");
+		out.write("\t}\n\n");
+
+		out.write("\t@Override\n");
+		out.write("\tpublic abstract String toString();\n");
+		
+		// write out the close to the class
+		out.write("}\n");
+
+		// done. close out the file
+		out.close();
+	}	
+	
+	private void genGetMsgType(FixMessageDom dom, BufferedWriter out, boolean b) throws Exception 
+	{
+		String retVal = "return MsgTypes.UNKNOWN_INT; //Don't have a full message";
+		if (!b) retVal = "throw new FixSessionException(buf, \"Incorrect BodyLength(9) or incomplete message\");"; 
+	
+		out.write("\t\tstartPos = buf.position();\n");
+
+		out.write("\t\tif(buf.remaining() < 2) // To start processing we need at least 8=\n");
+		out.write("\t\t	" + retVal + "\n\n");
+
+		out.write("\t\tint begin = buf.position();\n\n");
+
+		out.write("\t\tint tagId = FixUtils.getTagId(buf);\n");
+		out.write("\t\tif(tagId != FixTags.BEGINSTRING_INT) {\n");
+		out.write("\t\t	buf.position(startPos);\n");
+		out.write("\t\t	throw new FixSessionException(buf, \"First tag in FIX message is not BEGINSTRING (8)\");\n");
+		out.write("\t\t}\n\n");
+
+		out.write("\t\tFixUtils.getTagStringValue(buf, tmpBeginString);\n");
+		if (!b) {
+			out.write("\t\tif(!Utils.equals(FixMessageInfo.BEGINSTRING_VALUE, tmpBeginString)) {\n");
+			out.write("\t\t	buf.position(startPos);\n");
+			out.write("\t\t	throw new FixSessionException(buf, \"BeginString not equal to: \" + new String(FixMessageInfo.BEGINSTRING_VALUE));\n");
+			out.write("\t\t}\n\n");
+		}
+		
+		out.write("\t\t//now look to get bodyLength field\n");
+		out.write("\t\ttagId = FixUtils.getTagId(buf);\n");
+		out.write("\t\tif(tagId != FixTags.BODYLENGTH_INT) {\n");
+		out.write("\t\t	buf.position(startPos);\n");
+		out.write("\t\t	throw new FixSessionException(buf, \"Second tag in FIX message is not BODYLENGTH (9)\");\n");
+		out.write("\t\t}\n\n");
+
+		out.write("\t\tint bodyLength = FixUtils.getTagIntValue(buf);\n");
+		out.write("\t\tif(bodyLength < 0) {\n");
+		out.write("\t\t	buf.position(startPos);\n");
+		out.write("\t\t	throw new FixSessionException(buf, \"Invalid BODYLENGTH (9) value: \" + bodyLength);\n");
+		out.write("\t\t}\n\n");
+		
+		out.write("\t\tint checkSumBegin = buf.position() + bodyLength; \n");
+
+		out.write("\t\tif(checkSumBegin > buf.limit()) {\n");
+		out.write("\t\t	buf.position(startPos);\n");
+		out.write("\t\t	" + retVal + "\n");
+		out.write("\t\t}\n\n");
+
+		out.write("\t\t//FIRST, validate that we got a msgType field\n");
+		out.write("\t\ttagId = FixUtils.getTagId(buf);\n");
+		out.write("\t\tif(tagId != FixTags.MSGTYPE_INT)\n");
+		out.write("\t\t	throw new FixSessionException(buf, \"Third tag in FIX message is not MSGTYPE (35)\");\n\n");
+
+		out.write("\t\tFixUtils.getTagStringValue(buf, tmpMsgType);\n\n");
+		if (!b)
+			out.write("\t\tmsgTypeEnd = buf.position();\n\n");
+
+		out.write("\t\t//we should verify that the final tag IS checksum here if we want to\n");
+		out.write("\t\tbuf.position(checkSumBegin);\n");
+		out.write("\t\ttagId = FixUtils.getTagId(buf);\n");
+		out.write("\t\tif(tagId != FixTags.CHECKSUM_INT)\n");
+		out.write("\t\t	throw new FixSessionException(buf, \"Final tag in FIX message is not CHECKSUM (10)\");\n\n");
+
+		out.write("\t\tcheckSum = FixUtils.getTagIntValue(buf);\n");
+		out.write("\t\tint calculatedCheckSum = FixUtils.computeChecksum(buf, begin, checkSumBegin);\n");
+		out.write("\t\tif(checkSum != calculatedCheckSum && !IGNORE_CHECKSUM)\n");
+		out.write("\t\t	throw new FixSessionException(buf, String.format(\"Checksum mismatch; calculated: %s is not equal message checksum: %s\", calculatedCheckSum, checkSum));\n\n");
+
+		out.write("\t\t// finish-up\n\n");
+		
+		out.write("\t\tbuf.position(startPos);\n\n");
+
+		out.write("\t\tmsgType = FixUtils.getMsgTypeTagAsInt(tmpMsgType, Utils.lastIndexTrim(tmpMsgType, (byte)0));\n\n");
+
+		out.write("\t\tmsgType = FixUtils.crackNasdaqMsgType(msgType, buf);\n\n");
+		
+		if (!b) {
+			out.write("\t\tif (! MsgType.isValid(tmpMsgType))\n");
+			out.write("\t\t\tthrow new FixSessionException(buf, msgEnd, String.format(\"MsgType not in specification: %s\", new String(tmpMsgType).trim()));");
+		}
+		
+	}
+
+	private void genBaseMessage(FixMessageDom dom, final BufferedWriter out) throws Exception 
+	{
+		
+		// write package line
+		out.write("package " + dom.packageName + ";\n\n");
+
+		writeGeneratedFileHeader(out);
+
+		// import ByteBuffer
+		out.write(strInByteBuffer + "\n");
+		out.write(strOutByteBuffer + "\n");
+		out.write(strFixException + "\n\n");
+	
+		// write out the open to the interface
+		out.write("public abstract class FixGeneratedBaseMessage implements FixMessageInfo\n{\n\n");
+
+	    out.write("\tpublic " + strReadableByteBuffer + " buf;\n\n");
+
+	    out.write("\tpublic int startPos = Integer.MAX_VALUE;\n\n");
+
+	    out.write("\tpublic int msgType;\n\n");
+
+	    out.write("\tpublic int msgLen;\n\n");
+
+	    out.write("\tpublic final StringBuffer status = new StringBuffer();\n\n");
+
+	    out.write("\tpublic int size()\n");
+	    out.write("\t{\n\n");
+
+	    out.write("\t\treturn msgLen;\n");
+	    out.write("\t}\n\n");
+
+	    out.write("\tpublic abstract void encode( " + strWritableByteBuffer + " msg );\n\n");
+
+	    out.write("\tpublic abstract void getAll() throws FixSessionException, IllegalStateException;\n\n");
+
+	    out.write("\tpublic abstract void clear();\n\n");
+
+	    out.write("\tpublic void setBuffer( " + strReadableByteBuffer + " buf )\n");
+	    out.write("\t{\n\n");
+
+	    out.write("\t\tthis.buf = buf;\n\n");
+
+	    out.write("\t\tstartPos = buf.position();\n");
+	    out.write("\t}\n\n");
+
+	    out.write("\tpublic void setLen( int len )\n");
+	    out.write("\t{\n\n");
+
+	    out.write("\t\tmsgLen = len;\n");
+	    out.write("\t}\n\n");
+
+	    out.write("\tpublic abstract void printBuffer( " + strWritableByteBuffer + " out );\n\n");
+
+		// write out the close to the class
+		out.write("}\n");
+
+		// done. close out the file
+		out.close();
+		
+	}
+
+	private void genListenerInterface(final FixMessageDom dom, final BufferedWriter out) throws Exception {
+
+		// write package line
+		out.write("package " + dom.packageName + ";\n\n");
+
+		writeGeneratedFileHeader(out);
+
+		out.write(strInByteBuffer + "\n");
 
 		// write out the open to the interface
 		out.write("public interface " + dom.type + "MessageListener\n{\n\n");
 
 		// write out a handler for unknown message types 	
-		out.write("    public IFixSession getSession(long connectorID, FixValidationError err );\n\n");
-		out.write("    public IFixSession getSession( long connectorID, FixStandardHeader standardHeader, FixValidationError err );\n\n");
-		out.write("    public void addValidator( FixValidator validator );\n\n");
-		out.write("    public FixValidator getValidator();\n\n");
-		out.write("    public void onFixValidationError ( FixValidationError err );\n\n");
-		out.write("    public void onUnknownMessageType( ByteBuffer msg, int msgType );\n\n");
+		out.write("\tpublic void onUnknownMessageType( " + strReadableByteBuffer + " msg, int msgType );\n\n");
 
 		// write out each callback
-		for (final QuickFixMessage m : dom.quickFixMessages)
-			out.write("    void on" + dom.type + m.name + "( " + dom.type + m.name + " msg );\n\n");
+		for (final DomFixMessage m : dom.domFixMessages)
+			out.write("\tvoid on" + dom.type + m.name + "( " + dom.type + m.name + " msg );\n\n");
 
 		// write out the close to the interface
 		out.write("}\n");
@@ -806,377 +882,217 @@ public class FixMessageGenerator {
 		out.close();
 	}
 
-	public void genListenerInterfaceImpl(final FixMessageDom dom, final OutputStreamWriter out) throws Exception {
+	private void genMessage(final DomFixMessage m, final FixMessageDom dom, final BufferedWriter out) throws Exception {
 
+		String name = dom.type + m.name;
+		
 		// write package line
 		out.write("package " + dom.packageName + ";\n\n");
 
 		writeGeneratedFileHeader(out);
 
 		// import ByteBuffer
-		out.write("import java.nio.ByteBuffer;\n\n");
-		out.write("import " + dom.packageNameBase + ".replay.FixValidator;\n");
-		out.write("import " + dom.packageNameBase + ".FixValidationError;\n");
-		out.write("import " + dom.packageNameBase + ".FixInMessage;\n");
-		out.write("import " + dom.packageNameBase + ".IFixSession;\n\n");
-
+		out.write(strInByteBuffer + "\n");
+		out.write(strOutByteBuffer + "\n");
+		out.write(strFixUtils + "\n");
+		out.write(strFixException + "\n");
+		out.write(strUtils + "\n");
+		out.write(strConstants + "\n");
+		out.write(strBaseUtils + "\n");
+		out.write(strOtherUtils + "\n\n");
+		
 		// write out the open to the interface
-		out.write("public class " + dom.type + "MessageListenerImpl implements FixMessageListener \n{\n\n");
-
-		out.write("    @Override\n");
-		out.write("    public IFixSession getSession( long connectorID, FixValidationError err ) { return dummySession; }\n\n");
-
-		out.write("    @Override\n");
-		out.write("    public IFixSession getSession( long connectorID, FixStandardHeader standardHeader, FixValidationError err ) { return dummySession; }\n\n");
-
-		out.write("    @Override\n");
-		out.write("    public void addValidator( FixValidator validator ) {}\n\n");
-
-		out.write("    @Override\n");
-		out.write("    public FixValidator getValidator() { return null; }\n\n");
-
-		out.write("    @Override\n");
-		out.write("    public void onFixValidationError ( FixValidationError err ) {}\n\n");
-
-		// write out a handler for unknown message types
-		out.write("    @Override\n");
-		out.write("    public void onUnknownMessageType( ByteBuffer msg, int msgType ) {}\n\n");
-
-		// write out each callback
-		for (final QuickFixMessage m : dom.quickFixMessages) {
-
-			out.write("    @Override\n");
-			out.write("    public void on" + dom.type + m.name + "( " + dom.type + m.name + " msg ) {}\n\n");
-		}
+		out.write("public class " + name + " extends FixMessage\n{\n\n");
 		
-		out.write("\tIFixSession dummySession = new IFixSession() {\n\n");
-			
-		out.write("\t\t@Override\n");
-		out.write("\t\tpublic void setOutMsgSeqNum(long msgSeqNum) {}\n\n");
-			
-		out.write("\t\t@Override\n");
-		out.write("\t\tpublic void setInMsgSeqNum(long msgSeqNum) {}\n\n");
-			
-		out.write("\t\t@Override\n");
-		out.write("\t\tpublic void incrementOutMsgSeqNum() {}\n\n");
-			
-		out.write("\t\t@Override\n");
-		out.write("\t\tpublic void incrementInMsgSeqNum() {}\n\n");
-			
-		out.write("\t\t@Override\n");
-		out.write("\t\tpublic int getSessionID() {	return 0; }\n\n");
-			
-		out.write("\t\t@Override\n");
-		out.write("\t\tpublic long getOutMsgSeqNum() {	return 0; }\n\n");
-			
-		out.write("\t\t@Override\n");
-		out.write("\t\tpublic long getInMsgSeqNum() { return 0; }\n");
-
-		out.write("\t\t@Override\n");
-		out.write("\t\tpublic boolean isEstablished() {	return true; }\n\n");
-		
-		out.write("\t\t@Override\n");
-		out.write("\t\tpublic boolean validate(FixStandardHeader standardHeader) {	return true; }\n\n");
-
-		out.write("\t};\n\n");
-
-		// write out the close to the interface
-		out.write("}\n");
-
-		// done. close out the file
-		out.close();
-	}
-
-	public void genMessage(final QuickFixMessage m, final FixMessageDom dom, final OutputStreamWriter out) throws IOException {
-
-		String name = dom.type + m.name;
-
-		out.write("package " + dom.packageName + ";\n");
-		out.write("\n");
-		out.write("import " + dom.packageNameBase + ".FixMessage;\n");
-		out.write("import " + dom.packageNameBase + ".FixValidationError;\n");
-		out.write("import java.nio.ByteBuffer;\n");
-		out.write("import " + dom.packageNameBase + ".messaging.FixTags;\n");
-		out.write("import " + dom.packageNameBase + ".Fix" + "In" + "Message;\n");
-		out.write("import " + dom.packageNameBase + ".FixUtils;\n");
-
-		out.write("		\n");
-		out.write("public class " + name + " extends Fix" + "In" + "Message {\n");
-
-		for (final QuickFixField f : m.fields) {
-			out.write("	private short has" + capFirst(f.name) + ";\n");
+		for (DomFixField f : m.fields ) {
+			if (f.name.equals("MsgType")) continue;
 			declareField(f, out);
 		}
-		for (final QuickFixComponent c : m.components)
-			if (c.isRepeating)
-				out.write("	public Fix" + c.name + "[] " + uncapFirst(c.name) + ";\n");
-			else
-				out.write("	public Fix" + c.name + " " + uncapFirst(c.name) + ";\n");
-
-		out.write("	\n");
-		out.write("	public " + name + "() {\n");
-		out.write("		super(FixMessageInfo.MessageTypes." + m.name.toUpperCase() + ");\n\n\n");
-
-		for (final QuickFixField f : m.fields) {
-			out.write("		has" + capFirst(f.name) + " = FixUtils.TAG_HAS_NO_VALUE;		\n");
-			allocateField(f, out);
-		}
-		for (final QuickFixComponent cc : m.components) {
-			final QuickFixComponent c = dom.quickFixNamedComponents.get(cc.name);
-			if (c.isRepeating) {
-				out.write("		" + uncapFirst(c.name) + " = new Fix" + c.name + "[FixUtils.FIX_MAX_NOINGROUP];\n");
-				out.write("		for (int i= 0; i<FixUtils.FIX_MAX_NOINGROUP; i++) " + uncapFirst(c.name) + "[i] = new Fix" + c.name + "();\n");
-			} else
-				out.write("		" + uncapFirst(c.name) + " = new Fix" + c.name + "();\n");
-		}
 
 		out.write("\n");
+
+		out.write("\tpublic " + name + "() {\n");
+		out.write("\t\tsuper();\n\n");
+		
+		for (DomFixField f : m.fields ) {
+			allocateField(f, out);
+		}
+		out.write("\t\tthis.clear();\n\n");
+
+		out.write("\t\tmsgType = MsgTypes." + m.name.toUpperCase() + "_INT;\n\n");
+
 		out.write("	}\n\n");
+		
+		out.write("\t@Override\n");
+		out.write("\tpublic void clear()\n");
+		out.write("\t{\n\n");
 
-		if (true) {
-			out.write("    public void setBuffer( ByteBuffer buf, FixValidationError err)		\n");
-			out.write("    {		\n");
-			out.write("				\n");
-			out.write("		super.setBuffer(buf, err);\n");
-			out.write("        if (err.hasError()) return;\n\n");
-			out.write("        int tag = FixUtils.getTag(buf, err);\n");
-			out.write("        if (err.hasError()) return;\n\n");
+		out.write("\t\t// clear out all the fields that aren't msgType\n\n");
+		for (DomFixField f : m.fields ) {
+			if (f.name.equals("MsgType")) continue;
+			clearField(f, out);
+		}
 
-			out.write("        while ( buf.hasRemaining() ) {\n\n");
+		out.write("\t}\n\n");
+		
+		// getAll()
+		out.write("\t@Override\n");
+		out.write("\tpublic void getAll() throws FixSessionException, IllegalStateException\n");
+		out.write("\t{\n\n");
 
-			out.write("            switch (tag) {		\n");
+ 		out.write("\t\tint startTagPosition = buf.position();\n\n");
 
-			for (final QuickFixField f : m.fields) {
-				out.write("            	case FixTags." + f.name.toUpperCase() + "_INT:		\n");
-				out.write("            		has" + capFirst(f.name) + " = (short) buf.position();		\n");
-				out.write("            		FixUtils.getNext(buf, err);		\n");
-				out.write("                	break;\n");
-			}
-			out.write("            	default:\n");
-			out.write("        			if ( standardHeader.isKeyTag(tag)) {\n");
-			out.write("        				tag = standardHeader.setBuffer( tag, buf, err);		\n");
-			out.write("            			if (err.hasError()) break; 		\n");
-			out.write("                		else continue;		\n");
-			out.write("        			} else if ( standardTrailer.isKeyTag(tag)) {\n");
-			out.write("        				tag = standardTrailer.setBuffer( tag, buf, err);\n");
-			out.write("        				if (!err.hasError()) hasRequiredTags(err);\n");
-			out.write("            			return; // always last, we are done now\n");
-
-			processTags(dom, out, m.components, true);
-
-			out.write(" 						FixUtils.getNext(buf, err);		\n");
-			out.write("                		if (err.hasError()) break; 		\n");
-			out.write("                		else if (FixUtils.validateOnlyDefinedTagsAllowed) {\n");
-			out.write("                			err.setError((int)FixMessageInfo.SessionRejectReason.TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE, \"Tag not defined for this message type\", tag, FixMessageInfo.MessageTypes." + m.name.toUpperCase()+ "_INT);\n");
-			out.write("                			break;\n");
-			out.write("                		}\n");
-
-			out.write("					}\n\n");
-			out.write("\t\t\t}\n\n");
+		out.write("\t\tsuper.getAll();\n\n");
+		
+ 		out.write("\t\t// assumption message is full otherwise decode would return null\n");
+ 		out.write("\t\t// so negative id means that we are at the end of the message\n");
+ 		out.write("\t\tint id;\n");
+ 		out.write("\t\tint lastTagPosition = buf.position();\n");
+ 		out.write("\t\twhile ( ( id = FixUtils.getTagId( buf ) ) > 0 )\n");
+ 		out.write("\t\t{\n");
+ 		out.write("\t\t\t" + strReadableByteBuffer + " value;\n\n");
 			
-			out.write("        		if (err.hasError()) return;\n\n");
-			out.write("            	tag = FixUtils.getTag(buf, err);		\n");
-			out.write("        		if (err.hasError()) break;\n\n");
-			out.write("\t\t}\n\n");
-			out.write("\t}		\n\n");
+ 		out.write("\t\t\tvalue = buf;\n\n");
 
-			genHasRequiredTags(true, dom, out, m.name, m.fields, m.components);
+ 		out.write("\t\t\tswitch( id ) {\n\n");
+ 		
+		for (DomFixField f : m.fields ) {
+			if (f.name.contains("BeginString") || f.name.contains("BodyLength") || f.name.contains("MsgType") ) continue;
+	 		out.write("\t\t\tcase FixTags." + f.name.toUpperCase() + "_INT:\n");
+	 		decodeFieldValue(f, out);
+	 		if (f.domFixValues.size() > 0) {
+	 			out.write("\t\t\t\tif (!" + capFirst(f.name) + ".isValid("+ uncapFirst(f.name) + ") ) throw new FixSessionException(buf, \"Invalid enumerated value(\" + " + uncapFirst(f.name) + " + \") for tag: \" + id );\n");
+	 		}
+	 		out.write("\t\t\t\tbreak;\n\n");
+		} 		
 
-			out.write("	@Override		\n");
-			out.write("	public void getAll() {		\n");
-			for (final QuickFixField f : m.fields) {
-				out.write("		get" + capFirst(f.name) + "();		\n");
-			}
-			out.write("	}		\n");
-		}
-		out.write("		\n");
-		out.write("	@Override		\n");
-		out.write("	public int encode(ByteBuffer out) {\n\n");
-		out.write("		int startPos = out.position();\n");
-		out.write("		super.standardHeader.setBodyLength(1000);\n\n");
-
-		out.write("		// if this is the standardHeader for an out-bound message wee need to set default tags\n");
-		out.write("		if (buf == null) {\n");
-		out.write("			super.standardHeader.setBeginString(FixMessageInfo.BEGINSTRING_VALUE);\n");
-		out.write("		}\n\n");
+		out.write("\t\t\t// for a message always get the checksum\n");
+		out.write("\t\t\tcase FixTags.CHECKSUM_INT:\n");
+		out.write("\t\t\t\tcheckSum = FixUtils.getTagIntValue( value );\n\n");
 		
-		out.write("		super.standardHeader.encode(out);\n");
-
-		for (final QuickFixField f : m.fields) {
-			out.write("		if (has" + capFirst(f.name) + "()) {		\n");
-			out.write("			out.put(FixTags." + f.name.toUpperCase() + ");		\n");
-			out.write("		\n");
-			out.write("			out.put((byte) '=');		\n");
-			out.write("		\n");
-			encodeField(f, out);
-			out.write("		\n");
-			out.write("			out.put(FixUtils.SOH);		\n");
-			out.write("		}		\n");
-		}
-		out.write("		\n");
+		out.write("\t\t\t\tid = checkRequiredTags();\n");
+		out.write("\t\t\t\tif (id > 0) throw new FixSessionException(buf, \"Required tag missing: \" + id );\n\n");
 		
-		for (final QuickFixComponent cc : m.components) {
-			final QuickFixComponent c = dom.quickFixNamedComponents.get(cc.name);
-			if (c.isRepeating) {
-				out.write("		if (FixUtils.getNoInGroup(" + uncapFirst(c.name) + ")>0) {\n");
-				out.write("			out.put(FixTags." + c.noInGroupTag.toUpperCase() + ");\n\n");
-				out.write("			out.put((byte) '=' );\n\n");
-				out.write("			FixUtils.put(out, FixUtils.getNoInGroup(" + uncapFirst(c.name) + "));\n\n");
-				out.write("			out.put(FixUtils.SOH);\n\n");
-				out.write("		}\n");
-				out.write("		for (Fix" + c.name + " fix" + c.name + " : " + uncapFirst(c.name) + ") if (fix" + c.name + ".hasGroup()) fix" + c.name + ".encode(out);\n");
-			} else {
-				out.write("		"+  uncapFirst(c.name) + ".encode(out);\n");
-			}
-		}
-		out.write("		\n");
+		out.write("\t\t\t\treturn;\n\n");
+
+ 		out.write("\t\t\tdefault:\n");
+		out.write("\t\t\t\tthrow new FixSessionException(buf, \"Unknown tag: \" + id );\n\n");
+ 		// for components -> out.write("\t\t\t\tbuf.position( lastTagPosition );\n\n");
+ 		//out.write("\t\t\t\treturn;\n\n");
+
+ 		out.write("\t\t\t}\n\n");
+
+ 		out.write("\t\t\tlastTagPosition = buf.position();\n\n");
+
+		out.write("\t\t}\n\n");
+
+ 		out.write("\t\tbuf.position(startTagPosition);\n\n");
+ 		
+		out.write("\t}\n\n");
 		
-		out.write("		// set body length\n\n");
-		out.write("		int endPos = out.position();\n\n");
-		out.write("		super.standardHeader.setBodyLength(endPos - FixUtils.FIX_MESSAGE_START);\n\n");
-		out.write("		out.position(startPos + FixUtils.FIX_HEADER);\n\n");
-		out.write("		if (super.standardHeader.getBodyLength()>999) {\n");
-		out.write("			FixUtils.put(out, super.standardHeader.getBodyLength());\n");
-		out.write("		} else if (super.standardHeader.getBodyLength()>99) {\n");
-		out.write("			FixUtils.put(out, 0);\n");
-		out.write("			FixUtils.put(out, super.standardHeader.getBodyLength());\n");
-		out.write("		} else {\n");
-		out.write("			FixUtils.put(out, 0);\n");
-		out.write("			FixUtils.put(out, 0);\n");
-		out.write("			FixUtils.put(out, super.standardHeader.getBodyLength());\n");
-		out.write("		}\n");
-
-		out.write("		final byte[] tmpCheckSum = new byte[FixTags.CHECKSUM_LENGTH];\n");
-		out.write("		FixUtils.fill(tmpCheckSum, (byte)'0');\n");
-		out.write("		FixUtils.generateCheckSum(tmpCheckSum, out, startPos + FixUtils.FIX_MESSAGE_START, endPos);\n");
-		out.write("		super.standardTrailer.setCheckSum(tmpCheckSum);\n\n");
-
-		out.write("		out.position(endPos);\n\n");
-		out.write("		super.standardTrailer.encode(out);\n");
-		out.write("		out.limit(out.position());\n");
-		out.write("		out.flip();\n\n");
-
-		out.write("		return (int) super.standardHeader.getBodyLength();\n\n");
-		out.write("	}			\n");
-		out.write("			\n");
-		out.write("			\n");
-		out.write("	@Override		\n");
-		out.write("	public void printBuffer(ByteBuffer out) {		\n");
-		out.write("		\n");
-		out.write("		int startPos = out.position();		\n");
-		out.write("					\n");
-		out.write("		super.standardHeader.encode(out);		\n");
-		out.write("		\n");
-
-		for (final QuickFixField f : m.fields) {
-			out.write("		if (has" + capFirst(f.name) + "()) {		\n");
-			encodeField(f, out);
-			out.write("		\n");
-			out.write("	        out.put( (byte)' ' );		\n");
-			out.write("		}		\n");
-			out.write("		\n");
+		out.write("\tprivate int checkRequiredTags() {\n");
+		out.write("\t\tint tag = -1;\n\n");
+		
+		
+		for (DomFixField f : m.fields ) {
+			if (f.reqd.equals("N") || f.name.contains("BeginString") || f.name.contains("BodyLength") || f.name.contains("MsgType") ) continue;
+			out.write("\t\tif (! FixUtils.isSet(" + uncapFirst(f.name) + ") ) return FixTags." + f.name.toUpperCase() + "_INT;\n");
 		}
-		out.write("		super.standardTrailer.encode(out);		\n");
-		out.write("		\n");
-		out.write("		int endPos = out.position();		\n");
-		out.write("		\n");
-		out.write("		// set body length		\n");
-		out.write("				\n");
-		out.write("		super.standardHeader.setBodyLength( out.position() - startPos );		\n");
-		out.write("				\n");
-		out.write("		out.position(startPos + FixUtils.FIX_HEADER); 		\n");
-		out.write("		\n");
-		out.write("		FixUtils.put( out, super.standardHeader.getBodyLength() );		\n");
-		out.write("		\n");
-		out.write("		out.position(endPos);		\n");
-		out.write("		\n");
-		out.write("	}			\n");
-		out.write("			\n");
+		out.write("\t\treturn tag;\n\n");
+		out.write("\t}\n");	
+		
+		// encode
+		out.write("\t@Override\n");
+		out.write("\tpublic void encode( " + strWritableByteBuffer + " out )\n");
+		out.write("\t{\n");
+		out.write("\t\t// Encode message. Set msgSeqNum and sendingTime and optional resend flags, before encoding. \n\n");
+		
+		out.write("\t\tint msgStart = out.position();\n\n");
+		
+		out.write("\t\tout.put( BEGINSTRING_VALUE_WITH_TAG );\n\n");
+		
+		out.write("\t\tint msgLengthValueStart = out.position() + 2 /* 9= */;\n\n");
+		
 
-		for (final QuickFixField f : m.fields) {
-			out.write("	public void crack" + capFirst(f.name) + "() {		\n");
-			out.write("		get" + capFirst(f.name) + "();		\n");
-			out.write("	}		\n");
-			out.write("			\n");
+		out.write("\t\t// placeholder\n");
+		out.write("\t\tFixUtils.putFixTag(out, FixTags.BODYLENGTH_INT, FixConstants.MAX_MESSAGE_SIZE );\n\n");
+		
+		out.write("\t\tint msgTypeStart = out.position();\n\n");
 
-			out.write("	public " + getJavaType(f) + " get" + capFirst(f.name) + "() { 		\n");
-			out.write("		if ( has" + capFirst(f.name) + "()) {		\n");
+		out.write("\t\tFixUtils.putFixTag( out, FixTags.MSGTYPE_INT, MsgTypes." + m.name.toUpperCase() + ");\n\n");
 
-			out.write("			if (has" + capFirst(f.name) + " == FixUtils.TAG_HAS_VALUE) {		\n");
-			out.write("				return " + uncapFirst(f.name) + "; 		\n");
-			out.write("			} else {\n\n");
-			out.write("				buf.position(has" + capFirst(f.name) + ");\n\n");
-			decodeField(f, out);
-			out.write("		\n");
-			out.write("				if (err.hasError()) {		\n");
-			out.write("					buf.position(0);		\n");
-			out.write("					return " + getJavaTypeNull(f) + ";		\n");
-			out.write("				}		\n");
-			out.write("			}		\n");
-			out.write("			has" + capFirst(f.name) + " = FixUtils.TAG_HAS_VALUE;		\n");
-			out.write("			buf.position(0);		\n");
-			out.write("			return " + uncapFirst(f.name) + ";		\n");
-
-			out.write("		} else {		\n");
-			out.write("			return " + getJavaTypeNull(f) + "; 		\n");
-			out.write("		}		\n");
-			out.write("	}		\n");
-			out.write("			\n");
-			out.write("	public boolean has" + capFirst(f.name) + "() { return has" + capFirst(f.name) + " != FixUtils.TAG_HAS_NO_VALUE; } 		\n\n");
-
-			out.write("	public void set" + capFirst(f.name) + "(byte[] src) {		\n");
-			out.write("		if (src == null ) return;\n");
-			zeroField(f, out);
-			setFieldByteArrayValue(f, out);
-			out.write("		has" + capFirst(f.name) + " = FixUtils.TAG_HAS_VALUE;		\n");
-			out.write("	}\n\n");
-
-			if (!getJavaType(f).equals("byte[]")) {
-				out.write("	public void set" + capFirst(f.name) + "(" + getJavaType(f) + " src) {		\n");
-				out.write("		" + uncapFirst(f.name) + " = src;\n");
-				out.write("		has" + capFirst(f.name) + " = FixUtils.TAG_HAS_VALUE;		\n");
-				out.write("	}\n\n");
-			}
-
-			out.write("	public void set" + capFirst(f.name) + "(String str) {		\n");
-			out.write("		if (str == null ) return;\n");
-			zeroField(f, out);
-			out.write("		byte[] src = str.getBytes(); 		\n");
-			setFieldByteArrayValue(f, out);
-			out.write("		has" + capFirst(f.name) + " = FixUtils.TAG_HAS_VALUE;		\n");
-			out.write("	}		\n");
-			out.write("			\n");
+		out.write("\t\t// encode all fields including the header\n\n");
+		for (DomFixField f : dom.domFixHeader.fields ) {
+			if (f.name.contains("BeginString") || f.name.contains("BodyLength") || f.name.equals("MsgType") ) continue;
+			encodeTagField(f, out);
 		}
+		out.write("\n");
+		for (DomFixField f : m.fields ) {
+			encodeTagField(f, out);
+		}
+		
+		out.write("\t\t// the checksum at the end\n\n");
+	    
+		out.write("\t\tint checkSumStart = out.position();\n");
+		out.write("\t\tout.position( msgLengthValueStart );\n");
+		out.write("\t\tbodyLength = checkSumStart - msgTypeStart;\n");
+		out.write("\t\t" + strOtherUtil + ".longToNumeric( out, bodyLength, " + strUtil + ".digits(FixConstants.MAX_MESSAGE_SIZE) );\n\n");
+	    
+		out.write("\t\tcheckSum = FixUtils.computeChecksum( out, msgStart, checkSumStart );\n");
+		out.write("\t\tout.position( checkSumStart );\n");
+		out.write("\t\tFixUtils.putFixTag( out, FixTags.CHECKSUM_INT, checkSum );\n\n");
+	    
+		out.write("\t\tout.flip();\n\n");
+		
+	    out.write("\t}\n");
+		
+		
+		out.write("\t@Override		\n");
+		out.write("\tpublic void printBuffer(" + strWritableByteBuffer + " out) {\n\n");
+		out.write("\t\tout.put(buf);\n\n");
+		out.write("\t\tout.flip();\n\n");
+		out.write("\t}\n\n");
 
 		// toString
-		out.write("	/**\n");
-		out.write("	 * If you use toString for any other purpose than administrative printout.\n");
-		out.write("	 * You will burn in hell!\n");
-		out.write("	**/\n");
-		out.write("	@Override\n");
-		out.write("	public String toString() {\n");
-		out.write("		String s = \"\";\n");
+		out.write("\t/**\n");
+		out.write("\t * If you use toString for any other purpose than administrative printout.\n");
+		out.write("\t * You will end up in nifelheim!\n");
+		out.write("\t**/\n");
+		out.write("\t@Override\n");
+		out.write("\tpublic String toString() {\n");
+		out.write("\t\tchar sep = '\\n';\n");
+		out.write("\t\tif (Boolean.getBoolean(\"fix.useOneLiner\")) sep = SOH;\n\n");
+		
+		out.write("\t\tString s = \"BeginString(8)=\" + new String(BEGINSTRING_VALUE) + sep;\n");
+		out.write("\t\ts += \"BodyLength(9)=\" + bodyLength + sep;\n");
+		out.write("\t\ts += \"MsgType(35)=\" + new String(MsgTypes." + m.name.toUpperCase() + ") + sep;\n\n");
 
-		out.write("		try {\n");
-		out.write("			" + printToString(dom.quickFixHeader.fields, "standardHeader.") + "\n");
-		out.write("			" + printToString(m.fields, "") + "\n");
-		out.write("			" + printToString(dom.quickFixTrailer.fields, "standardTrailer.") + "\n");
-		out.write("		} catch(Exception e) {  };\n");
-
-		out.write("\t\t\treturn s;\n");
-		out.write("	}\n\n");
+		out.write("\t\ttry {\n");
+		out.write("\t\t\t// print all fields including the header\n\n");
+		for (DomFixField f : dom.domFixHeader.fields ) {
+			if (f.name.contains("BeginString") || f.name.contains("BodyLength") || f.name.equals("MsgType") ) continue;
+			printTagField(f, out);
+		}
+		out.write("\n");
+		for (DomFixField f : m.fields ) {
+			printTagField(f, out);
+		}
+		out.write("\n");
+		out.write("\t\t\ts += \"checkSum(10)=\" + String.valueOf(checkSum) + sep;\n\n");
+		out.write("\t\t} catch(Exception e) {  };\n\n");
+		
+		out.write("\t\treturn s;\n");
+		out.write("\t}\n\n");
 
 		// equals
 		name = capFirst(dom.type) + capFirst(m.name);
-		out.write("	@Override\n");
-		out.write("	public boolean equals(Object o) {\n");
-		out.write("		if (! ( o instanceof " + name + ")) return false;\n\n");
-		out.write("		" + name + " msg = (" + name + ") o;\n\n");
-		out.write("		if (!standardHeader.equals(msg.standardHeader)) return false;\n\n");
+		out.write("\t@Override\n");
+		out.write("\tpublic boolean equals(Object o) {\n");
+		out.write("\t\tif (! ( o instanceof " + name + ")) return false;\n\n");
+		out.write("\t\t\t" + name + " msg = (" + name + ") o;\n\n");
+		out.write("\t\tif ( ! super.equals(msg) ) return false;\n\n");
 		printEquals(out, m.fields);
-		out.write("	}\n");
-
-		genCloneMethod(true, dom, name, m.fields, m.components, out);
+		out.write("\t}\n");
 
 		// write out the close to the class
 		out.write("}\n");
@@ -1185,313 +1101,46 @@ public class FixMessageGenerator {
 		out.close();
 	}
 	
-	private void genHasRequiredTags(boolean isMessage, FixMessageDom dom, OutputStreamWriter out, String messageName, ArrayList<QuickFixField> fields, ArrayList<QuickFixComponent> components) throws IOException {
-		out.write("\tpublic boolean hasRequiredTags(FixValidationError err) {\n");
-		//if (isMessage) {
-		//	out.write("		standardHeader.hasRequiredTags(err); if (err.hasError()) return false; \n\n");
-		//}
-		for (final QuickFixField f : fields) {
-			if (f.reqd.equalsIgnoreCase("Y")) {
-				out.write("\t\tif (!has" + capFirst(f.name) + "()) { \n");
-				if (isMessage)
-					out.write("\t\t\terr.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, \"Required tag missing\", FixTags." + f.name.toUpperCase() + "_INT, FixMessageInfo.MessageTypes."
-						+ messageName.toUpperCase() + "_INT);\n");
-				else 
-					out.write("\t\t\terr.setError((int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING, \"Required tag missing\", FixTags." + f.name.toUpperCase() + "_INT);\n");
-				out.write("\t\t\treturn false;\n");
-				out.write("\t\t}\n");
-			}
-		}
-		for (final QuickFixComponent cc : components) {
-			final QuickFixComponent c = dom.quickFixNamedComponents.get(cc.name);
-			if (c.isRepeating && cc.reqd != null && cc.reqd.equalsIgnoreCase("Y")) {
-				out.write("		for (int i = 0; i< FixUtils.FIX_MAX_NOINGROUP; i++) { if ("+  uncapFirst(c.name) + "[i].hasGroup()) "+  uncapFirst(c.name) + "[i].hasRequiredTags(err); if (err.hasError()) return false; }\n");
-			} else if (!c.isRepeating && cc.reqd.equalsIgnoreCase("Y")) {
-				out.write("		if ("+  uncapFirst(c.name) + ".isRequired) "+  uncapFirst(c.name) + ".hasRequiredTags(err); if (err.hasError()) return false;\n");
-			}
-		}
-
-		//if (isMessage) {
-		//	out.write("		standardTrailer.hasRequiredTags(err); if (err.hasError()) return false; \n\n");
-		//}
-		out.write("\t\treturn true;\n");
-		out.write("\t}\n");
-		
-	}
-
-	public void genMessagePool(final FixMessageDom dom, final OutputStreamWriter out) throws IOException {
-
-		out.write("package " + dom.packageName + ";\n\n");
-		out.write("import java.nio.ByteBuffer;\n");
-		out.write("import " + dom.packageNameBase + ".FixUtils;\n");
-		out.write("import " + dom.packageNameBase + ".FixInMessage;\n");
-		out.write("import " + dom.packageNameBase + ".FixValidationError;\n");
-		out.write("import " + dom.packageNameBase + ".messaging.FixMessageInfo;\n");
-		out.write("import " + dom.packageNameBase + "." + capFirst(dom.type.toLowerCase()) + "Message;\n");
-		for (final QuickFixMessage m : dom.quickFixMessages) {
-			final String name = capFirst(dom.type.toLowerCase()) + m.name;
-			out.write("import " + dom.packageNameBase + ".messaging." + name + ";\n");
-		}
-		out.write("\n");
-		out.write("public class Fix" + "MessagePool<T extends FixMessage> {\n\n");
-		
-		out.write("	static public FixMessagePool<FixInMessage> pool = new FixMessagePool<FixInMessage>();\n");
-		
-		for (final QuickFixMessage m : dom.quickFixMessages) {
-			final String name = capFirst(dom.type.toLowerCase()) + m.name;
-			out.write("	" + name + "[] pool" + name + ";\n");
-			out.write("	boolean[] inUse" + name + ";\n");
-		}
-		out.write("\n");
-		out.write("	public FixMessagePool() {\n");
-		for (final QuickFixMessage m : dom.quickFixMessages) {
-			final String name = capFirst(dom.type.toLowerCase()) + m.name;
-			out.write("		pool" + name + " = new " + name + "[1];\n");
-			out.write("		inUse" + name + " = new boolean[1];\n\n");
-			out.write("		for (int i = pool" + name + ".length - 1; i >= 0; i--) {\n");
-			out.write("			pool" + name + "[i] = new " + name + "();\n");
-			out.write("			inUse" + name + "[i] = false;\n");
-			out.write("		}\n");
-		}
-		out.write("	}\n\n");
-
-		out.write("\tpublic T getFixMessage(ByteBuffer buf, FixValidationError err) {\n");
-		out.write("\t\tint pos = buf.position();\n");
-		out.write("\t\tint msgType = FixUtils.crackMsgType( buf ,err );\n\n");
-
-		out.write("\t\t// garbled message\n");
-		out.write("\t\tif (err.hasError()) return null;\n\n");
-
-		out.write("\t\tbuf.position(pos);\n\n");
-
-		out.write("\t\treturn getFixMessage(msgType, buf, err);\n");
-		out.write("\t}\n");
-
-		out.write("	@SuppressWarnings(\"unchecked\")\n");
-		out.write("	private T getFixMessage(int msgType, ByteBuffer buf, FixValidationError err) {\n");
-		out.write("		switch(msgType) {\n");
-		for (final QuickFixMessage m : dom.quickFixMessages) {
-			final String name = capFirst(dom.type.toLowerCase()) + m.name;
-			out.write("		case FixMessageInfo.MessageTypes." + m.name.toUpperCase() + "_INT:\n");
-			out.write("			return (T) get" + name + "(buf, err);\n");
-		}
-		out.write("		default:\n");
-		out.write("			return null;\n");
-		out.write("		}\n");
-		out.write("	}\n\n");
-
-		out.write("	@SuppressWarnings(\"unchecked\")\n");
-		out.write("	public T getFixMessage(int msgType) {\n");
-		out.write("		switch(msgType) {\n");
-		for (final QuickFixMessage m : dom.quickFixMessages) {
-			final String name = capFirst(dom.type.toLowerCase()) + m.name;
-			out.write("		case FixMessageInfo.MessageTypes." + m.name.toUpperCase() + "_INT:\n");
-			out.write("			return (T) get" + name + "();\n");
-		}
-		out.write("		default:\n");
-		out.write("			return null;\n");
-		out.write("		}\n");
-		out.write("	}\n\n");
-
-		final String[] directions = { "in", "out" };
-		for (final String direction : directions)
-			for (final QuickFixMessage m : dom.quickFixMessages) {
-				final String name = capFirst(dom.type.toLowerCase()) + m.name;
-				if (direction.equalsIgnoreCase("in"))
-					out.write("	public " + name + " get" + name + "(ByteBuffer buf, FixValidationError err) {\n");
-				else
-					out.write("	public " + name + " get" + name + "() {\n");
-				out.write("		for (int i = inUse" + name + ".length - 1; i >= 0; i--)\n");
-				out.write("			if (!inUse" + name + "[i]) {\n");
-				out.write("				inUse" + name + "[i] = true;\n");
-				if (direction.equalsIgnoreCase("in"))
-					out.write("				pool" + name + "[i].setBuffer(buf, err);\n");
-				out.write("				return pool" + name + "[i];\n");
-				out.write("			}\n\n");
-				out.write("		boolean[] old_inUse = inUse" + name + ";\n");
-				out.write("		inUse" + name + " = new boolean[old_inUse.length + 10];\n");
-				out.write("		System.arraycopy(old_inUse, 0, inUse" + name + ", 0, old_inUse.length);\n\n");
-
-				out.write("		" + name + "[] old_pool = pool" + name + ";\n");
-				out.write("		pool" + name + " = new " + name + "[old_pool.length + 10];\n");
-				out.write("		System.arraycopy(old_pool, 0, pool" + name + ", 0, old_pool.length);\n\n");
-
-				out.write("		for (int i = old_pool.length; i < pool" + name + ".length; i++) {\n");
-				out.write("			pool" + name + "[i] = new " + name + "();\n");
-				out.write("			inUse" + name + "[i] = false;\n");
-				out.write("		}\n\n");
-				out.write("		inUse" + name + "[pool" + name + ".length - 1] = true;\n");
-				if (direction.equalsIgnoreCase("in"))
-					out.write("		pool" + name + "[pool" + name + ".length - 1].setBuffer(buf, err);\n");
-				out.write("		return pool" + name + "[pool" + name + ".length - 1];\n");
-				out.write("	}\n\n");
-			}
-
-		out.write("	public void returnFixMessage(T msg) {\n");
-		out.write("		switch(msg.msgType) {\n");
-		for (final QuickFixMessage m : dom.quickFixMessages) {
-			final String name = capFirst(dom.type.toLowerCase()) + m.name;
-			out.write("			case FixMessageInfo.MessageTypes." + m.name.toUpperCase() + "_INT:\n");
-			out.write("				return" + name + "((" + name + ")msg);\n");
-			out.write("				break;\n");
-		}
-		out.write("			default:\n");
-		out.write("				break;\n");
-		out.write("		}\n\n");
-		out.write("	}\n\n");
-
-		for (final QuickFixMessage m : dom.quickFixMessages) {
-			final String name = capFirst(dom.type.toLowerCase()) + m.name;
-			out.write("	public void return" + name + "(" + name + " msg) {\n\n");
-			out.write("		for (int i = inUse" + name + ".length - 1; i >= 0; i--) {\n");
-			out.write("			if (pool" + name + "[i] == msg) {\n");
-			out.write("				inUse" + name + "[i] = false;\n");
-			out.write("				msg.clear();\n");
-			out.write("				return;\n");
-			out.write("			}\n");
-			out.write("		}\n");
-			out.write("	}\n\n");
-		}
-		// write out the close to the class
-		out.write("}\n");
-
-		// done. close out the file
-		out.close();
-	}
-
-	public void genParser(final FixMessageDom dom, final OutputStreamWriter out) throws Exception {
+	private void genParser(final FixMessageDom dom, final BufferedWriter out) throws Exception {
 
 		// write package line
 		out.write("package " + dom.packageName + ";\n\n");
 
 		writeGeneratedFileHeader(out);
 
-		// import ByteBuffer
-		out.write("import java.nio.ByteBuffer;\n");
-		out.write("import " + dom.packageNameBase + ".FixMessage;\n");
-		out.write("import " + dom.packageNameBase + ".FixValidationError;\n");
-		out.write("import " + dom.packageNameBase + ".FixInMessage;\n");
-		out.write("import " + dom.packageNameBase + ".IFixSession;\n");
-		out.write("import " + dom.packageNameBase + ".FixUtils;\n\n");
-		out.write("import " + dom.packageNameBase + ".FixEvent;\n\n");
+		out.write(strInByteBuffer + "\n");
+		out.write(strFixException + "\n");
 
 		// write out the open to the parser class
 		out.write("public class " + dom.type + "MessageParser implements " + dom.type + "MessageInfo\n{\n\n");
 
-		out.write("\tpublic FixMessagePool<FixInMessage> fixMessagePool;\n");
-		out.write("\tFixStandardHeader standardHeader;\n\n");
+		for (final DomFixMessage m : dom.domFixMessages) {
+			out.write("\t" + capFirst(dom.type.toLowerCase()) + capFirst(m.name) + " " + dom.type.toLowerCase() + capFirst(m.name) + 
+					" = new " + dom.type + capFirst(m.name) + "();\n");
+		}
+		out.write("\n");
+		
+		out.write("\tpublic void parse( " + strReadableByteBuffer + " buf, FixMessageListener l) throws FixSessionException {\n\n");
 
-		out.write("\tpublic FixMessageParser() {\n");
-		out.write("\t\tfixMessagePool = FixMessagePool.pool;\n");
-		out.write("\t\tstandardHeader = new FixStandardHeader(); \n");
-		out.write("\t}\n\n");
+		out.write("\t\tint msgTypeInt = FixMessage.crackMsgType(buf);\n\n");
 
-		out.write("\tpublic void parse(ByteBuffer buf, FixValidationError err, FixMessageListener l) {\n");
-		out.write("\t\tparse(buf, err, l, 0);\n");
-		out.write("\t}\n\n");
+		out.write("\t\tswitch (msgTypeInt) {\n\n");
 
-		out.write("\tpublic void parse(ByteBuffer buf, FixValidationError err, FixMessageListener l, int connectorID) {\n");
-
-		out.write("\t\t// RAW\n");
-		out.write("\t\tint msgTypeInt = FixUtils.crackMsgType(buf, err);\n\n");
-
-		out.write("\t\tif (!err.hasError()) {\n\n");
-
-		out.write("\t\t\t// MESSAGE\n");
-		out.write("\t\t\tFixUtils.crackStandardHeader(buf, standardHeader, err);\n\n");
-
-		out.write("\t\t\t// even with error we will still try and get the session\n");
-		out.write("\t\t\tIFixSession session = FixUtils.crackSession(msgTypeInt, l, connectorID, standardHeader, err);\n\n");
-
-		out.write("\t\t\t// SESSION\n");
-		out.write("\t\t\tif (session != null && err.isMsgSeqNumConsumer()) \n\t\t\t\tsession.incrementInMsgSeqNum();\n\n");
-
-		out.write("\t\t\tif (!err.hasError()) {\n\n");
-		out.write("\t\t\t\terr.refSeqNum = standardHeader.getMsgSeqNum();\n");
-		out.write("\t\t\t\terr.refMsgTypeInt = msgTypeInt;\n");
-		out.write("\t\t\t\terr.session = session;\n\n");
-
-		out.write("\t\t\t\tif (MessageTypes.LOGON_INT == msgTypeInt) {\n\n");
-
-		final String logonName = "logon";
-		final String logonCapName = "Logon";
-		out.write("\t\t\t\t\t" + capFirst(dom.type.toLowerCase()) + logonCapName + " " + logonName + " = fixMessagePool.get" + capFirst(dom.type.toLowerCase()) + logonCapName + "(buf, err);\n");
-		out.write("\t\t\t\t\tif(err.hasError()) {\n");
-		out.write("\t\t\t\t\t\tif (err.hasError() && err.refTagID == FixTags.DEFAULTAPPLVERID_INT)\n");
-		out.write("\t\t\t\t\t\t\terr.setError(FixEvent.DISCONNECT, err.text, err.refTagID, msgTypeInt);\n\n");
-		out.write("\t\t\t\t\t\tl.onFixValidationError(err);\n");
-		out.write("\t\t\t\t\t} else {\n");
-		out.write("\t\t\t\t\t\t" + logonName + ".sessionID = session.getSessionID();\n");
-		out.write("\t\t\t\t\t\tl.on" + capFirst(dom.type.toLowerCase()) + logonCapName + "(" + logonName + ");\n");
-		out.write("\t\t\t\t\t}\n");
-		out.write("\t\t\t\t\tfixMessagePool.return" + capFirst(dom.type.toLowerCase()) + logonCapName + " (" + logonName + ");\n");
-
-		out.write("\t\t\t\t} else {\n\n");
-
-		out.write("\t\t\t\t\tif (FixUtils.isNasdaqOMX && (msgTypeInt == '8' || msgTypeInt == '9'))\n");
-		out.write("\t\t\t\t\t\tmsgTypeInt = FixUtils.getNasdaqMsgTypeInt(msgTypeInt, buf, err);\n\n");
-
-		out.write("\t\t\t\t// parse everything...\n");
-		out.write("\t\t\t\tswitch (msgTypeInt) {\n\n");
-
-		for (final QuickFixMessage m : dom.quickFixMessages) {
+		for (final DomFixMessage m : dom.domFixMessages) {
 
 			final String name = dom.type.toLowerCase() + m.name;
-			out.write("\t\t\t\tcase MessageTypes." + m.name.toUpperCase() + "_INT:\n");
-			out.write("\t\t\t\t\t" + capFirst(dom.type.toLowerCase()) + m.name + " " + name + " = fixMessagePool.get" + capFirst(dom.type.toLowerCase()) + m.name + "(buf, err);\n");
-
-			if (m.name.equalsIgnoreCase("sequenceReset")) {
-				out.write("\t\t\t\tif (!err.hasError() && standardHeader.getMsgSeqNum() < session.getInMsgSeqNum() - 1 ) { // we have incremented already to next\n");
-				out.write("\t\t\t\t\tif (fixSequenceReset.hasGapFillFlag() && fixSequenceReset.getGapFillFlag()) { \n");
-				out.write("\t\t\t\t\t\terr.setError(FixEvent.MSGSEQNUM_LOGOUT, \"MsgSeqNum too low, expecting \" + (session.getInMsgSeqNum() + 1) + \" but received \"\n");
-				out.write("\t\t\t\t\t\t\t+ standardHeader.getMsgSeqNum(), FixTags.MSGSEQNUM_INT, msgTypeInt);\n");
-				out.write("\t\t\t\t\t}\n");
-				out.write("\t\t\t\t}\n");
-			}
-			
-			out.write("\t\t\t\t\tif(err.hasError()) {\n");
-			out.write("\t\t\t\t\t\terr.refMsgTypeInt = MessageTypes." + m.name.toUpperCase() + "_INT;\n");
-			out.write("\t\t\t\t\t\tl.onFixValidationError(err);\n");
-			out.write("\t\t\t\t\t} else {\n");
-			out.write("\t\t\t\t\t\t" + name + ".sessionID = session.getSessionID();\n");
-			out.write("\t\t\t\t\t\tl.on" + capFirst(dom.type.toLowerCase()) + m.name + "(" + name + ");\n");
-			out.write("\t\t\t\t\t}\n");
-			
-			out.write("\t\t\t\t\tfixMessagePool.return" + capFirst(dom.type.toLowerCase()) + m.name + " (" + name + ");\n");
-			out.write("\t\t\t\t\tbreak;\n");
+			out.write("\t\t\tcase MsgTypes." + m.name.toUpperCase() + "_INT:\n");
+			out.write("\t\t\t\t" + name + ".setBuffer( buf );\n");
+			out.write("\t\t\t\tl.on" + capFirst(dom.type.toLowerCase()) + m.name + "(" + name + ");\n");
+			out.write("\t\t\t\tbreak;\n");
 		}
+		out.write("\n");
 
-		out.write("\t\t\t\tdefault:\n");
-		out.write("\t\t\t\t\tl.onUnknownMessageType( buf, msgTypeInt );\n");
-		out.write("\t\t\t\t\tbreak;\n\n");
-		out.write("\t\t\t\t}\n\n");
+		out.write("\t\t\tdefault:\n");
+		out.write("\t\t\t\tl.onUnknownMessageType( buf, msgTypeInt );\n");
+		out.write("\t\t\t\tbreak;\n\n");
 		out.write("\t\t\t}\n\n");
-
-		out.write("\t\t} else if (MessageTypes.LOGON_INT == msgTypeInt && session == null) { // MESSAGE\n");
-		out.write("\t\t\terr.setError(FixEvent.DISCONNECT, \"DISCONNECT\");\n");
-		out.write("\t\t} else { // MESSAGE\n");
-		out.write("\t\t\terr.refSeqNum = standardHeader.getMsgSeqNum();\n");
-		out.write("\t\t\terr.refMsgTypeInt = msgTypeInt;\n");
-		out.write("\t\t\terr.session = session;\n\n");
-
-		out.write("\t\t\tif (session == null || !session.isEstablished()) {\n");
-		out.write("\t\t\t\terr.setError(FixEvent.DISCONNECT, \"DISCONNECT\");\n");
-		out.write("\t\t\t} else {\n");
-		out.write("\t\t\t\terr.session = session;\n");
-		out.write("\t\t\t\tl.onFixValidationError(err);\n");
-		out.write("\t\t\t}\n\n");
-		
 		out.write("\t\t}\n\n");
-
-		out.write("\t\t} else if (MessageTypes.LOGON_INT == msgTypeInt) { // RAW\n");
-		out.write("\t\t\terr.setError(FixEvent.DISCONNECT, \"DISCONNECT\");\n");
-		out.write("\t\t} else {\n");
-		out.write("\t\tIFixSession session = l.getSession(connectorID, err);\n");
-		out.write("\t\tif (session == null || ! session.isEstablished()) err.setError(FixEvent.DISCONNECT, \"DISCONNECT\");\n");
-		out.write("\t\t}\n\n");
-		
-		out.write("\t\tstandardHeader.clear();\n");
-		out.write("\t}\n\n");
 
 		// write out the close to the parser class
 		out.write("}\n");
@@ -1500,24 +1149,23 @@ public class FixMessageGenerator {
 		out.close();
 	}
 
-	private void genTags(final FixMessageDom dom, final FileWriter out) throws IOException {
+	private void genTags(final FixMessageDom dom, final BufferedWriter out) throws IOException {
 		// write package line
 		out.write("package " + dom.packageName + ";\n\n");
 
 		writeGeneratedFileHeader(out);
 
-		out.write("import " + dom.packageNameBase + ".messaging.FixTags;\n\n");
-		out.write("import " + dom.packageNameBase + ".FixUtils;\n\n");
-
 		out.write("public class FixTags {\n\n");
 
 		// write out each callback
-		for (final QuickFixField f : dom.quickFixFields) {
+		for (final DomFixField f : dom.domFixFields) {
 
-			out.write("	public static final int " + f.name.toUpperCase() + "_INT = " + f.number + ";\n");
-			out.write("	public static final byte[]  " + f.name.toUpperCase() + " = \"" + f.number + "\".getBytes();\n");
-			if (f.length > 0)
-				out.write("\t\tpublic static final int " + f.name.toUpperCase() + "_LENGTH = " + f.length + ";\n");
+			out.write("\tpublic static final int " + f.name.toUpperCase() + "_INT = " + f.number + ";\n");
+			out.write("\tpublic static final byte[]  " + f.name.toUpperCase() + " = \"" + f.number + "\".getBytes();\n");
+			if (f.length > 0) {
+				out.write("\tpublic static final int " + f.name.toUpperCase() + "_LENGTH = " + f.length + ";\n");
+			}
+			/* TODO no default length
 			else
 				try {
 					final String l = getJavaLength(f);
@@ -1525,6 +1173,7 @@ public class FixMessageGenerator {
 				} catch (final Exception e) {
 					// ignore
 				}
+			*/
 			out.write("\n");
 		}
 
@@ -1535,112 +1184,68 @@ public class FixMessageGenerator {
 		out.close();
 	}
 
-	private String getAsStringExpression(final String prefix, final String name, final String type) {
-		switch (FixDataTypes.toInt(type)) {
+	private String getEqualExpression(final String name, final String type, String prefix) {
+		switch (FixMessageDom.toInt(type)) {
 
-			case FixDataTypes.STRING:
-			case FixDataTypes.MULTIPLECHARVALUE:
-			case FixDataTypes.MULTIPLESTRINGVALUE:
-			case FixDataTypes.COUNTRY:
-			case FixDataTypes.CURRENCY:
-			case FixDataTypes.EXCHANGE:
-			case FixDataTypes.MONTHYEAR:
-			case FixDataTypes.UTCTIMESTAMP:
-			case FixDataTypes.UTCTIMEONLY:
-			case FixDataTypes.UTCDATEONLY:
-			case FixDataTypes.LOCALMKTDATE:
-			case FixDataTypes.TZTIMEONLY:
-			case FixDataTypes.TZTIMESTAMP:
-			case FixDataTypes.DATA:
-			case FixDataTypes.XMLDATA:
-			case FixDataTypes.LANGUAGE:
-				return "new String( FixUtils.trim(" + prefix + "get" + capFirst(name) + "()) )";
+			case FixMessageDom.STRING:
+			case FixMessageDom.MULTIPLECHARVALUE:
+			case FixMessageDom.MULTIPLESTRINGVALUE:
+			case FixMessageDom.COUNTRY:
+			case FixMessageDom.CURRENCY:
+			case FixMessageDom.EXCHANGE:
+			case FixMessageDom.MONTHYEAR:
+			case FixMessageDom.DATA:
+			case FixMessageDom.XMLDATA:
+			case FixMessageDom.LANGUAGE:
+				return "" + strUtil + ".equals( " + name + ", " + prefix + ")";
 
-			case FixDataTypes.FLOAT:
-			case FixDataTypes.PRICE:
-			case FixDataTypes.QTY:
-			case FixDataTypes.PRICEOFFSET:
-			case FixDataTypes.AMT:
-			case FixDataTypes.PERCENTAGE:
-				return prefix + "get" + capFirst(name) + "() / FixUtils.FIX_FLOAT_NUMBER_OF_DECIMALS";
+			case FixMessageDom.CHAR:
+			case FixMessageDom.INT:
+			case FixMessageDom.LENGTH:
+			case FixMessageDom.TAGNUM:
+			case FixMessageDom.SEQNUM:
+			case FixMessageDom.NUMINGROUP:
+			case FixMessageDom.DAYOFMOUNTH:
+			case FixMessageDom.BOOLEAN:
+			case FixMessageDom.FLOAT:
+			case FixMessageDom.PRICE:
+			case FixMessageDom.QTY:
+			case FixMessageDom.PRICEOFFSET:
+			case FixMessageDom.AMT:
+			case FixMessageDom.PERCENTAGE:
+				return "( " + name + "==" + prefix + ")";
 
-			case FixDataTypes.CHAR:
-			case FixDataTypes.INT:
-			case FixDataTypes.LENGTH:
-			case FixDataTypes.TAGNUM:
-			case FixDataTypes.SEQNUM:
-			case FixDataTypes.NUMINGROUP:
-			case FixDataTypes.DAYOFMOUNTH:
-			case FixDataTypes.BOOLEAN:
-				return prefix + "get" + capFirst(name) + "()";
-
-			default:
-				throw new RuntimeException("No idea how to parse this field: " + prefix + name);
-		}
-	}
-
-	private String getEqualExpression(final String name, final String type) {
-		switch (FixDataTypes.toInt(type)) {
-
-			case FixDataTypes.STRING:
-			case FixDataTypes.MULTIPLECHARVALUE:
-			case FixDataTypes.MULTIPLESTRINGVALUE:
-			case FixDataTypes.COUNTRY:
-			case FixDataTypes.CURRENCY:
-			case FixDataTypes.EXCHANGE:
-			case FixDataTypes.MONTHYEAR:
-			case FixDataTypes.DATA:
-			case FixDataTypes.XMLDATA:
-			case FixDataTypes.LANGUAGE:
-				return "FixUtils.equals(get" + capFirst(name) + "(), msg.get" + capFirst(name) + "())";
-
-			case FixDataTypes.CHAR:
-			case FixDataTypes.INT:
-			case FixDataTypes.LENGTH:
-			case FixDataTypes.TAGNUM:
-			case FixDataTypes.SEQNUM:
-			case FixDataTypes.NUMINGROUP:
-			case FixDataTypes.DAYOFMOUNTH:
-			case FixDataTypes.BOOLEAN:
-			case FixDataTypes.FLOAT:
-			case FixDataTypes.PRICE:
-			case FixDataTypes.QTY:
-			case FixDataTypes.PRICEOFFSET:
-			case FixDataTypes.AMT:
-			case FixDataTypes.PERCENTAGE:
-				return "(get" + capFirst(name) + "()==msg.get" + capFirst(name) + "())";
-
-			case FixDataTypes.UTCTIMESTAMP: // timestamps are ignored
-			case FixDataTypes.UTCTIMEONLY:
-			case FixDataTypes.UTCDATEONLY:
-			case FixDataTypes.LOCALMKTDATE:
-			case FixDataTypes.TZTIMEONLY:
-			case FixDataTypes.TZTIMESTAMP:
+			case FixMessageDom.UTCTIMESTAMP: // timestamps are ignored
+			case FixMessageDom.UTCTIMEONLY:
+			case FixMessageDom.UTCDATEONLY:
+			case FixMessageDom.LOCALMKTDATE:
+			case FixMessageDom.TZTIMEONLY:
+			case FixMessageDom.TZTIMESTAMP:
 				return "true";
 			default:
 				throw new RuntimeException("No idea how to parse this field: " + name);
 		}
 	}
 
-	String getJavaLength(final QuickFixField f) {
+	String getJavaLength(final DomFixField f) {
 
-		switch (FixDataTypes.toInt(f.type)) {
+		switch (FixMessageDom.toInt(f.type)) {
 
 			// TODO more checks
-			case FixDataTypes.STRING:
-			case FixDataTypes.MULTIPLECHARVALUE:
-			case FixDataTypes.MULTIPLESTRINGVALUE:
-			case FixDataTypes.COUNTRY:
-			case FixDataTypes.EXCHANGE:
-			case FixDataTypes.MONTHYEAR:
-			case FixDataTypes.UTCTIMEONLY:
-			case FixDataTypes.UTCDATEONLY:
-			case FixDataTypes.LOCALMKTDATE:
-			case FixDataTypes.TZTIMEONLY:
-			case FixDataTypes.TZTIMESTAMP:
-			case FixDataTypes.DATA:
-			case FixDataTypes.XMLDATA:
-			case FixDataTypes.LANGUAGE: {
+			case FixMessageDom.STRING:
+			case FixMessageDom.MULTIPLECHARVALUE:
+			case FixMessageDom.MULTIPLESTRINGVALUE:
+			case FixMessageDom.COUNTRY:
+			case FixMessageDom.EXCHANGE:
+			case FixMessageDom.MONTHYEAR:
+			case FixMessageDom.UTCTIMEONLY:
+			case FixMessageDom.UTCDATEONLY:
+			case FixMessageDom.LOCALMKTDATE:
+			case FixMessageDom.TZTIMEONLY:
+			case FixMessageDom.TZTIMESTAMP:
+			case FixMessageDom.DATA:
+			case FixMessageDom.XMLDATA:
+			case FixMessageDom.LANGUAGE: {
 				if (f.length > 0)
 					return String.valueOf(f.length);
 				else if (f.name.toLowerCase().contains("text"))
@@ -1649,10 +1254,10 @@ public class FixMessageGenerator {
 					return "FixUtils.FIX_MAX_STRING_LENGTH";
 			}
 
-			case FixDataTypes.CURRENCY:
+			case FixMessageDom.CURRENCY:
 				return "FixUtils.CURRENCY_LENGTH";
 
-			case FixDataTypes.UTCTIMESTAMP:
+			case FixMessageDom.UTCTIMESTAMP:
 				return "FixUtils.UTCTIMESTAMP_LENGTH";
 
 			default:
@@ -1660,48 +1265,48 @@ public class FixMessageGenerator {
 		}
 	}
 
-	String getJavaType(final QuickFixField f) {
+	String getJavaType(final DomFixField f) {
 
-		switch (FixDataTypes.toInt(f.type)) {
+		switch (FixMessageDom.toInt(f.type)) {
 
-			case FixDataTypes.STRING:
-			case FixDataTypes.MULTIPLECHARVALUE:
-			case FixDataTypes.MULTIPLESTRINGVALUE:
-			case FixDataTypes.COUNTRY:
-			case FixDataTypes.CURRENCY:
-			case FixDataTypes.EXCHANGE:
-			case FixDataTypes.MONTHYEAR:
-			case FixDataTypes.UTCTIMESTAMP:
-			case FixDataTypes.UTCTIMEONLY:
-			case FixDataTypes.UTCDATEONLY:
-			case FixDataTypes.LOCALMKTDATE:
-			case FixDataTypes.TZTIMEONLY:
-			case FixDataTypes.TZTIMESTAMP:
-			case FixDataTypes.DATA:
-			case FixDataTypes.XMLDATA:
-			case FixDataTypes.LANGUAGE:
+			case FixMessageDom.STRING:
+			case FixMessageDom.MULTIPLECHARVALUE:
+			case FixMessageDom.MULTIPLESTRINGVALUE:
+			case FixMessageDom.COUNTRY:
+			case FixMessageDom.CURRENCY:
+			case FixMessageDom.EXCHANGE:
+			case FixMessageDom.MONTHYEAR:
+			case FixMessageDom.UTCTIMESTAMP:
+			case FixMessageDom.UTCTIMEONLY:
+			case FixMessageDom.UTCDATEONLY:
+			case FixMessageDom.LOCALMKTDATE:
+			case FixMessageDom.TZTIMEONLY:
+			case FixMessageDom.TZTIMESTAMP:
+			case FixMessageDom.DATA:
+			case FixMessageDom.XMLDATA:
+			case FixMessageDom.LANGUAGE:
 				return "byte[]";
 
-			case FixDataTypes.CHAR:
+			case FixMessageDom.CHAR:
 				return "byte";
 
-			case FixDataTypes.INT:
-			case FixDataTypes.LENGTH:
-			case FixDataTypes.TAGNUM:
-			case FixDataTypes.SEQNUM:
-			case FixDataTypes.NUMINGROUP:
-			case FixDataTypes.DAYOFMOUNTH:
+			case FixMessageDom.INT:
+			case FixMessageDom.LENGTH:
+			case FixMessageDom.TAGNUM:
+			case FixMessageDom.SEQNUM:
+			case FixMessageDom.NUMINGROUP:
+			case FixMessageDom.DAYOFMOUNTH:
 				return "long";
 
-			case FixDataTypes.FLOAT:
-			case FixDataTypes.PRICE:
-			case FixDataTypes.QTY:
-			case FixDataTypes.PRICEOFFSET:
-			case FixDataTypes.AMT:
-			case FixDataTypes.PERCENTAGE:
+			case FixMessageDom.FLOAT:
+			case FixMessageDom.PRICE:
+			case FixMessageDom.QTY:
+			case FixMessageDom.PRICEOFFSET:
+			case FixMessageDom.AMT:
+			case FixMessageDom.PERCENTAGE:
 				return "long";
 
-			case FixDataTypes.BOOLEAN:
+			case FixMessageDom.BOOLEAN:
 				return "boolean";
 
 			default:
@@ -1709,48 +1314,48 @@ public class FixMessageGenerator {
 		}
 	}
 
-	String getJavaTypeNull(final QuickFixField f) {
+	String getJavaTypeNull(final DomFixField f) {
 
-		switch (FixDataTypes.toInt(f.type)) {
+		switch (FixMessageDom.toInt(f.type)) {
 
-			case FixDataTypes.STRING:
-			case FixDataTypes.MULTIPLECHARVALUE:
-			case FixDataTypes.MULTIPLESTRINGVALUE:
-			case FixDataTypes.COUNTRY:
-			case FixDataTypes.CURRENCY:
-			case FixDataTypes.EXCHANGE:
-			case FixDataTypes.MONTHYEAR:
-			case FixDataTypes.UTCTIMESTAMP:
-			case FixDataTypes.UTCTIMEONLY:
-			case FixDataTypes.UTCDATEONLY:
-			case FixDataTypes.LOCALMKTDATE:
-			case FixDataTypes.TZTIMEONLY:
-			case FixDataTypes.TZTIMESTAMP:
-			case FixDataTypes.DATA:
-			case FixDataTypes.XMLDATA:
-			case FixDataTypes.LANGUAGE:
+			case FixMessageDom.STRING:
+			case FixMessageDom.MULTIPLECHARVALUE:
+			case FixMessageDom.MULTIPLESTRINGVALUE:
+			case FixMessageDom.COUNTRY:
+			case FixMessageDom.CURRENCY:
+			case FixMessageDom.EXCHANGE:
+			case FixMessageDom.MONTHYEAR:
+			case FixMessageDom.UTCTIMESTAMP:
+			case FixMessageDom.UTCTIMEONLY:
+			case FixMessageDom.UTCDATEONLY:
+			case FixMessageDom.LOCALMKTDATE:
+			case FixMessageDom.TZTIMEONLY:
+			case FixMessageDom.TZTIMESTAMP:
+			case FixMessageDom.DATA:
+			case FixMessageDom.XMLDATA:
+			case FixMessageDom.LANGUAGE:
 				return "null";
 
-			case FixDataTypes.CHAR:
+			case FixMessageDom.CHAR:
 				return "(byte)'0'";
 
-			case FixDataTypes.INT:
-			case FixDataTypes.LENGTH:
-			case FixDataTypes.TAGNUM:
-			case FixDataTypes.SEQNUM:
-			case FixDataTypes.NUMINGROUP:
-			case FixDataTypes.DAYOFMOUNTH:
+			case FixMessageDom.INT:
+			case FixMessageDom.LENGTH:
+			case FixMessageDom.TAGNUM:
+			case FixMessageDom.SEQNUM:
+			case FixMessageDom.NUMINGROUP:
+			case FixMessageDom.DAYOFMOUNTH:
 				return "0";
 
-			case FixDataTypes.FLOAT:
-			case FixDataTypes.PRICE:
-			case FixDataTypes.QTY:
-			case FixDataTypes.PRICEOFFSET:
-			case FixDataTypes.AMT:
-			case FixDataTypes.PERCENTAGE:
+			case FixMessageDom.FLOAT:
+			case FixMessageDom.PRICE:
+			case FixMessageDom.QTY:
+			case FixMessageDom.PRICEOFFSET:
+			case FixMessageDom.AMT:
+			case FixMessageDom.PERCENTAGE:
 				return "0";
 
-			case FixDataTypes.BOOLEAN:
+			case FixMessageDom.BOOLEAN:
 				return "false";
 
 			default:
@@ -1759,165 +1364,78 @@ public class FixMessageGenerator {
 	}
 
 	/**
-	 * @param keyTag
-	 * @return
-	 */
-	private String getKeyTagForComponent(final FixMessageDom dom, final String name) {
-
-		final QuickFixField f = dom.quickFixNamedFields.get(name);
-		if (f == null) {
-			final QuickFixComponent cc = dom.quickFixNamedComponents.get(name);
-			final QuickFixField ff = dom.quickFixNamedFields.get(cc.keyTag);
-			if (ff == null) {
-				final QuickFixComponent ccc = dom.quickFixNamedComponents.get(cc.keyTag);
-				return ccc.keyTag;
-			} else
-				return ff.name;
-		} else
-			return f.name;
-
-	}
-
-	/**
 	 * @param type
 	 * @return
 	 */
 	private boolean isPartOfEqualCopmarison(final String type) {
-		switch (FixDataTypes.toInt(type)) {
-			case FixDataTypes.UTCTIMESTAMP: // timestamps are ignored
-			case FixDataTypes.UTCTIMEONLY:
-			case FixDataTypes.UTCDATEONLY:
-			case FixDataTypes.LOCALMKTDATE:
-			case FixDataTypes.TZTIMEONLY:
-			case FixDataTypes.TZTIMESTAMP:
+		switch (FixMessageDom.toInt(type)) {
+			case FixMessageDom.UTCTIMESTAMP: // timestamps are ignored
+			case FixMessageDom.UTCTIMEONLY:
+			case FixMessageDom.UTCDATEONLY:
+			case FixMessageDom.LOCALMKTDATE:
+			case FixMessageDom.TZTIMEONLY:
+			case FixMessageDom.TZTIMESTAMP:
 				return false;
 			default:
 				return true;
 		}
 	}
 
-	private void printEquals(final OutputStreamWriter out, final ArrayList<QuickFixField> fields) throws IOException {
-		for (final QuickFixField f : fields) {
-			if (f.name.equalsIgnoreCase("BodyLength") || f.name.equalsIgnoreCase("CheckSum")) continue;
-			out.write("		if ((has" + capFirst(f.name) + "() && !msg.has" + capFirst(f.name) + "()) ||" + " (!has" + capFirst(f.name) + "() && msg.has" + capFirst(f.name) + "())) return false;\n");
+	private void printEquals(final BufferedWriter out, final ArrayList<DomFixField> fields) throws IOException {
+		for (final DomFixField f : fields) {
+			if (f.name.equalsIgnoreCase("BodyLength") || f.name.equalsIgnoreCase("CheckSum") || f.name.equalsIgnoreCase("MsgType")) continue;
 			if (isPartOfEqualCopmarison(f.type)) {
-				out.write("		if (!(!has" + capFirst(f.name) + "() && !msg.has" + capFirst(f.name) + "()) ");
-				out.write("&& !" + getEqualExpression(uncapFirst(f.name), f.type));
-				out.write(") return false;\n");
+				out.write("\t\tif (!" + getEqualExpression(uncapFirst(f.name), f.type, "msg." + uncapFirst(f.name)));
+				out.write(") return false;\n\n");
 			}
 		}
 		out.write("		return true;\n");
 	}
+	
+	private void writeEnum(final BufferedWriter out, final DomFixField f, final DomFixValue v) throws IOException {
 
-	private String printToString(final ArrayList<QuickFixField> fields, final String prefix) {
-		String s = "";
-		for (final QuickFixField f : fields)
-			s += "\t\tif (" + prefix + "has" + f.name + "()) s += \"" + f.name + "(" + f.number + ")= \" + " + getAsStringExpression(prefix, uncapFirst(f.name), f.type) + " + \"\\n\" ; \n";
-		return s;
-	}
+		switch (FixMessageDom.toInt(f.type)) {
 
-	/**
-	 * @param dom
-	 * @param out
-	 * @param components
-	 * @param isMessage
-	 * @throws IOException
-	 */
-	private void processTags(final FixMessageDom dom, final OutputStreamWriter out, final ArrayList<QuickFixComponent> components, final boolean isMessage) throws IOException {
-		String start = "if";
-		String end = "else { return tag; }";
-		if (isMessage) {
-			start = "} else if";
-			end = "else {";
-		}
-		for (final QuickFixComponent cc : components) {
-			final QuickFixComponent c = dom.quickFixNamedComponents.get(cc.name);
-			if (c.isRepeating) {
-				out.write("        			" + start + " ( tag == FixTags." + c.noInGroupTag.toUpperCase() + "_INT ) {\n");
-				out.write("        				int count = 0;\n");
-				out.write("        				int noInGroupNumber = FixUtils.getTagIntValue(buf, err);\n");
-				out.write("        				if (err.hasError()) break;\n\n");
-				out.write("        				int repeatingGroupTag = FixUtils.getTag(buf, err);\n");
-				out.write("        				if (err.hasError()) break;\n");
-				out.write("        				if (noInGroupNumber <= 0 || noInGroupNumber > FixUtils.FIX_MAX_NOINGROUP) { err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, \"no in group count exceeding max\", tag);\n");
-				if (components.size() == 0 || isMessage)
-					out.write("        							return; }\n");
-				else
-					out.write("        							return repeatingGroupTag; }\n");
-				out.write("        				while ( count < noInGroupNumber ) {\n");
-				out.write("        					if ( !" + uncapFirst(c.name) + "[count].isKeyTag(repeatingGroupTag) ) {\n");
-				out.write("        						err.setError((int)FixMessageInfo.SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, \"Incorrect NumInGroup count for repeating group\", FixTags." + c.noInGroupTag.toUpperCase() + "_INT);\n");
-				if (components.size() == 0 || isMessage)
-					out.write("        						return;\n");
-				else
-					out.write("        						return repeatingGroupTag;\n");
-				out.write("        					}\n");
-				out.write("        					count++;\n");
-				out.write("        					repeatingGroupTag = " + uncapFirst(c.name) + "[count].setBuffer( repeatingGroupTag, buf, err);	\n");
-				out.write("        					if (err.hasError()) break; 		\n");
-				out.write("        				}\n");
-				out.write("        				if (err.hasError()) break;\n");
-				out.write("                		else { tag = repeatingGroupTag; continue; }\n");
-			} else {
-				out.write("        			" + start + " ( " + uncapFirst(c.name) + ".isKeyTag(tag)) {\n");
-				out.write("        				tag = " + uncapFirst(c.name) + ".setBuffer( tag, buf, err);		\n");
-				out.write("            			if (err.hasError()) break; 		\n");
-				out.write("                		else continue;		\n");
-			}
-			start = "} else if";
-		}
-		if (isMessage || components.size() > 0)
-			out.write("            		} " + end + "\n");
-		else if (components.size() > 0)
-			out.write("            		" + end + "\n\n");
-		else
-			out.write("            		return tag;\n\n");
-	}
-
-	private void setFieldByteArrayValue(final QuickFixField f, final OutputStreamWriter out) throws IOException {
-
-		switch (FixDataTypes.toInt(f.type)) {
-
-			case FixDataTypes.STRING:
-			case FixDataTypes.MULTIPLECHARVALUE:
-			case FixDataTypes.MULTIPLESTRINGVALUE:
-			case FixDataTypes.COUNTRY:
-			case FixDataTypes.CURRENCY:
-			case FixDataTypes.EXCHANGE:
-			case FixDataTypes.MONTHYEAR:
-			case FixDataTypes.UTCTIMESTAMP:
-			case FixDataTypes.UTCTIMEONLY:
-			case FixDataTypes.UTCDATEONLY:
-			case FixDataTypes.LOCALMKTDATE:
-			case FixDataTypes.TZTIMEONLY:
-			case FixDataTypes.TZTIMESTAMP:
-			case FixDataTypes.DATA:
-			case FixDataTypes.XMLDATA:
-			case FixDataTypes.LANGUAGE:
-				out.write("		FixUtils.copy(" + uncapFirst(f.name) + ", src); 		\n");
+			case FixMessageDom.STRING:
+			case FixMessageDom.MULTIPLECHARVALUE:
+			case FixMessageDom.MULTIPLESTRINGVALUE:
+			case FixMessageDom.COUNTRY:
+			case FixMessageDom.CURRENCY:
+			case FixMessageDom.EXCHANGE:
+			case FixMessageDom.MONTHYEAR:
+			case FixMessageDom.UTCTIMESTAMP:
+			case FixMessageDom.UTCTIMEONLY:
+			case FixMessageDom.UTCDATEONLY:
+			case FixMessageDom.LOCALMKTDATE:
+			case FixMessageDom.TZTIMEONLY:
+			case FixMessageDom.TZTIMESTAMP:
+			case FixMessageDom.DATA:
+			case FixMessageDom.XMLDATA:
+			case FixMessageDom.LANGUAGE:
+				out.write("\t\tpublic static final byte[] " + v.description + " = \"" + v.fixEnum + "\".getBytes();\n");
 				break;
 
-			case FixDataTypes.CHAR:
-				out.write("		" + uncapFirst(f.name) + " = src[0];		\n");
+			case FixMessageDom.CHAR:
+				out.write("\t\tpublic static final byte " + v.description + " = \'" + v.fixEnum + "\';\n");
 				break;
 
-			case FixDataTypes.INT:
-			case FixDataTypes.LENGTH:
-			case FixDataTypes.TAGNUM:
-			case FixDataTypes.SEQNUM:
-			case FixDataTypes.NUMINGROUP:
-			case FixDataTypes.DAYOFMOUNTH:
-			case FixDataTypes.FLOAT:
-			case FixDataTypes.PRICE:
-			case FixDataTypes.QTY:
-			case FixDataTypes.PRICEOFFSET:
-			case FixDataTypes.AMT:
-			case FixDataTypes.PERCENTAGE:
-				out.write("		" + uncapFirst(f.name) + " = FixUtils.longValueOf(src, 0, src.length);\n");
+			case FixMessageDom.INT:
+			case FixMessageDom.LENGTH:
+			case FixMessageDom.TAGNUM:
+			case FixMessageDom.SEQNUM:
+			case FixMessageDom.NUMINGROUP:
+			case FixMessageDom.DAYOFMOUNTH:
+			case FixMessageDom.FLOAT:
+			case FixMessageDom.PRICE:
+			case FixMessageDom.QTY:
+			case FixMessageDom.PRICEOFFSET:
+			case FixMessageDom.AMT:
+			case FixMessageDom.PERCENTAGE:
+				out.write("\t\tpublic static final long " + v.description + " = " + v.fixEnum + ";\n");
 				break;
 
-			case FixDataTypes.BOOLEAN:
-				out.write("		" + uncapFirst(f.name) + " = src[0]==(byte)'Y'?true:false;		\n");
+			case FixMessageDom.BOOLEAN:
+				out.write("\t\tpublic static final boolean " + v.description + " = " + (v.fixEnum.equals("Y") ? "true" : "false") + ";\n");
 				break;
 
 			default:
@@ -1926,117 +1444,13 @@ public class FixMessageGenerator {
 
 	}
 
-	private void writeEnum(final OutputStreamWriter out, final QuickFixField f, final QuickFixValue v) throws IOException {
-
-		switch (FixDataTypes.toInt(f.type)) {
-
-			case FixDataTypes.STRING:
-			case FixDataTypes.MULTIPLECHARVALUE:
-			case FixDataTypes.MULTIPLESTRINGVALUE:
-			case FixDataTypes.COUNTRY:
-			case FixDataTypes.CURRENCY:
-			case FixDataTypes.EXCHANGE:
-			case FixDataTypes.MONTHYEAR:
-			case FixDataTypes.UTCTIMESTAMP:
-			case FixDataTypes.UTCTIMEONLY:
-			case FixDataTypes.UTCDATEONLY:
-			case FixDataTypes.LOCALMKTDATE:
-			case FixDataTypes.TZTIMEONLY:
-			case FixDataTypes.TZTIMESTAMP:
-			case FixDataTypes.DATA:
-			case FixDataTypes.XMLDATA:
-			case FixDataTypes.LANGUAGE:
-				out.write("\t\t\tpublic static final byte[] " + v.description + " = \"" + v.fixEnum + "\".getBytes();\n");
-				break;
-
-			case FixDataTypes.CHAR:
-				out.write("\t\t\tpublic static final byte " + v.description + " = \'" + v.fixEnum + "\';\n");
-				break;
-
-			case FixDataTypes.INT:
-			case FixDataTypes.LENGTH:
-			case FixDataTypes.TAGNUM:
-			case FixDataTypes.SEQNUM:
-			case FixDataTypes.NUMINGROUP:
-			case FixDataTypes.DAYOFMOUNTH:
-			case FixDataTypes.FLOAT:
-			case FixDataTypes.PRICE:
-			case FixDataTypes.QTY:
-			case FixDataTypes.PRICEOFFSET:
-			case FixDataTypes.AMT:
-			case FixDataTypes.PERCENTAGE:
-				out.write("\t\t\tpublic static final long " + v.description + " = " + v.fixEnum + ";\n");
-				break;
-
-			case FixDataTypes.BOOLEAN:
-				out.write("\t\t\tpublic static final boolean " + v.description + " = " + (v.fixEnum.equals("Y") ? "true" : "false") + ";\n");
-				break;
-
-			default:
-				throw new RuntimeException("No idea how to parse this field: " + f.name);
-		}
-
-	}
-
-	public void writeGeneratedFileHeader(final OutputStreamWriter out) throws IOException {
+	private void writeGeneratedFileHeader(final BufferedWriter out) throws IOException {
 
 		out.write("// DO NOT EDIT!!!\n");
 		out.write("// This file is generated by FixMessageGenerator.\n");
 		out.write("// If you need additional functionality, put it in a helper class\n");
 		out.write("// that does not live in this folder!!!  Any java file in this folder \n");
 		out.write("// will be deleted upon the next run of the FixMessageGenerator!\n\n");
-	}
-
-	private void zeroField(final QuickFixField f, final OutputStreamWriter out) throws IOException {
-
-		switch (FixDataTypes.toInt(f.type)) {
-
-			case FixDataTypes.STRING:
-			case FixDataTypes.MULTIPLECHARVALUE:
-			case FixDataTypes.MULTIPLESTRINGVALUE:
-			case FixDataTypes.COUNTRY:
-			case FixDataTypes.CURRENCY:
-			case FixDataTypes.EXCHANGE:
-			case FixDataTypes.MONTHYEAR:
-			case FixDataTypes.UTCTIMESTAMP:
-			case FixDataTypes.UTCTIMEONLY:
-			case FixDataTypes.UTCDATEONLY:
-			case FixDataTypes.LOCALMKTDATE:
-			case FixDataTypes.TZTIMEONLY:
-			case FixDataTypes.TZTIMESTAMP:
-			case FixDataTypes.DATA:
-			case FixDataTypes.XMLDATA:
-			case FixDataTypes.LANGUAGE:
-				out.write("		if (has" + capFirst(f.name) + "()) FixUtils.fillNul(" + uncapFirst(f.name) + ");		\n");
-				break;
-
-			case FixDataTypes.CHAR:
-				out.write("		if (has" + capFirst(f.name) + "()) " + uncapFirst(f.name) + " = (byte)' ';		\n");
-				break;
-
-			case FixDataTypes.INT:
-			case FixDataTypes.LENGTH:
-			case FixDataTypes.TAGNUM:
-			case FixDataTypes.SEQNUM:
-			case FixDataTypes.NUMINGROUP:
-			case FixDataTypes.DAYOFMOUNTH:
-			case FixDataTypes.FLOAT:
-			case FixDataTypes.PRICE:
-			case FixDataTypes.QTY:
-			case FixDataTypes.PRICEOFFSET:
-			case FixDataTypes.AMT:
-			case FixDataTypes.PERCENTAGE:
-				out.write("		if (has" + capFirst(f.name) + "()) " + uncapFirst(f.name) + " = FixUtils.TAG_HAS_NO_VALUE;		\n");
-				break;
-
-			case FixDataTypes.BOOLEAN:
-				out.write("		if (has" + capFirst(f.name) + "()) " + uncapFirst(f.name) + " = false;		\n");
-				break;
-
-			default:
-				throw new RuntimeException("No idea how to parse this field: " + f.name);
-		}
-
 	}
 
 }

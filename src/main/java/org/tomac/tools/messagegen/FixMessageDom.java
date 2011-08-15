@@ -1,19 +1,125 @@
 package org.tomac.tools.messagegen;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import org.dom4j.Attribute;
 import org.dom4j.Element;
-import org.tomac.tools.converter.FixRepositoryDom;
-import org.tomac.tools.converter.QuickFixComponent;
-import org.tomac.tools.converter.QuickFixField;
-import org.tomac.tools.converter.QuickFixField.QuickFixValue;
-import org.tomac.tools.converter.QuickFixMessage;
 
-public class FixMessageDom extends FixRepositoryDom {
+public class FixMessageDom {
 
+	public String major;
+	public String type;
+	public String servicepack;
+	public String minor;
+	public String flavour;
+	public ArrayList<DomFixMessage> domFixMessages = new ArrayList<DomFixMessage>();
+	public ArrayList<DomFixComponent> domFixComponents = new ArrayList<DomFixComponent>();
+	public HashMap<String, DomFixComponent> domFixNamedComponents = new HashMap<String, DomFixComponent>();
+	public DomFixComponent domFixHeader = new DomFixComponent();
+	public DomFixComponent domFixTrailer = new DomFixComponent();
+	public ArrayList<DomFixField> domFixFields = new ArrayList<DomFixField>();
+	public HashMap<String, DomFixField> domFixNamedFields = new HashMap<String, DomFixField>();
 	public String	packageName;
 	public String	packageNameBase;
+	public static final int	UNKNOWN				= 0;
+	public static final int	INT					= 1;
+	public static final int	LENGTH				= 11;
+	public static final int	TAGNUM				= 12;
+	public static final int	SEQNUM				= 13;
+	public static final int	NUMINGROUP			= 14;
+	public static final int	DAYOFMOUNTH			= 15;
+	public static final int	FLOAT				= 2;
+	public static final int	PRICE				= 21;
+	public static final int	QTY					= 22;
+	public static final int	PRICEOFFSET			= 23;
+	public static final int	AMT					= 24;
+	public static final int	PERCENTAGE			= 25;
+	public static final int	CHAR				= 3;
+	public static final int	BOOLEAN				= 31;
+	public static final int	STRING				= 4;
+	public static final int	MULTIPLECHARVALUE	= 41;
+	public static final int	MULTIPLESTRINGVALUE	= 42;
+	public static final int	COUNTRY				= 43;
+	public static final int	CURRENCY			= 44;
+	public static final int	EXCHANGE			= 45;
+	public static final int	MONTHYEAR			= 46;
+	public static final int	UTCTIMESTAMP		= 47;
+	public static final int	UTCTIMEONLY			= 48;
+	public static final int	UTCDATEONLY			= 49;
+	public static final int	LOCALMKTDATE		= 410;
+	public static final int	TZTIMEONLY			= 411;
+	public static final int	TZTIMESTAMP			= 412;
+	public static final int	DATA				= 413;
+	public static final int	XMLDATA				= 414;
+	public static final int	LANGUAGE			= 415;
+
+	public static final int toInt(final String type) {
+		if (type.equals("INT"))
+			return INT;
+		if (type.equals("LENGTH"))
+			return LENGTH;
+		if (type.equals("TAGNUM"))
+			return TAGNUM;
+		if (type.equals("SEQNUM"))
+			return SEQNUM;
+		if (type.equals("NUMINGROUP"))
+			return NUMINGROUP;
+		if (type.equals("NUMINGRP"))
+			return NUMINGROUP; // <field name="NoRiskSecurityAltID" number="1540" type="NUMINGRP"/> fixprotocol.org bug
+		if (type.equals("DAYOFMOUNTH"))
+			return DAYOFMOUNTH;
+		if (type.equals("FLOAT"))
+			return FLOAT;
+		if (type.equals("PRICE"))
+			return PRICE;
+		if (type.equals("QTY"))
+			return QTY;
+		if (type.equals("PRICEOFFSET"))
+			return PRICEOFFSET;
+		if (type.equals("AMT"))
+			return AMT;
+		if (type.equals("PERCENTAGE"))
+			return PERCENTAGE;
+		if (type.equals("CHAR"))
+			return CHAR;
+		if (type.equals("BOOLEAN"))
+			return BOOLEAN;
+		if (type.equals("STRING"))
+			return STRING;
+		if (type.equals("MULTIPLECHARVALUE"))
+			return MULTIPLECHARVALUE;
+		if (type.equals("MULTIPLESTRINGVALUE"))
+			return MULTIPLESTRINGVALUE;
+		if (type.equals("COUNTRY"))
+			return COUNTRY;
+		if (type.equals("CURRENCY"))
+			return CURRENCY;
+		if (type.equals("EXCHANGE"))
+			return EXCHANGE;
+		if (type.equals("MONTHYEAR"))
+			return MONTHYEAR;
+		if (type.equals("UTCTIMESTAMP"))
+			return UTCTIMESTAMP;
+		if (type.equals("UTCTIMEONLY"))
+			return UTCTIMEONLY;
+		if (type.equals("UTCDATEONLY"))
+			return UTCDATEONLY;
+		if (type.equals("LOCALMKTDATE"))
+			return LOCALMKTDATE;
+		if (type.equals("TZTIMEONLY"))
+			return TZTIMEONLY;
+		if (type.equals("TZTIMESTAMP"))
+			return TZTIMESTAMP;
+		if (type.equals("DATA"))
+			return DATA;
+		if (type.equals("XMLDATA"))
+			return XMLDATA;
+		if (type.equals("LANGUAGE"))
+			return LANGUAGE;
+		return UNKNOWN;
+	}
 
 	public FixMessageDom() {
 		packageName = System.getProperty("packageName", "org.tomac.protocol.fix.messaging");
@@ -25,16 +131,16 @@ public class FixMessageDom extends FixRepositoryDom {
 
 	}
 
-	private void addUnique(final QuickFixField f, final QuickFixValue e) {
-		QuickFixValue q = null;
+	private void addUnique(final DomFixField f, final DomFixField.DomFixValue e) {
+		DomFixField.DomFixValue q = null;
 
-		for (int i = 0; i < f.quickFixValues.size(); i++) {
-			q = f.quickFixValues.get(i);
+		for (int i = 0; i < f.domFixValues.size(); i++) {
+			q = f.domFixValues.get(i);
 			if (q.fixEnum.equals(e.fixEnum) && q.description.equals(e.description))
 				return;
 		}
 
-		f.quickFixValues.add(e);
+		f.domFixValues.add(e);
 
 	}
 
@@ -59,6 +165,10 @@ public class FixMessageDom extends FixRepositoryDom {
 				servicepack = attribute.getValue();
 			if (attribute.getName().equals("package"))
 				packageName = attribute.getValue();
+			final String[] ss = packageName.split("[.]");
+			packageNameBase = ss[0];
+			for (int j = 1; j < ss.length - 1; j++)
+				packageNameBase = packageNameBase + "." + ss[j];
 			if (attribute.getName().equals("flavour"))
 				flavour = attribute.getValue();
 
@@ -70,23 +180,23 @@ public class FixMessageDom extends FixRepositoryDom {
 
 		for (final Iterator<Element> i = fix.elementIterator("header"); i.hasNext();) {
 			final Element component = i.next();
-			getComponent(component, quickFixHeader, "header");
+			getComponent(component, domFixHeader, "header");
 		}
 
 		for (final Iterator<Element> i = fix.elementIterator("trailer"); i.hasNext();) {
 			final Element component = i.next();
-			getComponent(component, quickFixTrailer, "trailer");
+			getComponent(component, domFixTrailer, "trailer");
 		}
 
 		for (final Iterator<Element> i = fix.elementIterator("components"); i.hasNext();) {
 
 			final Element components = i.next();
-			quickFixNamedComponents.clear();
+			domFixNamedComponents.clear();
 
 			// repeating groups
 			for (final Iterator<Element> j = components.elementIterator("component"); j.hasNext();) {
 
-				final QuickFixComponent c = new QuickFixComponent();
+				final DomFixComponent c = new DomFixComponent();
 
 				final Element component = j.next();
 
@@ -110,15 +220,15 @@ public class FixMessageDom extends FixRepositoryDom {
 
 					getComponent(group, c, name, noInGropuTag);
 
-					if (quickFixNamedComponents.get(name) == null)
-						quickFixNamedComponents.put(name, c);
+					if (domFixNamedComponents.get(name) == null)
+						domFixNamedComponents.put(name, c);
 				}
 			}
 
 			// non repeating groups
 			for (final Iterator<Element> j = components.elementIterator("component"); j.hasNext();) {
 
-				final QuickFixComponent c = new QuickFixComponent();
+				final DomFixComponent c = new DomFixComponent();
 
 				final Element component = j.next();
 
@@ -131,22 +241,22 @@ public class FixMessageDom extends FixRepositoryDom {
 
 				getComponent(component, c, name);
 
-				if (quickFixNamedComponents.get(name) == null)
-					quickFixNamedComponents.put(name, c);
+				if (domFixNamedComponents.get(name) == null)
+					domFixNamedComponents.put(name, c);
 			}
 
 		}
 
 		// set key for fix components
-		for (final QuickFixComponent c : quickFixNamedComponents.values()) {
+		for (final DomFixComponent c : domFixNamedComponents.values()) {
 
-			final QuickFixField f = quickFixNamedFields.get(c.name);
+			final DomFixField f = domFixNamedFields.get(c.name);
 			if (f == null) {
-				final QuickFixComponent cc = quickFixNamedComponents.get(c.name);
+				final DomFixComponent cc = domFixNamedComponents.get(c.name);
 				c.keyTag = cc.keyTag;
 			} else
 				c.keyTag = f.name;
-			quickFixComponents.add(c);
+			domFixComponents.add(c);
 		}
 
 		getMessages(fix);
@@ -154,7 +264,7 @@ public class FixMessageDom extends FixRepositoryDom {
 	}
 
 	@SuppressWarnings("unchecked")
-	private void getComponent(final Element component, final QuickFixComponent c, final String componentName) {
+	private void getComponent(final Element component, final DomFixComponent c, final String componentName) {
 		boolean hasKeyTag = false;
 		c.msgId = new String(componentName);
 		c.name = new String(componentName);
@@ -178,7 +288,7 @@ public class FixMessageDom extends FixRepositoryDom {
 					if (attribute.getName().equals("required"))
 						required = attribute.getValue();
 				}
-				final QuickFixField f = new QuickFixField(quickFixNamedFields.get(name), required, String.valueOf(pos));
+				final DomFixField f = new DomFixField(domFixNamedFields.get(name), required, String.valueOf(pos));
 				c.fields.add(f);
 				if (!hasKeyTag)
 					c.keyTag = f.name;
@@ -198,15 +308,15 @@ public class FixMessageDom extends FixRepositoryDom {
 						required = attribute.getValue();
 				}
 
-				QuickFixComponent cc;
-				if (quickFixNamedComponents.get(name) == null) {
+				DomFixComponent cc;
+				if (domFixNamedComponents.get(name) == null) {
 					System.out.println(name);
-					cc = new QuickFixComponent();
+					cc = new DomFixComponent();
 					cc.name = new String(name);
 					cc.reqd = new String(required == null ? "N" : required.equals("N") ? "N" : "Y");
 					cc.position = String.valueOf(pos);
 				} else
-					cc = new QuickFixComponent(quickFixNamedComponents.get(name), required, String.valueOf(pos));
+					cc = new DomFixComponent(domFixNamedComponents.get(name), required, String.valueOf(pos));
 
 				c.components.add(cc);
 				if (!hasKeyTag)
@@ -222,7 +332,7 @@ public class FixMessageDom extends FixRepositoryDom {
 	/*
 	 * <header> <field name="BeginString" required="Y"/> .. </header> <trailer> <field name="CheckSum" required="Y"/> ..
 	 */
-	private void getComponent(final Element component, final QuickFixComponent c, final String componentName, final String noInGroupTag) {
+	private void getComponent(final Element component, final DomFixComponent c, final String componentName, final String noInGroupTag) {
 		c.noInGroupTag = noInGroupTag;
 		c.isRepeating = true;
 
@@ -239,7 +349,7 @@ public class FixMessageDom extends FixRepositoryDom {
 			final Element fields = i.next();
 
 			for (final Iterator<Element> j = fields.elementIterator("field"); j.hasNext();) {
-				final QuickFixField f = new QuickFixField();
+				final DomFixField f = new DomFixField();
 
 				final Element field = j.next();
 
@@ -269,12 +379,12 @@ public class FixMessageDom extends FixRepositoryDom {
 						if (attribute.getName().equals("description"))
 							description = attribute.getValue();
 					}
-					final QuickFixValue e = f.new QuickFixValue(fixEnum, description);
+					final DomFixField.DomFixValue e = f.new DomFixValue(fixEnum, description);
 					addUnique(f, e);
 				}
 
-				quickFixFields.add(f);
-				quickFixNamedFields.put(f.name, f);
+				domFixFields.add(f);
+				domFixNamedFields.put(f.name, f);
 
 			}
 		}
@@ -290,7 +400,7 @@ public class FixMessageDom extends FixRepositoryDom {
 			final Element messages = i.next();
 
 			for (final Iterator<Element> j = messages.elementIterator("message"); j.hasNext();) {
-				final QuickFixMessage m = new QuickFixMessage();
+				final DomFixMessage m = new DomFixMessage();
 
 				final Element message = j.next();
 
@@ -324,11 +434,11 @@ public class FixMessageDom extends FixRepositoryDom {
 							required = attribute.getValue();
 					}
 
-					if (quickFixNamedFields.get(name) != null) {
-						final QuickFixField f = new QuickFixField(quickFixNamedFields.get(name), required, String.valueOf(pos));
+					if (domFixNamedFields.get(name) != null) {
+						final DomFixField f = new DomFixField(domFixNamedFields.get(name), required, String.valueOf(pos));
 						m.fields.add(f);
 					} else
-						System.out.println("quickFixNamedFields: " + name);
+						System.out.println("domFixNamedFields: " + name);
 				}
 
 				pos = 0;
@@ -348,19 +458,147 @@ public class FixMessageDom extends FixRepositoryDom {
 							required = attribute.getValue();
 					}
 
-					if (quickFixNamedComponents.get(name) != null) {
-						final QuickFixComponent c = new QuickFixComponent();
+					if (domFixNamedComponents.get(name) != null) {
+						final DomFixComponent c = new DomFixComponent();
 						c.name = name;
 						c.reqd = required;
-						c.isRepeating = quickFixNamedComponents.get(name).isRepeating;
+						c.isRepeating = domFixNamedComponents.get(name).isRepeating;
 						m.components.add(c);
 					} else
 						System.out.println(name);
 				}
 
-				quickFixMessages.add(m);
+				domFixMessages.add(m);
 			}
 		}
 	}
+	
+	// supporting classes
+	
+	public class DomBase implements Comparable<DomBase> {
+		public String position;
 
+		//@Override
+		public int compareTo(DomBase o) {
+			final DomBase q = (DomBase) o;
+			if (q.getInt() > getInt()) {
+				return -1;
+			}
+			if (q.getInt() < getInt()) {
+				return 1;
+			} else {
+				return 0;
+			}
+		}
+
+		int getInt() {
+			final String intPosition = position.split("[.]")[0];
+			return Integer.valueOf(intPosition);
+		}
+	}	
+	
+	/*
+	 <field number="4" name="AdvSide" type="CHAR">
+	 <value enum="B" description="BUY"/>
+	 <value enum="S" description="SELL"/>
+	 <value enum="T" description="TRADE"/>
+	 <value enum="X" description="CROSS"/>
+	 </field>
+	 */
+	public class DomFixField extends DomBase {
+
+		public class DomFixValue {
+			public String fixEnum;
+			public String description;
+
+			public DomFixValue(String fixEnum, String description) {
+				this.fixEnum = new String(fixEnum);
+				this.description = new String(description);
+			}
+
+		}
+
+		public String reqd;
+
+		public String number;
+		public String name;
+		public String type;
+		public ArrayList<DomFixValue> domFixValues = new ArrayList<DomFixValue>();
+		public boolean belongsToMessage = false;
+
+		public int length;
+
+		public DomFixField() {
+		}
+
+		public DomFixField(DomFixField q, String req, String position) {
+			number = q.number;
+			name = q.name;
+			type = q.type;
+			length = q.length;
+			domFixValues = q.domFixValues;
+			belongsToMessage = q.belongsToMessage;
+			reqd = new String(req != null ? req : "0");
+			this.position = position;
+		}
+	}
+	
+	/*
+	 <component name="Parties">
+	 <group name="NoPartyIDs" required="N">
+	 <field name="PartyID" required="N"/>
+	 <field name="PartyIDSource" required="N"/>
+	 <field name="PartyRole" required="N"/>
+	 <group name="NoPartySubIDs" required="N">
+	 <field name="PartySubID" required="N"/>
+	 <field name="PartySubIDType" required="N"/>
+	 </group>
+	 </group>
+	 </component>
+	 */
+	public class DomFixComponent extends DomBase {
+
+		public String name;
+		public String noName;
+		public ArrayList<DomFixField> fields = new ArrayList<DomFixField>();
+		public ArrayList<DomFixComponent> components = new ArrayList<DomFixComponent>();
+		public String msgId;
+		public String keyTag;
+		public String reqd;
+		public boolean isRepeating;
+		public String noInGroupTag;
+
+		public DomFixComponent() {
+		}
+
+		public DomFixComponent(DomFixComponent q, String reqd, String position) {
+			name = q.name;
+			noName = q.noName;
+			fields = q.fields;
+			components = q.components;
+			msgId = q.msgId;
+			isRepeating = q.isRepeating;
+			keyTag = q.keyTag;
+			this.reqd = new String(reqd);
+			this.position = position;
+		}
+
+	}
+	
+	/* <message name="Reject" msgcat="admin" msgtype="3"> */
+	public class DomFixMessage {
+		public String name;
+		public String msgcat;
+		public String msgtype;
+		public String msgsubtype = "";
+		public ArrayList<DomFixField> fields = new ArrayList<DomFixField>();
+		public ArrayList<DomFixComponent> components = new ArrayList<DomFixComponent>();
+		public String msgId;
+		public String specialization;
+
+	}	
+
+
+	
+	
 }
