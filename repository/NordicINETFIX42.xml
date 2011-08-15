@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<fix major="4" minor="2" servicepack="0" type="FIX" package="org.tomac.protocol.fix.messaging" flavour="Nordic INET">
+<fix major="4" minor="2" servicepack="0" type="FIX" package="org.tomac.protocol.fix.messaging.fix42nordic" flavour="Nordic INET">
   <header>
     <field name="BeginString" required="Y"/>
     <field name="BodyLength" required="Y"/>
@@ -962,7 +962,7 @@
       <value enum="Y" description="POSSIBLE_RESEND"/>
     </field>
     <field name="ClOrdID" number="11" type="STRING" length="20"/>
-    <field name="CheckSum" number="10" type="STRING" length="3"/>
+    <field name="CheckSum" number="10" type="INT"/>
     <field name="Currency" number="15" type="CURRENCY"/>
     <field name="CumQty" number="14" type="QTY"/>
     <field name="ExecID" number="17" type="STRING"/>
