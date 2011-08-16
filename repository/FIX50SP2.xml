@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<fix major="5" minor="0" servicepack="2" type="FIX" package="org.tomac.protocol.fix.messaging" flavour=" fixprotocol.org FIX.5.0SP2">
+<fix major="5" minor="0" servicepack="2" type="FIX" package="org.tomac.protocol.fix.messaging.fix50sp2" flavour=" fixprotocol.org FIX.5.0SP2">
   <header>
     <field name="BeginString" required="Y"/>
     <field name="BodyLength" required="Y"/>
@@ -5739,7 +5739,7 @@
     <field name="BeginSeqNo" number="7" type="SEQNUM"/>
     <field name="BeginString" number="8" type="STRING" length="8"/>
     <field name="BodyLength" number="9" type="LENGTH" length="3"/>
-    <field name="CheckSum" number="10" type="STRING" length="3"/>
+    <field name="CheckSum" number="10" type="INT"/>
     <field name="ClOrdID" number="11" type="STRING"/>
     <field name="Commission" number="12" type="AMT"/>
     <field name="CommType" number="13" type="CHAR">

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.protocol.fix.FixSessionException;
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.messaging.fix42nordic.FixMessageInfo;
@@ -29,6 +30,7 @@ public class FixMessageGenerator {
 	private static String strFixUtils = "import org.tomac.protocol.fix.FixUtils;";
 	private static String strOtherUtils = "";
 	private static String strFixException = "import org.tomac.protocol.fix.FixSessionException;";
+	private static String strFixGarbledException = "import org.tomac.protocol.fix.FixGarbledException;";
 	private static String strConstants = "import org.tomac.protocol.fix.FixConstants;";
 	private static String strBaseUtils = "";
 	
@@ -572,6 +574,7 @@ public class FixMessageGenerator {
 		out.write(strOutByteBuffer + "\n");
 		out.write(strFixUtils + "\n");
 		out.write(strFixException + "\n");
+		out.write(strFixGarbledException + "\n");
 		out.write(strUtils + "\n\n");
 		out.write(strOtherUtils + "\n\n");
 		
@@ -599,10 +602,10 @@ public class FixMessageGenerator {
 		out.write("\t * @return msgType as an int.\n");
 		out.write("\t * @throws FixSessionException\n");
 		out.write("\t */\n");
-		out.write("\tpublic static int crackMsgType( " + strReadableByteBuffer + " buf ) throws FixSessionException {\n");
+		out.write("\tpublic static int crackMsgType( " + strReadableByteBuffer + " buf ) throws FixSessionException, FixGarbledException {\n");
 		out.write("\t\tint startPos;\n");
 		out.write("\t\tint checkSum;\n");
-		out.write("\t\tint msgType = MsgTypes.UNKNOWN_INT;\n");
+		out.write("\t\tint msgType = MsgTypes.UNKNOWN_INT;\n\n");
 		
 		genGetMsgType(dom, out, true);
 		
@@ -638,7 +641,7 @@ public class FixMessageGenerator {
 		out.write("\t * getAll performs stateless session level message validations. Throws a FixSessionException if this fails \n");
 		out.write("\t */\n");
 		out.write("\t@Override\n");
-		out.write("\tpublic void getAll() throws FixSessionException, IllegalStateException\n");
+		out.write("\tpublic void getAll() throws FixSessionException, FixGarbledException\n");
 		out.write("\t{\n\n");
 		
  		genGetMsgType(dom, out, false);
@@ -661,11 +664,8 @@ public class FixMessageGenerator {
 	 		out.write("\t\t\tcase FixTags." + f.name.toUpperCase() + "_INT:\n");
 	 		decodeFieldValue(f, out);
 			if (f.domFixValues.size() > 0 && FixMessageDom.toInt(f.type) != FixMessageDom.BOOLEAN ) {
-				out.write("\t\t\tif (");
 				for (final DomFixValue v : f.domFixValues)
-					out.write(" ( " + uncapFirst(f.name) + " != (byte)'" + v.fixEnum + "') && ");
-				out.write("true)\n");
-				out.write("\t\t\tthrow new FixSessionException(buf, \"Value is incorrect or out of range for this tag: " + f.name + "(" + f.number + ")\" );\n\n");
+		 			out.write("\t\t\t\tif (!" + capFirst(f.name) + ".isValid("+ uncapFirst(f.name) + ") ) throw new FixSessionException(buf, \"Invalid enumerated value(\" + " + uncapFirst(f.name) + " + \") for tag: \" + id );\n");
 			}
 	 		out.write("\t\t\t\tbreak;\n\n");
 		} 		
@@ -713,73 +713,64 @@ public class FixMessageGenerator {
 		out.close();
 	}	
 	
-	private void genGetMsgType(FixMessageDom dom, BufferedWriter out, boolean b) throws Exception 
+	private void genGetMsgType(FixMessageDom dom, BufferedWriter out, boolean isCrackMsgType) throws Exception 
 	{
-		String retVal = "return MsgTypes.UNKNOWN_INT; //Don't have a full message";
-		if (!b) retVal = "throw new FixSessionException(buf, \"Incorrect BodyLength(9) or incomplete message\");"; 
-	
+		if (isCrackMsgType) 
+			out.write("\t\ttry {\n");
 		out.write("\t\tstartPos = buf.position();\n");
 
-		out.write("\t\tif(buf.remaining() < 2) // To start processing we need at least 8=\n");
-		out.write("\t\t	" + retVal + "\n\n");
+		out.write("\t\tif(buf.remaining() < (FixMessageInfo.BEGINSTRING_VALUE_WITH_TAG.length + 1 /* SOH */ + 5 /* 9=00SOH */) )\n");
+		out.write("\t\t\tthrow new FixGarbledException(buf, \"Message too short to contain mandatory header tags\");\n\n");
 
 		out.write("\t\tint begin = buf.position();\n\n");
 
 		out.write("\t\tint tagId = FixUtils.getTagId(buf);\n");
-		out.write("\t\tif(tagId != FixTags.BEGINSTRING_INT) {\n");
-		out.write("\t\t	buf.position(startPos);\n");
-		out.write("\t\t	throw new FixSessionException(buf, \"First tag in FIX message is not BEGINSTRING (8)\");\n");
-		out.write("\t\t}\n\n");
+		out.write("\t\tif(tagId != FixTags.BEGINSTRING_INT)\n");
+		out.write("\t\t\tthrow new FixGarbledException(buf, \"First tag in FIX message is not BEGINSTRING (8)\");\n\n");
 
 		out.write("\t\tFixUtils.getTagStringValue(buf, tmpBeginString);\n");
-		if (!b) {
-			out.write("\t\tif(!Utils.equals(FixMessageInfo.BEGINSTRING_VALUE, tmpBeginString)) {\n");
-			out.write("\t\t	buf.position(startPos);\n");
-			out.write("\t\t	throw new FixSessionException(buf, \"BeginString not equal to: \" + new String(FixMessageInfo.BEGINSTRING_VALUE));\n");
-			out.write("\t\t}\n\n");
+		if (!isCrackMsgType) {
+			out.write("\t\tif(!Utils.equals(FixMessageInfo.BEGINSTRING_VALUE, tmpBeginString))\n");
+			out.write("\t\t	throw new FixSessionException(buf, \"BeginString not equal to: \" + new String(FixMessageInfo.BEGINSTRING_VALUE));\n\n");
 		}
 		
 		out.write("\t\t//now look to get bodyLength field\n");
 		out.write("\t\ttagId = FixUtils.getTagId(buf);\n");
-		out.write("\t\tif(tagId != FixTags.BODYLENGTH_INT) {\n");
-		out.write("\t\t	buf.position(startPos);\n");
-		out.write("\t\t	throw new FixSessionException(buf, \"Second tag in FIX message is not BODYLENGTH (9)\");\n");
-		out.write("\t\t}\n\n");
+		out.write("\t\tif(tagId != FixTags.BODYLENGTH_INT)\n");
+		out.write("\t\t\tthrow new FixGarbledException(buf, \"Second tag in FIX message is not BODYLENGTH (9)\");\n\n");
 
 		out.write("\t\tint bodyLength = FixUtils.getTagIntValue(buf);\n");
-		out.write("\t\tif(bodyLength < 0) {\n");
-		out.write("\t\t	buf.position(startPos);\n");
-		out.write("\t\t	throw new FixSessionException(buf, \"Invalid BODYLENGTH (9) value: \" + bodyLength);\n");
-		out.write("\t\t}\n\n");
+		out.write("\t\tif(bodyLength < 0)\n\n");
+		out.write("\t\t	throw new FixGarbledException(buf, \"Invalid BODYLENGTH (9) value: \" + bodyLength);\n\n");
 		
 		out.write("\t\tint checkSumBegin = buf.position() + bodyLength; \n");
 
-		out.write("\t\tif(checkSumBegin > buf.limit()) {\n");
-		out.write("\t\t	buf.position(startPos);\n");
-		out.write("\t\t	" + retVal + "\n");
-		out.write("\t\t}\n\n");
+		out.write("\t\tif(checkSumBegin > buf.limit()) \n\n");
+		out.write("\t\t\tthrow new FixGarbledException(buf, \"Message too short to contain mandatory checksum\");\n\n");
 
 		out.write("\t\t//FIRST, validate that we got a msgType field\n");
 		out.write("\t\ttagId = FixUtils.getTagId(buf);\n");
 		out.write("\t\tif(tagId != FixTags.MSGTYPE_INT)\n");
-		out.write("\t\t	throw new FixSessionException(buf, \"Third tag in FIX message is not MSGTYPE (35)\");\n\n");
+		out.write("\t\t	throw new FixGarbledException(buf, \"Third tag in FIX message is not MSGTYPE (35)\");\n\n");
 
 		out.write("\t\tFixUtils.getTagStringValue(buf, tmpMsgType);\n\n");
-		if (!b)
+		if (!isCrackMsgType)
 			out.write("\t\tmsgTypeEnd = buf.position();\n\n");
 
 		out.write("\t\t//we should verify that the final tag IS checksum here if we want to\n");
 		out.write("\t\tbuf.position(checkSumBegin);\n");
 		out.write("\t\ttagId = FixUtils.getTagId(buf);\n");
 		out.write("\t\tif(tagId != FixTags.CHECKSUM_INT)\n");
-		out.write("\t\t	throw new FixSessionException(buf, \"Final tag in FIX message is not CHECKSUM (10)\");\n\n");
+		out.write("\t\t	throw new FixGarbledException(buf, \"Final tag in FIX message is not CHECKSUM (10)\");\n\n");
 
 		out.write("\t\tcheckSum = FixUtils.getTagIntValue(buf);\n");
 		out.write("\t\tint calculatedCheckSum = FixUtils.computeChecksum(buf, begin, checkSumBegin);\n");
 		out.write("\t\tif(checkSum != calculatedCheckSum && !IGNORE_CHECKSUM)\n");
-		out.write("\t\t	throw new FixSessionException(buf, String.format(\"Checksum mismatch; calculated: %s is not equal message checksum: %s\", calculatedCheckSum, checkSum));\n\n");
+		out.write("\t\t	throw new FixGarbledException(buf, String.format(\"Checksum mismatch; calculated: %s is not equal message checksum: %s\", calculatedCheckSum, checkSum));\n\n");
 
-		out.write("\t\t// finish-up\n\n");
+		out.write("\t\t// finish-up\n");
+		if (isCrackMsgType) 
+			out.write("\t\tbuf.flip();\n\n");
 		
 		out.write("\t\tbuf.position(startPos);\n\n");
 
@@ -787,11 +778,18 @@ public class FixMessageGenerator {
 
 		out.write("\t\tmsgType = FixUtils.crackNasdaqMsgType(msgType, buf);\n\n");
 		
-		if (!b) {
+		if (!isCrackMsgType) {
 			out.write("\t\tif (! MsgType.isValid(tmpMsgType))\n");
 			out.write("\t\t\tthrow new FixSessionException(buf, msgEnd, String.format(\"MsgType not in specification: %s\", new String(tmpMsgType).trim()));");
 		}
 		
+		if (isCrackMsgType) {
+			out.write("\t\t} catch (FixSessionException e) {\n");
+			out.write("\t\t\tthrow new FixGarbledException(buf, e.getMessage());\n");
+			out.write("\t\t} catch (NumberFormatException e) {\n");
+			out.write("\t\t\tthrow new FixGarbledException(buf, e.getMessage());\n");
+			out.write("\t\t}\n\n");
+		}
 	}
 
 	private void genBaseMessage(FixMessageDom dom, final BufferedWriter out) throws Exception 
@@ -805,7 +803,8 @@ public class FixMessageGenerator {
 		// import ByteBuffer
 		out.write(strInByteBuffer + "\n");
 		out.write(strOutByteBuffer + "\n");
-		out.write(strFixException + "\n\n");
+		out.write(strFixException + "\n");
+		out.write(strFixGarbledException + "\n\n");
 	
 		// write out the open to the interface
 		out.write("public abstract class FixGeneratedBaseMessage implements FixMessageInfo\n{\n\n");
@@ -828,7 +827,7 @@ public class FixMessageGenerator {
 
 	    out.write("\tpublic abstract void encode( " + strWritableByteBuffer + " msg );\n\n");
 
-	    out.write("\tpublic abstract void getAll() throws FixSessionException, IllegalStateException;\n\n");
+	    out.write("\tpublic abstract void getAll() throws FixSessionException, FixGarbledException;\n\n");
 
 	    out.write("\tpublic abstract void clear();\n\n");
 
@@ -896,6 +895,7 @@ public class FixMessageGenerator {
 		out.write(strOutByteBuffer + "\n");
 		out.write(strFixUtils + "\n");
 		out.write(strFixException + "\n");
+		out.write(strFixGarbledException + "\n");
 		out.write(strUtils + "\n");
 		out.write(strConstants + "\n");
 		out.write(strBaseUtils + "\n");
@@ -937,7 +937,7 @@ public class FixMessageGenerator {
 		
 		// getAll()
 		out.write("\t@Override\n");
-		out.write("\tpublic void getAll() throws FixSessionException, IllegalStateException\n");
+		out.write("\tpublic void getAll() throws FixSessionException, FixGarbledException\n");
 		out.write("\t{\n\n");
 
  		out.write("\t\tint startTagPosition = buf.position();\n\n");
@@ -993,11 +993,21 @@ public class FixMessageGenerator {
 		out.write("\tprivate int checkRequiredTags() {\n");
 		out.write("\t\tint tag = -1;\n\n");
 		
-		
-		for (DomFixField f : m.fields ) {
+		for (DomFixField f : dom.domFixHeader.fields ) {
 			if (f.reqd.equals("N") || f.name.contains("BeginString") || f.name.contains("BodyLength") || f.name.contains("MsgType") ) continue;
 			out.write("\t\tif (! FixUtils.isSet(" + uncapFirst(f.name) + ") ) return FixTags." + f.name.toUpperCase() + "_INT;\n");
 		}
+		
+		for (DomFixField f : m.fields ) {
+			if (f.reqd.equals("N") ) continue;
+			out.write("\t\tif (! FixUtils.isSet(" + uncapFirst(f.name) + ") ) return FixTags." + f.name.toUpperCase() + "_INT;\n");
+		}
+
+		for (DomFixField f : dom.domFixTrailer.fields ) {
+			if (f.reqd.equals("N") ) continue;
+			out.write("\t\tif (! FixUtils.isSet(" + uncapFirst(f.name) + ") ) return FixTags." + f.name.toUpperCase() + "_INT;\n");
+		}
+		
 		out.write("\t\treturn tag;\n\n");
 		out.write("\t}\n");	
 		
@@ -1110,6 +1120,7 @@ public class FixMessageGenerator {
 
 		out.write(strInByteBuffer + "\n");
 		out.write(strFixException + "\n");
+		out.write(strFixGarbledException + "\n");
 
 		// write out the open to the parser class
 		out.write("public class " + dom.type + "MessageParser implements " + dom.type + "MessageInfo\n{\n\n");
@@ -1120,7 +1131,7 @@ public class FixMessageGenerator {
 		}
 		out.write("\n");
 		
-		out.write("\tpublic void parse( " + strReadableByteBuffer + " buf, FixMessageListener l) throws FixSessionException {\n\n");
+		out.write("\tpublic void parse( " + strReadableByteBuffer + " buf, FixMessageListener l) throws FixSessionException, FixGarbledException {\n\n");
 
 		out.write("\t\tint msgTypeInt = FixMessage.crackMsgType(buf);\n\n");
 

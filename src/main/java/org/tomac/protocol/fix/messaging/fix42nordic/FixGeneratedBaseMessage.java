@@ -9,6 +9,7 @@ package org.tomac.protocol.fix.messaging.fix42nordic;
 import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 
 public abstract class FixGeneratedBaseMessage implements FixMessageInfo
 {
@@ -31,7 +32,7 @@ public abstract class FixGeneratedBaseMessage implements FixMessageInfo
 
 	public abstract void encode( ByteBuffer msg );
 
-	public abstract void getAll() throws FixSessionException, IllegalStateException;
+	public abstract void getAll() throws FixSessionException, FixGarbledException;
 
 	public abstract void clear();
 

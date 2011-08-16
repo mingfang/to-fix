@@ -50,11 +50,12 @@ public class FixUtils {
 	public static int getTagId( ByteBuffer data )
 	{
 		int pos     = data.position();
-		int tagIdEq = Utils.scan( data, pos, EQL );	 
+		int tagIdEq = Utils.scan( data, pos, EQL );	
+		int len = tagIdEq - pos;
 		
-		if ( tagIdEq < 0 || FIX_MAX_TAG_DIGITS < (tagIdEq - pos) ) return -1;
+		if ( tagIdEq < 0 || FIX_MAX_TAG_DIGITS < len || data.remaining() < len ) return -1;
 
-		int id = Utils.intValueOf( data, ( tagIdEq - pos ) );
+		int id = Utils.intValueOf( data, len );
 
 		data.position( tagIdEq + 1 );
 

@@ -11,6 +11,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.protocol.fix.FixSessionException;
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.messaging.fix42nordic.FixMessage;
@@ -28,6 +29,7 @@ public class TestFixContainerSession {
 	
 	@Before
 	public void setUp() throws Exception {
+		FixMessage.IGNORE_CHECKSUM = false;
 		
 		buf = ByteBuffer.allocate(1024);
 		out = ByteBuffer.allocate(1024);
@@ -73,9 +75,9 @@ public class TestFixContainerSession {
 			// just check we got some data
 			assertEquals(20000000, msg.orderQty);
 			
-		} catch( FixSessionException e )  {
+		} catch( FixGarbledException e )  {
 			fail(e.getMessage());
-		} catch( IllegalStateException e ) {
+		} catch( FixSessionException e ) {
 			fail();
 		}
 	}
@@ -121,10 +123,10 @@ public class TestFixContainerSession {
 			
 			assertTrue(msg.equals(msg2));
 			
-		} catch( FixSessionException e )  {
+		} catch( FixGarbledException e )  {
 			fail(e.getMessage());
-		} catch( IllegalStateException e ) {
-			fail();
+		} catch( FixSessionException e ) {
+			fail(e.getMessage());
 		}
 	}
 	
@@ -156,9 +158,9 @@ public class TestFixContainerSession {
 			msg.getAll();
 			
 			fail("In msg is invalid: " + new String(msgByteArray));
-		} catch( FixSessionException e )  {
-			assertTrue(e.getMessage().startsWith("Framing Exception: (First tag in FIX message is not BEGINSTRING (8))"));
-		} catch( IllegalStateException e ) {
+		} catch( FixGarbledException e )  {
+			assertTrue(e.getMessage(), e.getMessage().startsWith("First tag in FIX message is not BEGINSTRING (8)"));
+		} catch( FixSessionException e ) {
 			fail();
 		}
 		
@@ -190,8 +192,8 @@ public class TestFixContainerSession {
 			fail("In msg is invalid: " + new String(msgByteArray));
 		} catch( FixSessionException e )  {
 			assertTrue(e.getMessage(), e.getMessage().startsWith("Framing Exception: (BeginString not equal to: FIX.4.2)"));
-		} catch( IllegalStateException e ) {
-			fail();
+		} catch( FixGarbledException e ) {
+			fail(e.getMessage());
 		}		
 	}
 	
@@ -220,9 +222,9 @@ public class TestFixContainerSession {
 			msg.getAll();
 			
 			fail("In msg is invalid: " + new String(msgByteArray));
-		} catch( FixSessionException e )  {
-			assertTrue(e.getMessage().startsWith("Framing Exception: (Final tag in FIX message is not CHECKSUM (10))"));
-		} catch( IllegalStateException e ) {
+		} catch( FixGarbledException e )  {
+			assertTrue(e.getMessage().startsWith("Final tag in FIX message is not CHECKSUM (10)"));
+		} catch( FixSessionException e ) {
 			fail();
 		}				
 	}
@@ -254,7 +256,7 @@ public class TestFixContainerSession {
 			fail("In msg is invalid: " + new String(msgByteArray));
 		} catch( FixSessionException e )  {
 			assertTrue(e.getMessage(), e.getMessage().startsWith("Framing Exception: (MsgType not in specification: X)"));
-		} catch( IllegalStateException e ) {
+		} catch( FixGarbledException e ) {
 			fail();
 		}		
 	}
@@ -287,9 +289,9 @@ public class TestFixContainerSession {
 			msg.getAll();
 			
 			fail("In msg is invalid: " + new String(msgByteArray));
-		} catch( FixSessionException e )  {
-			assertTrue(e.getMessage().startsWith("Framing Exception: (First tag in FIX message is not BEGINSTRING (8))"));
-		} catch( IllegalStateException e ) {
+		} catch( FixGarbledException e )  {
+			assertTrue(e.getMessage().startsWith("First tag in FIX message is not BEGINSTRING (8)"));
+		} catch( FixSessionException e ) {
 			fail();
 		}		
 		
@@ -314,9 +316,9 @@ public class TestFixContainerSession {
 			msg.getAll();
 			
 			fail("In msg is invalid: " + new String(msgByteArray));
-		} catch( FixSessionException e )  {
-			assertTrue(e.getMessage(), e.getMessage().startsWith("Framing Exception: (Checksum mismatch; calculated: 230 is not equal message checksum: 126)"));
-		} catch( IllegalStateException e ) {
+		} catch( FixGarbledException e )  {
+			assertTrue(e.getMessage(), e.getMessage().startsWith("Checksum mismatch; calculated: 230 is not equal message checksum: 126"));
+		} catch( FixSessionException e ) {
 			fail();
 		}		
 	}
@@ -341,9 +343,9 @@ public class TestFixContainerSession {
 			msg.getAll();
 			
 			fail("In msg is invalid: " + new String(msgByteArray));
-		} catch( FixSessionException e )  {
-			assertTrue(e.getMessage().startsWith("Framing Exception: (Final tag in FIX message is not CHECKSUM (10))"));
-		} catch( IllegalStateException e ) {
+		} catch( FixGarbledException e )  {
+			assertTrue(e.getMessage().startsWith("Final tag in FIX message is not CHECKSUM (10)"));
+		} catch( FixSessionException e ) {
 			fail();
 		}		
 	}
@@ -369,9 +371,9 @@ public class TestFixContainerSession {
 			msg.getAll();
 			
 			fail("In msg is invalid: " + new String(msgByteArray));
-		} catch( FixSessionException e )  {
-			assertTrue(e.getMessage().startsWith("Framing Exception: (Checksum mismatch; calculated: 230 is not equal message checksum: 11)"));
-		} catch( IllegalStateException e ) {
+		} catch( FixGarbledException e )  {
+			assertTrue(e.getMessage().startsWith("Checksum mismatch; calculated: 230 is not equal message checksum: 11"));
+		} catch( FixSessionException e ) {
 			fail();
 		}		
 	}
@@ -406,7 +408,7 @@ public class TestFixContainerSession {
 			fail("In msg is invalid: " + new String(msgByteArray));
 		} catch( FixSessionException e )  {
 			assertTrue(e.getMessage(), e.getMessage().startsWith("Framing Exception: (Unknown tag: 99)"));
-		} catch( IllegalStateException e ) {
+		} catch( FixGarbledException e ) {
 			fail();
 		}		
 	}
@@ -443,7 +445,7 @@ public class TestFixContainerSession {
 			fail("In msg is invalid: " + new String(msgByteArray));
 		} catch( FixSessionException e )  {
 			assertTrue(e.getMessage(), e.getMessage().startsWith("Framing Exception: (Required tag missing: 37)"));
-		} catch( IllegalStateException e ) {
+		} catch( FixGarbledException e ) {
 			e.printStackTrace();
 			fail();
 		}		
@@ -480,7 +482,7 @@ public class TestFixContainerSession {
 			fail("In msg is invalid: " + new String(msgByteArray));
 		} catch( FixSessionException e )  {
 			assertTrue(e.getMessage(), e.getMessage().startsWith("Framing Exception: (Unknown tag: 45)"));
-		} catch( IllegalStateException e ) {
+		} catch( FixGarbledException e ) {
 			fail();
 		}				
 	}
@@ -518,7 +520,7 @@ public class TestFixContainerSession {
 			fail("In msg is invalid: " + msg);
 		} catch( FixSessionException e )  {
 			assertTrue(e.getMessage(), e.getMessage().startsWith("Framing Exception: (Tag specified without a value)"));
-		} catch( IllegalStateException e ) {
+		} catch( FixGarbledException e ) {
 			fail();
 		}				
 		
@@ -558,9 +560,8 @@ public class TestFixContainerSession {
 			
 			fail("In msg is invalid: " + new String(msgByteArray));
 		} catch( FixSessionException e )  {
-			e.printStackTrace();
 			assertTrue(e.getMessage(), e.getMessage().startsWith("Framing Exception: (Invalid enumerated value(57) for tag: 54)"));
-		} catch( IllegalStateException e ) {
+		} catch( FixGarbledException e ) {
 			fail();
 		}			
 	}
@@ -598,7 +599,7 @@ public class TestFixContainerSession {
 			fail("In msg is invalid: " + new String(msgByteArray));
 		} catch( FixSessionException e )  {
 			assertTrue(e.getMessage(), e.getMessage().startsWith("Framing Exception: (Incorrect data format for value)"));
-		} catch( IllegalStateException e ) {
+		} catch( FixGarbledException e ) {
 			fail();
 		}				
 	}
@@ -624,9 +625,9 @@ public class TestFixContainerSession {
 			msg.getAll();
 			
 			fail("In msg is invalid: " + new String(msgByteArray));
-		} catch( FixSessionException e )  {
-			assertTrue(e.getMessage().startsWith("Framing Exception: (Final tag in FIX message is not CHECKSUM (10))"));
-		} catch( IllegalStateException e ) {
+		} catch( FixGarbledException e )  {
+			assertTrue(e.getMessage().startsWith("Final tag in FIX message is not CHECKSUM (10)"));
+		} catch( FixSessionException e ) {
 			fail();
 		}					
 	}
@@ -665,7 +666,7 @@ public class TestFixContainerSession {
 			fail("In msg is invalid: " + new String(msgByteArray));
 		} catch( FixSessionException e )  {
 			assertTrue(e.getMessage().startsWith("Repeated tag: 44"));
-		} catch( IllegalStateException e ) {
+		} catch( FixGarbledException e ) {
 			fail();
 		}					
 	}
@@ -720,6 +721,8 @@ public class TestFixContainerSession {
 			
 			fail("In msg is invalid: " + new String(msgByteArray));
 		} catch( FixSessionException e )  {
+			fail(e.getMessage());
+		} catch ( FixGarbledException e ) {
 			fail(e.getMessage());
 		} catch( NumberFormatException e ) {
 			assertTrue(true);

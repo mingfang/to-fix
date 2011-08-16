@@ -11,7 +11,7 @@
     <field name="SenderSubID" required="N"/>
     <field name="SendingTime" required="Y"/>
     <field name="TargetCompID" required="Y"/>
-    <field name="TargetSubID" required="Y"/>
+    <field name="TargetSubID" required="N"/>
     <field name="PossResend" required="N"/>
     <field name="OnBehalfOfCompID" required="N"/>
     <field name="OnBehalfOfSubID" required="N"/>

@@ -34,12 +34,15 @@ public class Utils {
 		
 		buf.position(offset);
 		
-		while (buf.hasRemaining() && buf.get() != b) {}
+		while (buf.hasRemaining()) {
+			if (buf.get() == b) {
+				int outPos = buf.position() - 1;
+				buf.position(pos);
+				return outPos;
+			}
+		}
 
-		int outPos = buf.position() - 1;
-		buf.position(pos);
-		
-		return outPos;
+		return -1;
 	}
 	
 	public static boolean contains(ByteBuffer buf, byte[] target) {

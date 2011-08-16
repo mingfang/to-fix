@@ -10,6 +10,7 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
@@ -40,7 +41,7 @@ public class FixTestRequest extends FixMessage
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -88,7 +89,12 @@ public class FixTestRequest extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
 		if (! FixUtils.isSet(testReqID) ) return FixTags.TESTREQID_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -118,7 +124,7 @@ public class FixTestRequest extends FixMessage
 		if (FixUtils.isSet(senderSubID)) FixUtils.putFixTag( out, FixTags.SENDERSUBID_INT, senderSubID, 0, Utils.lastIndexTrim(senderSubID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.SENDINGTIME_INT, sendingTime);
 		FixUtils.putFixTag( out, FixTags.TARGETCOMPID_INT, targetCompID, 0, Utils.lastIndexTrim(targetCompID, (byte)0) );
-		FixUtils.putFixTag( out, FixTags.TARGETSUBID_INT, targetSubID, 0, Utils.lastIndexTrim(targetSubID, (byte)0) );
+		if (FixUtils.isSet(targetSubID)) FixUtils.putFixTag( out, FixTags.TARGETSUBID_INT, targetSubID, 0, Utils.lastIndexTrim(targetSubID, (byte)0) );
 		if (FixUtils.isSet(possResend)) FixUtils.putFixTag( out, FixTags.POSSRESEND_INT, possResend?(byte)'Y':(byte)'N' );
 		if (FixUtils.isSet(onBehalfOfCompID)) FixUtils.putFixTag( out, FixTags.ONBEHALFOFCOMPID_INT, onBehalfOfCompID, 0, Utils.lastIndexTrim(onBehalfOfCompID, (byte)0) );
 		if (FixUtils.isSet(onBehalfOfSubID)) FixUtils.putFixTag( out, FixTags.ONBEHALFOFSUBID_INT, onBehalfOfSubID, 0, Utils.lastIndexTrim(onBehalfOfSubID, (byte)0) );
@@ -172,7 +178,7 @@ public class FixTestRequest extends FixMessage
 			if (FixUtils.isSet(senderSubID)) s += "SenderSubID(50)=" + new String(senderSubID) + sep;
 			 s += "SendingTime(52)=" + new String(sendingTime) + sep;
 			 s += "TargetCompID(56)=" + new String(targetCompID) + sep;
-			 s += "TargetSubID(57)=" + new String(targetSubID) + sep;
+			if (FixUtils.isSet(targetSubID)) s += "TargetSubID(57)=" + new String(targetSubID) + sep;
 			if (FixUtils.isSet(possResend)) s += "PossResend(97)=" + String.valueOf(possResend) + sep;
 			if (FixUtils.isSet(onBehalfOfCompID)) s += "OnBehalfOfCompID(115)=" + new String(onBehalfOfCompID) + sep;
 			if (FixUtils.isSet(onBehalfOfSubID)) s += "OnBehalfOfSubID(116)=" + new String(onBehalfOfSubID) + sep;
