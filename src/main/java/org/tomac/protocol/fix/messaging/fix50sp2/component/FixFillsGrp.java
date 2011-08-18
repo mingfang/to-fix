@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixNestedParties4;
 
@@ -129,8 +129,8 @@ public class FillsGrp implements FixComponent
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.NESTED4PARTYID_INT) {
-				nestedParties4.getAll(FixTags.NESTED4PARTYID_INT, buf);
+			if(id == FixTags.NONESTED4PARTYIDS_INT) {
+				nestedParties4.getAll(FixTags.NONESTED4PARTYIDS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -157,7 +157,7 @@ public class FillsGrp implements FixComponent
 		if (FixUtils.isSet(fillPx)) return true;
 		if (FixUtils.isSet(fillQty)) return true;
 		if (FixUtils.isSet(fillLiquidityInd)) return true;
-		if (FixUtils.isSet(nestedParties4.nested4PartyID)) return true;
+		if (FixUtils.isSet(nestedParties4.noNested4PartyIDs)) return true;
 		return false;
 	}
 	@Override
@@ -167,7 +167,7 @@ public class FillsGrp implements FixComponent
 		if (FixUtils.isSet(fillPx)) FixUtils.putFixFloatTag( out, FixTags.FILLPX_INT, fillPx);
 		if (FixUtils.isSet(fillQty)) FixUtils.putFixFloatTag( out, FixTags.FILLQTY_INT, fillQty);
 		if (FixUtils.isSet(fillLiquidityInd)) FixUtils.putFixTag( out, FixTags.FILLLIQUIDITYIND_INT, fillLiquidityInd);
-		if (FixUtils.isSet(nestedParties4.nested4PartyID)) nestedParties4.encode( out );
+		if (FixUtils.isSet(nestedParties4.noNested4PartyIDs)) nestedParties4.encode( out );
 	}
 	/**
 	 * If you use toString for any other purpose than administrative printout.
@@ -184,7 +184,7 @@ public class FillsGrp implements FixComponent
 			if (FixUtils.isSet(fillPx)) s += "FillPx(1364)=" + String.valueOf(fillPx) + sep;
 			if (FixUtils.isSet(fillQty)) s += "FillQty(1365)=" + String.valueOf(fillQty) + sep;
 			if (FixUtils.isSet(fillLiquidityInd)) s += "FillLiquidityInd(1443)=" + String.valueOf(fillLiquidityInd) + sep;
-			if (FixUtils.isSet(nestedParties4.nested4PartyID)) s += nestedParties4.toString();
+			if (FixUtils.isSet(nestedParties4.noNested4PartyIDs)) s += nestedParties4.toString();
 		return s;
 
 	}

@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
 public class FixPartyRelationships
@@ -92,7 +92,7 @@ public class PartyRelationships implements FixComponent
 
 			if(id == FixTags.PARTYRELATIONSHIP_INT) {
 				partyRelationship = FixUtils.getTagIntValue( value );
-				if (!PartyRelationship.isValid(partyRelationship) ) throw new FixSessionException(buf, "Invalid enumerated value(" + partyRelationship + ") for tag: " + id );
+				if (!FixMessageInfo.PartyRelationship.isValid(partyRelationship) ) throw new FixSessionException(buf, "Invalid enumerated value(" + partyRelationship + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

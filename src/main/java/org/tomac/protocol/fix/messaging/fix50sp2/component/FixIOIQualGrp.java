@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
 public class FixIOIQualGrp
@@ -92,7 +92,7 @@ public class IOIQualGrp implements FixComponent
 
 			if(id == FixTags.IOIQUALIFIER_INT) {
 				iOIQualifier = FixUtils.getTagCharValue( value );
-				if (!IOIQualifier.isValid(iOIQualifier) ) throw new FixSessionException(buf, "Invalid enumerated value(" + iOIQualifier + ") for tag: " + id );
+				if (!FixMessageInfo.IOIQualifier.isValid(iOIQualifier) ) throw new FixSessionException(buf, "Invalid enumerated value(" + iOIQualifier + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

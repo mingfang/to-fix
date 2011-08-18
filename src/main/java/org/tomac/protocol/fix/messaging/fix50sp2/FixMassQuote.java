@@ -230,7 +230,7 @@ public class FixMassQuote extends FixMessage
 		if (FixUtils.isSet(accountType)) FixUtils.putFixTag( out, FixTags.ACCOUNTTYPE_INT, accountType);
 		if (FixUtils.isSet(defBidSize)) FixUtils.putFixFloatTag( out, FixTags.DEFBIDSIZE_INT, defBidSize);
 		if (FixUtils.isSet(defOfferSize)) FixUtils.putFixFloatTag( out, FixTags.DEFOFFERSIZE_INT, defOfferSize);
-		quotSetGrp.encode( out );
+		if (FixUtils.isSet(quotSetGrp.noQuoteSets)) quotSetGrp.encode( out );
 		// the checksum at the end
 
 		int checkSumStart = out.position();
@@ -308,7 +308,7 @@ public class FixMassQuote extends FixMessage
 			if (FixUtils.isSet(accountType)) s += "AccountType(581)=" + String.valueOf(accountType) + sep;
 			if (FixUtils.isSet(defBidSize)) s += "DefBidSize(293)=" + String.valueOf(defBidSize) + sep;
 			if (FixUtils.isSet(defOfferSize)) s += "DefOfferSize(294)=" + String.valueOf(defOfferSize) + sep;
-			 s += quotSetGrp.toString();
+			if (FixUtils.isSet(quotSetGrp.noQuoteSets)) s += quotSetGrp.toString();
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
 

@@ -625,7 +625,7 @@ public class FixConfirmation extends FixMessage
 		FixUtils.putFixTag( out, FixTags.TRANSACTTIME_INT, transactTime);
 		FixUtils.putFixTag( out, FixTags.TRADEDATE_INT, tradeDate);
 		if (FixUtils.isSet(trdRegTimestamps.noTrdRegTimestamps)) trdRegTimestamps.encode( out );
-		instrument.encode( out );
+		if (FixUtils.isSet(instrument.symbol)) instrument.encode( out );
 		if (FixUtils.isSet(instrumentExtension.deliveryForm)) instrumentExtension.encode( out );
 		if (FixUtils.isSet(financingDetails.agreementDesc)) financingDetails.encode( out );
 		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
@@ -636,7 +636,7 @@ public class FixConfirmation extends FixMessage
 		FixUtils.putFixTag( out, FixTags.SIDE_INT, side );
 		if (FixUtils.isSet(currency)) FixUtils.putFixTag( out, FixTags.CURRENCY_INT, currency, 0, Utils.lastIndexTrim(currency, (byte)0) );
 		if (FixUtils.isSet(lastMkt)) FixUtils.putFixTag( out, FixTags.LASTMKT_INT, lastMkt, 0, Utils.lastIndexTrim(lastMkt, (byte)0) );
-		cpctyConfGrp.encode( out );
+		if (FixUtils.isSet(cpctyConfGrp.noCapacities)) cpctyConfGrp.encode( out );
 		FixUtils.putFixTag( out, FixTags.ALLOCACCOUNT_INT, allocAccount, 0, Utils.lastIndexTrim(allocAccount, (byte)0) );
 		if (FixUtils.isSet(allocAcctIDSource)) FixUtils.putFixTag( out, FixTags.ALLOCACCTIDSOURCE_INT, allocAcctIDSource);
 		if (FixUtils.isSet(allocAccountType)) FixUtils.putFixTag( out, FixTags.ALLOCACCOUNTTYPE_INT, allocAccountType);
@@ -757,7 +757,7 @@ public class FixConfirmation extends FixMessage
 			 s += "TransactTime(60)=" + new String(transactTime) + sep;
 			 s += "TradeDate(75)=" + new String(tradeDate) + sep;
 			if (FixUtils.isSet(trdRegTimestamps.noTrdRegTimestamps)) s += trdRegTimestamps.toString();
-			 s += instrument.toString();
+			if (FixUtils.isSet(instrument.symbol)) s += instrument.toString();
 			if (FixUtils.isSet(instrumentExtension.deliveryForm)) s += instrumentExtension.toString();
 			if (FixUtils.isSet(financingDetails.agreementDesc)) s += financingDetails.toString();
 			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
@@ -768,7 +768,7 @@ public class FixConfirmation extends FixMessage
 			 s += "Side(54)=" + String.valueOf(side) + sep;
 			if (FixUtils.isSet(currency)) s += "Currency(15)=" + new String(currency) + sep;
 			if (FixUtils.isSet(lastMkt)) s += "LastMkt(30)=" + new String(lastMkt) + sep;
-			 s += cpctyConfGrp.toString();
+			if (FixUtils.isSet(cpctyConfGrp.noCapacities)) s += cpctyConfGrp.toString();
 			 s += "AllocAccount(79)=" + new String(allocAccount) + sep;
 			if (FixUtils.isSet(allocAcctIDSource)) s += "AllocAcctIDSource(661)=" + String.valueOf(allocAcctIDSource) + sep;
 			if (FixUtils.isSet(allocAccountType)) s += "AllocAccountType(798)=" + String.valueOf(allocAccountType) + sep;

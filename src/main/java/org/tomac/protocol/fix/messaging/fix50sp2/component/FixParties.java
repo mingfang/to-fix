@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixPtysSubGrp;
 
@@ -108,7 +108,7 @@ public class Parties implements FixComponent
 
 			if(id == FixTags.PARTYIDSOURCE_INT) {
 				partyIDSource = FixUtils.getTagCharValue( value );
-				if (!PartyIDSource.isValid(partyIDSource) ) throw new FixSessionException(buf, "Invalid enumerated value(" + partyIDSource + ") for tag: " + id );
+				if (!FixMessageInfo.PartyIDSource.isValid(partyIDSource) ) throw new FixSessionException(buf, "Invalid enumerated value(" + partyIDSource + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -116,14 +116,14 @@ public class Parties implements FixComponent
 
 			if(id == FixTags.PARTYROLE_INT) {
 				partyRole = FixUtils.getTagIntValue( value );
-				if (!PartyRole.isValid(partyRole) ) throw new FixSessionException(buf, "Invalid enumerated value(" + partyRole + ") for tag: " + id );
+				if (!FixMessageInfo.PartyRole.isValid(partyRole) ) throw new FixSessionException(buf, "Invalid enumerated value(" + partyRole + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.PARTYSUBID_INT) {
-				ptysSubGrp.getAll(FixTags.PARTYSUBID_INT, buf);
+			if(id == FixTags.NOPARTYSUBIDS_INT) {
+				ptysSubGrp.getAll(FixTags.NOPARTYSUBIDS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -149,7 +149,7 @@ public class Parties implements FixComponent
 		if (FixUtils.isSet(partyID)) return true;
 		if (FixUtils.isSet(partyIDSource)) return true;
 		if (FixUtils.isSet(partyRole)) return true;
-		if (FixUtils.isSet(ptysSubGrp.partySubID)) return true;
+		if (FixUtils.isSet(ptysSubGrp.noPartySubIDs)) return true;
 		return false;
 	}
 	@Override
@@ -158,7 +158,7 @@ public class Parties implements FixComponent
 		if (FixUtils.isSet(partyID)) FixUtils.putFixTag( out, FixTags.PARTYID_INT, partyID, 0, Utils.lastIndexTrim(partyID, (byte)0) );
 		if (FixUtils.isSet(partyIDSource)) FixUtils.putFixTag( out, FixTags.PARTYIDSOURCE_INT, partyIDSource );
 		if (FixUtils.isSet(partyRole)) FixUtils.putFixTag( out, FixTags.PARTYROLE_INT, partyRole);
-		if (FixUtils.isSet(ptysSubGrp.partySubID)) ptysSubGrp.encode( out );
+		if (FixUtils.isSet(ptysSubGrp.noPartySubIDs)) ptysSubGrp.encode( out );
 	}
 	/**
 	 * If you use toString for any other purpose than administrative printout.
@@ -174,7 +174,7 @@ public class Parties implements FixComponent
 			if (FixUtils.isSet(partyID)) s += "PartyID(448)=" + new String(partyID) + sep;
 			if (FixUtils.isSet(partyIDSource)) s += "PartyIDSource(447)=" + String.valueOf(partyIDSource) + sep;
 			if (FixUtils.isSet(partyRole)) s += "PartyRole(452)=" + String.valueOf(partyRole) + sep;
-			if (FixUtils.isSet(ptysSubGrp.partySubID)) s += ptysSubGrp.toString();
+			if (FixUtils.isSet(ptysSubGrp.noPartySubIDs)) s += ptysSubGrp.toString();
 		return s;
 
 	}

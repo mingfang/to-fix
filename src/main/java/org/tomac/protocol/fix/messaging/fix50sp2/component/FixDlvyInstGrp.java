@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixSettlParties;
 
@@ -98,7 +98,7 @@ public class DlvyInstGrp implements FixComponent
 
 			if(id == FixTags.SETTLINSTSOURCE_INT) {
 				settlInstSource = FixUtils.getTagCharValue( value );
-				if (!SettlInstSource.isValid(settlInstSource) ) throw new FixSessionException(buf, "Invalid enumerated value(" + settlInstSource + ") for tag: " + id );
+				if (!FixMessageInfo.SettlInstSource.isValid(settlInstSource) ) throw new FixSessionException(buf, "Invalid enumerated value(" + settlInstSource + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -106,7 +106,7 @@ public class DlvyInstGrp implements FixComponent
 
 			if(id == FixTags.DLVYINSTTYPE_INT) {
 				dlvyInstType = FixUtils.getTagCharValue( value );
-				if (!DlvyInstType.isValid(dlvyInstType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + dlvyInstType + ") for tag: " + id );
+				if (!FixMessageInfo.DlvyInstType.isValid(dlvyInstType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + dlvyInstType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

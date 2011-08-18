@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrument;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixFinancingDetails;
@@ -118,8 +118,8 @@ public class QuotCxlEntriesGrp implements FixComponent
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.UNDERLYINGSYMBOL_INT) {
-				undInstrmtGrp.getAll(FixTags.UNDERLYINGSYMBOL_INT, buf);
+			if(id == FixTags.NOUNDERLYINGS_INT) {
+				undInstrmtGrp.getAll(FixTags.NOUNDERLYINGS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -151,7 +151,7 @@ public class QuotCxlEntriesGrp implements FixComponent
 	{
 		if (FixUtils.isSet(instrument.symbol)) return true;
 		if (FixUtils.isSet(financingDetails.agreementDesc)) return true;
-		if (FixUtils.isSet(undInstrmtGrp.underlyingSymbol)) return true;
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) return true;
 		if (FixUtils.isSet(instrmtLegGrp.noLegs)) return true;
 		return false;
 	}
@@ -160,7 +160,7 @@ public class QuotCxlEntriesGrp implements FixComponent
 	{
 		if (FixUtils.isSet(instrument.symbol)) instrument.encode( out );
 		if (FixUtils.isSet(financingDetails.agreementDesc)) financingDetails.encode( out );
-		if (FixUtils.isSet(undInstrmtGrp.underlyingSymbol)) undInstrmtGrp.encode( out );
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
 		if (FixUtils.isSet(instrmtLegGrp.noLegs)) instrmtLegGrp.encode( out );
 	}
 	/**
@@ -176,7 +176,7 @@ public class QuotCxlEntriesGrp implements FixComponent
 
 			if (FixUtils.isSet(instrument.symbol)) s += instrument.toString();
 			if (FixUtils.isSet(financingDetails.agreementDesc)) s += financingDetails.toString();
-			if (FixUtils.isSet(undInstrmtGrp.underlyingSymbol)) s += undInstrmtGrp.toString();
+			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
 			if (FixUtils.isSet(instrmtLegGrp.noLegs)) s += instrmtLegGrp.toString();
 		return s;
 

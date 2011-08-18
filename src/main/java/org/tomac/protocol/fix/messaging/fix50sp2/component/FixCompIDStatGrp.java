@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
 public class FixCompIDStatGrp
@@ -135,7 +135,7 @@ public class CompIDStatGrp implements FixComponent
 
 			if(id == FixTags.STATUSVALUE_INT) {
 				statusValue = FixUtils.getTagIntValue( value );
-				if (!StatusValue.isValid(statusValue) ) throw new FixSessionException(buf, "Invalid enumerated value(" + statusValue + ") for tag: " + id );
+				if (!FixMessageInfo.StatusValue.isValid(statusValue) ) throw new FixSessionException(buf, "Invalid enumerated value(" + statusValue + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

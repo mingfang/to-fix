@@ -227,7 +227,7 @@ public class FixQuoteRequestReject extends FixMessage
 		if (FixUtils.isSet(respondentType)) FixUtils.putFixTag( out, FixTags.RESPONDENTTYPE_INT, respondentType);
 		if (FixUtils.isSet(preTradeAnonymity)) FixUtils.putFixTag( out, FixTags.PRETRADEANONYMITY_INT, preTradeAnonymity?(byte)'Y':(byte)'N' );
 		if (FixUtils.isSet(rootParties.noRootPartyIDs)) rootParties.encode( out );
-		quotReqRjctGrp.encode( out );
+		if (FixUtils.isSet(quotReqRjctGrp.noRelatedSym)) quotReqRjctGrp.encode( out );
 		if (FixUtils.isSet(text)) FixUtils.putFixTag( out, FixTags.TEXT_INT, text, 0, Utils.lastIndexTrim(text, (byte)0) );
 		if (FixUtils.isSet(encodedTextLen)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXTLEN_INT, encodedTextLen);
 		if (FixUtils.isSet(encodedText)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXT_INT, encodedText, 0, Utils.lastIndexTrim(encodedText, (byte)0) );
@@ -305,7 +305,7 @@ public class FixQuoteRequestReject extends FixMessage
 			if (FixUtils.isSet(respondentType)) s += "RespondentType(1172)=" + String.valueOf(respondentType) + sep;
 			if (FixUtils.isSet(preTradeAnonymity)) s += "PreTradeAnonymity(1091)=" + String.valueOf(preTradeAnonymity) + sep;
 			if (FixUtils.isSet(rootParties.noRootPartyIDs)) s += rootParties.toString();
-			 s += quotReqRjctGrp.toString();
+			if (FixUtils.isSet(quotReqRjctGrp.noRelatedSym)) s += quotReqRjctGrp.toString();
 			if (FixUtils.isSet(text)) s += "Text(58)=" + new String(text) + sep;
 			if (FixUtils.isSet(encodedTextLen)) s += "EncodedTextLen(354)=" + String.valueOf(encodedTextLen) + sep;
 			if (FixUtils.isSet(encodedText)) s += "EncodedText(355)=" + new String(encodedText) + sep;

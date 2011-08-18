@@ -239,7 +239,7 @@ public class FixOrderStatusRequest extends FixMessage
 		if (FixUtils.isSet(ordStatusReqID)) FixUtils.putFixTag( out, FixTags.ORDSTATUSREQID_INT, ordStatusReqID, 0, Utils.lastIndexTrim(ordStatusReqID, (byte)0) );
 		if (FixUtils.isSet(account)) FixUtils.putFixTag( out, FixTags.ACCOUNT_INT, account, 0, Utils.lastIndexTrim(account, (byte)0) );
 		if (FixUtils.isSet(acctIDSource)) FixUtils.putFixTag( out, FixTags.ACCTIDSOURCE_INT, acctIDSource);
-		instrument.encode( out );
+		if (FixUtils.isSet(instrument.symbol)) instrument.encode( out );
 		if (FixUtils.isSet(financingDetails.agreementDesc)) financingDetails.encode( out );
 		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
 		FixUtils.putFixTag( out, FixTags.SIDE_INT, side );
@@ -318,7 +318,7 @@ public class FixOrderStatusRequest extends FixMessage
 			if (FixUtils.isSet(ordStatusReqID)) s += "OrdStatusReqID(790)=" + new String(ordStatusReqID) + sep;
 			if (FixUtils.isSet(account)) s += "Account(1)=" + new String(account) + sep;
 			if (FixUtils.isSet(acctIDSource)) s += "AcctIDSource(660)=" + String.valueOf(acctIDSource) + sep;
-			 s += instrument.toString();
+			if (FixUtils.isSet(instrument.symbol)) s += instrument.toString();
 			if (FixUtils.isSet(financingDetails.agreementDesc)) s += financingDetails.toString();
 			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
 			 s += "Side(54)=" + String.valueOf(side) + sep;

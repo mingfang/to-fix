@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrument;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrumentExtension;
@@ -160,7 +160,7 @@ public class RelSymDerivSecUpdGrp implements FixComponent
 
 			if(id == FixTags.CORPORATEACTION_INT) {
 				corporateAction = FixUtils.getTagStringValue(value, corporateAction);
-				if (!CorporateAction.isValid(corporateAction) ) throw new FixSessionException(buf, "Invalid enumerated value(" + corporateAction + ") for tag: " + id );
+				if (!FixMessageInfo.CorporateAction.isValid(corporateAction) ) throw new FixSessionException(buf, "Invalid enumerated value(" + corporateAction + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

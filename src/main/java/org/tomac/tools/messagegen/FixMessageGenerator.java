@@ -9,8 +9,10 @@ import java.util.SortedSet;
 
 import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.tools.messagegen.FixMessageDom.DomBase;
 import org.tomac.tools.messagegen.FixMessageDom.DomFixComponent;
+import org.tomac.tools.messagegen.FixMessageDom.DomFixComponentRef;
 import org.tomac.tools.messagegen.FixMessageDom.DomFixField;
 import org.tomac.tools.messagegen.FixMessageDom.DomFixField.DomFixValue;
 import org.tomac.tools.messagegen.FixMessageDom.DomFixMessage;
@@ -113,11 +115,11 @@ public class FixMessageGenerator {
 		System.out.println("Done.");
 	}
 
-	private static String uncapFirst(final String s) {
+	static String uncapFirst(final String s) {
 		return s.substring(0, 1).toLowerCase() + s.substring(1);
 	}
 
-	private void clearComponent(DomFixComponent c, BufferedWriter out) throws Exception {
+	private void clearComponent(DomFixComponentRef c, BufferedWriter out) throws Exception {
 		out.write("\t\t" + uncapFirst(c.name) + ".clear();\n");
 	}
 	
@@ -175,7 +177,7 @@ public class FixMessageGenerator {
 		}
 	}
 
-	private void allocateComponent(final DomFixComponent c, final BufferedWriter out) throws IOException {
+	private void allocateComponent(final DomFixComponentRef c, final BufferedWriter out) throws IOException {
 		out.write("\t\t" + uncapFirst(c.name) + " = new Fix" + capFirst(c.name) + "();\n");
 	}
 	
@@ -204,7 +206,7 @@ public class FixMessageGenerator {
 		}
 	}	
 
-	private void declareComponent(final DomFixComponent c, final BufferedWriter out) throws IOException {
+	private void declareComponent(final DomFixComponentRef c, final BufferedWriter out) throws IOException {
 		out.write("\tpublic Fix" + capFirst(c.name) + " " + uncapFirst(c.name) + ";\n");
 	}
 	
@@ -317,7 +319,7 @@ public class FixMessageGenerator {
 
 	}	
 
-	private void encodeComponent(final DomFixComponent c, final BufferedWriter out) throws IOException {
+	private void encodeComponent(final DomFixComponentRef c, final BufferedWriter out) throws IOException {
 		String chk = "";
 		
 		if (printIsSetCheck(c) != null) chk = "if (" + printIsSetCheck(c) + ") ";
@@ -391,7 +393,7 @@ public class FixMessageGenerator {
 		
 	}
 	
-	private void printComponent(final DomFixComponent c, final BufferedWriter out) throws IOException {
+	private void printComponent(final DomFixComponentRef c, final BufferedWriter out) throws IOException {
 		String chk = "";
 		
 		if (printIsSetCheck(c) != null) chk = "if (" + printIsSetCheck(c) + ")";
@@ -454,18 +456,24 @@ public class FixMessageGenerator {
 		}
 	}		
 	
-	private String printIsSetCheck(DomFixComponent c) {
+	private String printIsSetCheck(DomFixComponentRef c) {
+		return printIsSetCheck(true,c);
+	}
+	
+	private String printIsSetCheck(boolean isSet, DomFixComponentRef c) {
 		
-		if (c.reqd.equals("Y")) return null;
+		if (!isSet && c.reqd.equals("Y")) {
+			return null;
+		}
 		
 		// TODO ugh! something is wrong in the header component..
 		if (c.name.equalsIgnoreCase("hopGrp")) return "FixUtils.isSet(hopGrp.noHops)";
 
-		if (c.isRepeating) { 
-			return "FixUtils.isSet(" + uncapFirst(c.name) + "." + uncapFirst(c.noInGroupTag) + ")";
+		if (c.isRepeating()) { 
+			return "FixUtils.isSet(" + uncapFirst(c.name) + "." + uncapFirst(c.noInGroupTag()) + ")";
 		} else {
-			if (c.getKeyTag() == null) return "()";
-			return "FixUtils.isSet(" + uncapFirst(c.name) + "." + uncapFirst(c.getKeyTag()) + ")";
+			if (c.getKeyTagHierarchy() == null) return "()";
+			return "FixUtils.isSet(" + uncapFirst(c.name) + "." + uncapFirst(c.getKeyTagHierarchy()) + ")";
 		}
 	}
 	
@@ -647,7 +655,7 @@ public class FixMessageGenerator {
 
 		out.write("	public void encode(" + strWritableByteBuffer + " out);\n\n");
 		
-		out.write("\tpublic boolean isSet();§\n");
+		out.write("\tpublic boolean isSet();\n");
 
 		out.write("}\n");
 		
@@ -670,7 +678,7 @@ public class FixMessageGenerator {
 		out.write(strFixGarbledException + "\n");
 		out.write(strUtils + "\n\n");
 		out.write(strOtherUtils + "\n");
-		for (DomFixComponent c : dom.domFixHeader.components)
+		for (DomFixComponentRef c : dom.domFixHeader.components)
 			out.write("import " + dom.packageName + ".component.Fix" + capFirst(c.name) + ";\n");
 		out.write("\n");
 		
@@ -689,8 +697,8 @@ public class FixMessageGenerator {
 				if (f.name.equals("MsgType")) continue;
 				declareField(f, out);
 			}
-			if (b instanceof DomFixComponent) {
-				DomFixComponent c = (DomFixComponent)b;
+			if (b instanceof DomFixComponentRef) {
+				DomFixComponentRef c = (DomFixComponentRef)b;
 				declareComponent(c, out);
 			}
 		}
@@ -725,8 +733,8 @@ public class FixMessageGenerator {
 				if (f.name.equals("MsgType")) continue;
 				allocateField(f, out);
 			}
-			if (b instanceof DomFixComponent) {
-				DomFixComponent c = (DomFixComponent)b;
+			if (b instanceof DomFixComponentRef) {
+				DomFixComponentRef c = (DomFixComponentRef)b;
 				allocateComponent(c, out);
 			}
 		}
@@ -745,7 +753,7 @@ public class FixMessageGenerator {
 			if (f.name.equals("MsgType")) continue;
 			clearField(f, out);
 		}
-		for (DomFixComponent c : dom.domFixHeader.components ) {
+		for (DomFixComponentRef c : dom.domFixHeader.components ) {
 			clearComponent(c, out);
 		}
 
@@ -1014,9 +1022,9 @@ public class FixMessageGenerator {
 		out.write(strConstants + "\n");
 		out.write(strBaseUtils + "\n");
 		out.write(strOtherUtils + "\n");
-		for (DomFixComponent c : dom.domFixHeader.components)
+		for (DomFixComponentRef c : dom.domFixHeader.components)
 			out.write("import " + dom.packageName + ".component.Fix" + capFirst(c.name) + ";\n");
-		for (DomFixComponent c : m.components)
+		for (DomFixComponentRef c : m.components)
 			out.write("import " + dom.packageName + ".component.Fix" + capFirst(c.name) + ";\n");
 		out.write("\n");
 		
@@ -1029,8 +1037,8 @@ public class FixMessageGenerator {
 				if (f.name.equals("MsgType")) continue;
 				declareField(f, out);
 			}
-			if (b instanceof DomFixComponent) {
-				DomFixComponent c = (DomFixComponent)b;
+			if (b instanceof DomFixComponentRef) {
+				DomFixComponentRef c = (DomFixComponentRef)b;
 				declareComponent(c, out);
 			}
 		}
@@ -1045,8 +1053,8 @@ public class FixMessageGenerator {
 				DomFixField f = (DomFixField)b;
 				allocateField(f, out);
 			}
-			if (b instanceof DomFixComponent) {
-				DomFixComponent c = (DomFixComponent)b;
+			if (b instanceof DomFixComponentRef) {
+				DomFixComponentRef c = (DomFixComponentRef)b;
 				allocateComponent(c, out);
 			}
 		}
@@ -1066,7 +1074,7 @@ public class FixMessageGenerator {
 			if (f.name.equals("MsgType")) continue;
 			clearField(f, out);
 		}
-		for (DomFixComponent c : m.components ) {
+		for (DomFixComponentRef c : m.components ) {
 			clearComponent(c, out);
 		}
 
@@ -1104,12 +1112,12 @@ public class FixMessageGenerator {
 	 			}
 	 			out.write("\t\t\t\tbreak;\n\n");
 			}
-			if (b instanceof DomFixComponent) {
-				DomFixComponent c = (DomFixComponent) b;
-				if (c.isRepeating) {
-					out.write("\t\t\tcase FixTags." + c.noInGroupTag.toUpperCase() + "_INT:\n");
-					out.write("\t\t\t\t" + uncapFirst(c.name) + "." + uncapFirst(c.noInGroupTag) + " = FixUtils.getTagIntValue( value );\n");
-					out.write("\t\t\t\t" + uncapFirst(c.name) + ".getAll(" + uncapFirst(c.name) + "." + uncapFirst(c.noInGroupTag) + ", value );\n");
+			if (b instanceof DomFixComponentRef) {
+				DomFixComponentRef c = (DomFixComponentRef) b;
+				if (c.isRepeating()) {
+					out.write("\t\t\tcase FixTags." + c.noInGroupTag().toUpperCase() + "_INT:\n");
+					out.write("\t\t\t\t" + uncapFirst(c.name) + "." + uncapFirst(c.noInGroupTag()) + " = FixUtils.getTagIntValue( value );\n");
+					out.write("\t\t\t\t" + uncapFirst(c.name) + ".getAll(" + uncapFirst(c.name) + "." + uncapFirst(c.noInGroupTag()) + ", value );\n");
 				} else {
 					out.write("\t\t\tcase FixTags." + c.getKeyTag().toUpperCase() + "_INT:\n");
 					out.write("\t\t\t\t" + uncapFirst(c.name) + ".getAll(FixTags." + c.getKeyTag().toUpperCase() + "_INT, value );\n");
@@ -1150,10 +1158,10 @@ public class FixMessageGenerator {
 			out.write("\t\tif (! FixUtils.isSet(" + uncapFirst(f.name) + ") ) return FixTags." + f.name.toUpperCase() + "_INT;\n");
 		}
 
-		for (DomFixComponent c : dom.domFixHeader.components ) {
+		for (DomFixComponentRef c : dom.domFixHeader.components ) {
 			if (c.reqd.equals("N") ) continue;
-			if (c.isRepeating)
-				out.write("\t\tif (! " + uncapFirst(c.name) + ".isSet() ) return FixTags." + c.noInGroupTag.toUpperCase() + "_INT;\n");
+			if (c.isRepeating())
+				out.write("\t\tif (! " + uncapFirst(c.name) + ".isSet() ) return FixTags." + c.noInGroupTag().toUpperCase() + "_INT;\n");
 			else
 				out.write("\t\tif (! " + uncapFirst(c.name) + ".isSet() ) return FixTags." + c.getKeyTag().toUpperCase() + "_INT;\n");
 		}
@@ -1163,10 +1171,10 @@ public class FixMessageGenerator {
 			out.write("\t\tif (! FixUtils.isSet(" + uncapFirst(f.name) + ") ) return FixTags." + f.name.toUpperCase() + "_INT;\n");
 		}
 
-		for (DomFixComponent c : m.components ) {
+		for (DomFixComponentRef c : m.components ) {
 			if (c.reqd.equals("N") ) continue;
-			if (c.isRepeating)
-				out.write("\t\tif (! " + uncapFirst(c.name) + ".isSet() ) return FixTags." + c.noInGroupTag.toUpperCase() + "_INT;\n");
+			if (c.isRepeating())
+				out.write("\t\tif (! " + uncapFirst(c.name) + ".isSet() ) return FixTags." + c.noInGroupTag().toUpperCase() + "_INT;\n");
 			else
 				out.write("\t\tif (! " + uncapFirst(c.name) + ".isSet() ) return FixTags." + c.getKeyTag().toUpperCase() + "_INT;\n");
 		}
@@ -1206,8 +1214,8 @@ public class FixMessageGenerator {
 				if (f.name.contains("BeginString") || f.name.contains("BodyLength") || f.name.equals("MsgType") ) continue;
 				encodeTagField(f, out);
 			} 
-			if (b instanceof DomFixComponent) {
-				encodeComponent((DomFixComponent)b, out);
+			if (b instanceof DomFixComponentRef) {
+				encodeComponent((DomFixComponentRef)b, out);
 			}
 		}
 		out.write("\n");
@@ -1216,8 +1224,8 @@ public class FixMessageGenerator {
 				DomFixField f = (DomFixField) b;
 				encodeTagField(f, out);
 			} 
-			if (b instanceof DomFixComponent) {
-				encodeComponent((DomFixComponent)b, out);
+			if (b instanceof DomFixComponentRef) {
+				encodeComponent((DomFixComponentRef)b, out);
 			}
 		}
 		
@@ -1265,8 +1273,8 @@ public class FixMessageGenerator {
 				if (f.name.contains("BeginString") || f.name.contains("BodyLength") || f.name.equals("MsgType") ) continue;
 				printTagField(f, out);
 			}
-			if (b instanceof DomFixComponent) {
-				printComponent((DomFixComponent)b, out);
+			if (b instanceof DomFixComponentRef) {
+				printComponent((DomFixComponentRef)b, out);
 			}
 		}
 		out.write("\n");
@@ -1275,8 +1283,8 @@ public class FixMessageGenerator {
 				DomFixField f = (DomFixField) b;
 				printTagField(f, out);
 			}
-			if (b instanceof DomFixComponent) {
-				printComponent((DomFixComponent)b, out);
+			if (b instanceof DomFixComponentRef) {
+				printComponent((DomFixComponentRef)b, out);
 			}
 		}
 		out.write("\n");
@@ -1321,9 +1329,9 @@ public class FixMessageGenerator {
 		out.write(strConstants + "\n");
 		out.write(strBaseUtils + "\n");
 		out.write(strOtherUtils + "\n");
-		out.write("import " + dom.packageName + ".FixMessageInfo.*;\n");
+		out.write("import " + dom.packageName + ".FixMessageInfo;\n");
 		out.write("import " + dom.packageName + ".FixTags;\n");
-		for (DomFixComponent c : m.components)
+		for (DomFixComponentRef c : m.components)
 			out.write("import " + dom.packageName + ".component.Fix" + capFirst(c.name) + ";\n");
 		out.write("\n");
 		
@@ -1404,7 +1412,7 @@ public class FixMessageGenerator {
 			out.write(strOtherUtils + "\n");
 			out.write("import " + dom.packageName + ".FixTags;\n");
 			out.write("import " + dom.packageName + ".FixMessageInfo.*;\n");
-			for (DomFixComponent c : m.components)
+			for (DomFixComponentRef c : m.components)
 				out.write("import " + dom.packageName + ".component.Fix" + capFirst(c.name) + ";\n");
 			out.write("\n");
 		}
@@ -1418,8 +1426,8 @@ public class FixMessageGenerator {
 				if (f.name.equals("MsgType")) continue;
 				declareField(f, out);
 			}
-			if (b instanceof DomFixComponent) {
-				DomFixComponent c = (DomFixComponent)b;
+			if (b instanceof DomFixComponentRef) {
+				DomFixComponentRef c = (DomFixComponentRef)b;
 				declareComponent(c, out);
 			}
 		}
@@ -1434,8 +1442,8 @@ public class FixMessageGenerator {
 				DomFixField f = (DomFixField)b;
 				allocateField(f, out);
 			}
-			if (b instanceof DomFixComponent) {
-				DomFixComponent c = (DomFixComponent)b;
+			if (b instanceof DomFixComponentRef) {
+				DomFixComponentRef c = (DomFixComponentRef)b;
 				allocateComponent(c, out);
 			}
 		}
@@ -1453,7 +1461,7 @@ public class FixMessageGenerator {
 			if (f.name.equals("MsgType")) continue;
 			clearField(f, out);
 		}
-		for (DomFixComponent c : m.components ) {
+		for (DomFixComponentRef c : m.components ) {
 			clearComponent(c, out);
 		}
 
@@ -1488,10 +1496,10 @@ public class FixMessageGenerator {
 			out.write("\t\tif (! FixUtils.isSet(" + uncapFirst(f.name) + ") ) return FixTags." + f.name.toUpperCase() + "_INT;\n");
 		}
 
-		for (DomFixComponent c : m.components ) {
+		for (DomFixComponentRef c : m.components ) {
 			if (c.reqd.equals("N") ) continue;
-			if (c.isRepeating)
-				out.write("\t\tif (! " + uncapFirst(c.name) + ".isSet() ) return FixTags." + c.noInGroupTag.toUpperCase() + "_INT;\n");
+			if (c.isRepeating())
+				out.write("\t\tif (! " + uncapFirst(c.name) + ".isSet() ) return FixTags." + c.noInGroupTag().toUpperCase() + "_INT;\n");
 			else
 				out.write("\t\tif (! " + uncapFirst(c.name) + ".isSet() ) return FixTags." + c.getKeyTag().toUpperCase() + "_INT;\n");
 		}
@@ -1509,9 +1517,9 @@ public class FixMessageGenerator {
 				if (printIsSetCheck(f) != null) 
 					out.write("\t\tif (" + printIsSetCheck(f) + ") return true;\n");
 			} 
-			if (b instanceof DomFixComponent) {
-				DomFixComponent c = (DomFixComponent)b;
-				out.write("\t\tif (" + printIsSetCheck(c) + ") return true;\n");
+			if (b instanceof DomFixComponentRef) {
+				DomFixComponentRef c = (DomFixComponentRef)b;
+				out.write("\t\tif (" + printIsSetCheck(true, c) + ") return true;\n");
 			}
 		}
 	    out.write("\t\treturn false;\n");
@@ -1526,8 +1534,8 @@ public class FixMessageGenerator {
 				DomFixField f = (DomFixField) b;
 				encodeTagField(f, out);
 			} 
-			if (b instanceof DomFixComponent) {
-				encodeComponent((DomFixComponent)b, out);
+			if (b instanceof DomFixComponentRef) {
+				encodeComponent((DomFixComponentRef)b, out);
 			}
 		}
 	    out.write("\t}\n");
@@ -1549,8 +1557,8 @@ public class FixMessageGenerator {
 				DomFixField f = (DomFixField) b;
 				printTagField(f, out);
 			}
-			if (b instanceof DomFixComponent) {
-				printComponent((DomFixComponent)b, out);
+			if (b instanceof DomFixComponentRef) {
+				printComponent((DomFixComponentRef)b, out);
 			}
 		}
 		out.write("\t\treturn s;\n\n");
@@ -1590,17 +1598,17 @@ public class FixMessageGenerator {
 				out.write("\t\t\tif(id == FixTags." + f.name.toUpperCase() + "_INT) {\n");
 				decodeFieldValue(f, out);
 				if (f.domFixValues.size() > 0) {
-					out.write("\t\t\t\tif (!" + capFirst(f.name) + ".isValid("+ uncapFirst(f.name) + ") ) throw new FixSessionException(buf, \"Invalid enumerated value(\" + " + uncapFirst(f.name) + " + \") for tag: \" + id );\n");
+					out.write("\t\t\t\tif (!FixMessageInfo." + capFirst(f.name) + ".isValid("+ uncapFirst(f.name) + ") ) throw new FixSessionException(buf, \"Invalid enumerated value(\" + " + uncapFirst(f.name) + " + \") for tag: \" + id );\n");
 	 			}
 		 		out.write("\t\t\t\tlastTagPosition = buf.position();\n\n");
 				out.write("\t\t\t\tid = FixUtils.getTagId( buf );\n");
 	 			out.write("\t\t\t}\n\n");
 			}
-			if (b instanceof DomFixComponent) {
-				DomFixComponent c = (DomFixComponent) b;
-				if (c.isRepeating) {
-					out.write("\t\t\tif(id == FixTags." + c.noInGroupTag.toUpperCase() + "_INT) {\n");
-					out.write("\t\t\t\t" + uncapFirst(c.name) + ".getAll(FixTags." + c.noInGroupTag.toUpperCase() + "_INT, buf);\n");
+			if (b instanceof DomFixComponentRef) {
+				DomFixComponentRef c = (DomFixComponentRef) b;
+				if (c.isRepeating()) {
+					out.write("\t\t\tif(id == FixTags." + c.noInGroupTag().toUpperCase() + "_INT) {\n");
+					out.write("\t\t\t\t" + uncapFirst(c.name) + ".getAll(FixTags." + c.noInGroupTag().toUpperCase() + "_INT, buf);\n");
 					out.write("\t\t\t\tlastTagPosition = buf.position();\n\n");
 					out.write("\t\t\t\tid = FixUtils.getTagId( buf );\n");
 					out.write("\t\t\t}\n\n");
@@ -1640,12 +1648,12 @@ public class FixMessageGenerator {
 	 			}
 	 			out.write("\t\t\t\tbreak;\n\n");
 			}
-			if (b instanceof DomFixComponent) {
-				DomFixComponent c = (DomFixComponent) b;
-				if (c.isRepeating) {
-					out.write("\t\t\tcase FixTags." + c.noInGroupTag.toUpperCase() + "_INT:\n");
-					out.write("\t\t\t\t" + uncapFirst(c.name) + "." + uncapFirst(c.noInGroupTag) + " = FixUtils.getTagIntValue( value );\n");
-					out.write("\t\t\t\t" + uncapFirst(c.name) + ".getAll(" + uncapFirst(c.name) + "." + uncapFirst(c.noInGroupTag) + ", value );\n");
+			if (b instanceof DomFixComponentRef) {
+				DomFixComponentRef c = (DomFixComponentRef) b;
+				if (c.isRepeating()) {
+					out.write("\t\t\tcase FixTags." + c.noInGroupTag().toUpperCase() + "_INT:\n");
+					out.write("\t\t\t\t" + uncapFirst(c.name) + "." + uncapFirst(c.noInGroupTag()) + " = FixUtils.getTagIntValue( value );\n");
+					out.write("\t\t\t\t" + uncapFirst(c.name) + ".getAll(" + uncapFirst(c.name) + "." + uncapFirst(c.noInGroupTag()) + ", value );\n");
 				} else {
 					out.write("\t\t\tcase FixTags." + c.getKeyTag().toUpperCase() + "_INT:\n");
 					out.write("\t\t\t\t" + uncapFirst(c.name) + ".getAll( FixTags." + c.getKeyTag().toUpperCase() + "_INT, value );\n");
@@ -1963,8 +1971,8 @@ public class FixMessageGenerator {
 					out.write(") return false;\n\n");
 				}
 			}
-			if (b instanceof DomFixComponent) {
-				out.write("\t\tif (!" + uncapFirst(((DomFixComponent)b).name) + ".equals(msg." + uncapFirst(((DomFixComponent)b).name) + ")");
+			if (b instanceof DomFixComponentRef) {
+				out.write("\t\tif (!" + uncapFirst(((DomFixComponentRef)b).name) + ".equals(msg." + uncapFirst(((DomFixComponentRef)b).name) + ")");
 				out.write(") return false;\n\n");
 			}
 		}

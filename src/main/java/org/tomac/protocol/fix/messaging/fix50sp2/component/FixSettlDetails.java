@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixSettlParties;
 
@@ -96,7 +96,7 @@ public class SettlDetails implements FixComponent
 
 			if(id == FixTags.SETTLOBLIGSOURCE_INT) {
 				settlObligSource = FixUtils.getTagCharValue( value );
-				if (!SettlObligSource.isValid(settlObligSource) ) throw new FixSessionException(buf, "Invalid enumerated value(" + settlObligSource + ") for tag: " + id );
+				if (!FixMessageInfo.SettlObligSource.isValid(settlObligSource) ) throw new FixSessionException(buf, "Invalid enumerated value(" + settlObligSource + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

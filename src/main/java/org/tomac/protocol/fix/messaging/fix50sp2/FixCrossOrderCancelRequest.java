@@ -246,8 +246,8 @@ public class FixCrossOrderCancelRequest extends FixMessage
 		FixUtils.putFixTag( out, FixTags.CROSSTYPE_INT, crossType);
 		FixUtils.putFixTag( out, FixTags.CROSSPRIORITIZATION_INT, crossPrioritization);
 		if (FixUtils.isSet(rootParties.noRootPartyIDs)) rootParties.encode( out );
-		sideCrossOrdCxlGrp.encode( out );
-		instrument.encode( out );
+		if (FixUtils.isSet(sideCrossOrdCxlGrp.noSides)) sideCrossOrdCxlGrp.encode( out );
+		if (FixUtils.isSet(instrument.symbol)) instrument.encode( out );
 		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
 		if (FixUtils.isSet(instrmtLegGrp.noLegs)) instrmtLegGrp.encode( out );
 		FixUtils.putFixTag( out, FixTags.TRANSACTTIME_INT, transactTime);
@@ -325,8 +325,8 @@ public class FixCrossOrderCancelRequest extends FixMessage
 			 s += "CrossType(549)=" + String.valueOf(crossType) + sep;
 			 s += "CrossPrioritization(550)=" + String.valueOf(crossPrioritization) + sep;
 			if (FixUtils.isSet(rootParties.noRootPartyIDs)) s += rootParties.toString();
-			 s += sideCrossOrdCxlGrp.toString();
-			 s += instrument.toString();
+			if (FixUtils.isSet(sideCrossOrdCxlGrp.noSides)) s += sideCrossOrdCxlGrp.toString();
+			if (FixUtils.isSet(instrument.symbol)) s += instrument.toString();
 			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
 			if (FixUtils.isSet(instrmtLegGrp.noLegs)) s += instrmtLegGrp.toString();
 			 s += "TransactTime(60)=" + new String(transactTime) + sep;

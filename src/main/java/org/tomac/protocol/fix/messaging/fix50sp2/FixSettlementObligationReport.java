@@ -222,7 +222,7 @@ public class FixSettlementObligationReport extends FixMessage
 		if (FixUtils.isSet(encodedTextLen)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXTLEN_INT, encodedTextLen);
 		if (FixUtils.isSet(encodedText)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXT_INT, encodedText, 0, Utils.lastIndexTrim(encodedText, (byte)0) );
 		if (FixUtils.isSet(transactTime)) FixUtils.putFixTag( out, FixTags.TRANSACTTIME_INT, transactTime);
-		settlObligationInstructions.encode( out );
+		if (FixUtils.isSet(settlObligationInstructions.noSettlOblig)) settlObligationInstructions.encode( out );
 		// the checksum at the end
 
 		int checkSumStart = out.position();
@@ -299,7 +299,7 @@ public class FixSettlementObligationReport extends FixMessage
 			if (FixUtils.isSet(encodedTextLen)) s += "EncodedTextLen(354)=" + String.valueOf(encodedTextLen) + sep;
 			if (FixUtils.isSet(encodedText)) s += "EncodedText(355)=" + new String(encodedText) + sep;
 			if (FixUtils.isSet(transactTime)) s += "TransactTime(60)=" + new String(transactTime) + sep;
-			 s += settlObligationInstructions.toString();
+			if (FixUtils.isSet(settlObligationInstructions.noSettlOblig)) s += settlObligationInstructions.toString();
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
 

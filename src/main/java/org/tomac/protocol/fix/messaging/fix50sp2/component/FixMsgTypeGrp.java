@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
 public class FixMsgTypeGrp
@@ -105,7 +105,7 @@ public class MsgTypeGrp implements FixComponent
 
 			if(id == FixTags.MSGDIRECTION_INT) {
 				msgDirection = FixUtils.getTagCharValue( value );
-				if (!MsgDirection.isValid(msgDirection) ) throw new FixSessionException(buf, "Invalid enumerated value(" + msgDirection + ") for tag: " + id );
+				if (!FixMessageInfo.MsgDirection.isValid(msgDirection) ) throw new FixSessionException(buf, "Invalid enumerated value(" + msgDirection + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

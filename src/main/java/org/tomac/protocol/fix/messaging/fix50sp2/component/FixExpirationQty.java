@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
 public class FixExpirationQty
@@ -94,7 +94,7 @@ public class ExpirationQty implements FixComponent
 
 			if(id == FixTags.EXPIRATIONQTYTYPE_INT) {
 				expirationQtyType = FixUtils.getTagIntValue( value );
-				if (!ExpirationQtyType.isValid(expirationQtyType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + expirationQtyType + ") for tag: " + id );
+				if (!FixMessageInfo.ExpirationQtyType.isValid(expirationQtyType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + expirationQtyType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
 public class FixStrategyParametersGrp
@@ -105,7 +105,7 @@ public class StrategyParametersGrp implements FixComponent
 
 			if(id == FixTags.STRATEGYPARAMETERTYPE_INT) {
 				strategyParameterType = FixUtils.getTagIntValue( value );
-				if (!StrategyParameterType.isValid(strategyParameterType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + strategyParameterType + ") for tag: " + id );
+				if (!FixMessageInfo.StrategyParameterType.isValid(strategyParameterType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + strategyParameterType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

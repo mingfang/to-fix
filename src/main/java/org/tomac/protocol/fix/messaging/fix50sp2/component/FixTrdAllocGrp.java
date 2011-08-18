@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixNestedParties2;
 
@@ -167,7 +167,7 @@ public class TrdAllocGrp implements FixComponent
 
 			if(id == FixTags.ALLOCMETHOD_INT) {
 				allocMethod = FixUtils.getTagIntValue( value );
-				if (!AllocMethod.isValid(allocMethod) ) throw new FixSessionException(buf, "Invalid enumerated value(" + allocMethod + ") for tag: " + id );
+				if (!FixMessageInfo.AllocMethod.isValid(allocMethod) ) throw new FixSessionException(buf, "Invalid enumerated value(" + allocMethod + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

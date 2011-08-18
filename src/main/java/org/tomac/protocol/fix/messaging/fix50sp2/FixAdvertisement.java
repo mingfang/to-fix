@@ -292,7 +292,7 @@ public class FixAdvertisement extends FixMessage
 		FixUtils.putFixTag( out, FixTags.ADVID_INT, advId, 0, Utils.lastIndexTrim(advId, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.ADVTRANSTYPE_INT, advTransType, 0, Utils.lastIndexTrim(advTransType, (byte)0) );
 		if (FixUtils.isSet(advRefID)) FixUtils.putFixTag( out, FixTags.ADVREFID_INT, advRefID, 0, Utils.lastIndexTrim(advRefID, (byte)0) );
-		instrument.encode( out );
+		if (FixUtils.isSet(instrument.symbol)) instrument.encode( out );
 		if (FixUtils.isSet(instrmtLegGrp.noLegs)) instrmtLegGrp.encode( out );
 		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
 		FixUtils.putFixTag( out, FixTags.ADVSIDE_INT, advSide );
@@ -379,7 +379,7 @@ public class FixAdvertisement extends FixMessage
 			 s += "AdvId(2)=" + new String(advId) + sep;
 			 s += "AdvTransType(5)=" + new String(advTransType) + sep;
 			if (FixUtils.isSet(advRefID)) s += "AdvRefID(3)=" + new String(advRefID) + sep;
-			 s += instrument.toString();
+			if (FixUtils.isSet(instrument.symbol)) s += instrument.toString();
 			if (FixUtils.isSet(instrmtLegGrp.noLegs)) s += instrmtLegGrp.toString();
 			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
 			 s += "AdvSide(4)=" + String.valueOf(advSide) + sep;

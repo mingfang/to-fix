@@ -362,7 +362,7 @@ public class FixAssignmentReport extends FixMessage
 		if (FixUtils.isSet(posReqID)) FixUtils.putFixTag( out, FixTags.POSREQID_INT, posReqID, 0, Utils.lastIndexTrim(posReqID, (byte)0) );
 		if (FixUtils.isSet(totNumAssignmentReports)) FixUtils.putFixTag( out, FixTags.TOTNUMASSIGNMENTREPORTS_INT, totNumAssignmentReports);
 		if (FixUtils.isSet(lastRptRequested)) FixUtils.putFixTag( out, FixTags.LASTRPTREQUESTED_INT, lastRptRequested?(byte)'Y':(byte)'N' );
-		parties.encode( out );
+		if (FixUtils.isSet(parties.noPartyIDs)) parties.encode( out );
 		if (FixUtils.isSet(account)) FixUtils.putFixTag( out, FixTags.ACCOUNT_INT, account, 0, Utils.lastIndexTrim(account, (byte)0) );
 		if (FixUtils.isSet(accountType)) FixUtils.putFixTag( out, FixTags.ACCOUNTTYPE_INT, accountType);
 		if (FixUtils.isSet(instrument.symbol)) instrument.encode( out );
@@ -459,7 +459,7 @@ public class FixAssignmentReport extends FixMessage
 			if (FixUtils.isSet(posReqID)) s += "PosReqID(710)=" + new String(posReqID) + sep;
 			if (FixUtils.isSet(totNumAssignmentReports)) s += "TotNumAssignmentReports(832)=" + String.valueOf(totNumAssignmentReports) + sep;
 			if (FixUtils.isSet(lastRptRequested)) s += "LastRptRequested(912)=" + String.valueOf(lastRptRequested) + sep;
-			 s += parties.toString();
+			if (FixUtils.isSet(parties.noPartyIDs)) s += parties.toString();
 			if (FixUtils.isSet(account)) s += "Account(1)=" + new String(account) + sep;
 			if (FixUtils.isSet(accountType)) s += "AccountType(581)=" + String.valueOf(accountType) + sep;
 			if (FixUtils.isSet(instrument.symbol)) s += instrument.toString();

@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
 public class FixExecAllocGrp
@@ -145,7 +145,7 @@ public class ExecAllocGrp implements FixComponent
 
 			if(id == FixTags.LASTCAPACITY_INT) {
 				lastCapacity = FixUtils.getTagCharValue( value );
-				if (!LastCapacity.isValid(lastCapacity) ) throw new FixSessionException(buf, "Invalid enumerated value(" + lastCapacity + ") for tag: " + id );
+				if (!FixMessageInfo.LastCapacity.isValid(lastCapacity) ) throw new FixSessionException(buf, "Invalid enumerated value(" + lastCapacity + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

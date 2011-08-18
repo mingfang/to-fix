@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
 public class FixClrInstGrp
@@ -92,7 +92,7 @@ public class ClrInstGrp implements FixComponent
 
 			if(id == FixTags.CLEARINGINSTRUCTION_INT) {
 				clearingInstruction = FixUtils.getTagIntValue( value );
-				if (!ClearingInstruction.isValid(clearingInstruction) ) throw new FixSessionException(buf, "Invalid enumerated value(" + clearingInstruction + ") for tag: " + id );
+				if (!FixMessageInfo.ClearingInstruction.isValid(clearingInstruction) ) throw new FixSessionException(buf, "Invalid enumerated value(" + clearingInstruction + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

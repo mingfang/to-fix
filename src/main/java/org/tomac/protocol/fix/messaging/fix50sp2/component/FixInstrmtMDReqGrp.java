@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrument;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUndInstrmtGrp;
@@ -123,8 +123,8 @@ public class InstrmtMDReqGrp implements FixComponent
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.UNDERLYINGSYMBOL_INT) {
-				undInstrmtGrp.getAll(FixTags.UNDERLYINGSYMBOL_INT, buf);
+			if(id == FixTags.NOUNDERLYINGS_INT) {
+				undInstrmtGrp.getAll(FixTags.NOUNDERLYINGS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -139,7 +139,7 @@ public class InstrmtMDReqGrp implements FixComponent
 
 			if(id == FixTags.QUOTETYPE_INT) {
 				quoteType = FixUtils.getTagIntValue( value );
-				if (!QuoteType.isValid(quoteType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + quoteType + ") for tag: " + id );
+				if (!FixMessageInfo.QuoteType.isValid(quoteType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + quoteType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -147,7 +147,7 @@ public class InstrmtMDReqGrp implements FixComponent
 
 			if(id == FixTags.SETTLTYPE_INT) {
 				settlType = FixUtils.getTagStringValue(value, settlType);
-				if (!SettlType.isValid(settlType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + settlType + ") for tag: " + id );
+				if (!FixMessageInfo.SettlType.isValid(settlType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + settlType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -199,8 +199,8 @@ public class InstrmtMDReqGrp implements FixComponent
 	@Override
 	public boolean isSet()
 	{
-		if (null) return true;
-		if (FixUtils.isSet(undInstrmtGrp.underlyingSymbol)) return true;
+		if (FixUtils.isSet(instrument.symbol)) return true;
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) return true;
 		if (FixUtils.isSet(currency)) return true;
 		if (FixUtils.isSet(quoteType)) return true;
 		if (FixUtils.isSet(settlType)) return true;
@@ -213,8 +213,8 @@ public class InstrmtMDReqGrp implements FixComponent
 	@Override
 	public void encode( ByteBuffer out )
 	{
-		instrument.encode( out );
-		if (FixUtils.isSet(undInstrmtGrp.underlyingSymbol)) undInstrmtGrp.encode( out );
+		if (FixUtils.isSet(instrument.symbol)) instrument.encode( out );
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
 		if (FixUtils.isSet(currency)) FixUtils.putFixTag( out, FixTags.CURRENCY_INT, currency, 0, Utils.lastIndexTrim(currency, (byte)0) );
 		if (FixUtils.isSet(quoteType)) FixUtils.putFixTag( out, FixTags.QUOTETYPE_INT, quoteType);
 		if (FixUtils.isSet(settlType)) FixUtils.putFixTag( out, FixTags.SETTLTYPE_INT, settlType, 0, Utils.lastIndexTrim(settlType, (byte)0) );
@@ -234,8 +234,8 @@ public class InstrmtMDReqGrp implements FixComponent
 
 		String s = "";
 
-			 s += instrument.toString();
-			if (FixUtils.isSet(undInstrmtGrp.underlyingSymbol)) s += undInstrmtGrp.toString();
+			if (FixUtils.isSet(instrument.symbol)) s += instrument.toString();
+			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
 			if (FixUtils.isSet(currency)) s += "Currency(15)=" + new String(currency) + sep;
 			if (FixUtils.isSet(quoteType)) s += "QuoteType(537)=" + String.valueOf(quoteType) + sep;
 			if (FixUtils.isSet(settlType)) s += "SettlType(63)=" + new String(settlType) + sep;

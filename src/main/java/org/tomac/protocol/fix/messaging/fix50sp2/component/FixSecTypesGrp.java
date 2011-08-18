@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
 public class FixSecTypesGrp
@@ -104,7 +104,7 @@ public class SecTypesGrp implements FixComponent
 
 			if(id == FixTags.SECURITYTYPE_INT) {
 				securityType = FixUtils.getTagStringValue(value, securityType);
-				if (!SecurityType.isValid(securityType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + securityType + ") for tag: " + id );
+				if (!FixMessageInfo.SecurityType.isValid(securityType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + securityType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -119,7 +119,7 @@ public class SecTypesGrp implements FixComponent
 
 			if(id == FixTags.PRODUCT_INT) {
 				product = FixUtils.getTagIntValue( value );
-				if (!Product.isValid(product) ) throw new FixSessionException(buf, "Invalid enumerated value(" + product + ") for tag: " + id );
+				if (!FixMessageInfo.Product.isValid(product) ) throw new FixSessionException(buf, "Invalid enumerated value(" + product + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrument;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixFinancingDetails;
@@ -210,8 +210,8 @@ public class QuotReqGrp implements FixComponent
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.UNDERLYINGSYMBOL_INT) {
-				undInstrmtGrp.getAll(FixTags.UNDERLYINGSYMBOL_INT, buf);
+			if(id == FixTags.NOUNDERLYINGS_INT) {
+				undInstrmtGrp.getAll(FixTags.NOUNDERLYINGS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -226,7 +226,7 @@ public class QuotReqGrp implements FixComponent
 
 			if(id == FixTags.QUOTEREQUESTTYPE_INT) {
 				quoteRequestType = FixUtils.getTagIntValue( value );
-				if (!QuoteRequestType.isValid(quoteRequestType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + quoteRequestType + ") for tag: " + id );
+				if (!FixMessageInfo.QuoteRequestType.isValid(quoteRequestType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + quoteRequestType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -234,7 +234,7 @@ public class QuotReqGrp implements FixComponent
 
 			if(id == FixTags.QUOTETYPE_INT) {
 				quoteType = FixUtils.getTagIntValue( value );
-				if (!QuoteType.isValid(quoteType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + quoteType + ") for tag: " + id );
+				if (!FixMessageInfo.QuoteType.isValid(quoteType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + quoteType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -242,7 +242,7 @@ public class QuotReqGrp implements FixComponent
 
 			if(id == FixTags.TRADINGSESSIONID_INT) {
 				tradingSessionID = FixUtils.getTagStringValue(value, tradingSessionID);
-				if (!TradingSessionID.isValid(tradingSessionID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradingSessionID + ") for tag: " + id );
+				if (!FixMessageInfo.TradingSessionID.isValid(tradingSessionID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradingSessionID + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -250,7 +250,7 @@ public class QuotReqGrp implements FixComponent
 
 			if(id == FixTags.TRADINGSESSIONSUBID_INT) {
 				tradingSessionSubID = FixUtils.getTagStringValue(value, tradingSessionSubID);
-				if (!TradingSessionSubID.isValid(tradingSessionSubID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradingSessionSubID + ") for tag: " + id );
+				if (!FixMessageInfo.TradingSessionSubID.isValid(tradingSessionSubID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradingSessionSubID + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -265,7 +265,7 @@ public class QuotReqGrp implements FixComponent
 
 			if(id == FixTags.SIDE_INT) {
 				side = FixUtils.getTagCharValue( value );
-				if (!Side.isValid(side) ) throw new FixSessionException(buf, "Invalid enumerated value(" + side + ") for tag: " + id );
+				if (!FixMessageInfo.Side.isValid(side) ) throw new FixSessionException(buf, "Invalid enumerated value(" + side + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -273,7 +273,7 @@ public class QuotReqGrp implements FixComponent
 
 			if(id == FixTags.QTYTYPE_INT) {
 				qtyType = FixUtils.getTagIntValue( value );
-				if (!QtyType.isValid(qtyType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + qtyType + ") for tag: " + id );
+				if (!FixMessageInfo.QtyType.isValid(qtyType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + qtyType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -295,7 +295,7 @@ public class QuotReqGrp implements FixComponent
 
 			if(id == FixTags.SETTLTYPE_INT) {
 				settlType = FixUtils.getTagStringValue(value, settlType);
-				if (!SettlType.isValid(settlType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + settlType + ") for tag: " + id );
+				if (!FixMessageInfo.SettlType.isValid(settlType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + settlType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -336,8 +336,8 @@ public class QuotReqGrp implements FixComponent
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.RATESOURCE_INT) {
-				rateSource.getAll(FixTags.RATESOURCE_INT, buf);
+			if(id == FixTags.NORATESOURCES_INT) {
+				rateSource.getAll(FixTags.NORATESOURCES_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -359,7 +359,7 @@ public class QuotReqGrp implements FixComponent
 
 			if(id == FixTags.ACCTIDSOURCE_INT) {
 				acctIDSource = FixUtils.getTagIntValue( value );
-				if (!AcctIDSource.isValid(acctIDSource) ) throw new FixSessionException(buf, "Invalid enumerated value(" + acctIDSource + ") for tag: " + id );
+				if (!FixMessageInfo.AcctIDSource.isValid(acctIDSource) ) throw new FixSessionException(buf, "Invalid enumerated value(" + acctIDSource + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -367,14 +367,14 @@ public class QuotReqGrp implements FixComponent
 
 			if(id == FixTags.ACCOUNTTYPE_INT) {
 				accountType = FixUtils.getTagIntValue( value );
-				if (!AccountType.isValid(accountType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + accountType + ") for tag: " + id );
+				if (!FixMessageInfo.AccountType.isValid(accountType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + accountType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.LEGSYMBOL_INT) {
-				quotReqLegsGrp.getAll(FixTags.LEGSYMBOL_INT, buf);
+			if(id == FixTags.NOLEGS_INT) {
+				quotReqLegsGrp.getAll(FixTags.NOLEGS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -389,7 +389,7 @@ public class QuotReqGrp implements FixComponent
 
 			if(id == FixTags.QUOTEPRICETYPE_INT) {
 				quotePriceType = FixUtils.getTagIntValue( value );
-				if (!QuotePriceType.isValid(quotePriceType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + quotePriceType + ") for tag: " + id );
+				if (!FixMessageInfo.QuotePriceType.isValid(quotePriceType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + quotePriceType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -397,7 +397,7 @@ public class QuotReqGrp implements FixComponent
 
 			if(id == FixTags.ORDTYPE_INT) {
 				ordType = FixUtils.getTagCharValue( value );
-				if (!OrdType.isValid(ordType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + ordType + ") for tag: " + id );
+				if (!FixMessageInfo.OrdType.isValid(ordType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + ordType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -433,7 +433,7 @@ public class QuotReqGrp implements FixComponent
 
 			if(id == FixTags.PRICETYPE_INT) {
 				priceType = FixUtils.getTagIntValue( value );
-				if (!PriceType.isValid(priceType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + priceType + ") for tag: " + id );
+				if (!FixMessageInfo.PriceType.isValid(priceType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + priceType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -485,9 +485,9 @@ public class QuotReqGrp implements FixComponent
 	@Override
 	public boolean isSet()
 	{
-		if (null) return true;
+		if (FixUtils.isSet(instrument.symbol)) return true;
 		if (FixUtils.isSet(financingDetails.agreementDesc)) return true;
-		if (FixUtils.isSet(undInstrmtGrp.underlyingSymbol)) return true;
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) return true;
 		if (FixUtils.isSet(prevClosePx)) return true;
 		if (FixUtils.isSet(quoteRequestType)) return true;
 		if (FixUtils.isSet(quoteType)) return true;
@@ -504,12 +504,12 @@ public class QuotReqGrp implements FixComponent
 		if (FixUtils.isSet(orderQty2)) return true;
 		if (FixUtils.isSet(currency)) return true;
 		if (FixUtils.isSet(settlCurrency)) return true;
-		if (FixUtils.isSet(rateSource.rateSource)) return true;
+		if (FixUtils.isSet(rateSource.noRateSources)) return true;
 		if (FixUtils.isSet(stipulations.noStipulations)) return true;
 		if (FixUtils.isSet(account)) return true;
 		if (FixUtils.isSet(acctIDSource)) return true;
 		if (FixUtils.isSet(accountType)) return true;
-		if (FixUtils.isSet(quotReqLegsGrp.legSymbol)) return true;
+		if (FixUtils.isSet(quotReqLegsGrp.noLegs)) return true;
 		if (FixUtils.isSet(quotQualGrp.noQuoteQualifiers)) return true;
 		if (FixUtils.isSet(quotePriceType)) return true;
 		if (FixUtils.isSet(ordType)) return true;
@@ -527,9 +527,9 @@ public class QuotReqGrp implements FixComponent
 	@Override
 	public void encode( ByteBuffer out )
 	{
-		instrument.encode( out );
+		if (FixUtils.isSet(instrument.symbol)) instrument.encode( out );
 		if (FixUtils.isSet(financingDetails.agreementDesc)) financingDetails.encode( out );
-		if (FixUtils.isSet(undInstrmtGrp.underlyingSymbol)) undInstrmtGrp.encode( out );
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
 		if (FixUtils.isSet(prevClosePx)) FixUtils.putFixFloatTag( out, FixTags.PREVCLOSEPX_INT, prevClosePx);
 		if (FixUtils.isSet(quoteRequestType)) FixUtils.putFixTag( out, FixTags.QUOTEREQUESTTYPE_INT, quoteRequestType);
 		if (FixUtils.isSet(quoteType)) FixUtils.putFixTag( out, FixTags.QUOTETYPE_INT, quoteType);
@@ -546,12 +546,12 @@ public class QuotReqGrp implements FixComponent
 		if (FixUtils.isSet(orderQty2)) FixUtils.putFixFloatTag( out, FixTags.ORDERQTY2_INT, orderQty2);
 		if (FixUtils.isSet(currency)) FixUtils.putFixTag( out, FixTags.CURRENCY_INT, currency, 0, Utils.lastIndexTrim(currency, (byte)0) );
 		if (FixUtils.isSet(settlCurrency)) FixUtils.putFixTag( out, FixTags.SETTLCURRENCY_INT, settlCurrency, 0, Utils.lastIndexTrim(settlCurrency, (byte)0) );
-		if (FixUtils.isSet(rateSource.rateSource)) rateSource.encode( out );
+		if (FixUtils.isSet(rateSource.noRateSources)) rateSource.encode( out );
 		if (FixUtils.isSet(stipulations.noStipulations)) stipulations.encode( out );
 		if (FixUtils.isSet(account)) FixUtils.putFixTag( out, FixTags.ACCOUNT_INT, account, 0, Utils.lastIndexTrim(account, (byte)0) );
 		if (FixUtils.isSet(acctIDSource)) FixUtils.putFixTag( out, FixTags.ACCTIDSOURCE_INT, acctIDSource);
 		if (FixUtils.isSet(accountType)) FixUtils.putFixTag( out, FixTags.ACCOUNTTYPE_INT, accountType);
-		if (FixUtils.isSet(quotReqLegsGrp.legSymbol)) quotReqLegsGrp.encode( out );
+		if (FixUtils.isSet(quotReqLegsGrp.noLegs)) quotReqLegsGrp.encode( out );
 		if (FixUtils.isSet(quotQualGrp.noQuoteQualifiers)) quotQualGrp.encode( out );
 		if (FixUtils.isSet(quotePriceType)) FixUtils.putFixTag( out, FixTags.QUOTEPRICETYPE_INT, quotePriceType);
 		if (FixUtils.isSet(ordType)) FixUtils.putFixTag( out, FixTags.ORDTYPE_INT, ordType );
@@ -576,9 +576,9 @@ public class QuotReqGrp implements FixComponent
 
 		String s = "";
 
-			 s += instrument.toString();
+			if (FixUtils.isSet(instrument.symbol)) s += instrument.toString();
 			if (FixUtils.isSet(financingDetails.agreementDesc)) s += financingDetails.toString();
-			if (FixUtils.isSet(undInstrmtGrp.underlyingSymbol)) s += undInstrmtGrp.toString();
+			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
 			if (FixUtils.isSet(prevClosePx)) s += "PrevClosePx(140)=" + String.valueOf(prevClosePx) + sep;
 			if (FixUtils.isSet(quoteRequestType)) s += "QuoteRequestType(303)=" + String.valueOf(quoteRequestType) + sep;
 			if (FixUtils.isSet(quoteType)) s += "QuoteType(537)=" + String.valueOf(quoteType) + sep;
@@ -595,12 +595,12 @@ public class QuotReqGrp implements FixComponent
 			if (FixUtils.isSet(orderQty2)) s += "OrderQty2(192)=" + String.valueOf(orderQty2) + sep;
 			if (FixUtils.isSet(currency)) s += "Currency(15)=" + new String(currency) + sep;
 			if (FixUtils.isSet(settlCurrency)) s += "SettlCurrency(120)=" + new String(settlCurrency) + sep;
-			if (FixUtils.isSet(rateSource.rateSource)) s += rateSource.toString();
+			if (FixUtils.isSet(rateSource.noRateSources)) s += rateSource.toString();
 			if (FixUtils.isSet(stipulations.noStipulations)) s += stipulations.toString();
 			if (FixUtils.isSet(account)) s += "Account(1)=" + new String(account) + sep;
 			if (FixUtils.isSet(acctIDSource)) s += "AcctIDSource(660)=" + String.valueOf(acctIDSource) + sep;
 			if (FixUtils.isSet(accountType)) s += "AccountType(581)=" + String.valueOf(accountType) + sep;
-			if (FixUtils.isSet(quotReqLegsGrp.legSymbol)) s += quotReqLegsGrp.toString();
+			if (FixUtils.isSet(quotReqLegsGrp.noLegs)) s += quotReqLegsGrp.toString();
 			if (FixUtils.isSet(quotQualGrp.noQuoteQualifiers)) s += quotQualGrp.toString();
 			if (FixUtils.isSet(quotePriceType)) s += "QuotePriceType(692)=" + String.valueOf(quotePriceType) + sep;
 			if (FixUtils.isSet(ordType)) s += "OrdType(40)=" + String.valueOf(ordType) + sep;

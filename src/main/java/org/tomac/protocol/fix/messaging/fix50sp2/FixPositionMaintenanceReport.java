@@ -388,7 +388,7 @@ public class FixPositionMaintenanceReport extends FixMessage
 		if (FixUtils.isSet(acctIDSource)) FixUtils.putFixTag( out, FixTags.ACCTIDSOURCE_INT, acctIDSource);
 		if (FixUtils.isSet(accountType)) FixUtils.putFixTag( out, FixTags.ACCOUNTTYPE_INT, accountType);
 		if (FixUtils.isSet(posMaintRptRefID)) FixUtils.putFixTag( out, FixTags.POSMAINTRPTREFID_INT, posMaintRptRefID, 0, Utils.lastIndexTrim(posMaintRptRefID, (byte)0) );
-		instrument.encode( out );
+		if (FixUtils.isSet(instrument.symbol)) instrument.encode( out );
 		if (FixUtils.isSet(currency)) FixUtils.putFixTag( out, FixTags.CURRENCY_INT, currency, 0, Utils.lastIndexTrim(currency, (byte)0) );
 		if (FixUtils.isSet(settlCurrency)) FixUtils.putFixTag( out, FixTags.SETTLCURRENCY_INT, settlCurrency, 0, Utils.lastIndexTrim(settlCurrency, (byte)0) );
 		if (FixUtils.isSet(contraryInstructionIndicator)) FixUtils.putFixTag( out, FixTags.CONTRARYINSTRUCTIONINDICATOR_INT, contraryInstructionIndicator?(byte)'Y':(byte)'N' );
@@ -397,7 +397,7 @@ public class FixPositionMaintenanceReport extends FixMessage
 		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
 		if (FixUtils.isSet(trdgSesGrp.noTradingSessions)) trdgSesGrp.encode( out );
 		if (FixUtils.isSet(transactTime)) FixUtils.putFixTag( out, FixTags.TRANSACTTIME_INT, transactTime);
-		positionQty.encode( out );
+		if (FixUtils.isSet(positionQty.noPositions)) positionQty.encode( out );
 		if (FixUtils.isSet(positionAmountData.noPosAmt)) positionAmountData.encode( out );
 		if (FixUtils.isSet(adjustmentType)) FixUtils.putFixTag( out, FixTags.ADJUSTMENTTYPE_INT, adjustmentType);
 		if (FixUtils.isSet(thresholdAmount)) FixUtils.putFixFloatTag( out, FixTags.THRESHOLDAMOUNT_INT, thresholdAmount);
@@ -486,7 +486,7 @@ public class FixPositionMaintenanceReport extends FixMessage
 			if (FixUtils.isSet(acctIDSource)) s += "AcctIDSource(660)=" + String.valueOf(acctIDSource) + sep;
 			if (FixUtils.isSet(accountType)) s += "AccountType(581)=" + String.valueOf(accountType) + sep;
 			if (FixUtils.isSet(posMaintRptRefID)) s += "PosMaintRptRefID(714)=" + new String(posMaintRptRefID) + sep;
-			 s += instrument.toString();
+			if (FixUtils.isSet(instrument.symbol)) s += instrument.toString();
 			if (FixUtils.isSet(currency)) s += "Currency(15)=" + new String(currency) + sep;
 			if (FixUtils.isSet(settlCurrency)) s += "SettlCurrency(120)=" + new String(settlCurrency) + sep;
 			if (FixUtils.isSet(contraryInstructionIndicator)) s += "ContraryInstructionIndicator(719)=" + String.valueOf(contraryInstructionIndicator) + sep;
@@ -495,7 +495,7 @@ public class FixPositionMaintenanceReport extends FixMessage
 			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
 			if (FixUtils.isSet(trdgSesGrp.noTradingSessions)) s += trdgSesGrp.toString();
 			if (FixUtils.isSet(transactTime)) s += "TransactTime(60)=" + new String(transactTime) + sep;
-			 s += positionQty.toString();
+			if (FixUtils.isSet(positionQty.noPositions)) s += positionQty.toString();
 			if (FixUtils.isSet(positionAmountData.noPosAmt)) s += positionAmountData.toString();
 			if (FixUtils.isSet(adjustmentType)) s += "AdjustmentType(718)=" + String.valueOf(adjustmentType) + sep;
 			if (FixUtils.isSet(thresholdAmount)) s += "ThresholdAmount(834)=" + String.valueOf(thresholdAmount) + sep;

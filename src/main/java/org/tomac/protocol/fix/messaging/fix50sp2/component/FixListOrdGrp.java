@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixPreAllocGrp;
@@ -346,7 +346,7 @@ public class ListOrdGrp implements FixComponent
 
 			if(id == FixTags.SETTLINSTMODE_INT) {
 				settlInstMode = FixUtils.getTagCharValue( value );
-				if (!SettlInstMode.isValid(settlInstMode) ) throw new FixSessionException(buf, "Invalid enumerated value(" + settlInstMode + ") for tag: " + id );
+				if (!FixMessageInfo.SettlInstMode.isValid(settlInstMode) ) throw new FixSessionException(buf, "Invalid enumerated value(" + settlInstMode + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -382,7 +382,7 @@ public class ListOrdGrp implements FixComponent
 
 			if(id == FixTags.ACCTIDSOURCE_INT) {
 				acctIDSource = FixUtils.getTagIntValue( value );
-				if (!AcctIDSource.isValid(acctIDSource) ) throw new FixSessionException(buf, "Invalid enumerated value(" + acctIDSource + ") for tag: " + id );
+				if (!FixMessageInfo.AcctIDSource.isValid(acctIDSource) ) throw new FixSessionException(buf, "Invalid enumerated value(" + acctIDSource + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -390,7 +390,7 @@ public class ListOrdGrp implements FixComponent
 
 			if(id == FixTags.ACCOUNTTYPE_INT) {
 				accountType = FixUtils.getTagIntValue( value );
-				if (!AccountType.isValid(accountType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + accountType + ") for tag: " + id );
+				if (!FixMessageInfo.AccountType.isValid(accountType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + accountType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -398,7 +398,7 @@ public class ListOrdGrp implements FixComponent
 
 			if(id == FixTags.DAYBOOKINGINST_INT) {
 				dayBookingInst = FixUtils.getTagCharValue( value );
-				if (!DayBookingInst.isValid(dayBookingInst) ) throw new FixSessionException(buf, "Invalid enumerated value(" + dayBookingInst + ") for tag: " + id );
+				if (!FixMessageInfo.DayBookingInst.isValid(dayBookingInst) ) throw new FixSessionException(buf, "Invalid enumerated value(" + dayBookingInst + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -406,7 +406,7 @@ public class ListOrdGrp implements FixComponent
 
 			if(id == FixTags.BOOKINGUNIT_INT) {
 				bookingUnit = FixUtils.getTagCharValue( value );
-				if (!BookingUnit.isValid(bookingUnit) ) throw new FixSessionException(buf, "Invalid enumerated value(" + bookingUnit + ") for tag: " + id );
+				if (!FixMessageInfo.BookingUnit.isValid(bookingUnit) ) throw new FixSessionException(buf, "Invalid enumerated value(" + bookingUnit + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -421,14 +421,14 @@ public class ListOrdGrp implements FixComponent
 
 			if(id == FixTags.PREALLOCMETHOD_INT) {
 				preallocMethod = FixUtils.getTagCharValue( value );
-				if (!PreallocMethod.isValid(preallocMethod) ) throw new FixSessionException(buf, "Invalid enumerated value(" + preallocMethod + ") for tag: " + id );
+				if (!FixMessageInfo.PreallocMethod.isValid(preallocMethod) ) throw new FixSessionException(buf, "Invalid enumerated value(" + preallocMethod + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.ALLOCACCOUNT_INT) {
-				preAllocGrp.getAll(FixTags.ALLOCACCOUNT_INT, buf);
+			if(id == FixTags.NOALLOCS_INT) {
+				preAllocGrp.getAll(FixTags.NOALLOCS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -436,7 +436,7 @@ public class ListOrdGrp implements FixComponent
 
 			if(id == FixTags.SETTLTYPE_INT) {
 				settlType = FixUtils.getTagStringValue(value, settlType);
-				if (!SettlType.isValid(settlType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + settlType + ") for tag: " + id );
+				if (!FixMessageInfo.SettlType.isValid(settlType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + settlType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -451,7 +451,7 @@ public class ListOrdGrp implements FixComponent
 
 			if(id == FixTags.CASHMARGIN_INT) {
 				cashMargin = FixUtils.getTagCharValue( value );
-				if (!CashMargin.isValid(cashMargin) ) throw new FixSessionException(buf, "Invalid enumerated value(" + cashMargin + ") for tag: " + id );
+				if (!FixMessageInfo.CashMargin.isValid(cashMargin) ) throw new FixSessionException(buf, "Invalid enumerated value(" + cashMargin + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -459,7 +459,7 @@ public class ListOrdGrp implements FixComponent
 
 			if(id == FixTags.CLEARINGFEEINDICATOR_INT) {
 				clearingFeeIndicator = FixUtils.getTagStringValue(value, clearingFeeIndicator);
-				if (!ClearingFeeIndicator.isValid(clearingFeeIndicator) ) throw new FixSessionException(buf, "Invalid enumerated value(" + clearingFeeIndicator + ") for tag: " + id );
+				if (!FixMessageInfo.ClearingFeeIndicator.isValid(clearingFeeIndicator) ) throw new FixSessionException(buf, "Invalid enumerated value(" + clearingFeeIndicator + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -467,7 +467,7 @@ public class ListOrdGrp implements FixComponent
 
 			if(id == FixTags.HANDLINST_INT) {
 				handlInst = FixUtils.getTagCharValue( value );
-				if (!HandlInst.isValid(handlInst) ) throw new FixSessionException(buf, "Invalid enumerated value(" + handlInst + ") for tag: " + id );
+				if (!FixMessageInfo.HandlInst.isValid(handlInst) ) throw new FixSessionException(buf, "Invalid enumerated value(" + handlInst + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -475,7 +475,7 @@ public class ListOrdGrp implements FixComponent
 
 			if(id == FixTags.EXECINST_INT) {
 				execInst = FixUtils.getTagStringValue(value, execInst);
-				if (!ExecInst.isValid(execInst) ) throw new FixSessionException(buf, "Invalid enumerated value(" + execInst + ") for tag: " + id );
+				if (!FixMessageInfo.ExecInst.isValid(execInst) ) throw new FixSessionException(buf, "Invalid enumerated value(" + execInst + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -525,14 +525,14 @@ public class ListOrdGrp implements FixComponent
 
 			if(id == FixTags.EXDESTINATIONIDSOURCE_INT) {
 				exDestinationIDSource = FixUtils.getTagCharValue( value );
-				if (!ExDestinationIDSource.isValid(exDestinationIDSource) ) throw new FixSessionException(buf, "Invalid enumerated value(" + exDestinationIDSource + ") for tag: " + id );
+				if (!FixMessageInfo.ExDestinationIDSource.isValid(exDestinationIDSource) ) throw new FixSessionException(buf, "Invalid enumerated value(" + exDestinationIDSource + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.TRADINGSESSIONID_INT) {
-				trdgSesGrp.getAll(FixTags.TRADINGSESSIONID_INT, buf);
+			if(id == FixTags.NOTRADINGSESSIONS_INT) {
+				trdgSesGrp.getAll(FixTags.NOTRADINGSESSIONS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -540,7 +540,7 @@ public class ListOrdGrp implements FixComponent
 
 			if(id == FixTags.PROCESSCODE_INT) {
 				processCode = FixUtils.getTagCharValue( value );
-				if (!ProcessCode.isValid(processCode) ) throw new FixSessionException(buf, "Invalid enumerated value(" + processCode + ") for tag: " + id );
+				if (!FixMessageInfo.ProcessCode.isValid(processCode) ) throw new FixSessionException(buf, "Invalid enumerated value(" + processCode + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -553,8 +553,8 @@ public class ListOrdGrp implements FixComponent
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.UNDERLYINGSYMBOL_INT) {
-				undInstrmtGrp.getAll(FixTags.UNDERLYINGSYMBOL_INT, buf);
+			if(id == FixTags.NOUNDERLYINGS_INT) {
+				undInstrmtGrp.getAll(FixTags.NOUNDERLYINGS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -569,7 +569,7 @@ public class ListOrdGrp implements FixComponent
 
 			if(id == FixTags.SIDE_INT) {
 				side = FixUtils.getTagCharValue( value );
-				if (!Side.isValid(side) ) throw new FixSessionException(buf, "Invalid enumerated value(" + side + ") for tag: " + id );
+				if (!FixMessageInfo.Side.isValid(side) ) throw new FixSessionException(buf, "Invalid enumerated value(" + side + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -577,7 +577,7 @@ public class ListOrdGrp implements FixComponent
 
 			if(id == FixTags.SIDEVALUEIND_INT) {
 				sideValueInd = FixUtils.getTagIntValue( value );
-				if (!SideValueInd.isValid(sideValueInd) ) throw new FixSessionException(buf, "Invalid enumerated value(" + sideValueInd + ") for tag: " + id );
+				if (!FixMessageInfo.SideValueInd.isValid(sideValueInd) ) throw new FixSessionException(buf, "Invalid enumerated value(" + sideValueInd + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -585,7 +585,7 @@ public class ListOrdGrp implements FixComponent
 
 			if(id == FixTags.LOCATEREQD_INT) {
 				locateReqd = FixUtils.getTagBooleanValue( value );
-				if (!LocateReqd.isValid(locateReqd) ) throw new FixSessionException(buf, "Invalid enumerated value(" + locateReqd + ") for tag: " + id );
+				if (!FixMessageInfo.LocateReqd.isValid(locateReqd) ) throw new FixSessionException(buf, "Invalid enumerated value(" + locateReqd + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -607,7 +607,7 @@ public class ListOrdGrp implements FixComponent
 
 			if(id == FixTags.QTYTYPE_INT) {
 				qtyType = FixUtils.getTagIntValue( value );
-				if (!QtyType.isValid(qtyType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + qtyType + ") for tag: " + id );
+				if (!FixMessageInfo.QtyType.isValid(qtyType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + qtyType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -622,7 +622,7 @@ public class ListOrdGrp implements FixComponent
 
 			if(id == FixTags.ORDTYPE_INT) {
 				ordType = FixUtils.getTagCharValue( value );
-				if (!OrdType.isValid(ordType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + ordType + ") for tag: " + id );
+				if (!FixMessageInfo.OrdType.isValid(ordType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + ordType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -630,7 +630,7 @@ public class ListOrdGrp implements FixComponent
 
 			if(id == FixTags.PRICETYPE_INT) {
 				priceType = FixUtils.getTagIntValue( value );
-				if (!PriceType.isValid(priceType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + priceType + ") for tag: " + id );
+				if (!FixMessageInfo.PriceType.isValid(priceType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + priceType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -645,7 +645,7 @@ public class ListOrdGrp implements FixComponent
 
 			if(id == FixTags.PRICEPROTECTIONSCOPE_INT) {
 				priceProtectionScope = FixUtils.getTagCharValue( value );
-				if (!PriceProtectionScope.isValid(priceProtectionScope) ) throw new FixSessionException(buf, "Invalid enumerated value(" + priceProtectionScope + ") for tag: " + id );
+				if (!FixMessageInfo.PriceProtectionScope.isValid(priceProtectionScope) ) throw new FixSessionException(buf, "Invalid enumerated value(" + priceProtectionScope + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -695,7 +695,7 @@ public class ListOrdGrp implements FixComponent
 
 			if(id == FixTags.SOLICITEDFLAG_INT) {
 				solicitedFlag = FixUtils.getTagBooleanValue( value );
-				if (!SolicitedFlag.isValid(solicitedFlag) ) throw new FixSessionException(buf, "Invalid enumerated value(" + solicitedFlag + ") for tag: " + id );
+				if (!FixMessageInfo.SolicitedFlag.isValid(solicitedFlag) ) throw new FixSessionException(buf, "Invalid enumerated value(" + solicitedFlag + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -724,7 +724,7 @@ public class ListOrdGrp implements FixComponent
 
 			if(id == FixTags.REFORDERIDSOURCE_INT) {
 				refOrderIDSource = FixUtils.getTagCharValue( value );
-				if (!RefOrderIDSource.isValid(refOrderIDSource) ) throw new FixSessionException(buf, "Invalid enumerated value(" + refOrderIDSource + ") for tag: " + id );
+				if (!FixMessageInfo.RefOrderIDSource.isValid(refOrderIDSource) ) throw new FixSessionException(buf, "Invalid enumerated value(" + refOrderIDSource + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -732,7 +732,7 @@ public class ListOrdGrp implements FixComponent
 
 			if(id == FixTags.TIMEINFORCE_INT) {
 				timeInForce = FixUtils.getTagCharValue( value );
-				if (!TimeInForce.isValid(timeInForce) ) throw new FixSessionException(buf, "Invalid enumerated value(" + timeInForce + ") for tag: " + id );
+				if (!FixMessageInfo.TimeInForce.isValid(timeInForce) ) throw new FixSessionException(buf, "Invalid enumerated value(" + timeInForce + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -761,7 +761,7 @@ public class ListOrdGrp implements FixComponent
 
 			if(id == FixTags.GTBOOKINGINST_INT) {
 				gTBookingInst = FixUtils.getTagIntValue( value );
-				if (!GTBookingInst.isValid(gTBookingInst) ) throw new FixSessionException(buf, "Invalid enumerated value(" + gTBookingInst + ") for tag: " + id );
+				if (!FixMessageInfo.GTBookingInst.isValid(gTBookingInst) ) throw new FixSessionException(buf, "Invalid enumerated value(" + gTBookingInst + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -776,7 +776,7 @@ public class ListOrdGrp implements FixComponent
 
 			if(id == FixTags.ORDERCAPACITY_INT) {
 				orderCapacity = FixUtils.getTagCharValue( value );
-				if (!OrderCapacity.isValid(orderCapacity) ) throw new FixSessionException(buf, "Invalid enumerated value(" + orderCapacity + ") for tag: " + id );
+				if (!FixMessageInfo.OrderCapacity.isValid(orderCapacity) ) throw new FixSessionException(buf, "Invalid enumerated value(" + orderCapacity + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -784,7 +784,7 @@ public class ListOrdGrp implements FixComponent
 
 			if(id == FixTags.ORDERRESTRICTIONS_INT) {
 				orderRestrictions = FixUtils.getTagStringValue(value, orderRestrictions);
-				if (!OrderRestrictions.isValid(orderRestrictions) ) throw new FixSessionException(buf, "Invalid enumerated value(" + orderRestrictions + ") for tag: " + id );
+				if (!FixMessageInfo.OrderRestrictions.isValid(orderRestrictions) ) throw new FixSessionException(buf, "Invalid enumerated value(" + orderRestrictions + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -799,7 +799,7 @@ public class ListOrdGrp implements FixComponent
 
 			if(id == FixTags.CUSTORDERCAPACITY_INT) {
 				custOrderCapacity = FixUtils.getTagIntValue( value );
-				if (!CustOrderCapacity.isValid(custOrderCapacity) ) throw new FixSessionException(buf, "Invalid enumerated value(" + custOrderCapacity + ") for tag: " + id );
+				if (!FixMessageInfo.CustOrderCapacity.isValid(custOrderCapacity) ) throw new FixSessionException(buf, "Invalid enumerated value(" + custOrderCapacity + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -807,7 +807,7 @@ public class ListOrdGrp implements FixComponent
 
 			if(id == FixTags.FOREXREQ_INT) {
 				forexReq = FixUtils.getTagBooleanValue( value );
-				if (!ForexReq.isValid(forexReq) ) throw new FixSessionException(buf, "Invalid enumerated value(" + forexReq + ") for tag: " + id );
+				if (!FixMessageInfo.ForexReq.isValid(forexReq) ) throw new FixSessionException(buf, "Invalid enumerated value(" + forexReq + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -822,7 +822,7 @@ public class ListOrdGrp implements FixComponent
 
 			if(id == FixTags.BOOKINGTYPE_INT) {
 				bookingType = FixUtils.getTagIntValue( value );
-				if (!BookingType.isValid(bookingType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + bookingType + ") for tag: " + id );
+				if (!FixMessageInfo.BookingType.isValid(bookingType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + bookingType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -872,7 +872,7 @@ public class ListOrdGrp implements FixComponent
 
 			if(id == FixTags.POSITIONEFFECT_INT) {
 				positionEffect = FixUtils.getTagCharValue( value );
-				if (!PositionEffect.isValid(positionEffect) ) throw new FixSessionException(buf, "Invalid enumerated value(" + positionEffect + ") for tag: " + id );
+				if (!FixMessageInfo.PositionEffect.isValid(positionEffect) ) throw new FixSessionException(buf, "Invalid enumerated value(" + positionEffect + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -880,7 +880,7 @@ public class ListOrdGrp implements FixComponent
 
 			if(id == FixTags.COVEREDORUNCOVERED_INT) {
 				coveredOrUncovered = FixUtils.getTagIntValue( value );
-				if (!CoveredOrUncovered.isValid(coveredOrUncovered) ) throw new FixSessionException(buf, "Invalid enumerated value(" + coveredOrUncovered + ") for tag: " + id );
+				if (!FixMessageInfo.CoveredOrUncovered.isValid(coveredOrUncovered) ) throw new FixSessionException(buf, "Invalid enumerated value(" + coveredOrUncovered + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -909,14 +909,14 @@ public class ListOrdGrp implements FixComponent
 
 			if(id == FixTags.TARGETSTRATEGY_INT) {
 				targetStrategy = FixUtils.getTagIntValue( value );
-				if (!TargetStrategy.isValid(targetStrategy) ) throw new FixSessionException(buf, "Invalid enumerated value(" + targetStrategy + ") for tag: " + id );
+				if (!FixMessageInfo.TargetStrategy.isValid(targetStrategy) ) throw new FixSessionException(buf, "Invalid enumerated value(" + targetStrategy + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.STRATEGYPARAMETERNAME_INT) {
-				strategyParametersGrp.getAll(FixTags.STRATEGYPARAMETERNAME_INT, buf);
+			if(id == FixTags.NOSTRATEGYPARAMETERS_INT) {
+				strategyParametersGrp.getAll(FixTags.NOSTRATEGYPARAMETERS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -978,7 +978,7 @@ public class ListOrdGrp implements FixComponent
 		if (FixUtils.isSet(bookingUnit)) return true;
 		if (FixUtils.isSet(allocID)) return true;
 		if (FixUtils.isSet(preallocMethod)) return true;
-		if (FixUtils.isSet(preAllocGrp.allocAccount)) return true;
+		if (FixUtils.isSet(preAllocGrp.noAllocs)) return true;
 		if (FixUtils.isSet(settlType)) return true;
 		if (FixUtils.isSet(settlDate)) return true;
 		if (FixUtils.isSet(cashMargin)) return true;
@@ -992,17 +992,17 @@ public class ListOrdGrp implements FixComponent
 		if (FixUtils.isSet(maxFloor)) return true;
 		if (FixUtils.isSet(exDestination)) return true;
 		if (FixUtils.isSet(exDestinationIDSource)) return true;
-		if (FixUtils.isSet(trdgSesGrp.tradingSessionID)) return true;
+		if (FixUtils.isSet(trdgSesGrp.noTradingSessions)) return true;
 		if (FixUtils.isSet(processCode)) return true;
-		if (null) return true;
-		if (FixUtils.isSet(undInstrmtGrp.underlyingSymbol)) return true;
+		if (FixUtils.isSet(instrument.symbol)) return true;
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) return true;
 		if (FixUtils.isSet(prevClosePx)) return true;
 		if (FixUtils.isSet(sideValueInd)) return true;
 		if (FixUtils.isSet(locateReqd)) return true;
 		if (FixUtils.isSet(transactTime)) return true;
 		if (FixUtils.isSet(stipulations.noStipulations)) return true;
 		if (FixUtils.isSet(qtyType)) return true;
-		if (null) return true;
+		if (FixUtils.isSet(orderQtyData.orderQty)) return true;
 		if (FixUtils.isSet(ordType)) return true;
 		if (FixUtils.isSet(priceType)) return true;
 		if (FixUtils.isSet(price)) return true;
@@ -1043,7 +1043,7 @@ public class ListOrdGrp implements FixComponent
 		if (FixUtils.isSet(pegInstructions.pegOffsetValue)) return true;
 		if (FixUtils.isSet(discretionInstructions.discretionInst)) return true;
 		if (FixUtils.isSet(targetStrategy)) return true;
-		if (FixUtils.isSet(strategyParametersGrp.strategyParameterName)) return true;
+		if (FixUtils.isSet(strategyParametersGrp.noStrategyParameters)) return true;
 		if (FixUtils.isSet(targetStrategyParameters)) return true;
 		if (FixUtils.isSet(participationRate)) return true;
 		if (FixUtils.isSet(designation)) return true;
@@ -1067,7 +1067,7 @@ public class ListOrdGrp implements FixComponent
 		if (FixUtils.isSet(bookingUnit)) FixUtils.putFixTag( out, FixTags.BOOKINGUNIT_INT, bookingUnit );
 		if (FixUtils.isSet(allocID)) FixUtils.putFixTag( out, FixTags.ALLOCID_INT, allocID, 0, Utils.lastIndexTrim(allocID, (byte)0) );
 		if (FixUtils.isSet(preallocMethod)) FixUtils.putFixTag( out, FixTags.PREALLOCMETHOD_INT, preallocMethod );
-		if (FixUtils.isSet(preAllocGrp.allocAccount)) preAllocGrp.encode( out );
+		if (FixUtils.isSet(preAllocGrp.noAllocs)) preAllocGrp.encode( out );
 		if (FixUtils.isSet(settlType)) FixUtils.putFixTag( out, FixTags.SETTLTYPE_INT, settlType, 0, Utils.lastIndexTrim(settlType, (byte)0) );
 		if (FixUtils.isSet(settlDate)) FixUtils.putFixTag( out, FixTags.SETTLDATE_INT, settlDate);
 		if (FixUtils.isSet(cashMargin)) FixUtils.putFixTag( out, FixTags.CASHMARGIN_INT, cashMargin );
@@ -1081,10 +1081,10 @@ public class ListOrdGrp implements FixComponent
 		if (FixUtils.isSet(maxFloor)) FixUtils.putFixFloatTag( out, FixTags.MAXFLOOR_INT, maxFloor);
 		if (FixUtils.isSet(exDestination)) FixUtils.putFixTag( out, FixTags.EXDESTINATION_INT, exDestination, 0, Utils.lastIndexTrim(exDestination, (byte)0) );
 		if (FixUtils.isSet(exDestinationIDSource)) FixUtils.putFixTag( out, FixTags.EXDESTINATIONIDSOURCE_INT, exDestinationIDSource );
-		if (FixUtils.isSet(trdgSesGrp.tradingSessionID)) trdgSesGrp.encode( out );
+		if (FixUtils.isSet(trdgSesGrp.noTradingSessions)) trdgSesGrp.encode( out );
 		if (FixUtils.isSet(processCode)) FixUtils.putFixTag( out, FixTags.PROCESSCODE_INT, processCode );
-		instrument.encode( out );
-		if (FixUtils.isSet(undInstrmtGrp.underlyingSymbol)) undInstrmtGrp.encode( out );
+		if (FixUtils.isSet(instrument.symbol)) instrument.encode( out );
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
 		if (FixUtils.isSet(prevClosePx)) FixUtils.putFixFloatTag( out, FixTags.PREVCLOSEPX_INT, prevClosePx);
 		FixUtils.putFixTag( out, FixTags.SIDE_INT, side );
 		if (FixUtils.isSet(sideValueInd)) FixUtils.putFixTag( out, FixTags.SIDEVALUEIND_INT, sideValueInd);
@@ -1092,7 +1092,7 @@ public class ListOrdGrp implements FixComponent
 		if (FixUtils.isSet(transactTime)) FixUtils.putFixTag( out, FixTags.TRANSACTTIME_INT, transactTime);
 		if (FixUtils.isSet(stipulations.noStipulations)) stipulations.encode( out );
 		if (FixUtils.isSet(qtyType)) FixUtils.putFixTag( out, FixTags.QTYTYPE_INT, qtyType);
-		orderQtyData.encode( out );
+		if (FixUtils.isSet(orderQtyData.orderQty)) orderQtyData.encode( out );
 		if (FixUtils.isSet(ordType)) FixUtils.putFixTag( out, FixTags.ORDTYPE_INT, ordType );
 		if (FixUtils.isSet(priceType)) FixUtils.putFixTag( out, FixTags.PRICETYPE_INT, priceType);
 		if (FixUtils.isSet(price)) FixUtils.putFixFloatTag( out, FixTags.PRICE_INT, price);
@@ -1133,7 +1133,7 @@ public class ListOrdGrp implements FixComponent
 		if (FixUtils.isSet(pegInstructions.pegOffsetValue)) pegInstructions.encode( out );
 		if (FixUtils.isSet(discretionInstructions.discretionInst)) discretionInstructions.encode( out );
 		if (FixUtils.isSet(targetStrategy)) FixUtils.putFixTag( out, FixTags.TARGETSTRATEGY_INT, targetStrategy);
-		if (FixUtils.isSet(strategyParametersGrp.strategyParameterName)) strategyParametersGrp.encode( out );
+		if (FixUtils.isSet(strategyParametersGrp.noStrategyParameters)) strategyParametersGrp.encode( out );
 		if (FixUtils.isSet(targetStrategyParameters)) FixUtils.putFixTag( out, FixTags.TARGETSTRATEGYPARAMETERS_INT, targetStrategyParameters, 0, Utils.lastIndexTrim(targetStrategyParameters, (byte)0) );
 		if (FixUtils.isSet(participationRate)) FixUtils.putFixFloatTag( out, FixTags.PARTICIPATIONRATE_INT, participationRate);
 		if (FixUtils.isSet(designation)) FixUtils.putFixTag( out, FixTags.DESIGNATION_INT, designation, 0, Utils.lastIndexTrim(designation, (byte)0) );
@@ -1164,7 +1164,7 @@ public class ListOrdGrp implements FixComponent
 			if (FixUtils.isSet(bookingUnit)) s += "BookingUnit(590)=" + String.valueOf(bookingUnit) + sep;
 			if (FixUtils.isSet(allocID)) s += "AllocID(70)=" + new String(allocID) + sep;
 			if (FixUtils.isSet(preallocMethod)) s += "PreallocMethod(591)=" + String.valueOf(preallocMethod) + sep;
-			if (FixUtils.isSet(preAllocGrp.allocAccount)) s += preAllocGrp.toString();
+			if (FixUtils.isSet(preAllocGrp.noAllocs)) s += preAllocGrp.toString();
 			if (FixUtils.isSet(settlType)) s += "SettlType(63)=" + new String(settlType) + sep;
 			if (FixUtils.isSet(settlDate)) s += "SettlDate(64)=" + new String(settlDate) + sep;
 			if (FixUtils.isSet(cashMargin)) s += "CashMargin(544)=" + String.valueOf(cashMargin) + sep;
@@ -1178,10 +1178,10 @@ public class ListOrdGrp implements FixComponent
 			if (FixUtils.isSet(maxFloor)) s += "MaxFloor(111)=" + String.valueOf(maxFloor) + sep;
 			if (FixUtils.isSet(exDestination)) s += "ExDestination(100)=" + new String(exDestination) + sep;
 			if (FixUtils.isSet(exDestinationIDSource)) s += "ExDestinationIDSource(1133)=" + String.valueOf(exDestinationIDSource) + sep;
-			if (FixUtils.isSet(trdgSesGrp.tradingSessionID)) s += trdgSesGrp.toString();
+			if (FixUtils.isSet(trdgSesGrp.noTradingSessions)) s += trdgSesGrp.toString();
 			if (FixUtils.isSet(processCode)) s += "ProcessCode(81)=" + String.valueOf(processCode) + sep;
-			 s += instrument.toString();
-			if (FixUtils.isSet(undInstrmtGrp.underlyingSymbol)) s += undInstrmtGrp.toString();
+			if (FixUtils.isSet(instrument.symbol)) s += instrument.toString();
+			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
 			if (FixUtils.isSet(prevClosePx)) s += "PrevClosePx(140)=" + String.valueOf(prevClosePx) + sep;
 			 s += "Side(54)=" + String.valueOf(side) + sep;
 			if (FixUtils.isSet(sideValueInd)) s += "SideValueInd(401)=" + String.valueOf(sideValueInd) + sep;
@@ -1189,7 +1189,7 @@ public class ListOrdGrp implements FixComponent
 			if (FixUtils.isSet(transactTime)) s += "TransactTime(60)=" + new String(transactTime) + sep;
 			if (FixUtils.isSet(stipulations.noStipulations)) s += stipulations.toString();
 			if (FixUtils.isSet(qtyType)) s += "QtyType(854)=" + String.valueOf(qtyType) + sep;
-			 s += orderQtyData.toString();
+			if (FixUtils.isSet(orderQtyData.orderQty)) s += orderQtyData.toString();
 			if (FixUtils.isSet(ordType)) s += "OrdType(40)=" + String.valueOf(ordType) + sep;
 			if (FixUtils.isSet(priceType)) s += "PriceType(423)=" + String.valueOf(priceType) + sep;
 			if (FixUtils.isSet(price)) s += "Price(44)=" + String.valueOf(price) + sep;
@@ -1230,7 +1230,7 @@ public class ListOrdGrp implements FixComponent
 			if (FixUtils.isSet(pegInstructions.pegOffsetValue)) s += pegInstructions.toString();
 			if (FixUtils.isSet(discretionInstructions.discretionInst)) s += discretionInstructions.toString();
 			if (FixUtils.isSet(targetStrategy)) s += "TargetStrategy(847)=" + String.valueOf(targetStrategy) + sep;
-			if (FixUtils.isSet(strategyParametersGrp.strategyParameterName)) s += strategyParametersGrp.toString();
+			if (FixUtils.isSet(strategyParametersGrp.noStrategyParameters)) s += strategyParametersGrp.toString();
 			if (FixUtils.isSet(targetStrategyParameters)) s += "TargetStrategyParameters(848)=" + new String(targetStrategyParameters) + sep;
 			if (FixUtils.isSet(participationRate)) s += "ParticipationRate(849)=" + String.valueOf(participationRate) + sep;
 			if (FixUtils.isSet(designation)) s += "Designation(494)=" + new String(designation) + sep;

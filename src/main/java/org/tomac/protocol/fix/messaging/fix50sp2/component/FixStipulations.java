@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
 public class FixStipulations
@@ -96,7 +96,7 @@ public class Stipulations implements FixComponent
 
 			if(id == FixTags.STIPULATIONTYPE_INT) {
 				stipulationType = FixUtils.getTagStringValue(value, stipulationType);
-				if (!StipulationType.isValid(stipulationType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + stipulationType + ") for tag: " + id );
+				if (!FixMessageInfo.StipulationType.isValid(stipulationType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + stipulationType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

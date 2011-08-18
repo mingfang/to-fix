@@ -832,7 +832,7 @@ public class FixNewOrderSingle extends FixMessage
 		if (FixUtils.isSet(exDestinationIDSource)) FixUtils.putFixTag( out, FixTags.EXDESTINATIONIDSOURCE_INT, exDestinationIDSource );
 		if (FixUtils.isSet(trdgSesGrp.noTradingSessions)) trdgSesGrp.encode( out );
 		if (FixUtils.isSet(processCode)) FixUtils.putFixTag( out, FixTags.PROCESSCODE_INT, processCode );
-		instrument.encode( out );
+		if (FixUtils.isSet(instrument.symbol)) instrument.encode( out );
 		if (FixUtils.isSet(financingDetails.agreementDesc)) financingDetails.encode( out );
 		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
 		if (FixUtils.isSet(prevClosePx)) FixUtils.putFixFloatTag( out, FixTags.PREVCLOSEPX_INT, prevClosePx);
@@ -841,7 +841,7 @@ public class FixNewOrderSingle extends FixMessage
 		FixUtils.putFixTag( out, FixTags.TRANSACTTIME_INT, transactTime);
 		if (FixUtils.isSet(stipulations.noStipulations)) stipulations.encode( out );
 		if (FixUtils.isSet(qtyType)) FixUtils.putFixTag( out, FixTags.QTYTYPE_INT, qtyType);
-		orderQtyData.encode( out );
+		if (FixUtils.isSet(orderQtyData.orderQty)) orderQtyData.encode( out );
 		FixUtils.putFixTag( out, FixTags.ORDTYPE_INT, ordType );
 		if (FixUtils.isSet(priceType)) FixUtils.putFixTag( out, FixTags.PRICETYPE_INT, priceType);
 		if (FixUtils.isSet(price)) FixUtils.putFixFloatTag( out, FixTags.PRICE_INT, price);
@@ -991,7 +991,7 @@ public class FixNewOrderSingle extends FixMessage
 			if (FixUtils.isSet(exDestinationIDSource)) s += "ExDestinationIDSource(1133)=" + String.valueOf(exDestinationIDSource) + sep;
 			if (FixUtils.isSet(trdgSesGrp.noTradingSessions)) s += trdgSesGrp.toString();
 			if (FixUtils.isSet(processCode)) s += "ProcessCode(81)=" + String.valueOf(processCode) + sep;
-			 s += instrument.toString();
+			if (FixUtils.isSet(instrument.symbol)) s += instrument.toString();
 			if (FixUtils.isSet(financingDetails.agreementDesc)) s += financingDetails.toString();
 			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
 			if (FixUtils.isSet(prevClosePx)) s += "PrevClosePx(140)=" + String.valueOf(prevClosePx) + sep;
@@ -1000,7 +1000,7 @@ public class FixNewOrderSingle extends FixMessage
 			 s += "TransactTime(60)=" + new String(transactTime) + sep;
 			if (FixUtils.isSet(stipulations.noStipulations)) s += stipulations.toString();
 			if (FixUtils.isSet(qtyType)) s += "QtyType(854)=" + String.valueOf(qtyType) + sep;
-			 s += orderQtyData.toString();
+			if (FixUtils.isSet(orderQtyData.orderQty)) s += orderQtyData.toString();
 			 s += "OrdType(40)=" + String.valueOf(ordType) + sep;
 			if (FixUtils.isSet(priceType)) s += "PriceType(423)=" + String.valueOf(priceType) + sep;
 			if (FixUtils.isSet(price)) s += "Price(44)=" + String.valueOf(price) + sep;

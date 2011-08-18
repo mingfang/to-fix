@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixNstdPtys3SubGrp;
 
@@ -120,8 +120,8 @@ public class NestedParties3 implements FixComponent
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.NESTED3PARTYSUBID_INT) {
-				nstdPtys3SubGrp.getAll(FixTags.NESTED3PARTYSUBID_INT, buf);
+			if(id == FixTags.NONESTED3PARTYSUBIDS_INT) {
+				nstdPtys3SubGrp.getAll(FixTags.NONESTED3PARTYSUBIDS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -147,7 +147,7 @@ public class NestedParties3 implements FixComponent
 		if (FixUtils.isSet(nested3PartyID)) return true;
 		if (FixUtils.isSet(nested3PartyIDSource)) return true;
 		if (FixUtils.isSet(nested3PartyRole)) return true;
-		if (FixUtils.isSet(nstdPtys3SubGrp.nested3PartySubID)) return true;
+		if (FixUtils.isSet(nstdPtys3SubGrp.noNested3PartySubIDs)) return true;
 		return false;
 	}
 	@Override
@@ -156,7 +156,7 @@ public class NestedParties3 implements FixComponent
 		if (FixUtils.isSet(nested3PartyID)) FixUtils.putFixTag( out, FixTags.NESTED3PARTYID_INT, nested3PartyID, 0, Utils.lastIndexTrim(nested3PartyID, (byte)0) );
 		if (FixUtils.isSet(nested3PartyIDSource)) FixUtils.putFixTag( out, FixTags.NESTED3PARTYIDSOURCE_INT, nested3PartyIDSource );
 		if (FixUtils.isSet(nested3PartyRole)) FixUtils.putFixTag( out, FixTags.NESTED3PARTYROLE_INT, nested3PartyRole);
-		if (FixUtils.isSet(nstdPtys3SubGrp.nested3PartySubID)) nstdPtys3SubGrp.encode( out );
+		if (FixUtils.isSet(nstdPtys3SubGrp.noNested3PartySubIDs)) nstdPtys3SubGrp.encode( out );
 	}
 	/**
 	 * If you use toString for any other purpose than administrative printout.
@@ -172,7 +172,7 @@ public class NestedParties3 implements FixComponent
 			if (FixUtils.isSet(nested3PartyID)) s += "Nested3PartyID(949)=" + new String(nested3PartyID) + sep;
 			if (FixUtils.isSet(nested3PartyIDSource)) s += "Nested3PartyIDSource(950)=" + String.valueOf(nested3PartyIDSource) + sep;
 			if (FixUtils.isSet(nested3PartyRole)) s += "Nested3PartyRole(951)=" + String.valueOf(nested3PartyRole) + sep;
-			if (FixUtils.isSet(nstdPtys3SubGrp.nested3PartySubID)) s += nstdPtys3SubGrp.toString();
+			if (FixUtils.isSet(nstdPtys3SubGrp.noNested3PartySubIDs)) s += nstdPtys3SubGrp.toString();
 		return s;
 
 	}

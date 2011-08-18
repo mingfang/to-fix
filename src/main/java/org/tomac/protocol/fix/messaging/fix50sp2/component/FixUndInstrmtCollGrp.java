@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUnderlyingInstrument;
 
@@ -103,7 +103,7 @@ public class UndInstrmtCollGrp implements FixComponent
 
 			if(id == FixTags.COLLACTION_INT) {
 				collAction = FixUtils.getTagIntValue( value );
-				if (!CollAction.isValid(collAction) ) throw new FixSessionException(buf, "Invalid enumerated value(" + collAction + ") for tag: " + id );
+				if (!FixMessageInfo.CollAction.isValid(collAction) ) throw new FixSessionException(buf, "Invalid enumerated value(" + collAction + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

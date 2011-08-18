@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixComplexEventDates;
 
@@ -108,7 +108,7 @@ public class ComplexEvents implements FixComponent
 
 			if(id == FixTags.COMPLEXEVENTTYPE_INT) {
 				complexEventType = FixUtils.getTagIntValue( value );
-				if (!ComplexEventType.isValid(complexEventType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + complexEventType + ") for tag: " + id );
+				if (!FixMessageInfo.ComplexEventType.isValid(complexEventType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + complexEventType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -130,7 +130,7 @@ public class ComplexEvents implements FixComponent
 
 			if(id == FixTags.COMPLEXEVENTPRICEBOUNDARYMETHOD_INT) {
 				complexEventPriceBoundaryMethod = FixUtils.getTagIntValue( value );
-				if (!ComplexEventPriceBoundaryMethod.isValid(complexEventPriceBoundaryMethod) ) throw new FixSessionException(buf, "Invalid enumerated value(" + complexEventPriceBoundaryMethod + ") for tag: " + id );
+				if (!FixMessageInfo.ComplexEventPriceBoundaryMethod.isValid(complexEventPriceBoundaryMethod) ) throw new FixSessionException(buf, "Invalid enumerated value(" + complexEventPriceBoundaryMethod + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -145,7 +145,7 @@ public class ComplexEvents implements FixComponent
 
 			if(id == FixTags.COMPLEXEVENTPRICETIMETYPE_INT) {
 				complexEventPriceTimeType = FixUtils.getTagIntValue( value );
-				if (!ComplexEventPriceTimeType.isValid(complexEventPriceTimeType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + complexEventPriceTimeType + ") for tag: " + id );
+				if (!FixMessageInfo.ComplexEventPriceTimeType.isValid(complexEventPriceTimeType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + complexEventPriceTimeType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -153,14 +153,14 @@ public class ComplexEvents implements FixComponent
 
 			if(id == FixTags.COMPLEXEVENTCONDITION_INT) {
 				complexEventCondition = FixUtils.getTagIntValue( value );
-				if (!ComplexEventCondition.isValid(complexEventCondition) ) throw new FixSessionException(buf, "Invalid enumerated value(" + complexEventCondition + ") for tag: " + id );
+				if (!FixMessageInfo.ComplexEventCondition.isValid(complexEventCondition) ) throw new FixSessionException(buf, "Invalid enumerated value(" + complexEventCondition + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.COMPLEXEVENTSTARTDATE_INT) {
-				complexEventDates.getAll(FixTags.COMPLEXEVENTSTARTDATE_INT, buf);
+			if(id == FixTags.NOCOMPLEXEVENTDATES_INT) {
+				complexEventDates.getAll(FixTags.NOCOMPLEXEVENTDATES_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -190,7 +190,7 @@ public class ComplexEvents implements FixComponent
 		if (FixUtils.isSet(complexEventPriceBoundaryPrecision)) return true;
 		if (FixUtils.isSet(complexEventPriceTimeType)) return true;
 		if (FixUtils.isSet(complexEventCondition)) return true;
-		if (FixUtils.isSet(complexEventDates.complexEventStartDate)) return true;
+		if (FixUtils.isSet(complexEventDates.noComplexEventDates)) return true;
 		return false;
 	}
 	@Override
@@ -203,7 +203,7 @@ public class ComplexEvents implements FixComponent
 		if (FixUtils.isSet(complexEventPriceBoundaryPrecision)) FixUtils.putFixFloatTag( out, FixTags.COMPLEXEVENTPRICEBOUNDARYPRECISION_INT, complexEventPriceBoundaryPrecision);
 		if (FixUtils.isSet(complexEventPriceTimeType)) FixUtils.putFixTag( out, FixTags.COMPLEXEVENTPRICETIMETYPE_INT, complexEventPriceTimeType);
 		if (FixUtils.isSet(complexEventCondition)) FixUtils.putFixTag( out, FixTags.COMPLEXEVENTCONDITION_INT, complexEventCondition);
-		if (FixUtils.isSet(complexEventDates.complexEventStartDate)) complexEventDates.encode( out );
+		if (FixUtils.isSet(complexEventDates.noComplexEventDates)) complexEventDates.encode( out );
 	}
 	/**
 	 * If you use toString for any other purpose than administrative printout.
@@ -223,7 +223,7 @@ public class ComplexEvents implements FixComponent
 			if (FixUtils.isSet(complexEventPriceBoundaryPrecision)) s += "ComplexEventPriceBoundaryPrecision(1488)=" + String.valueOf(complexEventPriceBoundaryPrecision) + sep;
 			if (FixUtils.isSet(complexEventPriceTimeType)) s += "ComplexEventPriceTimeType(1489)=" + String.valueOf(complexEventPriceTimeType) + sep;
 			if (FixUtils.isSet(complexEventCondition)) s += "ComplexEventCondition(1490)=" + String.valueOf(complexEventCondition) + sep;
-			if (FixUtils.isSet(complexEventDates.complexEventStartDate)) s += complexEventDates.toString();
+			if (FixUtils.isSet(complexEventDates.noComplexEventDates)) s += complexEventDates.toString();
 		return s;
 
 	}

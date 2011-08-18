@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixRootSubParties;
 
@@ -120,8 +120,8 @@ public class RootParties implements FixComponent
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.ROOTPARTYSUBID_INT) {
-				rootSubParties.getAll(FixTags.ROOTPARTYSUBID_INT, buf);
+			if(id == FixTags.NOROOTPARTYSUBIDS_INT) {
+				rootSubParties.getAll(FixTags.NOROOTPARTYSUBIDS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -147,7 +147,7 @@ public class RootParties implements FixComponent
 		if (FixUtils.isSet(rootPartyID)) return true;
 		if (FixUtils.isSet(rootPartyIDSource)) return true;
 		if (FixUtils.isSet(rootPartyRole)) return true;
-		if (FixUtils.isSet(rootSubParties.rootPartySubID)) return true;
+		if (FixUtils.isSet(rootSubParties.noRootPartySubIDs)) return true;
 		return false;
 	}
 	@Override
@@ -156,7 +156,7 @@ public class RootParties implements FixComponent
 		if (FixUtils.isSet(rootPartyID)) FixUtils.putFixTag( out, FixTags.ROOTPARTYID_INT, rootPartyID, 0, Utils.lastIndexTrim(rootPartyID, (byte)0) );
 		if (FixUtils.isSet(rootPartyIDSource)) FixUtils.putFixTag( out, FixTags.ROOTPARTYIDSOURCE_INT, rootPartyIDSource );
 		if (FixUtils.isSet(rootPartyRole)) FixUtils.putFixTag( out, FixTags.ROOTPARTYROLE_INT, rootPartyRole);
-		if (FixUtils.isSet(rootSubParties.rootPartySubID)) rootSubParties.encode( out );
+		if (FixUtils.isSet(rootSubParties.noRootPartySubIDs)) rootSubParties.encode( out );
 	}
 	/**
 	 * If you use toString for any other purpose than administrative printout.
@@ -172,7 +172,7 @@ public class RootParties implements FixComponent
 			if (FixUtils.isSet(rootPartyID)) s += "RootPartyID(1117)=" + new String(rootPartyID) + sep;
 			if (FixUtils.isSet(rootPartyIDSource)) s += "RootPartyIDSource(1118)=" + String.valueOf(rootPartyIDSource) + sep;
 			if (FixUtils.isSet(rootPartyRole)) s += "RootPartyRole(1119)=" + String.valueOf(rootPartyRole) + sep;
-			if (FixUtils.isSet(rootSubParties.rootPartySubID)) s += rootSubParties.toString();
+			if (FixUtils.isSet(rootSubParties.noRootPartySubIDs)) s += rootSubParties.toString();
 		return s;
 
 	}

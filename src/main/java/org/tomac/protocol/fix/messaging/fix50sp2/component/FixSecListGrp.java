@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrument;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrumentExtension;
@@ -170,15 +170,15 @@ public class SecListGrp implements FixComponent
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.STRIKERULEID_INT) {
-				strikeRules.getAll(FixTags.STRIKERULEID_INT, buf);
+			if(id == FixTags.NOSTRIKERULES_INT) {
+				strikeRules.getAll(FixTags.NOSTRIKERULES_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.UNDERLYINGSYMBOL_INT) {
-				undInstrmtGrp.getAll(FixTags.UNDERLYINGSYMBOL_INT, buf);
+			if(id == FixTags.NOUNDERLYINGS_INT) {
+				undInstrmtGrp.getAll(FixTags.NOUNDERLYINGS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -267,9 +267,9 @@ public class SecListGrp implements FixComponent
 		if (FixUtils.isSet(instrument.symbol)) return true;
 		if (FixUtils.isSet(instrumentExtension.deliveryForm)) return true;
 		if (FixUtils.isSet(financingDetails.agreementDesc)) return true;
-		if (FixUtils.isSet(securityTradingRules.expirationCycle)) return true;
-		if (FixUtils.isSet(strikeRules.strikeRuleID)) return true;
-		if (FixUtils.isSet(undInstrmtGrp.underlyingSymbol)) return true;
+		if (FixUtils.isSet(securityTradingRules.baseTradingRules.expirationCycle)) return true;
+		if (FixUtils.isSet(strikeRules.noStrikeRules)) return true;
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) return true;
 		if (FixUtils.isSet(currency)) return true;
 		if (FixUtils.isSet(stipulations.noStipulations)) return true;
 		if (FixUtils.isSet(instrmtLegSecListGrp.noLegs)) return true;
@@ -287,9 +287,9 @@ public class SecListGrp implements FixComponent
 		if (FixUtils.isSet(instrument.symbol)) instrument.encode( out );
 		if (FixUtils.isSet(instrumentExtension.deliveryForm)) instrumentExtension.encode( out );
 		if (FixUtils.isSet(financingDetails.agreementDesc)) financingDetails.encode( out );
-		if (FixUtils.isSet(securityTradingRules.expirationCycle)) securityTradingRules.encode( out );
-		if (FixUtils.isSet(strikeRules.strikeRuleID)) strikeRules.encode( out );
-		if (FixUtils.isSet(undInstrmtGrp.underlyingSymbol)) undInstrmtGrp.encode( out );
+		if (FixUtils.isSet(securityTradingRules.baseTradingRules.expirationCycle)) securityTradingRules.encode( out );
+		if (FixUtils.isSet(strikeRules.noStrikeRules)) strikeRules.encode( out );
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
 		if (FixUtils.isSet(currency)) FixUtils.putFixTag( out, FixTags.CURRENCY_INT, currency, 0, Utils.lastIndexTrim(currency, (byte)0) );
 		if (FixUtils.isSet(stipulations.noStipulations)) stipulations.encode( out );
 		if (FixUtils.isSet(instrmtLegSecListGrp.noLegs)) instrmtLegSecListGrp.encode( out );
@@ -314,9 +314,9 @@ public class SecListGrp implements FixComponent
 			if (FixUtils.isSet(instrument.symbol)) s += instrument.toString();
 			if (FixUtils.isSet(instrumentExtension.deliveryForm)) s += instrumentExtension.toString();
 			if (FixUtils.isSet(financingDetails.agreementDesc)) s += financingDetails.toString();
-			if (FixUtils.isSet(securityTradingRules.expirationCycle)) s += securityTradingRules.toString();
-			if (FixUtils.isSet(strikeRules.strikeRuleID)) s += strikeRules.toString();
-			if (FixUtils.isSet(undInstrmtGrp.underlyingSymbol)) s += undInstrmtGrp.toString();
+			if (FixUtils.isSet(securityTradingRules.baseTradingRules.expirationCycle)) s += securityTradingRules.toString();
+			if (FixUtils.isSet(strikeRules.noStrikeRules)) s += strikeRules.toString();
+			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
 			if (FixUtils.isSet(currency)) s += "Currency(15)=" + new String(currency) + sep;
 			if (FixUtils.isSet(stipulations.noStipulations)) s += stipulations.toString();
 			if (FixUtils.isSet(instrmtLegSecListGrp.noLegs)) s += instrmtLegSecListGrp.toString();

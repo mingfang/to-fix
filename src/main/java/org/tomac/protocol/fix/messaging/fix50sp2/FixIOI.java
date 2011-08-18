@@ -368,7 +368,7 @@ public class FixIOI extends FixMessage
 		FixUtils.putFixTag( out, FixTags.IOIID_INT, iOIID, 0, Utils.lastIndexTrim(iOIID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.IOITRANSTYPE_INT, iOITransType );
 		if (FixUtils.isSet(iOIRefID)) FixUtils.putFixTag( out, FixTags.IOIREFID_INT, iOIRefID, 0, Utils.lastIndexTrim(iOIRefID, (byte)0) );
-		instrument.encode( out );
+		if (FixUtils.isSet(instrument.symbol)) instrument.encode( out );
 		if (FixUtils.isSet(parties.noPartyIDs)) parties.encode( out );
 		if (FixUtils.isSet(financingDetails.agreementDesc)) financingDetails.encode( out );
 		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
@@ -464,7 +464,7 @@ public class FixIOI extends FixMessage
 			 s += "IOIID(23)=" + new String(iOIID) + sep;
 			 s += "IOITransType(28)=" + String.valueOf(iOITransType) + sep;
 			if (FixUtils.isSet(iOIRefID)) s += "IOIRefID(26)=" + new String(iOIRefID) + sep;
-			 s += instrument.toString();
+			if (FixUtils.isSet(instrument.symbol)) s += instrument.toString();
 			if (FixUtils.isSet(parties.noPartyIDs)) s += parties.toString();
 			if (FixUtils.isSet(financingDetails.agreementDesc)) s += financingDetails.toString();
 			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();

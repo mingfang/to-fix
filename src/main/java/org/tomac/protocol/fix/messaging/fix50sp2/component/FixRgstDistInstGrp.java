@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
 public class FixRgstDistInstGrp
@@ -112,7 +112,7 @@ public class RgstDistInstGrp implements FixComponent
 
 			if(id == FixTags.DISTRIBPAYMENTMETHOD_INT) {
 				distribPaymentMethod = FixUtils.getTagIntValue( value );
-				if (!DistribPaymentMethod.isValid(distribPaymentMethod) ) throw new FixSessionException(buf, "Invalid enumerated value(" + distribPaymentMethod + ") for tag: " + id );
+				if (!FixMessageInfo.DistribPaymentMethod.isValid(distribPaymentMethod) ) throw new FixSessionException(buf, "Invalid enumerated value(" + distribPaymentMethod + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

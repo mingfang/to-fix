@@ -228,7 +228,7 @@ public class FixSecurityStatusRequest extends FixMessage
 		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.SECURITYSTATUSREQID_INT, securityStatusReqID, 0, Utils.lastIndexTrim(securityStatusReqID, (byte)0) );
-		instrument.encode( out );
+		if (FixUtils.isSet(instrument.symbol)) instrument.encode( out );
 		if (FixUtils.isSet(instrumentExtension.deliveryForm)) instrumentExtension.encode( out );
 		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
 		if (FixUtils.isSet(instrmtLegGrp.noLegs)) instrmtLegGrp.encode( out );
@@ -306,7 +306,7 @@ public class FixSecurityStatusRequest extends FixMessage
 			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "SecurityStatusReqID(324)=" + new String(securityStatusReqID) + sep;
-			 s += instrument.toString();
+			if (FixUtils.isSet(instrument.symbol)) s += instrument.toString();
 			if (FixUtils.isSet(instrumentExtension.deliveryForm)) s += instrumentExtension.toString();
 			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
 			if (FixUtils.isSet(instrmtLegGrp.noLegs)) s += instrmtLegGrp.toString();

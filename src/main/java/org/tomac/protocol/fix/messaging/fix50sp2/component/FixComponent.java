@@ -10,5 +10,5 @@ public interface FixComponent {
 
 	public void encode(ByteBuffer out);
 
-	public boolean isSet();§
+	public boolean isSet();
 }

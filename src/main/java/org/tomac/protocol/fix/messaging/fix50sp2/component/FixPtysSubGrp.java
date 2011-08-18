@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
 public class FixPtysSubGrp
@@ -102,7 +102,7 @@ public class PtysSubGrp implements FixComponent
 
 			if(id == FixTags.PARTYSUBIDTYPE_INT) {
 				partySubIDType = FixUtils.getTagIntValue( value );
-				if (!PartySubIDType.isValid(partySubIDType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + partySubIDType + ") for tag: " + id );
+				if (!FixMessageInfo.PartySubIDType.isValid(partySubIDType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + partySubIDType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

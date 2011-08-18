@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixClrInstGrp;
@@ -244,7 +244,7 @@ public class TrdCapRptAckSideGrp implements FixComponent
 
 			if(id == FixTags.SIDE_INT) {
 				side = FixUtils.getTagCharValue( value );
-				if (!Side.isValid(side) ) throw new FixSessionException(buf, "Invalid enumerated value(" + side + ") for tag: " + id );
+				if (!FixMessageInfo.Side.isValid(side) ) throw new FixSessionException(buf, "Invalid enumerated value(" + side + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -266,7 +266,7 @@ public class TrdCapRptAckSideGrp implements FixComponent
 
 			if(id == FixTags.ORDERDELAYUNIT_INT) {
 				orderDelayUnit = FixUtils.getTagIntValue( value );
-				if (!OrderDelayUnit.isValid(orderDelayUnit) ) throw new FixSessionException(buf, "Invalid enumerated value(" + orderDelayUnit + ") for tag: " + id );
+				if (!FixMessageInfo.OrderDelayUnit.isValid(orderDelayUnit) ) throw new FixSessionException(buf, "Invalid enumerated value(" + orderDelayUnit + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -288,7 +288,7 @@ public class TrdCapRptAckSideGrp implements FixComponent
 
 			if(id == FixTags.ACCTIDSOURCE_INT) {
 				acctIDSource = FixUtils.getTagIntValue( value );
-				if (!AcctIDSource.isValid(acctIDSource) ) throw new FixSessionException(buf, "Invalid enumerated value(" + acctIDSource + ") for tag: " + id );
+				if (!FixMessageInfo.AcctIDSource.isValid(acctIDSource) ) throw new FixSessionException(buf, "Invalid enumerated value(" + acctIDSource + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -296,7 +296,7 @@ public class TrdCapRptAckSideGrp implements FixComponent
 
 			if(id == FixTags.ACCOUNTTYPE_INT) {
 				accountType = FixUtils.getTagIntValue( value );
-				if (!AccountType.isValid(accountType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + accountType + ") for tag: " + id );
+				if (!FixMessageInfo.AccountType.isValid(accountType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + accountType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -304,7 +304,7 @@ public class TrdCapRptAckSideGrp implements FixComponent
 
 			if(id == FixTags.PROCESSCODE_INT) {
 				processCode = FixUtils.getTagCharValue( value );
-				if (!ProcessCode.isValid(processCode) ) throw new FixSessionException(buf, "Invalid enumerated value(" + processCode + ") for tag: " + id );
+				if (!FixMessageInfo.ProcessCode.isValid(processCode) ) throw new FixSessionException(buf, "Invalid enumerated value(" + processCode + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -312,7 +312,7 @@ public class TrdCapRptAckSideGrp implements FixComponent
 
 			if(id == FixTags.ODDLOT_INT) {
 				oddLot = FixUtils.getTagBooleanValue( value );
-				if (!OddLot.isValid(oddLot) ) throw new FixSessionException(buf, "Invalid enumerated value(" + oddLot + ") for tag: " + id );
+				if (!FixMessageInfo.OddLot.isValid(oddLot) ) throw new FixSessionException(buf, "Invalid enumerated value(" + oddLot + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -348,7 +348,7 @@ public class TrdCapRptAckSideGrp implements FixComponent
 
 			if(id == FixTags.SOLICITEDFLAG_INT) {
 				solicitedFlag = FixUtils.getTagBooleanValue( value );
-				if (!SolicitedFlag.isValid(solicitedFlag) ) throw new FixSessionException(buf, "Invalid enumerated value(" + solicitedFlag + ") for tag: " + id );
+				if (!FixMessageInfo.SolicitedFlag.isValid(solicitedFlag) ) throw new FixSessionException(buf, "Invalid enumerated value(" + solicitedFlag + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -356,7 +356,7 @@ public class TrdCapRptAckSideGrp implements FixComponent
 
 			if(id == FixTags.CUSTORDERCAPACITY_INT) {
 				custOrderCapacity = FixUtils.getTagIntValue( value );
-				if (!CustOrderCapacity.isValid(custOrderCapacity) ) throw new FixSessionException(buf, "Invalid enumerated value(" + custOrderCapacity + ") for tag: " + id );
+				if (!FixMessageInfo.CustOrderCapacity.isValid(custOrderCapacity) ) throw new FixSessionException(buf, "Invalid enumerated value(" + custOrderCapacity + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -364,7 +364,7 @@ public class TrdCapRptAckSideGrp implements FixComponent
 
 			if(id == FixTags.TRADINGSESSIONID_INT) {
 				tradingSessionID = FixUtils.getTagStringValue(value, tradingSessionID);
-				if (!TradingSessionID.isValid(tradingSessionID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradingSessionID + ") for tag: " + id );
+				if (!FixMessageInfo.TradingSessionID.isValid(tradingSessionID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradingSessionID + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -372,7 +372,7 @@ public class TrdCapRptAckSideGrp implements FixComponent
 
 			if(id == FixTags.TRADINGSESSIONSUBID_INT) {
 				tradingSessionSubID = FixUtils.getTagStringValue(value, tradingSessionSubID);
-				if (!TradingSessionSubID.isValid(tradingSessionSubID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradingSessionSubID + ") for tag: " + id );
+				if (!FixMessageInfo.TradingSessionSubID.isValid(tradingSessionSubID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradingSessionSubID + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -387,7 +387,7 @@ public class TrdCapRptAckSideGrp implements FixComponent
 
 			if(id == FixTags.NETGROSSIND_INT) {
 				netGrossInd = FixUtils.getTagIntValue( value );
-				if (!NetGrossInd.isValid(netGrossInd) ) throw new FixSessionException(buf, "Invalid enumerated value(" + netGrossInd + ") for tag: " + id );
+				if (!FixMessageInfo.NetGrossInd.isValid(netGrossInd) ) throw new FixSessionException(buf, "Invalid enumerated value(" + netGrossInd + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -507,7 +507,7 @@ public class TrdCapRptAckSideGrp implements FixComponent
 
 			if(id == FixTags.SETTLCURRFXRATECALC_INT) {
 				settlCurrFxRateCalc = FixUtils.getTagCharValue( value );
-				if (!SettlCurrFxRateCalc.isValid(settlCurrFxRateCalc) ) throw new FixSessionException(buf, "Invalid enumerated value(" + settlCurrFxRateCalc + ") for tag: " + id );
+				if (!FixMessageInfo.SettlCurrFxRateCalc.isValid(settlCurrFxRateCalc) ) throw new FixSessionException(buf, "Invalid enumerated value(" + settlCurrFxRateCalc + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -515,7 +515,7 @@ public class TrdCapRptAckSideGrp implements FixComponent
 
 			if(id == FixTags.POSITIONEFFECT_INT) {
 				positionEffect = FixUtils.getTagCharValue( value );
-				if (!PositionEffect.isValid(positionEffect) ) throw new FixSessionException(buf, "Invalid enumerated value(" + positionEffect + ") for tag: " + id );
+				if (!FixMessageInfo.PositionEffect.isValid(positionEffect) ) throw new FixSessionException(buf, "Invalid enumerated value(" + positionEffect + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -523,7 +523,7 @@ public class TrdCapRptAckSideGrp implements FixComponent
 
 			if(id == FixTags.SIDEMULTILEGREPORTINGTYPE_INT) {
 				sideMultiLegReportingType = FixUtils.getTagIntValue( value );
-				if (!SideMultiLegReportingType.isValid(sideMultiLegReportingType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + sideMultiLegReportingType + ") for tag: " + id );
+				if (!FixMessageInfo.SideMultiLegReportingType.isValid(sideMultiLegReportingType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + sideMultiLegReportingType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -557,8 +557,8 @@ public class TrdCapRptAckSideGrp implements FixComponent
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.SETTLOBLIGSOURCE_INT) {
-				settlDetails.getAll(FixTags.SETTLOBLIGSOURCE_INT, buf);
+			if(id == FixTags.NOSETTLDETAILS_INT) {
+				settlDetails.getAll(FixTags.NOSETTLDETAILS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -566,7 +566,7 @@ public class TrdCapRptAckSideGrp implements FixComponent
 
 			if(id == FixTags.TRADEALLOCINDICATOR_INT) {
 				tradeAllocIndicator = FixUtils.getTagIntValue( value );
-				if (!TradeAllocIndicator.isValid(tradeAllocIndicator) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradeAllocIndicator + ") for tag: " + id );
+				if (!FixMessageInfo.TradeAllocIndicator.isValid(tradeAllocIndicator) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradeAllocIndicator + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -574,7 +574,7 @@ public class TrdCapRptAckSideGrp implements FixComponent
 
 			if(id == FixTags.PREALLOCMETHOD_INT) {
 				preallocMethod = FixUtils.getTagCharValue( value );
-				if (!PreallocMethod.isValid(preallocMethod) ) throw new FixSessionException(buf, "Invalid enumerated value(" + preallocMethod + ") for tag: " + id );
+				if (!FixMessageInfo.PreallocMethod.isValid(preallocMethod) ) throw new FixSessionException(buf, "Invalid enumerated value(" + preallocMethod + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -596,7 +596,7 @@ public class TrdCapRptAckSideGrp implements FixComponent
 
 			if(id == FixTags.AGGRESSORINDICATOR_INT) {
 				aggressorIndicator = FixUtils.getTagBooleanValue( value );
-				if (!AggressorIndicator.isValid(aggressorIndicator) ) throw new FixSessionException(buf, "Invalid enumerated value(" + aggressorIndicator + ") for tag: " + id );
+				if (!FixMessageInfo.AggressorIndicator.isValid(aggressorIndicator) ) throw new FixSessionException(buf, "Invalid enumerated value(" + aggressorIndicator + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -653,7 +653,7 @@ public class TrdCapRptAckSideGrp implements FixComponent
 
 			if(id == FixTags.ORDERCATEGORY_INT) {
 				orderCategory = FixUtils.getTagCharValue( value );
-				if (!OrderCategory.isValid(orderCategory) ) throw new FixSessionException(buf, "Invalid enumerated value(" + orderCategory + ") for tag: " + id );
+				if (!FixMessageInfo.OrderCategory.isValid(orderCategory) ) throw new FixSessionException(buf, "Invalid enumerated value(" + orderCategory + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -733,7 +733,7 @@ public class TrdCapRptAckSideGrp implements FixComponent
 		if (FixUtils.isSet(stipulations.noStipulations)) return true;
 		if (FixUtils.isSet(miscFeesGrp.noMiscFees)) return true;
 		if (FixUtils.isSet(exchangeRule)) return true;
-		if (FixUtils.isSet(settlDetails.settlObligSource)) return true;
+		if (FixUtils.isSet(settlDetails.noSettlDetails)) return true;
 		if (FixUtils.isSet(tradeAllocIndicator)) return true;
 		if (FixUtils.isSet(preallocMethod)) return true;
 		if (FixUtils.isSet(allocID)) return true;
@@ -797,7 +797,7 @@ public class TrdCapRptAckSideGrp implements FixComponent
 		if (FixUtils.isSet(stipulations.noStipulations)) stipulations.encode( out );
 		if (FixUtils.isSet(miscFeesGrp.noMiscFees)) miscFeesGrp.encode( out );
 		if (FixUtils.isSet(exchangeRule)) FixUtils.putFixTag( out, FixTags.EXCHANGERULE_INT, exchangeRule, 0, Utils.lastIndexTrim(exchangeRule, (byte)0) );
-		if (FixUtils.isSet(settlDetails.settlObligSource)) settlDetails.encode( out );
+		if (FixUtils.isSet(settlDetails.noSettlDetails)) settlDetails.encode( out );
 		if (FixUtils.isSet(tradeAllocIndicator)) FixUtils.putFixTag( out, FixTags.TRADEALLOCINDICATOR_INT, tradeAllocIndicator);
 		if (FixUtils.isSet(preallocMethod)) FixUtils.putFixTag( out, FixTags.PREALLOCMETHOD_INT, preallocMethod );
 		if (FixUtils.isSet(allocID)) FixUtils.putFixTag( out, FixTags.ALLOCID_INT, allocID, 0, Utils.lastIndexTrim(allocID, (byte)0) );
@@ -868,7 +868,7 @@ public class TrdCapRptAckSideGrp implements FixComponent
 			if (FixUtils.isSet(stipulations.noStipulations)) s += stipulations.toString();
 			if (FixUtils.isSet(miscFeesGrp.noMiscFees)) s += miscFeesGrp.toString();
 			if (FixUtils.isSet(exchangeRule)) s += "ExchangeRule(825)=" + new String(exchangeRule) + sep;
-			if (FixUtils.isSet(settlDetails.settlObligSource)) s += settlDetails.toString();
+			if (FixUtils.isSet(settlDetails.noSettlDetails)) s += settlDetails.toString();
 			if (FixUtils.isSet(tradeAllocIndicator)) s += "TradeAllocIndicator(826)=" + String.valueOf(tradeAllocIndicator) + sep;
 			if (FixUtils.isSet(preallocMethod)) s += "PreallocMethod(591)=" + String.valueOf(preallocMethod) + sep;
 			if (FixUtils.isSet(allocID)) s += "AllocID(70)=" + new String(allocID) + sep;

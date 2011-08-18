@@ -837,7 +837,7 @@ public class FixTradeCaptureReport extends FixMessage
 		if (FixUtils.isSet(marketSegmentID)) FixUtils.putFixTag( out, FixTags.MARKETSEGMENTID_INT, marketSegmentID, 0, Utils.lastIndexTrim(marketSegmentID, (byte)0) );
 		if (FixUtils.isSet(marketID)) FixUtils.putFixTag( out, FixTags.MARKETID_INT, marketID, 0, Utils.lastIndexTrim(marketID, (byte)0) );
 		if (FixUtils.isSet(rootParties.noRootPartyIDs)) rootParties.encode( out );
-		instrument.encode( out );
+		if (FixUtils.isSet(instrument.symbol)) instrument.encode( out );
 		if (FixUtils.isSet(financingDetails.agreementDesc)) financingDetails.encode( out );
 		if (FixUtils.isSet(qtyType)) FixUtils.putFixTag( out, FixTags.QTYTYPE_INT, qtyType);
 		if (FixUtils.isSet(yieldData.yieldType)) yieldData.encode( out );
@@ -870,7 +870,7 @@ public class FixTradeCaptureReport extends FixMessage
 		if (FixUtils.isSet(underlyingSettlementDate)) FixUtils.putFixTag( out, FixTags.UNDERLYINGSETTLEMENTDATE_INT, underlyingSettlementDate);
 		if (FixUtils.isSet(matchStatus)) FixUtils.putFixTag( out, FixTags.MATCHSTATUS_INT, matchStatus );
 		if (FixUtils.isSet(matchType)) FixUtils.putFixTag( out, FixTags.MATCHTYPE_INT, matchType, 0, Utils.lastIndexTrim(matchType, (byte)0) );
-		trdCapRptSideGrp.encode( out );
+		if (FixUtils.isSet(trdCapRptSideGrp.noSides)) trdCapRptSideGrp.encode( out );
 		if (FixUtils.isSet(volatility)) FixUtils.putFixFloatTag( out, FixTags.VOLATILITY_INT, volatility);
 		if (FixUtils.isSet(dividendYield)) FixUtils.putFixFloatTag( out, FixTags.DIVIDENDYIELD_INT, dividendYield);
 		if (FixUtils.isSet(riskFreeRate)) FixUtils.putFixFloatTag( out, FixTags.RISKFREERATE_INT, riskFreeRate);
@@ -997,7 +997,7 @@ public class FixTradeCaptureReport extends FixMessage
 			if (FixUtils.isSet(marketSegmentID)) s += "MarketSegmentID(1300)=" + new String(marketSegmentID) + sep;
 			if (FixUtils.isSet(marketID)) s += "MarketID(1301)=" + new String(marketID) + sep;
 			if (FixUtils.isSet(rootParties.noRootPartyIDs)) s += rootParties.toString();
-			 s += instrument.toString();
+			if (FixUtils.isSet(instrument.symbol)) s += instrument.toString();
 			if (FixUtils.isSet(financingDetails.agreementDesc)) s += financingDetails.toString();
 			if (FixUtils.isSet(qtyType)) s += "QtyType(854)=" + String.valueOf(qtyType) + sep;
 			if (FixUtils.isSet(yieldData.yieldType)) s += yieldData.toString();
@@ -1030,7 +1030,7 @@ public class FixTradeCaptureReport extends FixMessage
 			if (FixUtils.isSet(underlyingSettlementDate)) s += "UnderlyingSettlementDate(987)=" + new String(underlyingSettlementDate) + sep;
 			if (FixUtils.isSet(matchStatus)) s += "MatchStatus(573)=" + String.valueOf(matchStatus) + sep;
 			if (FixUtils.isSet(matchType)) s += "MatchType(574)=" + new String(matchType) + sep;
-			 s += trdCapRptSideGrp.toString();
+			if (FixUtils.isSet(trdCapRptSideGrp.noSides)) s += trdCapRptSideGrp.toString();
 			if (FixUtils.isSet(volatility)) s += "Volatility(1188)=" + String.valueOf(volatility) + sep;
 			if (FixUtils.isSet(dividendYield)) s += "DividendYield(1380)=" + String.valueOf(dividendYield) + sep;
 			if (FixUtils.isSet(riskFreeRate)) s += "RiskFreeRate(1190)=" + String.valueOf(riskFreeRate) + sep;

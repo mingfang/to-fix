@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
 public class FixRateSource
@@ -97,7 +97,7 @@ public class RateSource implements FixComponent
 
 			if(id == FixTags.RATESOURCE_INT) {
 				rateSource = FixUtils.getTagIntValue( value );
-				if (!RateSource.isValid(rateSource) ) throw new FixSessionException(buf, "Invalid enumerated value(" + rateSource + ") for tag: " + id );
+				if (!FixMessageInfo.RateSource.isValid(rateSource) ) throw new FixSessionException(buf, "Invalid enumerated value(" + rateSource + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -105,7 +105,7 @@ public class RateSource implements FixComponent
 
 			if(id == FixTags.RATESOURCETYPE_INT) {
 				rateSourceType = FixUtils.getTagIntValue( value );
-				if (!RateSourceType.isValid(rateSourceType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + rateSourceType + ") for tag: " + id );
+				if (!FixMessageInfo.RateSourceType.isValid(rateSourceType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + rateSourceType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

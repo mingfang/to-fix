@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrumentLeg;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixLegStipulations;
@@ -153,7 +153,7 @@ public class LegOrdGrp implements FixComponent
 
 			if(id == FixTags.LEGSWAPTYPE_INT) {
 				legSwapType = FixUtils.getTagIntValue( value );
-				if (!LegSwapType.isValid(legSwapType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + legSwapType + ") for tag: " + id );
+				if (!FixMessageInfo.LegSwapType.isValid(legSwapType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + legSwapType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -173,8 +173,8 @@ public class LegOrdGrp implements FixComponent
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.LEGALLOCACCOUNT_INT) {
-				legPreAllocGrp.getAll(FixTags.LEGALLOCACCOUNT_INT, buf);
+			if(id == FixTags.NOLEGALLOCS_INT) {
+				legPreAllocGrp.getAll(FixTags.NOLEGALLOCS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -286,7 +286,7 @@ public class LegOrdGrp implements FixComponent
 		if (FixUtils.isSet(legSwapType)) return true;
 		if (FixUtils.isSet(legAllocID)) return true;
 		if (FixUtils.isSet(legStipulations.noLegStipulations)) return true;
-		if (FixUtils.isSet(legPreAllocGrp.legAllocAccount)) return true;
+		if (FixUtils.isSet(legPreAllocGrp.noLegAllocs)) return true;
 		if (FixUtils.isSet(legPositionEffect)) return true;
 		if (FixUtils.isSet(legCoveredOrUncovered)) return true;
 		if (FixUtils.isSet(nestedParties.noNestedPartyIDs)) return true;
@@ -309,7 +309,7 @@ public class LegOrdGrp implements FixComponent
 		if (FixUtils.isSet(legSwapType)) FixUtils.putFixTag( out, FixTags.LEGSWAPTYPE_INT, legSwapType);
 		if (FixUtils.isSet(legAllocID)) FixUtils.putFixTag( out, FixTags.LEGALLOCID_INT, legAllocID, 0, Utils.lastIndexTrim(legAllocID, (byte)0) );
 		if (FixUtils.isSet(legStipulations.noLegStipulations)) legStipulations.encode( out );
-		if (FixUtils.isSet(legPreAllocGrp.legAllocAccount)) legPreAllocGrp.encode( out );
+		if (FixUtils.isSet(legPreAllocGrp.noLegAllocs)) legPreAllocGrp.encode( out );
 		if (FixUtils.isSet(legPositionEffect)) FixUtils.putFixTag( out, FixTags.LEGPOSITIONEFFECT_INT, legPositionEffect );
 		if (FixUtils.isSet(legCoveredOrUncovered)) FixUtils.putFixTag( out, FixTags.LEGCOVEREDORUNCOVERED_INT, legCoveredOrUncovered);
 		if (FixUtils.isSet(nestedParties.noNestedPartyIDs)) nestedParties.encode( out );
@@ -339,7 +339,7 @@ public class LegOrdGrp implements FixComponent
 			if (FixUtils.isSet(legSwapType)) s += "LegSwapType(690)=" + String.valueOf(legSwapType) + sep;
 			if (FixUtils.isSet(legAllocID)) s += "LegAllocID(1366)=" + new String(legAllocID) + sep;
 			if (FixUtils.isSet(legStipulations.noLegStipulations)) s += legStipulations.toString();
-			if (FixUtils.isSet(legPreAllocGrp.legAllocAccount)) s += legPreAllocGrp.toString();
+			if (FixUtils.isSet(legPreAllocGrp.noLegAllocs)) s += legPreAllocGrp.toString();
 			if (FixUtils.isSet(legPositionEffect)) s += "LegPositionEffect(564)=" + String.valueOf(legPositionEffect) + sep;
 			if (FixUtils.isSet(legCoveredOrUncovered)) s += "LegCoveredOrUncovered(565)=" + String.valueOf(legCoveredOrUncovered) + sep;
 			if (FixUtils.isSet(nestedParties.noNestedPartyIDs)) s += nestedParties.toString();

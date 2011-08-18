@@ -255,7 +255,7 @@ public class FixListStatus extends FixMessage
 		if (FixUtils.isSet(transactTime)) FixUtils.putFixTag( out, FixTags.TRANSACTTIME_INT, transactTime);
 		FixUtils.putFixTag( out, FixTags.TOTNOORDERS_INT, totNoOrders);
 		if (FixUtils.isSet(lastFragment)) FixUtils.putFixTag( out, FixTags.LASTFRAGMENT_INT, lastFragment?(byte)'Y':(byte)'N' );
-		ordListStatGrp.encode( out );
+		if (FixUtils.isSet(ordListStatGrp.noOrders)) ordListStatGrp.encode( out );
 		// the checksum at the end
 
 		int checkSumStart = out.position();
@@ -336,7 +336,7 @@ public class FixListStatus extends FixMessage
 			if (FixUtils.isSet(transactTime)) s += "TransactTime(60)=" + new String(transactTime) + sep;
 			 s += "TotNoOrders(68)=" + String.valueOf(totNoOrders) + sep;
 			if (FixUtils.isSet(lastFragment)) s += "LastFragment(893)=" + String.valueOf(lastFragment) + sep;
-			 s += ordListStatGrp.toString();
+			if (FixUtils.isSet(ordListStatGrp.noOrders)) s += ordListStatGrp.toString();
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
 

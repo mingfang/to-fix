@@ -308,7 +308,7 @@ public class FixNews extends FixMessage
 		if (FixUtils.isSet(instrmtGrp.noRelatedSym)) instrmtGrp.encode( out );
 		if (FixUtils.isSet(instrmtLegGrp.noLegs)) instrmtLegGrp.encode( out );
 		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
-		linesOfTextGrp.encode( out );
+		if (FixUtils.isSet(linesOfTextGrp.noLinesOfText)) linesOfTextGrp.encode( out );
 		if (FixUtils.isSet(uRLLink)) FixUtils.putFixTag( out, FixTags.URLLINK_INT, uRLLink, 0, Utils.lastIndexTrim(uRLLink, (byte)0) );
 		if (FixUtils.isSet(rawDataLength)) FixUtils.putFixTag( out, FixTags.RAWDATALENGTH_INT, rawDataLength);
 		if (FixUtils.isSet(rawData)) FixUtils.putFixTag( out, FixTags.RAWDATA_INT, rawData, 0, Utils.lastIndexTrim(rawData, (byte)0) );
@@ -395,7 +395,7 @@ public class FixNews extends FixMessage
 			if (FixUtils.isSet(instrmtGrp.noRelatedSym)) s += instrmtGrp.toString();
 			if (FixUtils.isSet(instrmtLegGrp.noLegs)) s += instrmtLegGrp.toString();
 			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
-			 s += linesOfTextGrp.toString();
+			if (FixUtils.isSet(linesOfTextGrp.noLinesOfText)) s += linesOfTextGrp.toString();
 			if (FixUtils.isSet(uRLLink)) s += "URLLink(149)=" + new String(uRLLink) + sep;
 			if (FixUtils.isSet(rawDataLength)) s += "RawDataLength(95)=" + String.valueOf(rawDataLength) + sep;
 			if (FixUtils.isSet(rawData)) s += "RawData(96)=" + new String(rawData) + sep;

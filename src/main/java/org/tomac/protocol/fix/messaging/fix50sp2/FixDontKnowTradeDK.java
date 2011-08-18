@@ -250,11 +250,11 @@ public class FixDontKnowTradeDK extends FixMessage
 		if (FixUtils.isSet(secondaryOrderID)) FixUtils.putFixTag( out, FixTags.SECONDARYORDERID_INT, secondaryOrderID, 0, Utils.lastIndexTrim(secondaryOrderID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.EXECID_INT, execID, 0, Utils.lastIndexTrim(execID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.DKREASON_INT, dKReason );
-		instrument.encode( out );
+		if (FixUtils.isSet(instrument.symbol)) instrument.encode( out );
 		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
 		if (FixUtils.isSet(instrmtLegGrp.noLegs)) instrmtLegGrp.encode( out );
 		FixUtils.putFixTag( out, FixTags.SIDE_INT, side );
-		orderQtyData.encode( out );
+		if (FixUtils.isSet(orderQtyData.orderQty)) orderQtyData.encode( out );
 		if (FixUtils.isSet(lastQty)) FixUtils.putFixFloatTag( out, FixTags.LASTQTY_INT, lastQty);
 		if (FixUtils.isSet(lastPx)) FixUtils.putFixFloatTag( out, FixTags.LASTPX_INT, lastPx);
 		if (FixUtils.isSet(text)) FixUtils.putFixTag( out, FixTags.TEXT_INT, text, 0, Utils.lastIndexTrim(text, (byte)0) );
@@ -331,11 +331,11 @@ public class FixDontKnowTradeDK extends FixMessage
 			if (FixUtils.isSet(secondaryOrderID)) s += "SecondaryOrderID(198)=" + new String(secondaryOrderID) + sep;
 			 s += "ExecID(17)=" + new String(execID) + sep;
 			 s += "DKReason(127)=" + String.valueOf(dKReason) + sep;
-			 s += instrument.toString();
+			if (FixUtils.isSet(instrument.symbol)) s += instrument.toString();
 			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
 			if (FixUtils.isSet(instrmtLegGrp.noLegs)) s += instrmtLegGrp.toString();
 			 s += "Side(54)=" + String.valueOf(side) + sep;
-			 s += orderQtyData.toString();
+			if (FixUtils.isSet(orderQtyData.orderQty)) s += orderQtyData.toString();
 			if (FixUtils.isSet(lastQty)) s += "LastQty(32)=" + String.valueOf(lastQty) + sep;
 			if (FixUtils.isSet(lastPx)) s += "LastPx(31)=" + String.valueOf(lastPx) + sep;
 			if (FixUtils.isSet(text)) s += "Text(58)=" + new String(text) + sep;

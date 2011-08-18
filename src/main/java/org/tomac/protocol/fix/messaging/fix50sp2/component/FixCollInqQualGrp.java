@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
 public class FixCollInqQualGrp
@@ -92,7 +92,7 @@ public class CollInqQualGrp implements FixComponent
 
 			if(id == FixTags.COLLINQUIRYQUALIFIER_INT) {
 				collInquiryQualifier = FixUtils.getTagIntValue( value );
-				if (!CollInquiryQualifier.isValid(collInquiryQualifier) ) throw new FixSessionException(buf, "Invalid enumerated value(" + collInquiryQualifier + ") for tag: " + id );
+				if (!FixMessageInfo.CollInquiryQualifier.isValid(collInquiryQualifier) ) throw new FixSessionException(buf, "Invalid enumerated value(" + collInquiryQualifier + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

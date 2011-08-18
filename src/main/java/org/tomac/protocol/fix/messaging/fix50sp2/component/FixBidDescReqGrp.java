@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
 public class FixBidDescReqGrp
@@ -113,7 +113,7 @@ public class BidDescReqGrp implements FixComponent
 
 			if(id == FixTags.BIDDESCRIPTORTYPE_INT) {
 				bidDescriptorType = FixUtils.getTagIntValue( value );
-				if (!BidDescriptorType.isValid(bidDescriptorType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + bidDescriptorType + ") for tag: " + id );
+				if (!FixMessageInfo.BidDescriptorType.isValid(bidDescriptorType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + bidDescriptorType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -128,7 +128,7 @@ public class BidDescReqGrp implements FixComponent
 
 			if(id == FixTags.SIDEVALUEIND_INT) {
 				sideValueInd = FixUtils.getTagIntValue( value );
-				if (!SideValueInd.isValid(sideValueInd) ) throw new FixSessionException(buf, "Invalid enumerated value(" + sideValueInd + ") for tag: " + id );
+				if (!FixMessageInfo.SideValueInd.isValid(sideValueInd) ) throw new FixSessionException(buf, "Invalid enumerated value(" + sideValueInd + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

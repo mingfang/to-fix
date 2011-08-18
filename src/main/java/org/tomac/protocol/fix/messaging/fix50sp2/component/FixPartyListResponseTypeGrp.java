@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
 public class FixPartyListResponseTypeGrp
@@ -92,7 +92,7 @@ public class PartyListResponseTypeGrp implements FixComponent
 
 			if(id == FixTags.PARTYLISTRESPONSETYPE_INT) {
 				partyListResponseType = FixUtils.getTagIntValue( value );
-				if (!PartyListResponseType.isValid(partyListResponseType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + partyListResponseType + ") for tag: " + id );
+				if (!FixMessageInfo.PartyListResponseType.isValid(partyListResponseType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + partyListResponseType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

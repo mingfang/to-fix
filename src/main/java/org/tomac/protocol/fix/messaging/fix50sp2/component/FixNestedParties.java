@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixNstdPtysSubGrp;
 
@@ -120,8 +120,8 @@ public class NestedParties implements FixComponent
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.NESTEDPARTYSUBID_INT) {
-				nstdPtysSubGrp.getAll(FixTags.NESTEDPARTYSUBID_INT, buf);
+			if(id == FixTags.NONESTEDPARTYSUBIDS_INT) {
+				nstdPtysSubGrp.getAll(FixTags.NONESTEDPARTYSUBIDS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -147,7 +147,7 @@ public class NestedParties implements FixComponent
 		if (FixUtils.isSet(nestedPartyID)) return true;
 		if (FixUtils.isSet(nestedPartyIDSource)) return true;
 		if (FixUtils.isSet(nestedPartyRole)) return true;
-		if (FixUtils.isSet(nstdPtysSubGrp.nestedPartySubID)) return true;
+		if (FixUtils.isSet(nstdPtysSubGrp.noNestedPartySubIDs)) return true;
 		return false;
 	}
 	@Override
@@ -156,7 +156,7 @@ public class NestedParties implements FixComponent
 		if (FixUtils.isSet(nestedPartyID)) FixUtils.putFixTag( out, FixTags.NESTEDPARTYID_INT, nestedPartyID, 0, Utils.lastIndexTrim(nestedPartyID, (byte)0) );
 		if (FixUtils.isSet(nestedPartyIDSource)) FixUtils.putFixTag( out, FixTags.NESTEDPARTYIDSOURCE_INT, nestedPartyIDSource );
 		if (FixUtils.isSet(nestedPartyRole)) FixUtils.putFixTag( out, FixTags.NESTEDPARTYROLE_INT, nestedPartyRole);
-		if (FixUtils.isSet(nstdPtysSubGrp.nestedPartySubID)) nstdPtysSubGrp.encode( out );
+		if (FixUtils.isSet(nstdPtysSubGrp.noNestedPartySubIDs)) nstdPtysSubGrp.encode( out );
 	}
 	/**
 	 * If you use toString for any other purpose than administrative printout.
@@ -172,7 +172,7 @@ public class NestedParties implements FixComponent
 			if (FixUtils.isSet(nestedPartyID)) s += "NestedPartyID(524)=" + new String(nestedPartyID) + sep;
 			if (FixUtils.isSet(nestedPartyIDSource)) s += "NestedPartyIDSource(525)=" + String.valueOf(nestedPartyIDSource) + sep;
 			if (FixUtils.isSet(nestedPartyRole)) s += "NestedPartyRole(538)=" + String.valueOf(nestedPartyRole) + sep;
-			if (FixUtils.isSet(nstdPtysSubGrp.nestedPartySubID)) s += nstdPtysSubGrp.toString();
+			if (FixUtils.isSet(nstdPtysSubGrp.noNestedPartySubIDs)) s += nstdPtysSubGrp.toString();
 		return s;
 
 	}

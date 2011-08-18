@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixTradingSessionRules;
 
@@ -100,7 +100,7 @@ public class TradingSessionRulesGrp implements FixComponent
 
 			if(id == FixTags.TRADINGSESSIONID_INT) {
 				tradingSessionID = FixUtils.getTagStringValue(value, tradingSessionID);
-				if (!TradingSessionID.isValid(tradingSessionID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradingSessionID + ") for tag: " + id );
+				if (!FixMessageInfo.TradingSessionID.isValid(tradingSessionID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradingSessionID + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -108,7 +108,7 @@ public class TradingSessionRulesGrp implements FixComponent
 
 			if(id == FixTags.TRADINGSESSIONSUBID_INT) {
 				tradingSessionSubID = FixUtils.getTagStringValue(value, tradingSessionSubID);
-				if (!TradingSessionSubID.isValid(tradingSessionSubID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradingSessionSubID + ") for tag: " + id );
+				if (!FixMessageInfo.TradingSessionSubID.isValid(tradingSessionSubID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradingSessionSubID + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -140,7 +140,7 @@ public class TradingSessionRulesGrp implements FixComponent
 	{
 		if (FixUtils.isSet(tradingSessionID)) return true;
 		if (FixUtils.isSet(tradingSessionSubID)) return true;
-		if (FixUtils.isSet(tradingSessionRules.noOrdTypeRules)) return true;
+		if (FixUtils.isSet(tradingSessionRules.ordTypeRules.noOrdTypeRules)) return true;
 		return false;
 	}
 	@Override
@@ -148,7 +148,7 @@ public class TradingSessionRulesGrp implements FixComponent
 	{
 		if (FixUtils.isSet(tradingSessionID)) FixUtils.putFixTag( out, FixTags.TRADINGSESSIONID_INT, tradingSessionID, 0, Utils.lastIndexTrim(tradingSessionID, (byte)0) );
 		if (FixUtils.isSet(tradingSessionSubID)) FixUtils.putFixTag( out, FixTags.TRADINGSESSIONSUBID_INT, tradingSessionSubID, 0, Utils.lastIndexTrim(tradingSessionSubID, (byte)0) );
-		if (FixUtils.isSet(tradingSessionRules.noOrdTypeRules)) tradingSessionRules.encode( out );
+		if (FixUtils.isSet(tradingSessionRules.ordTypeRules.noOrdTypeRules)) tradingSessionRules.encode( out );
 	}
 	/**
 	 * If you use toString for any other purpose than administrative printout.
@@ -163,7 +163,7 @@ public class TradingSessionRulesGrp implements FixComponent
 
 			if (FixUtils.isSet(tradingSessionID)) s += "TradingSessionID(336)=" + new String(tradingSessionID) + sep;
 			if (FixUtils.isSet(tradingSessionSubID)) s += "TradingSessionSubID(625)=" + new String(tradingSessionSubID) + sep;
-			if (FixUtils.isSet(tradingSessionRules.noOrdTypeRules)) s += tradingSessionRules.toString();
+			if (FixUtils.isSet(tradingSessionRules.ordTypeRules.noOrdTypeRules)) s += tradingSessionRules.toString();
 		return s;
 
 	}

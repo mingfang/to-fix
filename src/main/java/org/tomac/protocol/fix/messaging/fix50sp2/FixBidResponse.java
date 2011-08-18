@@ -165,7 +165,7 @@ public class FixBidResponse extends FixMessage
 
 		if (FixUtils.isSet(bidID)) FixUtils.putFixTag( out, FixTags.BIDID_INT, bidID, 0, Utils.lastIndexTrim(bidID, (byte)0) );
 		if (FixUtils.isSet(clientBidID)) FixUtils.putFixTag( out, FixTags.CLIENTBIDID_INT, clientBidID, 0, Utils.lastIndexTrim(clientBidID, (byte)0) );
-		bidCompRspGrp.encode( out );
+		if (FixUtils.isSet(bidCompRspGrp.noBidComponents)) bidCompRspGrp.encode( out );
 		// the checksum at the end
 
 		int checkSumStart = out.position();
@@ -235,7 +235,7 @@ public class FixBidResponse extends FixMessage
 
 			if (FixUtils.isSet(bidID)) s += "BidID(390)=" + new String(bidID) + sep;
 			if (FixUtils.isSet(clientBidID)) s += "ClientBidID(391)=" + new String(clientBidID) + sep;
-			 s += bidCompRspGrp.toString();
+			if (FixUtils.isSet(bidCompRspGrp.noBidComponents)) s += bidCompRspGrp.toString();
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
 

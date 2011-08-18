@@ -212,7 +212,7 @@ public class FixMarketDataIncrementalRefresh extends FixMessage
 		if (FixUtils.isSet(tradeDate)) FixUtils.putFixTag( out, FixTags.TRADEDATE_INT, tradeDate);
 		if (FixUtils.isSet(applicationSequenceControl.applID)) applicationSequenceControl.encode( out );
 		if (FixUtils.isSet(mDReqID)) FixUtils.putFixTag( out, FixTags.MDREQID_INT, mDReqID, 0, Utils.lastIndexTrim(mDReqID, (byte)0) );
-		mDIncGrp.encode( out );
+		if (FixUtils.isSet(mDIncGrp.noMDEntries)) mDIncGrp.encode( out );
 		if (FixUtils.isSet(applQueueDepth)) FixUtils.putFixTag( out, FixTags.APPLQUEUEDEPTH_INT, applQueueDepth);
 		if (FixUtils.isSet(applQueueResolution)) FixUtils.putFixTag( out, FixTags.APPLQUEUERESOLUTION_INT, applQueueResolution);
 		if (FixUtils.isSet(routingGrp.noRoutingIDs)) routingGrp.encode( out );
@@ -288,7 +288,7 @@ public class FixMarketDataIncrementalRefresh extends FixMessage
 			if (FixUtils.isSet(tradeDate)) s += "TradeDate(75)=" + new String(tradeDate) + sep;
 			if (FixUtils.isSet(applicationSequenceControl.applID)) s += applicationSequenceControl.toString();
 			if (FixUtils.isSet(mDReqID)) s += "MDReqID(262)=" + new String(mDReqID) + sep;
-			 s += mDIncGrp.toString();
+			if (FixUtils.isSet(mDIncGrp.noMDEntries)) s += mDIncGrp.toString();
 			if (FixUtils.isSet(applQueueDepth)) s += "ApplQueueDepth(813)=" + String.valueOf(applQueueDepth) + sep;
 			if (FixUtils.isSet(applQueueResolution)) s += "ApplQueueResolution(814)=" + String.valueOf(applQueueResolution) + sep;
 			if (FixUtils.isSet(routingGrp.noRoutingIDs)) s += routingGrp.toString();

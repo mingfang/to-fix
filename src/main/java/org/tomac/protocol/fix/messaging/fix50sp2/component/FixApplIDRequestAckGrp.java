@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixNestedParties;
 
@@ -143,7 +143,7 @@ public class ApplIDRequestAckGrp implements FixComponent
 
 			if(id == FixTags.APPLRESPONSEERROR_INT) {
 				applResponseError = FixUtils.getTagIntValue( value );
-				if (!ApplResponseError.isValid(applResponseError) ) throw new FixSessionException(buf, "Invalid enumerated value(" + applResponseError + ") for tag: " + id );
+				if (!FixMessageInfo.ApplResponseError.isValid(applResponseError) ) throw new FixSessionException(buf, "Invalid enumerated value(" + applResponseError + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

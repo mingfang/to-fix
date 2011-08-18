@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixRelatedAltPtysSubGrp;
 
@@ -111,8 +111,8 @@ public class RelatedPartyAltIDs implements FixComponent
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.RELATEDPARTYALTSUBID_INT) {
-				relatedAltPtysSubGrp.getAll(FixTags.RELATEDPARTYALTSUBID_INT, buf);
+			if(id == FixTags.NORELATEDPARTYALTSUBIDS_INT) {
+				relatedAltPtysSubGrp.getAll(FixTags.NORELATEDPARTYALTSUBIDS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -137,7 +137,7 @@ public class RelatedPartyAltIDs implements FixComponent
 	{
 		if (FixUtils.isSet(relatedPartyAltID)) return true;
 		if (FixUtils.isSet(relatedPartyAltIDSource)) return true;
-		if (FixUtils.isSet(relatedAltPtysSubGrp.relatedPartyAltSubID)) return true;
+		if (FixUtils.isSet(relatedAltPtysSubGrp.noRelatedPartyAltSubIDs)) return true;
 		return false;
 	}
 	@Override
@@ -145,7 +145,7 @@ public class RelatedPartyAltIDs implements FixComponent
 	{
 		if (FixUtils.isSet(relatedPartyAltID)) FixUtils.putFixTag( out, FixTags.RELATEDPARTYALTID_INT, relatedPartyAltID, 0, Utils.lastIndexTrim(relatedPartyAltID, (byte)0) );
 		if (FixUtils.isSet(relatedPartyAltIDSource)) FixUtils.putFixTag( out, FixTags.RELATEDPARTYALTIDSOURCE_INT, relatedPartyAltIDSource );
-		if (FixUtils.isSet(relatedAltPtysSubGrp.relatedPartyAltSubID)) relatedAltPtysSubGrp.encode( out );
+		if (FixUtils.isSet(relatedAltPtysSubGrp.noRelatedPartyAltSubIDs)) relatedAltPtysSubGrp.encode( out );
 	}
 	/**
 	 * If you use toString for any other purpose than administrative printout.
@@ -160,7 +160,7 @@ public class RelatedPartyAltIDs implements FixComponent
 
 			if (FixUtils.isSet(relatedPartyAltID)) s += "RelatedPartyAltID(1570)=" + new String(relatedPartyAltID) + sep;
 			if (FixUtils.isSet(relatedPartyAltIDSource)) s += "RelatedPartyAltIDSource(1571)=" + String.valueOf(relatedPartyAltIDSource) + sep;
-			if (FixUtils.isSet(relatedAltPtysSubGrp.relatedPartyAltSubID)) s += relatedAltPtysSubGrp.toString();
+			if (FixUtils.isSet(relatedAltPtysSubGrp.noRelatedPartyAltSubIDs)) s += relatedAltPtysSubGrp.toString();
 		return s;
 
 	}

@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
 public class FixSecSizesGrp
@@ -94,7 +94,7 @@ public class SecSizesGrp implements FixComponent
 
 			if(id == FixTags.MDSECSIZETYPE_INT) {
 				mDSecSizeType = FixUtils.getTagIntValue( value );
-				if (!MDSecSizeType.isValid(mDSecSizeType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + mDSecSizeType + ") for tag: " + id );
+				if (!FixMessageInfo.MDSecSizeType.isValid(mDSecSizeType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + mDSecSizeType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

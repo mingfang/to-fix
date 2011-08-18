@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixNestedParties;
 
@@ -106,7 +106,7 @@ public class PositionQty implements FixComponent
 
 			if(id == FixTags.POSTYPE_INT) {
 				posType = FixUtils.getTagStringValue(value, posType);
-				if (!PosType.isValid(posType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + posType + ") for tag: " + id );
+				if (!FixMessageInfo.PosType.isValid(posType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + posType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -128,7 +128,7 @@ public class PositionQty implements FixComponent
 
 			if(id == FixTags.POSQTYSTATUS_INT) {
 				posQtyStatus = FixUtils.getTagIntValue( value );
-				if (!PosQtyStatus.isValid(posQtyStatus) ) throw new FixSessionException(buf, "Invalid enumerated value(" + posQtyStatus + ") for tag: " + id );
+				if (!FixMessageInfo.PosQtyStatus.isValid(posQtyStatus) ) throw new FixSessionException(buf, "Invalid enumerated value(" + posQtyStatus + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

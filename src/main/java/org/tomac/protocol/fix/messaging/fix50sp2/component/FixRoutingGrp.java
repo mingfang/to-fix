@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
 public class FixRoutingGrp
@@ -95,7 +95,7 @@ public class RoutingGrp implements FixComponent
 
 			if(id == FixTags.ROUTINGTYPE_INT) {
 				routingType = FixUtils.getTagIntValue( value );
-				if (!RoutingType.isValid(routingType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + routingType + ") for tag: " + id );
+				if (!FixMessageInfo.RoutingType.isValid(routingType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + routingType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

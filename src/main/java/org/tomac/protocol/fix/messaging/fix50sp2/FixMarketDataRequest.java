@@ -266,8 +266,8 @@ public class FixMarketDataRequest extends FixMessage
 		if (FixUtils.isSet(openCloseSettlFlag)) FixUtils.putFixTag( out, FixTags.OPENCLOSESETTLFLAG_INT, openCloseSettlFlag, 0, Utils.lastIndexTrim(openCloseSettlFlag, (byte)0) );
 		if (FixUtils.isSet(scope)) FixUtils.putFixTag( out, FixTags.SCOPE_INT, scope, 0, Utils.lastIndexTrim(scope, (byte)0) );
 		if (FixUtils.isSet(mDImplicitDelete)) FixUtils.putFixTag( out, FixTags.MDIMPLICITDELETE_INT, mDImplicitDelete?(byte)'Y':(byte)'N' );
-		mDReqGrp.encode( out );
-		instrmtMDReqGrp.encode( out );
+		if (FixUtils.isSet(mDReqGrp.noMDEntryTypes)) mDReqGrp.encode( out );
+		if (FixUtils.isSet(instrmtMDReqGrp.noRelatedSym)) instrmtMDReqGrp.encode( out );
 		if (FixUtils.isSet(trdgSesGrp.noTradingSessions)) trdgSesGrp.encode( out );
 		if (FixUtils.isSet(applQueueAction)) FixUtils.putFixTag( out, FixTags.APPLQUEUEACTION_INT, applQueueAction);
 		if (FixUtils.isSet(applQueueMax)) FixUtils.putFixTag( out, FixTags.APPLQUEUEMAX_INT, applQueueMax);
@@ -348,8 +348,8 @@ public class FixMarketDataRequest extends FixMessage
 			if (FixUtils.isSet(openCloseSettlFlag)) s += "OpenCloseSettlFlag(286)=" + new String(openCloseSettlFlag) + sep;
 			if (FixUtils.isSet(scope)) s += "Scope(546)=" + new String(scope) + sep;
 			if (FixUtils.isSet(mDImplicitDelete)) s += "MDImplicitDelete(547)=" + String.valueOf(mDImplicitDelete) + sep;
-			 s += mDReqGrp.toString();
-			 s += instrmtMDReqGrp.toString();
+			if (FixUtils.isSet(mDReqGrp.noMDEntryTypes)) s += mDReqGrp.toString();
+			if (FixUtils.isSet(instrmtMDReqGrp.noRelatedSym)) s += instrmtMDReqGrp.toString();
 			if (FixUtils.isSet(trdgSesGrp.noTradingSessions)) s += trdgSesGrp.toString();
 			if (FixUtils.isSet(applQueueAction)) s += "ApplQueueAction(815)=" + String.valueOf(applQueueAction) + sep;
 			if (FixUtils.isSet(applQueueMax)) s += "ApplQueueMax(812)=" + String.valueOf(applQueueMax) + sep;

@@ -174,7 +174,7 @@ public class FixListStrikePrice extends FixMessage
 		FixUtils.putFixTag( out, FixTags.LISTID_INT, listID, 0, Utils.lastIndexTrim(listID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.TOTNOSTRIKES_INT, totNoStrikes);
 		if (FixUtils.isSet(lastFragment)) FixUtils.putFixTag( out, FixTags.LASTFRAGMENT_INT, lastFragment?(byte)'Y':(byte)'N' );
-		instrmtStrkPxGrp.encode( out );
+		if (FixUtils.isSet(instrmtStrkPxGrp.noStrikes)) instrmtStrkPxGrp.encode( out );
 		// the checksum at the end
 
 		int checkSumStart = out.position();
@@ -245,7 +245,7 @@ public class FixListStrikePrice extends FixMessage
 			 s += "ListID(66)=" + new String(listID) + sep;
 			 s += "TotNoStrikes(422)=" + String.valueOf(totNoStrikes) + sep;
 			if (FixUtils.isSet(lastFragment)) s += "LastFragment(893)=" + String.valueOf(lastFragment) + sep;
-			 s += instrmtStrkPxGrp.toString();
+			if (FixUtils.isSet(instrmtStrkPxGrp.noStrikes)) s += instrmtStrkPxGrp.toString();
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
 

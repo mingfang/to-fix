@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixOrderQtyData;
@@ -132,7 +132,7 @@ public class SideCrossOrdCxlGrp implements FixComponent
 
 			if(id == FixTags.SIDE_INT) {
 				side = FixUtils.getTagCharValue( value );
-				if (!Side.isValid(side) ) throw new FixSessionException(buf, "Invalid enumerated value(" + side + ") for tag: " + id );
+				if (!FixMessageInfo.Side.isValid(side) ) throw new FixSessionException(buf, "Invalid enumerated value(" + side + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -256,7 +256,7 @@ public class SideCrossOrdCxlGrp implements FixComponent
 		if (FixUtils.isSet(parties.noPartyIDs)) return true;
 		if (FixUtils.isSet(tradeOriginationDate)) return true;
 		if (FixUtils.isSet(tradeDate)) return true;
-		if (null) return true;
+		if (FixUtils.isSet(orderQtyData.orderQty)) return true;
 		if (FixUtils.isSet(complianceID)) return true;
 		if (FixUtils.isSet(text)) return true;
 		if (FixUtils.isSet(encodedTextLen)) return true;
@@ -275,7 +275,7 @@ public class SideCrossOrdCxlGrp implements FixComponent
 		if (FixUtils.isSet(parties.noPartyIDs)) parties.encode( out );
 		if (FixUtils.isSet(tradeOriginationDate)) FixUtils.putFixTag( out, FixTags.TRADEORIGINATIONDATE_INT, tradeOriginationDate);
 		if (FixUtils.isSet(tradeDate)) FixUtils.putFixTag( out, FixTags.TRADEDATE_INT, tradeDate);
-		orderQtyData.encode( out );
+		if (FixUtils.isSet(orderQtyData.orderQty)) orderQtyData.encode( out );
 		if (FixUtils.isSet(complianceID)) FixUtils.putFixTag( out, FixTags.COMPLIANCEID_INT, complianceID, 0, Utils.lastIndexTrim(complianceID, (byte)0) );
 		if (FixUtils.isSet(text)) FixUtils.putFixTag( out, FixTags.TEXT_INT, text, 0, Utils.lastIndexTrim(text, (byte)0) );
 		if (FixUtils.isSet(encodedTextLen)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXTLEN_INT, encodedTextLen);
@@ -301,7 +301,7 @@ public class SideCrossOrdCxlGrp implements FixComponent
 			if (FixUtils.isSet(parties.noPartyIDs)) s += parties.toString();
 			if (FixUtils.isSet(tradeOriginationDate)) s += "TradeOriginationDate(229)=" + new String(tradeOriginationDate) + sep;
 			if (FixUtils.isSet(tradeDate)) s += "TradeDate(75)=" + new String(tradeDate) + sep;
-			 s += orderQtyData.toString();
+			if (FixUtils.isSet(orderQtyData.orderQty)) s += orderQtyData.toString();
 			if (FixUtils.isSet(complianceID)) s += "ComplianceID(376)=" + new String(complianceID) + sep;
 			if (FixUtils.isSet(text)) s += "Text(58)=" + new String(text) + sep;
 			if (FixUtils.isSet(encodedTextLen)) s += "EncodedTextLen(354)=" + String.valueOf(encodedTextLen) + sep;

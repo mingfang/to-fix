@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUndlyInstrumentPtysSubGrp;
 
@@ -120,8 +120,8 @@ public class UndlyInstrumentParties implements FixComponent
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.UNDERLYINGINSTRUMENTPARTYSUBID_INT) {
-				undlyInstrumentPtysSubGrp.getAll(FixTags.UNDERLYINGINSTRUMENTPARTYSUBID_INT, buf);
+			if(id == FixTags.NOUNDLYINSTRUMENTPARTYSUBIDS_INT) {
+				undlyInstrumentPtysSubGrp.getAll(FixTags.NOUNDLYINSTRUMENTPARTYSUBIDS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -147,7 +147,7 @@ public class UndlyInstrumentParties implements FixComponent
 		if (FixUtils.isSet(underlyingInstrumentPartyID)) return true;
 		if (FixUtils.isSet(underlyingInstrumentPartyIDSource)) return true;
 		if (FixUtils.isSet(underlyingInstrumentPartyRole)) return true;
-		if (FixUtils.isSet(undlyInstrumentPtysSubGrp.underlyingInstrumentPartySubID)) return true;
+		if (FixUtils.isSet(undlyInstrumentPtysSubGrp.noUndlyInstrumentPartySubIDs)) return true;
 		return false;
 	}
 	@Override
@@ -156,7 +156,7 @@ public class UndlyInstrumentParties implements FixComponent
 		if (FixUtils.isSet(underlyingInstrumentPartyID)) FixUtils.putFixTag( out, FixTags.UNDERLYINGINSTRUMENTPARTYID_INT, underlyingInstrumentPartyID, 0, Utils.lastIndexTrim(underlyingInstrumentPartyID, (byte)0) );
 		if (FixUtils.isSet(underlyingInstrumentPartyIDSource)) FixUtils.putFixTag( out, FixTags.UNDERLYINGINSTRUMENTPARTYIDSOURCE_INT, underlyingInstrumentPartyIDSource );
 		if (FixUtils.isSet(underlyingInstrumentPartyRole)) FixUtils.putFixTag( out, FixTags.UNDERLYINGINSTRUMENTPARTYROLE_INT, underlyingInstrumentPartyRole);
-		if (FixUtils.isSet(undlyInstrumentPtysSubGrp.underlyingInstrumentPartySubID)) undlyInstrumentPtysSubGrp.encode( out );
+		if (FixUtils.isSet(undlyInstrumentPtysSubGrp.noUndlyInstrumentPartySubIDs)) undlyInstrumentPtysSubGrp.encode( out );
 	}
 	/**
 	 * If you use toString for any other purpose than administrative printout.
@@ -172,7 +172,7 @@ public class UndlyInstrumentParties implements FixComponent
 			if (FixUtils.isSet(underlyingInstrumentPartyID)) s += "UnderlyingInstrumentPartyID(1059)=" + new String(underlyingInstrumentPartyID) + sep;
 			if (FixUtils.isSet(underlyingInstrumentPartyIDSource)) s += "UnderlyingInstrumentPartyIDSource(1060)=" + String.valueOf(underlyingInstrumentPartyIDSource) + sep;
 			if (FixUtils.isSet(underlyingInstrumentPartyRole)) s += "UnderlyingInstrumentPartyRole(1061)=" + String.valueOf(underlyingInstrumentPartyRole) + sep;
-			if (FixUtils.isSet(undlyInstrumentPtysSubGrp.underlyingInstrumentPartySubID)) s += undlyInstrumentPtysSubGrp.toString();
+			if (FixUtils.isSet(undlyInstrumentPtysSubGrp.noUndlyInstrumentPartySubIDs)) s += undlyInstrumentPtysSubGrp.toString();
 		return s;
 
 	}

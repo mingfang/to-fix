@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
 public class FixMDReqGrp
@@ -92,7 +92,7 @@ public class MDReqGrp implements FixComponent
 
 			if(id == FixTags.MDENTRYTYPE_INT) {
 				mDEntryType = FixUtils.getTagCharValue( value );
-				if (!MDEntryType.isValid(mDEntryType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + mDEntryType + ") for tag: " + id );
+				if (!FixMessageInfo.MDEntryType.isValid(mDEntryType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + mDEntryType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

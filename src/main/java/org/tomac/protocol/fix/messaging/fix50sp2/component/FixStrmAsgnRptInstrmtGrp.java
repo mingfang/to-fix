@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrument;
 
@@ -119,7 +119,7 @@ public class StrmAsgnRptInstrmtGrp implements FixComponent
 
 			if(id == FixTags.SETTLTYPE_INT) {
 				settlType = FixUtils.getTagStringValue(value, settlType);
-				if (!SettlType.isValid(settlType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + settlType + ") for tag: " + id );
+				if (!FixMessageInfo.SettlType.isValid(settlType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + settlType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -127,7 +127,7 @@ public class StrmAsgnRptInstrmtGrp implements FixComponent
 
 			if(id == FixTags.STREAMASGNTYPE_INT) {
 				streamAsgnType = FixUtils.getTagIntValue( value );
-				if (!StreamAsgnType.isValid(streamAsgnType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + streamAsgnType + ") for tag: " + id );
+				if (!FixMessageInfo.StreamAsgnType.isValid(streamAsgnType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + streamAsgnType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -142,7 +142,7 @@ public class StrmAsgnRptInstrmtGrp implements FixComponent
 
 			if(id == FixTags.STREAMASGNREJREASON_INT) {
 				streamAsgnRejReason = FixUtils.getTagIntValue( value );
-				if (!StreamAsgnRejReason.isValid(streamAsgnRejReason) ) throw new FixSessionException(buf, "Invalid enumerated value(" + streamAsgnRejReason + ") for tag: " + id );
+				if (!FixMessageInfo.StreamAsgnRejReason.isValid(streamAsgnRejReason) ) throw new FixSessionException(buf, "Invalid enumerated value(" + streamAsgnRejReason + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

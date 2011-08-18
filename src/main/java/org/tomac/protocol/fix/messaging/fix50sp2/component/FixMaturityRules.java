@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
 public class FixMaturityRules
@@ -112,7 +112,7 @@ public class MaturityRules implements FixComponent
 
 			if(id == FixTags.MATURITYMONTHYEARFORMAT_INT) {
 				maturityMonthYearFormat = FixUtils.getTagIntValue( value );
-				if (!MaturityMonthYearFormat.isValid(maturityMonthYearFormat) ) throw new FixSessionException(buf, "Invalid enumerated value(" + maturityMonthYearFormat + ") for tag: " + id );
+				if (!FixMessageInfo.MaturityMonthYearFormat.isValid(maturityMonthYearFormat) ) throw new FixSessionException(buf, "Invalid enumerated value(" + maturityMonthYearFormat + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -120,7 +120,7 @@ public class MaturityRules implements FixComponent
 
 			if(id == FixTags.MATURITYMONTHYEARINCREMENTUNITS_INT) {
 				maturityMonthYearIncrementUnits = FixUtils.getTagIntValue( value );
-				if (!MaturityMonthYearIncrementUnits.isValid(maturityMonthYearIncrementUnits) ) throw new FixSessionException(buf, "Invalid enumerated value(" + maturityMonthYearIncrementUnits + ") for tag: " + id );
+				if (!FixMessageInfo.MaturityMonthYearIncrementUnits.isValid(maturityMonthYearIncrementUnits) ) throw new FixSessionException(buf, "Invalid enumerated value(" + maturityMonthYearIncrementUnits + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

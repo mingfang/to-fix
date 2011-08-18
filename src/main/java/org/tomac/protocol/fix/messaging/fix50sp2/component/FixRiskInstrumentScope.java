@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixRiskSecAltIDGrp;
 
@@ -159,7 +159,7 @@ public class RiskInstrumentScope implements FixComponent
 
 			if(id == FixTags.RISKINSTRUMENTOPERATOR_INT) {
 				riskInstrumentOperator = FixUtils.getTagIntValue( value );
-				if (!RiskInstrumentOperator.isValid(riskInstrumentOperator) ) throw new FixSessionException(buf, "Invalid enumerated value(" + riskInstrumentOperator + ") for tag: " + id );
+				if (!FixMessageInfo.RiskInstrumentOperator.isValid(riskInstrumentOperator) ) throw new FixSessionException(buf, "Invalid enumerated value(" + riskInstrumentOperator + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

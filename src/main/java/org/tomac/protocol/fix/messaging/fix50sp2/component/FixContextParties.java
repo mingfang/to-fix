@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixContextPtysSubGrp;
 
@@ -120,8 +120,8 @@ public class ContextParties implements FixComponent
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.CONTEXTPARTYSUBID_INT) {
-				contextPtysSubGrp.getAll(FixTags.CONTEXTPARTYSUBID_INT, buf);
+			if(id == FixTags.NOCONTEXTPARTYSUBIDS_INT) {
+				contextPtysSubGrp.getAll(FixTags.NOCONTEXTPARTYSUBIDS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -147,7 +147,7 @@ public class ContextParties implements FixComponent
 		if (FixUtils.isSet(contextPartyID)) return true;
 		if (FixUtils.isSet(contextPartyIDSource)) return true;
 		if (FixUtils.isSet(contextPartyRole)) return true;
-		if (FixUtils.isSet(contextPtysSubGrp.contextPartySubID)) return true;
+		if (FixUtils.isSet(contextPtysSubGrp.noContextPartySubIDs)) return true;
 		return false;
 	}
 	@Override
@@ -156,7 +156,7 @@ public class ContextParties implements FixComponent
 		if (FixUtils.isSet(contextPartyID)) FixUtils.putFixTag( out, FixTags.CONTEXTPARTYID_INT, contextPartyID, 0, Utils.lastIndexTrim(contextPartyID, (byte)0) );
 		if (FixUtils.isSet(contextPartyIDSource)) FixUtils.putFixTag( out, FixTags.CONTEXTPARTYIDSOURCE_INT, contextPartyIDSource );
 		if (FixUtils.isSet(contextPartyRole)) FixUtils.putFixTag( out, FixTags.CONTEXTPARTYROLE_INT, contextPartyRole);
-		if (FixUtils.isSet(contextPtysSubGrp.contextPartySubID)) contextPtysSubGrp.encode( out );
+		if (FixUtils.isSet(contextPtysSubGrp.noContextPartySubIDs)) contextPtysSubGrp.encode( out );
 	}
 	/**
 	 * If you use toString for any other purpose than administrative printout.
@@ -172,7 +172,7 @@ public class ContextParties implements FixComponent
 			if (FixUtils.isSet(contextPartyID)) s += "ContextPartyID(1523)=" + new String(contextPartyID) + sep;
 			if (FixUtils.isSet(contextPartyIDSource)) s += "ContextPartyIDSource(1524)=" + String.valueOf(contextPartyIDSource) + sep;
 			if (FixUtils.isSet(contextPartyRole)) s += "ContextPartyRole(1525)=" + String.valueOf(contextPartyRole) + sep;
-			if (FixUtils.isSet(contextPtysSubGrp.contextPartySubID)) s += contextPtysSubGrp.toString();
+			if (FixUtils.isSet(contextPtysSubGrp.noContextPartySubIDs)) s += contextPtysSubGrp.toString();
 		return s;
 
 	}

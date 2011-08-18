@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
 public class FixTickRules
@@ -119,7 +119,7 @@ public class TickRules implements FixComponent
 
 			if(id == FixTags.TICKRULETYPE_INT) {
 				tickRuleType = FixUtils.getTagIntValue( value );
-				if (!TickRuleType.isValid(tickRuleType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tickRuleType + ") for tag: " + id );
+				if (!FixMessageInfo.TickRuleType.isValid(tickRuleType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tickRuleType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

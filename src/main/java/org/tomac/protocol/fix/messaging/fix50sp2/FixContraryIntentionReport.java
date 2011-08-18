@@ -246,9 +246,9 @@ public class FixContraryIntentionReport extends FixMessage
 		if (FixUtils.isSet(lateIndicator)) FixUtils.putFixTag( out, FixTags.LATEINDICATOR_INT, lateIndicator?(byte)'Y':(byte)'N' );
 		if (FixUtils.isSet(inputSource)) FixUtils.putFixTag( out, FixTags.INPUTSOURCE_INT, inputSource, 0, Utils.lastIndexTrim(inputSource, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.CLEARINGBUSINESSDATE_INT, clearingBusinessDate);
-		parties.encode( out );
-		expirationQty.encode( out );
-		instrument.encode( out );
+		if (FixUtils.isSet(parties.noPartyIDs)) parties.encode( out );
+		if (FixUtils.isSet(expirationQty.noExpiration)) expirationQty.encode( out );
+		if (FixUtils.isSet(instrument.symbol)) instrument.encode( out );
 		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
 		if (FixUtils.isSet(applicationSequenceControl.applID)) applicationSequenceControl.encode( out );
 		if (FixUtils.isSet(text)) FixUtils.putFixTag( out, FixTags.TEXT_INT, text, 0, Utils.lastIndexTrim(text, (byte)0) );
@@ -326,9 +326,9 @@ public class FixContraryIntentionReport extends FixMessage
 			if (FixUtils.isSet(lateIndicator)) s += "LateIndicator(978)=" + String.valueOf(lateIndicator) + sep;
 			if (FixUtils.isSet(inputSource)) s += "InputSource(979)=" + new String(inputSource) + sep;
 			 s += "ClearingBusinessDate(715)=" + new String(clearingBusinessDate) + sep;
-			 s += parties.toString();
-			 s += expirationQty.toString();
-			 s += instrument.toString();
+			if (FixUtils.isSet(parties.noPartyIDs)) s += parties.toString();
+			if (FixUtils.isSet(expirationQty.noExpiration)) s += expirationQty.toString();
+			if (FixUtils.isSet(instrument.symbol)) s += instrument.toString();
 			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
 			if (FixUtils.isSet(applicationSequenceControl.applID)) s += applicationSequenceControl.toString();
 			if (FixUtils.isSet(text)) s += "Text(58)=" + new String(text) + sep;

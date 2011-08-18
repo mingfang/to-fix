@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrument;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
@@ -136,7 +136,7 @@ public class SettlObligationInstructions implements FixComponent
 
 			if(id == FixTags.NETGROSSIND_INT) {
 				netGrossInd = FixUtils.getTagIntValue( value );
-				if (!NetGrossInd.isValid(netGrossInd) ) throw new FixSessionException(buf, "Invalid enumerated value(" + netGrossInd + ") for tag: " + id );
+				if (!FixMessageInfo.NetGrossInd.isValid(netGrossInd) ) throw new FixSessionException(buf, "Invalid enumerated value(" + netGrossInd + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -151,7 +151,7 @@ public class SettlObligationInstructions implements FixComponent
 
 			if(id == FixTags.SETTLOBLIGTRANSTYPE_INT) {
 				settlObligTransType = FixUtils.getTagCharValue( value );
-				if (!SettlObligTransType.isValid(settlObligTransType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + settlObligTransType + ") for tag: " + id );
+				if (!FixMessageInfo.SettlObligTransType.isValid(settlObligTransType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + settlObligTransType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

@@ -268,7 +268,7 @@ public class FixEmail extends FixMessage
 		if (FixUtils.isSet(instrmtLegGrp.noLegs)) instrmtLegGrp.encode( out );
 		if (FixUtils.isSet(orderID)) FixUtils.putFixTag( out, FixTags.ORDERID_INT, orderID, 0, Utils.lastIndexTrim(orderID, (byte)0) );
 		if (FixUtils.isSet(clOrdID)) FixUtils.putFixTag( out, FixTags.CLORDID_INT, clOrdID, 0, Utils.lastIndexTrim(clOrdID, (byte)0) );
-		linesOfTextGrp.encode( out );
+		if (FixUtils.isSet(linesOfTextGrp.noLinesOfText)) linesOfTextGrp.encode( out );
 		if (FixUtils.isSet(rawDataLength)) FixUtils.putFixTag( out, FixTags.RAWDATALENGTH_INT, rawDataLength);
 		if (FixUtils.isSet(rawData)) FixUtils.putFixTag( out, FixTags.RAWDATA_INT, rawData, 0, Utils.lastIndexTrim(rawData, (byte)0) );
 		// the checksum at the end
@@ -350,7 +350,7 @@ public class FixEmail extends FixMessage
 			if (FixUtils.isSet(instrmtLegGrp.noLegs)) s += instrmtLegGrp.toString();
 			if (FixUtils.isSet(orderID)) s += "OrderID(37)=" + new String(orderID) + sep;
 			if (FixUtils.isSet(clOrdID)) s += "ClOrdID(11)=" + new String(clOrdID) + sep;
-			 s += linesOfTextGrp.toString();
+			if (FixUtils.isSet(linesOfTextGrp.noLinesOfText)) s += linesOfTextGrp.toString();
 			if (FixUtils.isSet(rawDataLength)) s += "RawDataLength(95)=" + String.valueOf(rawDataLength) + sep;
 			if (FixUtils.isSet(rawData)) s += "RawData(96)=" + new String(rawData) + sep;
 

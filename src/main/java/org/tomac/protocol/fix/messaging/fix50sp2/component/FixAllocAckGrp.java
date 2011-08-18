@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixNestedParties;
 
@@ -147,7 +147,7 @@ public class AllocAckGrp implements FixComponent
 
 			if(id == FixTags.ALLOCPOSITIONEFFECT_INT) {
 				allocPositionEffect = FixUtils.getTagCharValue( value );
-				if (!AllocPositionEffect.isValid(allocPositionEffect) ) throw new FixSessionException(buf, "Invalid enumerated value(" + allocPositionEffect + ") for tag: " + id );
+				if (!FixMessageInfo.AllocPositionEffect.isValid(allocPositionEffect) ) throw new FixSessionException(buf, "Invalid enumerated value(" + allocPositionEffect + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -211,7 +211,7 @@ public class AllocAckGrp implements FixComponent
 
 			if(id == FixTags.INDIVIDUALALLOCTYPE_INT) {
 				individualAllocType = FixUtils.getTagIntValue( value );
-				if (!IndividualAllocType.isValid(individualAllocType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + individualAllocType + ") for tag: " + id );
+				if (!FixMessageInfo.IndividualAllocType.isValid(individualAllocType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + individualAllocType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

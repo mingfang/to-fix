@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
 public class FixPositionAmountData
@@ -98,7 +98,7 @@ public class PositionAmountData implements FixComponent
 
 			if(id == FixTags.POSAMTTYPE_INT) {
 				posAmtType = FixUtils.getTagStringValue(value, posAmtType);
-				if (!PosAmtType.isValid(posAmtType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + posAmtType + ") for tag: " + id );
+				if (!FixMessageInfo.PosAmtType.isValid(posAmtType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + posAmtType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

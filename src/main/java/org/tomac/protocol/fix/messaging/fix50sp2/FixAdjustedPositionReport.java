@@ -224,8 +224,8 @@ public class FixAdjustedPositionReport extends FixMessage
 		if (FixUtils.isSet(settlSessID)) FixUtils.putFixTag( out, FixTags.SETTLSESSID_INT, settlSessID, 0, Utils.lastIndexTrim(settlSessID, (byte)0) );
 		if (FixUtils.isSet(settlPrice)) FixUtils.putFixFloatTag( out, FixTags.SETTLPRICE_INT, settlPrice);
 		if (FixUtils.isSet(posMaintRptRefID)) FixUtils.putFixTag( out, FixTags.POSMAINTRPTREFID_INT, posMaintRptRefID, 0, Utils.lastIndexTrim(posMaintRptRefID, (byte)0) );
-		parties.encode( out );
-		positionQty.encode( out );
+		if (FixUtils.isSet(parties.noPartyIDs)) parties.encode( out );
+		if (FixUtils.isSet(positionQty.noPositions)) positionQty.encode( out );
 		if (FixUtils.isSet(instrmtGrp.noRelatedSym)) instrmtGrp.encode( out );
 		if (FixUtils.isSet(priorSettlPrice)) FixUtils.putFixFloatTag( out, FixTags.PRIORSETTLPRICE_INT, priorSettlPrice);
 		// the checksum at the end
@@ -301,8 +301,8 @@ public class FixAdjustedPositionReport extends FixMessage
 			if (FixUtils.isSet(settlSessID)) s += "SettlSessID(716)=" + new String(settlSessID) + sep;
 			if (FixUtils.isSet(settlPrice)) s += "SettlPrice(730)=" + String.valueOf(settlPrice) + sep;
 			if (FixUtils.isSet(posMaintRptRefID)) s += "PosMaintRptRefID(714)=" + new String(posMaintRptRefID) + sep;
-			 s += parties.toString();
-			 s += positionQty.toString();
+			if (FixUtils.isSet(parties.noPartyIDs)) s += parties.toString();
+			if (FixUtils.isSet(positionQty.noPositions)) s += positionQty.toString();
 			if (FixUtils.isSet(instrmtGrp.noRelatedSym)) s += instrmtGrp.toString();
 			if (FixUtils.isSet(priorSettlPrice)) s += "PriorSettlPrice(734)=" + String.valueOf(priorSettlPrice) + sep;
 

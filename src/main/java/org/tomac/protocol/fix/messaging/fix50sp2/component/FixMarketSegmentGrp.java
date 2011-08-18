@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixSecurityTradingRules;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixStrikeRules;
@@ -149,7 +149,7 @@ public class MarketSegmentGrp implements FixComponent
 	{
 		if (FixUtils.isSet(marketID)) return true;
 		if (FixUtils.isSet(marketSegmentID)) return true;
-		if (FixUtils.isSet(securityTradingRules.expirationCycle)) return true;
+		if (FixUtils.isSet(securityTradingRules.baseTradingRules.expirationCycle)) return true;
 		if (FixUtils.isSet(strikeRules.noStrikeRules)) return true;
 		return false;
 	}
@@ -158,7 +158,7 @@ public class MarketSegmentGrp implements FixComponent
 	{
 		if (FixUtils.isSet(marketID)) FixUtils.putFixTag( out, FixTags.MARKETID_INT, marketID, 0, Utils.lastIndexTrim(marketID, (byte)0) );
 		if (FixUtils.isSet(marketSegmentID)) FixUtils.putFixTag( out, FixTags.MARKETSEGMENTID_INT, marketSegmentID, 0, Utils.lastIndexTrim(marketSegmentID, (byte)0) );
-		if (FixUtils.isSet(securityTradingRules.expirationCycle)) securityTradingRules.encode( out );
+		if (FixUtils.isSet(securityTradingRules.baseTradingRules.expirationCycle)) securityTradingRules.encode( out );
 		if (FixUtils.isSet(strikeRules.noStrikeRules)) strikeRules.encode( out );
 	}
 	/**
@@ -174,7 +174,7 @@ public class MarketSegmentGrp implements FixComponent
 
 			if (FixUtils.isSet(marketID)) s += "MarketID(1301)=" + new String(marketID) + sep;
 			if (FixUtils.isSet(marketSegmentID)) s += "MarketSegmentID(1300)=" + new String(marketSegmentID) + sep;
-			if (FixUtils.isSet(securityTradingRules.expirationCycle)) s += securityTradingRules.toString();
+			if (FixUtils.isSet(securityTradingRules.baseTradingRules.expirationCycle)) s += securityTradingRules.toString();
 			if (FixUtils.isSet(strikeRules.noStrikeRules)) s += strikeRules.toString();
 		return s;
 

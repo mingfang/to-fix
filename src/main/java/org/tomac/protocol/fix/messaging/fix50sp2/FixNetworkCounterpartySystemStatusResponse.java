@@ -183,7 +183,7 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixMessage
 		if (FixUtils.isSet(networkRequestID)) FixUtils.putFixTag( out, FixTags.NETWORKREQUESTID_INT, networkRequestID, 0, Utils.lastIndexTrim(networkRequestID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.NETWORKRESPONSEID_INT, networkResponseID, 0, Utils.lastIndexTrim(networkResponseID, (byte)0) );
 		if (FixUtils.isSet(lastNetworkResponseID)) FixUtils.putFixTag( out, FixTags.LASTNETWORKRESPONSEID_INT, lastNetworkResponseID, 0, Utils.lastIndexTrim(lastNetworkResponseID, (byte)0) );
-		compIDStatGrp.encode( out );
+		if (FixUtils.isSet(compIDStatGrp.noCompIDs)) compIDStatGrp.encode( out );
 		// the checksum at the end
 
 		int checkSumStart = out.position();
@@ -255,7 +255,7 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixMessage
 			if (FixUtils.isSet(networkRequestID)) s += "NetworkRequestID(933)=" + new String(networkRequestID) + sep;
 			 s += "NetworkResponseID(932)=" + new String(networkResponseID) + sep;
 			if (FixUtils.isSet(lastNetworkResponseID)) s += "LastNetworkResponseID(934)=" + new String(lastNetworkResponseID) + sep;
-			 s += compIDStatGrp.toString();
+			if (FixUtils.isSet(compIDStatGrp.noCompIDs)) s += compIDStatGrp.toString();
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
 

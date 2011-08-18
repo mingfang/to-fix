@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
 public class FixMarketDataFeedTypes
@@ -111,7 +111,7 @@ public class MarketDataFeedTypes implements FixComponent
 
 			if(id == FixTags.MDBOOKTYPE_INT) {
 				mDBookType = FixUtils.getTagIntValue( value );
-				if (!MDBookType.isValid(mDBookType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + mDBookType + ") for tag: " + id );
+				if (!FixMessageInfo.MDBookType.isValid(mDBookType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + mDBookType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

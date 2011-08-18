@@ -369,7 +369,7 @@ public class FixSecurityStatus extends FixMessage
 
 		if (FixUtils.isSet(applicationSequenceControl.applID)) applicationSequenceControl.encode( out );
 		if (FixUtils.isSet(securityStatusReqID)) FixUtils.putFixTag( out, FixTags.SECURITYSTATUSREQID_INT, securityStatusReqID, 0, Utils.lastIndexTrim(securityStatusReqID, (byte)0) );
-		instrument.encode( out );
+		if (FixUtils.isSet(instrument.symbol)) instrument.encode( out );
 		if (FixUtils.isSet(instrumentExtension.deliveryForm)) instrumentExtension.encode( out );
 		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
 		if (FixUtils.isSet(instrmtLegGrp.noLegs)) instrmtLegGrp.encode( out );
@@ -468,7 +468,7 @@ public class FixSecurityStatus extends FixMessage
 
 			if (FixUtils.isSet(applicationSequenceControl.applID)) s += applicationSequenceControl.toString();
 			if (FixUtils.isSet(securityStatusReqID)) s += "SecurityStatusReqID(324)=" + new String(securityStatusReqID) + sep;
-			 s += instrument.toString();
+			if (FixUtils.isSet(instrument.symbol)) s += instrument.toString();
 			if (FixUtils.isSet(instrumentExtension.deliveryForm)) s += instrumentExtension.toString();
 			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
 			if (FixUtils.isSet(instrmtLegGrp.noLegs)) s += instrmtLegGrp.toString();

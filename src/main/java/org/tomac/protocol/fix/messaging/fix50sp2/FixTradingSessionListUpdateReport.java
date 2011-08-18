@@ -166,7 +166,7 @@ public class FixTradingSessionListUpdateReport extends FixMessage
 
 		if (FixUtils.isSet(applicationSequenceControl.applID)) applicationSequenceControl.encode( out );
 		if (FixUtils.isSet(tradSesReqID)) FixUtils.putFixTag( out, FixTags.TRADSESREQID_INT, tradSesReqID, 0, Utils.lastIndexTrim(tradSesReqID, (byte)0) );
-		trdSessLstGrp.encode( out );
+		if (FixUtils.isSet(trdSessLstGrp.noTradingSessions)) trdSessLstGrp.encode( out );
 		// the checksum at the end
 
 		int checkSumStart = out.position();
@@ -236,7 +236,7 @@ public class FixTradingSessionListUpdateReport extends FixMessage
 
 			if (FixUtils.isSet(applicationSequenceControl.applID)) s += applicationSequenceControl.toString();
 			if (FixUtils.isSet(tradSesReqID)) s += "TradSesReqID(335)=" + new String(tradSesReqID) + sep;
-			 s += trdSessLstGrp.toString();
+			if (FixUtils.isSet(trdSessLstGrp.noTradingSessions)) s += trdSessLstGrp.toString();
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
 

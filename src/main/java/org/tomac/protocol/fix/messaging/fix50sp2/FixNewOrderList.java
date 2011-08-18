@@ -309,7 +309,7 @@ public class FixNewOrderList extends FixMessage
 		FixUtils.putFixTag( out, FixTags.TOTNOORDERS_INT, totNoOrders);
 		if (FixUtils.isSet(lastFragment)) FixUtils.putFixTag( out, FixTags.LASTFRAGMENT_INT, lastFragment?(byte)'Y':(byte)'N' );
 		if (FixUtils.isSet(rootParties.noRootPartyIDs)) rootParties.encode( out );
-		listOrdGrp.encode( out );
+		if (FixUtils.isSet(listOrdGrp.noOrders)) listOrdGrp.encode( out );
 		// the checksum at the end
 
 		int checkSumStart = out.position();
@@ -397,7 +397,7 @@ public class FixNewOrderList extends FixMessage
 			 s += "TotNoOrders(68)=" + String.valueOf(totNoOrders) + sep;
 			if (FixUtils.isSet(lastFragment)) s += "LastFragment(893)=" + String.valueOf(lastFragment) + sep;
 			if (FixUtils.isSet(rootParties.noRootPartyIDs)) s += rootParties.toString();
-			 s += listOrdGrp.toString();
+			if (FixUtils.isSet(listOrdGrp.noOrders)) s += listOrdGrp.toString();
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
 

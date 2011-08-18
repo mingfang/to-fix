@@ -567,8 +567,8 @@ public class FixCrossOrderCancelReplaceRequest extends FixMessage
 		FixUtils.putFixTag( out, FixTags.CROSSTYPE_INT, crossType);
 		FixUtils.putFixTag( out, FixTags.CROSSPRIORITIZATION_INT, crossPrioritization);
 		if (FixUtils.isSet(rootParties.noRootPartyIDs)) rootParties.encode( out );
-		sideCrossOrdModGrp.encode( out );
-		instrument.encode( out );
+		if (FixUtils.isSet(sideCrossOrdModGrp.noSides)) sideCrossOrdModGrp.encode( out );
+		if (FixUtils.isSet(instrument.symbol)) instrument.encode( out );
 		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
 		if (FixUtils.isSet(instrmtLegGrp.noLegs)) instrmtLegGrp.encode( out );
 		if (FixUtils.isSet(settlType)) FixUtils.putFixTag( out, FixTags.SETTLTYPE_INT, settlType, 0, Utils.lastIndexTrim(settlType, (byte)0) );
@@ -691,8 +691,8 @@ public class FixCrossOrderCancelReplaceRequest extends FixMessage
 			 s += "CrossType(549)=" + String.valueOf(crossType) + sep;
 			 s += "CrossPrioritization(550)=" + String.valueOf(crossPrioritization) + sep;
 			if (FixUtils.isSet(rootParties.noRootPartyIDs)) s += rootParties.toString();
-			 s += sideCrossOrdModGrp.toString();
-			 s += instrument.toString();
+			if (FixUtils.isSet(sideCrossOrdModGrp.noSides)) s += sideCrossOrdModGrp.toString();
+			if (FixUtils.isSet(instrument.symbol)) s += instrument.toString();
 			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
 			if (FixUtils.isSet(instrmtLegGrp.noLegs)) s += instrmtLegGrp.toString();
 			if (FixUtils.isSet(settlType)) s += "SettlType(63)=" + new String(settlType) + sep;

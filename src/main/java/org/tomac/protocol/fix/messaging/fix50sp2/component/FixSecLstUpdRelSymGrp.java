@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrument;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrumentExtension;
@@ -179,8 +179,8 @@ public class SecLstUpdRelSymGrp implements FixComponent
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.LEGSWAPTYPE_INT) {
-				secLstUpdRelSymsLegGrp.getAll(FixTags.LEGSWAPTYPE_INT, buf);
+			if(id == FixTags.NOLEGS_INT) {
+				secLstUpdRelSymsLegGrp.getAll(FixTags.NOLEGS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -214,8 +214,8 @@ public class SecLstUpdRelSymGrp implements FixComponent
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.STRIKERULEID_INT) {
-				strikeRules.getAll(FixTags.STRIKERULEID_INT, buf);
+			if(id == FixTags.NOSTRIKERULES_INT) {
+				strikeRules.getAll(FixTags.NOSTRIKERULES_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -278,12 +278,12 @@ public class SecLstUpdRelSymGrp implements FixComponent
 		if (FixUtils.isSet(instrument.symbol)) return true;
 		if (FixUtils.isSet(instrumentExtension.deliveryForm)) return true;
 		if (FixUtils.isSet(financingDetails.agreementDesc)) return true;
-		if (FixUtils.isSet(secLstUpdRelSymsLegGrp.legSwapType)) return true;
+		if (FixUtils.isSet(secLstUpdRelSymsLegGrp.noLegs)) return true;
 		if (FixUtils.isSet(spreadOrBenchmarkCurveData.spread)) return true;
 		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) return true;
 		if (FixUtils.isSet(stipulations.noStipulations)) return true;
-		if (FixUtils.isSet(securityTradingRules.expirationCycle)) return true;
-		if (FixUtils.isSet(strikeRules.strikeRuleID)) return true;
+		if (FixUtils.isSet(securityTradingRules.baseTradingRules.expirationCycle)) return true;
+		if (FixUtils.isSet(strikeRules.noStrikeRules)) return true;
 		if (FixUtils.isSet(text)) return true;
 		if (FixUtils.isSet(encodedTextLen)) return true;
 		if (FixUtils.isSet(encodedText)) return true;
@@ -299,12 +299,12 @@ public class SecLstUpdRelSymGrp implements FixComponent
 		if (FixUtils.isSet(instrument.symbol)) instrument.encode( out );
 		if (FixUtils.isSet(instrumentExtension.deliveryForm)) instrumentExtension.encode( out );
 		if (FixUtils.isSet(financingDetails.agreementDesc)) financingDetails.encode( out );
-		if (FixUtils.isSet(secLstUpdRelSymsLegGrp.legSwapType)) secLstUpdRelSymsLegGrp.encode( out );
+		if (FixUtils.isSet(secLstUpdRelSymsLegGrp.noLegs)) secLstUpdRelSymsLegGrp.encode( out );
 		if (FixUtils.isSet(spreadOrBenchmarkCurveData.spread)) spreadOrBenchmarkCurveData.encode( out );
 		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
 		if (FixUtils.isSet(stipulations.noStipulations)) stipulations.encode( out );
-		if (FixUtils.isSet(securityTradingRules.expirationCycle)) securityTradingRules.encode( out );
-		if (FixUtils.isSet(strikeRules.strikeRuleID)) strikeRules.encode( out );
+		if (FixUtils.isSet(securityTradingRules.baseTradingRules.expirationCycle)) securityTradingRules.encode( out );
+		if (FixUtils.isSet(strikeRules.noStrikeRules)) strikeRules.encode( out );
 		if (FixUtils.isSet(text)) FixUtils.putFixTag( out, FixTags.TEXT_INT, text, 0, Utils.lastIndexTrim(text, (byte)0) );
 		if (FixUtils.isSet(encodedTextLen)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXTLEN_INT, encodedTextLen);
 		if (FixUtils.isSet(encodedText)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXT_INT, encodedText, 0, Utils.lastIndexTrim(encodedText, (byte)0) );
@@ -327,12 +327,12 @@ public class SecLstUpdRelSymGrp implements FixComponent
 			if (FixUtils.isSet(instrument.symbol)) s += instrument.toString();
 			if (FixUtils.isSet(instrumentExtension.deliveryForm)) s += instrumentExtension.toString();
 			if (FixUtils.isSet(financingDetails.agreementDesc)) s += financingDetails.toString();
-			if (FixUtils.isSet(secLstUpdRelSymsLegGrp.legSwapType)) s += secLstUpdRelSymsLegGrp.toString();
+			if (FixUtils.isSet(secLstUpdRelSymsLegGrp.noLegs)) s += secLstUpdRelSymsLegGrp.toString();
 			if (FixUtils.isSet(spreadOrBenchmarkCurveData.spread)) s += spreadOrBenchmarkCurveData.toString();
 			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
 			if (FixUtils.isSet(stipulations.noStipulations)) s += stipulations.toString();
-			if (FixUtils.isSet(securityTradingRules.expirationCycle)) s += securityTradingRules.toString();
-			if (FixUtils.isSet(strikeRules.strikeRuleID)) s += strikeRules.toString();
+			if (FixUtils.isSet(securityTradingRules.baseTradingRules.expirationCycle)) s += securityTradingRules.toString();
+			if (FixUtils.isSet(strikeRules.noStrikeRules)) s += strikeRules.toString();
 			if (FixUtils.isSet(text)) s += "Text(58)=" + new String(text) + sep;
 			if (FixUtils.isSet(encodedTextLen)) s += "EncodedTextLen(354)=" + String.valueOf(encodedTextLen) + sep;
 			if (FixUtils.isSet(encodedText)) s += "EncodedText(355)=" + new String(encodedText) + sep;

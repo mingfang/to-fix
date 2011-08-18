@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrumentLeg;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixLegStipulations;
@@ -163,7 +163,7 @@ public class TrdInstrmtLegGrp implements FixComponent
 
 			if(id == FixTags.LEGSWAPTYPE_INT) {
 				legSwapType = FixUtils.getTagIntValue( value );
-				if (!LegSwapType.isValid(legSwapType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + legSwapType + ") for tag: " + id );
+				if (!FixMessageInfo.LegSwapType.isValid(legSwapType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + legSwapType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -302,8 +302,8 @@ public class TrdInstrmtLegGrp implements FixComponent
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.UNDERLYINGLEGSYMBOL_INT) {
-				tradeCapLegUnderlyingsGrp.getAll(FixTags.UNDERLYINGLEGSYMBOL_INT, buf);
+			if(id == FixTags.NOOFLEGUNDERLYINGS_INT) {
+				tradeCapLegUnderlyingsGrp.getAll(FixTags.NOOFLEGUNDERLYINGS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -348,7 +348,7 @@ public class TrdInstrmtLegGrp implements FixComponent
 		if (FixUtils.isSet(legCurrencyRatio)) return true;
 		if (FixUtils.isSet(legExecInst)) return true;
 		if (FixUtils.isSet(legLastQty)) return true;
-		if (FixUtils.isSet(tradeCapLegUnderlyingsGrp.underlyingLegSymbol)) return true;
+		if (FixUtils.isSet(tradeCapLegUnderlyingsGrp.noOfLegUnderlyings)) return true;
 		return false;
 	}
 	@Override
@@ -376,7 +376,7 @@ public class TrdInstrmtLegGrp implements FixComponent
 		if (FixUtils.isSet(legCurrencyRatio)) FixUtils.putFixFloatTag( out, FixTags.LEGCURRENCYRATIO_INT, legCurrencyRatio);
 		if (FixUtils.isSet(legExecInst)) FixUtils.putFixTag( out, FixTags.LEGEXECINST_INT, legExecInst, 0, Utils.lastIndexTrim(legExecInst, (byte)0) );
 		if (FixUtils.isSet(legLastQty)) FixUtils.putFixFloatTag( out, FixTags.LEGLASTQTY_INT, legLastQty);
-		if (FixUtils.isSet(tradeCapLegUnderlyingsGrp.underlyingLegSymbol)) tradeCapLegUnderlyingsGrp.encode( out );
+		if (FixUtils.isSet(tradeCapLegUnderlyingsGrp.noOfLegUnderlyings)) tradeCapLegUnderlyingsGrp.encode( out );
 	}
 	/**
 	 * If you use toString for any other purpose than administrative printout.
@@ -411,7 +411,7 @@ public class TrdInstrmtLegGrp implements FixComponent
 			if (FixUtils.isSet(legCurrencyRatio)) s += "LegCurrencyRatio(1383)=" + String.valueOf(legCurrencyRatio) + sep;
 			if (FixUtils.isSet(legExecInst)) s += "LegExecInst(1384)=" + new String(legExecInst) + sep;
 			if (FixUtils.isSet(legLastQty)) s += "LegLastQty(1418)=" + String.valueOf(legLastQty) + sep;
-			if (FixUtils.isSet(tradeCapLegUnderlyingsGrp.underlyingLegSymbol)) s += tradeCapLegUnderlyingsGrp.toString();
+			if (FixUtils.isSet(tradeCapLegUnderlyingsGrp.noOfLegUnderlyings)) s += tradeCapLegUnderlyingsGrp.toString();
 		return s;
 
 	}

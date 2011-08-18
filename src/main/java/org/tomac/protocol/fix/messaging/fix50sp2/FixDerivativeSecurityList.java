@@ -234,7 +234,7 @@ public class FixDerivativeSecurityList extends FixMessage
 		if (FixUtils.isSet(clearingBusinessDate)) FixUtils.putFixTag( out, FixTags.CLEARINGBUSINESSDATE_INT, clearingBusinessDate);
 		if (FixUtils.isSet(transactTime)) FixUtils.putFixTag( out, FixTags.TRANSACTTIME_INT, transactTime);
 		if (FixUtils.isSet(underlyingInstrument.underlyingSymbol)) underlyingInstrument.encode( out );
-		if (FixUtils.isSet(derivativeSecurityDefinition.derivativeSymbol)) derivativeSecurityDefinition.encode( out );
+		if (FixUtils.isSet(derivativeSecurityDefinition.derivativeInstrument.derivativeSymbol)) derivativeSecurityDefinition.encode( out );
 		if (FixUtils.isSet(totNoRelatedSym)) FixUtils.putFixTag( out, FixTags.TOTNORELATEDSYM_INT, totNoRelatedSym);
 		if (FixUtils.isSet(lastFragment)) FixUtils.putFixTag( out, FixTags.LASTFRAGMENT_INT, lastFragment?(byte)'Y':(byte)'N' );
 		if (FixUtils.isSet(relSymDerivSecGrp.noRelatedSym)) relSymDerivSecGrp.encode( out );
@@ -313,7 +313,7 @@ public class FixDerivativeSecurityList extends FixMessage
 			if (FixUtils.isSet(clearingBusinessDate)) s += "ClearingBusinessDate(715)=" + new String(clearingBusinessDate) + sep;
 			if (FixUtils.isSet(transactTime)) s += "TransactTime(60)=" + new String(transactTime) + sep;
 			if (FixUtils.isSet(underlyingInstrument.underlyingSymbol)) s += underlyingInstrument.toString();
-			if (FixUtils.isSet(derivativeSecurityDefinition.derivativeSymbol)) s += derivativeSecurityDefinition.toString();
+			if (FixUtils.isSet(derivativeSecurityDefinition.derivativeInstrument.derivativeSymbol)) s += derivativeSecurityDefinition.toString();
 			if (FixUtils.isSet(totNoRelatedSym)) s += "TotNoRelatedSym(393)=" + String.valueOf(totNoRelatedSym) + sep;
 			if (FixUtils.isSet(lastFragment)) s += "LastFragment(893)=" + String.valueOf(lastFragment) + sep;
 			if (FixUtils.isSet(relSymDerivSecGrp.noRelatedSym)) s += relSymDerivSecGrp.toString();

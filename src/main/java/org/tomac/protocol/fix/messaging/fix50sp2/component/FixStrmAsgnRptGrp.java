@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixStrmAsgnRptInstrmtGrp;
@@ -103,8 +103,8 @@ public class StrmAsgnRptGrp implements FixComponent
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.SYMBOL_INT) {
-				strmAsgnRptInstrmtGrp.getAll(FixTags.SYMBOL_INT, buf);
+			if(id == FixTags.NORELATEDSYM_INT) {
+				strmAsgnRptInstrmtGrp.getAll(FixTags.NORELATEDSYM_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -128,14 +128,14 @@ public class StrmAsgnRptGrp implements FixComponent
 	public boolean isSet()
 	{
 		if (FixUtils.isSet(parties.noPartyIDs)) return true;
-		if (FixUtils.isSet(strmAsgnRptInstrmtGrp.symbol)) return true;
+		if (FixUtils.isSet(strmAsgnRptInstrmtGrp.noRelatedSym)) return true;
 		return false;
 	}
 	@Override
 	public void encode( ByteBuffer out )
 	{
 		if (FixUtils.isSet(parties.noPartyIDs)) parties.encode( out );
-		if (FixUtils.isSet(strmAsgnRptInstrmtGrp.symbol)) strmAsgnRptInstrmtGrp.encode( out );
+		if (FixUtils.isSet(strmAsgnRptInstrmtGrp.noRelatedSym)) strmAsgnRptInstrmtGrp.encode( out );
 	}
 	/**
 	 * If you use toString for any other purpose than administrative printout.
@@ -149,7 +149,7 @@ public class StrmAsgnRptGrp implements FixComponent
 		String s = "";
 
 			if (FixUtils.isSet(parties.noPartyIDs)) s += parties.toString();
-			if (FixUtils.isSet(strmAsgnRptInstrmtGrp.symbol)) s += strmAsgnRptInstrmtGrp.toString();
+			if (FixUtils.isSet(strmAsgnRptInstrmtGrp.noRelatedSym)) s += strmAsgnRptInstrmtGrp.toString();
 		return s;
 
 	}

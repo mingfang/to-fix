@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixRelatedContextPtysSubGrp;
 
@@ -120,8 +120,8 @@ public class RelatedContextParties implements FixComponent
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.RELATEDCONTEXTPARTYSUBID_INT) {
-				relatedContextPtysSubGrp.getAll(FixTags.RELATEDCONTEXTPARTYSUBID_INT, buf);
+			if(id == FixTags.NORELATEDCONTEXTPARTYSUBIDS_INT) {
+				relatedContextPtysSubGrp.getAll(FixTags.NORELATEDCONTEXTPARTYSUBIDS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -147,7 +147,7 @@ public class RelatedContextParties implements FixComponent
 		if (FixUtils.isSet(relatedContextPartyID)) return true;
 		if (FixUtils.isSet(relatedContextPartyIDSource)) return true;
 		if (FixUtils.isSet(relatedContextPartyRole)) return true;
-		if (FixUtils.isSet(relatedContextPtysSubGrp.relatedContextPartySubID)) return true;
+		if (FixUtils.isSet(relatedContextPtysSubGrp.noRelatedContextPartySubIDs)) return true;
 		return false;
 	}
 	@Override
@@ -156,7 +156,7 @@ public class RelatedContextParties implements FixComponent
 		if (FixUtils.isSet(relatedContextPartyID)) FixUtils.putFixTag( out, FixTags.RELATEDCONTEXTPARTYID_INT, relatedContextPartyID, 0, Utils.lastIndexTrim(relatedContextPartyID, (byte)0) );
 		if (FixUtils.isSet(relatedContextPartyIDSource)) FixUtils.putFixTag( out, FixTags.RELATEDCONTEXTPARTYIDSOURCE_INT, relatedContextPartyIDSource );
 		if (FixUtils.isSet(relatedContextPartyRole)) FixUtils.putFixTag( out, FixTags.RELATEDCONTEXTPARTYROLE_INT, relatedContextPartyRole);
-		if (FixUtils.isSet(relatedContextPtysSubGrp.relatedContextPartySubID)) relatedContextPtysSubGrp.encode( out );
+		if (FixUtils.isSet(relatedContextPtysSubGrp.noRelatedContextPartySubIDs)) relatedContextPtysSubGrp.encode( out );
 	}
 	/**
 	 * If you use toString for any other purpose than administrative printout.
@@ -172,7 +172,7 @@ public class RelatedContextParties implements FixComponent
 			if (FixUtils.isSet(relatedContextPartyID)) s += "RelatedContextPartyID(1576)=" + new String(relatedContextPartyID) + sep;
 			if (FixUtils.isSet(relatedContextPartyIDSource)) s += "RelatedContextPartyIDSource(1577)=" + String.valueOf(relatedContextPartyIDSource) + sep;
 			if (FixUtils.isSet(relatedContextPartyRole)) s += "RelatedContextPartyRole(1578)=" + String.valueOf(relatedContextPartyRole) + sep;
-			if (FixUtils.isSet(relatedContextPtysSubGrp.relatedContextPartySubID)) s += relatedContextPtysSubGrp.toString();
+			if (FixUtils.isSet(relatedContextPtysSubGrp.noRelatedContextPartySubIDs)) s += relatedContextPtysSubGrp.toString();
 		return s;
 
 	}

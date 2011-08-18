@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrumentLeg;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixLegStipulations;
@@ -141,7 +141,7 @@ public class QuotReqLegsGrp implements FixComponent
 
 			if(id == FixTags.LEGSWAPTYPE_INT) {
 				legSwapType = FixUtils.getTagIntValue( value );
-				if (!LegSwapType.isValid(legSwapType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + legSwapType + ") for tag: " + id );
+				if (!FixMessageInfo.LegSwapType.isValid(legSwapType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + legSwapType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

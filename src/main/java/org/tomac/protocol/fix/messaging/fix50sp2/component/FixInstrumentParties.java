@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrumentPtysSubGrp;
 
@@ -120,8 +120,8 @@ public class InstrumentParties implements FixComponent
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.INSTRUMENTPARTYSUBID_INT) {
-				instrumentPtysSubGrp.getAll(FixTags.INSTRUMENTPARTYSUBID_INT, buf);
+			if(id == FixTags.NOINSTRUMENTPARTYSUBIDS_INT) {
+				instrumentPtysSubGrp.getAll(FixTags.NOINSTRUMENTPARTYSUBIDS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -147,7 +147,7 @@ public class InstrumentParties implements FixComponent
 		if (FixUtils.isSet(instrumentPartyID)) return true;
 		if (FixUtils.isSet(instrumentPartyIDSource)) return true;
 		if (FixUtils.isSet(instrumentPartyRole)) return true;
-		if (FixUtils.isSet(instrumentPtysSubGrp.instrumentPartySubID)) return true;
+		if (FixUtils.isSet(instrumentPtysSubGrp.noInstrumentPartySubIDs)) return true;
 		return false;
 	}
 	@Override
@@ -156,7 +156,7 @@ public class InstrumentParties implements FixComponent
 		if (FixUtils.isSet(instrumentPartyID)) FixUtils.putFixTag( out, FixTags.INSTRUMENTPARTYID_INT, instrumentPartyID, 0, Utils.lastIndexTrim(instrumentPartyID, (byte)0) );
 		if (FixUtils.isSet(instrumentPartyIDSource)) FixUtils.putFixTag( out, FixTags.INSTRUMENTPARTYIDSOURCE_INT, instrumentPartyIDSource );
 		if (FixUtils.isSet(instrumentPartyRole)) FixUtils.putFixTag( out, FixTags.INSTRUMENTPARTYROLE_INT, instrumentPartyRole);
-		if (FixUtils.isSet(instrumentPtysSubGrp.instrumentPartySubID)) instrumentPtysSubGrp.encode( out );
+		if (FixUtils.isSet(instrumentPtysSubGrp.noInstrumentPartySubIDs)) instrumentPtysSubGrp.encode( out );
 	}
 	/**
 	 * If you use toString for any other purpose than administrative printout.
@@ -172,7 +172,7 @@ public class InstrumentParties implements FixComponent
 			if (FixUtils.isSet(instrumentPartyID)) s += "InstrumentPartyID(1019)=" + new String(instrumentPartyID) + sep;
 			if (FixUtils.isSet(instrumentPartyIDSource)) s += "InstrumentPartyIDSource(1050)=" + String.valueOf(instrumentPartyIDSource) + sep;
 			if (FixUtils.isSet(instrumentPartyRole)) s += "InstrumentPartyRole(1051)=" + String.valueOf(instrumentPartyRole) + sep;
-			if (FixUtils.isSet(instrumentPtysSubGrp.instrumentPartySubID)) s += instrumentPtysSubGrp.toString();
+			if (FixUtils.isSet(instrumentPtysSubGrp.noInstrumentPartySubIDs)) s += instrumentPtysSubGrp.toString();
 		return s;
 
 	}

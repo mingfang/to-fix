@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUnderlyingInstrument;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixQuotEntryGrp;
@@ -136,7 +136,7 @@ public class QuotSetGrp implements FixComponent
 
 			if(id == FixTags.LASTFRAGMENT_INT) {
 				lastFragment = FixUtils.getTagBooleanValue( value );
-				if (!LastFragment.isValid(lastFragment) ) throw new FixSessionException(buf, "Invalid enumerated value(" + lastFragment + ") for tag: " + id );
+				if (!FixMessageInfo.LastFragment.isValid(lastFragment) ) throw new FixSessionException(buf, "Invalid enumerated value(" + lastFragment + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -172,7 +172,7 @@ public class QuotSetGrp implements FixComponent
 		if (FixUtils.isSet(underlyingInstrument.underlyingSymbol)) return true;
 		if (FixUtils.isSet(quoteSetValidUntilTime)) return true;
 		if (FixUtils.isSet(lastFragment)) return true;
-		if (null) return true;
+		if (FixUtils.isSet(quotEntryGrp.noQuoteEntries)) return true;
 		return false;
 	}
 	@Override
@@ -183,7 +183,7 @@ public class QuotSetGrp implements FixComponent
 		if (FixUtils.isSet(quoteSetValidUntilTime)) FixUtils.putFixTag( out, FixTags.QUOTESETVALIDUNTILTIME_INT, quoteSetValidUntilTime);
 		FixUtils.putFixTag( out, FixTags.TOTNOQUOTEENTRIES_INT, totNoQuoteEntries);
 		if (FixUtils.isSet(lastFragment)) FixUtils.putFixTag( out, FixTags.LASTFRAGMENT_INT, lastFragment?(byte)'Y':(byte)'N' );
-		quotEntryGrp.encode( out );
+		if (FixUtils.isSet(quotEntryGrp.noQuoteEntries)) quotEntryGrp.encode( out );
 	}
 	/**
 	 * If you use toString for any other purpose than administrative printout.
@@ -201,7 +201,7 @@ public class QuotSetGrp implements FixComponent
 			if (FixUtils.isSet(quoteSetValidUntilTime)) s += "QuoteSetValidUntilTime(367)=" + new String(quoteSetValidUntilTime) + sep;
 			 s += "TotNoQuoteEntries(304)=" + String.valueOf(totNoQuoteEntries) + sep;
 			if (FixUtils.isSet(lastFragment)) s += "LastFragment(893)=" + String.valueOf(lastFragment) + sep;
-			 s += quotEntryGrp.toString();
+			if (FixUtils.isSet(quotEntryGrp.noQuoteEntries)) s += quotEntryGrp.toString();
 		return s;
 
 	}

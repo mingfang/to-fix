@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixRiskInstrumentScope;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixRiskWarningLevels;
@@ -108,7 +108,7 @@ public class RiskLimits implements FixComponent
 
 			if(id == FixTags.RISKLIMITTYPE_INT) {
 				riskLimitType = FixUtils.getTagIntValue( value );
-				if (!RiskLimitType.isValid(riskLimitType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + riskLimitType + ") for tag: " + id );
+				if (!FixMessageInfo.RiskLimitType.isValid(riskLimitType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + riskLimitType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -135,15 +135,15 @@ public class RiskLimits implements FixComponent
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.RISKINSTRUMENTOPERATOR_INT) {
-				riskInstrumentScope.getAll(FixTags.RISKINSTRUMENTOPERATOR_INT, buf);
+			if(id == FixTags.NORISKINSTRUMENTS_INT) {
+				riskInstrumentScope.getAll(FixTags.NORISKINSTRUMENTS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.RISKWARNINGLEVELPERCENT_INT) {
-				riskWarningLevels.getAll(FixTags.RISKWARNINGLEVELPERCENT_INT, buf);
+			if(id == FixTags.NORISKWARNINGLEVELS_INT) {
+				riskWarningLevels.getAll(FixTags.NORISKWARNINGLEVELS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -170,8 +170,8 @@ public class RiskLimits implements FixComponent
 		if (FixUtils.isSet(riskLimitAmount)) return true;
 		if (FixUtils.isSet(riskLimitCurrency)) return true;
 		if (FixUtils.isSet(riskLimitPlatform)) return true;
-		if (FixUtils.isSet(riskInstrumentScope.riskInstrumentOperator)) return true;
-		if (FixUtils.isSet(riskWarningLevels.riskWarningLevelPercent)) return true;
+		if (FixUtils.isSet(riskInstrumentScope.noRiskInstruments)) return true;
+		if (FixUtils.isSet(riskWarningLevels.noRiskWarningLevels)) return true;
 		return false;
 	}
 	@Override
@@ -181,8 +181,8 @@ public class RiskLimits implements FixComponent
 		if (FixUtils.isSet(riskLimitAmount)) FixUtils.putFixTag( out, FixTags.RISKLIMITAMOUNT_INT, riskLimitAmount);
 		if (FixUtils.isSet(riskLimitCurrency)) FixUtils.putFixTag( out, FixTags.RISKLIMITCURRENCY_INT, riskLimitCurrency, 0, Utils.lastIndexTrim(riskLimitCurrency, (byte)0) );
 		if (FixUtils.isSet(riskLimitPlatform)) FixUtils.putFixTag( out, FixTags.RISKLIMITPLATFORM_INT, riskLimitPlatform, 0, Utils.lastIndexTrim(riskLimitPlatform, (byte)0) );
-		if (FixUtils.isSet(riskInstrumentScope.riskInstrumentOperator)) riskInstrumentScope.encode( out );
-		if (FixUtils.isSet(riskWarningLevels.riskWarningLevelPercent)) riskWarningLevels.encode( out );
+		if (FixUtils.isSet(riskInstrumentScope.noRiskInstruments)) riskInstrumentScope.encode( out );
+		if (FixUtils.isSet(riskWarningLevels.noRiskWarningLevels)) riskWarningLevels.encode( out );
 	}
 	/**
 	 * If you use toString for any other purpose than administrative printout.
@@ -199,8 +199,8 @@ public class RiskLimits implements FixComponent
 			if (FixUtils.isSet(riskLimitAmount)) s += "RiskLimitAmount(1531)=" + String.valueOf(riskLimitAmount) + sep;
 			if (FixUtils.isSet(riskLimitCurrency)) s += "RiskLimitCurrency(1532)=" + new String(riskLimitCurrency) + sep;
 			if (FixUtils.isSet(riskLimitPlatform)) s += "RiskLimitPlatform(1533)=" + new String(riskLimitPlatform) + sep;
-			if (FixUtils.isSet(riskInstrumentScope.riskInstrumentOperator)) s += riskInstrumentScope.toString();
-			if (FixUtils.isSet(riskWarningLevels.riskWarningLevelPercent)) s += riskWarningLevels.toString();
+			if (FixUtils.isSet(riskInstrumentScope.noRiskInstruments)) s += riskInstrumentScope.toString();
+			if (FixUtils.isSet(riskWarningLevels.noRiskWarningLevels)) s += riskWarningLevels.toString();
 		return s;
 
 	}

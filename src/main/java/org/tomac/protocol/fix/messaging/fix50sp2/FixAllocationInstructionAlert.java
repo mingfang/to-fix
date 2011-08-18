@@ -678,7 +678,7 @@ public class FixAllocationInstructionAlert extends FixMessage
 		if (FixUtils.isSet(reversalIndicator)) FixUtils.putFixTag( out, FixTags.REVERSALINDICATOR_INT, reversalIndicator?(byte)'Y':(byte)'N' );
 		if (FixUtils.isSet(matchType)) FixUtils.putFixTag( out, FixTags.MATCHTYPE_INT, matchType, 0, Utils.lastIndexTrim(matchType, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.SIDE_INT, side );
-		instrument.encode( out );
+		if (FixUtils.isSet(instrument.symbol)) instrument.encode( out );
 		if (FixUtils.isSet(instrumentExtension.deliveryForm)) instrumentExtension.encode( out );
 		if (FixUtils.isSet(financingDetails.agreementDesc)) financingDetails.encode( out );
 		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
@@ -818,7 +818,7 @@ public class FixAllocationInstructionAlert extends FixMessage
 			if (FixUtils.isSet(reversalIndicator)) s += "ReversalIndicator(700)=" + String.valueOf(reversalIndicator) + sep;
 			if (FixUtils.isSet(matchType)) s += "MatchType(574)=" + new String(matchType) + sep;
 			 s += "Side(54)=" + String.valueOf(side) + sep;
-			 s += instrument.toString();
+			if (FixUtils.isSet(instrument.symbol)) s += instrument.toString();
 			if (FixUtils.isSet(instrumentExtension.deliveryForm)) s += instrumentExtension.toString();
 			if (FixUtils.isSet(financingDetails.agreementDesc)) s += financingDetails.toString();
 			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();

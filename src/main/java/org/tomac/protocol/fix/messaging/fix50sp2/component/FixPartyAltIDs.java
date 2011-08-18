@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixAltPtysSubGrp;
 
@@ -111,8 +111,8 @@ public class PartyAltIDs implements FixComponent
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.PARTYALTSUBID_INT) {
-				altPtysSubGrp.getAll(FixTags.PARTYALTSUBID_INT, buf);
+			if(id == FixTags.NOPARTYALTSUBIDS_INT) {
+				altPtysSubGrp.getAll(FixTags.NOPARTYALTSUBIDS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -137,7 +137,7 @@ public class PartyAltIDs implements FixComponent
 	{
 		if (FixUtils.isSet(partyAltID)) return true;
 		if (FixUtils.isSet(partyAltIDSource)) return true;
-		if (FixUtils.isSet(altPtysSubGrp.partyAltSubID)) return true;
+		if (FixUtils.isSet(altPtysSubGrp.noPartyAltSubIDs)) return true;
 		return false;
 	}
 	@Override
@@ -145,7 +145,7 @@ public class PartyAltIDs implements FixComponent
 	{
 		if (FixUtils.isSet(partyAltID)) FixUtils.putFixTag( out, FixTags.PARTYALTID_INT, partyAltID, 0, Utils.lastIndexTrim(partyAltID, (byte)0) );
 		if (FixUtils.isSet(partyAltIDSource)) FixUtils.putFixTag( out, FixTags.PARTYALTIDSOURCE_INT, partyAltIDSource );
-		if (FixUtils.isSet(altPtysSubGrp.partyAltSubID)) altPtysSubGrp.encode( out );
+		if (FixUtils.isSet(altPtysSubGrp.noPartyAltSubIDs)) altPtysSubGrp.encode( out );
 	}
 	/**
 	 * If you use toString for any other purpose than administrative printout.
@@ -160,7 +160,7 @@ public class PartyAltIDs implements FixComponent
 
 			if (FixUtils.isSet(partyAltID)) s += "PartyAltID(1517)=" + new String(partyAltID) + sep;
 			if (FixUtils.isSet(partyAltIDSource)) s += "PartyAltIDSource(1518)=" + String.valueOf(partyAltIDSource) + sep;
-			if (FixUtils.isSet(altPtysSubGrp.partyAltSubID)) s += altPtysSubGrp.toString();
+			if (FixUtils.isSet(altPtysSubGrp.noPartyAltSubIDs)) s += altPtysSubGrp.toString();
 		return s;
 
 	}

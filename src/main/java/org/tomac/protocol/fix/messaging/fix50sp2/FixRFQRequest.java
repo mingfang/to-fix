@@ -181,7 +181,7 @@ public class FixRFQRequest extends FixMessage
 
 		FixUtils.putFixTag( out, FixTags.RFQREQID_INT, rFQReqID, 0, Utils.lastIndexTrim(rFQReqID, (byte)0) );
 		if (FixUtils.isSet(parties.noPartyIDs)) parties.encode( out );
-		rFQReqGrp.encode( out );
+		if (FixUtils.isSet(rFQReqGrp.noRelatedSym)) rFQReqGrp.encode( out );
 		if (FixUtils.isSet(subscriptionRequestType)) FixUtils.putFixTag( out, FixTags.SUBSCRIPTIONREQUESTTYPE_INT, subscriptionRequestType );
 		if (FixUtils.isSet(privateQuote)) FixUtils.putFixTag( out, FixTags.PRIVATEQUOTE_INT, privateQuote?(byte)'Y':(byte)'N' );
 		// the checksum at the end
@@ -253,7 +253,7 @@ public class FixRFQRequest extends FixMessage
 
 			 s += "RFQReqID(644)=" + new String(rFQReqID) + sep;
 			if (FixUtils.isSet(parties.noPartyIDs)) s += parties.toString();
-			 s += rFQReqGrp.toString();
+			if (FixUtils.isSet(rFQReqGrp.noRelatedSym)) s += rFQReqGrp.toString();
 			if (FixUtils.isSet(subscriptionRequestType)) s += "SubscriptionRequestType(263)=" + String.valueOf(subscriptionRequestType) + sep;
 			if (FixUtils.isSet(privateQuote)) s += "PrivateQuote(1171)=" + String.valueOf(privateQuote) + sep;
 

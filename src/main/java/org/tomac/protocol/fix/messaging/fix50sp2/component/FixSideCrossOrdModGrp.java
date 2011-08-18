@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixPreAllocGrp;
@@ -185,7 +185,7 @@ public class SideCrossOrdModGrp implements FixComponent
 
 			if(id == FixTags.SIDE_INT) {
 				side = FixUtils.getTagCharValue( value );
-				if (!Side.isValid(side) ) throw new FixSessionException(buf, "Invalid enumerated value(" + side + ") for tag: " + id );
+				if (!FixMessageInfo.Side.isValid(side) ) throw new FixSessionException(buf, "Invalid enumerated value(" + side + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -249,7 +249,7 @@ public class SideCrossOrdModGrp implements FixComponent
 
 			if(id == FixTags.ACCTIDSOURCE_INT) {
 				acctIDSource = FixUtils.getTagIntValue( value );
-				if (!AcctIDSource.isValid(acctIDSource) ) throw new FixSessionException(buf, "Invalid enumerated value(" + acctIDSource + ") for tag: " + id );
+				if (!FixMessageInfo.AcctIDSource.isValid(acctIDSource) ) throw new FixSessionException(buf, "Invalid enumerated value(" + acctIDSource + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -257,7 +257,7 @@ public class SideCrossOrdModGrp implements FixComponent
 
 			if(id == FixTags.ACCOUNTTYPE_INT) {
 				accountType = FixUtils.getTagIntValue( value );
-				if (!AccountType.isValid(accountType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + accountType + ") for tag: " + id );
+				if (!FixMessageInfo.AccountType.isValid(accountType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + accountType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -265,7 +265,7 @@ public class SideCrossOrdModGrp implements FixComponent
 
 			if(id == FixTags.DAYBOOKINGINST_INT) {
 				dayBookingInst = FixUtils.getTagCharValue( value );
-				if (!DayBookingInst.isValid(dayBookingInst) ) throw new FixSessionException(buf, "Invalid enumerated value(" + dayBookingInst + ") for tag: " + id );
+				if (!FixMessageInfo.DayBookingInst.isValid(dayBookingInst) ) throw new FixSessionException(buf, "Invalid enumerated value(" + dayBookingInst + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -273,7 +273,7 @@ public class SideCrossOrdModGrp implements FixComponent
 
 			if(id == FixTags.BOOKINGUNIT_INT) {
 				bookingUnit = FixUtils.getTagCharValue( value );
-				if (!BookingUnit.isValid(bookingUnit) ) throw new FixSessionException(buf, "Invalid enumerated value(" + bookingUnit + ") for tag: " + id );
+				if (!FixMessageInfo.BookingUnit.isValid(bookingUnit) ) throw new FixSessionException(buf, "Invalid enumerated value(" + bookingUnit + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -281,7 +281,7 @@ public class SideCrossOrdModGrp implements FixComponent
 
 			if(id == FixTags.PREALLOCMETHOD_INT) {
 				preallocMethod = FixUtils.getTagCharValue( value );
-				if (!PreallocMethod.isValid(preallocMethod) ) throw new FixSessionException(buf, "Invalid enumerated value(" + preallocMethod + ") for tag: " + id );
+				if (!FixMessageInfo.PreallocMethod.isValid(preallocMethod) ) throw new FixSessionException(buf, "Invalid enumerated value(" + preallocMethod + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -303,7 +303,7 @@ public class SideCrossOrdModGrp implements FixComponent
 
 			if(id == FixTags.QTYTYPE_INT) {
 				qtyType = FixUtils.getTagIntValue( value );
-				if (!QtyType.isValid(qtyType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + qtyType + ") for tag: " + id );
+				if (!FixMessageInfo.QtyType.isValid(qtyType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + qtyType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -325,7 +325,7 @@ public class SideCrossOrdModGrp implements FixComponent
 
 			if(id == FixTags.ORDERCAPACITY_INT) {
 				orderCapacity = FixUtils.getTagCharValue( value );
-				if (!OrderCapacity.isValid(orderCapacity) ) throw new FixSessionException(buf, "Invalid enumerated value(" + orderCapacity + ") for tag: " + id );
+				if (!FixMessageInfo.OrderCapacity.isValid(orderCapacity) ) throw new FixSessionException(buf, "Invalid enumerated value(" + orderCapacity + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -333,7 +333,7 @@ public class SideCrossOrdModGrp implements FixComponent
 
 			if(id == FixTags.ORDERRESTRICTIONS_INT) {
 				orderRestrictions = FixUtils.getTagStringValue(value, orderRestrictions);
-				if (!OrderRestrictions.isValid(orderRestrictions) ) throw new FixSessionException(buf, "Invalid enumerated value(" + orderRestrictions + ") for tag: " + id );
+				if (!FixMessageInfo.OrderRestrictions.isValid(orderRestrictions) ) throw new FixSessionException(buf, "Invalid enumerated value(" + orderRestrictions + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -348,7 +348,7 @@ public class SideCrossOrdModGrp implements FixComponent
 
 			if(id == FixTags.CUSTORDERCAPACITY_INT) {
 				custOrderCapacity = FixUtils.getTagIntValue( value );
-				if (!CustOrderCapacity.isValid(custOrderCapacity) ) throw new FixSessionException(buf, "Invalid enumerated value(" + custOrderCapacity + ") for tag: " + id );
+				if (!FixMessageInfo.CustOrderCapacity.isValid(custOrderCapacity) ) throw new FixSessionException(buf, "Invalid enumerated value(" + custOrderCapacity + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -356,7 +356,7 @@ public class SideCrossOrdModGrp implements FixComponent
 
 			if(id == FixTags.FOREXREQ_INT) {
 				forexReq = FixUtils.getTagBooleanValue( value );
-				if (!ForexReq.isValid(forexReq) ) throw new FixSessionException(buf, "Invalid enumerated value(" + forexReq + ") for tag: " + id );
+				if (!FixMessageInfo.ForexReq.isValid(forexReq) ) throw new FixSessionException(buf, "Invalid enumerated value(" + forexReq + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -371,7 +371,7 @@ public class SideCrossOrdModGrp implements FixComponent
 
 			if(id == FixTags.BOOKINGTYPE_INT) {
 				bookingType = FixUtils.getTagIntValue( value );
-				if (!BookingType.isValid(bookingType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + bookingType + ") for tag: " + id );
+				if (!FixMessageInfo.BookingType.isValid(bookingType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + bookingType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -400,7 +400,7 @@ public class SideCrossOrdModGrp implements FixComponent
 
 			if(id == FixTags.POSITIONEFFECT_INT) {
 				positionEffect = FixUtils.getTagCharValue( value );
-				if (!PositionEffect.isValid(positionEffect) ) throw new FixSessionException(buf, "Invalid enumerated value(" + positionEffect + ") for tag: " + id );
+				if (!FixMessageInfo.PositionEffect.isValid(positionEffect) ) throw new FixSessionException(buf, "Invalid enumerated value(" + positionEffect + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -408,7 +408,7 @@ public class SideCrossOrdModGrp implements FixComponent
 
 			if(id == FixTags.COVEREDORUNCOVERED_INT) {
 				coveredOrUncovered = FixUtils.getTagIntValue( value );
-				if (!CoveredOrUncovered.isValid(coveredOrUncovered) ) throw new FixSessionException(buf, "Invalid enumerated value(" + coveredOrUncovered + ") for tag: " + id );
+				if (!FixMessageInfo.CoveredOrUncovered.isValid(coveredOrUncovered) ) throw new FixSessionException(buf, "Invalid enumerated value(" + coveredOrUncovered + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -416,7 +416,7 @@ public class SideCrossOrdModGrp implements FixComponent
 
 			if(id == FixTags.CASHMARGIN_INT) {
 				cashMargin = FixUtils.getTagCharValue( value );
-				if (!CashMargin.isValid(cashMargin) ) throw new FixSessionException(buf, "Invalid enumerated value(" + cashMargin + ") for tag: " + id );
+				if (!FixMessageInfo.CashMargin.isValid(cashMargin) ) throw new FixSessionException(buf, "Invalid enumerated value(" + cashMargin + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -424,7 +424,7 @@ public class SideCrossOrdModGrp implements FixComponent
 
 			if(id == FixTags.CLEARINGFEEINDICATOR_INT) {
 				clearingFeeIndicator = FixUtils.getTagStringValue(value, clearingFeeIndicator);
-				if (!ClearingFeeIndicator.isValid(clearingFeeIndicator) ) throw new FixSessionException(buf, "Invalid enumerated value(" + clearingFeeIndicator + ") for tag: " + id );
+				if (!FixMessageInfo.ClearingFeeIndicator.isValid(clearingFeeIndicator) ) throw new FixSessionException(buf, "Invalid enumerated value(" + clearingFeeIndicator + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -432,7 +432,7 @@ public class SideCrossOrdModGrp implements FixComponent
 
 			if(id == FixTags.SOLICITEDFLAG_INT) {
 				solicitedFlag = FixUtils.getTagBooleanValue( value );
-				if (!SolicitedFlag.isValid(solicitedFlag) ) throw new FixSessionException(buf, "Invalid enumerated value(" + solicitedFlag + ") for tag: " + id );
+				if (!FixMessageInfo.SolicitedFlag.isValid(solicitedFlag) ) throw new FixSessionException(buf, "Invalid enumerated value(" + solicitedFlag + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -487,7 +487,7 @@ public class SideCrossOrdModGrp implements FixComponent
 		if (FixUtils.isSet(allocID)) return true;
 		if (FixUtils.isSet(preAllocGrp.noAllocs)) return true;
 		if (FixUtils.isSet(qtyType)) return true;
-		if (null) return true;
+		if (FixUtils.isSet(orderQtyData.orderQty)) return true;
 		if (FixUtils.isSet(commissionData.commission)) return true;
 		if (FixUtils.isSet(orderCapacity)) return true;
 		if (FixUtils.isSet(orderRestrictions)) return true;
@@ -528,7 +528,7 @@ public class SideCrossOrdModGrp implements FixComponent
 		if (FixUtils.isSet(allocID)) FixUtils.putFixTag( out, FixTags.ALLOCID_INT, allocID, 0, Utils.lastIndexTrim(allocID, (byte)0) );
 		if (FixUtils.isSet(preAllocGrp.noAllocs)) preAllocGrp.encode( out );
 		if (FixUtils.isSet(qtyType)) FixUtils.putFixTag( out, FixTags.QTYTYPE_INT, qtyType);
-		orderQtyData.encode( out );
+		if (FixUtils.isSet(orderQtyData.orderQty)) orderQtyData.encode( out );
 		if (FixUtils.isSet(commissionData.commission)) commissionData.encode( out );
 		if (FixUtils.isSet(orderCapacity)) FixUtils.putFixTag( out, FixTags.ORDERCAPACITY_INT, orderCapacity );
 		if (FixUtils.isSet(orderRestrictions)) FixUtils.putFixTag( out, FixTags.ORDERRESTRICTIONS_INT, orderRestrictions, 0, Utils.lastIndexTrim(orderRestrictions, (byte)0) );
@@ -576,7 +576,7 @@ public class SideCrossOrdModGrp implements FixComponent
 			if (FixUtils.isSet(allocID)) s += "AllocID(70)=" + new String(allocID) + sep;
 			if (FixUtils.isSet(preAllocGrp.noAllocs)) s += preAllocGrp.toString();
 			if (FixUtils.isSet(qtyType)) s += "QtyType(854)=" + String.valueOf(qtyType) + sep;
-			 s += orderQtyData.toString();
+			if (FixUtils.isSet(orderQtyData.orderQty)) s += orderQtyData.toString();
 			if (FixUtils.isSet(commissionData.commission)) s += commissionData.toString();
 			if (FixUtils.isSet(orderCapacity)) s += "OrderCapacity(528)=" + String.valueOf(orderCapacity) + sep;
 			if (FixUtils.isSet(orderRestrictions)) s += "OrderRestrictions(529)=" + new String(orderRestrictions) + sep;

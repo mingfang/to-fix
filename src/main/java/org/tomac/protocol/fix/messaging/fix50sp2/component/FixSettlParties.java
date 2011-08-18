@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixSettlPtysSubGrp;
 
@@ -120,8 +120,8 @@ public class SettlParties implements FixComponent
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.SETTLPARTYSUBID_INT) {
-				settlPtysSubGrp.getAll(FixTags.SETTLPARTYSUBID_INT, buf);
+			if(id == FixTags.NOSETTLPARTYSUBIDS_INT) {
+				settlPtysSubGrp.getAll(FixTags.NOSETTLPARTYSUBIDS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -147,7 +147,7 @@ public class SettlParties implements FixComponent
 		if (FixUtils.isSet(settlPartyID)) return true;
 		if (FixUtils.isSet(settlPartyIDSource)) return true;
 		if (FixUtils.isSet(settlPartyRole)) return true;
-		if (FixUtils.isSet(settlPtysSubGrp.settlPartySubID)) return true;
+		if (FixUtils.isSet(settlPtysSubGrp.noSettlPartySubIDs)) return true;
 		return false;
 	}
 	@Override
@@ -156,7 +156,7 @@ public class SettlParties implements FixComponent
 		if (FixUtils.isSet(settlPartyID)) FixUtils.putFixTag( out, FixTags.SETTLPARTYID_INT, settlPartyID, 0, Utils.lastIndexTrim(settlPartyID, (byte)0) );
 		if (FixUtils.isSet(settlPartyIDSource)) FixUtils.putFixTag( out, FixTags.SETTLPARTYIDSOURCE_INT, settlPartyIDSource );
 		if (FixUtils.isSet(settlPartyRole)) FixUtils.putFixTag( out, FixTags.SETTLPARTYROLE_INT, settlPartyRole);
-		if (FixUtils.isSet(settlPtysSubGrp.settlPartySubID)) settlPtysSubGrp.encode( out );
+		if (FixUtils.isSet(settlPtysSubGrp.noSettlPartySubIDs)) settlPtysSubGrp.encode( out );
 	}
 	/**
 	 * If you use toString for any other purpose than administrative printout.
@@ -172,7 +172,7 @@ public class SettlParties implements FixComponent
 			if (FixUtils.isSet(settlPartyID)) s += "SettlPartyID(782)=" + new String(settlPartyID) + sep;
 			if (FixUtils.isSet(settlPartyIDSource)) s += "SettlPartyIDSource(783)=" + String.valueOf(settlPartyIDSource) + sep;
 			if (FixUtils.isSet(settlPartyRole)) s += "SettlPartyRole(784)=" + String.valueOf(settlPartyRole) + sep;
-			if (FixUtils.isSet(settlPtysSubGrp.settlPartySubID)) s += settlPtysSubGrp.toString();
+			if (FixUtils.isSet(settlPtysSubGrp.noSettlPartySubIDs)) s += settlPtysSubGrp.toString();
 		return s;
 
 	}

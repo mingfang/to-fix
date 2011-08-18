@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixComplexEventTimes;
 
@@ -112,8 +112,8 @@ public class ComplexEventDates implements FixComponent
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.COMPLEXEVENTSTARTTIME_INT) {
-				complexEventTimes.getAll(FixTags.COMPLEXEVENTSTARTTIME_INT, buf);
+			if(id == FixTags.NOCOMPLEXEVENTTIMES_INT) {
+				complexEventTimes.getAll(FixTags.NOCOMPLEXEVENTTIMES_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -138,7 +138,7 @@ public class ComplexEventDates implements FixComponent
 	{
 		if (FixUtils.isSet(complexEventStartDate)) return true;
 		if (FixUtils.isSet(complexEventEndDate)) return true;
-		if (FixUtils.isSet(complexEventTimes.complexEventStartTime)) return true;
+		if (FixUtils.isSet(complexEventTimes.noComplexEventTimes)) return true;
 		return false;
 	}
 	@Override
@@ -146,7 +146,7 @@ public class ComplexEventDates implements FixComponent
 	{
 		if (FixUtils.isSet(complexEventStartDate)) FixUtils.putFixTag( out, FixTags.COMPLEXEVENTSTARTDATE_INT, complexEventStartDate);
 		if (FixUtils.isSet(complexEventEndDate)) FixUtils.putFixTag( out, FixTags.COMPLEXEVENTENDDATE_INT, complexEventEndDate);
-		if (FixUtils.isSet(complexEventTimes.complexEventStartTime)) complexEventTimes.encode( out );
+		if (FixUtils.isSet(complexEventTimes.noComplexEventTimes)) complexEventTimes.encode( out );
 	}
 	/**
 	 * If you use toString for any other purpose than administrative printout.
@@ -161,7 +161,7 @@ public class ComplexEventDates implements FixComponent
 
 			if (FixUtils.isSet(complexEventStartDate)) s += "ComplexEventStartDate(1492)=" + new String(complexEventStartDate) + sep;
 			if (FixUtils.isSet(complexEventEndDate)) s += "ComplexEventEndDate(1493)=" + new String(complexEventEndDate) + sep;
-			if (FixUtils.isSet(complexEventTimes.complexEventStartTime)) s += complexEventTimes.toString();
+			if (FixUtils.isSet(complexEventTimes.noComplexEventTimes)) s += complexEventTimes.toString();
 		return s;
 
 	}

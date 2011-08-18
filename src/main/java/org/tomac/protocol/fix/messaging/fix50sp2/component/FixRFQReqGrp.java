@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrument;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUndInstrmtGrp;
@@ -119,8 +119,8 @@ public class RFQReqGrp implements FixComponent
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.UNDERLYINGSYMBOL_INT) {
-				undInstrmtGrp.getAll(FixTags.UNDERLYINGSYMBOL_INT, buf);
+			if(id == FixTags.NOUNDERLYINGS_INT) {
+				undInstrmtGrp.getAll(FixTags.NOUNDERLYINGS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -142,7 +142,7 @@ public class RFQReqGrp implements FixComponent
 
 			if(id == FixTags.QUOTEREQUESTTYPE_INT) {
 				quoteRequestType = FixUtils.getTagIntValue( value );
-				if (!QuoteRequestType.isValid(quoteRequestType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + quoteRequestType + ") for tag: " + id );
+				if (!FixMessageInfo.QuoteRequestType.isValid(quoteRequestType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + quoteRequestType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -150,7 +150,7 @@ public class RFQReqGrp implements FixComponent
 
 			if(id == FixTags.QUOTETYPE_INT) {
 				quoteType = FixUtils.getTagIntValue( value );
-				if (!QuoteType.isValid(quoteType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + quoteType + ") for tag: " + id );
+				if (!FixMessageInfo.QuoteType.isValid(quoteType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + quoteType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -158,7 +158,7 @@ public class RFQReqGrp implements FixComponent
 
 			if(id == FixTags.TRADINGSESSIONID_INT) {
 				tradingSessionID = FixUtils.getTagStringValue(value, tradingSessionID);
-				if (!TradingSessionID.isValid(tradingSessionID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradingSessionID + ") for tag: " + id );
+				if (!FixMessageInfo.TradingSessionID.isValid(tradingSessionID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradingSessionID + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -166,7 +166,7 @@ public class RFQReqGrp implements FixComponent
 
 			if(id == FixTags.TRADINGSESSIONSUBID_INT) {
 				tradingSessionSubID = FixUtils.getTagStringValue(value, tradingSessionSubID);
-				if (!TradingSessionSubID.isValid(tradingSessionSubID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradingSessionSubID + ") for tag: " + id );
+				if (!FixMessageInfo.TradingSessionSubID.isValid(tradingSessionSubID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradingSessionSubID + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -190,8 +190,8 @@ public class RFQReqGrp implements FixComponent
 	@Override
 	public boolean isSet()
 	{
-		if (null) return true;
-		if (FixUtils.isSet(undInstrmtGrp.underlyingSymbol)) return true;
+		if (FixUtils.isSet(instrument.symbol)) return true;
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) return true;
 		if (FixUtils.isSet(instrmtLegGrp.noLegs)) return true;
 		if (FixUtils.isSet(prevClosePx)) return true;
 		if (FixUtils.isSet(quoteRequestType)) return true;
@@ -203,8 +203,8 @@ public class RFQReqGrp implements FixComponent
 	@Override
 	public void encode( ByteBuffer out )
 	{
-		instrument.encode( out );
-		if (FixUtils.isSet(undInstrmtGrp.underlyingSymbol)) undInstrmtGrp.encode( out );
+		if (FixUtils.isSet(instrument.symbol)) instrument.encode( out );
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
 		if (FixUtils.isSet(instrmtLegGrp.noLegs)) instrmtLegGrp.encode( out );
 		if (FixUtils.isSet(prevClosePx)) FixUtils.putFixFloatTag( out, FixTags.PREVCLOSEPX_INT, prevClosePx);
 		if (FixUtils.isSet(quoteRequestType)) FixUtils.putFixTag( out, FixTags.QUOTEREQUESTTYPE_INT, quoteRequestType);
@@ -223,8 +223,8 @@ public class RFQReqGrp implements FixComponent
 
 		String s = "";
 
-			 s += instrument.toString();
-			if (FixUtils.isSet(undInstrmtGrp.underlyingSymbol)) s += undInstrmtGrp.toString();
+			if (FixUtils.isSet(instrument.symbol)) s += instrument.toString();
+			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
 			if (FixUtils.isSet(instrmtLegGrp.noLegs)) s += instrmtLegGrp.toString();
 			if (FixUtils.isSet(prevClosePx)) s += "PrevClosePx(140)=" + String.valueOf(prevClosePx) + sep;
 			if (FixUtils.isSet(quoteRequestType)) s += "QuoteRequestType(303)=" + String.valueOf(quoteRequestType) + sep;

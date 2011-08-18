@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
 public class FixContAmtGrp
@@ -97,7 +97,7 @@ public class ContAmtGrp implements FixComponent
 
 			if(id == FixTags.CONTAMTTYPE_INT) {
 				contAmtType = FixUtils.getTagIntValue( value );
-				if (!ContAmtType.isValid(contAmtType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + contAmtType + ") for tag: " + id );
+				if (!FixMessageInfo.ContAmtType.isValid(contAmtType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + contAmtType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

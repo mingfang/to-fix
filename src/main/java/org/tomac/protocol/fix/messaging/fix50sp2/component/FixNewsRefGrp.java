@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
 public class FixNewsRefGrp
@@ -102,7 +102,7 @@ public class NewsRefGrp implements FixComponent
 
 			if(id == FixTags.NEWSREFTYPE_INT) {
 				newsRefType = FixUtils.getTagIntValue( value );
-				if (!NewsRefType.isValid(newsRefType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + newsRefType + ") for tag: " + id );
+				if (!FixMessageInfo.NewsRefType.isValid(newsRefType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + newsRefType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

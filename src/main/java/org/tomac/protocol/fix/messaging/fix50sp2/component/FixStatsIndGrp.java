@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
 public class FixStatsIndGrp
@@ -92,7 +92,7 @@ public class StatsIndGrp implements FixComponent
 
 			if(id == FixTags.STATSTYPE_INT) {
 				statsType = FixUtils.getTagIntValue( value );
-				if (!StatsType.isValid(statsType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + statsType + ") for tag: " + id );
+				if (!FixMessageInfo.StatsType.isValid(statsType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + statsType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

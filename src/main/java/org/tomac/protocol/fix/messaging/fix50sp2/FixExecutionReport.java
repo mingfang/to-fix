@@ -1380,7 +1380,7 @@ public class FixExecutionReport extends FixMessage
 		if (FixUtils.isSet(orderCategory)) FixUtils.putFixTag( out, FixTags.ORDERCATEGORY_INT, orderCategory );
 		if (FixUtils.isSet(cashMargin)) FixUtils.putFixTag( out, FixTags.CASHMARGIN_INT, cashMargin );
 		if (FixUtils.isSet(clearingFeeIndicator)) FixUtils.putFixTag( out, FixTags.CLEARINGFEEINDICATOR_INT, clearingFeeIndicator, 0, Utils.lastIndexTrim(clearingFeeIndicator, (byte)0) );
-		instrument.encode( out );
+		if (FixUtils.isSet(instrument.symbol)) instrument.encode( out );
 		if (FixUtils.isSet(financingDetails.agreementDesc)) financingDetails.encode( out );
 		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
 		FixUtils.putFixTag( out, FixTags.SIDE_INT, side );
@@ -1619,7 +1619,7 @@ public class FixExecutionReport extends FixMessage
 			if (FixUtils.isSet(orderCategory)) s += "OrderCategory(1115)=" + String.valueOf(orderCategory) + sep;
 			if (FixUtils.isSet(cashMargin)) s += "CashMargin(544)=" + String.valueOf(cashMargin) + sep;
 			if (FixUtils.isSet(clearingFeeIndicator)) s += "ClearingFeeIndicator(635)=" + new String(clearingFeeIndicator) + sep;
-			 s += instrument.toString();
+			if (FixUtils.isSet(instrument.symbol)) s += instrument.toString();
 			if (FixUtils.isSet(financingDetails.agreementDesc)) s += financingDetails.toString();
 			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
 			 s += "Side(54)=" + String.valueOf(side) + sep;

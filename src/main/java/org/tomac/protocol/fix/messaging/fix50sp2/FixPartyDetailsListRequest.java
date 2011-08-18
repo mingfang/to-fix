@@ -212,7 +212,7 @@ public class FixPartyDetailsListRequest extends FixMessage
 		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.PARTYDETAILSLISTREQUESTID_INT, partyDetailsListRequestID, 0, Utils.lastIndexTrim(partyDetailsListRequestID, (byte)0) );
-		partyListResponseTypeGrp.encode( out );
+		if (FixUtils.isSet(partyListResponseTypeGrp.noPartyListResponseTypes)) partyListResponseTypeGrp.encode( out );
 		if (FixUtils.isSet(parties.noPartyIDs)) parties.encode( out );
 		if (FixUtils.isSet(requestedPartyRoleGrp.noRequestedPartyRoles)) requestedPartyRoleGrp.encode( out );
 		if (FixUtils.isSet(partyRelationships.noPartyRelationships)) partyRelationships.encode( out );
@@ -288,7 +288,7 @@ public class FixPartyDetailsListRequest extends FixMessage
 			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "PartyDetailsListRequestID(1505)=" + new String(partyDetailsListRequestID) + sep;
-			 s += partyListResponseTypeGrp.toString();
+			if (FixUtils.isSet(partyListResponseTypeGrp.noPartyListResponseTypes)) s += partyListResponseTypeGrp.toString();
 			if (FixUtils.isSet(parties.noPartyIDs)) s += parties.toString();
 			if (FixUtils.isSet(requestedPartyRoleGrp.noRequestedPartyRoles)) s += requestedPartyRoleGrp.toString();
 			if (FixUtils.isSet(partyRelationships.noPartyRelationships)) s += partyRelationships.toString();

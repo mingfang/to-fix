@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUnderlyingInstrument;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUnderlyingAmount;
@@ -130,8 +130,8 @@ public class PosUndInstrmtGrp implements FixComponent
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.UNDERLYINGPAYAMOUNT_INT) {
-				underlyingAmount.getAll(FixTags.UNDERLYINGPAYAMOUNT_INT, buf);
+			if(id == FixTags.NOUNDERLYINGAMOUNTS_INT) {
+				underlyingAmount.getAll(FixTags.NOUNDERLYINGAMOUNTS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -158,7 +158,7 @@ public class PosUndInstrmtGrp implements FixComponent
 		if (FixUtils.isSet(underlyingSettlPrice)) return true;
 		if (FixUtils.isSet(underlyingSettlPriceType)) return true;
 		if (FixUtils.isSet(underlyingDeliveryAmount)) return true;
-		if (FixUtils.isSet(underlyingAmount.underlyingPayAmount)) return true;
+		if (FixUtils.isSet(underlyingAmount.noUnderlyingAmounts)) return true;
 		return false;
 	}
 	@Override
@@ -168,7 +168,7 @@ public class PosUndInstrmtGrp implements FixComponent
 		if (FixUtils.isSet(underlyingSettlPrice)) FixUtils.putFixFloatTag( out, FixTags.UNDERLYINGSETTLPRICE_INT, underlyingSettlPrice);
 		if (FixUtils.isSet(underlyingSettlPriceType)) FixUtils.putFixTag( out, FixTags.UNDERLYINGSETTLPRICETYPE_INT, underlyingSettlPriceType);
 		if (FixUtils.isSet(underlyingDeliveryAmount)) FixUtils.putFixTag( out, FixTags.UNDERLYINGDELIVERYAMOUNT_INT, underlyingDeliveryAmount);
-		if (FixUtils.isSet(underlyingAmount.underlyingPayAmount)) underlyingAmount.encode( out );
+		if (FixUtils.isSet(underlyingAmount.noUnderlyingAmounts)) underlyingAmount.encode( out );
 	}
 	/**
 	 * If you use toString for any other purpose than administrative printout.
@@ -185,7 +185,7 @@ public class PosUndInstrmtGrp implements FixComponent
 			if (FixUtils.isSet(underlyingSettlPrice)) s += "UnderlyingSettlPrice(732)=" + String.valueOf(underlyingSettlPrice) + sep;
 			if (FixUtils.isSet(underlyingSettlPriceType)) s += "UnderlyingSettlPriceType(733)=" + String.valueOf(underlyingSettlPriceType) + sep;
 			if (FixUtils.isSet(underlyingDeliveryAmount)) s += "UnderlyingDeliveryAmount(1037)=" + String.valueOf(underlyingDeliveryAmount) + sep;
-			if (FixUtils.isSet(underlyingAmount.underlyingPayAmount)) s += underlyingAmount.toString();
+			if (FixUtils.isSet(underlyingAmount.noUnderlyingAmounts)) s += underlyingAmount.toString();
 		return s;
 
 	}

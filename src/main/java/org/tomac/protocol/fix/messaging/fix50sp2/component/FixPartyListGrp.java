@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixPartyDetail;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixRelatedPartyGrp;
@@ -103,8 +103,8 @@ public class PartyListGrp implements FixComponent
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.RELATEDPARTYID_INT) {
-				relatedPartyGrp.getAll(FixTags.RELATEDPARTYID_INT, buf);
+			if(id == FixTags.NORELATEDPARTYIDS_INT) {
+				relatedPartyGrp.getAll(FixTags.NORELATEDPARTYIDS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -128,14 +128,14 @@ public class PartyListGrp implements FixComponent
 	public boolean isSet()
 	{
 		if (FixUtils.isSet(partyDetail.partyID)) return true;
-		if (FixUtils.isSet(relatedPartyGrp.relatedPartyID)) return true;
+		if (FixUtils.isSet(relatedPartyGrp.noRelatedPartyIDs)) return true;
 		return false;
 	}
 	@Override
 	public void encode( ByteBuffer out )
 	{
 		if (FixUtils.isSet(partyDetail.partyID)) partyDetail.encode( out );
-		if (FixUtils.isSet(relatedPartyGrp.relatedPartyID)) relatedPartyGrp.encode( out );
+		if (FixUtils.isSet(relatedPartyGrp.noRelatedPartyIDs)) relatedPartyGrp.encode( out );
 	}
 	/**
 	 * If you use toString for any other purpose than administrative printout.
@@ -149,7 +149,7 @@ public class PartyListGrp implements FixComponent
 		String s = "";
 
 			if (FixUtils.isSet(partyDetail.partyID)) s += partyDetail.toString();
-			if (FixUtils.isSet(relatedPartyGrp.relatedPartyID)) s += relatedPartyGrp.toString();
+			if (FixUtils.isSet(relatedPartyGrp.noRelatedPartyIDs)) s += relatedPartyGrp.toString();
 		return s;
 
 	}

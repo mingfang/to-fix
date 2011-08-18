@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixTradingSessionRules;
 
@@ -152,7 +152,7 @@ public class TrdSessLstGrp implements FixComponent
 
 			if(id == FixTags.TRADINGSESSIONID_INT) {
 				tradingSessionID = FixUtils.getTagStringValue(value, tradingSessionID);
-				if (!TradingSessionID.isValid(tradingSessionID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradingSessionID + ") for tag: " + id );
+				if (!FixMessageInfo.TradingSessionID.isValid(tradingSessionID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradingSessionID + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -160,7 +160,7 @@ public class TrdSessLstGrp implements FixComponent
 
 			if(id == FixTags.TRADINGSESSIONSUBID_INT) {
 				tradingSessionSubID = FixUtils.getTagStringValue(value, tradingSessionSubID);
-				if (!TradingSessionSubID.isValid(tradingSessionSubID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradingSessionSubID + ") for tag: " + id );
+				if (!FixMessageInfo.TradingSessionSubID.isValid(tradingSessionSubID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradingSessionSubID + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -175,7 +175,7 @@ public class TrdSessLstGrp implements FixComponent
 
 			if(id == FixTags.TRADSESMETHOD_INT) {
 				tradSesMethod = FixUtils.getTagIntValue( value );
-				if (!TradSesMethod.isValid(tradSesMethod) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradSesMethod + ") for tag: " + id );
+				if (!FixMessageInfo.TradSesMethod.isValid(tradSesMethod) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradSesMethod + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -183,7 +183,7 @@ public class TrdSessLstGrp implements FixComponent
 
 			if(id == FixTags.TRADSESMODE_INT) {
 				tradSesMode = FixUtils.getTagIntValue( value );
-				if (!TradSesMode.isValid(tradSesMode) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradSesMode + ") for tag: " + id );
+				if (!FixMessageInfo.TradSesMode.isValid(tradSesMode) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradSesMode + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -191,7 +191,7 @@ public class TrdSessLstGrp implements FixComponent
 
 			if(id == FixTags.UNSOLICITEDINDICATOR_INT) {
 				unsolicitedIndicator = FixUtils.getTagBooleanValue( value );
-				if (!UnsolicitedIndicator.isValid(unsolicitedIndicator) ) throw new FixSessionException(buf, "Invalid enumerated value(" + unsolicitedIndicator + ") for tag: " + id );
+				if (!FixMessageInfo.UnsolicitedIndicator.isValid(unsolicitedIndicator) ) throw new FixSessionException(buf, "Invalid enumerated value(" + unsolicitedIndicator + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -199,7 +199,7 @@ public class TrdSessLstGrp implements FixComponent
 
 			if(id == FixTags.TRADSESSTATUS_INT) {
 				tradSesStatus = FixUtils.getTagIntValue( value );
-				if (!TradSesStatus.isValid(tradSesStatus) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradSesStatus + ") for tag: " + id );
+				if (!FixMessageInfo.TradSesStatus.isValid(tradSesStatus) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradSesStatus + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -207,7 +207,7 @@ public class TrdSessLstGrp implements FixComponent
 
 			if(id == FixTags.TRADSESSTATUSREJREASON_INT) {
 				tradSesStatusRejReason = FixUtils.getTagIntValue( value );
-				if (!TradSesStatusRejReason.isValid(tradSesStatusRejReason) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradSesStatusRejReason + ") for tag: " + id );
+				if (!FixMessageInfo.TradSesStatusRejReason.isValid(tradSesStatusRejReason) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradSesStatusRejReason + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -357,7 +357,7 @@ public class TrdSessLstGrp implements FixComponent
 		if (FixUtils.isSet(encodedTextLen)) return true;
 		if (FixUtils.isSet(encodedText)) return true;
 		if (FixUtils.isSet(transactTime)) return true;
-		if (FixUtils.isSet(tradingSessionRules.noOrdTypeRules)) return true;
+		if (FixUtils.isSet(tradingSessionRules.ordTypeRules.noOrdTypeRules)) return true;
 		return false;
 	}
 	@Override
@@ -385,7 +385,7 @@ public class TrdSessLstGrp implements FixComponent
 		if (FixUtils.isSet(encodedTextLen)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXTLEN_INT, encodedTextLen);
 		if (FixUtils.isSet(encodedText)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXT_INT, encodedText, 0, Utils.lastIndexTrim(encodedText, (byte)0) );
 		if (FixUtils.isSet(transactTime)) FixUtils.putFixTag( out, FixTags.TRANSACTTIME_INT, transactTime);
-		if (FixUtils.isSet(tradingSessionRules.noOrdTypeRules)) tradingSessionRules.encode( out );
+		if (FixUtils.isSet(tradingSessionRules.ordTypeRules.noOrdTypeRules)) tradingSessionRules.encode( out );
 	}
 	/**
 	 * If you use toString for any other purpose than administrative printout.
@@ -420,7 +420,7 @@ public class TrdSessLstGrp implements FixComponent
 			if (FixUtils.isSet(encodedTextLen)) s += "EncodedTextLen(354)=" + String.valueOf(encodedTextLen) + sep;
 			if (FixUtils.isSet(encodedText)) s += "EncodedText(355)=" + new String(encodedText) + sep;
 			if (FixUtils.isSet(transactTime)) s += "TransactTime(60)=" + new String(transactTime) + sep;
-			if (FixUtils.isSet(tradingSessionRules.noOrdTypeRules)) s += tradingSessionRules.toString();
+			if (FixUtils.isSet(tradingSessionRules.ordTypeRules.noOrdTypeRules)) s += tradingSessionRules.toString();
 		return s;
 
 	}

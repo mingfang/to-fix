@@ -167,7 +167,7 @@ public class FixStreamAssignmentRequest extends FixMessage
 
 		FixUtils.putFixTag( out, FixTags.STREAMASGNREQID_INT, streamAsgnReqID, 0, Utils.lastIndexTrim(streamAsgnReqID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.STREAMASGNREQTYPE_INT, streamAsgnReqType);
-		strmAsgnReqGrp.encode( out );
+		if (FixUtils.isSet(strmAsgnReqGrp.noAsgnReqs)) strmAsgnReqGrp.encode( out );
 		// the checksum at the end
 
 		int checkSumStart = out.position();
@@ -237,7 +237,7 @@ public class FixStreamAssignmentRequest extends FixMessage
 
 			 s += "StreamAsgnReqID(1497)=" + new String(streamAsgnReqID) + sep;
 			 s += "StreamAsgnReqType(1498)=" + String.valueOf(streamAsgnReqType) + sep;
-			 s += strmAsgnReqGrp.toString();
+			if (FixUtils.isSet(strmAsgnReqGrp.noAsgnReqs)) s += strmAsgnReqGrp.toString();
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
 

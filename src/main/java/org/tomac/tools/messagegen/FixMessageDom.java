@@ -1,5 +1,6 @@
 package org.tomac.tools.messagegen;
 
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -279,7 +280,6 @@ public class FixMessageDom {
 
 	@SuppressWarnings("unchecked")
 	private void getComponent(final Element component, final DomFixComponent c, final String componentName) {
-		c.msgId = new String(componentName);
 		c.name = new String(componentName);
 
 		for (final Iterator<Element> j = component.elementIterator(); j.hasNext();) {
@@ -314,18 +314,12 @@ public class FixMessageDom {
 						required = attribute.getValue();
 				}
 
-				DomFixComponent cc;
 				if (domFixNamedComponents.get(name) == null) {
 					System.out.println("What, non existing component.. " + name);
-					cc = new DomFixComponent();
-					cc.name = new String(name);
-					cc.reqd = new String(required == null ? "N" : required.equals("N") ? "N" : "Y");
-					cc.position = component.indexOf(field);
-					domFixNamedComponents.put(name, cc);
 				} 
 
 				
-				cc = new DomFixComponent(domFixNamedComponents.get(name), required, component.indexOf(field));
+				DomFixComponentRef cc = new DomFixComponentRef(name, required, component.indexOf(field));
 
 				c.components.add(cc);
 				c.fieldsAndComponents.add(cc);
@@ -462,14 +456,10 @@ public class FixMessageDom {
 							required = attribute.getValue();
 					}
 
-					if (domFixNamedComponents.get(name) != null) {
-						DomFixComponent baseComponent = domFixNamedComponents.get(name);
-						final DomFixComponent c = new DomFixComponent(baseComponent, required,  message.indexOf(value));
-						m.components.add(c);
-						if (!m.fieldsAndComponents.add(c))
-							System.out.println("Group not added: " + name);
-					} else
-						System.out.println(name);
+					final DomFixComponentRef c = new DomFixComponentRef(name, required,  message.indexOf(value));
+					m.components.add(c);
+					m.fieldsAndComponents.add(c);
+					
 				}
 				
 				domFixMessages.add(m);
@@ -536,7 +526,7 @@ public class FixMessageDom {
 
 		public DomFixField(DomFixField q, String req, int position) {
 			number = q.number;
-			name = q.name;
+			name = new String(q.name);
 			type = q.type;
 			length = q.length;
 			domFixValues = q.domFixValues;
@@ -548,6 +538,65 @@ public class FixMessageDom {
 		public String getKeyTag() {
 			return name;
 		}
+		
+	}
+	
+	/*
+	 * <component name="HopGrp" required="N"/>
+	 */
+	public class DomFixComponentRef extends DomBase {
+		String reqd;
+		
+		public DomFixComponentRef(String name, String reqd, int position) {
+			this.name = new String(name);
+			this.reqd = new String(reqd);
+			this.position = position;
+		}
+
+		@Override 
+		public String getKeyTag() {
+			DomFixComponent  c = domFixNamedComponents.get(name);
+			if (c.isRepeating) return c.noInGroupTag;
+			
+			if (c.fieldsAndComponents.isEmpty()) {
+				return null;
+			}
+			
+			if (c.fieldsAndComponents.first() instanceof DomFixComponentRef)
+				return ((DomFixComponentRef)c.fieldsAndComponents.first()).getKeyTag();
+			if (c.fieldsAndComponents.first() instanceof DomFixField)
+				return ((DomFixField)c.fieldsAndComponents.first()).getKeyTag();
+			return null;
+		}
+
+		public String getKeyTagHierarchy() {
+			DomFixComponent  c = domFixNamedComponents.get(name);
+			if (c.isRepeating) return c.noInGroupTag;
+			
+			if (c.fieldsAndComponents.isEmpty()) {
+				return null;
+			}
+			
+			if (c.fieldsAndComponents.first() instanceof DomFixComponentRef)
+				return ((DomFixComponentRef)c.fieldsAndComponents.first()).name + "." + FixMessageGenerator.uncapFirst(((DomFixComponentRef)c.fieldsAndComponents.first()).getKeyTag());
+			if (c.fieldsAndComponents.first() instanceof DomFixField)
+				return ((DomFixField)c.fieldsAndComponents.first()).getKeyTag();
+			return null;
+		}
+		
+		
+		public boolean isRepeating() {
+			DomFixComponent  c = domFixNamedComponents.get(name);
+			if (c.isRepeating) return true;
+			return false;
+		}
+
+		public String noInGroupTag() {
+			DomFixComponent  c = domFixNamedComponents.get(name);
+			if (c.isRepeating) return c.noInGroupTag;
+			return null;
+		}
+
 		
 	}
 	
@@ -564,49 +613,19 @@ public class FixMessageDom {
 	 </group>
 	 </component>
 	 */
-	public class DomFixComponent extends DomBase {
+	public class DomFixComponent {
 
-		public String noName;
+		public String name;
 		public SortedSet<DomBase> fieldsAndComponents;
 		public ArrayList<DomFixField> fields;
-		public ArrayList<DomFixComponent> components;
-		public String msgId;
-		public String reqd = "N";
+		public ArrayList<DomFixComponentRef> components;
 		public boolean isRepeating;
 		public String noInGroupTag;
 
 		public DomFixComponent() {
 			fieldsAndComponents = new TreeSet<DomBase>();
 			fields = new ArrayList<DomFixField>();
-			components = new ArrayList<DomFixComponent>();
-		}
-
-		public DomFixComponent(DomFixComponent q, String reqd, int position) {
-			noInGroupTag = q.noInGroupTag;
-			name = q.name;
-			noName = q.noName;
-			fields = q.fields;
-			components = q.components;
-			fieldsAndComponents = q.fieldsAndComponents;
-			msgId = q.msgId;
-			isRepeating = q.isRepeating;
-			this.reqd = new String(reqd);
-			this.position = position;
-		}
-		
-		@Override 
-		public String getKeyTag() {
-			if (isRepeating) return noInGroupTag;
-			
-			if (fieldsAndComponents.isEmpty()) {
-				return null;
-			}
-			
-			if (fieldsAndComponents.first() instanceof DomFixComponent)
-				return ((DomFixComponent)fieldsAndComponents.first()).getKeyTag();
-			if (fieldsAndComponents.first() instanceof DomFixField)
-				return ((DomFixField)fieldsAndComponents.first()).getKeyTag();
-			return null;
+			components = new ArrayList<DomFixComponentRef>();
 		}
 
 	}
@@ -619,7 +638,7 @@ public class FixMessageDom {
 		public String msgsubtype = "";
 		public SortedSet<DomBase> fieldsAndComponents = new TreeSet<DomBase>();
 		public ArrayList<DomFixField> fields = new ArrayList<DomFixField>();
-		public ArrayList<DomFixComponent> components = new ArrayList<DomFixComponent>();
+		public ArrayList<DomFixComponentRef> components = new ArrayList<DomFixComponentRef>();
 		public String msgId;
 		public String specialization;
 

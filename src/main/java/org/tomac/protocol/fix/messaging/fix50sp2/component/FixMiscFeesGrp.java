@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
 public class FixMiscFeesGrp
@@ -114,7 +114,7 @@ public class MiscFeesGrp implements FixComponent
 
 			if(id == FixTags.MISCFEETYPE_INT) {
 				miscFeeType = FixUtils.getTagStringValue(value, miscFeeType);
-				if (!MiscFeeType.isValid(miscFeeType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + miscFeeType + ") for tag: " + id );
+				if (!FixMessageInfo.MiscFeeType.isValid(miscFeeType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + miscFeeType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -122,7 +122,7 @@ public class MiscFeesGrp implements FixComponent
 
 			if(id == FixTags.MISCFEEBASIS_INT) {
 				miscFeeBasis = FixUtils.getTagIntValue( value );
-				if (!MiscFeeBasis.isValid(miscFeeBasis) ) throw new FixSessionException(buf, "Invalid enumerated value(" + miscFeeBasis + ") for tag: " + id );
+				if (!FixMessageInfo.MiscFeeBasis.isValid(miscFeeBasis) ) throw new FixSessionException(buf, "Invalid enumerated value(" + miscFeeBasis + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

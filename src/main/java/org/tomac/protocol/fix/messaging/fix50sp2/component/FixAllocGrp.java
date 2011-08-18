@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixNestedParties;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixCommissionData;
@@ -191,7 +191,7 @@ public class AllocGrp implements FixComponent
 
 			if(id == FixTags.MATCHSTATUS_INT) {
 				matchStatus = FixUtils.getTagCharValue( value );
-				if (!MatchStatus.isValid(matchStatus) ) throw new FixSessionException(buf, "Invalid enumerated value(" + matchStatus + ") for tag: " + id );
+				if (!FixMessageInfo.MatchStatus.isValid(matchStatus) ) throw new FixSessionException(buf, "Invalid enumerated value(" + matchStatus + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -220,7 +220,7 @@ public class AllocGrp implements FixComponent
 
 			if(id == FixTags.PROCESSCODE_INT) {
 				processCode = FixUtils.getTagCharValue( value );
-				if (!ProcessCode.isValid(processCode) ) throw new FixSessionException(buf, "Invalid enumerated value(" + processCode + ") for tag: " + id );
+				if (!FixMessageInfo.ProcessCode.isValid(processCode) ) throw new FixSessionException(buf, "Invalid enumerated value(" + processCode + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -235,7 +235,7 @@ public class AllocGrp implements FixComponent
 
 			if(id == FixTags.ALLOCMETHOD_INT) {
 				allocMethod = FixUtils.getTagIntValue( value );
-				if (!AllocMethod.isValid(allocMethod) ) throw new FixSessionException(buf, "Invalid enumerated value(" + allocMethod + ") for tag: " + id );
+				if (!FixMessageInfo.AllocMethod.isValid(allocMethod) ) throw new FixSessionException(buf, "Invalid enumerated value(" + allocMethod + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -250,7 +250,7 @@ public class AllocGrp implements FixComponent
 
 			if(id == FixTags.INDIVIDUALALLOCTYPE_INT) {
 				individualAllocType = FixUtils.getTagIntValue( value );
-				if (!IndividualAllocType.isValid(individualAllocType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + individualAllocType + ") for tag: " + id );
+				if (!FixMessageInfo.IndividualAllocType.isValid(individualAllocType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + individualAllocType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -258,7 +258,7 @@ public class AllocGrp implements FixComponent
 
 			if(id == FixTags.ALLOCPOSITIONEFFECT_INT) {
 				allocPositionEffect = FixUtils.getTagCharValue( value );
-				if (!AllocPositionEffect.isValid(allocPositionEffect) ) throw new FixSessionException(buf, "Invalid enumerated value(" + allocPositionEffect + ") for tag: " + id );
+				if (!FixMessageInfo.AllocPositionEffect.isValid(allocPositionEffect) ) throw new FixSessionException(buf, "Invalid enumerated value(" + allocPositionEffect + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -273,7 +273,7 @@ public class AllocGrp implements FixComponent
 
 			if(id == FixTags.NOTIFYBROKEROFCREDIT_INT) {
 				notifyBrokerOfCredit = FixUtils.getTagBooleanValue( value );
-				if (!NotifyBrokerOfCredit.isValid(notifyBrokerOfCredit) ) throw new FixSessionException(buf, "Invalid enumerated value(" + notifyBrokerOfCredit + ") for tag: " + id );
+				if (!FixMessageInfo.NotifyBrokerOfCredit.isValid(notifyBrokerOfCredit) ) throw new FixSessionException(buf, "Invalid enumerated value(" + notifyBrokerOfCredit + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -281,7 +281,7 @@ public class AllocGrp implements FixComponent
 
 			if(id == FixTags.ALLOCHANDLINST_INT) {
 				allocHandlInst = FixUtils.getTagIntValue( value );
-				if (!AllocHandlInst.isValid(allocHandlInst) ) throw new FixSessionException(buf, "Invalid enumerated value(" + allocHandlInst + ") for tag: " + id );
+				if (!FixMessageInfo.AllocHandlInst.isValid(allocHandlInst) ) throw new FixSessionException(buf, "Invalid enumerated value(" + allocHandlInst + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -366,7 +366,7 @@ public class AllocGrp implements FixComponent
 
 			if(id == FixTags.SETTLCURRFXRATECALC_INT) {
 				settlCurrFxRateCalc = FixUtils.getTagCharValue( value );
-				if (!SettlCurrFxRateCalc.isValid(settlCurrFxRateCalc) ) throw new FixSessionException(buf, "Invalid enumerated value(" + settlCurrFxRateCalc + ") for tag: " + id );
+				if (!FixMessageInfo.SettlCurrFxRateCalc.isValid(settlCurrFxRateCalc) ) throw new FixSessionException(buf, "Invalid enumerated value(" + settlCurrFxRateCalc + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -386,8 +386,8 @@ public class AllocGrp implements FixComponent
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.MISCFEEAMT_INT) {
-				miscFeesGrp.getAll(FixTags.MISCFEEAMT_INT, buf);
+			if(id == FixTags.NOMISCFEES_INT) {
+				miscFeesGrp.getAll(FixTags.NOMISCFEES_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -395,14 +395,14 @@ public class AllocGrp implements FixComponent
 
 			if(id == FixTags.CLEARINGFEEINDICATOR_INT) {
 				clearingFeeIndicator = FixUtils.getTagStringValue(value, clearingFeeIndicator);
-				if (!ClearingFeeIndicator.isValid(clearingFeeIndicator) ) throw new FixSessionException(buf, "Invalid enumerated value(" + clearingFeeIndicator + ") for tag: " + id );
+				if (!FixMessageInfo.ClearingFeeIndicator.isValid(clearingFeeIndicator) ) throw new FixSessionException(buf, "Invalid enumerated value(" + clearingFeeIndicator + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.CLEARINGINSTRUCTION_INT) {
-				clrInstGrp.getAll(FixTags.CLEARINGINSTRUCTION_INT, buf);
+			if(id == FixTags.NOCLEARINGINSTRUCTIONS_INT) {
+				clrInstGrp.getAll(FixTags.NOCLEARINGINSTRUCTIONS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -410,7 +410,7 @@ public class AllocGrp implements FixComponent
 
 			if(id == FixTags.ALLOCSETTLINSTTYPE_INT) {
 				allocSettlInstType = FixUtils.getTagIntValue( value );
-				if (!AllocSettlInstType.isValid(allocSettlInstType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + allocSettlInstType + ") for tag: " + id );
+				if (!FixMessageInfo.AllocSettlInstType.isValid(allocSettlInstType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + allocSettlInstType + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -469,9 +469,9 @@ public class AllocGrp implements FixComponent
 		if (FixUtils.isSet(settlCurrFxRateCalc)) return true;
 		if (FixUtils.isSet(allocAccruedInterestAmt)) return true;
 		if (FixUtils.isSet(allocInterestAtMaturity)) return true;
-		if (FixUtils.isSet(miscFeesGrp.miscFeeAmt)) return true;
+		if (FixUtils.isSet(miscFeesGrp.noMiscFees)) return true;
 		if (FixUtils.isSet(clearingFeeIndicator)) return true;
-		if (FixUtils.isSet(clrInstGrp.clearingInstruction)) return true;
+		if (FixUtils.isSet(clrInstGrp.noClearingInstructions)) return true;
 		if (FixUtils.isSet(allocSettlInstType)) return true;
 		if (FixUtils.isSet(settlInstructionsData.settlDeliveryType)) return true;
 		return false;
@@ -508,9 +508,9 @@ public class AllocGrp implements FixComponent
 		if (FixUtils.isSet(settlCurrFxRateCalc)) FixUtils.putFixTag( out, FixTags.SETTLCURRFXRATECALC_INT, settlCurrFxRateCalc );
 		if (FixUtils.isSet(allocAccruedInterestAmt)) FixUtils.putFixTag( out, FixTags.ALLOCACCRUEDINTERESTAMT_INT, allocAccruedInterestAmt);
 		if (FixUtils.isSet(allocInterestAtMaturity)) FixUtils.putFixTag( out, FixTags.ALLOCINTERESTATMATURITY_INT, allocInterestAtMaturity);
-		if (FixUtils.isSet(miscFeesGrp.miscFeeAmt)) miscFeesGrp.encode( out );
+		if (FixUtils.isSet(miscFeesGrp.noMiscFees)) miscFeesGrp.encode( out );
 		if (FixUtils.isSet(clearingFeeIndicator)) FixUtils.putFixTag( out, FixTags.CLEARINGFEEINDICATOR_INT, clearingFeeIndicator, 0, Utils.lastIndexTrim(clearingFeeIndicator, (byte)0) );
-		if (FixUtils.isSet(clrInstGrp.clearingInstruction)) clrInstGrp.encode( out );
+		if (FixUtils.isSet(clrInstGrp.noClearingInstructions)) clrInstGrp.encode( out );
 		if (FixUtils.isSet(allocSettlInstType)) FixUtils.putFixTag( out, FixTags.ALLOCSETTLINSTTYPE_INT, allocSettlInstType);
 		if (FixUtils.isSet(settlInstructionsData.settlDeliveryType)) settlInstructionsData.encode( out );
 	}
@@ -554,9 +554,9 @@ public class AllocGrp implements FixComponent
 			if (FixUtils.isSet(settlCurrFxRateCalc)) s += "SettlCurrFxRateCalc(156)=" + String.valueOf(settlCurrFxRateCalc) + sep;
 			if (FixUtils.isSet(allocAccruedInterestAmt)) s += "AllocAccruedInterestAmt(742)=" + String.valueOf(allocAccruedInterestAmt) + sep;
 			if (FixUtils.isSet(allocInterestAtMaturity)) s += "AllocInterestAtMaturity(741)=" + String.valueOf(allocInterestAtMaturity) + sep;
-			if (FixUtils.isSet(miscFeesGrp.miscFeeAmt)) s += miscFeesGrp.toString();
+			if (FixUtils.isSet(miscFeesGrp.noMiscFees)) s += miscFeesGrp.toString();
 			if (FixUtils.isSet(clearingFeeIndicator)) s += "ClearingFeeIndicator(635)=" + new String(clearingFeeIndicator) + sep;
-			if (FixUtils.isSet(clrInstGrp.clearingInstruction)) s += clrInstGrp.toString();
+			if (FixUtils.isSet(clrInstGrp.noClearingInstructions)) s += clrInstGrp.toString();
 			if (FixUtils.isSet(allocSettlInstType)) s += "AllocSettlInstType(780)=" + String.valueOf(allocSettlInstType) + sep;
 			if (FixUtils.isSet(settlInstructionsData.settlDeliveryType)) s += settlInstructionsData.toString();
 		return s;

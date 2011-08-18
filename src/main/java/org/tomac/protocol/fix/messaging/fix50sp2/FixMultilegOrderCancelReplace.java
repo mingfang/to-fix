@@ -796,7 +796,7 @@ public class FixMultilegOrderCancelReplace extends FixMessage
 		if (FixUtils.isSet(locateReqd)) FixUtils.putFixTag( out, FixTags.LOCATEREQD_INT, locateReqd?(byte)'Y':(byte)'N' );
 		FixUtils.putFixTag( out, FixTags.TRANSACTTIME_INT, transactTime);
 		if (FixUtils.isSet(qtyType)) FixUtils.putFixTag( out, FixTags.QTYTYPE_INT, qtyType);
-		orderQtyData.encode( out );
+		if (FixUtils.isSet(orderQtyData.orderQty)) orderQtyData.encode( out );
 		FixUtils.putFixTag( out, FixTags.ORDTYPE_INT, ordType );
 		if (FixUtils.isSet(multilegModel)) FixUtils.putFixTag( out, FixTags.MULTILEGMODEL_INT, multilegModel);
 		if (FixUtils.isSet(multilegPriceMethod)) FixUtils.putFixTag( out, FixTags.MULTILEGPRICEMETHOD_INT, multilegPriceMethod);
@@ -949,7 +949,7 @@ public class FixMultilegOrderCancelReplace extends FixMessage
 			if (FixUtils.isSet(locateReqd)) s += "LocateReqd(114)=" + String.valueOf(locateReqd) + sep;
 			 s += "TransactTime(60)=" + new String(transactTime) + sep;
 			if (FixUtils.isSet(qtyType)) s += "QtyType(854)=" + String.valueOf(qtyType) + sep;
-			 s += orderQtyData.toString();
+			if (FixUtils.isSet(orderQtyData.orderQty)) s += orderQtyData.toString();
 			 s += "OrdType(40)=" + String.valueOf(ordType) + sep;
 			if (FixUtils.isSet(multilegModel)) s += "MultilegModel(1377)=" + String.valueOf(multilegModel) + sep;
 			if (FixUtils.isSet(multilegPriceMethod)) s += "MultilegPriceMethod(1378)=" + String.valueOf(multilegPriceMethod) + sep;

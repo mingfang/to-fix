@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
 public class FixOrdListStatGrp
@@ -149,7 +149,7 @@ public class OrdListStatGrp implements FixComponent
 
 			if(id == FixTags.ORDSTATUS_INT) {
 				ordStatus = FixUtils.getTagCharValue( value );
-				if (!OrdStatus.isValid(ordStatus) ) throw new FixSessionException(buf, "Invalid enumerated value(" + ordStatus + ") for tag: " + id );
+				if (!FixMessageInfo.OrdStatus.isValid(ordStatus) ) throw new FixSessionException(buf, "Invalid enumerated value(" + ordStatus + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -157,7 +157,7 @@ public class OrdListStatGrp implements FixComponent
 
 			if(id == FixTags.WORKINGINDICATOR_INT) {
 				workingIndicator = FixUtils.getTagBooleanValue( value );
-				if (!WorkingIndicator.isValid(workingIndicator) ) throw new FixSessionException(buf, "Invalid enumerated value(" + workingIndicator + ") for tag: " + id );
+				if (!FixMessageInfo.WorkingIndicator.isValid(workingIndicator) ) throw new FixSessionException(buf, "Invalid enumerated value(" + workingIndicator + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -186,7 +186,7 @@ public class OrdListStatGrp implements FixComponent
 
 			if(id == FixTags.ORDREJREASON_INT) {
 				ordRejReason = FixUtils.getTagIntValue( value );
-				if (!OrdRejReason.isValid(ordRejReason) ) throw new FixSessionException(buf, "Invalid enumerated value(" + ordRejReason + ") for tag: " + id );
+				if (!FixMessageInfo.OrdRejReason.isValid(ordRejReason) ) throw new FixSessionException(buf, "Invalid enumerated value(" + ordRejReason + ") for tag: " + id );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixRelationshipRiskInstrumentScope;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixRelationshipRiskWarningLevels;
@@ -134,15 +134,15 @@ public class RelationshipRiskLimits implements FixComponent
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.RELATIONSHIPRISKINSTRUMENTOPERATOR_INT) {
-				relationshipRiskInstrumentScope.getAll(FixTags.RELATIONSHIPRISKINSTRUMENTOPERATOR_INT, buf);
+			if(id == FixTags.NORELATIONSHIPRISKINSTRUMENTS_INT) {
+				relationshipRiskInstrumentScope.getAll(FixTags.NORELATIONSHIPRISKINSTRUMENTS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.RELATIONSHIPRISKWARNINGLEVELPERCENT_INT) {
-				relationshipRiskWarningLevels.getAll(FixTags.RELATIONSHIPRISKWARNINGLEVELPERCENT_INT, buf);
+			if(id == FixTags.NORELATIONSHIPRISKWARNINGLEVELS_INT) {
+				relationshipRiskWarningLevels.getAll(FixTags.NORELATIONSHIPRISKWARNINGLEVELS_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -169,8 +169,8 @@ public class RelationshipRiskLimits implements FixComponent
 		if (FixUtils.isSet(relationshipRiskLimitAmount)) return true;
 		if (FixUtils.isSet(relationshipRiskLimitCurrency)) return true;
 		if (FixUtils.isSet(relationshipRiskLimitPlatform)) return true;
-		if (FixUtils.isSet(relationshipRiskInstrumentScope.relationshipRiskInstrumentOperator)) return true;
-		if (FixUtils.isSet(relationshipRiskWarningLevels.relationshipRiskWarningLevelPercent)) return true;
+		if (FixUtils.isSet(relationshipRiskInstrumentScope.noRelationshipRiskInstruments)) return true;
+		if (FixUtils.isSet(relationshipRiskWarningLevels.noRelationshipRiskWarningLevels)) return true;
 		return false;
 	}
 	@Override
@@ -180,8 +180,8 @@ public class RelationshipRiskLimits implements FixComponent
 		if (FixUtils.isSet(relationshipRiskLimitAmount)) FixUtils.putFixTag( out, FixTags.RELATIONSHIPRISKLIMITAMOUNT_INT, relationshipRiskLimitAmount);
 		if (FixUtils.isSet(relationshipRiskLimitCurrency)) FixUtils.putFixTag( out, FixTags.RELATIONSHIPRISKLIMITCURRENCY_INT, relationshipRiskLimitCurrency, 0, Utils.lastIndexTrim(relationshipRiskLimitCurrency, (byte)0) );
 		if (FixUtils.isSet(relationshipRiskLimitPlatform)) FixUtils.putFixTag( out, FixTags.RELATIONSHIPRISKLIMITPLATFORM_INT, relationshipRiskLimitPlatform, 0, Utils.lastIndexTrim(relationshipRiskLimitPlatform, (byte)0) );
-		if (FixUtils.isSet(relationshipRiskInstrumentScope.relationshipRiskInstrumentOperator)) relationshipRiskInstrumentScope.encode( out );
-		if (FixUtils.isSet(relationshipRiskWarningLevels.relationshipRiskWarningLevelPercent)) relationshipRiskWarningLevels.encode( out );
+		if (FixUtils.isSet(relationshipRiskInstrumentScope.noRelationshipRiskInstruments)) relationshipRiskInstrumentScope.encode( out );
+		if (FixUtils.isSet(relationshipRiskWarningLevels.noRelationshipRiskWarningLevels)) relationshipRiskWarningLevels.encode( out );
 	}
 	/**
 	 * If you use toString for any other purpose than administrative printout.
@@ -198,8 +198,8 @@ public class RelationshipRiskLimits implements FixComponent
 			if (FixUtils.isSet(relationshipRiskLimitAmount)) s += "RelationshipRiskLimitAmount(1584)=" + String.valueOf(relationshipRiskLimitAmount) + sep;
 			if (FixUtils.isSet(relationshipRiskLimitCurrency)) s += "RelationshipRiskLimitCurrency(1585)=" + new String(relationshipRiskLimitCurrency) + sep;
 			if (FixUtils.isSet(relationshipRiskLimitPlatform)) s += "RelationshipRiskLimitPlatform(1586)=" + new String(relationshipRiskLimitPlatform) + sep;
-			if (FixUtils.isSet(relationshipRiskInstrumentScope.relationshipRiskInstrumentOperator)) s += relationshipRiskInstrumentScope.toString();
-			if (FixUtils.isSet(relationshipRiskWarningLevels.relationshipRiskWarningLevelPercent)) s += relationshipRiskWarningLevels.toString();
+			if (FixUtils.isSet(relationshipRiskInstrumentScope.noRelationshipRiskInstruments)) s += relationshipRiskInstrumentScope.toString();
+			if (FixUtils.isSet(relationshipRiskWarningLevels.noRelationshipRiskWarningLevels)) s += relationshipRiskWarningLevels.toString();
 		return s;
 
 	}

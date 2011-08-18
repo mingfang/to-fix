@@ -15,7 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.*;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixMaturityRules;
 
@@ -138,8 +138,8 @@ public class StrikeRules implements FixComponent
 				id = FixUtils.getTagId( buf );
 			}
 
-			if(id == FixTags.MATURITYRULEID_INT) {
-				maturityRules.getAll(FixTags.MATURITYRULEID_INT, buf);
+			if(id == FixTags.NOMATURITYRULES_INT) {
+				maturityRules.getAll(FixTags.NOMATURITYRULES_INT, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -167,7 +167,7 @@ public class StrikeRules implements FixComponent
 		if (FixUtils.isSet(endStrikePxRange)) return true;
 		if (FixUtils.isSet(strikeIncrement)) return true;
 		if (FixUtils.isSet(strikeExerciseStyle)) return true;
-		if (FixUtils.isSet(maturityRules.maturityRuleID)) return true;
+		if (FixUtils.isSet(maturityRules.noMaturityRules)) return true;
 		return false;
 	}
 	@Override
@@ -178,7 +178,7 @@ public class StrikeRules implements FixComponent
 		if (FixUtils.isSet(endStrikePxRange)) FixUtils.putFixFloatTag( out, FixTags.ENDSTRIKEPXRANGE_INT, endStrikePxRange);
 		if (FixUtils.isSet(strikeIncrement)) FixUtils.putFixFloatTag( out, FixTags.STRIKEINCREMENT_INT, strikeIncrement);
 		if (FixUtils.isSet(strikeExerciseStyle)) FixUtils.putFixTag( out, FixTags.STRIKEEXERCISESTYLE_INT, strikeExerciseStyle);
-		if (FixUtils.isSet(maturityRules.maturityRuleID)) maturityRules.encode( out );
+		if (FixUtils.isSet(maturityRules.noMaturityRules)) maturityRules.encode( out );
 	}
 	/**
 	 * If you use toString for any other purpose than administrative printout.
@@ -196,7 +196,7 @@ public class StrikeRules implements FixComponent
 			if (FixUtils.isSet(endStrikePxRange)) s += "EndStrikePxRange(1203)=" + String.valueOf(endStrikePxRange) + sep;
 			if (FixUtils.isSet(strikeIncrement)) s += "StrikeIncrement(1204)=" + String.valueOf(strikeIncrement) + sep;
 			if (FixUtils.isSet(strikeExerciseStyle)) s += "StrikeExerciseStyle(1304)=" + String.valueOf(strikeExerciseStyle) + sep;
-			if (FixUtils.isSet(maturityRules.maturityRuleID)) s += maturityRules.toString();
+			if (FixUtils.isSet(maturityRules.noMaturityRules)) s += maturityRules.toString();
 		return s;
 
 	}
