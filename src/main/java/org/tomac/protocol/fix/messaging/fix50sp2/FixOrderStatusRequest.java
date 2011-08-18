@@ -10,10 +10,16 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrument;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixFinancingDetails;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUndInstrmtGrp;
 
 public class FixOrderStatusRequest extends FixMessage
 {
@@ -22,9 +28,13 @@ public class FixOrderStatusRequest extends FixMessage
 	public byte[] clOrdID;
 	public byte[] secondaryClOrdID;
 	public byte[] clOrdLinkID;
+	public FixParties parties;
 	public byte[] ordStatusReqID;
 	public byte[] account;
 	public long acctIDSource = 0;
+	public FixInstrument instrument;
+	public FixFinancingDetails financingDetails;
+	public FixUndInstrmtGrp undInstrmtGrp;
 	public byte side = (byte)' ';
 
 	public FixOrderStatusRequest() {
@@ -34,8 +44,12 @@ public class FixOrderStatusRequest extends FixMessage
 		clOrdID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		secondaryClOrdID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		clOrdLinkID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		parties = new FixParties();
 		ordStatusReqID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		account = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		instrument = new FixInstrument();
+		financingDetails = new FixFinancingDetails();
+		undInstrmtGrp = new FixUndInstrmtGrp();
 		this.clear();
 
 		msgType = MsgTypes.ORDERSTATUSREQUEST_INT;
@@ -56,10 +70,14 @@ public class FixOrderStatusRequest extends FixMessage
 		Utils.fill( account, (byte)0 );
 		acctIDSource = Long.MAX_VALUE;		
 		side = Byte.MAX_VALUE;		
+		parties.clear();
+		instrument.clear();
+		financingDetails.clear();
+		undInstrmtGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -94,6 +112,11 @@ public class FixOrderStatusRequest extends FixMessage
 				clOrdLinkID = FixUtils.getTagStringValue(value, clOrdLinkID);
 				break;
 
+			case FixTags.NOPARTYIDS_INT:
+				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(parties.noPartyIDs, value );
+				break;
+
 			case FixTags.ORDSTATUSREQID_INT:
 				ordStatusReqID = FixUtils.getTagStringValue(value, ordStatusReqID);
 				break;
@@ -105,6 +128,19 @@ public class FixOrderStatusRequest extends FixMessage
 			case FixTags.ACCTIDSOURCE_INT:
 				acctIDSource = FixUtils.getTagIntValue( value );
 				if (!AcctIDSource.isValid(acctIDSource) ) throw new FixSessionException(buf, "Invalid enumerated value(" + acctIDSource + ") for tag: " + id );
+				break;
+
+			case FixTags.SYMBOL_INT:
+				instrument.getAll(FixTags.SYMBOL_INT, value );
+				break;
+
+			case FixTags.AGREEMENTDESC_INT:
+				financingDetails.getAll(FixTags.AGREEMENTDESC_INT, value );
+				break;
+
+			case FixTags.NOUNDERLYINGS_INT:
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
 				break;
 
 			case FixTags.SIDE_INT:
@@ -137,7 +173,13 @@ public class FixOrderStatusRequest extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(side) ) return FixTags.SIDE_INT;
+		if (! instrument.isSet() ) return FixTags.SYMBOL_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -187,14 +229,19 @@ public class FixOrderStatusRequest extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		if (FixUtils.isSet(orderID)) FixUtils.putFixTag( out, FixTags.ORDERID_INT, orderID, 0, Utils.lastIndexTrim(orderID, (byte)0) );
 		if (FixUtils.isSet(clOrdID)) FixUtils.putFixTag( out, FixTags.CLORDID_INT, clOrdID, 0, Utils.lastIndexTrim(clOrdID, (byte)0) );
 		if (FixUtils.isSet(secondaryClOrdID)) FixUtils.putFixTag( out, FixTags.SECONDARYCLORDID_INT, secondaryClOrdID, 0, Utils.lastIndexTrim(secondaryClOrdID, (byte)0) );
 		if (FixUtils.isSet(clOrdLinkID)) FixUtils.putFixTag( out, FixTags.CLORDLINKID_INT, clOrdLinkID, 0, Utils.lastIndexTrim(clOrdLinkID, (byte)0) );
+		if (FixUtils.isSet(parties.noPartyIDs)) parties.encode( out );
 		if (FixUtils.isSet(ordStatusReqID)) FixUtils.putFixTag( out, FixTags.ORDSTATUSREQID_INT, ordStatusReqID, 0, Utils.lastIndexTrim(ordStatusReqID, (byte)0) );
 		if (FixUtils.isSet(account)) FixUtils.putFixTag( out, FixTags.ACCOUNT_INT, account, 0, Utils.lastIndexTrim(account, (byte)0) );
 		if (FixUtils.isSet(acctIDSource)) FixUtils.putFixTag( out, FixTags.ACCTIDSOURCE_INT, acctIDSource);
+		instrument.encode( out );
+		if (FixUtils.isSet(financingDetails.agreementDesc)) financingDetails.encode( out );
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
 		FixUtils.putFixTag( out, FixTags.SIDE_INT, side );
 		// the checksum at the end
 
@@ -261,14 +308,19 @@ public class FixOrderStatusRequest extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			if (FixUtils.isSet(orderID)) s += "OrderID(37)=" + new String(orderID) + sep;
 			if (FixUtils.isSet(clOrdID)) s += "ClOrdID(11)=" + new String(clOrdID) + sep;
 			if (FixUtils.isSet(secondaryClOrdID)) s += "SecondaryClOrdID(526)=" + new String(secondaryClOrdID) + sep;
 			if (FixUtils.isSet(clOrdLinkID)) s += "ClOrdLinkID(583)=" + new String(clOrdLinkID) + sep;
+			if (FixUtils.isSet(parties.noPartyIDs)) s += parties.toString();
 			if (FixUtils.isSet(ordStatusReqID)) s += "OrdStatusReqID(790)=" + new String(ordStatusReqID) + sep;
 			if (FixUtils.isSet(account)) s += "Account(1)=" + new String(account) + sep;
 			if (FixUtils.isSet(acctIDSource)) s += "AcctIDSource(660)=" + String.valueOf(acctIDSource) + sep;
+			 s += instrument.toString();
+			if (FixUtils.isSet(financingDetails.agreementDesc)) s += financingDetails.toString();
+			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
 			 s += "Side(54)=" + String.valueOf(side) + sep;
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
@@ -294,11 +346,19 @@ public class FixOrderStatusRequest extends FixMessage
 
 		if (!Utils.equals( clOrdLinkID, msg.clOrdLinkID)) return false;
 
+		if (!parties.equals(msg.parties)) return false;
+
 		if (!Utils.equals( ordStatusReqID, msg.ordStatusReqID)) return false;
 
 		if (!Utils.equals( account, msg.account)) return false;
 
 		if (!( acctIDSource==msg.acctIDSource)) return false;
+
+		if (!instrument.equals(msg.instrument)) return false;
+
+		if (!financingDetails.equals(msg.financingDetails)) return false;
+
+		if (!undInstrmtGrp.equals(msg.undInstrmtGrp)) return false;
 
 		if (!( side==msg.side)) return false;
 

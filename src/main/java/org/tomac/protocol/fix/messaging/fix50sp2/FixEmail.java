@@ -10,10 +10,17 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixRoutingGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrmtGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUndInstrmtGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrmtLegGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixLinesOfTextGrp;
 
 public class FixEmail extends FixMessage
 {
@@ -24,8 +31,13 @@ public class FixEmail extends FixMessage
 	public byte[] subject;
 	public long encodedSubjectLen = 0;
 	public byte[] encodedSubject;
+	public FixRoutingGrp routingGrp;
+	public FixInstrmtGrp instrmtGrp;
+	public FixUndInstrmtGrp undInstrmtGrp;
+	public FixInstrmtLegGrp instrmtLegGrp;
 	public byte[] orderID;
 	public byte[] clOrdID;
+	public FixLinesOfTextGrp linesOfTextGrp;
 	public long rawDataLength = 0;
 	public byte[] rawData;
 
@@ -36,8 +48,13 @@ public class FixEmail extends FixMessage
 		origTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
 		subject = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		encodedSubject = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		routingGrp = new FixRoutingGrp();
+		instrmtGrp = new FixInstrmtGrp();
+		undInstrmtGrp = new FixUndInstrmtGrp();
+		instrmtLegGrp = new FixInstrmtLegGrp();
 		orderID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		clOrdID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		linesOfTextGrp = new FixLinesOfTextGrp();
 		rawData = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		this.clear();
 
@@ -61,10 +78,15 @@ public class FixEmail extends FixMessage
 		Utils.fill( clOrdID, (byte)0 );
 		rawDataLength = Long.MAX_VALUE;		
 		Utils.fill( rawData, (byte)0 );
+		routingGrp.clear();
+		instrmtGrp.clear();
+		undInstrmtGrp.clear();
+		instrmtLegGrp.clear();
+		linesOfTextGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -108,12 +130,37 @@ public class FixEmail extends FixMessage
 				encodedSubject = FixUtils.getTagStringValue(value, encodedSubject);
 				break;
 
+			case FixTags.NOROUTINGIDS_INT:
+				routingGrp.noRoutingIDs = FixUtils.getTagIntValue( value );
+				routingGrp.getAll(routingGrp.noRoutingIDs, value );
+				break;
+
+			case FixTags.NORELATEDSYM_INT:
+				instrmtGrp.noRelatedSym = FixUtils.getTagIntValue( value );
+				instrmtGrp.getAll(instrmtGrp.noRelatedSym, value );
+				break;
+
+			case FixTags.NOUNDERLYINGS_INT:
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
+				break;
+
+			case FixTags.NOLEGS_INT:
+				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( value );
+				instrmtLegGrp.getAll(instrmtLegGrp.noLegs, value );
+				break;
+
 			case FixTags.ORDERID_INT:
 				orderID = FixUtils.getTagStringValue(value, orderID);
 				break;
 
 			case FixTags.CLORDID_INT:
 				clOrdID = FixUtils.getTagStringValue(value, clOrdID);
+				break;
+
+			case FixTags.NOLINESOFTEXT_INT:
+				linesOfTextGrp.noLinesOfText = FixUtils.getTagIntValue( value );
+				linesOfTextGrp.getAll(linesOfTextGrp.noLinesOfText, value );
 				break;
 
 			case FixTags.RAWDATALENGTH_INT:
@@ -149,9 +196,15 @@ public class FixEmail extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(emailThreadID) ) return FixTags.EMAILTHREADID_INT;
 		if (! FixUtils.isSet(emailType) ) return FixTags.EMAILTYPE_INT;
 		if (! FixUtils.isSet(subject) ) return FixTags.SUBJECT_INT;
+		if (! linesOfTextGrp.isSet() ) return FixTags.NOLINESOFTEXT_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -201,6 +254,7 @@ public class FixEmail extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.EMAILTHREADID_INT, emailThreadID, 0, Utils.lastIndexTrim(emailThreadID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.EMAILTYPE_INT, emailType );
@@ -208,8 +262,13 @@ public class FixEmail extends FixMessage
 		FixUtils.putFixTag( out, FixTags.SUBJECT_INT, subject, 0, Utils.lastIndexTrim(subject, (byte)0) );
 		if (FixUtils.isSet(encodedSubjectLen)) FixUtils.putFixTag( out, FixTags.ENCODEDSUBJECTLEN_INT, encodedSubjectLen);
 		if (FixUtils.isSet(encodedSubject)) FixUtils.putFixTag( out, FixTags.ENCODEDSUBJECT_INT, encodedSubject, 0, Utils.lastIndexTrim(encodedSubject, (byte)0) );
+		if (FixUtils.isSet(routingGrp.noRoutingIDs)) routingGrp.encode( out );
+		if (FixUtils.isSet(instrmtGrp.noRelatedSym)) instrmtGrp.encode( out );
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
+		if (FixUtils.isSet(instrmtLegGrp.noLegs)) instrmtLegGrp.encode( out );
 		if (FixUtils.isSet(orderID)) FixUtils.putFixTag( out, FixTags.ORDERID_INT, orderID, 0, Utils.lastIndexTrim(orderID, (byte)0) );
 		if (FixUtils.isSet(clOrdID)) FixUtils.putFixTag( out, FixTags.CLORDID_INT, clOrdID, 0, Utils.lastIndexTrim(clOrdID, (byte)0) );
+		linesOfTextGrp.encode( out );
 		if (FixUtils.isSet(rawDataLength)) FixUtils.putFixTag( out, FixTags.RAWDATALENGTH_INT, rawDataLength);
 		if (FixUtils.isSet(rawData)) FixUtils.putFixTag( out, FixTags.RAWDATA_INT, rawData, 0, Utils.lastIndexTrim(rawData, (byte)0) );
 		// the checksum at the end
@@ -277,6 +336,7 @@ public class FixEmail extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "EmailThreadID(164)=" + new String(emailThreadID) + sep;
 			 s += "EmailType(94)=" + String.valueOf(emailType) + sep;
@@ -284,8 +344,13 @@ public class FixEmail extends FixMessage
 			 s += "Subject(147)=" + new String(subject) + sep;
 			if (FixUtils.isSet(encodedSubjectLen)) s += "EncodedSubjectLen(356)=" + String.valueOf(encodedSubjectLen) + sep;
 			if (FixUtils.isSet(encodedSubject)) s += "EncodedSubject(357)=" + new String(encodedSubject) + sep;
+			if (FixUtils.isSet(routingGrp.noRoutingIDs)) s += routingGrp.toString();
+			if (FixUtils.isSet(instrmtGrp.noRelatedSym)) s += instrmtGrp.toString();
+			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
+			if (FixUtils.isSet(instrmtLegGrp.noLegs)) s += instrmtLegGrp.toString();
 			if (FixUtils.isSet(orderID)) s += "OrderID(37)=" + new String(orderID) + sep;
 			if (FixUtils.isSet(clOrdID)) s += "ClOrdID(11)=" + new String(clOrdID) + sep;
+			 s += linesOfTextGrp.toString();
 			if (FixUtils.isSet(rawDataLength)) s += "RawDataLength(95)=" + String.valueOf(rawDataLength) + sep;
 			if (FixUtils.isSet(rawData)) s += "RawData(96)=" + new String(rawData) + sep;
 
@@ -314,9 +379,19 @@ public class FixEmail extends FixMessage
 
 		if (!Utils.equals( encodedSubject, msg.encodedSubject)) return false;
 
+		if (!routingGrp.equals(msg.routingGrp)) return false;
+
+		if (!instrmtGrp.equals(msg.instrmtGrp)) return false;
+
+		if (!undInstrmtGrp.equals(msg.undInstrmtGrp)) return false;
+
+		if (!instrmtLegGrp.equals(msg.instrmtLegGrp)) return false;
+
 		if (!Utils.equals( orderID, msg.orderID)) return false;
 
 		if (!Utils.equals( clOrdID, msg.clOrdID)) return false;
+
+		if (!linesOfTextGrp.equals(msg.linesOfTextGrp)) return false;
 
 		if (!( rawDataLength==msg.rawDataLength)) return false;
 

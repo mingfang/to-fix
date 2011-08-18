@@ -10,10 +10,14 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixBidDescReqGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixBidCompReqGrp;
 
 public class FixBidRequest extends FixMessage
 {
@@ -28,6 +32,8 @@ public class FixBidRequest extends FixMessage
 	public byte[] currency;
 	public long sideValue1 = 0;
 	public long sideValue2 = 0;
+	public FixBidDescReqGrp bidDescReqGrp;
+	public FixBidCompReqGrp bidCompReqGrp;
 	public long liquidityIndType = 0;
 	public long wtAverageLiquidity = 0;
 	public boolean exchangeForPhysical = false;
@@ -53,6 +59,8 @@ public class FixBidRequest extends FixMessage
 		clientBidID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		listName = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		currency = new byte[FixUtils.CURRENCY_LENGTH];
+		bidDescReqGrp = new FixBidDescReqGrp();
+		bidCompReqGrp = new FixBidCompReqGrp();
 		tradeDate = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		strikeTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
 		text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
@@ -96,10 +104,12 @@ public class FixBidRequest extends FixMessage
 		Utils.fill( text, (byte)0 );
 		encodedTextLen = Long.MAX_VALUE;		
 		Utils.fill( encodedText, (byte)0 );
+		bidDescReqGrp.clear();
+		bidCompReqGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -158,6 +168,16 @@ public class FixBidRequest extends FixMessage
 
 			case FixTags.SIDEVALUE2_INT:
 				sideValue2 = FixUtils.getTagFloatValue(value);
+				break;
+
+			case FixTags.NOBIDDESCRIPTORS_INT:
+				bidDescReqGrp.noBidDescriptors = FixUtils.getTagIntValue( value );
+				bidDescReqGrp.getAll(bidDescReqGrp.noBidDescriptors, value );
+				break;
+
+			case FixTags.NOBIDCOMPONENTS_INT:
+				bidCompReqGrp.noBidComponents = FixUtils.getTagIntValue( value );
+				bidCompReqGrp.getAll(bidCompReqGrp.noBidComponents, value );
 				break;
 
 			case FixTags.LIQUIDITYINDTYPE_INT:
@@ -260,12 +280,17 @@ public class FixBidRequest extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(clientBidID) ) return FixTags.CLIENTBIDID_INT;
 		if (! FixUtils.isSet(bidRequestTransType) ) return FixTags.BIDREQUESTTRANSTYPE_INT;
 		if (! FixUtils.isSet(totNoRelatedSym) ) return FixTags.TOTNORELATEDSYM_INT;
 		if (! FixUtils.isSet(bidType) ) return FixTags.BIDTYPE_INT;
 		if (! FixUtils.isSet(bidTradeType) ) return FixTags.BIDTRADETYPE_INT;
 		if (! FixUtils.isSet(basisPxType) ) return FixTags.BASISPXTYPE_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -315,6 +340,7 @@ public class FixBidRequest extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		if (FixUtils.isSet(bidID)) FixUtils.putFixTag( out, FixTags.BIDID_INT, bidID, 0, Utils.lastIndexTrim(bidID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.CLIENTBIDID_INT, clientBidID, 0, Utils.lastIndexTrim(clientBidID, (byte)0) );
@@ -326,6 +352,8 @@ public class FixBidRequest extends FixMessage
 		if (FixUtils.isSet(currency)) FixUtils.putFixTag( out, FixTags.CURRENCY_INT, currency, 0, Utils.lastIndexTrim(currency, (byte)0) );
 		if (FixUtils.isSet(sideValue1)) FixUtils.putFixTag( out, FixTags.SIDEVALUE1_INT, sideValue1);
 		if (FixUtils.isSet(sideValue2)) FixUtils.putFixTag( out, FixTags.SIDEVALUE2_INT, sideValue2);
+		if (FixUtils.isSet(bidDescReqGrp.noBidDescriptors)) bidDescReqGrp.encode( out );
+		if (FixUtils.isSet(bidCompReqGrp.noBidComponents)) bidCompReqGrp.encode( out );
 		if (FixUtils.isSet(liquidityIndType)) FixUtils.putFixTag( out, FixTags.LIQUIDITYINDTYPE_INT, liquidityIndType);
 		if (FixUtils.isSet(wtAverageLiquidity)) FixUtils.putFixFloatTag( out, FixTags.WTAVERAGELIQUIDITY_INT, wtAverageLiquidity);
 		if (FixUtils.isSet(exchangeForPhysical)) FixUtils.putFixTag( out, FixTags.EXCHANGEFORPHYSICAL_INT, exchangeForPhysical?(byte)'Y':(byte)'N' );
@@ -408,6 +436,7 @@ public class FixBidRequest extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			if (FixUtils.isSet(bidID)) s += "BidID(390)=" + new String(bidID) + sep;
 			 s += "ClientBidID(391)=" + new String(clientBidID) + sep;
@@ -419,6 +448,8 @@ public class FixBidRequest extends FixMessage
 			if (FixUtils.isSet(currency)) s += "Currency(15)=" + new String(currency) + sep;
 			if (FixUtils.isSet(sideValue1)) s += "SideValue1(396)=" + String.valueOf(sideValue1) + sep;
 			if (FixUtils.isSet(sideValue2)) s += "SideValue2(397)=" + String.valueOf(sideValue2) + sep;
+			if (FixUtils.isSet(bidDescReqGrp.noBidDescriptors)) s += bidDescReqGrp.toString();
+			if (FixUtils.isSet(bidCompReqGrp.noBidComponents)) s += bidCompReqGrp.toString();
 			if (FixUtils.isSet(liquidityIndType)) s += "LiquidityIndType(409)=" + String.valueOf(liquidityIndType) + sep;
 			if (FixUtils.isSet(wtAverageLiquidity)) s += "WtAverageLiquidity(410)=" + String.valueOf(wtAverageLiquidity) + sep;
 			if (FixUtils.isSet(exchangeForPhysical)) s += "ExchangeForPhysical(411)=" + String.valueOf(exchangeForPhysical) + sep;
@@ -471,6 +502,10 @@ public class FixBidRequest extends FixMessage
 		if (!( sideValue1==msg.sideValue1)) return false;
 
 		if (!( sideValue2==msg.sideValue2)) return false;
+
+		if (!bidDescReqGrp.equals(msg.bidDescReqGrp)) return false;
+
+		if (!bidCompReqGrp.equals(msg.bidCompReqGrp)) return false;
 
 		if (!( liquidityIndType==msg.liquidityIndType)) return false;
 

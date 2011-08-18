@@ -10,10 +10,15 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixRgstDtlsGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixRgstDistInstGrp;
 
 public class FixRegistrationInstructions extends FixMessage
 {
@@ -22,11 +27,14 @@ public class FixRegistrationInstructions extends FixMessage
 	public byte registTransType = (byte)' ';
 	public byte[] registRefID;
 	public byte[] clOrdID;
+	public FixParties parties;
 	public byte[] account;
 	public long acctIDSource = 0;
 	public byte[] registAcctType;
 	public long taxAdvantageType = 0;
 	public byte ownershipType = (byte)' ';
+	public FixRgstDtlsGrp rgstDtlsGrp;
+	public FixRgstDistInstGrp rgstDistInstGrp;
 
 	public FixRegistrationInstructions() {
 		super();
@@ -34,8 +42,11 @@ public class FixRegistrationInstructions extends FixMessage
 		registID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		registRefID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		clOrdID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		parties = new FixParties();
 		account = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		registAcctType = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		rgstDtlsGrp = new FixRgstDtlsGrp();
+		rgstDistInstGrp = new FixRgstDistInstGrp();
 		this.clear();
 
 		msgType = MsgTypes.REGISTRATIONINSTRUCTIONS_INT;
@@ -57,10 +68,13 @@ public class FixRegistrationInstructions extends FixMessage
 		Utils.fill( registAcctType, (byte)0 );
 		taxAdvantageType = Long.MAX_VALUE;		
 		ownershipType = Byte.MAX_VALUE;		
+		parties.clear();
+		rgstDtlsGrp.clear();
+		rgstDistInstGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -96,6 +110,11 @@ public class FixRegistrationInstructions extends FixMessage
 				clOrdID = FixUtils.getTagStringValue(value, clOrdID);
 				break;
 
+			case FixTags.NOPARTYIDS_INT:
+				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(parties.noPartyIDs, value );
+				break;
+
 			case FixTags.ACCOUNT_INT:
 				account = FixUtils.getTagStringValue(value, account);
 				break;
@@ -117,6 +136,16 @@ public class FixRegistrationInstructions extends FixMessage
 			case FixTags.OWNERSHIPTYPE_INT:
 				ownershipType = FixUtils.getTagCharValue( value );
 				if (!OwnershipType.isValid(ownershipType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + ownershipType + ") for tag: " + id );
+				break;
+
+			case FixTags.NOREGISTDTLS_INT:
+				rgstDtlsGrp.noRegistDtls = FixUtils.getTagIntValue( value );
+				rgstDtlsGrp.getAll(rgstDtlsGrp.noRegistDtls, value );
+				break;
+
+			case FixTags.NODISTRIBINSTS_INT:
+				rgstDistInstGrp.noDistribInsts = FixUtils.getTagIntValue( value );
+				rgstDistInstGrp.getAll(rgstDistInstGrp.noDistribInsts, value );
 				break;
 
 			// for a message always get the checksum
@@ -144,9 +173,14 @@ public class FixRegistrationInstructions extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(registID) ) return FixTags.REGISTID_INT;
 		if (! FixUtils.isSet(registTransType) ) return FixTags.REGISTTRANSTYPE_INT;
 		if (! FixUtils.isSet(registRefID) ) return FixTags.REGISTREFID_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -196,16 +230,20 @@ public class FixRegistrationInstructions extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.REGISTID_INT, registID, 0, Utils.lastIndexTrim(registID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.REGISTTRANSTYPE_INT, registTransType );
 		FixUtils.putFixTag( out, FixTags.REGISTREFID_INT, registRefID, 0, Utils.lastIndexTrim(registRefID, (byte)0) );
 		if (FixUtils.isSet(clOrdID)) FixUtils.putFixTag( out, FixTags.CLORDID_INT, clOrdID, 0, Utils.lastIndexTrim(clOrdID, (byte)0) );
+		if (FixUtils.isSet(parties.noPartyIDs)) parties.encode( out );
 		if (FixUtils.isSet(account)) FixUtils.putFixTag( out, FixTags.ACCOUNT_INT, account, 0, Utils.lastIndexTrim(account, (byte)0) );
 		if (FixUtils.isSet(acctIDSource)) FixUtils.putFixTag( out, FixTags.ACCTIDSOURCE_INT, acctIDSource);
 		if (FixUtils.isSet(registAcctType)) FixUtils.putFixTag( out, FixTags.REGISTACCTTYPE_INT, registAcctType, 0, Utils.lastIndexTrim(registAcctType, (byte)0) );
 		if (FixUtils.isSet(taxAdvantageType)) FixUtils.putFixTag( out, FixTags.TAXADVANTAGETYPE_INT, taxAdvantageType);
 		if (FixUtils.isSet(ownershipType)) FixUtils.putFixTag( out, FixTags.OWNERSHIPTYPE_INT, ownershipType );
+		if (FixUtils.isSet(rgstDtlsGrp.noRegistDtls)) rgstDtlsGrp.encode( out );
+		if (FixUtils.isSet(rgstDistInstGrp.noDistribInsts)) rgstDistInstGrp.encode( out );
 		// the checksum at the end
 
 		int checkSumStart = out.position();
@@ -271,16 +309,20 @@ public class FixRegistrationInstructions extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "RegistID(513)=" + new String(registID) + sep;
 			 s += "RegistTransType(514)=" + String.valueOf(registTransType) + sep;
 			 s += "RegistRefID(508)=" + new String(registRefID) + sep;
 			if (FixUtils.isSet(clOrdID)) s += "ClOrdID(11)=" + new String(clOrdID) + sep;
+			if (FixUtils.isSet(parties.noPartyIDs)) s += parties.toString();
 			if (FixUtils.isSet(account)) s += "Account(1)=" + new String(account) + sep;
 			if (FixUtils.isSet(acctIDSource)) s += "AcctIDSource(660)=" + String.valueOf(acctIDSource) + sep;
 			if (FixUtils.isSet(registAcctType)) s += "RegistAcctType(493)=" + new String(registAcctType) + sep;
 			if (FixUtils.isSet(taxAdvantageType)) s += "TaxAdvantageType(495)=" + String.valueOf(taxAdvantageType) + sep;
 			if (FixUtils.isSet(ownershipType)) s += "OwnershipType(517)=" + String.valueOf(ownershipType) + sep;
+			if (FixUtils.isSet(rgstDtlsGrp.noRegistDtls)) s += rgstDtlsGrp.toString();
+			if (FixUtils.isSet(rgstDistInstGrp.noDistribInsts)) s += rgstDistInstGrp.toString();
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
 
@@ -305,6 +347,8 @@ public class FixRegistrationInstructions extends FixMessage
 
 		if (!Utils.equals( clOrdID, msg.clOrdID)) return false;
 
+		if (!parties.equals(msg.parties)) return false;
+
 		if (!Utils.equals( account, msg.account)) return false;
 
 		if (!( acctIDSource==msg.acctIDSource)) return false;
@@ -314,6 +358,10 @@ public class FixRegistrationInstructions extends FixMessage
 		if (!( taxAdvantageType==msg.taxAdvantageType)) return false;
 
 		if (!( ownershipType==msg.ownershipType)) return false;
+
+		if (!rgstDtlsGrp.equals(msg.rgstDtlsGrp)) return false;
+
+		if (!rgstDistInstGrp.equals(msg.rgstDistInstGrp)) return false;
 
 		return true;
 	}

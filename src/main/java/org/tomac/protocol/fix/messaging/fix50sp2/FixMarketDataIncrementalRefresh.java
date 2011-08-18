@@ -10,10 +10,15 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixApplicationSequenceControl;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixMDIncGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixRoutingGrp;
 
 public class FixMarketDataIncrementalRefresh extends FixMessage
 {
@@ -21,16 +26,22 @@ public class FixMarketDataIncrementalRefresh extends FixMessage
 	public long mDBookType = 0;
 	public byte[] mDFeedType;
 	public byte[] tradeDate;
+	public FixApplicationSequenceControl applicationSequenceControl;
 	public byte[] mDReqID;
+	public FixMDIncGrp mDIncGrp;
 	public long applQueueDepth = 0;
 	public long applQueueResolution = 0;
+	public FixRoutingGrp routingGrp;
 
 	public FixMarketDataIncrementalRefresh() {
 		super();
 
 		mDFeedType = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		tradeDate = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		applicationSequenceControl = new FixApplicationSequenceControl();
 		mDReqID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		mDIncGrp = new FixMDIncGrp();
+		routingGrp = new FixRoutingGrp();
 		this.clear();
 
 		msgType = MsgTypes.MARKETDATAINCREMENTALREFRESH_INT;
@@ -49,10 +60,13 @@ public class FixMarketDataIncrementalRefresh extends FixMessage
 		Utils.fill( mDReqID, (byte)0 );
 		applQueueDepth = Long.MAX_VALUE;		
 		applQueueResolution = Long.MAX_VALUE;		
+		applicationSequenceControl.clear();
+		mDIncGrp.clear();
+		routingGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -84,8 +98,17 @@ public class FixMarketDataIncrementalRefresh extends FixMessage
 				tradeDate = FixUtils.getTagStringValue(value, tradeDate);
 				break;
 
+			case FixTags.APPLID_INT:
+				applicationSequenceControl.getAll(FixTags.APPLID_INT, value );
+				break;
+
 			case FixTags.MDREQID_INT:
 				mDReqID = FixUtils.getTagStringValue(value, mDReqID);
+				break;
+
+			case FixTags.NOMDENTRIES_INT:
+				mDIncGrp.noMDEntries = FixUtils.getTagIntValue( value );
+				mDIncGrp.getAll(mDIncGrp.noMDEntries, value );
 				break;
 
 			case FixTags.APPLQUEUEDEPTH_INT:
@@ -95,6 +118,11 @@ public class FixMarketDataIncrementalRefresh extends FixMessage
 			case FixTags.APPLQUEUERESOLUTION_INT:
 				applQueueResolution = FixUtils.getTagIntValue( value );
 				if (!ApplQueueResolution.isValid(applQueueResolution) ) throw new FixSessionException(buf, "Invalid enumerated value(" + applQueueResolution + ") for tag: " + id );
+				break;
+
+			case FixTags.NOROUTINGIDS_INT:
+				routingGrp.noRoutingIDs = FixUtils.getTagIntValue( value );
+				routingGrp.getAll(routingGrp.noRoutingIDs, value );
 				break;
 
 			// for a message always get the checksum
@@ -122,6 +150,12 @@ public class FixMarketDataIncrementalRefresh extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
+		if (! mDIncGrp.isSet() ) return FixTags.NOMDENTRIES_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -171,13 +205,17 @@ public class FixMarketDataIncrementalRefresh extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		if (FixUtils.isSet(mDBookType)) FixUtils.putFixTag( out, FixTags.MDBOOKTYPE_INT, mDBookType);
 		if (FixUtils.isSet(mDFeedType)) FixUtils.putFixTag( out, FixTags.MDFEEDTYPE_INT, mDFeedType, 0, Utils.lastIndexTrim(mDFeedType, (byte)0) );
 		if (FixUtils.isSet(tradeDate)) FixUtils.putFixTag( out, FixTags.TRADEDATE_INT, tradeDate);
+		if (FixUtils.isSet(applicationSequenceControl.applID)) applicationSequenceControl.encode( out );
 		if (FixUtils.isSet(mDReqID)) FixUtils.putFixTag( out, FixTags.MDREQID_INT, mDReqID, 0, Utils.lastIndexTrim(mDReqID, (byte)0) );
+		mDIncGrp.encode( out );
 		if (FixUtils.isSet(applQueueDepth)) FixUtils.putFixTag( out, FixTags.APPLQUEUEDEPTH_INT, applQueueDepth);
 		if (FixUtils.isSet(applQueueResolution)) FixUtils.putFixTag( out, FixTags.APPLQUEUERESOLUTION_INT, applQueueResolution);
+		if (FixUtils.isSet(routingGrp.noRoutingIDs)) routingGrp.encode( out );
 		// the checksum at the end
 
 		int checkSumStart = out.position();
@@ -243,13 +281,17 @@ public class FixMarketDataIncrementalRefresh extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			if (FixUtils.isSet(mDBookType)) s += "MDBookType(1021)=" + String.valueOf(mDBookType) + sep;
 			if (FixUtils.isSet(mDFeedType)) s += "MDFeedType(1022)=" + new String(mDFeedType) + sep;
 			if (FixUtils.isSet(tradeDate)) s += "TradeDate(75)=" + new String(tradeDate) + sep;
+			if (FixUtils.isSet(applicationSequenceControl.applID)) s += applicationSequenceControl.toString();
 			if (FixUtils.isSet(mDReqID)) s += "MDReqID(262)=" + new String(mDReqID) + sep;
+			 s += mDIncGrp.toString();
 			if (FixUtils.isSet(applQueueDepth)) s += "ApplQueueDepth(813)=" + String.valueOf(applQueueDepth) + sep;
 			if (FixUtils.isSet(applQueueResolution)) s += "ApplQueueResolution(814)=" + String.valueOf(applQueueResolution) + sep;
+			if (FixUtils.isSet(routingGrp.noRoutingIDs)) s += routingGrp.toString();
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
 
@@ -270,11 +312,17 @@ public class FixMarketDataIncrementalRefresh extends FixMessage
 
 		if (!Utils.equals( mDFeedType, msg.mDFeedType)) return false;
 
+		if (!applicationSequenceControl.equals(msg.applicationSequenceControl)) return false;
+
 		if (!Utils.equals( mDReqID, msg.mDReqID)) return false;
+
+		if (!mDIncGrp.equals(msg.mDIncGrp)) return false;
 
 		if (!( applQueueDepth==msg.applQueueDepth)) return false;
 
 		if (!( applQueueResolution==msg.applQueueResolution)) return false;
+
+		if (!routingGrp.equals(msg.routingGrp)) return false;
 
 		return true;
 	}

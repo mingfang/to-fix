@@ -5,20 +5,15 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.SortedSet;
 
 import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
-import org.tomac.protocol.fix.FixGarbledException;
-import org.tomac.protocol.fix.FixSessionException;
-import org.tomac.protocol.fix.FixUtils;
-import org.tomac.protocol.fix.messaging.fix42nordic.FixMessageInfo;
-import org.tomac.protocol.fix.messaging.fix42nordic.FixTags;
-import org.tomac.protocol.fix.messaging.fix42nordic.FixMessageInfo.MsgTypes;
+import org.tomac.tools.messagegen.FixMessageDom.DomBase;
+import org.tomac.tools.messagegen.FixMessageDom.DomFixComponent;
 import org.tomac.tools.messagegen.FixMessageDom.DomFixField;
 import org.tomac.tools.messagegen.FixMessageDom.DomFixField.DomFixValue;
 import org.tomac.tools.messagegen.FixMessageDom.DomFixMessage;
-import org.tomac.utils.Utils;
 
 
 public class FixMessageGenerator {
@@ -122,6 +117,10 @@ public class FixMessageGenerator {
 		return s.substring(0, 1).toLowerCase() + s.substring(1);
 	}
 
+	private void clearComponent(DomFixComponent c, BufferedWriter out) throws Exception {
+		out.write("\t\t" + uncapFirst(c.name) + ".clear();\n");
+	}
+	
 	private void clearField(DomFixField f, BufferedWriter out) throws Exception {
 		
 		switch (FixMessageDom.toInt(f.type)) {
@@ -176,6 +175,10 @@ public class FixMessageGenerator {
 		}
 	}
 
+	private void allocateComponent(final DomFixComponent c, final BufferedWriter out) throws IOException {
+		out.write("\t\t" + uncapFirst(c.name) + " = new Fix" + capFirst(c.name) + "();\n");
+	}
+	
 	private void allocateField(final DomFixField f, final BufferedWriter out) throws IOException {
 
 		switch (FixMessageDom.toInt(f.type)) {
@@ -200,6 +203,11 @@ public class FixMessageGenerator {
 				break;
 		}
 	}	
+
+	private void declareComponent(final DomFixComponent c, final BufferedWriter out) throws IOException {
+		out.write("\tpublic Fix" + capFirst(c.name) + " " + uncapFirst(c.name) + ";\n");
+	}
+	
 	private void declareField(final DomFixField f, final BufferedWriter out) throws IOException {
 
 		switch (FixMessageDom.toInt(f.type)) {
@@ -308,6 +316,15 @@ public class FixMessageGenerator {
  		out.write(";\n");
 
 	}	
+
+	private void encodeComponent(final DomFixComponent c, final BufferedWriter out) throws IOException {
+		String chk = "";
+		
+		if (printIsSetCheck(c) != null) chk = "if (" + printIsSetCheck(c) + ") ";
+		// TODO what is wrong with header only gropus
+		if (c.name.equals("HopGrp")) chk = "if ( FixUtils.isSet(hopGrp.noHops) )";
+		out.write("\t\t" + chk + uncapFirst(c.name) + ".encode( out );\n");
+	}	
 	
 	private void encodeTagField(final DomFixField f, final BufferedWriter out) throws IOException {
 		String chk = "";
@@ -374,6 +391,13 @@ public class FixMessageGenerator {
 		
 	}
 	
+	private void printComponent(final DomFixComponent c, final BufferedWriter out) throws IOException {
+		String chk = "";
+		
+		if (printIsSetCheck(c) != null) chk = "if (" + printIsSetCheck(c) + ")";
+		out.write("\t\t\t" + chk + " s += " + uncapFirst(c.name) + ".toString();\n");
+	}	
+	
 	private void printTagField(final DomFixField f, final BufferedWriter out) throws IOException {
 		String chk = "";
 		
@@ -430,13 +454,28 @@ public class FixMessageGenerator {
 		}
 	}		
 	
+	private String printIsSetCheck(DomFixComponent c) {
+		
+		if (c.reqd.equals("Y")) return null;
+		
+		// TODO ugh! something is wrong in the header component..
+		if (c.name.equalsIgnoreCase("hopGrp")) return "FixUtils.isSet(hopGrp.noHops)";
+
+		if (c.isRepeating) { 
+			return "FixUtils.isSet(" + uncapFirst(c.name) + "." + uncapFirst(c.noInGroupTag) + ")";
+		} else {
+			if (c.getKeyTag() == null) return "()";
+			return "FixUtils.isSet(" + uncapFirst(c.name) + "." + uncapFirst(c.getKeyTag()) + ")";
+		}
+	}
+	
 	private String printIsSetCheck(DomFixField f) {
 		
 		if (f.reqd.equals("Y")) return null;
 
 		return "FixUtils.isSet(" + uncapFirst(f.name) + ")";
 	}
-
+	
 	private void genConstants(final FixMessageDom dom, final BufferedWriter out) throws Exception {
 		String unknown = "U0";
 		
@@ -508,6 +547,7 @@ public class FixMessageGenerator {
 	private void generate(final FixMessageDom dom, final File outputDir) throws Exception {
 
 		final File packageDir = new File(outputDir, dom.packageName.replace('.', File.separatorChar));
+		final File componentPackageDir = new File(outputDir, (dom.packageName + ".component").replace('.', File.separatorChar));
 
 		// ensure the directory exists
 		if (!packageDir.exists())
@@ -519,8 +559,20 @@ public class FixMessageGenerator {
 					return name.endsWith(".java");
 				}
 			}))
-				f.delete();
+				;//f.delete();
 
+		// ensure the directory exists
+		if (!componentPackageDir.exists())
+			componentPackageDir.mkdir();
+		else
+			// delete all the old files
+			for (final File f : componentPackageDir.listFiles(new FilenameFilter() {
+				public boolean accept(final File dir, final String name) {
+					return name.endsWith(".java");
+				}
+			}))
+				f.delete();
+		
 		// generate the tags
 		File f = new File(packageDir, dom.type + "Tags.java");
 
@@ -541,6 +593,11 @@ public class FixMessageGenerator {
 
 		genFixMessage(dom, new BufferedWriter(new FileWriter(f), 8 * 1024));
 
+		// generate the fix component
+		f = new File(componentPackageDir, dom.type + "Component.java");
+
+		genFixComponent(dom, new BufferedWriter(new FileWriter(f)));
+
 		// generate the messages
 		for (final DomFixMessage m : dom.domFixMessages) {
 
@@ -550,6 +607,18 @@ public class FixMessageGenerator {
 
 		}
 
+		// generate the components
+		for (final DomFixComponent c : dom.domFixComponents) {
+
+			f = new File(componentPackageDir, dom.type + c.name + ".java");
+
+			if (c.isRepeating)
+				genRepeatingComponent(c, dom, new BufferedWriter(new FileWriter(f)));
+			else
+				genComponent(c, dom, new BufferedWriter(new FileWriter(f)));
+
+		}
+		
 		// generate a listener interface
 		f = new File(packageDir, dom.type + "MessageListener.java");
 
@@ -561,6 +630,30 @@ public class FixMessageGenerator {
 		genParser(dom, new BufferedWriter(new FileWriter(f)));
 	}
 
+	private void genFixComponent(FixMessageDom dom, final BufferedWriter out) throws Exception 
+	{
+		out.write("package " + dom.packageName + ".component;\n\n");
+
+		out.write("import java.nio.ByteBuffer;\n\n");
+
+		out.write(strFixException + "\n");
+		out.write(strFixGarbledException + "\n");
+
+		out.write("public interface FixComponent {\n\n");
+
+		out.write("	public void clear();\n\n");
+
+		//out.write("	public void getAll(" + strWritableByteBuffer + " buf) throws FixSessionException, FixGarbledException;\n\n");
+
+		out.write("	public void encode(" + strWritableByteBuffer + " out);\n\n");
+		
+		out.write("\tpublic boolean isSet();§\n");
+
+		out.write("}\n");
+		
+		out.close();
+	}
+	
 	private void genFixMessage(FixMessageDom dom, final BufferedWriter out) throws Exception 
 	{
 		
@@ -576,7 +669,10 @@ public class FixMessageGenerator {
 		out.write(strFixException + "\n");
 		out.write(strFixGarbledException + "\n");
 		out.write(strUtils + "\n\n");
-		out.write(strOtherUtils + "\n\n");
+		out.write(strOtherUtils + "\n");
+		for (DomFixComponent c : dom.domFixHeader.components)
+			out.write("import " + dom.packageName + ".component.Fix" + capFirst(c.name) + ";\n");
+		out.write("\n");
 		
 		// write out the open to the interface
 		out.write("public abstract class FixMessage extends FixGeneratedBaseMessage\n{\n\n");
@@ -587,9 +683,16 @@ public class FixMessageGenerator {
 		
 		for (DomFixField f : dom.domFixTrailer.fields )
 			declareField(f, out);
-		for (DomFixField f : dom.domFixHeader.fields ) {
-			if (f.name.equals("MsgType")) continue;
-			declareField(f, out);
+		for (DomBase b : dom.domFixHeader.fieldsAndComponents ) {
+			if (b instanceof DomFixField) {
+				DomFixField f = (DomFixField)b;
+				if (f.name.equals("MsgType")) continue;
+				declareField(f, out);
+			}
+			if (b instanceof DomFixComponent) {
+				DomFixComponent c = (DomFixComponent)b;
+				declareComponent(c, out);
+			}
 		}
 		
 		out.write("\t\n");
@@ -616,10 +719,18 @@ public class FixMessageGenerator {
 		out.write("\t\tsuper();\n\n");
 		for (DomFixField f : dom.domFixTrailer.fields )
 			allocateField(f, out);
-		for (DomFixField f : dom.domFixHeader.fields ) {
-			if (f.name.equals("MsgType")) continue;
-			allocateField(f, out);
+		for (DomBase b : dom.domFixHeader.fieldsAndComponents ) {
+			if (b instanceof DomFixField) {
+				DomFixField f = (DomFixField)b;
+				if (f.name.equals("MsgType")) continue;
+				allocateField(f, out);
+			}
+			if (b instanceof DomFixComponent) {
+				DomFixComponent c = (DomFixComponent)b;
+				allocateComponent(c, out);
+			}
 		}
+
 		out.write("\n\n");
 		out.write("	}\n\n");
 		
@@ -633,6 +744,9 @@ public class FixMessageGenerator {
 		for (DomFixField f : dom.domFixHeader.fields ) {
 			if (f.name.equals("MsgType")) continue;
 			clearField(f, out);
+		}
+		for (DomFixComponent c : dom.domFixHeader.components ) {
+			clearComponent(c, out);
 		}
 
 		out.write("\t}\n\n");
@@ -698,7 +812,7 @@ public class FixMessageGenerator {
 		out.write("\tpublic boolean equals(Object o) {\n");
 		out.write("\t\tif (! ( o instanceof FixMessage)) return false;\n\n");
 		out.write("\t\t\tFixMessage msg = (FixMessage) o;\n\n");
-		printEquals(out, dom.domFixHeader.fields);
+		printEquals(out, dom.domFixHeader.fieldsAndComponents);
 
 		out.write("\n");
 		out.write("\t}\n\n");
@@ -899,14 +1013,26 @@ public class FixMessageGenerator {
 		out.write(strUtils + "\n");
 		out.write(strConstants + "\n");
 		out.write(strBaseUtils + "\n");
-		out.write(strOtherUtils + "\n\n");
+		out.write(strOtherUtils + "\n");
+		for (DomFixComponent c : dom.domFixHeader.components)
+			out.write("import " + dom.packageName + ".component.Fix" + capFirst(c.name) + ";\n");
+		for (DomFixComponent c : m.components)
+			out.write("import " + dom.packageName + ".component.Fix" + capFirst(c.name) + ";\n");
+		out.write("\n");
 		
 		// write out the open to the interface
 		out.write("public class " + name + " extends FixMessage\n{\n\n");
 		
-		for (DomFixField f : m.fields ) {
-			if (f.name.equals("MsgType")) continue;
-			declareField(f, out);
+		for (DomBase b : m.fieldsAndComponents ) {
+			if (b instanceof DomFixField) {
+				DomFixField f = (DomFixField)b;
+				if (f.name.equals("MsgType")) continue;
+				declareField(f, out);
+			}
+			if (b instanceof DomFixComponent) {
+				DomFixComponent c = (DomFixComponent)b;
+				declareComponent(c, out);
+			}
 		}
 
 		out.write("\n");
@@ -914,9 +1040,17 @@ public class FixMessageGenerator {
 		out.write("\tpublic " + name + "() {\n");
 		out.write("\t\tsuper();\n\n");
 		
-		for (DomFixField f : m.fields ) {
-			allocateField(f, out);
+		for (DomBase b : m.fieldsAndComponents ) {
+			if (b instanceof DomFixField) {
+				DomFixField f = (DomFixField)b;
+				allocateField(f, out);
+			}
+			if (b instanceof DomFixComponent) {
+				DomFixComponent c = (DomFixComponent)b;
+				allocateComponent(c, out);
+			}
 		}
+
 		out.write("\t\tthis.clear();\n\n");
 
 		out.write("\t\tmsgType = MsgTypes." + m.name.toUpperCase() + "_INT;\n\n");
@@ -931,6 +1065,9 @@ public class FixMessageGenerator {
 		for (DomFixField f : m.fields ) {
 			if (f.name.equals("MsgType")) continue;
 			clearField(f, out);
+		}
+		for (DomFixComponent c : m.components ) {
+			clearComponent(c, out);
 		}
 
 		out.write("\t}\n\n");
@@ -956,14 +1093,29 @@ public class FixMessageGenerator {
 
  		out.write("\t\t\tswitch( id ) {\n\n");
  		
-		for (DomFixField f : m.fields ) {
-			if (f.name.contains("BeginString") || f.name.contains("BodyLength") || f.name.contains("MsgType") ) continue;
-	 		out.write("\t\t\tcase FixTags." + f.name.toUpperCase() + "_INT:\n");
-	 		decodeFieldValue(f, out);
-	 		if (f.domFixValues.size() > 0) {
-	 			out.write("\t\t\t\tif (!" + capFirst(f.name) + ".isValid("+ uncapFirst(f.name) + ") ) throw new FixSessionException(buf, \"Invalid enumerated value(\" + " + uncapFirst(f.name) + " + \") for tag: \" + id );\n");
-	 		}
-	 		out.write("\t\t\t\tbreak;\n\n");
+		for (DomBase b : m.fieldsAndComponents ) {
+			if (b instanceof DomFixField) {
+				DomFixField f = (DomFixField) b;
+				if (f.name.contains("BeginString") || f.name.contains("BodyLength") || f.name.contains("MsgType") ) continue;
+				out.write("\t\t\tcase FixTags." + f.name.toUpperCase() + "_INT:\n");
+				decodeFieldValue(f, out);
+				if (f.domFixValues.size() > 0) {
+					out.write("\t\t\t\tif (!" + capFirst(f.name) + ".isValid("+ uncapFirst(f.name) + ") ) throw new FixSessionException(buf, \"Invalid enumerated value(\" + " + uncapFirst(f.name) + " + \") for tag: \" + id );\n");
+	 			}
+	 			out.write("\t\t\t\tbreak;\n\n");
+			}
+			if (b instanceof DomFixComponent) {
+				DomFixComponent c = (DomFixComponent) b;
+				if (c.isRepeating) {
+					out.write("\t\t\tcase FixTags." + c.noInGroupTag.toUpperCase() + "_INT:\n");
+					out.write("\t\t\t\t" + uncapFirst(c.name) + "." + uncapFirst(c.noInGroupTag) + " = FixUtils.getTagIntValue( value );\n");
+					out.write("\t\t\t\t" + uncapFirst(c.name) + ".getAll(" + uncapFirst(c.name) + "." + uncapFirst(c.noInGroupTag) + ", value );\n");
+				} else {
+					out.write("\t\t\tcase FixTags." + c.getKeyTag().toUpperCase() + "_INT:\n");
+					out.write("\t\t\t\t" + uncapFirst(c.name) + ".getAll(FixTags." + c.getKeyTag().toUpperCase() + "_INT, value );\n");
+				}
+	 			out.write("\t\t\t\tbreak;\n\n");
+			}
 		} 		
 
 		out.write("\t\t\t// for a message always get the checksum\n");
@@ -997,12 +1149,28 @@ public class FixMessageGenerator {
 			if (f.reqd.equals("N") || f.name.contains("BeginString") || f.name.contains("BodyLength") || f.name.contains("MsgType") ) continue;
 			out.write("\t\tif (! FixUtils.isSet(" + uncapFirst(f.name) + ") ) return FixTags." + f.name.toUpperCase() + "_INT;\n");
 		}
+
+		for (DomFixComponent c : dom.domFixHeader.components ) {
+			if (c.reqd.equals("N") ) continue;
+			if (c.isRepeating)
+				out.write("\t\tif (! " + uncapFirst(c.name) + ".isSet() ) return FixTags." + c.noInGroupTag.toUpperCase() + "_INT;\n");
+			else
+				out.write("\t\tif (! " + uncapFirst(c.name) + ".isSet() ) return FixTags." + c.getKeyTag().toUpperCase() + "_INT;\n");
+		}
 		
 		for (DomFixField f : m.fields ) {
 			if (f.reqd.equals("N") ) continue;
 			out.write("\t\tif (! FixUtils.isSet(" + uncapFirst(f.name) + ") ) return FixTags." + f.name.toUpperCase() + "_INT;\n");
 		}
 
+		for (DomFixComponent c : m.components ) {
+			if (c.reqd.equals("N") ) continue;
+			if (c.isRepeating)
+				out.write("\t\tif (! " + uncapFirst(c.name) + ".isSet() ) return FixTags." + c.noInGroupTag.toUpperCase() + "_INT;\n");
+			else
+				out.write("\t\tif (! " + uncapFirst(c.name) + ".isSet() ) return FixTags." + c.getKeyTag().toUpperCase() + "_INT;\n");
+		}
+		
 		for (DomFixField f : dom.domFixTrailer.fields ) {
 			if (f.reqd.equals("N") ) continue;
 			out.write("\t\tif (! FixUtils.isSet(" + uncapFirst(f.name) + ") ) return FixTags." + f.name.toUpperCase() + "_INT;\n");
@@ -1032,13 +1200,25 @@ public class FixMessageGenerator {
 		out.write("\t\tFixUtils.putFixTag( out, FixTags.MSGTYPE_INT, MsgTypes." + m.name.toUpperCase() + ");\n\n");
 
 		out.write("\t\t// encode all fields including the header\n\n");
-		for (DomFixField f : dom.domFixHeader.fields ) {
-			if (f.name.contains("BeginString") || f.name.contains("BodyLength") || f.name.equals("MsgType") ) continue;
-			encodeTagField(f, out);
+		for (DomBase b : dom.domFixHeader.fieldsAndComponents ) {
+			if (b instanceof DomFixField) {
+				DomFixField f = (DomFixField) b;
+				if (f.name.contains("BeginString") || f.name.contains("BodyLength") || f.name.equals("MsgType") ) continue;
+				encodeTagField(f, out);
+			} 
+			if (b instanceof DomFixComponent) {
+				encodeComponent((DomFixComponent)b, out);
+			}
 		}
 		out.write("\n");
-		for (DomFixField f : m.fields ) {
-			encodeTagField(f, out);
+		for (DomBase b : m.fieldsAndComponents ) {
+			if (b instanceof DomFixField) {
+				DomFixField f = (DomFixField) b;
+				encodeTagField(f, out);
+			} 
+			if (b instanceof DomFixComponent) {
+				encodeComponent((DomFixComponent)b, out);
+			}
 		}
 		
 		out.write("\t\t// the checksum at the end\n\n");
@@ -1079,13 +1259,25 @@ public class FixMessageGenerator {
 
 		out.write("\t\ttry {\n");
 		out.write("\t\t\t// print all fields including the header\n\n");
-		for (DomFixField f : dom.domFixHeader.fields ) {
-			if (f.name.contains("BeginString") || f.name.contains("BodyLength") || f.name.equals("MsgType") ) continue;
-			printTagField(f, out);
+		for (DomBase b : dom.domFixHeader.fieldsAndComponents ) {
+			if (b instanceof DomFixField) {
+				DomFixField f = (DomFixField) b;
+				if (f.name.contains("BeginString") || f.name.contains("BodyLength") || f.name.equals("MsgType") ) continue;
+				printTagField(f, out);
+			}
+			if (b instanceof DomFixComponent) {
+				printComponent((DomFixComponent)b, out);
+			}
 		}
 		out.write("\n");
-		for (DomFixField f : m.fields ) {
-			printTagField(f, out);
+		for (DomBase b : m.fieldsAndComponents ) {
+			if (b instanceof DomFixField) {
+				DomFixField f = (DomFixField) b;
+				printTagField(f, out);
+			}
+			if (b instanceof DomFixComponent) {
+				printComponent((DomFixComponent)b, out);
+			}
 		}
 		out.write("\n");
 		out.write("\t\t\ts += \"checkSum(10)=\" + String.valueOf(checkSum) + sep;\n\n");
@@ -1101,7 +1293,7 @@ public class FixMessageGenerator {
 		out.write("\t\tif (! ( o instanceof " + name + ")) return false;\n\n");
 		out.write("\t\t\t" + name + " msg = (" + name + ") o;\n\n");
 		out.write("\t\tif ( ! super.equals(msg) ) return false;\n\n");
-		printEquals(out, m.fields);
+		printEquals(out, m.fieldsAndComponents);
 		out.write("\t}\n");
 
 		// write out the close to the class
@@ -1111,6 +1303,375 @@ public class FixMessageGenerator {
 		out.close();
 	}
 	
+	private void genRepeatingComponent(final DomFixComponent m, final FixMessageDom dom, final BufferedWriter out) throws Exception {
+		String name = m.name;
+		
+		// write package line
+		out.write("package " + dom.packageName + ".component;\n\n");
+
+		writeGeneratedFileHeader(out);
+
+		// import ByteBuffer
+		out.write(strInByteBuffer + "\n");
+		out.write(strOutByteBuffer + "\n");
+		out.write(strFixUtils + "\n");
+		out.write(strFixException + "\n");
+		out.write(strFixGarbledException + "\n");
+		out.write(strUtils + "\n");
+		out.write(strConstants + "\n");
+		out.write(strBaseUtils + "\n");
+		out.write(strOtherUtils + "\n");
+		out.write("import " + dom.packageName + ".FixMessageInfo.*;\n");
+		out.write("import " + dom.packageName + ".FixTags;\n");
+		for (DomFixComponent c : m.components)
+			out.write("import " + dom.packageName + ".component.Fix" + capFirst(c.name) + ";\n");
+		out.write("\n");
+		
+		// write out the open to the interface
+		out.write("public class Fix" + name + "\n{\n\n");
+		
+		out.write("\tpublic int " + uncapFirst(m.noInGroupTag) + ";\n");
+		out.write("\tpublic " + m.name + "[] group;\n\n");
+
+		out.write("\tpublic void getAll(int " + uncapFirst(m.noInGroupTag) + ", ByteBuffer buf) throws FixSessionException {\n");
+		out.write("\t\tthis." + uncapFirst(m.noInGroupTag) + " = " + uncapFirst(m.noInGroupTag) + ";\n\n");
+			
+		out.write("\t\tif (" + uncapFirst(m.noInGroupTag) + " < 1) throw new FixSessionException(\"asdasd\");\n");
+		out.write("\t\t// this will leak memory if we grow the group\n");
+		out.write("\t\tif (group.length < " + uncapFirst(m.noInGroupTag) + ") \n");
+		out.write("\t\t\tgroup = new " + capFirst(m.name) + "[" + uncapFirst(m.noInGroupTag) + "];\n\n");
+
+		out.write("\t	for ( int i = 0; i < " + uncapFirst(m.noInGroupTag) + "; i++ ) \n");
+		out.write("\t		group[i].getAllGroup(buf);\n");
+
+		out.write("\t}\n\n");
+		
+		out.write("\tpublic void clear() {\n");
+		out.write("\t	for (int i = 0; i<" + uncapFirst(m.noInGroupTag) + "; i++)\n");
+		out.write("\t		group[i].clear();\n");
+		out.write("\t}\n");
+
+		out.write("\tpublic void encode(ByteBuffer out) {\n");
+		out.write("\t	for (int i = 0; i<" + uncapFirst(m.noInGroupTag) + "; i++)\n");
+		out.write("\t		group[i].encode(out);\n");
+		out.write("\t}\n");
+
+		out.write("\tpublic boolean isSet() {\n");
+		out.write("\t	for (int i = 0; i<" + uncapFirst(m.noInGroupTag) + "; i++)\n");
+		out.write("\t		if (group[i].isSet()) return true;\n");
+		out.write("\t	return false;\n");
+		out.write("\t}\n\n");
+
+		out.write("\t@Override\n");
+		out.write("\tpublic String toString() {\n");
+		out.write("\t	String s = \"\";\n");
+		out.write("\t	for (int i = 0; i<" + uncapFirst(m.noInGroupTag) + "; i++)\n");
+		out.write("\t		s += group[i].toString();\n");
+		out.write("\t\treturn s;\n");
+		out.write("\t}\n\n");
+		
+		genComponent(m, dom, out);
+		
+		out.write("}\n");
+
+		out.close();
+
+	}
+	
+	private void genComponent(final DomFixComponent m, final FixMessageDom dom, final BufferedWriter out) throws Exception {
+
+		String name;
+		if (m.isRepeating)
+			name = m.name;
+		else
+			name = dom.type + m.name;
+		
+		if (!m.isRepeating) {
+			// write package line
+			out.write("package " + dom.packageName + ".component;\n\n");
+
+			writeGeneratedFileHeader(out);
+
+			// import ByteBuffer
+			out.write(strInByteBuffer + "\n");
+			out.write(strOutByteBuffer + "\n");
+			out.write(strFixUtils + "\n");
+			out.write(strFixException + "\n");
+			out.write(strFixGarbledException + "\n");
+			out.write(strUtils + "\n");
+			out.write(strConstants + "\n");
+			out.write(strBaseUtils + "\n");
+			out.write(strOtherUtils + "\n");
+			out.write("import " + dom.packageName + ".FixTags;\n");
+			out.write("import " + dom.packageName + ".FixMessageInfo.*;\n");
+			for (DomFixComponent c : m.components)
+				out.write("import " + dom.packageName + ".component.Fix" + capFirst(c.name) + ";\n");
+			out.write("\n");
+		}
+		
+		// write out the open to the interface
+		out.write("public class " + name + " implements FixComponent\n{\n\n");
+		
+		for (DomBase b : m.fieldsAndComponents ) {
+			if (b instanceof DomFixField) {
+				DomFixField f = (DomFixField)b;
+				if (f.name.equals("MsgType")) continue;
+				declareField(f, out);
+			}
+			if (b instanceof DomFixComponent) {
+				DomFixComponent c = (DomFixComponent)b;
+				declareComponent(c, out);
+			}
+		}
+
+		out.write("\n");
+
+		out.write("\tpublic " + name + "() {\n");
+		out.write("\t\tsuper();\n\n");
+		
+		for (DomBase b : m.fieldsAndComponents ) {
+			if (b instanceof DomFixField) {
+				DomFixField f = (DomFixField)b;
+				allocateField(f, out);
+			}
+			if (b instanceof DomFixComponent) {
+				DomFixComponent c = (DomFixComponent)b;
+				allocateComponent(c, out);
+			}
+		}
+
+		out.write("\t\tthis.clear();\n\n");
+
+		out.write("	}\n\n");
+		
+		out.write("\t@Override\n");
+		out.write("\tpublic void clear()\n");
+		out.write("\t{\n\n");
+
+		out.write("\t\t// clear out all the fields that aren't msgType\n\n");
+		for (DomFixField f : m.fields ) {
+			if (f.name.equals("MsgType")) continue;
+			clearField(f, out);
+		}
+		for (DomFixComponent c : m.components ) {
+			clearComponent(c, out);
+		}
+
+		out.write("\t}\n\n");
+		
+		// getAll()
+		if (m.isRepeating) 
+			out.write("\tpublic void getAllGroup(" + strReadableByteBuffer + " buf) throws FixSessionException\n");
+		else
+			out.write("\tpublic void getAll(int id, " + strReadableByteBuffer + " buf) throws FixSessionException\n");
+		out.write("\t{\n\n");
+
+ 		out.write("\t\tint startTagPosition = buf.position();\n\n");
+
+ 		if (m.isRepeating) out.write("\t\tint id = FixUtils.getTagId( buf );\n");
+ 		out.write("\t\tint lastTagPosition = buf.position();\n");
+
+ 		if (m.isRepeating) {
+ 			genGetTagsSwitchForRepeatingComponent(m, out);
+ 		} else {
+ 			genGetTagsSwitchForComponent(m, out);
+ 		}
+ 		
+		out.write("\t}\n\n");
+		// end getAll
+		
+		out.write("\tprivate int checkRequiredTags() {\n");
+		out.write("\t\tint tag = -1;\n\n");
+		
+		for (DomFixField f : m.fields ) {
+			if (f.reqd.equals("N") ) continue;
+			out.write("\t\tif (! FixUtils.isSet(" + uncapFirst(f.name) + ") ) return FixTags." + f.name.toUpperCase() + "_INT;\n");
+		}
+
+		for (DomFixComponent c : m.components ) {
+			if (c.reqd.equals("N") ) continue;
+			if (c.isRepeating)
+				out.write("\t\tif (! " + uncapFirst(c.name) + ".isSet() ) return FixTags." + c.noInGroupTag.toUpperCase() + "_INT;\n");
+			else
+				out.write("\t\tif (! " + uncapFirst(c.name) + ".isSet() ) return FixTags." + c.getKeyTag().toUpperCase() + "_INT;\n");
+		}
+		
+		out.write("\t\treturn tag;\n\n");
+		out.write("\t}\n");	
+		
+		// isSet
+		out.write("\t@Override\n");
+		out.write("\tpublic boolean isSet()\n");
+		out.write("\t{\n");
+		for (DomBase b : m.fieldsAndComponents ) {
+			if (b instanceof DomFixField) {
+				DomFixField f = (DomFixField) b;
+				if (printIsSetCheck(f) != null) 
+					out.write("\t\tif (" + printIsSetCheck(f) + ") return true;\n");
+			} 
+			if (b instanceof DomFixComponent) {
+				DomFixComponent c = (DomFixComponent)b;
+				out.write("\t\tif (" + printIsSetCheck(c) + ") return true;\n");
+			}
+		}
+	    out.write("\t\treturn false;\n");
+	    out.write("\t}\n");
+		
+		// encode
+		out.write("\t@Override\n");
+		out.write("\tpublic void encode( " + strWritableByteBuffer + " out )\n");
+		out.write("\t{\n");
+		for (DomBase b : m.fieldsAndComponents ) {
+			if (b instanceof DomFixField) {
+				DomFixField f = (DomFixField) b;
+				encodeTagField(f, out);
+			} 
+			if (b instanceof DomFixComponent) {
+				encodeComponent((DomFixComponent)b, out);
+			}
+		}
+	    out.write("\t}\n");
+		
+		// toString
+		out.write("\t/**\n");
+		out.write("\t * If you use toString for any other purpose than administrative printout.\n");
+		out.write("\t * You will end up in nifelheim!\n");
+		out.write("\t**/\n");
+		out.write("\t@Override\n");
+		out.write("\tpublic String toString() {\n");
+		out.write("\t\tchar sep = '\\n';\n");
+		out.write("\t\tif (Boolean.getBoolean(\"fix.useOneLiner\")) sep = ( byte )0x01;\n\n");
+		
+		out.write("\t\tString s = \"\";\n");
+		out.write("\n");
+		for (DomBase b : m.fieldsAndComponents ) {
+			if (b instanceof DomFixField) {
+				DomFixField f = (DomFixField) b;
+				printTagField(f, out);
+			}
+			if (b instanceof DomFixComponent) {
+				printComponent((DomFixComponent)b, out);
+			}
+		}
+		out.write("\t\treturn s;\n\n");
+		
+		out.write("\t}\n\n");
+
+		// equals
+		if (m.isRepeating)
+			name = capFirst(m.name);
+		else
+			name = capFirst(dom.type) + capFirst(m.name);
+		out.write("\t@Override\n");
+		out.write("\tpublic boolean equals(Object o) {\n");
+		out.write("\t\tif (! ( o instanceof " + name + ")) return false;\n\n");
+		out.write("\t\t\t" + name + " msg = (" + name + ") o;\n\n");
+		out.write("\t\tif ( ! super.equals(msg) ) return false;\n\n");
+		printEquals(out, m.fieldsAndComponents);
+		out.write("\t}\n");
+
+		// write out the close to the class
+		out.write("}\n");
+
+		// done. close out the file
+		if (!m.isRepeating)
+			out.close();
+	}
+	
+	private void genGetTagsSwitchForRepeatingComponent(DomFixComponent m, BufferedWriter out) throws IOException {
+ 		out.write("\t\t\t" + strReadableByteBuffer + " value;\n\n");
+		
+ 		out.write("\t\t\tvalue = buf;\n\n");
+
+ 		for (DomBase b : m.fieldsAndComponents ) {
+			if (b instanceof DomFixField) {
+				DomFixField f = (DomFixField) b;
+				if (f.name.contains("BeginString") || f.name.contains("BodyLength") || f.name.contains("MsgType") ) continue;
+				out.write("\t\t\tif(id == FixTags." + f.name.toUpperCase() + "_INT) {\n");
+				decodeFieldValue(f, out);
+				if (f.domFixValues.size() > 0) {
+					out.write("\t\t\t\tif (!" + capFirst(f.name) + ".isValid("+ uncapFirst(f.name) + ") ) throw new FixSessionException(buf, \"Invalid enumerated value(\" + " + uncapFirst(f.name) + " + \") for tag: \" + id );\n");
+	 			}
+		 		out.write("\t\t\t\tlastTagPosition = buf.position();\n\n");
+				out.write("\t\t\t\tid = FixUtils.getTagId( buf );\n");
+	 			out.write("\t\t\t}\n\n");
+			}
+			if (b instanceof DomFixComponent) {
+				DomFixComponent c = (DomFixComponent) b;
+				if (c.isRepeating) {
+					out.write("\t\t\tif(id == FixTags." + c.noInGroupTag.toUpperCase() + "_INT) {\n");
+					out.write("\t\t\t\t" + uncapFirst(c.name) + ".getAll(FixTags." + c.noInGroupTag.toUpperCase() + "_INT, buf);\n");
+					out.write("\t\t\t\tlastTagPosition = buf.position();\n\n");
+					out.write("\t\t\t\tid = FixUtils.getTagId( buf );\n");
+					out.write("\t\t\t}\n\n");
+				} else {
+					out.write("\t\t\tif(id == FixTags." + c.getKeyTag().toUpperCase() + "_INT) {\n");
+					out.write("\t\t\t\t" + uncapFirst(c.name) + ".getAll(FixTags." + c.getKeyTag().toUpperCase() + "_INT, buf);\n");
+					out.write("\t\t\t\tlastTagPosition = buf.position();\n\n");
+					out.write("\t\t\t\tid = FixUtils.getTagId( buf );\n");
+					out.write("\t\t\t}\n\n");
+				}
+			}
+		} 		
+		// unknown, unread
+		out.write("\t\t\tid = checkRequiredTags();\n");
+		out.write("\t\t\tif (id > 0) throw new FixSessionException(buf, \"Required tag missing: \" + id );\n\n");
+		
+		out.write("\t\t\tbuf.position( lastTagPosition );\n");
+ 		out.write("\t\t\treturn;\n\n");
+	}
+
+	private void genGetTagsSwitchForComponent(DomFixComponent m, final BufferedWriter out) throws IOException {
+ 		out.write("\t\tdo {\n");
+ 		out.write("\t\t\t" + strReadableByteBuffer + " value;\n\n");
+			
+ 		out.write("\t\t\tvalue = buf;\n\n");
+
+ 		out.write("\t\t\tswitch( id ) {\n\n");
+ 		
+		for (DomBase b : m.fieldsAndComponents ) {
+			if (b instanceof DomFixField) {
+				DomFixField f = (DomFixField) b;
+				if (f.name.contains("BeginString") || f.name.contains("BodyLength") || f.name.contains("MsgType") ) continue;
+				out.write("\t\t\tcase FixTags." + f.name.toUpperCase() + "_INT:\n");
+				decodeFieldValue(f, out);
+				if (f.domFixValues.size() > 0) {
+					out.write("\t\t\t\tif (!" + capFirst(f.name) + ".isValid("+ uncapFirst(f.name) + ") ) throw new FixSessionException(buf, \"Invalid enumerated value(\" + " + uncapFirst(f.name) + " + \") for tag: \" + id );\n");
+	 			}
+	 			out.write("\t\t\t\tbreak;\n\n");
+			}
+			if (b instanceof DomFixComponent) {
+				DomFixComponent c = (DomFixComponent) b;
+				if (c.isRepeating) {
+					out.write("\t\t\tcase FixTags." + c.noInGroupTag.toUpperCase() + "_INT:\n");
+					out.write("\t\t\t\t" + uncapFirst(c.name) + "." + uncapFirst(c.noInGroupTag) + " = FixUtils.getTagIntValue( value );\n");
+					out.write("\t\t\t\t" + uncapFirst(c.name) + ".getAll(" + uncapFirst(c.name) + "." + uncapFirst(c.noInGroupTag) + ", value );\n");
+				} else {
+					out.write("\t\t\tcase FixTags." + c.getKeyTag().toUpperCase() + "_INT:\n");
+					out.write("\t\t\t\t" + uncapFirst(c.name) + ".getAll( FixTags." + c.getKeyTag().toUpperCase() + "_INT, value );\n");
+				}
+	 			out.write("\t\t\t\tbreak;\n\n");
+			}
+		} 		
+
+		out.write("\t\t\t// we will always endup with unknown tag, unread and return to upper layer in hierarchy\n");
+ 		out.write("\t\t\tdefault:\n");
+		out.write("\t\t\t\tid = checkRequiredTags();\n");
+		out.write("\t\t\t\tif (id > 0) throw new FixSessionException(buf, \"Required tag missing: \" + id );\n\n");
+		
+		out.write("\t\t\t\tbuf.position( lastTagPosition );\n");
+ 		out.write("\t\t\t\treturn;\n\n");
+
+ 		out.write("\t\t\t}\n\n");
+ 		
+ 		out.write("\t\t\tlastTagPosition = buf.position();\n\n");
+
+ 		out.write("\t\t} while ( ( id = FixUtils.getTagId( buf ) ) > 0 );\n\n");
+ 		
+ 		out.write("\t\tbuf.position(startTagPosition);\n\n");
+ 		
+	}
+
 	private void genParser(final FixMessageDom dom, final BufferedWriter out) throws Exception {
 
 		// write package line
@@ -1392,11 +1953,18 @@ public class FixMessageGenerator {
 		}
 	}
 
-	private void printEquals(final BufferedWriter out, final ArrayList<DomFixField> fields) throws IOException {
-		for (final DomFixField f : fields) {
-			if (f.name.equalsIgnoreCase("BodyLength") || f.name.equalsIgnoreCase("CheckSum") || f.name.equalsIgnoreCase("MsgType")) continue;
-			if (isPartOfEqualCopmarison(f.type)) {
-				out.write("\t\tif (!" + getEqualExpression(uncapFirst(f.name), f.type, "msg." + uncapFirst(f.name)));
+	private void printEquals(final BufferedWriter out, final SortedSet<DomBase> fieldsAndComponents) throws IOException {
+		for (final DomBase b : fieldsAndComponents) {
+			if (b instanceof DomFixField) {
+				DomFixField f = (DomFixField) b;
+				if (f.name.equalsIgnoreCase("BodyLength") || f.name.equalsIgnoreCase("CheckSum") || f.name.equalsIgnoreCase("MsgType")) continue;
+				if (isPartOfEqualCopmarison(f.type)) {
+					out.write("\t\tif (!" + getEqualExpression(uncapFirst(f.name), f.type, "msg." + uncapFirst(f.name)));
+					out.write(") return false;\n\n");
+				}
+			}
+			if (b instanceof DomFixComponent) {
+				out.write("\t\tif (!" + uncapFirst(((DomFixComponent)b).name) + ".equals(msg." + uncapFirst(((DomFixComponent)b).name) + ")");
 				out.write(") return false;\n\n");
 			}
 		}

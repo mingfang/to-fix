@@ -10,10 +10,13 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixSettlInstGrp;
 
 public class FixSettlementInstructions extends FixMessage
 {
@@ -27,6 +30,7 @@ public class FixSettlementInstructions extends FixMessage
 	public byte[] encodedText;
 	public byte[] clOrdID;
 	public byte[] transactTime;
+	public FixSettlInstGrp settlInstGrp;
 
 	public FixSettlementInstructions() {
 		super();
@@ -37,6 +41,7 @@ public class FixSettlementInstructions extends FixMessage
 		encodedText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		clOrdID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		transactTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
+		settlInstGrp = new FixSettlInstGrp();
 		this.clear();
 
 		msgType = MsgTypes.SETTLEMENTINSTRUCTIONS_INT;
@@ -58,10 +63,11 @@ public class FixSettlementInstructions extends FixMessage
 		Utils.fill( encodedText, (byte)0 );
 		Utils.fill( clOrdID, (byte)0 );
 		Utils.fill( transactTime, (byte)0 );
+		settlInstGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -118,6 +124,11 @@ public class FixSettlementInstructions extends FixMessage
 				transactTime = FixUtils.getTagStringValue(value, transactTime);
 				break;
 
+			case FixTags.NOSETTLINST_INT:
+				settlInstGrp.noSettlInst = FixUtils.getTagIntValue( value );
+				settlInstGrp.getAll(settlInstGrp.noSettlInst, value );
+				break;
+
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
 				checkSum = FixUtils.getTagIntValue( value );
@@ -143,9 +154,14 @@ public class FixSettlementInstructions extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(settlInstMsgID) ) return FixTags.SETTLINSTMSGID_INT;
 		if (! FixUtils.isSet(settlInstMode) ) return FixTags.SETTLINSTMODE_INT;
 		if (! FixUtils.isSet(transactTime) ) return FixTags.TRANSACTTIME_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -195,6 +211,7 @@ public class FixSettlementInstructions extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.SETTLINSTMSGID_INT, settlInstMsgID, 0, Utils.lastIndexTrim(settlInstMsgID, (byte)0) );
 		if (FixUtils.isSet(settlInstReqID)) FixUtils.putFixTag( out, FixTags.SETTLINSTREQID_INT, settlInstReqID, 0, Utils.lastIndexTrim(settlInstReqID, (byte)0) );
@@ -205,6 +222,7 @@ public class FixSettlementInstructions extends FixMessage
 		if (FixUtils.isSet(encodedText)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXT_INT, encodedText, 0, Utils.lastIndexTrim(encodedText, (byte)0) );
 		if (FixUtils.isSet(clOrdID)) FixUtils.putFixTag( out, FixTags.CLORDID_INT, clOrdID, 0, Utils.lastIndexTrim(clOrdID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.TRANSACTTIME_INT, transactTime);
+		if (FixUtils.isSet(settlInstGrp.noSettlInst)) settlInstGrp.encode( out );
 		// the checksum at the end
 
 		int checkSumStart = out.position();
@@ -270,6 +288,7 @@ public class FixSettlementInstructions extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "SettlInstMsgID(777)=" + new String(settlInstMsgID) + sep;
 			if (FixUtils.isSet(settlInstReqID)) s += "SettlInstReqID(791)=" + new String(settlInstReqID) + sep;
@@ -280,6 +299,7 @@ public class FixSettlementInstructions extends FixMessage
 			if (FixUtils.isSet(encodedText)) s += "EncodedText(355)=" + new String(encodedText) + sep;
 			if (FixUtils.isSet(clOrdID)) s += "ClOrdID(11)=" + new String(clOrdID) + sep;
 			 s += "TransactTime(60)=" + new String(transactTime) + sep;
+			if (FixUtils.isSet(settlInstGrp.noSettlInst)) s += settlInstGrp.toString();
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
 
@@ -311,6 +331,8 @@ public class FixSettlementInstructions extends FixMessage
 		if (!Utils.equals( encodedText, msg.encodedText)) return false;
 
 		if (!Utils.equals( clOrdID, msg.clOrdID)) return false;
+
+		if (!settlInstGrp.equals(msg.settlInstGrp)) return false;
 
 		return true;
 	}

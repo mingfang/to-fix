@@ -10,10 +10,16 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrument;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUndInstrmtGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrmtLegGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixOrderQtyData;
 
 public class FixExecutionAcknowledgement extends FixMessage
 {
@@ -24,7 +30,11 @@ public class FixExecutionAcknowledgement extends FixMessage
 	public byte execAckStatus = (byte)' ';
 	public byte[] execID;
 	public byte dKReason = (byte)' ';
+	public FixInstrument instrument;
+	public FixUndInstrmtGrp undInstrmtGrp;
+	public FixInstrmtLegGrp instrmtLegGrp;
 	public byte side = (byte)' ';
+	public FixOrderQtyData orderQtyData;
 	public long lastQty = 0;
 	public long lastPx = 0;
 	public long priceType = 0;
@@ -42,6 +52,10 @@ public class FixExecutionAcknowledgement extends FixMessage
 		secondaryOrderID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		clOrdID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		execID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		instrument = new FixInstrument();
+		undInstrmtGrp = new FixUndInstrmtGrp();
+		instrmtLegGrp = new FixInstrmtLegGrp();
+		orderQtyData = new FixOrderQtyData();
 		text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		encodedText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		this.clear();
@@ -72,10 +86,14 @@ public class FixExecutionAcknowledgement extends FixMessage
 		Utils.fill( text, (byte)0 );
 		encodedTextLen = Long.MAX_VALUE;		
 		Utils.fill( encodedText, (byte)0 );
+		instrument.clear();
+		undInstrmtGrp.clear();
+		instrmtLegGrp.clear();
+		orderQtyData.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -120,9 +138,27 @@ public class FixExecutionAcknowledgement extends FixMessage
 				if (!DKReason.isValid(dKReason) ) throw new FixSessionException(buf, "Invalid enumerated value(" + dKReason + ") for tag: " + id );
 				break;
 
+			case FixTags.SYMBOL_INT:
+				instrument.getAll(FixTags.SYMBOL_INT, value );
+				break;
+
+			case FixTags.NOUNDERLYINGS_INT:
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
+				break;
+
+			case FixTags.NOLEGS_INT:
+				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( value );
+				instrmtLegGrp.getAll(instrmtLegGrp.noLegs, value );
+				break;
+
 			case FixTags.SIDE_INT:
 				side = FixUtils.getTagCharValue( value );
 				if (!Side.isValid(side) ) throw new FixSessionException(buf, "Invalid enumerated value(" + side + ") for tag: " + id );
+				break;
+
+			case FixTags.ORDERQTY_INT:
+				orderQtyData.getAll(FixTags.ORDERQTY_INT, value );
 				break;
 
 			case FixTags.LASTQTY_INT:
@@ -187,10 +223,17 @@ public class FixExecutionAcknowledgement extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(orderID) ) return FixTags.ORDERID_INT;
 		if (! FixUtils.isSet(execAckStatus) ) return FixTags.EXECACKSTATUS_INT;
 		if (! FixUtils.isSet(execID) ) return FixTags.EXECID_INT;
 		if (! FixUtils.isSet(side) ) return FixTags.SIDE_INT;
+		if (! instrument.isSet() ) return FixTags.SYMBOL_INT;
+		if (! orderQtyData.isSet() ) return FixTags.ORDERQTY_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -240,6 +283,7 @@ public class FixExecutionAcknowledgement extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.ORDERID_INT, orderID, 0, Utils.lastIndexTrim(orderID, (byte)0) );
 		if (FixUtils.isSet(secondaryOrderID)) FixUtils.putFixTag( out, FixTags.SECONDARYORDERID_INT, secondaryOrderID, 0, Utils.lastIndexTrim(secondaryOrderID, (byte)0) );
@@ -247,7 +291,11 @@ public class FixExecutionAcknowledgement extends FixMessage
 		FixUtils.putFixTag( out, FixTags.EXECACKSTATUS_INT, execAckStatus );
 		FixUtils.putFixTag( out, FixTags.EXECID_INT, execID, 0, Utils.lastIndexTrim(execID, (byte)0) );
 		if (FixUtils.isSet(dKReason)) FixUtils.putFixTag( out, FixTags.DKREASON_INT, dKReason );
+		instrument.encode( out );
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
+		if (FixUtils.isSet(instrmtLegGrp.noLegs)) instrmtLegGrp.encode( out );
 		FixUtils.putFixTag( out, FixTags.SIDE_INT, side );
+		orderQtyData.encode( out );
 		if (FixUtils.isSet(lastQty)) FixUtils.putFixFloatTag( out, FixTags.LASTQTY_INT, lastQty);
 		if (FixUtils.isSet(lastPx)) FixUtils.putFixFloatTag( out, FixTags.LASTPX_INT, lastPx);
 		if (FixUtils.isSet(priceType)) FixUtils.putFixTag( out, FixTags.PRICETYPE_INT, priceType);
@@ -322,6 +370,7 @@ public class FixExecutionAcknowledgement extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "OrderID(37)=" + new String(orderID) + sep;
 			if (FixUtils.isSet(secondaryOrderID)) s += "SecondaryOrderID(198)=" + new String(secondaryOrderID) + sep;
@@ -329,7 +378,11 @@ public class FixExecutionAcknowledgement extends FixMessage
 			 s += "ExecAckStatus(1036)=" + String.valueOf(execAckStatus) + sep;
 			 s += "ExecID(17)=" + new String(execID) + sep;
 			if (FixUtils.isSet(dKReason)) s += "DKReason(127)=" + String.valueOf(dKReason) + sep;
+			 s += instrument.toString();
+			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
+			if (FixUtils.isSet(instrmtLegGrp.noLegs)) s += instrmtLegGrp.toString();
 			 s += "Side(54)=" + String.valueOf(side) + sep;
+			 s += orderQtyData.toString();
 			if (FixUtils.isSet(lastQty)) s += "LastQty(32)=" + String.valueOf(lastQty) + sep;
 			if (FixUtils.isSet(lastPx)) s += "LastPx(31)=" + String.valueOf(lastPx) + sep;
 			if (FixUtils.isSet(priceType)) s += "PriceType(423)=" + String.valueOf(priceType) + sep;
@@ -367,7 +420,15 @@ public class FixExecutionAcknowledgement extends FixMessage
 
 		if (!( dKReason==msg.dKReason)) return false;
 
+		if (!instrument.equals(msg.instrument)) return false;
+
+		if (!undInstrmtGrp.equals(msg.undInstrmtGrp)) return false;
+
+		if (!instrmtLegGrp.equals(msg.instrmtLegGrp)) return false;
+
 		if (!( side==msg.side)) return false;
+
+		if (!orderQtyData.equals(msg.orderQtyData)) return false;
 
 		if (!( lastQty==msg.lastQty)) return false;
 

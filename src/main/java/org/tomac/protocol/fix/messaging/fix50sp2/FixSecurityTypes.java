@@ -10,19 +10,25 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixApplicationSequenceControl;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixSecTypesGrp;
 
 public class FixSecurityTypes extends FixMessage
 {
 
+	public FixApplicationSequenceControl applicationSequenceControl;
 	public byte[] securityReqID;
 	public byte[] securityResponseID;
 	public long securityResponseType = 0;
 	public long totNoSecurityTypes = 0;
 	public boolean lastFragment = false;
+	public FixSecTypesGrp secTypesGrp;
 	public byte[] text;
 	public long encodedTextLen = 0;
 	public byte[] encodedText;
@@ -35,8 +41,10 @@ public class FixSecurityTypes extends FixMessage
 	public FixSecurityTypes() {
 		super();
 
+		applicationSequenceControl = new FixApplicationSequenceControl();
 		securityReqID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		securityResponseID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		secTypesGrp = new FixSecTypesGrp();
 		text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		encodedText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		marketID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
@@ -68,10 +76,12 @@ public class FixSecurityTypes extends FixMessage
 		Utils.fill( tradingSessionID, (byte)0 );
 		Utils.fill( tradingSessionSubID, (byte)0 );
 		subscriptionRequestType = Byte.MAX_VALUE;		
+		applicationSequenceControl.clear();
+		secTypesGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -89,6 +99,10 @@ public class FixSecurityTypes extends FixMessage
 			value = buf;
 
 			switch( id ) {
+
+			case FixTags.APPLID_INT:
+				applicationSequenceControl.getAll(FixTags.APPLID_INT, value );
+				break;
 
 			case FixTags.SECURITYREQID_INT:
 				securityReqID = FixUtils.getTagStringValue(value, securityReqID);
@@ -110,6 +124,11 @@ public class FixSecurityTypes extends FixMessage
 			case FixTags.LASTFRAGMENT_INT:
 				lastFragment = FixUtils.getTagBooleanValue( value );
 				if (!LastFragment.isValid(lastFragment) ) throw new FixSessionException(buf, "Invalid enumerated value(" + lastFragment + ") for tag: " + id );
+				break;
+
+			case FixTags.NOSECURITYTYPES_INT:
+				secTypesGrp.noSecurityTypes = FixUtils.getTagIntValue( value );
+				secTypesGrp.getAll(secTypesGrp.noSecurityTypes, value );
 				break;
 
 			case FixTags.TEXT_INT:
@@ -172,9 +191,14 @@ public class FixSecurityTypes extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(securityReqID) ) return FixTags.SECURITYREQID_INT;
 		if (! FixUtils.isSet(securityResponseID) ) return FixTags.SECURITYRESPONSEID_INT;
 		if (! FixUtils.isSet(securityResponseType) ) return FixTags.SECURITYRESPONSETYPE_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -224,12 +248,15 @@ public class FixSecurityTypes extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
+		if (FixUtils.isSet(applicationSequenceControl.applID)) applicationSequenceControl.encode( out );
 		FixUtils.putFixTag( out, FixTags.SECURITYREQID_INT, securityReqID, 0, Utils.lastIndexTrim(securityReqID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.SECURITYRESPONSEID_INT, securityResponseID, 0, Utils.lastIndexTrim(securityResponseID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.SECURITYRESPONSETYPE_INT, securityResponseType);
 		if (FixUtils.isSet(totNoSecurityTypes)) FixUtils.putFixTag( out, FixTags.TOTNOSECURITYTYPES_INT, totNoSecurityTypes);
 		if (FixUtils.isSet(lastFragment)) FixUtils.putFixTag( out, FixTags.LASTFRAGMENT_INT, lastFragment?(byte)'Y':(byte)'N' );
+		if (FixUtils.isSet(secTypesGrp.noSecurityTypes)) secTypesGrp.encode( out );
 		if (FixUtils.isSet(text)) FixUtils.putFixTag( out, FixTags.TEXT_INT, text, 0, Utils.lastIndexTrim(text, (byte)0) );
 		if (FixUtils.isSet(encodedTextLen)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXTLEN_INT, encodedTextLen);
 		if (FixUtils.isSet(encodedText)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXT_INT, encodedText, 0, Utils.lastIndexTrim(encodedText, (byte)0) );
@@ -303,12 +330,15 @@ public class FixSecurityTypes extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
+			if (FixUtils.isSet(applicationSequenceControl.applID)) s += applicationSequenceControl.toString();
 			 s += "SecurityReqID(320)=" + new String(securityReqID) + sep;
 			 s += "SecurityResponseID(322)=" + new String(securityResponseID) + sep;
 			 s += "SecurityResponseType(323)=" + String.valueOf(securityResponseType) + sep;
 			if (FixUtils.isSet(totNoSecurityTypes)) s += "TotNoSecurityTypes(557)=" + String.valueOf(totNoSecurityTypes) + sep;
 			if (FixUtils.isSet(lastFragment)) s += "LastFragment(893)=" + String.valueOf(lastFragment) + sep;
+			if (FixUtils.isSet(secTypesGrp.noSecurityTypes)) s += secTypesGrp.toString();
 			if (FixUtils.isSet(text)) s += "Text(58)=" + new String(text) + sep;
 			if (FixUtils.isSet(encodedTextLen)) s += "EncodedTextLen(354)=" + String.valueOf(encodedTextLen) + sep;
 			if (FixUtils.isSet(encodedText)) s += "EncodedText(355)=" + new String(encodedText) + sep;
@@ -333,6 +363,8 @@ public class FixSecurityTypes extends FixMessage
 
 		if ( ! super.equals(msg) ) return false;
 
+		if (!applicationSequenceControl.equals(msg.applicationSequenceControl)) return false;
+
 		if (!Utils.equals( securityReqID, msg.securityReqID)) return false;
 
 		if (!Utils.equals( securityResponseID, msg.securityResponseID)) return false;
@@ -342,6 +374,8 @@ public class FixSecurityTypes extends FixMessage
 		if (!( totNoSecurityTypes==msg.totNoSecurityTypes)) return false;
 
 		if (!( lastFragment==msg.lastFragment)) return false;
+
+		if (!secTypesGrp.equals(msg.secTypesGrp)) return false;
 
 		if (!Utils.equals( text, msg.text)) return false;
 

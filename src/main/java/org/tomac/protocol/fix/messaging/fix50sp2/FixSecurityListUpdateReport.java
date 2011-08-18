@@ -10,10 +10,14 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixApplicationSequenceControl;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixSecLstUpdRelSymGrp;
 
 public class FixSecurityListUpdateReport extends FixMessage
 {
@@ -37,6 +41,8 @@ public class FixSecurityListUpdateReport extends FixMessage
 	public long securityListType = 0;
 	public long securityListTypeSource = 0;
 	public byte[] transactTime;
+	public FixApplicationSequenceControl applicationSequenceControl;
+	public FixSecLstUpdRelSymGrp secLstUpdRelSymGrp;
 
 	public FixSecurityListUpdateReport() {
 		super();
@@ -52,6 +58,8 @@ public class FixSecurityListUpdateReport extends FixMessage
 		securityListDesc = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		encodedSecurityListDesc = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		transactTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
+		applicationSequenceControl = new FixApplicationSequenceControl();
+		secLstUpdRelSymGrp = new FixSecLstUpdRelSymGrp();
 		this.clear();
 
 		msgType = MsgTypes.SECURITYLISTUPDATEREPORT_INT;
@@ -83,10 +91,12 @@ public class FixSecurityListUpdateReport extends FixMessage
 		securityListType = Long.MAX_VALUE;		
 		securityListTypeSource = Long.MAX_VALUE;		
 		Utils.fill( transactTime, (byte)0 );
+		applicationSequenceControl.clear();
+		secLstUpdRelSymGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -187,6 +197,15 @@ public class FixSecurityListUpdateReport extends FixMessage
 				transactTime = FixUtils.getTagStringValue(value, transactTime);
 				break;
 
+			case FixTags.APPLID_INT:
+				applicationSequenceControl.getAll(FixTags.APPLID_INT, value );
+				break;
+
+			case FixTags.NORELATEDSYM_INT:
+				secLstUpdRelSymGrp.noRelatedSym = FixUtils.getTagIntValue( value );
+				secLstUpdRelSymGrp.getAll(secLstUpdRelSymGrp.noRelatedSym, value );
+				break;
+
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
 				checkSum = FixUtils.getTagIntValue( value );
@@ -212,6 +231,11 @@ public class FixSecurityListUpdateReport extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -261,6 +285,7 @@ public class FixSecurityListUpdateReport extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		if (FixUtils.isSet(securityReportID)) FixUtils.putFixTag( out, FixTags.SECURITYREPORTID_INT, securityReportID);
 		if (FixUtils.isSet(securityReqID)) FixUtils.putFixTag( out, FixTags.SECURITYREQID_INT, securityReqID, 0, Utils.lastIndexTrim(securityReqID, (byte)0) );
@@ -281,6 +306,8 @@ public class FixSecurityListUpdateReport extends FixMessage
 		if (FixUtils.isSet(securityListType)) FixUtils.putFixTag( out, FixTags.SECURITYLISTTYPE_INT, securityListType);
 		if (FixUtils.isSet(securityListTypeSource)) FixUtils.putFixTag( out, FixTags.SECURITYLISTTYPESOURCE_INT, securityListTypeSource);
 		if (FixUtils.isSet(transactTime)) FixUtils.putFixTag( out, FixTags.TRANSACTTIME_INT, transactTime);
+		if (FixUtils.isSet(applicationSequenceControl.applID)) applicationSequenceControl.encode( out );
+		if (FixUtils.isSet(secLstUpdRelSymGrp.noRelatedSym)) secLstUpdRelSymGrp.encode( out );
 		// the checksum at the end
 
 		int checkSumStart = out.position();
@@ -346,6 +373,7 @@ public class FixSecurityListUpdateReport extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			if (FixUtils.isSet(securityReportID)) s += "SecurityReportID(964)=" + String.valueOf(securityReportID) + sep;
 			if (FixUtils.isSet(securityReqID)) s += "SecurityReqID(320)=" + new String(securityReqID) + sep;
@@ -366,6 +394,8 @@ public class FixSecurityListUpdateReport extends FixMessage
 			if (FixUtils.isSet(securityListType)) s += "SecurityListType(1470)=" + String.valueOf(securityListType) + sep;
 			if (FixUtils.isSet(securityListTypeSource)) s += "SecurityListTypeSource(1471)=" + String.valueOf(securityListTypeSource) + sep;
 			if (FixUtils.isSet(transactTime)) s += "TransactTime(60)=" + new String(transactTime) + sep;
+			if (FixUtils.isSet(applicationSequenceControl.applID)) s += applicationSequenceControl.toString();
+			if (FixUtils.isSet(secLstUpdRelSymGrp.noRelatedSym)) s += secLstUpdRelSymGrp.toString();
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
 
@@ -415,6 +445,10 @@ public class FixSecurityListUpdateReport extends FixMessage
 		if (!( securityListType==msg.securityListType)) return false;
 
 		if (!( securityListTypeSource==msg.securityListTypeSource)) return false;
+
+		if (!applicationSequenceControl.equals(msg.applicationSequenceControl)) return false;
+
+		if (!secLstUpdRelSymGrp.equals(msg.secLstUpdRelSymGrp)) return false;
 
 		return true;
 	}

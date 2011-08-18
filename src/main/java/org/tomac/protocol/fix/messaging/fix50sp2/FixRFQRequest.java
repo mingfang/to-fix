@@ -10,15 +10,21 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixRFQReqGrp;
 
 public class FixRFQRequest extends FixMessage
 {
 
 	public byte[] rFQReqID;
+	public FixParties parties;
+	public FixRFQReqGrp rFQReqGrp;
 	public byte subscriptionRequestType = (byte)' ';
 	public boolean privateQuote = false;
 
@@ -26,6 +32,8 @@ public class FixRFQRequest extends FixMessage
 		super();
 
 		rFQReqID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		parties = new FixParties();
+		rFQReqGrp = new FixRFQReqGrp();
 		this.clear();
 
 		msgType = MsgTypes.RFQREQUEST_INT;
@@ -41,10 +49,12 @@ public class FixRFQRequest extends FixMessage
 		Utils.fill( rFQReqID, (byte)0 );
 		subscriptionRequestType = Byte.MAX_VALUE;		
 		privateQuote = false;		
+		parties.clear();
+		rFQReqGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -65,6 +75,16 @@ public class FixRFQRequest extends FixMessage
 
 			case FixTags.RFQREQID_INT:
 				rFQReqID = FixUtils.getTagStringValue(value, rFQReqID);
+				break;
+
+			case FixTags.NOPARTYIDS_INT:
+				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(parties.noPartyIDs, value );
+				break;
+
+			case FixTags.NORELATEDSYM_INT:
+				rFQReqGrp.noRelatedSym = FixUtils.getTagIntValue( value );
+				rFQReqGrp.getAll(rFQReqGrp.noRelatedSym, value );
 				break;
 
 			case FixTags.SUBSCRIPTIONREQUESTTYPE_INT:
@@ -101,7 +121,13 @@ public class FixRFQRequest extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(rFQReqID) ) return FixTags.RFQREQID_INT;
+		if (! rFQReqGrp.isSet() ) return FixTags.NORELATEDSYM_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -151,8 +177,11 @@ public class FixRFQRequest extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.RFQREQID_INT, rFQReqID, 0, Utils.lastIndexTrim(rFQReqID, (byte)0) );
+		if (FixUtils.isSet(parties.noPartyIDs)) parties.encode( out );
+		rFQReqGrp.encode( out );
 		if (FixUtils.isSet(subscriptionRequestType)) FixUtils.putFixTag( out, FixTags.SUBSCRIPTIONREQUESTTYPE_INT, subscriptionRequestType );
 		if (FixUtils.isSet(privateQuote)) FixUtils.putFixTag( out, FixTags.PRIVATEQUOTE_INT, privateQuote?(byte)'Y':(byte)'N' );
 		// the checksum at the end
@@ -220,8 +249,11 @@ public class FixRFQRequest extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "RFQReqID(644)=" + new String(rFQReqID) + sep;
+			if (FixUtils.isSet(parties.noPartyIDs)) s += parties.toString();
+			 s += rFQReqGrp.toString();
 			if (FixUtils.isSet(subscriptionRequestType)) s += "SubscriptionRequestType(263)=" + String.valueOf(subscriptionRequestType) + sep;
 			if (FixUtils.isSet(privateQuote)) s += "PrivateQuote(1171)=" + String.valueOf(privateQuote) + sep;
 
@@ -241,6 +273,10 @@ public class FixRFQRequest extends FixMessage
 		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( rFQReqID, msg.rFQReqID)) return false;
+
+		if (!parties.equals(msg.parties)) return false;
+
+		if (!rFQReqGrp.equals(msg.rFQReqGrp)) return false;
 
 		if (!( subscriptionRequestType==msg.subscriptionRequestType)) return false;
 

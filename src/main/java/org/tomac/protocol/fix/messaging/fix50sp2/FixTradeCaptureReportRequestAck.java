@@ -10,10 +10,15 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrument;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUndInstrmtGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrmtLegGrp;
 
 public class FixTradeCaptureReportRequestAck extends FixMessage
 {
@@ -28,6 +33,9 @@ public class FixTradeCaptureReportRequestAck extends FixMessage
 	public long totNumTradeReports = 0;
 	public long tradeRequestResult = 0;
 	public long tradeRequestStatus = 0;
+	public FixInstrument instrument;
+	public FixUndInstrmtGrp undInstrmtGrp;
+	public FixInstrmtLegGrp instrmtLegGrp;
 	public byte multiLegReportingType = (byte)' ';
 	public long responseTransportType = 0;
 	public byte[] responseDestination;
@@ -44,6 +52,9 @@ public class FixTradeCaptureReportRequestAck extends FixMessage
 		secondaryTradeID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		firmTradeID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		secondaryFirmTradeID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		instrument = new FixInstrument();
+		undInstrmtGrp = new FixUndInstrmtGrp();
+		instrmtLegGrp = new FixInstrmtLegGrp();
 		responseDestination = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		encodedText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
@@ -77,10 +88,13 @@ public class FixTradeCaptureReportRequestAck extends FixMessage
 		encodedTextLen = Long.MAX_VALUE;		
 		Utils.fill( encodedText, (byte)0 );
 		Utils.fill( messageEventSource, (byte)0 );
+		instrument.clear();
+		undInstrmtGrp.clear();
+		instrmtLegGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -143,6 +157,20 @@ public class FixTradeCaptureReportRequestAck extends FixMessage
 				if (!TradeRequestStatus.isValid(tradeRequestStatus) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradeRequestStatus + ") for tag: " + id );
 				break;
 
+			case FixTags.SYMBOL_INT:
+				instrument.getAll(FixTags.SYMBOL_INT, value );
+				break;
+
+			case FixTags.NOUNDERLYINGS_INT:
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
+				break;
+
+			case FixTags.NOLEGS_INT:
+				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( value );
+				instrmtLegGrp.getAll(instrmtLegGrp.noLegs, value );
+				break;
+
 			case FixTags.MULTILEGREPORTINGTYPE_INT:
 				multiLegReportingType = FixUtils.getTagCharValue( value );
 				if (!MultiLegReportingType.isValid(multiLegReportingType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + multiLegReportingType + ") for tag: " + id );
@@ -198,10 +226,15 @@ public class FixTradeCaptureReportRequestAck extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(tradeRequestID) ) return FixTags.TRADEREQUESTID_INT;
 		if (! FixUtils.isSet(tradeRequestType) ) return FixTags.TRADEREQUESTTYPE_INT;
 		if (! FixUtils.isSet(tradeRequestResult) ) return FixTags.TRADEREQUESTRESULT_INT;
 		if (! FixUtils.isSet(tradeRequestStatus) ) return FixTags.TRADEREQUESTSTATUS_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -251,6 +284,7 @@ public class FixTradeCaptureReportRequestAck extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.TRADEREQUESTID_INT, tradeRequestID, 0, Utils.lastIndexTrim(tradeRequestID, (byte)0) );
 		if (FixUtils.isSet(tradeID)) FixUtils.putFixTag( out, FixTags.TRADEID_INT, tradeID, 0, Utils.lastIndexTrim(tradeID, (byte)0) );
@@ -262,6 +296,9 @@ public class FixTradeCaptureReportRequestAck extends FixMessage
 		if (FixUtils.isSet(totNumTradeReports)) FixUtils.putFixTag( out, FixTags.TOTNUMTRADEREPORTS_INT, totNumTradeReports);
 		FixUtils.putFixTag( out, FixTags.TRADEREQUESTRESULT_INT, tradeRequestResult);
 		FixUtils.putFixTag( out, FixTags.TRADEREQUESTSTATUS_INT, tradeRequestStatus);
+		if (FixUtils.isSet(instrument.symbol)) instrument.encode( out );
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
+		if (FixUtils.isSet(instrmtLegGrp.noLegs)) instrmtLegGrp.encode( out );
 		if (FixUtils.isSet(multiLegReportingType)) FixUtils.putFixTag( out, FixTags.MULTILEGREPORTINGTYPE_INT, multiLegReportingType );
 		if (FixUtils.isSet(responseTransportType)) FixUtils.putFixTag( out, FixTags.RESPONSETRANSPORTTYPE_INT, responseTransportType);
 		if (FixUtils.isSet(responseDestination)) FixUtils.putFixTag( out, FixTags.RESPONSEDESTINATION_INT, responseDestination, 0, Utils.lastIndexTrim(responseDestination, (byte)0) );
@@ -334,6 +371,7 @@ public class FixTradeCaptureReportRequestAck extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "TradeRequestID(568)=" + new String(tradeRequestID) + sep;
 			if (FixUtils.isSet(tradeID)) s += "TradeID(1003)=" + new String(tradeID) + sep;
@@ -345,6 +383,9 @@ public class FixTradeCaptureReportRequestAck extends FixMessage
 			if (FixUtils.isSet(totNumTradeReports)) s += "TotNumTradeReports(748)=" + String.valueOf(totNumTradeReports) + sep;
 			 s += "TradeRequestResult(749)=" + String.valueOf(tradeRequestResult) + sep;
 			 s += "TradeRequestStatus(750)=" + String.valueOf(tradeRequestStatus) + sep;
+			if (FixUtils.isSet(instrument.symbol)) s += instrument.toString();
+			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
+			if (FixUtils.isSet(instrmtLegGrp.noLegs)) s += instrmtLegGrp.toString();
 			if (FixUtils.isSet(multiLegReportingType)) s += "MultiLegReportingType(442)=" + String.valueOf(multiLegReportingType) + sep;
 			if (FixUtils.isSet(responseTransportType)) s += "ResponseTransportType(725)=" + String.valueOf(responseTransportType) + sep;
 			if (FixUtils.isSet(responseDestination)) s += "ResponseDestination(726)=" + new String(responseDestination) + sep;
@@ -387,6 +428,12 @@ public class FixTradeCaptureReportRequestAck extends FixMessage
 		if (!( tradeRequestResult==msg.tradeRequestResult)) return false;
 
 		if (!( tradeRequestStatus==msg.tradeRequestStatus)) return false;
+
+		if (!instrument.equals(msg.instrument)) return false;
+
+		if (!undInstrmtGrp.equals(msg.undInstrmtGrp)) return false;
+
+		if (!instrmtLegGrp.equals(msg.instrmtLegGrp)) return false;
 
 		if (!( multiLegReportingType==msg.multiLegReportingType)) return false;
 

@@ -10,15 +10,19 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
 
 public class FixListCancelRequest extends FixMessage
 {
 
 	public byte[] listID;
+	public FixParties parties;
 	public byte[] transactTime;
 	public byte[] tradeOriginationDate;
 	public byte[] tradeDate;
@@ -30,6 +34,7 @@ public class FixListCancelRequest extends FixMessage
 		super();
 
 		listID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		parties = new FixParties();
 		transactTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
 		tradeOriginationDate = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		tradeDate = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
@@ -54,10 +59,11 @@ public class FixListCancelRequest extends FixMessage
 		Utils.fill( text, (byte)0 );
 		encodedTextLen = Long.MAX_VALUE;		
 		Utils.fill( encodedText, (byte)0 );
+		parties.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -78,6 +84,11 @@ public class FixListCancelRequest extends FixMessage
 
 			case FixTags.LISTID_INT:
 				listID = FixUtils.getTagStringValue(value, listID);
+				break;
+
+			case FixTags.NOPARTYIDS_INT:
+				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(parties.noPartyIDs, value );
 				break;
 
 			case FixTags.TRANSACTTIME_INT:
@@ -129,8 +140,13 @@ public class FixListCancelRequest extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(listID) ) return FixTags.LISTID_INT;
 		if (! FixUtils.isSet(transactTime) ) return FixTags.TRANSACTTIME_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -180,8 +196,10 @@ public class FixListCancelRequest extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.LISTID_INT, listID, 0, Utils.lastIndexTrim(listID, (byte)0) );
+		if (FixUtils.isSet(parties.noPartyIDs)) parties.encode( out );
 		FixUtils.putFixTag( out, FixTags.TRANSACTTIME_INT, transactTime);
 		if (FixUtils.isSet(tradeOriginationDate)) FixUtils.putFixTag( out, FixTags.TRADEORIGINATIONDATE_INT, tradeOriginationDate);
 		if (FixUtils.isSet(tradeDate)) FixUtils.putFixTag( out, FixTags.TRADEDATE_INT, tradeDate);
@@ -253,8 +271,10 @@ public class FixListCancelRequest extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "ListID(66)=" + new String(listID) + sep;
+			if (FixUtils.isSet(parties.noPartyIDs)) s += parties.toString();
 			 s += "TransactTime(60)=" + new String(transactTime) + sep;
 			if (FixUtils.isSet(tradeOriginationDate)) s += "TradeOriginationDate(229)=" + new String(tradeOriginationDate) + sep;
 			if (FixUtils.isSet(tradeDate)) s += "TradeDate(75)=" + new String(tradeDate) + sep;
@@ -278,6 +298,8 @@ public class FixListCancelRequest extends FixMessage
 		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( listID, msg.listID)) return false;
+
+		if (!parties.equals(msg.parties)) return false;
 
 		if (!Utils.equals( text, msg.text)) return false;
 

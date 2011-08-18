@@ -10,14 +10,19 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixApplicationSequenceControl;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixSettlObligationInstructions;
 
 public class FixSettlementObligationReport extends FixMessage
 {
 
+	public FixApplicationSequenceControl applicationSequenceControl;
 	public byte[] clearingBusinessDate;
 	public long settlementCycleNo = 0;
 	public byte[] settlObligMsgID;
@@ -26,15 +31,18 @@ public class FixSettlementObligationReport extends FixMessage
 	public long encodedTextLen = 0;
 	public byte[] encodedText;
 	public byte[] transactTime;
+	public FixSettlObligationInstructions settlObligationInstructions;
 
 	public FixSettlementObligationReport() {
 		super();
 
+		applicationSequenceControl = new FixApplicationSequenceControl();
 		clearingBusinessDate = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		settlObligMsgID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		encodedText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		transactTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
+		settlObligationInstructions = new FixSettlObligationInstructions();
 		this.clear();
 
 		msgType = MsgTypes.SETTLEMENTOBLIGATIONREPORT_INT;
@@ -55,10 +63,12 @@ public class FixSettlementObligationReport extends FixMessage
 		encodedTextLen = Long.MAX_VALUE;		
 		Utils.fill( encodedText, (byte)0 );
 		Utils.fill( transactTime, (byte)0 );
+		applicationSequenceControl.clear();
+		settlObligationInstructions.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -76,6 +86,10 @@ public class FixSettlementObligationReport extends FixMessage
 			value = buf;
 
 			switch( id ) {
+
+			case FixTags.APPLID_INT:
+				applicationSequenceControl.getAll(FixTags.APPLID_INT, value );
+				break;
 
 			case FixTags.CLEARINGBUSINESSDATE_INT:
 				clearingBusinessDate = FixUtils.getTagStringValue(value, clearingBusinessDate);
@@ -110,6 +124,11 @@ public class FixSettlementObligationReport extends FixMessage
 				transactTime = FixUtils.getTagStringValue(value, transactTime);
 				break;
 
+			case FixTags.NOSETTLOBLIG_INT:
+				settlObligationInstructions.noSettlOblig = FixUtils.getTagIntValue( value );
+				settlObligationInstructions.getAll(settlObligationInstructions.noSettlOblig, value );
+				break;
+
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
 				checkSum = FixUtils.getTagIntValue( value );
@@ -135,8 +154,14 @@ public class FixSettlementObligationReport extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(settlObligMsgID) ) return FixTags.SETTLOBLIGMSGID_INT;
 		if (! FixUtils.isSet(settlObligMode) ) return FixTags.SETTLOBLIGMODE_INT;
+		if (! settlObligationInstructions.isSet() ) return FixTags.NOSETTLOBLIG_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -186,7 +211,9 @@ public class FixSettlementObligationReport extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
+		if (FixUtils.isSet(applicationSequenceControl.applID)) applicationSequenceControl.encode( out );
 		if (FixUtils.isSet(clearingBusinessDate)) FixUtils.putFixTag( out, FixTags.CLEARINGBUSINESSDATE_INT, clearingBusinessDate);
 		if (FixUtils.isSet(settlementCycleNo)) FixUtils.putFixTag( out, FixTags.SETTLEMENTCYCLENO_INT, settlementCycleNo);
 		FixUtils.putFixTag( out, FixTags.SETTLOBLIGMSGID_INT, settlObligMsgID, 0, Utils.lastIndexTrim(settlObligMsgID, (byte)0) );
@@ -195,6 +222,7 @@ public class FixSettlementObligationReport extends FixMessage
 		if (FixUtils.isSet(encodedTextLen)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXTLEN_INT, encodedTextLen);
 		if (FixUtils.isSet(encodedText)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXT_INT, encodedText, 0, Utils.lastIndexTrim(encodedText, (byte)0) );
 		if (FixUtils.isSet(transactTime)) FixUtils.putFixTag( out, FixTags.TRANSACTTIME_INT, transactTime);
+		settlObligationInstructions.encode( out );
 		// the checksum at the end
 
 		int checkSumStart = out.position();
@@ -260,7 +288,9 @@ public class FixSettlementObligationReport extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
+			if (FixUtils.isSet(applicationSequenceControl.applID)) s += applicationSequenceControl.toString();
 			if (FixUtils.isSet(clearingBusinessDate)) s += "ClearingBusinessDate(715)=" + new String(clearingBusinessDate) + sep;
 			if (FixUtils.isSet(settlementCycleNo)) s += "SettlementCycleNo(1153)=" + String.valueOf(settlementCycleNo) + sep;
 			 s += "SettlObligMsgID(1160)=" + new String(settlObligMsgID) + sep;
@@ -269,6 +299,7 @@ public class FixSettlementObligationReport extends FixMessage
 			if (FixUtils.isSet(encodedTextLen)) s += "EncodedTextLen(354)=" + String.valueOf(encodedTextLen) + sep;
 			if (FixUtils.isSet(encodedText)) s += "EncodedText(355)=" + new String(encodedText) + sep;
 			if (FixUtils.isSet(transactTime)) s += "TransactTime(60)=" + new String(transactTime) + sep;
+			 s += settlObligationInstructions.toString();
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
 
@@ -285,6 +316,8 @@ public class FixSettlementObligationReport extends FixMessage
 
 		if ( ! super.equals(msg) ) return false;
 
+		if (!applicationSequenceControl.equals(msg.applicationSequenceControl)) return false;
+
 		if (!( settlementCycleNo==msg.settlementCycleNo)) return false;
 
 		if (!Utils.equals( settlObligMsgID, msg.settlObligMsgID)) return false;
@@ -296,6 +329,8 @@ public class FixSettlementObligationReport extends FixMessage
 		if (!( encodedTextLen==msg.encodedTextLen)) return false;
 
 		if (!Utils.equals( encodedText, msg.encodedText)) return false;
+
+		if (!settlObligationInstructions.equals(msg.settlObligationInstructions)) return false;
 
 		return true;
 	}

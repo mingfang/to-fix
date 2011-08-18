@@ -10,10 +10,17 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrument;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixFinancingDetails;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUndInstrmtGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixOrderQtyData;
 
 public class FixOrderCancelRequest extends FixMessage
 {
@@ -28,8 +35,13 @@ public class FixOrderCancelRequest extends FixMessage
 	public byte[] account;
 	public long acctIDSource = 0;
 	public long accountType = 0;
+	public FixParties parties;
+	public FixInstrument instrument;
+	public FixFinancingDetails financingDetails;
+	public FixUndInstrmtGrp undInstrmtGrp;
 	public byte side = (byte)' ';
 	public byte[] transactTime;
+	public FixOrderQtyData orderQtyData;
 	public byte[] complianceID;
 	public byte[] text;
 	public long encodedTextLen = 0;
@@ -46,7 +58,12 @@ public class FixOrderCancelRequest extends FixMessage
 		listID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		origOrdModTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
 		account = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		parties = new FixParties();
+		instrument = new FixInstrument();
+		financingDetails = new FixFinancingDetails();
+		undInstrmtGrp = new FixUndInstrmtGrp();
 		transactTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
+		orderQtyData = new FixOrderQtyData();
 		complianceID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		encodedText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
@@ -78,10 +95,15 @@ public class FixOrderCancelRequest extends FixMessage
 		Utils.fill( text, (byte)0 );
 		encodedTextLen = Long.MAX_VALUE;		
 		Utils.fill( encodedText, (byte)0 );
+		parties.clear();
+		instrument.clear();
+		financingDetails.clear();
+		undInstrmtGrp.clear();
+		orderQtyData.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -142,6 +164,24 @@ public class FixOrderCancelRequest extends FixMessage
 				if (!AccountType.isValid(accountType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + accountType + ") for tag: " + id );
 				break;
 
+			case FixTags.NOPARTYIDS_INT:
+				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(parties.noPartyIDs, value );
+				break;
+
+			case FixTags.SYMBOL_INT:
+				instrument.getAll(FixTags.SYMBOL_INT, value );
+				break;
+
+			case FixTags.AGREEMENTDESC_INT:
+				financingDetails.getAll(FixTags.AGREEMENTDESC_INT, value );
+				break;
+
+			case FixTags.NOUNDERLYINGS_INT:
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
+				break;
+
 			case FixTags.SIDE_INT:
 				side = FixUtils.getTagCharValue( value );
 				if (!Side.isValid(side) ) throw new FixSessionException(buf, "Invalid enumerated value(" + side + ") for tag: " + id );
@@ -149,6 +189,10 @@ public class FixOrderCancelRequest extends FixMessage
 
 			case FixTags.TRANSACTTIME_INT:
 				transactTime = FixUtils.getTagStringValue(value, transactTime);
+				break;
+
+			case FixTags.ORDERQTY_INT:
+				orderQtyData.getAll(FixTags.ORDERQTY_INT, value );
 				break;
 
 			case FixTags.COMPLIANCEID_INT:
@@ -192,9 +236,16 @@ public class FixOrderCancelRequest extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(clOrdID) ) return FixTags.CLORDID_INT;
 		if (! FixUtils.isSet(side) ) return FixTags.SIDE_INT;
 		if (! FixUtils.isSet(transactTime) ) return FixTags.TRANSACTTIME_INT;
+		if (! instrument.isSet() ) return FixTags.SYMBOL_INT;
+		if (! orderQtyData.isSet() ) return FixTags.ORDERQTY_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -244,6 +295,7 @@ public class FixOrderCancelRequest extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		if (FixUtils.isSet(origClOrdID)) FixUtils.putFixTag( out, FixTags.ORIGCLORDID_INT, origClOrdID, 0, Utils.lastIndexTrim(origClOrdID, (byte)0) );
 		if (FixUtils.isSet(orderID)) FixUtils.putFixTag( out, FixTags.ORDERID_INT, orderID, 0, Utils.lastIndexTrim(orderID, (byte)0) );
@@ -255,8 +307,13 @@ public class FixOrderCancelRequest extends FixMessage
 		if (FixUtils.isSet(account)) FixUtils.putFixTag( out, FixTags.ACCOUNT_INT, account, 0, Utils.lastIndexTrim(account, (byte)0) );
 		if (FixUtils.isSet(acctIDSource)) FixUtils.putFixTag( out, FixTags.ACCTIDSOURCE_INT, acctIDSource);
 		if (FixUtils.isSet(accountType)) FixUtils.putFixTag( out, FixTags.ACCOUNTTYPE_INT, accountType);
+		if (FixUtils.isSet(parties.noPartyIDs)) parties.encode( out );
+		instrument.encode( out );
+		if (FixUtils.isSet(financingDetails.agreementDesc)) financingDetails.encode( out );
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
 		FixUtils.putFixTag( out, FixTags.SIDE_INT, side );
 		FixUtils.putFixTag( out, FixTags.TRANSACTTIME_INT, transactTime);
+		orderQtyData.encode( out );
 		if (FixUtils.isSet(complianceID)) FixUtils.putFixTag( out, FixTags.COMPLIANCEID_INT, complianceID, 0, Utils.lastIndexTrim(complianceID, (byte)0) );
 		if (FixUtils.isSet(text)) FixUtils.putFixTag( out, FixTags.TEXT_INT, text, 0, Utils.lastIndexTrim(text, (byte)0) );
 		if (FixUtils.isSet(encodedTextLen)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXTLEN_INT, encodedTextLen);
@@ -326,6 +383,7 @@ public class FixOrderCancelRequest extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			if (FixUtils.isSet(origClOrdID)) s += "OrigClOrdID(41)=" + new String(origClOrdID) + sep;
 			if (FixUtils.isSet(orderID)) s += "OrderID(37)=" + new String(orderID) + sep;
@@ -337,8 +395,13 @@ public class FixOrderCancelRequest extends FixMessage
 			if (FixUtils.isSet(account)) s += "Account(1)=" + new String(account) + sep;
 			if (FixUtils.isSet(acctIDSource)) s += "AcctIDSource(660)=" + String.valueOf(acctIDSource) + sep;
 			if (FixUtils.isSet(accountType)) s += "AccountType(581)=" + String.valueOf(accountType) + sep;
+			if (FixUtils.isSet(parties.noPartyIDs)) s += parties.toString();
+			 s += instrument.toString();
+			if (FixUtils.isSet(financingDetails.agreementDesc)) s += financingDetails.toString();
+			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
 			 s += "Side(54)=" + String.valueOf(side) + sep;
 			 s += "TransactTime(60)=" + new String(transactTime) + sep;
+			 s += orderQtyData.toString();
 			if (FixUtils.isSet(complianceID)) s += "ComplianceID(376)=" + new String(complianceID) + sep;
 			if (FixUtils.isSet(text)) s += "Text(58)=" + new String(text) + sep;
 			if (FixUtils.isSet(encodedTextLen)) s += "EncodedTextLen(354)=" + String.valueOf(encodedTextLen) + sep;
@@ -377,7 +440,17 @@ public class FixOrderCancelRequest extends FixMessage
 
 		if (!( accountType==msg.accountType)) return false;
 
+		if (!parties.equals(msg.parties)) return false;
+
+		if (!instrument.equals(msg.instrument)) return false;
+
+		if (!financingDetails.equals(msg.financingDetails)) return false;
+
+		if (!undInstrmtGrp.equals(msg.undInstrmtGrp)) return false;
+
 		if (!( side==msg.side)) return false;
+
+		if (!orderQtyData.equals(msg.orderQtyData)) return false;
 
 		if (!Utils.equals( complianceID, msg.complianceID)) return false;
 

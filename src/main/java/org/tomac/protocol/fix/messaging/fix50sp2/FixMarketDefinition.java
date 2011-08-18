@@ -10,14 +10,22 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixApplicationSequenceControl;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixBaseTradingRules;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixOrdTypeRules;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixTimeInForceRules;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixExecInstRules;
 
 public class FixMarketDefinition extends FixMessage
 {
 
+	public FixApplicationSequenceControl applicationSequenceControl;
 	public byte[] marketReportID;
 	public byte[] marketReqID;
 	public byte[] marketID;
@@ -27,6 +35,10 @@ public class FixMarketDefinition extends FixMessage
 	public byte[] encodedMktSegmDesc;
 	public byte[] parentMktSegmID;
 	public byte[] currency;
+	public FixBaseTradingRules baseTradingRules;
+	public FixOrdTypeRules ordTypeRules;
+	public FixTimeInForceRules timeInForceRules;
+	public FixExecInstRules execInstRules;
 	public byte[] transactTime;
 	public byte[] text;
 	public long encodedTextLen = 0;
@@ -35,6 +47,7 @@ public class FixMarketDefinition extends FixMessage
 	public FixMarketDefinition() {
 		super();
 
+		applicationSequenceControl = new FixApplicationSequenceControl();
 		marketReportID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		marketReqID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		marketID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
@@ -43,6 +56,10 @@ public class FixMarketDefinition extends FixMessage
 		encodedMktSegmDesc = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		parentMktSegmID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		currency = new byte[FixUtils.CURRENCY_LENGTH];
+		baseTradingRules = new FixBaseTradingRules();
+		ordTypeRules = new FixOrdTypeRules();
+		timeInForceRules = new FixTimeInForceRules();
+		execInstRules = new FixExecInstRules();
 		transactTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
 		text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		encodedText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
@@ -71,10 +88,15 @@ public class FixMarketDefinition extends FixMessage
 		Utils.fill( text, (byte)0 );
 		encodedTextLen = Long.MAX_VALUE;		
 		Utils.fill( encodedText, (byte)0 );
+		applicationSequenceControl.clear();
+		baseTradingRules.clear();
+		ordTypeRules.clear();
+		timeInForceRules.clear();
+		execInstRules.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -92,6 +114,10 @@ public class FixMarketDefinition extends FixMessage
 			value = buf;
 
 			switch( id ) {
+
+			case FixTags.APPLID_INT:
+				applicationSequenceControl.getAll(FixTags.APPLID_INT, value );
+				break;
 
 			case FixTags.MARKETREPORTID_INT:
 				marketReportID = FixUtils.getTagStringValue(value, marketReportID);
@@ -127,6 +153,25 @@ public class FixMarketDefinition extends FixMessage
 
 			case FixTags.CURRENCY_INT:
 				currency = FixUtils.getTagStringValue(value, currency);
+				break;
+
+			case FixTags.EXPIRATIONCYCLE_INT:
+				baseTradingRules.getAll(FixTags.EXPIRATIONCYCLE_INT, value );
+				break;
+
+			case FixTags.NOORDTYPERULES_INT:
+				ordTypeRules.noOrdTypeRules = FixUtils.getTagIntValue( value );
+				ordTypeRules.getAll(ordTypeRules.noOrdTypeRules, value );
+				break;
+
+			case FixTags.NOTIMEINFORCERULES_INT:
+				timeInForceRules.noTimeInForceRules = FixUtils.getTagIntValue( value );
+				timeInForceRules.getAll(timeInForceRules.noTimeInForceRules, value );
+				break;
+
+			case FixTags.NOEXECINSTRULES_INT:
+				execInstRules.noExecInstRules = FixUtils.getTagIntValue( value );
+				execInstRules.getAll(execInstRules.noExecInstRules, value );
 				break;
 
 			case FixTags.TRANSACTTIME_INT:
@@ -170,8 +215,13 @@ public class FixMarketDefinition extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(marketReportID) ) return FixTags.MARKETREPORTID_INT;
 		if (! FixUtils.isSet(marketID) ) return FixTags.MARKETID_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -221,7 +271,9 @@ public class FixMarketDefinition extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
+		if (FixUtils.isSet(applicationSequenceControl.applID)) applicationSequenceControl.encode( out );
 		FixUtils.putFixTag( out, FixTags.MARKETREPORTID_INT, marketReportID, 0, Utils.lastIndexTrim(marketReportID, (byte)0) );
 		if (FixUtils.isSet(marketReqID)) FixUtils.putFixTag( out, FixTags.MARKETREQID_INT, marketReqID, 0, Utils.lastIndexTrim(marketReqID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.MARKETID_INT, marketID, 0, Utils.lastIndexTrim(marketID, (byte)0) );
@@ -231,6 +283,10 @@ public class FixMarketDefinition extends FixMessage
 		if (FixUtils.isSet(encodedMktSegmDesc)) FixUtils.putFixTag( out, FixTags.ENCODEDMKTSEGMDESC_INT, encodedMktSegmDesc, 0, Utils.lastIndexTrim(encodedMktSegmDesc, (byte)0) );
 		if (FixUtils.isSet(parentMktSegmID)) FixUtils.putFixTag( out, FixTags.PARENTMKTSEGMID_INT, parentMktSegmID, 0, Utils.lastIndexTrim(parentMktSegmID, (byte)0) );
 		if (FixUtils.isSet(currency)) FixUtils.putFixTag( out, FixTags.CURRENCY_INT, currency, 0, Utils.lastIndexTrim(currency, (byte)0) );
+		if (FixUtils.isSet(baseTradingRules.expirationCycle)) baseTradingRules.encode( out );
+		if (FixUtils.isSet(ordTypeRules.noOrdTypeRules)) ordTypeRules.encode( out );
+		if (FixUtils.isSet(timeInForceRules.noTimeInForceRules)) timeInForceRules.encode( out );
+		if (FixUtils.isSet(execInstRules.noExecInstRules)) execInstRules.encode( out );
 		if (FixUtils.isSet(transactTime)) FixUtils.putFixTag( out, FixTags.TRANSACTTIME_INT, transactTime);
 		if (FixUtils.isSet(text)) FixUtils.putFixTag( out, FixTags.TEXT_INT, text, 0, Utils.lastIndexTrim(text, (byte)0) );
 		if (FixUtils.isSet(encodedTextLen)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXTLEN_INT, encodedTextLen);
@@ -300,7 +356,9 @@ public class FixMarketDefinition extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
+			if (FixUtils.isSet(applicationSequenceControl.applID)) s += applicationSequenceControl.toString();
 			 s += "MarketReportID(1394)=" + new String(marketReportID) + sep;
 			if (FixUtils.isSet(marketReqID)) s += "MarketReqID(1393)=" + new String(marketReqID) + sep;
 			 s += "MarketID(1301)=" + new String(marketID) + sep;
@@ -310,6 +368,10 @@ public class FixMarketDefinition extends FixMessage
 			if (FixUtils.isSet(encodedMktSegmDesc)) s += "EncodedMktSegmDesc(1398)=" + new String(encodedMktSegmDesc) + sep;
 			if (FixUtils.isSet(parentMktSegmID)) s += "ParentMktSegmID(1325)=" + new String(parentMktSegmID) + sep;
 			if (FixUtils.isSet(currency)) s += "Currency(15)=" + new String(currency) + sep;
+			if (FixUtils.isSet(baseTradingRules.expirationCycle)) s += baseTradingRules.toString();
+			if (FixUtils.isSet(ordTypeRules.noOrdTypeRules)) s += ordTypeRules.toString();
+			if (FixUtils.isSet(timeInForceRules.noTimeInForceRules)) s += timeInForceRules.toString();
+			if (FixUtils.isSet(execInstRules.noExecInstRules)) s += execInstRules.toString();
 			if (FixUtils.isSet(transactTime)) s += "TransactTime(60)=" + new String(transactTime) + sep;
 			if (FixUtils.isSet(text)) s += "Text(58)=" + new String(text) + sep;
 			if (FixUtils.isSet(encodedTextLen)) s += "EncodedTextLen(354)=" + String.valueOf(encodedTextLen) + sep;
@@ -330,6 +392,8 @@ public class FixMarketDefinition extends FixMessage
 
 		if ( ! super.equals(msg) ) return false;
 
+		if (!applicationSequenceControl.equals(msg.applicationSequenceControl)) return false;
+
 		if (!Utils.equals( marketReportID, msg.marketReportID)) return false;
 
 		if (!Utils.equals( marketReqID, msg.marketReqID)) return false;
@@ -347,6 +411,14 @@ public class FixMarketDefinition extends FixMessage
 		if (!Utils.equals( parentMktSegmID, msg.parentMktSegmID)) return false;
 
 		if (!Utils.equals( currency, msg.currency)) return false;
+
+		if (!baseTradingRules.equals(msg.baseTradingRules)) return false;
+
+		if (!ordTypeRules.equals(msg.ordTypeRules)) return false;
+
+		if (!timeInForceRules.equals(msg.timeInForceRules)) return false;
+
+		if (!execInstRules.equals(msg.execInstRules)) return false;
 
 		if (!Utils.equals( text, msg.text)) return false;
 

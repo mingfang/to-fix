@@ -10,10 +10,14 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixApplIDRequestAckGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
 
 public class FixApplicationMessageRequestAck extends FixMessage
 {
@@ -23,6 +27,8 @@ public class FixApplicationMessageRequestAck extends FixMessage
 	public long applReqType = 0;
 	public long applResponseType = 0;
 	public long applTotalMessageCount = 0;
+	public FixApplIDRequestAckGrp applIDRequestAckGrp;
+	public FixParties parties;
 	public byte[] text;
 	public long encodedTextLen = 0;
 	public byte[] encodedText;
@@ -32,6 +38,8 @@ public class FixApplicationMessageRequestAck extends FixMessage
 
 		applResponseID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		applReqID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		applIDRequestAckGrp = new FixApplIDRequestAckGrp();
+		parties = new FixParties();
 		text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		encodedText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		this.clear();
@@ -54,10 +62,12 @@ public class FixApplicationMessageRequestAck extends FixMessage
 		Utils.fill( text, (byte)0 );
 		encodedTextLen = Long.MAX_VALUE;		
 		Utils.fill( encodedText, (byte)0 );
+		applIDRequestAckGrp.clear();
+		parties.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -98,6 +108,16 @@ public class FixApplicationMessageRequestAck extends FixMessage
 				applTotalMessageCount = FixUtils.getTagIntValue( value );
 				break;
 
+			case FixTags.NOAPPLIDS_INT:
+				applIDRequestAckGrp.noApplIDs = FixUtils.getTagIntValue( value );
+				applIDRequestAckGrp.getAll(applIDRequestAckGrp.noApplIDs, value );
+				break;
+
+			case FixTags.NOPARTYIDS_INT:
+				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(parties.noPartyIDs, value );
+				break;
+
 			case FixTags.TEXT_INT:
 				text = FixUtils.getTagStringValue(value, text);
 				break;
@@ -135,7 +155,12 @@ public class FixApplicationMessageRequestAck extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(applResponseID) ) return FixTags.APPLRESPONSEID_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -185,12 +210,15 @@ public class FixApplicationMessageRequestAck extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.APPLRESPONSEID_INT, applResponseID, 0, Utils.lastIndexTrim(applResponseID, (byte)0) );
 		if (FixUtils.isSet(applReqID)) FixUtils.putFixTag( out, FixTags.APPLREQID_INT, applReqID, 0, Utils.lastIndexTrim(applReqID, (byte)0) );
 		if (FixUtils.isSet(applReqType)) FixUtils.putFixTag( out, FixTags.APPLREQTYPE_INT, applReqType);
 		if (FixUtils.isSet(applResponseType)) FixUtils.putFixTag( out, FixTags.APPLRESPONSETYPE_INT, applResponseType);
 		if (FixUtils.isSet(applTotalMessageCount)) FixUtils.putFixTag( out, FixTags.APPLTOTALMESSAGECOUNT_INT, applTotalMessageCount);
+		if (FixUtils.isSet(applIDRequestAckGrp.noApplIDs)) applIDRequestAckGrp.encode( out );
+		if (FixUtils.isSet(parties.noPartyIDs)) parties.encode( out );
 		if (FixUtils.isSet(text)) FixUtils.putFixTag( out, FixTags.TEXT_INT, text, 0, Utils.lastIndexTrim(text, (byte)0) );
 		if (FixUtils.isSet(encodedTextLen)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXTLEN_INT, encodedTextLen);
 		if (FixUtils.isSet(encodedText)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXT_INT, encodedText, 0, Utils.lastIndexTrim(encodedText, (byte)0) );
@@ -259,12 +287,15 @@ public class FixApplicationMessageRequestAck extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "ApplResponseID(1353)=" + new String(applResponseID) + sep;
 			if (FixUtils.isSet(applReqID)) s += "ApplReqID(1346)=" + new String(applReqID) + sep;
 			if (FixUtils.isSet(applReqType)) s += "ApplReqType(1347)=" + String.valueOf(applReqType) + sep;
 			if (FixUtils.isSet(applResponseType)) s += "ApplResponseType(1348)=" + String.valueOf(applResponseType) + sep;
 			if (FixUtils.isSet(applTotalMessageCount)) s += "ApplTotalMessageCount(1349)=" + String.valueOf(applTotalMessageCount) + sep;
+			if (FixUtils.isSet(applIDRequestAckGrp.noApplIDs)) s += applIDRequestAckGrp.toString();
+			if (FixUtils.isSet(parties.noPartyIDs)) s += parties.toString();
 			if (FixUtils.isSet(text)) s += "Text(58)=" + new String(text) + sep;
 			if (FixUtils.isSet(encodedTextLen)) s += "EncodedTextLen(354)=" + String.valueOf(encodedTextLen) + sep;
 			if (FixUtils.isSet(encodedText)) s += "EncodedText(355)=" + new String(encodedText) + sep;
@@ -293,6 +324,10 @@ public class FixApplicationMessageRequestAck extends FixMessage
 		if (!( applResponseType==msg.applResponseType)) return false;
 
 		if (!( applTotalMessageCount==msg.applTotalMessageCount)) return false;
+
+		if (!applIDRequestAckGrp.equals(msg.applIDRequestAckGrp)) return false;
+
+		if (!parties.equals(msg.parties)) return false;
 
 		if (!Utils.equals( text, msg.text)) return false;
 

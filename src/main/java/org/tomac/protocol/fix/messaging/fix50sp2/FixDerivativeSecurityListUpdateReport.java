@@ -10,28 +10,42 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixApplicationSequenceControl;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUnderlyingInstrument;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixDerivativeSecurityDefinition;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixRelSymDerivSecUpdGrp;
 
 public class FixDerivativeSecurityListUpdateReport extends FixMessage
 {
 
+	public FixApplicationSequenceControl applicationSequenceControl;
 	public byte[] securityReqID;
 	public byte[] securityResponseID;
 	public long securityRequestResult = 0;
 	public byte securityUpdateAction = (byte)' ';
+	public FixUnderlyingInstrument underlyingInstrument;
 	public byte[] transactTime;
+	public FixDerivativeSecurityDefinition derivativeSecurityDefinition;
 	public long totNoRelatedSym = 0;
 	public boolean lastFragment = false;
+	public FixRelSymDerivSecUpdGrp relSymDerivSecUpdGrp;
 
 	public FixDerivativeSecurityListUpdateReport() {
 		super();
 
+		applicationSequenceControl = new FixApplicationSequenceControl();
 		securityReqID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		securityResponseID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		underlyingInstrument = new FixUnderlyingInstrument();
 		transactTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
+		derivativeSecurityDefinition = new FixDerivativeSecurityDefinition();
+		relSymDerivSecUpdGrp = new FixRelSymDerivSecUpdGrp();
 		this.clear();
 
 		msgType = MsgTypes.DERIVATIVESECURITYLISTUPDATEREPORT_INT;
@@ -51,10 +65,14 @@ public class FixDerivativeSecurityListUpdateReport extends FixMessage
 		Utils.fill( transactTime, (byte)0 );
 		totNoRelatedSym = Long.MAX_VALUE;		
 		lastFragment = false;		
+		applicationSequenceControl.clear();
+		underlyingInstrument.clear();
+		derivativeSecurityDefinition.clear();
+		relSymDerivSecUpdGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -72,6 +90,10 @@ public class FixDerivativeSecurityListUpdateReport extends FixMessage
 			value = buf;
 
 			switch( id ) {
+
+			case FixTags.APPLID_INT:
+				applicationSequenceControl.getAll(FixTags.APPLID_INT, value );
+				break;
 
 			case FixTags.SECURITYREQID_INT:
 				securityReqID = FixUtils.getTagStringValue(value, securityReqID);
@@ -91,8 +113,16 @@ public class FixDerivativeSecurityListUpdateReport extends FixMessage
 				if (!SecurityUpdateAction.isValid(securityUpdateAction) ) throw new FixSessionException(buf, "Invalid enumerated value(" + securityUpdateAction + ") for tag: " + id );
 				break;
 
+			case FixTags.UNDERLYINGSYMBOL_INT:
+				underlyingInstrument.getAll(FixTags.UNDERLYINGSYMBOL_INT, value );
+				break;
+
 			case FixTags.TRANSACTTIME_INT:
 				transactTime = FixUtils.getTagStringValue(value, transactTime);
+				break;
+
+			case FixTags.DERIVATIVESYMBOL_INT:
+				derivativeSecurityDefinition.getAll(FixTags.DERIVATIVESYMBOL_INT, value );
 				break;
 
 			case FixTags.TOTNORELATEDSYM_INT:
@@ -102,6 +132,11 @@ public class FixDerivativeSecurityListUpdateReport extends FixMessage
 			case FixTags.LASTFRAGMENT_INT:
 				lastFragment = FixUtils.getTagBooleanValue( value );
 				if (!LastFragment.isValid(lastFragment) ) throw new FixSessionException(buf, "Invalid enumerated value(" + lastFragment + ") for tag: " + id );
+				break;
+
+			case FixTags.NORELATEDSYM_INT:
+				relSymDerivSecUpdGrp.noRelatedSym = FixUtils.getTagIntValue( value );
+				relSymDerivSecUpdGrp.getAll(relSymDerivSecUpdGrp.noRelatedSym, value );
 				break;
 
 			// for a message always get the checksum
@@ -129,6 +164,11 @@ public class FixDerivativeSecurityListUpdateReport extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -178,14 +218,19 @@ public class FixDerivativeSecurityListUpdateReport extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
+		if (FixUtils.isSet(applicationSequenceControl.applID)) applicationSequenceControl.encode( out );
 		if (FixUtils.isSet(securityReqID)) FixUtils.putFixTag( out, FixTags.SECURITYREQID_INT, securityReqID, 0, Utils.lastIndexTrim(securityReqID, (byte)0) );
 		if (FixUtils.isSet(securityResponseID)) FixUtils.putFixTag( out, FixTags.SECURITYRESPONSEID_INT, securityResponseID, 0, Utils.lastIndexTrim(securityResponseID, (byte)0) );
 		if (FixUtils.isSet(securityRequestResult)) FixUtils.putFixTag( out, FixTags.SECURITYREQUESTRESULT_INT, securityRequestResult);
 		if (FixUtils.isSet(securityUpdateAction)) FixUtils.putFixTag( out, FixTags.SECURITYUPDATEACTION_INT, securityUpdateAction );
+		if (FixUtils.isSet(underlyingInstrument.underlyingSymbol)) underlyingInstrument.encode( out );
 		if (FixUtils.isSet(transactTime)) FixUtils.putFixTag( out, FixTags.TRANSACTTIME_INT, transactTime);
+		if (FixUtils.isSet(derivativeSecurityDefinition.derivativeSymbol)) derivativeSecurityDefinition.encode( out );
 		if (FixUtils.isSet(totNoRelatedSym)) FixUtils.putFixTag( out, FixTags.TOTNORELATEDSYM_INT, totNoRelatedSym);
 		if (FixUtils.isSet(lastFragment)) FixUtils.putFixTag( out, FixTags.LASTFRAGMENT_INT, lastFragment?(byte)'Y':(byte)'N' );
+		if (FixUtils.isSet(relSymDerivSecUpdGrp.noRelatedSym)) relSymDerivSecUpdGrp.encode( out );
 		// the checksum at the end
 
 		int checkSumStart = out.position();
@@ -251,14 +296,19 @@ public class FixDerivativeSecurityListUpdateReport extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
+			if (FixUtils.isSet(applicationSequenceControl.applID)) s += applicationSequenceControl.toString();
 			if (FixUtils.isSet(securityReqID)) s += "SecurityReqID(320)=" + new String(securityReqID) + sep;
 			if (FixUtils.isSet(securityResponseID)) s += "SecurityResponseID(322)=" + new String(securityResponseID) + sep;
 			if (FixUtils.isSet(securityRequestResult)) s += "SecurityRequestResult(560)=" + String.valueOf(securityRequestResult) + sep;
 			if (FixUtils.isSet(securityUpdateAction)) s += "SecurityUpdateAction(980)=" + String.valueOf(securityUpdateAction) + sep;
+			if (FixUtils.isSet(underlyingInstrument.underlyingSymbol)) s += underlyingInstrument.toString();
 			if (FixUtils.isSet(transactTime)) s += "TransactTime(60)=" + new String(transactTime) + sep;
+			if (FixUtils.isSet(derivativeSecurityDefinition.derivativeSymbol)) s += derivativeSecurityDefinition.toString();
 			if (FixUtils.isSet(totNoRelatedSym)) s += "TotNoRelatedSym(393)=" + String.valueOf(totNoRelatedSym) + sep;
 			if (FixUtils.isSet(lastFragment)) s += "LastFragment(893)=" + String.valueOf(lastFragment) + sep;
+			if (FixUtils.isSet(relSymDerivSecUpdGrp.noRelatedSym)) s += relSymDerivSecUpdGrp.toString();
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
 
@@ -275,6 +325,8 @@ public class FixDerivativeSecurityListUpdateReport extends FixMessage
 
 		if ( ! super.equals(msg) ) return false;
 
+		if (!applicationSequenceControl.equals(msg.applicationSequenceControl)) return false;
+
 		if (!Utils.equals( securityReqID, msg.securityReqID)) return false;
 
 		if (!Utils.equals( securityResponseID, msg.securityResponseID)) return false;
@@ -283,9 +335,15 @@ public class FixDerivativeSecurityListUpdateReport extends FixMessage
 
 		if (!( securityUpdateAction==msg.securityUpdateAction)) return false;
 
+		if (!underlyingInstrument.equals(msg.underlyingInstrument)) return false;
+
+		if (!derivativeSecurityDefinition.equals(msg.derivativeSecurityDefinition)) return false;
+
 		if (!( totNoRelatedSym==msg.totNoRelatedSym)) return false;
 
 		if (!( lastFragment==msg.lastFragment)) return false;
+
+		if (!relSymDerivSecUpdGrp.equals(msg.relSymDerivSecUpdGrp)) return false;
 
 		return true;
 	}

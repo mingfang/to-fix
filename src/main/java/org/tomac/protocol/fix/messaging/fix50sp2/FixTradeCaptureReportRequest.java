@@ -10,10 +10,19 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrument;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrumentExtension;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixFinancingDetails;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUndInstrmtGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrmtLegGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixTrdCapDtGrp;
 
 public class FixTradeCaptureReportRequest extends FixMessage
 {
@@ -39,6 +48,13 @@ public class FixTradeCaptureReportRequest extends FixMessage
 	public long secondaryTrdType = 0;
 	public byte[] tradeLinkID;
 	public byte[] trdMatchID;
+	public FixParties parties;
+	public FixInstrument instrument;
+	public FixInstrumentExtension instrumentExtension;
+	public FixFinancingDetails financingDetails;
+	public FixUndInstrmtGrp undInstrmtGrp;
+	public FixInstrmtLegGrp instrmtLegGrp;
+	public FixTrdCapDtGrp trdCapDtGrp;
 	public byte[] clearingBusinessDate;
 	public byte[] tradingSessionID;
 	public byte[] tradingSessionSubID;
@@ -70,6 +86,13 @@ public class FixTradeCaptureReportRequest extends FixMessage
 		transferReason = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		tradeLinkID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		trdMatchID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		parties = new FixParties();
+		instrument = new FixInstrument();
+		instrumentExtension = new FixInstrumentExtension();
+		financingDetails = new FixFinancingDetails();
+		undInstrmtGrp = new FixUndInstrmtGrp();
+		instrmtLegGrp = new FixInstrmtLegGrp();
+		trdCapDtGrp = new FixTrdCapDtGrp();
 		clearingBusinessDate = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		tradingSessionID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		tradingSessionSubID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
@@ -127,10 +150,17 @@ public class FixTradeCaptureReportRequest extends FixMessage
 		encodedTextLen = Long.MAX_VALUE;		
 		Utils.fill( encodedText, (byte)0 );
 		Utils.fill( messageEventSource, (byte)0 );
+		parties.clear();
+		instrument.clear();
+		instrumentExtension.clear();
+		financingDetails.clear();
+		undInstrmtGrp.clear();
+		instrmtLegGrp.clear();
+		trdCapDtGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -240,6 +270,38 @@ public class FixTradeCaptureReportRequest extends FixMessage
 				trdMatchID = FixUtils.getTagStringValue(value, trdMatchID);
 				break;
 
+			case FixTags.NOPARTYIDS_INT:
+				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(parties.noPartyIDs, value );
+				break;
+
+			case FixTags.SYMBOL_INT:
+				instrument.getAll(FixTags.SYMBOL_INT, value );
+				break;
+
+			case FixTags.DELIVERYFORM_INT:
+				instrumentExtension.getAll(FixTags.DELIVERYFORM_INT, value );
+				break;
+
+			case FixTags.AGREEMENTDESC_INT:
+				financingDetails.getAll(FixTags.AGREEMENTDESC_INT, value );
+				break;
+
+			case FixTags.NOUNDERLYINGS_INT:
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
+				break;
+
+			case FixTags.NOLEGS_INT:
+				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( value );
+				instrmtLegGrp.getAll(instrmtLegGrp.noLegs, value );
+				break;
+
+			case FixTags.NODATES_INT:
+				trdCapDtGrp.noDates = FixUtils.getTagIntValue( value );
+				trdCapDtGrp.getAll(trdCapDtGrp.noDates, value );
+				break;
+
 			case FixTags.CLEARINGBUSINESSDATE_INT:
 				clearingBusinessDate = FixUtils.getTagStringValue(value, clearingBusinessDate);
 				break;
@@ -326,8 +388,13 @@ public class FixTradeCaptureReportRequest extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(tradeRequestID) ) return FixTags.TRADEREQUESTID_INT;
 		if (! FixUtils.isSet(tradeRequestType) ) return FixTags.TRADEREQUESTTYPE_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -377,6 +444,7 @@ public class FixTradeCaptureReportRequest extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.TRADEREQUESTID_INT, tradeRequestID, 0, Utils.lastIndexTrim(tradeRequestID, (byte)0) );
 		if (FixUtils.isSet(tradeID)) FixUtils.putFixTag( out, FixTags.TRADEID_INT, tradeID, 0, Utils.lastIndexTrim(tradeID, (byte)0) );
@@ -399,6 +467,13 @@ public class FixTradeCaptureReportRequest extends FixMessage
 		if (FixUtils.isSet(secondaryTrdType)) FixUtils.putFixTag( out, FixTags.SECONDARYTRDTYPE_INT, secondaryTrdType);
 		if (FixUtils.isSet(tradeLinkID)) FixUtils.putFixTag( out, FixTags.TRADELINKID_INT, tradeLinkID, 0, Utils.lastIndexTrim(tradeLinkID, (byte)0) );
 		if (FixUtils.isSet(trdMatchID)) FixUtils.putFixTag( out, FixTags.TRDMATCHID_INT, trdMatchID, 0, Utils.lastIndexTrim(trdMatchID, (byte)0) );
+		if (FixUtils.isSet(parties.noPartyIDs)) parties.encode( out );
+		if (FixUtils.isSet(instrument.symbol)) instrument.encode( out );
+		if (FixUtils.isSet(instrumentExtension.deliveryForm)) instrumentExtension.encode( out );
+		if (FixUtils.isSet(financingDetails.agreementDesc)) financingDetails.encode( out );
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
+		if (FixUtils.isSet(instrmtLegGrp.noLegs)) instrmtLegGrp.encode( out );
+		if (FixUtils.isSet(trdCapDtGrp.noDates)) trdCapDtGrp.encode( out );
 		if (FixUtils.isSet(clearingBusinessDate)) FixUtils.putFixTag( out, FixTags.CLEARINGBUSINESSDATE_INT, clearingBusinessDate);
 		if (FixUtils.isSet(tradingSessionID)) FixUtils.putFixTag( out, FixTags.TRADINGSESSIONID_INT, tradingSessionID, 0, Utils.lastIndexTrim(tradingSessionID, (byte)0) );
 		if (FixUtils.isSet(tradingSessionSubID)) FixUtils.putFixTag( out, FixTags.TRADINGSESSIONSUBID_INT, tradingSessionSubID, 0, Utils.lastIndexTrim(tradingSessionSubID, (byte)0) );
@@ -478,6 +553,7 @@ public class FixTradeCaptureReportRequest extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "TradeRequestID(568)=" + new String(tradeRequestID) + sep;
 			if (FixUtils.isSet(tradeID)) s += "TradeID(1003)=" + new String(tradeID) + sep;
@@ -500,6 +576,13 @@ public class FixTradeCaptureReportRequest extends FixMessage
 			if (FixUtils.isSet(secondaryTrdType)) s += "SecondaryTrdType(855)=" + String.valueOf(secondaryTrdType) + sep;
 			if (FixUtils.isSet(tradeLinkID)) s += "TradeLinkID(820)=" + new String(tradeLinkID) + sep;
 			if (FixUtils.isSet(trdMatchID)) s += "TrdMatchID(880)=" + new String(trdMatchID) + sep;
+			if (FixUtils.isSet(parties.noPartyIDs)) s += parties.toString();
+			if (FixUtils.isSet(instrument.symbol)) s += instrument.toString();
+			if (FixUtils.isSet(instrumentExtension.deliveryForm)) s += instrumentExtension.toString();
+			if (FixUtils.isSet(financingDetails.agreementDesc)) s += financingDetails.toString();
+			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
+			if (FixUtils.isSet(instrmtLegGrp.noLegs)) s += instrmtLegGrp.toString();
+			if (FixUtils.isSet(trdCapDtGrp.noDates)) s += trdCapDtGrp.toString();
 			if (FixUtils.isSet(clearingBusinessDate)) s += "ClearingBusinessDate(715)=" + new String(clearingBusinessDate) + sep;
 			if (FixUtils.isSet(tradingSessionID)) s += "TradingSessionID(336)=" + new String(tradingSessionID) + sep;
 			if (FixUtils.isSet(tradingSessionSubID)) s += "TradingSessionSubID(625)=" + new String(tradingSessionSubID) + sep;
@@ -571,6 +654,20 @@ public class FixTradeCaptureReportRequest extends FixMessage
 		if (!Utils.equals( tradeLinkID, msg.tradeLinkID)) return false;
 
 		if (!Utils.equals( trdMatchID, msg.trdMatchID)) return false;
+
+		if (!parties.equals(msg.parties)) return false;
+
+		if (!instrument.equals(msg.instrument)) return false;
+
+		if (!instrumentExtension.equals(msg.instrumentExtension)) return false;
+
+		if (!financingDetails.equals(msg.financingDetails)) return false;
+
+		if (!undInstrmtGrp.equals(msg.undInstrmtGrp)) return false;
+
+		if (!instrmtLegGrp.equals(msg.instrmtLegGrp)) return false;
+
+		if (!trdCapDtGrp.equals(msg.trdCapDtGrp)) return false;
 
 		if (!Utils.equals( tradingSessionID, msg.tradingSessionID)) return false;
 

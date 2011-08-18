@@ -10,14 +10,40 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixApplicationSequenceControl;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixContraGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixPreAllocGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrument;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixFinancingDetails;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUndInstrmtGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixStipulations;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixOrderQtyData;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixTriggeringInstruction;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixPegInstructions;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixDiscretionInstructions;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixStrategyParametersGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixFillsGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixCommissionData;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixSpreadOrBenchmarkCurveData;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixYieldData;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixRateSource;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixDisplayInstruction;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixContAmtGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrmtLegExecGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixMiscFeesGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixTrdRegTimestamps;
 
 public class FixExecutionReport extends FixMessage
 {
 
+	public FixApplicationSequenceControl applicationSequenceControl;
 	public byte[] orderID;
 	public byte[] secondaryOrderID;
 	public byte[] secondaryClOrdID;
@@ -31,7 +57,9 @@ public class FixExecutionReport extends FixMessage
 	public byte[] hostCrossID;
 	public long totNumReports = 0;
 	public boolean lastRptRequested = false;
+	public FixParties parties;
 	public byte[] tradeOriginationDate;
+	public FixContraGrp contraGrp;
 	public byte[] listID;
 	public byte[] crossID;
 	public byte[] origCrossID;
@@ -51,24 +79,34 @@ public class FixExecutionReport extends FixMessage
 	public byte bookingUnit = (byte)' ';
 	public byte preallocMethod = (byte)' ';
 	public byte[] allocID;
+	public FixPreAllocGrp preAllocGrp;
 	public byte[] settlType;
 	public byte[] settlDate;
 	public byte[] matchType;
 	public byte orderCategory = (byte)' ';
 	public byte cashMargin = (byte)' ';
 	public byte[] clearingFeeIndicator;
+	public FixInstrument instrument;
+	public FixFinancingDetails financingDetails;
+	public FixUndInstrmtGrp undInstrmtGrp;
 	public byte side = (byte)' ';
+	public FixStipulations stipulations;
 	public long qtyType = 0;
 	public byte lotType = (byte)' ';
+	public FixOrderQtyData orderQtyData;
 	public byte ordType = (byte)' ';
 	public long priceType = 0;
 	public long price = 0;
 	public byte priceProtectionScope = (byte)' ';
 	public long stopPx = 0;
+	public FixTriggeringInstruction triggeringInstruction;
+	public FixPegInstructions pegInstructions;
+	public FixDiscretionInstructions discretionInstructions;
 	public long peggedPrice = 0;
 	public long peggedRefPrice = 0;
 	public long discretionPrice = 0;
 	public long targetStrategy = 0;
+	public FixStrategyParametersGrp strategyParametersGrp;
 	public byte[] targetStrategyParameters;
 	public long participationRate = 0;
 	public long targetStrategyPerformance = 0;
@@ -107,10 +145,14 @@ public class FixExecutionReport extends FixMessage
 	public long dayAvgPx = 0;
 	public long totNoFills = 0;
 	public boolean lastFragment = false;
+	public FixFillsGrp fillsGrp;
 	public long gTBookingInst = 0;
 	public byte[] tradeDate;
 	public byte[] transactTime;
 	public boolean reportToExch = false;
+	public FixCommissionData commissionData;
+	public FixSpreadOrBenchmarkCurveData spreadOrBenchmarkCurveData;
+	public FixYieldData yieldData;
 	public long grossTradeAmt = 0;
 	public long numDaysInterest = 0;
 	public byte[] exDate;
@@ -128,12 +170,14 @@ public class FixExecutionReport extends FixMessage
 	public long netMoney = 0;
 	public long settlCurrAmt = 0;
 	public byte[] settlCurrency;
+	public FixRateSource rateSource;
 	public long settlCurrFxRate = 0;
 	public byte settlCurrFxRateCalc = (byte)' ';
 	public byte handlInst = (byte)' ';
 	public long minQty = 0;
 	public long matchIncrement = 0;
 	public long maxPriceLevels = 0;
+	public FixDisplayInstruction displayInstruction;
 	public long maxFloor = 0;
 	public byte positionEffect = (byte)' ';
 	public long maxShow = 0;
@@ -156,6 +200,8 @@ public class FixExecutionReport extends FixMessage
 	public long priorityIndicator = 0;
 	public long priceImprovement = 0;
 	public long lastLiquidityInd = 0;
+	public FixContAmtGrp contAmtGrp;
+	public FixInstrmtLegExecGrp instrmtLegExecGrp;
 	public boolean copyMsgIndicator = false;
 	public boolean manualOrderIndicator = false;
 	public boolean custDirectedOrder = false;
@@ -163,6 +209,8 @@ public class FixExecutionReport extends FixMessage
 	public byte[] custOrderHandlingInst;
 	public long orderHandlingInstSource = 0;
 	public long dividendYield = 0;
+	public FixMiscFeesGrp miscFeesGrp;
+	public FixTrdRegTimestamps trdRegTimestamps;
 	public long volatility = 0;
 	public long timeToExpiration = 0;
 	public long riskFreeRate = 0;
@@ -171,6 +219,7 @@ public class FixExecutionReport extends FixMessage
 	public FixExecutionReport() {
 		super();
 
+		applicationSequenceControl = new FixApplicationSequenceControl();
 		orderID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		secondaryOrderID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		secondaryClOrdID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
@@ -182,7 +231,9 @@ public class FixExecutionReport extends FixMessage
 		ordStatusReqID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		massStatusReqID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		hostCrossID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		parties = new FixParties();
 		tradeOriginationDate = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		contraGrp = new FixContraGrp();
 		listID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		crossID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		origCrossID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
@@ -191,10 +242,20 @@ public class FixExecutionReport extends FixMessage
 		execRefID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		account = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		allocID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		preAllocGrp = new FixPreAllocGrp();
 		settlType = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		settlDate = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		matchType = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		clearingFeeIndicator = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		instrument = new FixInstrument();
+		financingDetails = new FixFinancingDetails();
+		undInstrmtGrp = new FixUndInstrmtGrp();
+		stipulations = new FixStipulations();
+		orderQtyData = new FixOrderQtyData();
+		triggeringInstruction = new FixTriggeringInstruction();
+		pegInstructions = new FixPegInstructions();
+		discretionInstructions = new FixDiscretionInstructions();
+		strategyParametersGrp = new FixStrategyParametersGrp();
 		targetStrategyParameters = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		currency = new byte[FixUtils.CURRENCY_LENGTH];
 		complianceID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
@@ -207,11 +268,17 @@ public class FixExecutionReport extends FixMessage
 		tradingSessionID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		tradingSessionSubID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		timeBracket = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		fillsGrp = new FixFillsGrp();
 		tradeDate = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		transactTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
+		commissionData = new FixCommissionData();
+		spreadOrBenchmarkCurveData = new FixSpreadOrBenchmarkCurveData();
+		yieldData = new FixYieldData();
 		exDate = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		basisFeatureDate = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		settlCurrency = new byte[FixUtils.CURRENCY_LENGTH];
+		rateSource = new FixRateSource();
+		displayInstruction = new FixDisplayInstruction();
 		text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		encodedText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		settlDate2 = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
@@ -219,8 +286,12 @@ public class FixExecutionReport extends FixMessage
 		designation = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		transBkdTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
 		execValuationPoint = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
+		contAmtGrp = new FixContAmtGrp();
+		instrmtLegExecGrp = new FixInstrmtLegExecGrp();
 		receivedDeptID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		custOrderHandlingInst = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		miscFeesGrp = new FixMiscFeesGrp();
+		trdRegTimestamps = new FixTrdRegTimestamps();
 		this.clear();
 
 		msgType = MsgTypes.EXECUTIONREPORT_INT;
@@ -382,10 +453,33 @@ public class FixExecutionReport extends FixMessage
 		timeToExpiration = Long.MAX_VALUE;		
 		riskFreeRate = Long.MAX_VALUE;		
 		priceDelta = Long.MAX_VALUE;		
+		applicationSequenceControl.clear();
+		parties.clear();
+		contraGrp.clear();
+		preAllocGrp.clear();
+		instrument.clear();
+		financingDetails.clear();
+		undInstrmtGrp.clear();
+		stipulations.clear();
+		orderQtyData.clear();
+		triggeringInstruction.clear();
+		pegInstructions.clear();
+		discretionInstructions.clear();
+		strategyParametersGrp.clear();
+		fillsGrp.clear();
+		commissionData.clear();
+		spreadOrBenchmarkCurveData.clear();
+		yieldData.clear();
+		rateSource.clear();
+		displayInstruction.clear();
+		contAmtGrp.clear();
+		instrmtLegExecGrp.clear();
+		miscFeesGrp.clear();
+		trdRegTimestamps.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -403,6 +497,10 @@ public class FixExecutionReport extends FixMessage
 			value = buf;
 
 			switch( id ) {
+
+			case FixTags.APPLID_INT:
+				applicationSequenceControl.getAll(FixTags.APPLID_INT, value );
+				break;
 
 			case FixTags.ORDERID_INT:
 				orderID = FixUtils.getTagStringValue(value, orderID);
@@ -457,8 +555,18 @@ public class FixExecutionReport extends FixMessage
 				if (!LastRptRequested.isValid(lastRptRequested) ) throw new FixSessionException(buf, "Invalid enumerated value(" + lastRptRequested + ") for tag: " + id );
 				break;
 
+			case FixTags.NOPARTYIDS_INT:
+				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(parties.noPartyIDs, value );
+				break;
+
 			case FixTags.TRADEORIGINATIONDATE_INT:
 				tradeOriginationDate = FixUtils.getTagStringValue(value, tradeOriginationDate);
+				break;
+
+			case FixTags.NOCONTRABROKERS_INT:
+				contraGrp.noContraBrokers = FixUtils.getTagIntValue( value );
+				contraGrp.getAll(contraGrp.noContraBrokers, value );
 				break;
 
 			case FixTags.LISTID_INT:
@@ -548,6 +656,11 @@ public class FixExecutionReport extends FixMessage
 				allocID = FixUtils.getTagStringValue(value, allocID);
 				break;
 
+			case FixTags.NOALLOCS_INT:
+				preAllocGrp.noAllocs = FixUtils.getTagIntValue( value );
+				preAllocGrp.getAll(preAllocGrp.noAllocs, value );
+				break;
+
 			case FixTags.SETTLTYPE_INT:
 				settlType = FixUtils.getTagStringValue(value, settlType);
 				if (!SettlType.isValid(settlType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + settlType + ") for tag: " + id );
@@ -577,9 +690,27 @@ public class FixExecutionReport extends FixMessage
 				if (!ClearingFeeIndicator.isValid(clearingFeeIndicator) ) throw new FixSessionException(buf, "Invalid enumerated value(" + clearingFeeIndicator + ") for tag: " + id );
 				break;
 
+			case FixTags.SYMBOL_INT:
+				instrument.getAll(FixTags.SYMBOL_INT, value );
+				break;
+
+			case FixTags.AGREEMENTDESC_INT:
+				financingDetails.getAll(FixTags.AGREEMENTDESC_INT, value );
+				break;
+
+			case FixTags.NOUNDERLYINGS_INT:
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
+				break;
+
 			case FixTags.SIDE_INT:
 				side = FixUtils.getTagCharValue( value );
 				if (!Side.isValid(side) ) throw new FixSessionException(buf, "Invalid enumerated value(" + side + ") for tag: " + id );
+				break;
+
+			case FixTags.NOSTIPULATIONS_INT:
+				stipulations.noStipulations = FixUtils.getTagIntValue( value );
+				stipulations.getAll(stipulations.noStipulations, value );
 				break;
 
 			case FixTags.QTYTYPE_INT:
@@ -590,6 +721,10 @@ public class FixExecutionReport extends FixMessage
 			case FixTags.LOTTYPE_INT:
 				lotType = FixUtils.getTagCharValue( value );
 				if (!LotType.isValid(lotType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + lotType + ") for tag: " + id );
+				break;
+
+			case FixTags.ORDERQTY_INT:
+				orderQtyData.getAll(FixTags.ORDERQTY_INT, value );
 				break;
 
 			case FixTags.ORDTYPE_INT:
@@ -615,6 +750,18 @@ public class FixExecutionReport extends FixMessage
 				stopPx = FixUtils.getTagFloatValue(value);
 				break;
 
+			case FixTags.TRIGGERTYPE_INT:
+				triggeringInstruction.getAll(FixTags.TRIGGERTYPE_INT, value );
+				break;
+
+			case FixTags.PEGOFFSETVALUE_INT:
+				pegInstructions.getAll(FixTags.PEGOFFSETVALUE_INT, value );
+				break;
+
+			case FixTags.DISCRETIONINST_INT:
+				discretionInstructions.getAll(FixTags.DISCRETIONINST_INT, value );
+				break;
+
 			case FixTags.PEGGEDPRICE_INT:
 				peggedPrice = FixUtils.getTagFloatValue(value);
 				break;
@@ -630,6 +777,11 @@ public class FixExecutionReport extends FixMessage
 			case FixTags.TARGETSTRATEGY_INT:
 				targetStrategy = FixUtils.getTagIntValue( value );
 				if (!TargetStrategy.isValid(targetStrategy) ) throw new FixSessionException(buf, "Invalid enumerated value(" + targetStrategy + ") for tag: " + id );
+				break;
+
+			case FixTags.NOSTRATEGYPARAMETERS_INT:
+				strategyParametersGrp.noStrategyParameters = FixUtils.getTagIntValue( value );
+				strategyParametersGrp.getAll(strategyParametersGrp.noStrategyParameters, value );
 				break;
 
 			case FixTags.TARGETSTRATEGYPARAMETERS_INT:
@@ -795,6 +947,11 @@ public class FixExecutionReport extends FixMessage
 				if (!LastFragment.isValid(lastFragment) ) throw new FixSessionException(buf, "Invalid enumerated value(" + lastFragment + ") for tag: " + id );
 				break;
 
+			case FixTags.NOFILLS_INT:
+				fillsGrp.noFills = FixUtils.getTagIntValue( value );
+				fillsGrp.getAll(fillsGrp.noFills, value );
+				break;
+
 			case FixTags.GTBOOKINGINST_INT:
 				gTBookingInst = FixUtils.getTagIntValue( value );
 				if (!GTBookingInst.isValid(gTBookingInst) ) throw new FixSessionException(buf, "Invalid enumerated value(" + gTBookingInst + ") for tag: " + id );
@@ -811,6 +968,18 @@ public class FixExecutionReport extends FixMessage
 			case FixTags.REPORTTOEXCH_INT:
 				reportToExch = FixUtils.getTagBooleanValue( value );
 				if (!ReportToExch.isValid(reportToExch) ) throw new FixSessionException(buf, "Invalid enumerated value(" + reportToExch + ") for tag: " + id );
+				break;
+
+			case FixTags.COMMISSION_INT:
+				commissionData.getAll(FixTags.COMMISSION_INT, value );
+				break;
+
+			case FixTags.SPREAD_INT:
+				spreadOrBenchmarkCurveData.getAll(FixTags.SPREAD_INT, value );
+				break;
+
+			case FixTags.YIELDTYPE_INT:
+				yieldData.getAll(FixTags.YIELDTYPE_INT, value );
 				break;
 
 			case FixTags.GROSSTRADEAMT_INT:
@@ -882,6 +1051,11 @@ public class FixExecutionReport extends FixMessage
 				settlCurrency = FixUtils.getTagStringValue(value, settlCurrency);
 				break;
 
+			case FixTags.NORATESOURCES_INT:
+				rateSource.noRateSources = FixUtils.getTagIntValue( value );
+				rateSource.getAll(rateSource.noRateSources, value );
+				break;
+
 			case FixTags.SETTLCURRFXRATE_INT:
 				settlCurrFxRate = FixUtils.getTagFloatValue(value);
 				break;
@@ -906,6 +1080,10 @@ public class FixExecutionReport extends FixMessage
 
 			case FixTags.MAXPRICELEVELS_INT:
 				maxPriceLevels = FixUtils.getTagIntValue( value );
+				break;
+
+			case FixTags.DISPLAYQTY_INT:
+				displayInstruction.getAll(FixTags.DISPLAYQTY_INT, value );
 				break;
 
 			case FixTags.MAXFLOOR_INT:
@@ -1004,6 +1182,16 @@ public class FixExecutionReport extends FixMessage
 				if (!LastLiquidityInd.isValid(lastLiquidityInd) ) throw new FixSessionException(buf, "Invalid enumerated value(" + lastLiquidityInd + ") for tag: " + id );
 				break;
 
+			case FixTags.NOCONTAMTS_INT:
+				contAmtGrp.noContAmts = FixUtils.getTagIntValue( value );
+				contAmtGrp.getAll(contAmtGrp.noContAmts, value );
+				break;
+
+			case FixTags.NOLEGS_INT:
+				instrmtLegExecGrp.noLegs = FixUtils.getTagIntValue( value );
+				instrmtLegExecGrp.getAll(instrmtLegExecGrp.noLegs, value );
+				break;
+
 			case FixTags.COPYMSGINDICATOR_INT:
 				copyMsgIndicator = FixUtils.getTagBooleanValue( value );
 				break;
@@ -1032,6 +1220,16 @@ public class FixExecutionReport extends FixMessage
 
 			case FixTags.DIVIDENDYIELD_INT:
 				dividendYield = FixUtils.getTagFloatValue(value);
+				break;
+
+			case FixTags.NOMISCFEES_INT:
+				miscFeesGrp.noMiscFees = FixUtils.getTagIntValue( value );
+				miscFeesGrp.getAll(miscFeesGrp.noMiscFees, value );
+				break;
+
+			case FixTags.NOTRDREGTIMESTAMPS_INT:
+				trdRegTimestamps.noTrdRegTimestamps = FixUtils.getTagIntValue( value );
+				trdRegTimestamps.getAll(trdRegTimestamps.noTrdRegTimestamps, value );
 				break;
 
 			case FixTags.VOLATILITY_INT:
@@ -1075,6 +1273,10 @@ public class FixExecutionReport extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(orderID) ) return FixTags.ORDERID_INT;
 		if (! FixUtils.isSet(execID) ) return FixTags.EXECID_INT;
 		if (! FixUtils.isSet(execType) ) return FixTags.EXECTYPE_INT;
@@ -1082,6 +1284,8 @@ public class FixExecutionReport extends FixMessage
 		if (! FixUtils.isSet(side) ) return FixTags.SIDE_INT;
 		if (! FixUtils.isSet(leavesQty) ) return FixTags.LEAVESQTY_INT;
 		if (! FixUtils.isSet(cumQty) ) return FixTags.CUMQTY_INT;
+		if (! instrument.isSet() ) return FixTags.SYMBOL_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -1131,7 +1335,9 @@ public class FixExecutionReport extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
+		if (FixUtils.isSet(applicationSequenceControl.applID)) applicationSequenceControl.encode( out );
 		FixUtils.putFixTag( out, FixTags.ORDERID_INT, orderID, 0, Utils.lastIndexTrim(orderID, (byte)0) );
 		if (FixUtils.isSet(secondaryOrderID)) FixUtils.putFixTag( out, FixTags.SECONDARYORDERID_INT, secondaryOrderID, 0, Utils.lastIndexTrim(secondaryOrderID, (byte)0) );
 		if (FixUtils.isSet(secondaryClOrdID)) FixUtils.putFixTag( out, FixTags.SECONDARYCLORDID_INT, secondaryClOrdID, 0, Utils.lastIndexTrim(secondaryClOrdID, (byte)0) );
@@ -1145,7 +1351,9 @@ public class FixExecutionReport extends FixMessage
 		if (FixUtils.isSet(hostCrossID)) FixUtils.putFixTag( out, FixTags.HOSTCROSSID_INT, hostCrossID, 0, Utils.lastIndexTrim(hostCrossID, (byte)0) );
 		if (FixUtils.isSet(totNumReports)) FixUtils.putFixTag( out, FixTags.TOTNUMREPORTS_INT, totNumReports);
 		if (FixUtils.isSet(lastRptRequested)) FixUtils.putFixTag( out, FixTags.LASTRPTREQUESTED_INT, lastRptRequested?(byte)'Y':(byte)'N' );
+		if (FixUtils.isSet(parties.noPartyIDs)) parties.encode( out );
 		if (FixUtils.isSet(tradeOriginationDate)) FixUtils.putFixTag( out, FixTags.TRADEORIGINATIONDATE_INT, tradeOriginationDate);
+		if (FixUtils.isSet(contraGrp.noContraBrokers)) contraGrp.encode( out );
 		if (FixUtils.isSet(listID)) FixUtils.putFixTag( out, FixTags.LISTID_INT, listID, 0, Utils.lastIndexTrim(listID, (byte)0) );
 		if (FixUtils.isSet(crossID)) FixUtils.putFixTag( out, FixTags.CROSSID_INT, crossID, 0, Utils.lastIndexTrim(crossID, (byte)0) );
 		if (FixUtils.isSet(origCrossID)) FixUtils.putFixTag( out, FixTags.ORIGCROSSID_INT, origCrossID, 0, Utils.lastIndexTrim(origCrossID, (byte)0) );
@@ -1165,24 +1373,34 @@ public class FixExecutionReport extends FixMessage
 		if (FixUtils.isSet(bookingUnit)) FixUtils.putFixTag( out, FixTags.BOOKINGUNIT_INT, bookingUnit );
 		if (FixUtils.isSet(preallocMethod)) FixUtils.putFixTag( out, FixTags.PREALLOCMETHOD_INT, preallocMethod );
 		if (FixUtils.isSet(allocID)) FixUtils.putFixTag( out, FixTags.ALLOCID_INT, allocID, 0, Utils.lastIndexTrim(allocID, (byte)0) );
+		if (FixUtils.isSet(preAllocGrp.noAllocs)) preAllocGrp.encode( out );
 		if (FixUtils.isSet(settlType)) FixUtils.putFixTag( out, FixTags.SETTLTYPE_INT, settlType, 0, Utils.lastIndexTrim(settlType, (byte)0) );
 		if (FixUtils.isSet(settlDate)) FixUtils.putFixTag( out, FixTags.SETTLDATE_INT, settlDate);
 		if (FixUtils.isSet(matchType)) FixUtils.putFixTag( out, FixTags.MATCHTYPE_INT, matchType, 0, Utils.lastIndexTrim(matchType, (byte)0) );
 		if (FixUtils.isSet(orderCategory)) FixUtils.putFixTag( out, FixTags.ORDERCATEGORY_INT, orderCategory );
 		if (FixUtils.isSet(cashMargin)) FixUtils.putFixTag( out, FixTags.CASHMARGIN_INT, cashMargin );
 		if (FixUtils.isSet(clearingFeeIndicator)) FixUtils.putFixTag( out, FixTags.CLEARINGFEEINDICATOR_INT, clearingFeeIndicator, 0, Utils.lastIndexTrim(clearingFeeIndicator, (byte)0) );
+		instrument.encode( out );
+		if (FixUtils.isSet(financingDetails.agreementDesc)) financingDetails.encode( out );
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
 		FixUtils.putFixTag( out, FixTags.SIDE_INT, side );
+		if (FixUtils.isSet(stipulations.noStipulations)) stipulations.encode( out );
 		if (FixUtils.isSet(qtyType)) FixUtils.putFixTag( out, FixTags.QTYTYPE_INT, qtyType);
 		if (FixUtils.isSet(lotType)) FixUtils.putFixTag( out, FixTags.LOTTYPE_INT, lotType );
+		if (FixUtils.isSet(orderQtyData.orderQty)) orderQtyData.encode( out );
 		if (FixUtils.isSet(ordType)) FixUtils.putFixTag( out, FixTags.ORDTYPE_INT, ordType );
 		if (FixUtils.isSet(priceType)) FixUtils.putFixTag( out, FixTags.PRICETYPE_INT, priceType);
 		if (FixUtils.isSet(price)) FixUtils.putFixFloatTag( out, FixTags.PRICE_INT, price);
 		if (FixUtils.isSet(priceProtectionScope)) FixUtils.putFixTag( out, FixTags.PRICEPROTECTIONSCOPE_INT, priceProtectionScope );
 		if (FixUtils.isSet(stopPx)) FixUtils.putFixFloatTag( out, FixTags.STOPPX_INT, stopPx);
+		if (FixUtils.isSet(triggeringInstruction.triggerType)) triggeringInstruction.encode( out );
+		if (FixUtils.isSet(pegInstructions.pegOffsetValue)) pegInstructions.encode( out );
+		if (FixUtils.isSet(discretionInstructions.discretionInst)) discretionInstructions.encode( out );
 		if (FixUtils.isSet(peggedPrice)) FixUtils.putFixFloatTag( out, FixTags.PEGGEDPRICE_INT, peggedPrice);
 		if (FixUtils.isSet(peggedRefPrice)) FixUtils.putFixFloatTag( out, FixTags.PEGGEDREFPRICE_INT, peggedRefPrice);
 		if (FixUtils.isSet(discretionPrice)) FixUtils.putFixFloatTag( out, FixTags.DISCRETIONPRICE_INT, discretionPrice);
 		if (FixUtils.isSet(targetStrategy)) FixUtils.putFixTag( out, FixTags.TARGETSTRATEGY_INT, targetStrategy);
+		if (FixUtils.isSet(strategyParametersGrp.noStrategyParameters)) strategyParametersGrp.encode( out );
 		if (FixUtils.isSet(targetStrategyParameters)) FixUtils.putFixTag( out, FixTags.TARGETSTRATEGYPARAMETERS_INT, targetStrategyParameters, 0, Utils.lastIndexTrim(targetStrategyParameters, (byte)0) );
 		if (FixUtils.isSet(participationRate)) FixUtils.putFixFloatTag( out, FixTags.PARTICIPATIONRATE_INT, participationRate);
 		if (FixUtils.isSet(targetStrategyPerformance)) FixUtils.putFixFloatTag( out, FixTags.TARGETSTRATEGYPERFORMANCE_INT, targetStrategyPerformance);
@@ -1221,10 +1439,14 @@ public class FixExecutionReport extends FixMessage
 		if (FixUtils.isSet(dayAvgPx)) FixUtils.putFixFloatTag( out, FixTags.DAYAVGPX_INT, dayAvgPx);
 		if (FixUtils.isSet(totNoFills)) FixUtils.putFixTag( out, FixTags.TOTNOFILLS_INT, totNoFills);
 		if (FixUtils.isSet(lastFragment)) FixUtils.putFixTag( out, FixTags.LASTFRAGMENT_INT, lastFragment?(byte)'Y':(byte)'N' );
+		if (FixUtils.isSet(fillsGrp.noFills)) fillsGrp.encode( out );
 		if (FixUtils.isSet(gTBookingInst)) FixUtils.putFixTag( out, FixTags.GTBOOKINGINST_INT, gTBookingInst);
 		if (FixUtils.isSet(tradeDate)) FixUtils.putFixTag( out, FixTags.TRADEDATE_INT, tradeDate);
 		if (FixUtils.isSet(transactTime)) FixUtils.putFixTag( out, FixTags.TRANSACTTIME_INT, transactTime);
 		if (FixUtils.isSet(reportToExch)) FixUtils.putFixTag( out, FixTags.REPORTTOEXCH_INT, reportToExch?(byte)'Y':(byte)'N' );
+		if (FixUtils.isSet(commissionData.commission)) commissionData.encode( out );
+		if (FixUtils.isSet(spreadOrBenchmarkCurveData.spread)) spreadOrBenchmarkCurveData.encode( out );
+		if (FixUtils.isSet(yieldData.yieldType)) yieldData.encode( out );
 		if (FixUtils.isSet(grossTradeAmt)) FixUtils.putFixTag( out, FixTags.GROSSTRADEAMT_INT, grossTradeAmt);
 		if (FixUtils.isSet(numDaysInterest)) FixUtils.putFixTag( out, FixTags.NUMDAYSINTEREST_INT, numDaysInterest);
 		if (FixUtils.isSet(exDate)) FixUtils.putFixTag( out, FixTags.EXDATE_INT, exDate);
@@ -1242,12 +1464,14 @@ public class FixExecutionReport extends FixMessage
 		if (FixUtils.isSet(netMoney)) FixUtils.putFixTag( out, FixTags.NETMONEY_INT, netMoney);
 		if (FixUtils.isSet(settlCurrAmt)) FixUtils.putFixTag( out, FixTags.SETTLCURRAMT_INT, settlCurrAmt);
 		if (FixUtils.isSet(settlCurrency)) FixUtils.putFixTag( out, FixTags.SETTLCURRENCY_INT, settlCurrency, 0, Utils.lastIndexTrim(settlCurrency, (byte)0) );
+		if (FixUtils.isSet(rateSource.noRateSources)) rateSource.encode( out );
 		if (FixUtils.isSet(settlCurrFxRate)) FixUtils.putFixFloatTag( out, FixTags.SETTLCURRFXRATE_INT, settlCurrFxRate);
 		if (FixUtils.isSet(settlCurrFxRateCalc)) FixUtils.putFixTag( out, FixTags.SETTLCURRFXRATECALC_INT, settlCurrFxRateCalc );
 		if (FixUtils.isSet(handlInst)) FixUtils.putFixTag( out, FixTags.HANDLINST_INT, handlInst );
 		if (FixUtils.isSet(minQty)) FixUtils.putFixFloatTag( out, FixTags.MINQTY_INT, minQty);
 		if (FixUtils.isSet(matchIncrement)) FixUtils.putFixFloatTag( out, FixTags.MATCHINCREMENT_INT, matchIncrement);
 		if (FixUtils.isSet(maxPriceLevels)) FixUtils.putFixTag( out, FixTags.MAXPRICELEVELS_INT, maxPriceLevels);
+		if (FixUtils.isSet(displayInstruction.displayQty)) displayInstruction.encode( out );
 		if (FixUtils.isSet(maxFloor)) FixUtils.putFixFloatTag( out, FixTags.MAXFLOOR_INT, maxFloor);
 		if (FixUtils.isSet(positionEffect)) FixUtils.putFixTag( out, FixTags.POSITIONEFFECT_INT, positionEffect );
 		if (FixUtils.isSet(maxShow)) FixUtils.putFixFloatTag( out, FixTags.MAXSHOW_INT, maxShow);
@@ -1270,6 +1494,8 @@ public class FixExecutionReport extends FixMessage
 		if (FixUtils.isSet(priorityIndicator)) FixUtils.putFixTag( out, FixTags.PRIORITYINDICATOR_INT, priorityIndicator);
 		if (FixUtils.isSet(priceImprovement)) FixUtils.putFixFloatTag( out, FixTags.PRICEIMPROVEMENT_INT, priceImprovement);
 		if (FixUtils.isSet(lastLiquidityInd)) FixUtils.putFixTag( out, FixTags.LASTLIQUIDITYIND_INT, lastLiquidityInd);
+		if (FixUtils.isSet(contAmtGrp.noContAmts)) contAmtGrp.encode( out );
+		if (FixUtils.isSet(instrmtLegExecGrp.noLegs)) instrmtLegExecGrp.encode( out );
 		if (FixUtils.isSet(copyMsgIndicator)) FixUtils.putFixTag( out, FixTags.COPYMSGINDICATOR_INT, copyMsgIndicator?(byte)'Y':(byte)'N' );
 		if (FixUtils.isSet(manualOrderIndicator)) FixUtils.putFixTag( out, FixTags.MANUALORDERINDICATOR_INT, manualOrderIndicator?(byte)'Y':(byte)'N' );
 		if (FixUtils.isSet(custDirectedOrder)) FixUtils.putFixTag( out, FixTags.CUSTDIRECTEDORDER_INT, custDirectedOrder?(byte)'Y':(byte)'N' );
@@ -1277,6 +1503,8 @@ public class FixExecutionReport extends FixMessage
 		if (FixUtils.isSet(custOrderHandlingInst)) FixUtils.putFixTag( out, FixTags.CUSTORDERHANDLINGINST_INT, custOrderHandlingInst, 0, Utils.lastIndexTrim(custOrderHandlingInst, (byte)0) );
 		if (FixUtils.isSet(orderHandlingInstSource)) FixUtils.putFixTag( out, FixTags.ORDERHANDLINGINSTSOURCE_INT, orderHandlingInstSource);
 		if (FixUtils.isSet(dividendYield)) FixUtils.putFixFloatTag( out, FixTags.DIVIDENDYIELD_INT, dividendYield);
+		if (FixUtils.isSet(miscFeesGrp.noMiscFees)) miscFeesGrp.encode( out );
+		if (FixUtils.isSet(trdRegTimestamps.noTrdRegTimestamps)) trdRegTimestamps.encode( out );
 		if (FixUtils.isSet(volatility)) FixUtils.putFixFloatTag( out, FixTags.VOLATILITY_INT, volatility);
 		if (FixUtils.isSet(timeToExpiration)) FixUtils.putFixFloatTag( out, FixTags.TIMETOEXPIRATION_INT, timeToExpiration);
 		if (FixUtils.isSet(riskFreeRate)) FixUtils.putFixFloatTag( out, FixTags.RISKFREERATE_INT, riskFreeRate);
@@ -1346,7 +1574,9 @@ public class FixExecutionReport extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
+			if (FixUtils.isSet(applicationSequenceControl.applID)) s += applicationSequenceControl.toString();
 			 s += "OrderID(37)=" + new String(orderID) + sep;
 			if (FixUtils.isSet(secondaryOrderID)) s += "SecondaryOrderID(198)=" + new String(secondaryOrderID) + sep;
 			if (FixUtils.isSet(secondaryClOrdID)) s += "SecondaryClOrdID(526)=" + new String(secondaryClOrdID) + sep;
@@ -1360,7 +1590,9 @@ public class FixExecutionReport extends FixMessage
 			if (FixUtils.isSet(hostCrossID)) s += "HostCrossID(961)=" + new String(hostCrossID) + sep;
 			if (FixUtils.isSet(totNumReports)) s += "TotNumReports(911)=" + String.valueOf(totNumReports) + sep;
 			if (FixUtils.isSet(lastRptRequested)) s += "LastRptRequested(912)=" + String.valueOf(lastRptRequested) + sep;
+			if (FixUtils.isSet(parties.noPartyIDs)) s += parties.toString();
 			if (FixUtils.isSet(tradeOriginationDate)) s += "TradeOriginationDate(229)=" + new String(tradeOriginationDate) + sep;
+			if (FixUtils.isSet(contraGrp.noContraBrokers)) s += contraGrp.toString();
 			if (FixUtils.isSet(listID)) s += "ListID(66)=" + new String(listID) + sep;
 			if (FixUtils.isSet(crossID)) s += "CrossID(548)=" + new String(crossID) + sep;
 			if (FixUtils.isSet(origCrossID)) s += "OrigCrossID(551)=" + new String(origCrossID) + sep;
@@ -1380,24 +1612,34 @@ public class FixExecutionReport extends FixMessage
 			if (FixUtils.isSet(bookingUnit)) s += "BookingUnit(590)=" + String.valueOf(bookingUnit) + sep;
 			if (FixUtils.isSet(preallocMethod)) s += "PreallocMethod(591)=" + String.valueOf(preallocMethod) + sep;
 			if (FixUtils.isSet(allocID)) s += "AllocID(70)=" + new String(allocID) + sep;
+			if (FixUtils.isSet(preAllocGrp.noAllocs)) s += preAllocGrp.toString();
 			if (FixUtils.isSet(settlType)) s += "SettlType(63)=" + new String(settlType) + sep;
 			if (FixUtils.isSet(settlDate)) s += "SettlDate(64)=" + new String(settlDate) + sep;
 			if (FixUtils.isSet(matchType)) s += "MatchType(574)=" + new String(matchType) + sep;
 			if (FixUtils.isSet(orderCategory)) s += "OrderCategory(1115)=" + String.valueOf(orderCategory) + sep;
 			if (FixUtils.isSet(cashMargin)) s += "CashMargin(544)=" + String.valueOf(cashMargin) + sep;
 			if (FixUtils.isSet(clearingFeeIndicator)) s += "ClearingFeeIndicator(635)=" + new String(clearingFeeIndicator) + sep;
+			 s += instrument.toString();
+			if (FixUtils.isSet(financingDetails.agreementDesc)) s += financingDetails.toString();
+			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
 			 s += "Side(54)=" + String.valueOf(side) + sep;
+			if (FixUtils.isSet(stipulations.noStipulations)) s += stipulations.toString();
 			if (FixUtils.isSet(qtyType)) s += "QtyType(854)=" + String.valueOf(qtyType) + sep;
 			if (FixUtils.isSet(lotType)) s += "LotType(1093)=" + String.valueOf(lotType) + sep;
+			if (FixUtils.isSet(orderQtyData.orderQty)) s += orderQtyData.toString();
 			if (FixUtils.isSet(ordType)) s += "OrdType(40)=" + String.valueOf(ordType) + sep;
 			if (FixUtils.isSet(priceType)) s += "PriceType(423)=" + String.valueOf(priceType) + sep;
 			if (FixUtils.isSet(price)) s += "Price(44)=" + String.valueOf(price) + sep;
 			if (FixUtils.isSet(priceProtectionScope)) s += "PriceProtectionScope(1092)=" + String.valueOf(priceProtectionScope) + sep;
 			if (FixUtils.isSet(stopPx)) s += "StopPx(99)=" + String.valueOf(stopPx) + sep;
+			if (FixUtils.isSet(triggeringInstruction.triggerType)) s += triggeringInstruction.toString();
+			if (FixUtils.isSet(pegInstructions.pegOffsetValue)) s += pegInstructions.toString();
+			if (FixUtils.isSet(discretionInstructions.discretionInst)) s += discretionInstructions.toString();
 			if (FixUtils.isSet(peggedPrice)) s += "PeggedPrice(839)=" + String.valueOf(peggedPrice) + sep;
 			if (FixUtils.isSet(peggedRefPrice)) s += "PeggedRefPrice(1095)=" + String.valueOf(peggedRefPrice) + sep;
 			if (FixUtils.isSet(discretionPrice)) s += "DiscretionPrice(845)=" + String.valueOf(discretionPrice) + sep;
 			if (FixUtils.isSet(targetStrategy)) s += "TargetStrategy(847)=" + String.valueOf(targetStrategy) + sep;
+			if (FixUtils.isSet(strategyParametersGrp.noStrategyParameters)) s += strategyParametersGrp.toString();
 			if (FixUtils.isSet(targetStrategyParameters)) s += "TargetStrategyParameters(848)=" + new String(targetStrategyParameters) + sep;
 			if (FixUtils.isSet(participationRate)) s += "ParticipationRate(849)=" + String.valueOf(participationRate) + sep;
 			if (FixUtils.isSet(targetStrategyPerformance)) s += "TargetStrategyPerformance(850)=" + String.valueOf(targetStrategyPerformance) + sep;
@@ -1436,10 +1678,14 @@ public class FixExecutionReport extends FixMessage
 			if (FixUtils.isSet(dayAvgPx)) s += "DayAvgPx(426)=" + String.valueOf(dayAvgPx) + sep;
 			if (FixUtils.isSet(totNoFills)) s += "TotNoFills(1361)=" + String.valueOf(totNoFills) + sep;
 			if (FixUtils.isSet(lastFragment)) s += "LastFragment(893)=" + String.valueOf(lastFragment) + sep;
+			if (FixUtils.isSet(fillsGrp.noFills)) s += fillsGrp.toString();
 			if (FixUtils.isSet(gTBookingInst)) s += "GTBookingInst(427)=" + String.valueOf(gTBookingInst) + sep;
 			if (FixUtils.isSet(tradeDate)) s += "TradeDate(75)=" + new String(tradeDate) + sep;
 			if (FixUtils.isSet(transactTime)) s += "TransactTime(60)=" + new String(transactTime) + sep;
 			if (FixUtils.isSet(reportToExch)) s += "ReportToExch(113)=" + String.valueOf(reportToExch) + sep;
+			if (FixUtils.isSet(commissionData.commission)) s += commissionData.toString();
+			if (FixUtils.isSet(spreadOrBenchmarkCurveData.spread)) s += spreadOrBenchmarkCurveData.toString();
+			if (FixUtils.isSet(yieldData.yieldType)) s += yieldData.toString();
 			if (FixUtils.isSet(grossTradeAmt)) s += "GrossTradeAmt(381)=" + String.valueOf(grossTradeAmt) + sep;
 			if (FixUtils.isSet(numDaysInterest)) s += "NumDaysInterest(157)=" + String.valueOf(numDaysInterest) + sep;
 			if (FixUtils.isSet(exDate)) s += "ExDate(230)=" + new String(exDate) + sep;
@@ -1457,12 +1703,14 @@ public class FixExecutionReport extends FixMessage
 			if (FixUtils.isSet(netMoney)) s += "NetMoney(118)=" + String.valueOf(netMoney) + sep;
 			if (FixUtils.isSet(settlCurrAmt)) s += "SettlCurrAmt(119)=" + String.valueOf(settlCurrAmt) + sep;
 			if (FixUtils.isSet(settlCurrency)) s += "SettlCurrency(120)=" + new String(settlCurrency) + sep;
+			if (FixUtils.isSet(rateSource.noRateSources)) s += rateSource.toString();
 			if (FixUtils.isSet(settlCurrFxRate)) s += "SettlCurrFxRate(155)=" + String.valueOf(settlCurrFxRate) + sep;
 			if (FixUtils.isSet(settlCurrFxRateCalc)) s += "SettlCurrFxRateCalc(156)=" + String.valueOf(settlCurrFxRateCalc) + sep;
 			if (FixUtils.isSet(handlInst)) s += "HandlInst(21)=" + String.valueOf(handlInst) + sep;
 			if (FixUtils.isSet(minQty)) s += "MinQty(110)=" + String.valueOf(minQty) + sep;
 			if (FixUtils.isSet(matchIncrement)) s += "MatchIncrement(1089)=" + String.valueOf(matchIncrement) + sep;
 			if (FixUtils.isSet(maxPriceLevels)) s += "MaxPriceLevels(1090)=" + String.valueOf(maxPriceLevels) + sep;
+			if (FixUtils.isSet(displayInstruction.displayQty)) s += displayInstruction.toString();
 			if (FixUtils.isSet(maxFloor)) s += "MaxFloor(111)=" + String.valueOf(maxFloor) + sep;
 			if (FixUtils.isSet(positionEffect)) s += "PositionEffect(77)=" + String.valueOf(positionEffect) + sep;
 			if (FixUtils.isSet(maxShow)) s += "MaxShow(210)=" + String.valueOf(maxShow) + sep;
@@ -1485,6 +1733,8 @@ public class FixExecutionReport extends FixMessage
 			if (FixUtils.isSet(priorityIndicator)) s += "PriorityIndicator(638)=" + String.valueOf(priorityIndicator) + sep;
 			if (FixUtils.isSet(priceImprovement)) s += "PriceImprovement(639)=" + String.valueOf(priceImprovement) + sep;
 			if (FixUtils.isSet(lastLiquidityInd)) s += "LastLiquidityInd(851)=" + String.valueOf(lastLiquidityInd) + sep;
+			if (FixUtils.isSet(contAmtGrp.noContAmts)) s += contAmtGrp.toString();
+			if (FixUtils.isSet(instrmtLegExecGrp.noLegs)) s += instrmtLegExecGrp.toString();
 			if (FixUtils.isSet(copyMsgIndicator)) s += "CopyMsgIndicator(797)=" + String.valueOf(copyMsgIndicator) + sep;
 			if (FixUtils.isSet(manualOrderIndicator)) s += "ManualOrderIndicator(1028)=" + String.valueOf(manualOrderIndicator) + sep;
 			if (FixUtils.isSet(custDirectedOrder)) s += "CustDirectedOrder(1029)=" + String.valueOf(custDirectedOrder) + sep;
@@ -1492,6 +1742,8 @@ public class FixExecutionReport extends FixMessage
 			if (FixUtils.isSet(custOrderHandlingInst)) s += "CustOrderHandlingInst(1031)=" + new String(custOrderHandlingInst) + sep;
 			if (FixUtils.isSet(orderHandlingInstSource)) s += "OrderHandlingInstSource(1032)=" + String.valueOf(orderHandlingInstSource) + sep;
 			if (FixUtils.isSet(dividendYield)) s += "DividendYield(1380)=" + String.valueOf(dividendYield) + sep;
+			if (FixUtils.isSet(miscFeesGrp.noMiscFees)) s += miscFeesGrp.toString();
+			if (FixUtils.isSet(trdRegTimestamps.noTrdRegTimestamps)) s += trdRegTimestamps.toString();
 			if (FixUtils.isSet(volatility)) s += "Volatility(1188)=" + String.valueOf(volatility) + sep;
 			if (FixUtils.isSet(timeToExpiration)) s += "TimeToExpiration(1189)=" + String.valueOf(timeToExpiration) + sep;
 			if (FixUtils.isSet(riskFreeRate)) s += "RiskFreeRate(1190)=" + String.valueOf(riskFreeRate) + sep;
@@ -1511,6 +1763,8 @@ public class FixExecutionReport extends FixMessage
 			FixExecutionReport msg = (FixExecutionReport) o;
 
 		if ( ! super.equals(msg) ) return false;
+
+		if (!applicationSequenceControl.equals(msg.applicationSequenceControl)) return false;
 
 		if (!Utils.equals( orderID, msg.orderID)) return false;
 
@@ -1537,6 +1791,10 @@ public class FixExecutionReport extends FixMessage
 		if (!( totNumReports==msg.totNumReports)) return false;
 
 		if (!( lastRptRequested==msg.lastRptRequested)) return false;
+
+		if (!parties.equals(msg.parties)) return false;
+
+		if (!contraGrp.equals(msg.contraGrp)) return false;
 
 		if (!Utils.equals( listID, msg.listID)) return false;
 
@@ -1576,6 +1834,8 @@ public class FixExecutionReport extends FixMessage
 
 		if (!Utils.equals( allocID, msg.allocID)) return false;
 
+		if (!preAllocGrp.equals(msg.preAllocGrp)) return false;
+
 		if (!Utils.equals( settlType, msg.settlType)) return false;
 
 		if (!Utils.equals( matchType, msg.matchType)) return false;
@@ -1586,11 +1846,21 @@ public class FixExecutionReport extends FixMessage
 
 		if (!Utils.equals( clearingFeeIndicator, msg.clearingFeeIndicator)) return false;
 
+		if (!instrument.equals(msg.instrument)) return false;
+
+		if (!financingDetails.equals(msg.financingDetails)) return false;
+
+		if (!undInstrmtGrp.equals(msg.undInstrmtGrp)) return false;
+
 		if (!( side==msg.side)) return false;
+
+		if (!stipulations.equals(msg.stipulations)) return false;
 
 		if (!( qtyType==msg.qtyType)) return false;
 
 		if (!( lotType==msg.lotType)) return false;
+
+		if (!orderQtyData.equals(msg.orderQtyData)) return false;
 
 		if (!( ordType==msg.ordType)) return false;
 
@@ -1602,6 +1872,12 @@ public class FixExecutionReport extends FixMessage
 
 		if (!( stopPx==msg.stopPx)) return false;
 
+		if (!triggeringInstruction.equals(msg.triggeringInstruction)) return false;
+
+		if (!pegInstructions.equals(msg.pegInstructions)) return false;
+
+		if (!discretionInstructions.equals(msg.discretionInstructions)) return false;
+
 		if (!( peggedPrice==msg.peggedPrice)) return false;
 
 		if (!( peggedRefPrice==msg.peggedRefPrice)) return false;
@@ -1609,6 +1885,8 @@ public class FixExecutionReport extends FixMessage
 		if (!( discretionPrice==msg.discretionPrice)) return false;
 
 		if (!( targetStrategy==msg.targetStrategy)) return false;
+
+		if (!strategyParametersGrp.equals(msg.strategyParametersGrp)) return false;
 
 		if (!Utils.equals( targetStrategyParameters, msg.targetStrategyParameters)) return false;
 
@@ -1680,9 +1958,17 @@ public class FixExecutionReport extends FixMessage
 
 		if (!( lastFragment==msg.lastFragment)) return false;
 
+		if (!fillsGrp.equals(msg.fillsGrp)) return false;
+
 		if (!( gTBookingInst==msg.gTBookingInst)) return false;
 
 		if (!( reportToExch==msg.reportToExch)) return false;
+
+		if (!commissionData.equals(msg.commissionData)) return false;
+
+		if (!spreadOrBenchmarkCurveData.equals(msg.spreadOrBenchmarkCurveData)) return false;
+
+		if (!yieldData.equals(msg.yieldData)) return false;
 
 		if (!( grossTradeAmt==msg.grossTradeAmt)) return false;
 
@@ -1714,6 +2000,8 @@ public class FixExecutionReport extends FixMessage
 
 		if (!Utils.equals( settlCurrency, msg.settlCurrency)) return false;
 
+		if (!rateSource.equals(msg.rateSource)) return false;
+
 		if (!( settlCurrFxRate==msg.settlCurrFxRate)) return false;
 
 		if (!( settlCurrFxRateCalc==msg.settlCurrFxRateCalc)) return false;
@@ -1725,6 +2013,8 @@ public class FixExecutionReport extends FixMessage
 		if (!( matchIncrement==msg.matchIncrement)) return false;
 
 		if (!( maxPriceLevels==msg.maxPriceLevels)) return false;
+
+		if (!displayInstruction.equals(msg.displayInstruction)) return false;
 
 		if (!( maxFloor==msg.maxFloor)) return false;
 
@@ -1764,6 +2054,10 @@ public class FixExecutionReport extends FixMessage
 
 		if (!( lastLiquidityInd==msg.lastLiquidityInd)) return false;
 
+		if (!contAmtGrp.equals(msg.contAmtGrp)) return false;
+
+		if (!instrmtLegExecGrp.equals(msg.instrmtLegExecGrp)) return false;
+
 		if (!( copyMsgIndicator==msg.copyMsgIndicator)) return false;
 
 		if (!( manualOrderIndicator==msg.manualOrderIndicator)) return false;
@@ -1777,6 +2071,10 @@ public class FixExecutionReport extends FixMessage
 		if (!( orderHandlingInstSource==msg.orderHandlingInstSource)) return false;
 
 		if (!( dividendYield==msg.dividendYield)) return false;
+
+		if (!miscFeesGrp.equals(msg.miscFeesGrp)) return false;
+
+		if (!trdRegTimestamps.equals(msg.trdRegTimestamps)) return false;
 
 		if (!( volatility==msg.volatility)) return false;
 

@@ -10,10 +10,19 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixApplicationSequenceControl;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixNewsRefGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixRoutingGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrmtGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrmtLegGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUndInstrmtGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixLinesOfTextGrp;
 
 public class FixNews extends FixMessage
 {
@@ -21,13 +30,20 @@ public class FixNews extends FixMessage
 	public byte[] newsID;
 	public long newsCategory = 0;
 	public byte[] languageCode;
+	public FixApplicationSequenceControl applicationSequenceControl;
+	public FixNewsRefGrp newsRefGrp;
 	public byte[] origTime;
 	public byte urgency = (byte)' ';
 	public byte[] headline;
 	public long encodedHeadlineLen = 0;
 	public byte[] encodedHeadline;
+	public FixRoutingGrp routingGrp;
 	public byte[] marketID;
 	public byte[] marketSegmentID;
+	public FixInstrmtGrp instrmtGrp;
+	public FixInstrmtLegGrp instrmtLegGrp;
+	public FixUndInstrmtGrp undInstrmtGrp;
+	public FixLinesOfTextGrp linesOfTextGrp;
 	public byte[] uRLLink;
 	public long rawDataLength = 0;
 	public byte[] rawData;
@@ -37,11 +53,18 @@ public class FixNews extends FixMessage
 
 		newsID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		languageCode = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		applicationSequenceControl = new FixApplicationSequenceControl();
+		newsRefGrp = new FixNewsRefGrp();
 		origTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
 		headline = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		encodedHeadline = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		routingGrp = new FixRoutingGrp();
 		marketID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		marketSegmentID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		instrmtGrp = new FixInstrmtGrp();
+		instrmtLegGrp = new FixInstrmtLegGrp();
+		undInstrmtGrp = new FixUndInstrmtGrp();
+		linesOfTextGrp = new FixLinesOfTextGrp();
 		uRLLink = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		rawData = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		this.clear();
@@ -69,10 +92,17 @@ public class FixNews extends FixMessage
 		Utils.fill( uRLLink, (byte)0 );
 		rawDataLength = Long.MAX_VALUE;		
 		Utils.fill( rawData, (byte)0 );
+		applicationSequenceControl.clear();
+		newsRefGrp.clear();
+		routingGrp.clear();
+		instrmtGrp.clear();
+		instrmtLegGrp.clear();
+		undInstrmtGrp.clear();
+		linesOfTextGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -104,6 +134,15 @@ public class FixNews extends FixMessage
 				languageCode = FixUtils.getTagStringValue(value, languageCode);
 				break;
 
+			case FixTags.APPLID_INT:
+				applicationSequenceControl.getAll(FixTags.APPLID_INT, value );
+				break;
+
+			case FixTags.NONEWSREFIDS_INT:
+				newsRefGrp.noNewsRefIDs = FixUtils.getTagIntValue( value );
+				newsRefGrp.getAll(newsRefGrp.noNewsRefIDs, value );
+				break;
+
 			case FixTags.ORIGTIME_INT:
 				origTime = FixUtils.getTagStringValue(value, origTime);
 				break;
@@ -125,12 +164,37 @@ public class FixNews extends FixMessage
 				encodedHeadline = FixUtils.getTagStringValue(value, encodedHeadline);
 				break;
 
+			case FixTags.NOROUTINGIDS_INT:
+				routingGrp.noRoutingIDs = FixUtils.getTagIntValue( value );
+				routingGrp.getAll(routingGrp.noRoutingIDs, value );
+				break;
+
 			case FixTags.MARKETID_INT:
 				marketID = FixUtils.getTagStringValue(value, marketID);
 				break;
 
 			case FixTags.MARKETSEGMENTID_INT:
 				marketSegmentID = FixUtils.getTagStringValue(value, marketSegmentID);
+				break;
+
+			case FixTags.NORELATEDSYM_INT:
+				instrmtGrp.noRelatedSym = FixUtils.getTagIntValue( value );
+				instrmtGrp.getAll(instrmtGrp.noRelatedSym, value );
+				break;
+
+			case FixTags.NOLEGS_INT:
+				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( value );
+				instrmtLegGrp.getAll(instrmtLegGrp.noLegs, value );
+				break;
+
+			case FixTags.NOUNDERLYINGS_INT:
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
+				break;
+
+			case FixTags.NOLINESOFTEXT_INT:
+				linesOfTextGrp.noLinesOfText = FixUtils.getTagIntValue( value );
+				linesOfTextGrp.getAll(linesOfTextGrp.noLinesOfText, value );
 				break;
 
 			case FixTags.URLLINK_INT:
@@ -170,7 +234,13 @@ public class FixNews extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(headline) ) return FixTags.HEADLINE_INT;
+		if (! linesOfTextGrp.isSet() ) return FixTags.NOLINESOFTEXT_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -220,17 +290,25 @@ public class FixNews extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		if (FixUtils.isSet(newsID)) FixUtils.putFixTag( out, FixTags.NEWSID_INT, newsID, 0, Utils.lastIndexTrim(newsID, (byte)0) );
 		if (FixUtils.isSet(newsCategory)) FixUtils.putFixTag( out, FixTags.NEWSCATEGORY_INT, newsCategory);
 		if (FixUtils.isSet(languageCode)) FixUtils.putFixTag( out, FixTags.LANGUAGECODE_INT, languageCode, 0, Utils.lastIndexTrim(languageCode, (byte)0) );
+		if (FixUtils.isSet(applicationSequenceControl.applID)) applicationSequenceControl.encode( out );
+		if (FixUtils.isSet(newsRefGrp.noNewsRefIDs)) newsRefGrp.encode( out );
 		if (FixUtils.isSet(origTime)) FixUtils.putFixTag( out, FixTags.ORIGTIME_INT, origTime);
 		if (FixUtils.isSet(urgency)) FixUtils.putFixTag( out, FixTags.URGENCY_INT, urgency );
 		FixUtils.putFixTag( out, FixTags.HEADLINE_INT, headline, 0, Utils.lastIndexTrim(headline, (byte)0) );
 		if (FixUtils.isSet(encodedHeadlineLen)) FixUtils.putFixTag( out, FixTags.ENCODEDHEADLINELEN_INT, encodedHeadlineLen);
 		if (FixUtils.isSet(encodedHeadline)) FixUtils.putFixTag( out, FixTags.ENCODEDHEADLINE_INT, encodedHeadline, 0, Utils.lastIndexTrim(encodedHeadline, (byte)0) );
+		if (FixUtils.isSet(routingGrp.noRoutingIDs)) routingGrp.encode( out );
 		if (FixUtils.isSet(marketID)) FixUtils.putFixTag( out, FixTags.MARKETID_INT, marketID, 0, Utils.lastIndexTrim(marketID, (byte)0) );
 		if (FixUtils.isSet(marketSegmentID)) FixUtils.putFixTag( out, FixTags.MARKETSEGMENTID_INT, marketSegmentID, 0, Utils.lastIndexTrim(marketSegmentID, (byte)0) );
+		if (FixUtils.isSet(instrmtGrp.noRelatedSym)) instrmtGrp.encode( out );
+		if (FixUtils.isSet(instrmtLegGrp.noLegs)) instrmtLegGrp.encode( out );
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
+		linesOfTextGrp.encode( out );
 		if (FixUtils.isSet(uRLLink)) FixUtils.putFixTag( out, FixTags.URLLINK_INT, uRLLink, 0, Utils.lastIndexTrim(uRLLink, (byte)0) );
 		if (FixUtils.isSet(rawDataLength)) FixUtils.putFixTag( out, FixTags.RAWDATALENGTH_INT, rawDataLength);
 		if (FixUtils.isSet(rawData)) FixUtils.putFixTag( out, FixTags.RAWDATA_INT, rawData, 0, Utils.lastIndexTrim(rawData, (byte)0) );
@@ -299,17 +377,25 @@ public class FixNews extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			if (FixUtils.isSet(newsID)) s += "NewsID(1472)=" + new String(newsID) + sep;
 			if (FixUtils.isSet(newsCategory)) s += "NewsCategory(1473)=" + String.valueOf(newsCategory) + sep;
 			if (FixUtils.isSet(languageCode)) s += "LanguageCode(1474)=" + new String(languageCode) + sep;
+			if (FixUtils.isSet(applicationSequenceControl.applID)) s += applicationSequenceControl.toString();
+			if (FixUtils.isSet(newsRefGrp.noNewsRefIDs)) s += newsRefGrp.toString();
 			if (FixUtils.isSet(origTime)) s += "OrigTime(42)=" + new String(origTime) + sep;
 			if (FixUtils.isSet(urgency)) s += "Urgency(61)=" + String.valueOf(urgency) + sep;
 			 s += "Headline(148)=" + new String(headline) + sep;
 			if (FixUtils.isSet(encodedHeadlineLen)) s += "EncodedHeadlineLen(358)=" + String.valueOf(encodedHeadlineLen) + sep;
 			if (FixUtils.isSet(encodedHeadline)) s += "EncodedHeadline(359)=" + new String(encodedHeadline) + sep;
+			if (FixUtils.isSet(routingGrp.noRoutingIDs)) s += routingGrp.toString();
 			if (FixUtils.isSet(marketID)) s += "MarketID(1301)=" + new String(marketID) + sep;
 			if (FixUtils.isSet(marketSegmentID)) s += "MarketSegmentID(1300)=" + new String(marketSegmentID) + sep;
+			if (FixUtils.isSet(instrmtGrp.noRelatedSym)) s += instrmtGrp.toString();
+			if (FixUtils.isSet(instrmtLegGrp.noLegs)) s += instrmtLegGrp.toString();
+			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
+			 s += linesOfTextGrp.toString();
 			if (FixUtils.isSet(uRLLink)) s += "URLLink(149)=" + new String(uRLLink) + sep;
 			if (FixUtils.isSet(rawDataLength)) s += "RawDataLength(95)=" + String.valueOf(rawDataLength) + sep;
 			if (FixUtils.isSet(rawData)) s += "RawData(96)=" + new String(rawData) + sep;
@@ -335,6 +421,10 @@ public class FixNews extends FixMessage
 
 		if (!Utils.equals( languageCode, msg.languageCode)) return false;
 
+		if (!applicationSequenceControl.equals(msg.applicationSequenceControl)) return false;
+
+		if (!newsRefGrp.equals(msg.newsRefGrp)) return false;
+
 		if (!( urgency==msg.urgency)) return false;
 
 		if (!Utils.equals( headline, msg.headline)) return false;
@@ -343,9 +433,19 @@ public class FixNews extends FixMessage
 
 		if (!Utils.equals( encodedHeadline, msg.encodedHeadline)) return false;
 
+		if (!routingGrp.equals(msg.routingGrp)) return false;
+
 		if (!Utils.equals( marketID, msg.marketID)) return false;
 
 		if (!Utils.equals( marketSegmentID, msg.marketSegmentID)) return false;
+
+		if (!instrmtGrp.equals(msg.instrmtGrp)) return false;
+
+		if (!instrmtLegGrp.equals(msg.instrmtLegGrp)) return false;
+
+		if (!undInstrmtGrp.equals(msg.undInstrmtGrp)) return false;
+
+		if (!linesOfTextGrp.equals(msg.linesOfTextGrp)) return false;
 
 		if (!Utils.equals( uRLLink, msg.uRLLink)) return false;
 

@@ -10,10 +10,17 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrument;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrumentExtension;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixFinancingDetails;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUndInstrmtGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrmtLegGrp;
 
 public class FixSecurityListRequest extends FixMessage
 {
@@ -25,6 +32,11 @@ public class FixSecurityListRequest extends FixMessage
 	public byte[] securityListID;
 	public long securityListType = 0;
 	public long securityListTypeSource = 0;
+	public FixInstrument instrument;
+	public FixInstrumentExtension instrumentExtension;
+	public FixFinancingDetails financingDetails;
+	public FixUndInstrmtGrp undInstrmtGrp;
+	public FixInstrmtLegGrp instrmtLegGrp;
 	public byte[] currency;
 	public byte[] text;
 	public long encodedTextLen = 0;
@@ -40,6 +52,11 @@ public class FixSecurityListRequest extends FixMessage
 		marketID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		marketSegmentID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		securityListID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		instrument = new FixInstrument();
+		instrumentExtension = new FixInstrumentExtension();
+		financingDetails = new FixFinancingDetails();
+		undInstrmtGrp = new FixUndInstrmtGrp();
+		instrmtLegGrp = new FixInstrmtLegGrp();
 		currency = new byte[FixUtils.CURRENCY_LENGTH];
 		text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		encodedText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
@@ -71,10 +88,15 @@ public class FixSecurityListRequest extends FixMessage
 		Utils.fill( tradingSessionID, (byte)0 );
 		Utils.fill( tradingSessionSubID, (byte)0 );
 		subscriptionRequestType = Byte.MAX_VALUE;		
+		instrument.clear();
+		instrumentExtension.clear();
+		financingDetails.clear();
+		undInstrmtGrp.clear();
+		instrmtLegGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -122,6 +144,28 @@ public class FixSecurityListRequest extends FixMessage
 			case FixTags.SECURITYLISTTYPESOURCE_INT:
 				securityListTypeSource = FixUtils.getTagIntValue( value );
 				if (!SecurityListTypeSource.isValid(securityListTypeSource) ) throw new FixSessionException(buf, "Invalid enumerated value(" + securityListTypeSource + ") for tag: " + id );
+				break;
+
+			case FixTags.SYMBOL_INT:
+				instrument.getAll(FixTags.SYMBOL_INT, value );
+				break;
+
+			case FixTags.DELIVERYFORM_INT:
+				instrumentExtension.getAll(FixTags.DELIVERYFORM_INT, value );
+				break;
+
+			case FixTags.AGREEMENTDESC_INT:
+				financingDetails.getAll(FixTags.AGREEMENTDESC_INT, value );
+				break;
+
+			case FixTags.NOUNDERLYINGS_INT:
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
+				break;
+
+			case FixTags.NOLEGS_INT:
+				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( value );
+				instrmtLegGrp.getAll(instrmtLegGrp.noLegs, value );
 				break;
 
 			case FixTags.CURRENCY_INT:
@@ -180,8 +224,13 @@ public class FixSecurityListRequest extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(securityReqID) ) return FixTags.SECURITYREQID_INT;
 		if (! FixUtils.isSet(securityListRequestType) ) return FixTags.SECURITYLISTREQUESTTYPE_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -231,6 +280,7 @@ public class FixSecurityListRequest extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.SECURITYREQID_INT, securityReqID, 0, Utils.lastIndexTrim(securityReqID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.SECURITYLISTREQUESTTYPE_INT, securityListRequestType);
@@ -239,6 +289,11 @@ public class FixSecurityListRequest extends FixMessage
 		if (FixUtils.isSet(securityListID)) FixUtils.putFixTag( out, FixTags.SECURITYLISTID_INT, securityListID, 0, Utils.lastIndexTrim(securityListID, (byte)0) );
 		if (FixUtils.isSet(securityListType)) FixUtils.putFixTag( out, FixTags.SECURITYLISTTYPE_INT, securityListType);
 		if (FixUtils.isSet(securityListTypeSource)) FixUtils.putFixTag( out, FixTags.SECURITYLISTTYPESOURCE_INT, securityListTypeSource);
+		if (FixUtils.isSet(instrument.symbol)) instrument.encode( out );
+		if (FixUtils.isSet(instrumentExtension.deliveryForm)) instrumentExtension.encode( out );
+		if (FixUtils.isSet(financingDetails.agreementDesc)) financingDetails.encode( out );
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
+		if (FixUtils.isSet(instrmtLegGrp.noLegs)) instrmtLegGrp.encode( out );
 		if (FixUtils.isSet(currency)) FixUtils.putFixTag( out, FixTags.CURRENCY_INT, currency, 0, Utils.lastIndexTrim(currency, (byte)0) );
 		if (FixUtils.isSet(text)) FixUtils.putFixTag( out, FixTags.TEXT_INT, text, 0, Utils.lastIndexTrim(text, (byte)0) );
 		if (FixUtils.isSet(encodedTextLen)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXTLEN_INT, encodedTextLen);
@@ -311,6 +366,7 @@ public class FixSecurityListRequest extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "SecurityReqID(320)=" + new String(securityReqID) + sep;
 			 s += "SecurityListRequestType(559)=" + String.valueOf(securityListRequestType) + sep;
@@ -319,6 +375,11 @@ public class FixSecurityListRequest extends FixMessage
 			if (FixUtils.isSet(securityListID)) s += "SecurityListID(1465)=" + new String(securityListID) + sep;
 			if (FixUtils.isSet(securityListType)) s += "SecurityListType(1470)=" + String.valueOf(securityListType) + sep;
 			if (FixUtils.isSet(securityListTypeSource)) s += "SecurityListTypeSource(1471)=" + String.valueOf(securityListTypeSource) + sep;
+			if (FixUtils.isSet(instrument.symbol)) s += instrument.toString();
+			if (FixUtils.isSet(instrumentExtension.deliveryForm)) s += instrumentExtension.toString();
+			if (FixUtils.isSet(financingDetails.agreementDesc)) s += financingDetails.toString();
+			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
+			if (FixUtils.isSet(instrmtLegGrp.noLegs)) s += instrmtLegGrp.toString();
 			if (FixUtils.isSet(currency)) s += "Currency(15)=" + new String(currency) + sep;
 			if (FixUtils.isSet(text)) s += "Text(58)=" + new String(text) + sep;
 			if (FixUtils.isSet(encodedTextLen)) s += "EncodedTextLen(354)=" + String.valueOf(encodedTextLen) + sep;
@@ -355,6 +416,16 @@ public class FixSecurityListRequest extends FixMessage
 		if (!( securityListType==msg.securityListType)) return false;
 
 		if (!( securityListTypeSource==msg.securityListTypeSource)) return false;
+
+		if (!instrument.equals(msg.instrument)) return false;
+
+		if (!instrumentExtension.equals(msg.instrumentExtension)) return false;
+
+		if (!financingDetails.equals(msg.financingDetails)) return false;
+
+		if (!undInstrmtGrp.equals(msg.undInstrmtGrp)) return false;
+
+		if (!instrmtLegGrp.equals(msg.instrmtLegGrp)) return false;
 
 		if (!Utils.equals( currency, msg.currency)) return false;
 

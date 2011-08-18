@@ -10,10 +10,14 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixApplicationSequenceControl;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixSecListGrp;
 
 public class FixSecurityList extends FixMessage
 {
@@ -27,6 +31,7 @@ public class FixSecurityList extends FixMessage
 	public byte[] encodedSecurityListDesc;
 	public long securityListType = 0;
 	public long securityListTypeSource = 0;
+	public FixApplicationSequenceControl applicationSequenceControl;
 	public byte[] securityReqID;
 	public byte[] securityResponseID;
 	public long securityRequestResult = 0;
@@ -35,6 +40,7 @@ public class FixSecurityList extends FixMessage
 	public byte[] marketID;
 	public byte[] marketSegmentID;
 	public boolean lastFragment = false;
+	public FixSecListGrp secListGrp;
 
 	public FixSecurityList() {
 		super();
@@ -44,11 +50,13 @@ public class FixSecurityList extends FixMessage
 		securityListRefID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		securityListDesc = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		encodedSecurityListDesc = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		applicationSequenceControl = new FixApplicationSequenceControl();
 		securityReqID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		securityResponseID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		transactTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
 		marketID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		marketSegmentID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		secListGrp = new FixSecListGrp();
 		this.clear();
 
 		msgType = MsgTypes.SECURITYLIST_INT;
@@ -78,10 +86,12 @@ public class FixSecurityList extends FixMessage
 		Utils.fill( marketID, (byte)0 );
 		Utils.fill( marketSegmentID, (byte)0 );
 		lastFragment = false;		
+		applicationSequenceControl.clear();
+		secListGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -138,6 +148,10 @@ public class FixSecurityList extends FixMessage
 				if (!SecurityListTypeSource.isValid(securityListTypeSource) ) throw new FixSessionException(buf, "Invalid enumerated value(" + securityListTypeSource + ") for tag: " + id );
 				break;
 
+			case FixTags.APPLID_INT:
+				applicationSequenceControl.getAll(FixTags.APPLID_INT, value );
+				break;
+
 			case FixTags.SECURITYREQID_INT:
 				securityReqID = FixUtils.getTagStringValue(value, securityReqID);
 				break;
@@ -172,6 +186,11 @@ public class FixSecurityList extends FixMessage
 				if (!LastFragment.isValid(lastFragment) ) throw new FixSessionException(buf, "Invalid enumerated value(" + lastFragment + ") for tag: " + id );
 				break;
 
+			case FixTags.NORELATEDSYM_INT:
+				secListGrp.noRelatedSym = FixUtils.getTagIntValue( value );
+				secListGrp.getAll(secListGrp.noRelatedSym, value );
+				break;
+
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
 				checkSum = FixUtils.getTagIntValue( value );
@@ -197,6 +216,11 @@ public class FixSecurityList extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -246,6 +270,7 @@ public class FixSecurityList extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		if (FixUtils.isSet(securityReportID)) FixUtils.putFixTag( out, FixTags.SECURITYREPORTID_INT, securityReportID);
 		if (FixUtils.isSet(clearingBusinessDate)) FixUtils.putFixTag( out, FixTags.CLEARINGBUSINESSDATE_INT, clearingBusinessDate);
@@ -256,6 +281,7 @@ public class FixSecurityList extends FixMessage
 		if (FixUtils.isSet(encodedSecurityListDesc)) FixUtils.putFixTag( out, FixTags.ENCODEDSECURITYLISTDESC_INT, encodedSecurityListDesc, 0, Utils.lastIndexTrim(encodedSecurityListDesc, (byte)0) );
 		if (FixUtils.isSet(securityListType)) FixUtils.putFixTag( out, FixTags.SECURITYLISTTYPE_INT, securityListType);
 		if (FixUtils.isSet(securityListTypeSource)) FixUtils.putFixTag( out, FixTags.SECURITYLISTTYPESOURCE_INT, securityListTypeSource);
+		if (FixUtils.isSet(applicationSequenceControl.applID)) applicationSequenceControl.encode( out );
 		if (FixUtils.isSet(securityReqID)) FixUtils.putFixTag( out, FixTags.SECURITYREQID_INT, securityReqID, 0, Utils.lastIndexTrim(securityReqID, (byte)0) );
 		if (FixUtils.isSet(securityResponseID)) FixUtils.putFixTag( out, FixTags.SECURITYRESPONSEID_INT, securityResponseID, 0, Utils.lastIndexTrim(securityResponseID, (byte)0) );
 		if (FixUtils.isSet(securityRequestResult)) FixUtils.putFixTag( out, FixTags.SECURITYREQUESTRESULT_INT, securityRequestResult);
@@ -264,6 +290,7 @@ public class FixSecurityList extends FixMessage
 		if (FixUtils.isSet(marketID)) FixUtils.putFixTag( out, FixTags.MARKETID_INT, marketID, 0, Utils.lastIndexTrim(marketID, (byte)0) );
 		if (FixUtils.isSet(marketSegmentID)) FixUtils.putFixTag( out, FixTags.MARKETSEGMENTID_INT, marketSegmentID, 0, Utils.lastIndexTrim(marketSegmentID, (byte)0) );
 		if (FixUtils.isSet(lastFragment)) FixUtils.putFixTag( out, FixTags.LASTFRAGMENT_INT, lastFragment?(byte)'Y':(byte)'N' );
+		if (FixUtils.isSet(secListGrp.noRelatedSym)) secListGrp.encode( out );
 		// the checksum at the end
 
 		int checkSumStart = out.position();
@@ -329,6 +356,7 @@ public class FixSecurityList extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			if (FixUtils.isSet(securityReportID)) s += "SecurityReportID(964)=" + String.valueOf(securityReportID) + sep;
 			if (FixUtils.isSet(clearingBusinessDate)) s += "ClearingBusinessDate(715)=" + new String(clearingBusinessDate) + sep;
@@ -339,6 +367,7 @@ public class FixSecurityList extends FixMessage
 			if (FixUtils.isSet(encodedSecurityListDesc)) s += "EncodedSecurityListDesc(1469)=" + new String(encodedSecurityListDesc) + sep;
 			if (FixUtils.isSet(securityListType)) s += "SecurityListType(1470)=" + String.valueOf(securityListType) + sep;
 			if (FixUtils.isSet(securityListTypeSource)) s += "SecurityListTypeSource(1471)=" + String.valueOf(securityListTypeSource) + sep;
+			if (FixUtils.isSet(applicationSequenceControl.applID)) s += applicationSequenceControl.toString();
 			if (FixUtils.isSet(securityReqID)) s += "SecurityReqID(320)=" + new String(securityReqID) + sep;
 			if (FixUtils.isSet(securityResponseID)) s += "SecurityResponseID(322)=" + new String(securityResponseID) + sep;
 			if (FixUtils.isSet(securityRequestResult)) s += "SecurityRequestResult(560)=" + String.valueOf(securityRequestResult) + sep;
@@ -347,6 +376,7 @@ public class FixSecurityList extends FixMessage
 			if (FixUtils.isSet(marketID)) s += "MarketID(1301)=" + new String(marketID) + sep;
 			if (FixUtils.isSet(marketSegmentID)) s += "MarketSegmentID(1300)=" + new String(marketSegmentID) + sep;
 			if (FixUtils.isSet(lastFragment)) s += "LastFragment(893)=" + String.valueOf(lastFragment) + sep;
+			if (FixUtils.isSet(secListGrp.noRelatedSym)) s += secListGrp.toString();
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
 
@@ -379,6 +409,8 @@ public class FixSecurityList extends FixMessage
 
 		if (!( securityListTypeSource==msg.securityListTypeSource)) return false;
 
+		if (!applicationSequenceControl.equals(msg.applicationSequenceControl)) return false;
+
 		if (!Utils.equals( securityReqID, msg.securityReqID)) return false;
 
 		if (!Utils.equals( securityResponseID, msg.securityResponseID)) return false;
@@ -392,6 +424,8 @@ public class FixSecurityList extends FixMessage
 		if (!Utils.equals( marketSegmentID, msg.marketSegmentID)) return false;
 
 		if (!( lastFragment==msg.lastFragment)) return false;
+
+		if (!secListGrp.equals(msg.secListGrp)) return false;
 
 		return true;
 	}

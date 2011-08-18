@@ -10,10 +10,14 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixQuotSetGrp;
 
 public class FixMassQuote extends FixMessage
 {
@@ -22,18 +26,22 @@ public class FixMassQuote extends FixMessage
 	public byte[] quoteID;
 	public long quoteType = 0;
 	public long quoteResponseLevel = 0;
+	public FixParties parties;
 	public byte[] account;
 	public long acctIDSource = 0;
 	public long accountType = 0;
 	public long defBidSize = 0;
 	public long defOfferSize = 0;
+	public FixQuotSetGrp quotSetGrp;
 
 	public FixMassQuote() {
 		super();
 
 		quoteReqID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		quoteID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		parties = new FixParties();
 		account = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		quotSetGrp = new FixQuotSetGrp();
 		this.clear();
 
 		msgType = MsgTypes.MASSQUOTE_INT;
@@ -55,10 +63,12 @@ public class FixMassQuote extends FixMessage
 		accountType = Long.MAX_VALUE;		
 		defBidSize = Long.MAX_VALUE;		
 		defOfferSize = Long.MAX_VALUE;		
+		parties.clear();
+		quotSetGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -95,6 +105,11 @@ public class FixMassQuote extends FixMessage
 				if (!QuoteResponseLevel.isValid(quoteResponseLevel) ) throw new FixSessionException(buf, "Invalid enumerated value(" + quoteResponseLevel + ") for tag: " + id );
 				break;
 
+			case FixTags.NOPARTYIDS_INT:
+				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(parties.noPartyIDs, value );
+				break;
+
 			case FixTags.ACCOUNT_INT:
 				account = FixUtils.getTagStringValue(value, account);
 				break;
@@ -115,6 +130,11 @@ public class FixMassQuote extends FixMessage
 
 			case FixTags.DEFOFFERSIZE_INT:
 				defOfferSize = FixUtils.getTagFloatValue(value);
+				break;
+
+			case FixTags.NOQUOTESETS_INT:
+				quotSetGrp.noQuoteSets = FixUtils.getTagIntValue( value );
+				quotSetGrp.getAll(quotSetGrp.noQuoteSets, value );
 				break;
 
 			// for a message always get the checksum
@@ -142,7 +162,13 @@ public class FixMassQuote extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(quoteID) ) return FixTags.QUOTEID_INT;
+		if (! quotSetGrp.isSet() ) return FixTags.NOQUOTESETS_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -192,16 +218,19 @@ public class FixMassQuote extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		if (FixUtils.isSet(quoteReqID)) FixUtils.putFixTag( out, FixTags.QUOTEREQID_INT, quoteReqID, 0, Utils.lastIndexTrim(quoteReqID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.QUOTEID_INT, quoteID, 0, Utils.lastIndexTrim(quoteID, (byte)0) );
 		if (FixUtils.isSet(quoteType)) FixUtils.putFixTag( out, FixTags.QUOTETYPE_INT, quoteType);
 		if (FixUtils.isSet(quoteResponseLevel)) FixUtils.putFixTag( out, FixTags.QUOTERESPONSELEVEL_INT, quoteResponseLevel);
+		if (FixUtils.isSet(parties.noPartyIDs)) parties.encode( out );
 		if (FixUtils.isSet(account)) FixUtils.putFixTag( out, FixTags.ACCOUNT_INT, account, 0, Utils.lastIndexTrim(account, (byte)0) );
 		if (FixUtils.isSet(acctIDSource)) FixUtils.putFixTag( out, FixTags.ACCTIDSOURCE_INT, acctIDSource);
 		if (FixUtils.isSet(accountType)) FixUtils.putFixTag( out, FixTags.ACCOUNTTYPE_INT, accountType);
 		if (FixUtils.isSet(defBidSize)) FixUtils.putFixFloatTag( out, FixTags.DEFBIDSIZE_INT, defBidSize);
 		if (FixUtils.isSet(defOfferSize)) FixUtils.putFixFloatTag( out, FixTags.DEFOFFERSIZE_INT, defOfferSize);
+		quotSetGrp.encode( out );
 		// the checksum at the end
 
 		int checkSumStart = out.position();
@@ -267,16 +296,19 @@ public class FixMassQuote extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			if (FixUtils.isSet(quoteReqID)) s += "QuoteReqID(131)=" + new String(quoteReqID) + sep;
 			 s += "QuoteID(117)=" + new String(quoteID) + sep;
 			if (FixUtils.isSet(quoteType)) s += "QuoteType(537)=" + String.valueOf(quoteType) + sep;
 			if (FixUtils.isSet(quoteResponseLevel)) s += "QuoteResponseLevel(301)=" + String.valueOf(quoteResponseLevel) + sep;
+			if (FixUtils.isSet(parties.noPartyIDs)) s += parties.toString();
 			if (FixUtils.isSet(account)) s += "Account(1)=" + new String(account) + sep;
 			if (FixUtils.isSet(acctIDSource)) s += "AcctIDSource(660)=" + String.valueOf(acctIDSource) + sep;
 			if (FixUtils.isSet(accountType)) s += "AccountType(581)=" + String.valueOf(accountType) + sep;
 			if (FixUtils.isSet(defBidSize)) s += "DefBidSize(293)=" + String.valueOf(defBidSize) + sep;
 			if (FixUtils.isSet(defOfferSize)) s += "DefOfferSize(294)=" + String.valueOf(defOfferSize) + sep;
+			 s += quotSetGrp.toString();
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
 
@@ -301,6 +333,8 @@ public class FixMassQuote extends FixMessage
 
 		if (!( quoteResponseLevel==msg.quoteResponseLevel)) return false;
 
+		if (!parties.equals(msg.parties)) return false;
+
 		if (!Utils.equals( account, msg.account)) return false;
 
 		if (!( acctIDSource==msg.acctIDSource)) return false;
@@ -310,6 +344,8 @@ public class FixMassQuote extends FixMessage
 		if (!( defBidSize==msg.defBidSize)) return false;
 
 		if (!( defOfferSize==msg.defOfferSize)) return false;
+
+		if (!quotSetGrp.equals(msg.quotSetGrp)) return false;
 
 		return true;
 	}

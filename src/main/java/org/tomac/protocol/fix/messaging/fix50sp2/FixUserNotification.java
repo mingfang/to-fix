@@ -10,14 +10,18 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUsernameGrp;
 
 public class FixUserNotification extends FixMessage
 {
 
+	public FixUsernameGrp usernameGrp;
 	public long userStatus = 0;
 	public byte[] text;
 	public long encodedTextLen = 0;
@@ -26,6 +30,7 @@ public class FixUserNotification extends FixMessage
 	public FixUserNotification() {
 		super();
 
+		usernameGrp = new FixUsernameGrp();
 		text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		encodedText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		this.clear();
@@ -44,10 +49,11 @@ public class FixUserNotification extends FixMessage
 		Utils.fill( text, (byte)0 );
 		encodedTextLen = Long.MAX_VALUE;		
 		Utils.fill( encodedText, (byte)0 );
+		usernameGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -65,6 +71,11 @@ public class FixUserNotification extends FixMessage
 			value = buf;
 
 			switch( id ) {
+
+			case FixTags.NOUSERNAMES_INT:
+				usernameGrp.noUsernames = FixUtils.getTagIntValue( value );
+				usernameGrp.getAll(usernameGrp.noUsernames, value );
+				break;
 
 			case FixTags.USERSTATUS_INT:
 				userStatus = FixUtils.getTagIntValue( value );
@@ -108,7 +119,12 @@ public class FixUserNotification extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(userStatus) ) return FixTags.USERSTATUS_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -158,7 +174,9 @@ public class FixUserNotification extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
+		if (FixUtils.isSet(usernameGrp.noUsernames)) usernameGrp.encode( out );
 		FixUtils.putFixTag( out, FixTags.USERSTATUS_INT, userStatus);
 		if (FixUtils.isSet(text)) FixUtils.putFixTag( out, FixTags.TEXT_INT, text, 0, Utils.lastIndexTrim(text, (byte)0) );
 		if (FixUtils.isSet(encodedTextLen)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXTLEN_INT, encodedTextLen);
@@ -228,7 +246,9 @@ public class FixUserNotification extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
+			if (FixUtils.isSet(usernameGrp.noUsernames)) s += usernameGrp.toString();
 			 s += "UserStatus(926)=" + String.valueOf(userStatus) + sep;
 			if (FixUtils.isSet(text)) s += "Text(58)=" + new String(text) + sep;
 			if (FixUtils.isSet(encodedTextLen)) s += "EncodedTextLen(354)=" + String.valueOf(encodedTextLen) + sep;
@@ -248,6 +268,8 @@ public class FixUserNotification extends FixMessage
 			FixUserNotification msg = (FixUserNotification) o;
 
 		if ( ! super.equals(msg) ) return false;
+
+		if (!usernameGrp.equals(msg.usernameGrp)) return false;
 
 		if (!( userStatus==msg.userStatus)) return false;
 

@@ -10,15 +10,25 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixPartyListResponseTypeGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixRequestedPartyRoleGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixPartyRelationships;
 
 public class FixPartyDetailsListRequest extends FixMessage
 {
 
 	public byte[] partyDetailsListRequestID;
+	public FixPartyListResponseTypeGrp partyListResponseTypeGrp;
+	public FixParties parties;
+	public FixRequestedPartyRoleGrp requestedPartyRoleGrp;
+	public FixPartyRelationships partyRelationships;
 	public byte subscriptionRequestType = (byte)' ';
 	public byte[] text;
 	public long encodedTextLen = 0;
@@ -28,6 +38,10 @@ public class FixPartyDetailsListRequest extends FixMessage
 		super();
 
 		partyDetailsListRequestID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		partyListResponseTypeGrp = new FixPartyListResponseTypeGrp();
+		parties = new FixParties();
+		requestedPartyRoleGrp = new FixRequestedPartyRoleGrp();
+		partyRelationships = new FixPartyRelationships();
 		text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		encodedText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		this.clear();
@@ -47,10 +61,14 @@ public class FixPartyDetailsListRequest extends FixMessage
 		Utils.fill( text, (byte)0 );
 		encodedTextLen = Long.MAX_VALUE;		
 		Utils.fill( encodedText, (byte)0 );
+		partyListResponseTypeGrp.clear();
+		parties.clear();
+		requestedPartyRoleGrp.clear();
+		partyRelationships.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -71,6 +89,26 @@ public class FixPartyDetailsListRequest extends FixMessage
 
 			case FixTags.PARTYDETAILSLISTREQUESTID_INT:
 				partyDetailsListRequestID = FixUtils.getTagStringValue(value, partyDetailsListRequestID);
+				break;
+
+			case FixTags.NOPARTYLISTRESPONSETYPES_INT:
+				partyListResponseTypeGrp.noPartyListResponseTypes = FixUtils.getTagIntValue( value );
+				partyListResponseTypeGrp.getAll(partyListResponseTypeGrp.noPartyListResponseTypes, value );
+				break;
+
+			case FixTags.NOPARTYIDS_INT:
+				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(parties.noPartyIDs, value );
+				break;
+
+			case FixTags.NOREQUESTEDPARTYROLES_INT:
+				requestedPartyRoleGrp.noRequestedPartyRoles = FixUtils.getTagIntValue( value );
+				requestedPartyRoleGrp.getAll(requestedPartyRoleGrp.noRequestedPartyRoles, value );
+				break;
+
+			case FixTags.NOPARTYRELATIONSHIPS_INT:
+				partyRelationships.noPartyRelationships = FixUtils.getTagIntValue( value );
+				partyRelationships.getAll(partyRelationships.noPartyRelationships, value );
 				break;
 
 			case FixTags.SUBSCRIPTIONREQUESTTYPE_INT:
@@ -115,7 +153,13 @@ public class FixPartyDetailsListRequest extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(partyDetailsListRequestID) ) return FixTags.PARTYDETAILSLISTREQUESTID_INT;
+		if (! partyListResponseTypeGrp.isSet() ) return FixTags.NOPARTYLISTRESPONSETYPES_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -165,8 +209,13 @@ public class FixPartyDetailsListRequest extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.PARTYDETAILSLISTREQUESTID_INT, partyDetailsListRequestID, 0, Utils.lastIndexTrim(partyDetailsListRequestID, (byte)0) );
+		partyListResponseTypeGrp.encode( out );
+		if (FixUtils.isSet(parties.noPartyIDs)) parties.encode( out );
+		if (FixUtils.isSet(requestedPartyRoleGrp.noRequestedPartyRoles)) requestedPartyRoleGrp.encode( out );
+		if (FixUtils.isSet(partyRelationships.noPartyRelationships)) partyRelationships.encode( out );
 		if (FixUtils.isSet(subscriptionRequestType)) FixUtils.putFixTag( out, FixTags.SUBSCRIPTIONREQUESTTYPE_INT, subscriptionRequestType );
 		if (FixUtils.isSet(text)) FixUtils.putFixTag( out, FixTags.TEXT_INT, text, 0, Utils.lastIndexTrim(text, (byte)0) );
 		if (FixUtils.isSet(encodedTextLen)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXTLEN_INT, encodedTextLen);
@@ -236,8 +285,13 @@ public class FixPartyDetailsListRequest extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "PartyDetailsListRequestID(1505)=" + new String(partyDetailsListRequestID) + sep;
+			 s += partyListResponseTypeGrp.toString();
+			if (FixUtils.isSet(parties.noPartyIDs)) s += parties.toString();
+			if (FixUtils.isSet(requestedPartyRoleGrp.noRequestedPartyRoles)) s += requestedPartyRoleGrp.toString();
+			if (FixUtils.isSet(partyRelationships.noPartyRelationships)) s += partyRelationships.toString();
 			if (FixUtils.isSet(subscriptionRequestType)) s += "SubscriptionRequestType(263)=" + String.valueOf(subscriptionRequestType) + sep;
 			if (FixUtils.isSet(text)) s += "Text(58)=" + new String(text) + sep;
 			if (FixUtils.isSet(encodedTextLen)) s += "EncodedTextLen(354)=" + String.valueOf(encodedTextLen) + sep;
@@ -259,6 +313,14 @@ public class FixPartyDetailsListRequest extends FixMessage
 		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( partyDetailsListRequestID, msg.partyDetailsListRequestID)) return false;
+
+		if (!partyListResponseTypeGrp.equals(msg.partyListResponseTypeGrp)) return false;
+
+		if (!parties.equals(msg.parties)) return false;
+
+		if (!requestedPartyRoleGrp.equals(msg.requestedPartyRoleGrp)) return false;
+
+		if (!partyRelationships.equals(msg.partyRelationships)) return false;
 
 		if (!( subscriptionRequestType==msg.subscriptionRequestType)) return false;
 

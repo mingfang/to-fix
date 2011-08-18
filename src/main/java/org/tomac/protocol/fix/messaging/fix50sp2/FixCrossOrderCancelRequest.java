@@ -10,10 +10,17 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixRootParties;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixSideCrossOrdCxlGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrument;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUndInstrmtGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrmtLegGrp;
 
 public class FixCrossOrderCancelRequest extends FixMessage
 {
@@ -24,6 +31,11 @@ public class FixCrossOrderCancelRequest extends FixMessage
 	public byte[] hostCrossID;
 	public long crossType = 0;
 	public long crossPrioritization = 0;
+	public FixRootParties rootParties;
+	public FixSideCrossOrdCxlGrp sideCrossOrdCxlGrp;
+	public FixInstrument instrument;
+	public FixUndInstrmtGrp undInstrmtGrp;
+	public FixInstrmtLegGrp instrmtLegGrp;
 	public byte[] transactTime;
 
 	public FixCrossOrderCancelRequest() {
@@ -33,6 +45,11 @@ public class FixCrossOrderCancelRequest extends FixMessage
 		crossID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		origCrossID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		hostCrossID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		rootParties = new FixRootParties();
+		sideCrossOrdCxlGrp = new FixSideCrossOrdCxlGrp();
+		instrument = new FixInstrument();
+		undInstrmtGrp = new FixUndInstrmtGrp();
+		instrmtLegGrp = new FixInstrmtLegGrp();
 		transactTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
 		this.clear();
 
@@ -53,10 +70,15 @@ public class FixCrossOrderCancelRequest extends FixMessage
 		crossType = Long.MAX_VALUE;		
 		crossPrioritization = Long.MAX_VALUE;		
 		Utils.fill( transactTime, (byte)0 );
+		rootParties.clear();
+		sideCrossOrdCxlGrp.clear();
+		instrument.clear();
+		undInstrmtGrp.clear();
+		instrmtLegGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -101,6 +123,30 @@ public class FixCrossOrderCancelRequest extends FixMessage
 				if (!CrossPrioritization.isValid(crossPrioritization) ) throw new FixSessionException(buf, "Invalid enumerated value(" + crossPrioritization + ") for tag: " + id );
 				break;
 
+			case FixTags.NOROOTPARTYIDS_INT:
+				rootParties.noRootPartyIDs = FixUtils.getTagIntValue( value );
+				rootParties.getAll(rootParties.noRootPartyIDs, value );
+				break;
+
+			case FixTags.NOSIDES_INT:
+				sideCrossOrdCxlGrp.noSides = FixUtils.getTagIntValue( value );
+				sideCrossOrdCxlGrp.getAll(sideCrossOrdCxlGrp.noSides, value );
+				break;
+
+			case FixTags.SYMBOL_INT:
+				instrument.getAll(FixTags.SYMBOL_INT, value );
+				break;
+
+			case FixTags.NOUNDERLYINGS_INT:
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
+				break;
+
+			case FixTags.NOLEGS_INT:
+				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( value );
+				instrmtLegGrp.getAll(instrmtLegGrp.noLegs, value );
+				break;
+
 			case FixTags.TRANSACTTIME_INT:
 				transactTime = FixUtils.getTagStringValue(value, transactTime);
 				break;
@@ -130,11 +176,18 @@ public class FixCrossOrderCancelRequest extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(crossID) ) return FixTags.CROSSID_INT;
 		if (! FixUtils.isSet(origCrossID) ) return FixTags.ORIGCROSSID_INT;
 		if (! FixUtils.isSet(crossType) ) return FixTags.CROSSTYPE_INT;
 		if (! FixUtils.isSet(crossPrioritization) ) return FixTags.CROSSPRIORITIZATION_INT;
 		if (! FixUtils.isSet(transactTime) ) return FixTags.TRANSACTTIME_INT;
+		if (! sideCrossOrdCxlGrp.isSet() ) return FixTags.NOSIDES_INT;
+		if (! instrument.isSet() ) return FixTags.SYMBOL_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -184,6 +237,7 @@ public class FixCrossOrderCancelRequest extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		if (FixUtils.isSet(orderID)) FixUtils.putFixTag( out, FixTags.ORDERID_INT, orderID, 0, Utils.lastIndexTrim(orderID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.CROSSID_INT, crossID, 0, Utils.lastIndexTrim(crossID, (byte)0) );
@@ -191,6 +245,11 @@ public class FixCrossOrderCancelRequest extends FixMessage
 		if (FixUtils.isSet(hostCrossID)) FixUtils.putFixTag( out, FixTags.HOSTCROSSID_INT, hostCrossID, 0, Utils.lastIndexTrim(hostCrossID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.CROSSTYPE_INT, crossType);
 		FixUtils.putFixTag( out, FixTags.CROSSPRIORITIZATION_INT, crossPrioritization);
+		if (FixUtils.isSet(rootParties.noRootPartyIDs)) rootParties.encode( out );
+		sideCrossOrdCxlGrp.encode( out );
+		instrument.encode( out );
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
+		if (FixUtils.isSet(instrmtLegGrp.noLegs)) instrmtLegGrp.encode( out );
 		FixUtils.putFixTag( out, FixTags.TRANSACTTIME_INT, transactTime);
 		// the checksum at the end
 
@@ -257,6 +316,7 @@ public class FixCrossOrderCancelRequest extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			if (FixUtils.isSet(orderID)) s += "OrderID(37)=" + new String(orderID) + sep;
 			 s += "CrossID(548)=" + new String(crossID) + sep;
@@ -264,6 +324,11 @@ public class FixCrossOrderCancelRequest extends FixMessage
 			if (FixUtils.isSet(hostCrossID)) s += "HostCrossID(961)=" + new String(hostCrossID) + sep;
 			 s += "CrossType(549)=" + String.valueOf(crossType) + sep;
 			 s += "CrossPrioritization(550)=" + String.valueOf(crossPrioritization) + sep;
+			if (FixUtils.isSet(rootParties.noRootPartyIDs)) s += rootParties.toString();
+			 s += sideCrossOrdCxlGrp.toString();
+			 s += instrument.toString();
+			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
+			if (FixUtils.isSet(instrmtLegGrp.noLegs)) s += instrmtLegGrp.toString();
 			 s += "TransactTime(60)=" + new String(transactTime) + sep;
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
@@ -292,6 +357,16 @@ public class FixCrossOrderCancelRequest extends FixMessage
 		if (!( crossType==msg.crossType)) return false;
 
 		if (!( crossPrioritization==msg.crossPrioritization)) return false;
+
+		if (!rootParties.equals(msg.rootParties)) return false;
+
+		if (!sideCrossOrdCxlGrp.equals(msg.sideCrossOrdCxlGrp)) return false;
+
+		if (!instrument.equals(msg.instrument)) return false;
+
+		if (!undInstrmtGrp.equals(msg.undInstrmtGrp)) return false;
+
+		if (!instrmtLegGrp.equals(msg.instrmtLegGrp)) return false;
 
 		return true;
 	}

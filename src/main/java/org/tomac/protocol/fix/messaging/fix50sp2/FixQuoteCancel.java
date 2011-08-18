@@ -10,10 +10,15 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixTargetParties;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixQuotCxlEntriesGrp;
 
 public class FixQuoteCancel extends FixMessage
 {
@@ -24,11 +29,14 @@ public class FixQuoteCancel extends FixMessage
 	public long quoteCancelType = 0;
 	public long quoteType = 0;
 	public long quoteResponseLevel = 0;
+	public FixParties parties;
+	public FixTargetParties targetParties;
 	public byte[] account;
 	public long acctIDSource = 0;
 	public long accountType = 0;
 	public byte[] tradingSessionID;
 	public byte[] tradingSessionSubID;
+	public FixQuotCxlEntriesGrp quotCxlEntriesGrp;
 
 	public FixQuoteCancel() {
 		super();
@@ -36,9 +44,12 @@ public class FixQuoteCancel extends FixMessage
 		quoteReqID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		quoteID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		quoteMsgID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		parties = new FixParties();
+		targetParties = new FixTargetParties();
 		account = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		tradingSessionID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		tradingSessionSubID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		quotCxlEntriesGrp = new FixQuotCxlEntriesGrp();
 		this.clear();
 
 		msgType = MsgTypes.QUOTECANCEL_INT;
@@ -62,10 +73,13 @@ public class FixQuoteCancel extends FixMessage
 		accountType = Long.MAX_VALUE;		
 		Utils.fill( tradingSessionID, (byte)0 );
 		Utils.fill( tradingSessionSubID, (byte)0 );
+		parties.clear();
+		targetParties.clear();
+		quotCxlEntriesGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -111,6 +125,16 @@ public class FixQuoteCancel extends FixMessage
 				if (!QuoteResponseLevel.isValid(quoteResponseLevel) ) throw new FixSessionException(buf, "Invalid enumerated value(" + quoteResponseLevel + ") for tag: " + id );
 				break;
 
+			case FixTags.NOPARTYIDS_INT:
+				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(parties.noPartyIDs, value );
+				break;
+
+			case FixTags.NOTARGETPARTYIDS_INT:
+				targetParties.noTargetPartyIDs = FixUtils.getTagIntValue( value );
+				targetParties.getAll(targetParties.noTargetPartyIDs, value );
+				break;
+
 			case FixTags.ACCOUNT_INT:
 				account = FixUtils.getTagStringValue(value, account);
 				break;
@@ -133,6 +157,11 @@ public class FixQuoteCancel extends FixMessage
 			case FixTags.TRADINGSESSIONSUBID_INT:
 				tradingSessionSubID = FixUtils.getTagStringValue(value, tradingSessionSubID);
 				if (!TradingSessionSubID.isValid(tradingSessionSubID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradingSessionSubID + ") for tag: " + id );
+				break;
+
+			case FixTags.NOQUOTEENTRIES_INT:
+				quotCxlEntriesGrp.noQuoteEntries = FixUtils.getTagIntValue( value );
+				quotCxlEntriesGrp.getAll(quotCxlEntriesGrp.noQuoteEntries, value );
 				break;
 
 			// for a message always get the checksum
@@ -160,7 +189,12 @@ public class FixQuoteCancel extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(quoteCancelType) ) return FixTags.QUOTECANCELTYPE_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -210,6 +244,7 @@ public class FixQuoteCancel extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		if (FixUtils.isSet(quoteReqID)) FixUtils.putFixTag( out, FixTags.QUOTEREQID_INT, quoteReqID, 0, Utils.lastIndexTrim(quoteReqID, (byte)0) );
 		if (FixUtils.isSet(quoteID)) FixUtils.putFixTag( out, FixTags.QUOTEID_INT, quoteID, 0, Utils.lastIndexTrim(quoteID, (byte)0) );
@@ -217,11 +252,14 @@ public class FixQuoteCancel extends FixMessage
 		FixUtils.putFixTag( out, FixTags.QUOTECANCELTYPE_INT, quoteCancelType);
 		if (FixUtils.isSet(quoteType)) FixUtils.putFixTag( out, FixTags.QUOTETYPE_INT, quoteType);
 		if (FixUtils.isSet(quoteResponseLevel)) FixUtils.putFixTag( out, FixTags.QUOTERESPONSELEVEL_INT, quoteResponseLevel);
+		if (FixUtils.isSet(parties.noPartyIDs)) parties.encode( out );
+		if (FixUtils.isSet(targetParties.noTargetPartyIDs)) targetParties.encode( out );
 		if (FixUtils.isSet(account)) FixUtils.putFixTag( out, FixTags.ACCOUNT_INT, account, 0, Utils.lastIndexTrim(account, (byte)0) );
 		if (FixUtils.isSet(acctIDSource)) FixUtils.putFixTag( out, FixTags.ACCTIDSOURCE_INT, acctIDSource);
 		if (FixUtils.isSet(accountType)) FixUtils.putFixTag( out, FixTags.ACCOUNTTYPE_INT, accountType);
 		if (FixUtils.isSet(tradingSessionID)) FixUtils.putFixTag( out, FixTags.TRADINGSESSIONID_INT, tradingSessionID, 0, Utils.lastIndexTrim(tradingSessionID, (byte)0) );
 		if (FixUtils.isSet(tradingSessionSubID)) FixUtils.putFixTag( out, FixTags.TRADINGSESSIONSUBID_INT, tradingSessionSubID, 0, Utils.lastIndexTrim(tradingSessionSubID, (byte)0) );
+		if (FixUtils.isSet(quotCxlEntriesGrp.noQuoteEntries)) quotCxlEntriesGrp.encode( out );
 		// the checksum at the end
 
 		int checkSumStart = out.position();
@@ -287,6 +325,7 @@ public class FixQuoteCancel extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			if (FixUtils.isSet(quoteReqID)) s += "QuoteReqID(131)=" + new String(quoteReqID) + sep;
 			if (FixUtils.isSet(quoteID)) s += "QuoteID(117)=" + new String(quoteID) + sep;
@@ -294,11 +333,14 @@ public class FixQuoteCancel extends FixMessage
 			 s += "QuoteCancelType(298)=" + String.valueOf(quoteCancelType) + sep;
 			if (FixUtils.isSet(quoteType)) s += "QuoteType(537)=" + String.valueOf(quoteType) + sep;
 			if (FixUtils.isSet(quoteResponseLevel)) s += "QuoteResponseLevel(301)=" + String.valueOf(quoteResponseLevel) + sep;
+			if (FixUtils.isSet(parties.noPartyIDs)) s += parties.toString();
+			if (FixUtils.isSet(targetParties.noTargetPartyIDs)) s += targetParties.toString();
 			if (FixUtils.isSet(account)) s += "Account(1)=" + new String(account) + sep;
 			if (FixUtils.isSet(acctIDSource)) s += "AcctIDSource(660)=" + String.valueOf(acctIDSource) + sep;
 			if (FixUtils.isSet(accountType)) s += "AccountType(581)=" + String.valueOf(accountType) + sep;
 			if (FixUtils.isSet(tradingSessionID)) s += "TradingSessionID(336)=" + new String(tradingSessionID) + sep;
 			if (FixUtils.isSet(tradingSessionSubID)) s += "TradingSessionSubID(625)=" + new String(tradingSessionSubID) + sep;
+			if (FixUtils.isSet(quotCxlEntriesGrp.noQuoteEntries)) s += quotCxlEntriesGrp.toString();
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
 
@@ -327,6 +369,10 @@ public class FixQuoteCancel extends FixMessage
 
 		if (!( quoteResponseLevel==msg.quoteResponseLevel)) return false;
 
+		if (!parties.equals(msg.parties)) return false;
+
+		if (!targetParties.equals(msg.targetParties)) return false;
+
 		if (!Utils.equals( account, msg.account)) return false;
 
 		if (!( acctIDSource==msg.acctIDSource)) return false;
@@ -336,6 +382,8 @@ public class FixQuoteCancel extends FixMessage
 		if (!Utils.equals( tradingSessionID, msg.tradingSessionID)) return false;
 
 		if (!Utils.equals( tradingSessionSubID, msg.tradingSessionSubID)) return false;
+
+		if (!quotCxlEntriesGrp.equals(msg.quotCxlEntriesGrp)) return false;
 
 		return true;
 	}

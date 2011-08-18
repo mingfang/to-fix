@@ -8,6 +8,7 @@ package org.tomac.protocol.fix.messaging.fix50sp2;
 
 import java.nio.ByteBuffer;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 public class FixMessageParser implements FixMessageInfo
 {
 
@@ -129,7 +130,7 @@ public class FixMessageParser implements FixMessageInfo
 	FixPartyDetailsListRequest fixPartyDetailsListRequest = new FixPartyDetailsListRequest();
 	FixPartyDetailsListReport fixPartyDetailsListReport = new FixPartyDetailsListReport();
 
-	public void parse( ByteBuffer buf, FixMessageListener l) throws FixSessionException {
+	public void parse( ByteBuffer buf, FixMessageListener l) throws FixSessionException, FixGarbledException {
 
 		int msgTypeInt = FixMessage.crackMsgType(buf);
 

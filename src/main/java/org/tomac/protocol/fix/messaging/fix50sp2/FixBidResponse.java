@@ -10,22 +10,27 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixBidCompRspGrp;
 
 public class FixBidResponse extends FixMessage
 {
 
 	public byte[] bidID;
 	public byte[] clientBidID;
+	public FixBidCompRspGrp bidCompRspGrp;
 
 	public FixBidResponse() {
 		super();
 
 		bidID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		clientBidID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		bidCompRspGrp = new FixBidCompRspGrp();
 		this.clear();
 
 		msgType = MsgTypes.BIDRESPONSE_INT;
@@ -40,10 +45,11 @@ public class FixBidResponse extends FixMessage
 
 		Utils.fill( bidID, (byte)0 );
 		Utils.fill( clientBidID, (byte)0 );
+		bidCompRspGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -68,6 +74,11 @@ public class FixBidResponse extends FixMessage
 
 			case FixTags.CLIENTBIDID_INT:
 				clientBidID = FixUtils.getTagStringValue(value, clientBidID);
+				break;
+
+			case FixTags.NOBIDCOMPONENTS_INT:
+				bidCompRspGrp.noBidComponents = FixUtils.getTagIntValue( value );
+				bidCompRspGrp.getAll(bidCompRspGrp.noBidComponents, value );
 				break;
 
 			// for a message always get the checksum
@@ -95,6 +106,12 @@ public class FixBidResponse extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
+		if (! bidCompRspGrp.isSet() ) return FixTags.NOBIDCOMPONENTS_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -144,9 +161,11 @@ public class FixBidResponse extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		if (FixUtils.isSet(bidID)) FixUtils.putFixTag( out, FixTags.BIDID_INT, bidID, 0, Utils.lastIndexTrim(bidID, (byte)0) );
 		if (FixUtils.isSet(clientBidID)) FixUtils.putFixTag( out, FixTags.CLIENTBIDID_INT, clientBidID, 0, Utils.lastIndexTrim(clientBidID, (byte)0) );
+		bidCompRspGrp.encode( out );
 		// the checksum at the end
 
 		int checkSumStart = out.position();
@@ -212,9 +231,11 @@ public class FixBidResponse extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			if (FixUtils.isSet(bidID)) s += "BidID(390)=" + new String(bidID) + sep;
 			if (FixUtils.isSet(clientBidID)) s += "ClientBidID(391)=" + new String(clientBidID) + sep;
+			 s += bidCompRspGrp.toString();
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
 
@@ -234,6 +255,8 @@ public class FixBidResponse extends FixMessage
 		if (!Utils.equals( bidID, msg.bidID)) return false;
 
 		if (!Utils.equals( clientBidID, msg.clientBidID)) return false;
+
+		if (!bidCompRspGrp.equals(msg.bidCompRspGrp)) return false;
 
 		return true;
 	}

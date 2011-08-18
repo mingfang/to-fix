@@ -10,10 +10,17 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixExpirationQty;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrument;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUndInstrmtGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixApplicationSequenceControl;
 
 public class FixContraryIntentionReport extends FixMessage
 {
@@ -23,6 +30,11 @@ public class FixContraryIntentionReport extends FixMessage
 	public boolean lateIndicator = false;
 	public byte[] inputSource;
 	public byte[] clearingBusinessDate;
+	public FixParties parties;
+	public FixExpirationQty expirationQty;
+	public FixInstrument instrument;
+	public FixUndInstrmtGrp undInstrmtGrp;
+	public FixApplicationSequenceControl applicationSequenceControl;
 	public byte[] text;
 	public long encodedTextLen = 0;
 	public byte[] encodedText;
@@ -34,6 +46,11 @@ public class FixContraryIntentionReport extends FixMessage
 		transactTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
 		inputSource = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		clearingBusinessDate = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		parties = new FixParties();
+		expirationQty = new FixExpirationQty();
+		instrument = new FixInstrument();
+		undInstrmtGrp = new FixUndInstrmtGrp();
+		applicationSequenceControl = new FixApplicationSequenceControl();
 		text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		encodedText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		this.clear();
@@ -56,10 +73,15 @@ public class FixContraryIntentionReport extends FixMessage
 		Utils.fill( text, (byte)0 );
 		encodedTextLen = Long.MAX_VALUE;		
 		Utils.fill( encodedText, (byte)0 );
+		parties.clear();
+		expirationQty.clear();
+		instrument.clear();
+		undInstrmtGrp.clear();
+		applicationSequenceControl.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -96,6 +118,29 @@ public class FixContraryIntentionReport extends FixMessage
 
 			case FixTags.CLEARINGBUSINESSDATE_INT:
 				clearingBusinessDate = FixUtils.getTagStringValue(value, clearingBusinessDate);
+				break;
+
+			case FixTags.NOPARTYIDS_INT:
+				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(parties.noPartyIDs, value );
+				break;
+
+			case FixTags.NOEXPIRATION_INT:
+				expirationQty.noExpiration = FixUtils.getTagIntValue( value );
+				expirationQty.getAll(expirationQty.noExpiration, value );
+				break;
+
+			case FixTags.SYMBOL_INT:
+				instrument.getAll(FixTags.SYMBOL_INT, value );
+				break;
+
+			case FixTags.NOUNDERLYINGS_INT:
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
+				break;
+
+			case FixTags.APPLID_INT:
+				applicationSequenceControl.getAll(FixTags.APPLID_INT, value );
 				break;
 
 			case FixTags.TEXT_INT:
@@ -135,8 +180,16 @@ public class FixContraryIntentionReport extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(contIntRptID) ) return FixTags.CONTINTRPTID_INT;
 		if (! FixUtils.isSet(clearingBusinessDate) ) return FixTags.CLEARINGBUSINESSDATE_INT;
+		if (! parties.isSet() ) return FixTags.NOPARTYIDS_INT;
+		if (! expirationQty.isSet() ) return FixTags.NOEXPIRATION_INT;
+		if (! instrument.isSet() ) return FixTags.SYMBOL_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -186,12 +239,18 @@ public class FixContraryIntentionReport extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.CONTINTRPTID_INT, contIntRptID, 0, Utils.lastIndexTrim(contIntRptID, (byte)0) );
 		if (FixUtils.isSet(transactTime)) FixUtils.putFixTag( out, FixTags.TRANSACTTIME_INT, transactTime);
 		if (FixUtils.isSet(lateIndicator)) FixUtils.putFixTag( out, FixTags.LATEINDICATOR_INT, lateIndicator?(byte)'Y':(byte)'N' );
 		if (FixUtils.isSet(inputSource)) FixUtils.putFixTag( out, FixTags.INPUTSOURCE_INT, inputSource, 0, Utils.lastIndexTrim(inputSource, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.CLEARINGBUSINESSDATE_INT, clearingBusinessDate);
+		parties.encode( out );
+		expirationQty.encode( out );
+		instrument.encode( out );
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
+		if (FixUtils.isSet(applicationSequenceControl.applID)) applicationSequenceControl.encode( out );
 		if (FixUtils.isSet(text)) FixUtils.putFixTag( out, FixTags.TEXT_INT, text, 0, Utils.lastIndexTrim(text, (byte)0) );
 		if (FixUtils.isSet(encodedTextLen)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXTLEN_INT, encodedTextLen);
 		if (FixUtils.isSet(encodedText)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXT_INT, encodedText, 0, Utils.lastIndexTrim(encodedText, (byte)0) );
@@ -260,12 +319,18 @@ public class FixContraryIntentionReport extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "ContIntRptID(977)=" + new String(contIntRptID) + sep;
 			if (FixUtils.isSet(transactTime)) s += "TransactTime(60)=" + new String(transactTime) + sep;
 			if (FixUtils.isSet(lateIndicator)) s += "LateIndicator(978)=" + String.valueOf(lateIndicator) + sep;
 			if (FixUtils.isSet(inputSource)) s += "InputSource(979)=" + new String(inputSource) + sep;
 			 s += "ClearingBusinessDate(715)=" + new String(clearingBusinessDate) + sep;
+			 s += parties.toString();
+			 s += expirationQty.toString();
+			 s += instrument.toString();
+			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
+			if (FixUtils.isSet(applicationSequenceControl.applID)) s += applicationSequenceControl.toString();
 			if (FixUtils.isSet(text)) s += "Text(58)=" + new String(text) + sep;
 			if (FixUtils.isSet(encodedTextLen)) s += "EncodedTextLen(354)=" + String.valueOf(encodedTextLen) + sep;
 			if (FixUtils.isSet(encodedText)) s += "EncodedText(355)=" + new String(encodedText) + sep;
@@ -290,6 +355,16 @@ public class FixContraryIntentionReport extends FixMessage
 		if (!( lateIndicator==msg.lateIndicator)) return false;
 
 		if (!Utils.equals( inputSource, msg.inputSource)) return false;
+
+		if (!parties.equals(msg.parties)) return false;
+
+		if (!expirationQty.equals(msg.expirationQty)) return false;
+
+		if (!instrument.equals(msg.instrument)) return false;
+
+		if (!undInstrmtGrp.equals(msg.undInstrmtGrp)) return false;
+
+		if (!applicationSequenceControl.equals(msg.applicationSequenceControl)) return false;
 
 		if (!Utils.equals( text, msg.text)) return false;
 

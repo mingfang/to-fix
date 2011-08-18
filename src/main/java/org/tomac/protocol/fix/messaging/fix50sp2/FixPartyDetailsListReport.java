@@ -10,19 +10,25 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixApplicationSequenceControl;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixPartyListGrp;
 
 public class FixPartyDetailsListReport extends FixMessage
 {
 
+	public FixApplicationSequenceControl applicationSequenceControl;
 	public byte[] partyDetailsListReportID;
 	public byte[] partyDetailsListRequestID;
 	public long partyDetailsRequestResult = 0;
 	public long totNoPartyList = 0;
 	public boolean lastFragment = false;
+	public FixPartyListGrp partyListGrp;
 	public byte[] text;
 	public long encodedTextLen = 0;
 	public byte[] encodedText;
@@ -30,8 +36,10 @@ public class FixPartyDetailsListReport extends FixMessage
 	public FixPartyDetailsListReport() {
 		super();
 
+		applicationSequenceControl = new FixApplicationSequenceControl();
 		partyDetailsListReportID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		partyDetailsListRequestID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		partyListGrp = new FixPartyListGrp();
 		text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		encodedText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		this.clear();
@@ -54,10 +62,12 @@ public class FixPartyDetailsListReport extends FixMessage
 		Utils.fill( text, (byte)0 );
 		encodedTextLen = Long.MAX_VALUE;		
 		Utils.fill( encodedText, (byte)0 );
+		applicationSequenceControl.clear();
+		partyListGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -75,6 +85,10 @@ public class FixPartyDetailsListReport extends FixMessage
 			value = buf;
 
 			switch( id ) {
+
+			case FixTags.APPLID_INT:
+				applicationSequenceControl.getAll(FixTags.APPLID_INT, value );
+				break;
 
 			case FixTags.PARTYDETAILSLISTREPORTID_INT:
 				partyDetailsListReportID = FixUtils.getTagStringValue(value, partyDetailsListReportID);
@@ -96,6 +110,11 @@ public class FixPartyDetailsListReport extends FixMessage
 			case FixTags.LASTFRAGMENT_INT:
 				lastFragment = FixUtils.getTagBooleanValue( value );
 				if (!LastFragment.isValid(lastFragment) ) throw new FixSessionException(buf, "Invalid enumerated value(" + lastFragment + ") for tag: " + id );
+				break;
+
+			case FixTags.NOPARTYLIST_INT:
+				partyListGrp.noPartyList = FixUtils.getTagIntValue( value );
+				partyListGrp.getAll(partyListGrp.noPartyList, value );
 				break;
 
 			case FixTags.TEXT_INT:
@@ -135,7 +154,12 @@ public class FixPartyDetailsListReport extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(partyDetailsListReportID) ) return FixTags.PARTYDETAILSLISTREPORTID_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -185,12 +209,15 @@ public class FixPartyDetailsListReport extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
+		if (FixUtils.isSet(applicationSequenceControl.applID)) applicationSequenceControl.encode( out );
 		FixUtils.putFixTag( out, FixTags.PARTYDETAILSLISTREPORTID_INT, partyDetailsListReportID, 0, Utils.lastIndexTrim(partyDetailsListReportID, (byte)0) );
 		if (FixUtils.isSet(partyDetailsListRequestID)) FixUtils.putFixTag( out, FixTags.PARTYDETAILSLISTREQUESTID_INT, partyDetailsListRequestID, 0, Utils.lastIndexTrim(partyDetailsListRequestID, (byte)0) );
 		if (FixUtils.isSet(partyDetailsRequestResult)) FixUtils.putFixTag( out, FixTags.PARTYDETAILSREQUESTRESULT_INT, partyDetailsRequestResult);
 		if (FixUtils.isSet(totNoPartyList)) FixUtils.putFixTag( out, FixTags.TOTNOPARTYLIST_INT, totNoPartyList);
 		if (FixUtils.isSet(lastFragment)) FixUtils.putFixTag( out, FixTags.LASTFRAGMENT_INT, lastFragment?(byte)'Y':(byte)'N' );
+		if (FixUtils.isSet(partyListGrp.noPartyList)) partyListGrp.encode( out );
 		if (FixUtils.isSet(text)) FixUtils.putFixTag( out, FixTags.TEXT_INT, text, 0, Utils.lastIndexTrim(text, (byte)0) );
 		if (FixUtils.isSet(encodedTextLen)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXTLEN_INT, encodedTextLen);
 		if (FixUtils.isSet(encodedText)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXT_INT, encodedText, 0, Utils.lastIndexTrim(encodedText, (byte)0) );
@@ -259,12 +286,15 @@ public class FixPartyDetailsListReport extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
+			if (FixUtils.isSet(applicationSequenceControl.applID)) s += applicationSequenceControl.toString();
 			 s += "PartyDetailsListReportID(1510)=" + new String(partyDetailsListReportID) + sep;
 			if (FixUtils.isSet(partyDetailsListRequestID)) s += "PartyDetailsListRequestID(1505)=" + new String(partyDetailsListRequestID) + sep;
 			if (FixUtils.isSet(partyDetailsRequestResult)) s += "PartyDetailsRequestResult(1511)=" + String.valueOf(partyDetailsRequestResult) + sep;
 			if (FixUtils.isSet(totNoPartyList)) s += "TotNoPartyList(1512)=" + String.valueOf(totNoPartyList) + sep;
 			if (FixUtils.isSet(lastFragment)) s += "LastFragment(893)=" + String.valueOf(lastFragment) + sep;
+			if (FixUtils.isSet(partyListGrp.noPartyList)) s += partyListGrp.toString();
 			if (FixUtils.isSet(text)) s += "Text(58)=" + new String(text) + sep;
 			if (FixUtils.isSet(encodedTextLen)) s += "EncodedTextLen(354)=" + String.valueOf(encodedTextLen) + sep;
 			if (FixUtils.isSet(encodedText)) s += "EncodedText(355)=" + new String(encodedText) + sep;
@@ -284,6 +314,8 @@ public class FixPartyDetailsListReport extends FixMessage
 
 		if ( ! super.equals(msg) ) return false;
 
+		if (!applicationSequenceControl.equals(msg.applicationSequenceControl)) return false;
+
 		if (!Utils.equals( partyDetailsListReportID, msg.partyDetailsListReportID)) return false;
 
 		if (!Utils.equals( partyDetailsListRequestID, msg.partyDetailsListRequestID)) return false;
@@ -293,6 +325,8 @@ public class FixPartyDetailsListReport extends FixMessage
 		if (!( totNoPartyList==msg.totNoPartyList)) return false;
 
 		if (!( lastFragment==msg.lastFragment)) return false;
+
+		if (!partyListGrp.equals(msg.partyListGrp)) return false;
 
 		if (!Utils.equals( text, msg.text)) return false;
 

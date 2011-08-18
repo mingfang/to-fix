@@ -11,6 +11,7 @@ import java.nio.ByteBuffer;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.protocol.fix.FixSessionException;
@@ -77,6 +78,7 @@ public class TestParseFixStream {
 	public void tearDown() throws Exception {
 	}
 
+	@Ignore
 	@Test
 	public void testParesFixStream() {
 		File f = new File(RAW_FIX_LOG);

@@ -10,10 +10,19 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrument;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrumentExtension;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUndInstrmtGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixStipulations;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrmtLegGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixSpreadOrBenchmarkCurveData;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixYieldData;
 
 public class FixSecurityDefinitionRequest extends FixMessage
 {
@@ -22,12 +31,19 @@ public class FixSecurityDefinitionRequest extends FixMessage
 	public long securityRequestType = 0;
 	public byte[] marketID;
 	public byte[] marketSegmentID;
+	public FixInstrument instrument;
+	public FixInstrumentExtension instrumentExtension;
+	public FixUndInstrmtGrp undInstrmtGrp;
 	public byte[] currency;
 	public byte[] text;
 	public long encodedTextLen = 0;
 	public byte[] encodedText;
 	public byte[] tradingSessionID;
 	public byte[] tradingSessionSubID;
+	public FixStipulations stipulations;
+	public FixInstrmtLegGrp instrmtLegGrp;
+	public FixSpreadOrBenchmarkCurveData spreadOrBenchmarkCurveData;
+	public FixYieldData yieldData;
 	public long expirationCycle = 0;
 	public byte subscriptionRequestType = (byte)' ';
 
@@ -37,11 +53,18 @@ public class FixSecurityDefinitionRequest extends FixMessage
 		securityReqID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		marketID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		marketSegmentID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		instrument = new FixInstrument();
+		instrumentExtension = new FixInstrumentExtension();
+		undInstrmtGrp = new FixUndInstrmtGrp();
 		currency = new byte[FixUtils.CURRENCY_LENGTH];
 		text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		encodedText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		tradingSessionID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		tradingSessionSubID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		stipulations = new FixStipulations();
+		instrmtLegGrp = new FixInstrmtLegGrp();
+		spreadOrBenchmarkCurveData = new FixSpreadOrBenchmarkCurveData();
+		yieldData = new FixYieldData();
 		this.clear();
 
 		msgType = MsgTypes.SECURITYDEFINITIONREQUEST_INT;
@@ -66,10 +89,17 @@ public class FixSecurityDefinitionRequest extends FixMessage
 		Utils.fill( tradingSessionSubID, (byte)0 );
 		expirationCycle = Long.MAX_VALUE;		
 		subscriptionRequestType = Byte.MAX_VALUE;		
+		instrument.clear();
+		instrumentExtension.clear();
+		undInstrmtGrp.clear();
+		stipulations.clear();
+		instrmtLegGrp.clear();
+		spreadOrBenchmarkCurveData.clear();
+		yieldData.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -105,6 +135,19 @@ public class FixSecurityDefinitionRequest extends FixMessage
 				marketSegmentID = FixUtils.getTagStringValue(value, marketSegmentID);
 				break;
 
+			case FixTags.SYMBOL_INT:
+				instrument.getAll(FixTags.SYMBOL_INT, value );
+				break;
+
+			case FixTags.DELIVERYFORM_INT:
+				instrumentExtension.getAll(FixTags.DELIVERYFORM_INT, value );
+				break;
+
+			case FixTags.NOUNDERLYINGS_INT:
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
+				break;
+
 			case FixTags.CURRENCY_INT:
 				currency = FixUtils.getTagStringValue(value, currency);
 				break;
@@ -129,6 +172,24 @@ public class FixSecurityDefinitionRequest extends FixMessage
 			case FixTags.TRADINGSESSIONSUBID_INT:
 				tradingSessionSubID = FixUtils.getTagStringValue(value, tradingSessionSubID);
 				if (!TradingSessionSubID.isValid(tradingSessionSubID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradingSessionSubID + ") for tag: " + id );
+				break;
+
+			case FixTags.NOSTIPULATIONS_INT:
+				stipulations.noStipulations = FixUtils.getTagIntValue( value );
+				stipulations.getAll(stipulations.noStipulations, value );
+				break;
+
+			case FixTags.NOLEGS_INT:
+				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( value );
+				instrmtLegGrp.getAll(instrmtLegGrp.noLegs, value );
+				break;
+
+			case FixTags.SPREAD_INT:
+				spreadOrBenchmarkCurveData.getAll(FixTags.SPREAD_INT, value );
+				break;
+
+			case FixTags.YIELDTYPE_INT:
+				yieldData.getAll(FixTags.YIELDTYPE_INT, value );
 				break;
 
 			case FixTags.EXPIRATIONCYCLE_INT:
@@ -166,8 +227,13 @@ public class FixSecurityDefinitionRequest extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(securityReqID) ) return FixTags.SECURITYREQID_INT;
 		if (! FixUtils.isSet(securityRequestType) ) return FixTags.SECURITYREQUESTTYPE_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -217,17 +283,25 @@ public class FixSecurityDefinitionRequest extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.SECURITYREQID_INT, securityReqID, 0, Utils.lastIndexTrim(securityReqID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.SECURITYREQUESTTYPE_INT, securityRequestType);
 		if (FixUtils.isSet(marketID)) FixUtils.putFixTag( out, FixTags.MARKETID_INT, marketID, 0, Utils.lastIndexTrim(marketID, (byte)0) );
 		if (FixUtils.isSet(marketSegmentID)) FixUtils.putFixTag( out, FixTags.MARKETSEGMENTID_INT, marketSegmentID, 0, Utils.lastIndexTrim(marketSegmentID, (byte)0) );
+		if (FixUtils.isSet(instrument.symbol)) instrument.encode( out );
+		if (FixUtils.isSet(instrumentExtension.deliveryForm)) instrumentExtension.encode( out );
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
 		if (FixUtils.isSet(currency)) FixUtils.putFixTag( out, FixTags.CURRENCY_INT, currency, 0, Utils.lastIndexTrim(currency, (byte)0) );
 		if (FixUtils.isSet(text)) FixUtils.putFixTag( out, FixTags.TEXT_INT, text, 0, Utils.lastIndexTrim(text, (byte)0) );
 		if (FixUtils.isSet(encodedTextLen)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXTLEN_INT, encodedTextLen);
 		if (FixUtils.isSet(encodedText)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXT_INT, encodedText, 0, Utils.lastIndexTrim(encodedText, (byte)0) );
 		if (FixUtils.isSet(tradingSessionID)) FixUtils.putFixTag( out, FixTags.TRADINGSESSIONID_INT, tradingSessionID, 0, Utils.lastIndexTrim(tradingSessionID, (byte)0) );
 		if (FixUtils.isSet(tradingSessionSubID)) FixUtils.putFixTag( out, FixTags.TRADINGSESSIONSUBID_INT, tradingSessionSubID, 0, Utils.lastIndexTrim(tradingSessionSubID, (byte)0) );
+		if (FixUtils.isSet(stipulations.noStipulations)) stipulations.encode( out );
+		if (FixUtils.isSet(instrmtLegGrp.noLegs)) instrmtLegGrp.encode( out );
+		if (FixUtils.isSet(spreadOrBenchmarkCurveData.spread)) spreadOrBenchmarkCurveData.encode( out );
+		if (FixUtils.isSet(yieldData.yieldType)) yieldData.encode( out );
 		if (FixUtils.isSet(expirationCycle)) FixUtils.putFixTag( out, FixTags.EXPIRATIONCYCLE_INT, expirationCycle);
 		if (FixUtils.isSet(subscriptionRequestType)) FixUtils.putFixTag( out, FixTags.SUBSCRIPTIONREQUESTTYPE_INT, subscriptionRequestType );
 		// the checksum at the end
@@ -295,17 +369,25 @@ public class FixSecurityDefinitionRequest extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "SecurityReqID(320)=" + new String(securityReqID) + sep;
 			 s += "SecurityRequestType(321)=" + String.valueOf(securityRequestType) + sep;
 			if (FixUtils.isSet(marketID)) s += "MarketID(1301)=" + new String(marketID) + sep;
 			if (FixUtils.isSet(marketSegmentID)) s += "MarketSegmentID(1300)=" + new String(marketSegmentID) + sep;
+			if (FixUtils.isSet(instrument.symbol)) s += instrument.toString();
+			if (FixUtils.isSet(instrumentExtension.deliveryForm)) s += instrumentExtension.toString();
+			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
 			if (FixUtils.isSet(currency)) s += "Currency(15)=" + new String(currency) + sep;
 			if (FixUtils.isSet(text)) s += "Text(58)=" + new String(text) + sep;
 			if (FixUtils.isSet(encodedTextLen)) s += "EncodedTextLen(354)=" + String.valueOf(encodedTextLen) + sep;
 			if (FixUtils.isSet(encodedText)) s += "EncodedText(355)=" + new String(encodedText) + sep;
 			if (FixUtils.isSet(tradingSessionID)) s += "TradingSessionID(336)=" + new String(tradingSessionID) + sep;
 			if (FixUtils.isSet(tradingSessionSubID)) s += "TradingSessionSubID(625)=" + new String(tradingSessionSubID) + sep;
+			if (FixUtils.isSet(stipulations.noStipulations)) s += stipulations.toString();
+			if (FixUtils.isSet(instrmtLegGrp.noLegs)) s += instrmtLegGrp.toString();
+			if (FixUtils.isSet(spreadOrBenchmarkCurveData.spread)) s += spreadOrBenchmarkCurveData.toString();
+			if (FixUtils.isSet(yieldData.yieldType)) s += yieldData.toString();
 			if (FixUtils.isSet(expirationCycle)) s += "ExpirationCycle(827)=" + String.valueOf(expirationCycle) + sep;
 			if (FixUtils.isSet(subscriptionRequestType)) s += "SubscriptionRequestType(263)=" + String.valueOf(subscriptionRequestType) + sep;
 
@@ -332,6 +414,12 @@ public class FixSecurityDefinitionRequest extends FixMessage
 
 		if (!Utils.equals( marketSegmentID, msg.marketSegmentID)) return false;
 
+		if (!instrument.equals(msg.instrument)) return false;
+
+		if (!instrumentExtension.equals(msg.instrumentExtension)) return false;
+
+		if (!undInstrmtGrp.equals(msg.undInstrmtGrp)) return false;
+
 		if (!Utils.equals( currency, msg.currency)) return false;
 
 		if (!Utils.equals( text, msg.text)) return false;
@@ -343,6 +431,14 @@ public class FixSecurityDefinitionRequest extends FixMessage
 		if (!Utils.equals( tradingSessionID, msg.tradingSessionID)) return false;
 
 		if (!Utils.equals( tradingSessionSubID, msg.tradingSessionSubID)) return false;
+
+		if (!stipulations.equals(msg.stipulations)) return false;
+
+		if (!instrmtLegGrp.equals(msg.instrmtLegGrp)) return false;
+
+		if (!spreadOrBenchmarkCurveData.equals(msg.spreadOrBenchmarkCurveData)) return false;
+
+		if (!yieldData.equals(msg.yieldData)) return false;
 
 		if (!( expirationCycle==msg.expirationCycle)) return false;
 

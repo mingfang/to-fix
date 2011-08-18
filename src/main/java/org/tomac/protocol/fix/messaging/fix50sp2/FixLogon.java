@@ -10,10 +10,13 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixMsgTypeGrp;
 
 public class FixLogon extends FixMessage
 {
@@ -25,6 +28,7 @@ public class FixLogon extends FixMessage
 	public boolean resetSeqNumFlag = false;
 	public long nextExpectedMsgSeqNum = 0;
 	public long maxMessageSize = 0;
+	public FixMsgTypeGrp msgTypeGrp;
 	public boolean testMessageIndicator = false;
 	public byte[] username;
 	public byte[] password;
@@ -46,6 +50,7 @@ public class FixLogon extends FixMessage
 		super();
 
 		rawData = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		msgTypeGrp = new FixMsgTypeGrp();
 		username = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		password = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		newPassword = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
@@ -90,10 +95,11 @@ public class FixLogon extends FixMessage
 		Utils.fill( text, (byte)0 );
 		encodedTextLen = Long.MAX_VALUE;		
 		Utils.fill( encodedText, (byte)0 );
+		msgTypeGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -140,6 +146,11 @@ public class FixLogon extends FixMessage
 
 			case FixTags.MAXMESSAGESIZE_INT:
 				maxMessageSize = FixUtils.getTagIntValue( value );
+				break;
+
+			case FixTags.NOMSGTYPES_INT:
+				msgTypeGrp.noMsgTypes = FixUtils.getTagIntValue( value );
+				msgTypeGrp.getAll(msgTypeGrp.noMsgTypes, value );
 				break;
 
 			case FixTags.TESTMESSAGEINDICATOR_INT:
@@ -233,9 +244,14 @@ public class FixLogon extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(encryptMethod) ) return FixTags.ENCRYPTMETHOD_INT;
 		if (! FixUtils.isSet(heartBtInt) ) return FixTags.HEARTBTINT_INT;
 		if (! FixUtils.isSet(defaultApplVerID) ) return FixTags.DEFAULTAPPLVERID_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -285,6 +301,7 @@ public class FixLogon extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.ENCRYPTMETHOD_INT, encryptMethod);
 		FixUtils.putFixTag( out, FixTags.HEARTBTINT_INT, heartBtInt);
@@ -293,6 +310,7 @@ public class FixLogon extends FixMessage
 		if (FixUtils.isSet(resetSeqNumFlag)) FixUtils.putFixTag( out, FixTags.RESETSEQNUMFLAG_INT, resetSeqNumFlag?(byte)'Y':(byte)'N' );
 		if (FixUtils.isSet(nextExpectedMsgSeqNum)) FixUtils.putFixTag( out, FixTags.NEXTEXPECTEDMSGSEQNUM_INT, nextExpectedMsgSeqNum);
 		if (FixUtils.isSet(maxMessageSize)) FixUtils.putFixTag( out, FixTags.MAXMESSAGESIZE_INT, maxMessageSize);
+		if (FixUtils.isSet(msgTypeGrp.noMsgTypes)) msgTypeGrp.encode( out );
 		if (FixUtils.isSet(testMessageIndicator)) FixUtils.putFixTag( out, FixTags.TESTMESSAGEINDICATOR_INT, testMessageIndicator?(byte)'Y':(byte)'N' );
 		if (FixUtils.isSet(username)) FixUtils.putFixTag( out, FixTags.USERNAME_INT, username, 0, Utils.lastIndexTrim(username, (byte)0) );
 		if (FixUtils.isSet(password)) FixUtils.putFixTag( out, FixTags.PASSWORD_INT, password, 0, Utils.lastIndexTrim(password, (byte)0) );
@@ -374,6 +392,7 @@ public class FixLogon extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "EncryptMethod(98)=" + String.valueOf(encryptMethod) + sep;
 			 s += "HeartBtInt(108)=" + String.valueOf(heartBtInt) + sep;
@@ -382,6 +401,7 @@ public class FixLogon extends FixMessage
 			if (FixUtils.isSet(resetSeqNumFlag)) s += "ResetSeqNumFlag(141)=" + String.valueOf(resetSeqNumFlag) + sep;
 			if (FixUtils.isSet(nextExpectedMsgSeqNum)) s += "NextExpectedMsgSeqNum(789)=" + String.valueOf(nextExpectedMsgSeqNum) + sep;
 			if (FixUtils.isSet(maxMessageSize)) s += "MaxMessageSize(383)=" + String.valueOf(maxMessageSize) + sep;
+			if (FixUtils.isSet(msgTypeGrp.noMsgTypes)) s += msgTypeGrp.toString();
 			if (FixUtils.isSet(testMessageIndicator)) s += "TestMessageIndicator(464)=" + String.valueOf(testMessageIndicator) + sep;
 			if (FixUtils.isSet(username)) s += "Username(553)=" + new String(username) + sep;
 			if (FixUtils.isSet(password)) s += "Password(554)=" + new String(password) + sep;
@@ -427,6 +447,8 @@ public class FixLogon extends FixMessage
 		if (!( nextExpectedMsgSeqNum==msg.nextExpectedMsgSeqNum)) return false;
 
 		if (!( maxMessageSize==msg.maxMessageSize)) return false;
+
+		if (!msgTypeGrp.equals(msg.msgTypeGrp)) return false;
 
 		if (!( testMessageIndicator==msg.testMessageIndicator)) return false;
 

@@ -10,10 +10,13 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixStrmAsgnRptGrp;
 
 public class FixStreamAssignmentReport extends FixMessage
 {
@@ -21,12 +24,14 @@ public class FixStreamAssignmentReport extends FixMessage
 	public byte[] streamAsgnRptID;
 	public long streamAsgnReqType = 0;
 	public byte[] streamAsgnReqID;
+	public FixStrmAsgnRptGrp strmAsgnRptGrp;
 
 	public FixStreamAssignmentReport() {
 		super();
 
 		streamAsgnRptID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		streamAsgnReqID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		strmAsgnRptGrp = new FixStrmAsgnRptGrp();
 		this.clear();
 
 		msgType = MsgTypes.STREAMASSIGNMENTREPORT_INT;
@@ -42,10 +47,11 @@ public class FixStreamAssignmentReport extends FixMessage
 		Utils.fill( streamAsgnRptID, (byte)0 );
 		streamAsgnReqType = Long.MAX_VALUE;		
 		Utils.fill( streamAsgnReqID, (byte)0 );
+		strmAsgnRptGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -77,6 +83,11 @@ public class FixStreamAssignmentReport extends FixMessage
 				streamAsgnReqID = FixUtils.getTagStringValue(value, streamAsgnReqID);
 				break;
 
+			case FixTags.NOASGNREQS_INT:
+				strmAsgnRptGrp.noAsgnReqs = FixUtils.getTagIntValue( value );
+				strmAsgnRptGrp.getAll(strmAsgnRptGrp.noAsgnReqs, value );
+				break;
+
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
 				checkSum = FixUtils.getTagIntValue( value );
@@ -102,7 +113,12 @@ public class FixStreamAssignmentReport extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(streamAsgnRptID) ) return FixTags.STREAMASGNRPTID_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -152,10 +168,12 @@ public class FixStreamAssignmentReport extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.STREAMASGNRPTID_INT, streamAsgnRptID, 0, Utils.lastIndexTrim(streamAsgnRptID, (byte)0) );
 		if (FixUtils.isSet(streamAsgnReqType)) FixUtils.putFixTag( out, FixTags.STREAMASGNREQTYPE_INT, streamAsgnReqType);
 		if (FixUtils.isSet(streamAsgnReqID)) FixUtils.putFixTag( out, FixTags.STREAMASGNREQID_INT, streamAsgnReqID, 0, Utils.lastIndexTrim(streamAsgnReqID, (byte)0) );
+		if (FixUtils.isSet(strmAsgnRptGrp.noAsgnReqs)) strmAsgnRptGrp.encode( out );
 		// the checksum at the end
 
 		int checkSumStart = out.position();
@@ -221,10 +239,12 @@ public class FixStreamAssignmentReport extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "StreamAsgnRptID(1501)=" + new String(streamAsgnRptID) + sep;
 			if (FixUtils.isSet(streamAsgnReqType)) s += "StreamAsgnReqType(1498)=" + String.valueOf(streamAsgnReqType) + sep;
 			if (FixUtils.isSet(streamAsgnReqID)) s += "StreamAsgnReqID(1497)=" + new String(streamAsgnReqID) + sep;
+			if (FixUtils.isSet(strmAsgnRptGrp.noAsgnReqs)) s += strmAsgnRptGrp.toString();
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
 
@@ -246,6 +266,8 @@ public class FixStreamAssignmentReport extends FixMessage
 		if (!( streamAsgnReqType==msg.streamAsgnReqType)) return false;
 
 		if (!Utils.equals( streamAsgnReqID, msg.streamAsgnReqID)) return false;
+
+		if (!strmAsgnRptGrp.equals(msg.strmAsgnRptGrp)) return false;
 
 		return true;
 	}

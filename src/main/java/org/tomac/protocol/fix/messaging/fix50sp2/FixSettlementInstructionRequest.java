@@ -10,16 +10,20 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
 
 public class FixSettlementInstructionRequest extends FixMessage
 {
 
 	public byte[] settlInstReqID;
 	public byte[] transactTime;
+	public FixParties parties;
 	public byte[] allocAccount;
 	public long allocAcctIDSource = 0;
 	public byte side = (byte)' ';
@@ -39,6 +43,7 @@ public class FixSettlementInstructionRequest extends FixMessage
 
 		settlInstReqID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		transactTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
+		parties = new FixParties();
 		allocAccount = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		securityType = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		cFICode = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
@@ -75,10 +80,11 @@ public class FixSettlementInstructionRequest extends FixMessage
 		standInstDbType = Long.MAX_VALUE;		
 		Utils.fill( standInstDbName, (byte)0 );
 		Utils.fill( standInstDbID, (byte)0 );
+		parties.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -103,6 +109,11 @@ public class FixSettlementInstructionRequest extends FixMessage
 
 			case FixTags.TRANSACTTIME_INT:
 				transactTime = FixUtils.getTagStringValue(value, transactTime);
+				break;
+
+			case FixTags.NOPARTYIDS_INT:
+				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(parties.noPartyIDs, value );
 				break;
 
 			case FixTags.ALLOCACCOUNT_INT:
@@ -186,8 +197,13 @@ public class FixSettlementInstructionRequest extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(settlInstReqID) ) return FixTags.SETTLINSTREQID_INT;
 		if (! FixUtils.isSet(transactTime) ) return FixTags.TRANSACTTIME_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -237,9 +253,11 @@ public class FixSettlementInstructionRequest extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.SETTLINSTREQID_INT, settlInstReqID, 0, Utils.lastIndexTrim(settlInstReqID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.TRANSACTTIME_INT, transactTime);
+		if (FixUtils.isSet(parties.noPartyIDs)) parties.encode( out );
 		if (FixUtils.isSet(allocAccount)) FixUtils.putFixTag( out, FixTags.ALLOCACCOUNT_INT, allocAccount, 0, Utils.lastIndexTrim(allocAccount, (byte)0) );
 		if (FixUtils.isSet(allocAcctIDSource)) FixUtils.putFixTag( out, FixTags.ALLOCACCTIDSOURCE_INT, allocAcctIDSource);
 		if (FixUtils.isSet(side)) FixUtils.putFixTag( out, FixTags.SIDE_INT, side );
@@ -318,9 +336,11 @@ public class FixSettlementInstructionRequest extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "SettlInstReqID(791)=" + new String(settlInstReqID) + sep;
 			 s += "TransactTime(60)=" + new String(transactTime) + sep;
+			if (FixUtils.isSet(parties.noPartyIDs)) s += parties.toString();
 			if (FixUtils.isSet(allocAccount)) s += "AllocAccount(79)=" + new String(allocAccount) + sep;
 			if (FixUtils.isSet(allocAcctIDSource)) s += "AllocAcctIDSource(661)=" + String.valueOf(allocAcctIDSource) + sep;
 			if (FixUtils.isSet(side)) s += "Side(54)=" + String.valueOf(side) + sep;
@@ -351,6 +371,8 @@ public class FixSettlementInstructionRequest extends FixMessage
 		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( settlInstReqID, msg.settlInstReqID)) return false;
+
+		if (!parties.equals(msg.parties)) return false;
 
 		if (!Utils.equals( allocAccount, msg.allocAccount)) return false;
 

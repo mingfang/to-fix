@@ -10,10 +10,13 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
 
 public class FixRegistrationInstructionsResponse extends FixMessage
 {
@@ -22,6 +25,7 @@ public class FixRegistrationInstructionsResponse extends FixMessage
 	public byte registTransType = (byte)' ';
 	public byte[] registRefID;
 	public byte[] clOrdID;
+	public FixParties parties;
 	public byte[] account;
 	public long acctIDSource = 0;
 	public byte registStatus = (byte)' ';
@@ -34,6 +38,7 @@ public class FixRegistrationInstructionsResponse extends FixMessage
 		registID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		registRefID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		clOrdID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		parties = new FixParties();
 		account = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		registRejReasonText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		this.clear();
@@ -57,10 +62,11 @@ public class FixRegistrationInstructionsResponse extends FixMessage
 		registStatus = Byte.MAX_VALUE;		
 		registRejReasonCode = Long.MAX_VALUE;		
 		Utils.fill( registRejReasonText, (byte)0 );
+		parties.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -94,6 +100,11 @@ public class FixRegistrationInstructionsResponse extends FixMessage
 
 			case FixTags.CLORDID_INT:
 				clOrdID = FixUtils.getTagStringValue(value, clOrdID);
+				break;
+
+			case FixTags.NOPARTYIDS_INT:
+				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(parties.noPartyIDs, value );
 				break;
 
 			case FixTags.ACCOUNT_INT:
@@ -144,10 +155,15 @@ public class FixRegistrationInstructionsResponse extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(registID) ) return FixTags.REGISTID_INT;
 		if (! FixUtils.isSet(registTransType) ) return FixTags.REGISTTRANSTYPE_INT;
 		if (! FixUtils.isSet(registRefID) ) return FixTags.REGISTREFID_INT;
 		if (! FixUtils.isSet(registStatus) ) return FixTags.REGISTSTATUS_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -197,11 +213,13 @@ public class FixRegistrationInstructionsResponse extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.REGISTID_INT, registID, 0, Utils.lastIndexTrim(registID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.REGISTTRANSTYPE_INT, registTransType );
 		FixUtils.putFixTag( out, FixTags.REGISTREFID_INT, registRefID, 0, Utils.lastIndexTrim(registRefID, (byte)0) );
 		if (FixUtils.isSet(clOrdID)) FixUtils.putFixTag( out, FixTags.CLORDID_INT, clOrdID, 0, Utils.lastIndexTrim(clOrdID, (byte)0) );
+		if (FixUtils.isSet(parties.noPartyIDs)) parties.encode( out );
 		if (FixUtils.isSet(account)) FixUtils.putFixTag( out, FixTags.ACCOUNT_INT, account, 0, Utils.lastIndexTrim(account, (byte)0) );
 		if (FixUtils.isSet(acctIDSource)) FixUtils.putFixTag( out, FixTags.ACCTIDSOURCE_INT, acctIDSource);
 		FixUtils.putFixTag( out, FixTags.REGISTSTATUS_INT, registStatus );
@@ -272,11 +290,13 @@ public class FixRegistrationInstructionsResponse extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "RegistID(513)=" + new String(registID) + sep;
 			 s += "RegistTransType(514)=" + String.valueOf(registTransType) + sep;
 			 s += "RegistRefID(508)=" + new String(registRefID) + sep;
 			if (FixUtils.isSet(clOrdID)) s += "ClOrdID(11)=" + new String(clOrdID) + sep;
+			if (FixUtils.isSet(parties.noPartyIDs)) s += parties.toString();
 			if (FixUtils.isSet(account)) s += "Account(1)=" + new String(account) + sep;
 			if (FixUtils.isSet(acctIDSource)) s += "AcctIDSource(660)=" + String.valueOf(acctIDSource) + sep;
 			 s += "RegistStatus(506)=" + String.valueOf(registStatus) + sep;
@@ -305,6 +325,8 @@ public class FixRegistrationInstructionsResponse extends FixMessage
 		if (!Utils.equals( registRefID, msg.registRefID)) return false;
 
 		if (!Utils.equals( clOrdID, msg.clOrdID)) return false;
+
+		if (!parties.equals(msg.parties)) return false;
 
 		if (!Utils.equals( account, msg.account)) return false;
 

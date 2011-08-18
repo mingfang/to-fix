@@ -10,10 +10,14 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixRootParties;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixQuotReqGrp;
 
 public class FixQuoteRequest extends FixMessage
 {
@@ -27,6 +31,8 @@ public class FixQuoteRequest extends FixMessage
 	public long respondentType = 0;
 	public boolean preTradeAnonymity = false;
 	public byte[] orderRestrictions;
+	public FixRootParties rootParties;
+	public FixQuotReqGrp quotReqGrp;
 	public byte[] text;
 	public long encodedTextLen = 0;
 	public byte[] encodedText;
@@ -38,6 +44,8 @@ public class FixQuoteRequest extends FixMessage
 		rFQReqID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		clOrdID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		orderRestrictions = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		rootParties = new FixRootParties();
+		quotReqGrp = new FixQuotReqGrp();
 		text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		encodedText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		this.clear();
@@ -64,10 +72,12 @@ public class FixQuoteRequest extends FixMessage
 		Utils.fill( text, (byte)0 );
 		encodedTextLen = Long.MAX_VALUE;		
 		Utils.fill( encodedText, (byte)0 );
+		rootParties.clear();
+		quotReqGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -126,6 +136,16 @@ public class FixQuoteRequest extends FixMessage
 				if (!OrderRestrictions.isValid(orderRestrictions) ) throw new FixSessionException(buf, "Invalid enumerated value(" + orderRestrictions + ") for tag: " + id );
 				break;
 
+			case FixTags.NOROOTPARTYIDS_INT:
+				rootParties.noRootPartyIDs = FixUtils.getTagIntValue( value );
+				rootParties.getAll(rootParties.noRootPartyIDs, value );
+				break;
+
+			case FixTags.NORELATEDSYM_INT:
+				quotReqGrp.noRelatedSym = FixUtils.getTagIntValue( value );
+				quotReqGrp.getAll(quotReqGrp.noRelatedSym, value );
+				break;
+
 			case FixTags.TEXT_INT:
 				text = FixUtils.getTagStringValue(value, text);
 				break;
@@ -163,7 +183,13 @@ public class FixQuoteRequest extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(quoteReqID) ) return FixTags.QUOTEREQID_INT;
+		if (! quotReqGrp.isSet() ) return FixTags.NORELATEDSYM_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -213,6 +239,7 @@ public class FixQuoteRequest extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.QUOTEREQID_INT, quoteReqID, 0, Utils.lastIndexTrim(quoteReqID, (byte)0) );
 		if (FixUtils.isSet(rFQReqID)) FixUtils.putFixTag( out, FixTags.RFQREQID_INT, rFQReqID, 0, Utils.lastIndexTrim(rFQReqID, (byte)0) );
@@ -223,6 +250,8 @@ public class FixQuoteRequest extends FixMessage
 		if (FixUtils.isSet(respondentType)) FixUtils.putFixTag( out, FixTags.RESPONDENTTYPE_INT, respondentType);
 		if (FixUtils.isSet(preTradeAnonymity)) FixUtils.putFixTag( out, FixTags.PRETRADEANONYMITY_INT, preTradeAnonymity?(byte)'Y':(byte)'N' );
 		if (FixUtils.isSet(orderRestrictions)) FixUtils.putFixTag( out, FixTags.ORDERRESTRICTIONS_INT, orderRestrictions, 0, Utils.lastIndexTrim(orderRestrictions, (byte)0) );
+		if (FixUtils.isSet(rootParties.noRootPartyIDs)) rootParties.encode( out );
+		quotReqGrp.encode( out );
 		if (FixUtils.isSet(text)) FixUtils.putFixTag( out, FixTags.TEXT_INT, text, 0, Utils.lastIndexTrim(text, (byte)0) );
 		if (FixUtils.isSet(encodedTextLen)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXTLEN_INT, encodedTextLen);
 		if (FixUtils.isSet(encodedText)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXT_INT, encodedText, 0, Utils.lastIndexTrim(encodedText, (byte)0) );
@@ -291,6 +320,7 @@ public class FixQuoteRequest extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "QuoteReqID(131)=" + new String(quoteReqID) + sep;
 			if (FixUtils.isSet(rFQReqID)) s += "RFQReqID(644)=" + new String(rFQReqID) + sep;
@@ -301,6 +331,8 @@ public class FixQuoteRequest extends FixMessage
 			if (FixUtils.isSet(respondentType)) s += "RespondentType(1172)=" + String.valueOf(respondentType) + sep;
 			if (FixUtils.isSet(preTradeAnonymity)) s += "PreTradeAnonymity(1091)=" + String.valueOf(preTradeAnonymity) + sep;
 			if (FixUtils.isSet(orderRestrictions)) s += "OrderRestrictions(529)=" + new String(orderRestrictions) + sep;
+			if (FixUtils.isSet(rootParties.noRootPartyIDs)) s += rootParties.toString();
+			 s += quotReqGrp.toString();
 			if (FixUtils.isSet(text)) s += "Text(58)=" + new String(text) + sep;
 			if (FixUtils.isSet(encodedTextLen)) s += "EncodedTextLen(354)=" + String.valueOf(encodedTextLen) + sep;
 			if (FixUtils.isSet(encodedText)) s += "EncodedText(355)=" + new String(encodedText) + sep;
@@ -337,6 +369,10 @@ public class FixQuoteRequest extends FixMessage
 		if (!( preTradeAnonymity==msg.preTradeAnonymity)) return false;
 
 		if (!Utils.equals( orderRestrictions, msg.orderRestrictions)) return false;
+
+		if (!rootParties.equals(msg.rootParties)) return false;
+
+		if (!quotReqGrp.equals(msg.quotReqGrp)) return false;
 
 		if (!Utils.equals( text, msg.text)) return false;
 

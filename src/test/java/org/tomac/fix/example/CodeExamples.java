@@ -10,6 +10,7 @@ import java.nio.ByteBuffer;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.protocol.fix.FixSessionException;
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.messaging.fix50sp2.*;
@@ -45,7 +46,7 @@ public class CodeExamples {
 			// get field values
 			long bodyLength = logout.bodyLength;
 			// ...
-		} catch (IllegalStateException e) {
+		} catch (FixGarbledException e) {
 			e.printStackTrace();
 		} catch (FixSessionException e) {
 			// catch FixSessionException and.. check for SessionRejectReason errors
@@ -65,6 +66,8 @@ public class CodeExamples {
 		try {
 			parser.parse(buf, listener);
 		} catch (FixSessionException e) {
+			e.printStackTrace();
+		} catch (FixGarbledException e) {
 			e.printStackTrace();
 		}
 		

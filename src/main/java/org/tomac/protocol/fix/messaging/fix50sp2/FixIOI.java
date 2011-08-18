@@ -10,44 +10,82 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixApplicationSequenceControl;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrument;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixFinancingDetails;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUndInstrmtGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixOrderQtyData;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixStipulations;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrmtLegIOIGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixIOIQualGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixRoutingGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixSpreadOrBenchmarkCurveData;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixYieldData;
 
 public class FixIOI extends FixMessage
 {
 
+	public FixApplicationSequenceControl applicationSequenceControl;
 	public byte[] iOIID;
 	public byte iOITransType = (byte)' ';
 	public byte[] iOIRefID;
+	public FixInstrument instrument;
+	public FixParties parties;
+	public FixFinancingDetails financingDetails;
+	public FixUndInstrmtGrp undInstrmtGrp;
 	public byte side = (byte)' ';
 	public long qtyType = 0;
+	public FixOrderQtyData orderQtyData;
 	public byte[] iOIQty;
 	public byte[] currency;
+	public FixStipulations stipulations;
+	public FixInstrmtLegIOIGrp instrmtLegIOIGrp;
 	public long priceType = 0;
 	public long price = 0;
 	public byte[] validUntilTime;
 	public byte iOIQltyInd = (byte)' ';
 	public boolean iOINaturalFlag = false;
+	public FixIOIQualGrp iOIQualGrp;
 	public byte[] text;
 	public long encodedTextLen = 0;
 	public byte[] encodedText;
 	public byte[] transactTime;
 	public byte[] uRLLink;
+	public FixRoutingGrp routingGrp;
+	public FixSpreadOrBenchmarkCurveData spreadOrBenchmarkCurveData;
+	public FixYieldData yieldData;
 
 	public FixIOI() {
 		super();
 
+		applicationSequenceControl = new FixApplicationSequenceControl();
 		iOIID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		iOIRefID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		instrument = new FixInstrument();
+		parties = new FixParties();
+		financingDetails = new FixFinancingDetails();
+		undInstrmtGrp = new FixUndInstrmtGrp();
+		orderQtyData = new FixOrderQtyData();
 		iOIQty = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		currency = new byte[FixUtils.CURRENCY_LENGTH];
+		stipulations = new FixStipulations();
+		instrmtLegIOIGrp = new FixInstrmtLegIOIGrp();
 		validUntilTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
+		iOIQualGrp = new FixIOIQualGrp();
 		text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		encodedText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		transactTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
 		uRLLink = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		routingGrp = new FixRoutingGrp();
+		spreadOrBenchmarkCurveData = new FixSpreadOrBenchmarkCurveData();
+		yieldData = new FixYieldData();
 		this.clear();
 
 		msgType = MsgTypes.IOI_INT;
@@ -77,10 +115,22 @@ public class FixIOI extends FixMessage
 		Utils.fill( encodedText, (byte)0 );
 		Utils.fill( transactTime, (byte)0 );
 		Utils.fill( uRLLink, (byte)0 );
+		applicationSequenceControl.clear();
+		instrument.clear();
+		parties.clear();
+		financingDetails.clear();
+		undInstrmtGrp.clear();
+		orderQtyData.clear();
+		stipulations.clear();
+		instrmtLegIOIGrp.clear();
+		iOIQualGrp.clear();
+		routingGrp.clear();
+		spreadOrBenchmarkCurveData.clear();
+		yieldData.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -99,6 +149,10 @@ public class FixIOI extends FixMessage
 
 			switch( id ) {
 
+			case FixTags.APPLID_INT:
+				applicationSequenceControl.getAll(FixTags.APPLID_INT, value );
+				break;
+
 			case FixTags.IOIID_INT:
 				iOIID = FixUtils.getTagStringValue(value, iOIID);
 				break;
@@ -112,6 +166,24 @@ public class FixIOI extends FixMessage
 				iOIRefID = FixUtils.getTagStringValue(value, iOIRefID);
 				break;
 
+			case FixTags.SYMBOL_INT:
+				instrument.getAll(FixTags.SYMBOL_INT, value );
+				break;
+
+			case FixTags.NOPARTYIDS_INT:
+				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(parties.noPartyIDs, value );
+				break;
+
+			case FixTags.AGREEMENTDESC_INT:
+				financingDetails.getAll(FixTags.AGREEMENTDESC_INT, value );
+				break;
+
+			case FixTags.NOUNDERLYINGS_INT:
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
+				break;
+
 			case FixTags.SIDE_INT:
 				side = FixUtils.getTagCharValue( value );
 				if (!Side.isValid(side) ) throw new FixSessionException(buf, "Invalid enumerated value(" + side + ") for tag: " + id );
@@ -122,6 +194,10 @@ public class FixIOI extends FixMessage
 				if (!QtyType.isValid(qtyType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + qtyType + ") for tag: " + id );
 				break;
 
+			case FixTags.ORDERQTY_INT:
+				orderQtyData.getAll(FixTags.ORDERQTY_INT, value );
+				break;
+
 			case FixTags.IOIQTY_INT:
 				iOIQty = FixUtils.getTagStringValue(value, iOIQty);
 				if (!IOIQty.isValid(iOIQty) ) throw new FixSessionException(buf, "Invalid enumerated value(" + iOIQty + ") for tag: " + id );
@@ -129,6 +205,16 @@ public class FixIOI extends FixMessage
 
 			case FixTags.CURRENCY_INT:
 				currency = FixUtils.getTagStringValue(value, currency);
+				break;
+
+			case FixTags.NOSTIPULATIONS_INT:
+				stipulations.noStipulations = FixUtils.getTagIntValue( value );
+				stipulations.getAll(stipulations.noStipulations, value );
+				break;
+
+			case FixTags.NOLEGS_INT:
+				instrmtLegIOIGrp.noLegs = FixUtils.getTagIntValue( value );
+				instrmtLegIOIGrp.getAll(instrmtLegIOIGrp.noLegs, value );
 				break;
 
 			case FixTags.PRICETYPE_INT:
@@ -154,6 +240,11 @@ public class FixIOI extends FixMessage
 				if (!IOINaturalFlag.isValid(iOINaturalFlag) ) throw new FixSessionException(buf, "Invalid enumerated value(" + iOINaturalFlag + ") for tag: " + id );
 				break;
 
+			case FixTags.NOIOIQUALIFIERS_INT:
+				iOIQualGrp.noIOIQualifiers = FixUtils.getTagIntValue( value );
+				iOIQualGrp.getAll(iOIQualGrp.noIOIQualifiers, value );
+				break;
+
 			case FixTags.TEXT_INT:
 				text = FixUtils.getTagStringValue(value, text);
 				break;
@@ -172,6 +263,19 @@ public class FixIOI extends FixMessage
 
 			case FixTags.URLLINK_INT:
 				uRLLink = FixUtils.getTagStringValue(value, uRLLink);
+				break;
+
+			case FixTags.NOROUTINGIDS_INT:
+				routingGrp.noRoutingIDs = FixUtils.getTagIntValue( value );
+				routingGrp.getAll(routingGrp.noRoutingIDs, value );
+				break;
+
+			case FixTags.SPREAD_INT:
+				spreadOrBenchmarkCurveData.getAll(FixTags.SPREAD_INT, value );
+				break;
+
+			case FixTags.YIELDTYPE_INT:
+				yieldData.getAll(FixTags.YIELDTYPE_INT, value );
 				break;
 
 			// for a message always get the checksum
@@ -199,10 +303,16 @@ public class FixIOI extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(iOIID) ) return FixTags.IOIID_INT;
 		if (! FixUtils.isSet(iOITransType) ) return FixTags.IOITRANSTYPE_INT;
 		if (! FixUtils.isSet(side) ) return FixTags.SIDE_INT;
 		if (! FixUtils.isSet(iOIQty) ) return FixTags.IOIQTY_INT;
+		if (! instrument.isSet() ) return FixTags.SYMBOL_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -252,24 +362,37 @@ public class FixIOI extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
+		if (FixUtils.isSet(applicationSequenceControl.applID)) applicationSequenceControl.encode( out );
 		FixUtils.putFixTag( out, FixTags.IOIID_INT, iOIID, 0, Utils.lastIndexTrim(iOIID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.IOITRANSTYPE_INT, iOITransType );
 		if (FixUtils.isSet(iOIRefID)) FixUtils.putFixTag( out, FixTags.IOIREFID_INT, iOIRefID, 0, Utils.lastIndexTrim(iOIRefID, (byte)0) );
+		instrument.encode( out );
+		if (FixUtils.isSet(parties.noPartyIDs)) parties.encode( out );
+		if (FixUtils.isSet(financingDetails.agreementDesc)) financingDetails.encode( out );
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
 		FixUtils.putFixTag( out, FixTags.SIDE_INT, side );
 		if (FixUtils.isSet(qtyType)) FixUtils.putFixTag( out, FixTags.QTYTYPE_INT, qtyType);
+		if (FixUtils.isSet(orderQtyData.orderQty)) orderQtyData.encode( out );
 		FixUtils.putFixTag( out, FixTags.IOIQTY_INT, iOIQty, 0, Utils.lastIndexTrim(iOIQty, (byte)0) );
 		if (FixUtils.isSet(currency)) FixUtils.putFixTag( out, FixTags.CURRENCY_INT, currency, 0, Utils.lastIndexTrim(currency, (byte)0) );
+		if (FixUtils.isSet(stipulations.noStipulations)) stipulations.encode( out );
+		if (FixUtils.isSet(instrmtLegIOIGrp.noLegs)) instrmtLegIOIGrp.encode( out );
 		if (FixUtils.isSet(priceType)) FixUtils.putFixTag( out, FixTags.PRICETYPE_INT, priceType);
 		if (FixUtils.isSet(price)) FixUtils.putFixFloatTag( out, FixTags.PRICE_INT, price);
 		if (FixUtils.isSet(validUntilTime)) FixUtils.putFixTag( out, FixTags.VALIDUNTILTIME_INT, validUntilTime);
 		if (FixUtils.isSet(iOIQltyInd)) FixUtils.putFixTag( out, FixTags.IOIQLTYIND_INT, iOIQltyInd );
 		if (FixUtils.isSet(iOINaturalFlag)) FixUtils.putFixTag( out, FixTags.IOINATURALFLAG_INT, iOINaturalFlag?(byte)'Y':(byte)'N' );
+		if (FixUtils.isSet(iOIQualGrp.noIOIQualifiers)) iOIQualGrp.encode( out );
 		if (FixUtils.isSet(text)) FixUtils.putFixTag( out, FixTags.TEXT_INT, text, 0, Utils.lastIndexTrim(text, (byte)0) );
 		if (FixUtils.isSet(encodedTextLen)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXTLEN_INT, encodedTextLen);
 		if (FixUtils.isSet(encodedText)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXT_INT, encodedText, 0, Utils.lastIndexTrim(encodedText, (byte)0) );
 		if (FixUtils.isSet(transactTime)) FixUtils.putFixTag( out, FixTags.TRANSACTTIME_INT, transactTime);
 		if (FixUtils.isSet(uRLLink)) FixUtils.putFixTag( out, FixTags.URLLINK_INT, uRLLink, 0, Utils.lastIndexTrim(uRLLink, (byte)0) );
+		if (FixUtils.isSet(routingGrp.noRoutingIDs)) routingGrp.encode( out );
+		if (FixUtils.isSet(spreadOrBenchmarkCurveData.spread)) spreadOrBenchmarkCurveData.encode( out );
+		if (FixUtils.isSet(yieldData.yieldType)) yieldData.encode( out );
 		// the checksum at the end
 
 		int checkSumStart = out.position();
@@ -335,24 +458,37 @@ public class FixIOI extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
+			if (FixUtils.isSet(applicationSequenceControl.applID)) s += applicationSequenceControl.toString();
 			 s += "IOIID(23)=" + new String(iOIID) + sep;
 			 s += "IOITransType(28)=" + String.valueOf(iOITransType) + sep;
 			if (FixUtils.isSet(iOIRefID)) s += "IOIRefID(26)=" + new String(iOIRefID) + sep;
+			 s += instrument.toString();
+			if (FixUtils.isSet(parties.noPartyIDs)) s += parties.toString();
+			if (FixUtils.isSet(financingDetails.agreementDesc)) s += financingDetails.toString();
+			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
 			 s += "Side(54)=" + String.valueOf(side) + sep;
 			if (FixUtils.isSet(qtyType)) s += "QtyType(854)=" + String.valueOf(qtyType) + sep;
+			if (FixUtils.isSet(orderQtyData.orderQty)) s += orderQtyData.toString();
 			 s += "IOIQty(27)=" + new String(iOIQty) + sep;
 			if (FixUtils.isSet(currency)) s += "Currency(15)=" + new String(currency) + sep;
+			if (FixUtils.isSet(stipulations.noStipulations)) s += stipulations.toString();
+			if (FixUtils.isSet(instrmtLegIOIGrp.noLegs)) s += instrmtLegIOIGrp.toString();
 			if (FixUtils.isSet(priceType)) s += "PriceType(423)=" + String.valueOf(priceType) + sep;
 			if (FixUtils.isSet(price)) s += "Price(44)=" + String.valueOf(price) + sep;
 			if (FixUtils.isSet(validUntilTime)) s += "ValidUntilTime(62)=" + new String(validUntilTime) + sep;
 			if (FixUtils.isSet(iOIQltyInd)) s += "IOIQltyInd(25)=" + String.valueOf(iOIQltyInd) + sep;
 			if (FixUtils.isSet(iOINaturalFlag)) s += "IOINaturalFlag(130)=" + String.valueOf(iOINaturalFlag) + sep;
+			if (FixUtils.isSet(iOIQualGrp.noIOIQualifiers)) s += iOIQualGrp.toString();
 			if (FixUtils.isSet(text)) s += "Text(58)=" + new String(text) + sep;
 			if (FixUtils.isSet(encodedTextLen)) s += "EncodedTextLen(354)=" + String.valueOf(encodedTextLen) + sep;
 			if (FixUtils.isSet(encodedText)) s += "EncodedText(355)=" + new String(encodedText) + sep;
 			if (FixUtils.isSet(transactTime)) s += "TransactTime(60)=" + new String(transactTime) + sep;
 			if (FixUtils.isSet(uRLLink)) s += "URLLink(149)=" + new String(uRLLink) + sep;
+			if (FixUtils.isSet(routingGrp.noRoutingIDs)) s += routingGrp.toString();
+			if (FixUtils.isSet(spreadOrBenchmarkCurveData.spread)) s += spreadOrBenchmarkCurveData.toString();
+			if (FixUtils.isSet(yieldData.yieldType)) s += yieldData.toString();
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
 
@@ -369,19 +505,35 @@ public class FixIOI extends FixMessage
 
 		if ( ! super.equals(msg) ) return false;
 
+		if (!applicationSequenceControl.equals(msg.applicationSequenceControl)) return false;
+
 		if (!Utils.equals( iOIID, msg.iOIID)) return false;
 
 		if (!( iOITransType==msg.iOITransType)) return false;
 
 		if (!Utils.equals( iOIRefID, msg.iOIRefID)) return false;
 
+		if (!instrument.equals(msg.instrument)) return false;
+
+		if (!parties.equals(msg.parties)) return false;
+
+		if (!financingDetails.equals(msg.financingDetails)) return false;
+
+		if (!undInstrmtGrp.equals(msg.undInstrmtGrp)) return false;
+
 		if (!( side==msg.side)) return false;
 
 		if (!( qtyType==msg.qtyType)) return false;
 
+		if (!orderQtyData.equals(msg.orderQtyData)) return false;
+
 		if (!Utils.equals( iOIQty, msg.iOIQty)) return false;
 
 		if (!Utils.equals( currency, msg.currency)) return false;
+
+		if (!stipulations.equals(msg.stipulations)) return false;
+
+		if (!instrmtLegIOIGrp.equals(msg.instrmtLegIOIGrp)) return false;
 
 		if (!( priceType==msg.priceType)) return false;
 
@@ -391,6 +543,8 @@ public class FixIOI extends FixMessage
 
 		if (!( iOINaturalFlag==msg.iOINaturalFlag)) return false;
 
+		if (!iOIQualGrp.equals(msg.iOIQualGrp)) return false;
+
 		if (!Utils.equals( text, msg.text)) return false;
 
 		if (!( encodedTextLen==msg.encodedTextLen)) return false;
@@ -398,6 +552,12 @@ public class FixIOI extends FixMessage
 		if (!Utils.equals( encodedText, msg.encodedText)) return false;
 
 		if (!Utils.equals( uRLLink, msg.uRLLink)) return false;
+
+		if (!routingGrp.equals(msg.routingGrp)) return false;
+
+		if (!spreadOrBenchmarkCurveData.equals(msg.spreadOrBenchmarkCurveData)) return false;
+
+		if (!yieldData.equals(msg.yieldData)) return false;
 
 		return true;
 	}

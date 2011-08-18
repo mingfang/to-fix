@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.protocol.fix.FixSessionException;
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.messaging.fix42nordic.FixMessage;
@@ -64,7 +65,7 @@ public class TestToFixPerformance {
     				message.setBuffer(buf);
     			
 					message.getAll();
-				} catch (IllegalStateException e) {
+				} catch (FixGarbledException e) {
 					Assert.fail(e.getMessage());
 				} catch (FixSessionException e) {
 					Assert.fail(e.getMessage());

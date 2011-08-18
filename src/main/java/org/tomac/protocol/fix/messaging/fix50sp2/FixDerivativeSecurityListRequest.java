@@ -10,10 +10,14 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUnderlyingInstrument;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixDerivativeInstrument;
 
 public class FixDerivativeSecurityListRequest extends FixMessage
 {
@@ -22,6 +26,8 @@ public class FixDerivativeSecurityListRequest extends FixMessage
 	public long securityListRequestType = 0;
 	public byte[] marketID;
 	public byte[] marketSegmentID;
+	public FixUnderlyingInstrument underlyingInstrument;
+	public FixDerivativeInstrument derivativeInstrument;
 	public byte[] securitySubType;
 	public byte[] currency;
 	public byte[] text;
@@ -37,6 +43,8 @@ public class FixDerivativeSecurityListRequest extends FixMessage
 		securityReqID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		marketID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		marketSegmentID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		underlyingInstrument = new FixUnderlyingInstrument();
+		derivativeInstrument = new FixDerivativeInstrument();
 		securitySubType = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		currency = new byte[FixUtils.CURRENCY_LENGTH];
 		text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
@@ -67,10 +75,12 @@ public class FixDerivativeSecurityListRequest extends FixMessage
 		Utils.fill( tradingSessionID, (byte)0 );
 		Utils.fill( tradingSessionSubID, (byte)0 );
 		subscriptionRequestType = Byte.MAX_VALUE;		
+		underlyingInstrument.clear();
+		derivativeInstrument.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -104,6 +114,14 @@ public class FixDerivativeSecurityListRequest extends FixMessage
 
 			case FixTags.MARKETSEGMENTID_INT:
 				marketSegmentID = FixUtils.getTagStringValue(value, marketSegmentID);
+				break;
+
+			case FixTags.UNDERLYINGSYMBOL_INT:
+				underlyingInstrument.getAll(FixTags.UNDERLYINGSYMBOL_INT, value );
+				break;
+
+			case FixTags.DERIVATIVESYMBOL_INT:
+				derivativeInstrument.getAll(FixTags.DERIVATIVESYMBOL_INT, value );
 				break;
 
 			case FixTags.SECURITYSUBTYPE_INT:
@@ -166,8 +184,13 @@ public class FixDerivativeSecurityListRequest extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(securityReqID) ) return FixTags.SECURITYREQID_INT;
 		if (! FixUtils.isSet(securityListRequestType) ) return FixTags.SECURITYLISTREQUESTTYPE_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -217,11 +240,14 @@ public class FixDerivativeSecurityListRequest extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.SECURITYREQID_INT, securityReqID, 0, Utils.lastIndexTrim(securityReqID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.SECURITYLISTREQUESTTYPE_INT, securityListRequestType);
 		if (FixUtils.isSet(marketID)) FixUtils.putFixTag( out, FixTags.MARKETID_INT, marketID, 0, Utils.lastIndexTrim(marketID, (byte)0) );
 		if (FixUtils.isSet(marketSegmentID)) FixUtils.putFixTag( out, FixTags.MARKETSEGMENTID_INT, marketSegmentID, 0, Utils.lastIndexTrim(marketSegmentID, (byte)0) );
+		if (FixUtils.isSet(underlyingInstrument.underlyingSymbol)) underlyingInstrument.encode( out );
+		if (FixUtils.isSet(derivativeInstrument.derivativeSymbol)) derivativeInstrument.encode( out );
 		if (FixUtils.isSet(securitySubType)) FixUtils.putFixTag( out, FixTags.SECURITYSUBTYPE_INT, securitySubType, 0, Utils.lastIndexTrim(securitySubType, (byte)0) );
 		if (FixUtils.isSet(currency)) FixUtils.putFixTag( out, FixTags.CURRENCY_INT, currency, 0, Utils.lastIndexTrim(currency, (byte)0) );
 		if (FixUtils.isSet(text)) FixUtils.putFixTag( out, FixTags.TEXT_INT, text, 0, Utils.lastIndexTrim(text, (byte)0) );
@@ -295,11 +321,14 @@ public class FixDerivativeSecurityListRequest extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "SecurityReqID(320)=" + new String(securityReqID) + sep;
 			 s += "SecurityListRequestType(559)=" + String.valueOf(securityListRequestType) + sep;
 			if (FixUtils.isSet(marketID)) s += "MarketID(1301)=" + new String(marketID) + sep;
 			if (FixUtils.isSet(marketSegmentID)) s += "MarketSegmentID(1300)=" + new String(marketSegmentID) + sep;
+			if (FixUtils.isSet(underlyingInstrument.underlyingSymbol)) s += underlyingInstrument.toString();
+			if (FixUtils.isSet(derivativeInstrument.derivativeSymbol)) s += derivativeInstrument.toString();
 			if (FixUtils.isSet(securitySubType)) s += "SecuritySubType(762)=" + new String(securitySubType) + sep;
 			if (FixUtils.isSet(currency)) s += "Currency(15)=" + new String(currency) + sep;
 			if (FixUtils.isSet(text)) s += "Text(58)=" + new String(text) + sep;
@@ -331,6 +360,10 @@ public class FixDerivativeSecurityListRequest extends FixMessage
 		if (!Utils.equals( marketID, msg.marketID)) return false;
 
 		if (!Utils.equals( marketSegmentID, msg.marketSegmentID)) return false;
+
+		if (!underlyingInstrument.equals(msg.underlyingInstrument)) return false;
+
+		if (!derivativeInstrument.equals(msg.derivativeInstrument)) return false;
 
 		if (!Utils.equals( securitySubType, msg.securitySubType)) return false;
 

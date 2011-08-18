@@ -10,10 +10,13 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixCompIDStatGrp;
 
 public class FixNetworkCounterpartySystemStatusResponse extends FixMessage
 {
@@ -22,6 +25,7 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixMessage
 	public byte[] networkRequestID;
 	public byte[] networkResponseID;
 	public byte[] lastNetworkResponseID;
+	public FixCompIDStatGrp compIDStatGrp;
 
 	public FixNetworkCounterpartySystemStatusResponse() {
 		super();
@@ -29,6 +33,7 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixMessage
 		networkRequestID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		networkResponseID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		lastNetworkResponseID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		compIDStatGrp = new FixCompIDStatGrp();
 		this.clear();
 
 		msgType = MsgTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSRESPONSE_INT;
@@ -45,10 +50,11 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixMessage
 		Utils.fill( networkRequestID, (byte)0 );
 		Utils.fill( networkResponseID, (byte)0 );
 		Utils.fill( lastNetworkResponseID, (byte)0 );
+		compIDStatGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -84,6 +90,11 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixMessage
 				lastNetworkResponseID = FixUtils.getTagStringValue(value, lastNetworkResponseID);
 				break;
 
+			case FixTags.NOCOMPIDS_INT:
+				compIDStatGrp.noCompIDs = FixUtils.getTagIntValue( value );
+				compIDStatGrp.getAll(compIDStatGrp.noCompIDs, value );
+				break;
+
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
 				checkSum = FixUtils.getTagIntValue( value );
@@ -109,8 +120,14 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(networkStatusResponseType) ) return FixTags.NETWORKSTATUSRESPONSETYPE_INT;
 		if (! FixUtils.isSet(networkResponseID) ) return FixTags.NETWORKRESPONSEID_INT;
+		if (! compIDStatGrp.isSet() ) return FixTags.NOCOMPIDS_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -160,11 +177,13 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.NETWORKSTATUSRESPONSETYPE_INT, networkStatusResponseType);
 		if (FixUtils.isSet(networkRequestID)) FixUtils.putFixTag( out, FixTags.NETWORKREQUESTID_INT, networkRequestID, 0, Utils.lastIndexTrim(networkRequestID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.NETWORKRESPONSEID_INT, networkResponseID, 0, Utils.lastIndexTrim(networkResponseID, (byte)0) );
 		if (FixUtils.isSet(lastNetworkResponseID)) FixUtils.putFixTag( out, FixTags.LASTNETWORKRESPONSEID_INT, lastNetworkResponseID, 0, Utils.lastIndexTrim(lastNetworkResponseID, (byte)0) );
+		compIDStatGrp.encode( out );
 		// the checksum at the end
 
 		int checkSumStart = out.position();
@@ -230,11 +249,13 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "NetworkStatusResponseType(937)=" + String.valueOf(networkStatusResponseType) + sep;
 			if (FixUtils.isSet(networkRequestID)) s += "NetworkRequestID(933)=" + new String(networkRequestID) + sep;
 			 s += "NetworkResponseID(932)=" + new String(networkResponseID) + sep;
 			if (FixUtils.isSet(lastNetworkResponseID)) s += "LastNetworkResponseID(934)=" + new String(lastNetworkResponseID) + sep;
+			 s += compIDStatGrp.toString();
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
 
@@ -258,6 +279,8 @@ public class FixNetworkCounterpartySystemStatusResponse extends FixMessage
 		if (!Utils.equals( networkResponseID, msg.networkResponseID)) return false;
 
 		if (!Utils.equals( lastNetworkResponseID, msg.lastNetworkResponseID)) return false;
+
+		if (!compIDStatGrp.equals(msg.compIDStatGrp)) return false;
 
 		return true;
 	}

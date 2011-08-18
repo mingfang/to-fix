@@ -10,22 +10,32 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixMDReqGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrmtMDReqGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixTrdgSesGrp;
 
 public class FixMarketDataRequest extends FixMessage
 {
 
 	public byte[] mDReqID;
 	public byte subscriptionRequestType = (byte)' ';
+	public FixParties parties;
 	public long marketDepth = 0;
 	public long mDUpdateType = 0;
 	public boolean aggregatedBook = false;
 	public byte[] openCloseSettlFlag;
 	public byte[] scope;
 	public boolean mDImplicitDelete = false;
+	public FixMDReqGrp mDReqGrp;
+	public FixInstrmtMDReqGrp instrmtMDReqGrp;
+	public FixTrdgSesGrp trdgSesGrp;
 	public long applQueueAction = 0;
 	public long applQueueMax = 0;
 	public long mDQuoteType = 0;
@@ -34,8 +44,12 @@ public class FixMarketDataRequest extends FixMessage
 		super();
 
 		mDReqID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		parties = new FixParties();
 		openCloseSettlFlag = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		scope = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		mDReqGrp = new FixMDReqGrp();
+		instrmtMDReqGrp = new FixInstrmtMDReqGrp();
+		trdgSesGrp = new FixTrdgSesGrp();
 		this.clear();
 
 		msgType = MsgTypes.MARKETDATAREQUEST_INT;
@@ -59,10 +73,14 @@ public class FixMarketDataRequest extends FixMessage
 		applQueueAction = Long.MAX_VALUE;		
 		applQueueMax = Long.MAX_VALUE;		
 		mDQuoteType = Long.MAX_VALUE;		
+		parties.clear();
+		mDReqGrp.clear();
+		instrmtMDReqGrp.clear();
+		trdgSesGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -88,6 +106,11 @@ public class FixMarketDataRequest extends FixMessage
 			case FixTags.SUBSCRIPTIONREQUESTTYPE_INT:
 				subscriptionRequestType = FixUtils.getTagCharValue( value );
 				if (!SubscriptionRequestType.isValid(subscriptionRequestType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + subscriptionRequestType + ") for tag: " + id );
+				break;
+
+			case FixTags.NOPARTYIDS_INT:
+				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(parties.noPartyIDs, value );
 				break;
 
 			case FixTags.MARKETDEPTH_INT:
@@ -117,6 +140,21 @@ public class FixMarketDataRequest extends FixMessage
 			case FixTags.MDIMPLICITDELETE_INT:
 				mDImplicitDelete = FixUtils.getTagBooleanValue( value );
 				if (!MDImplicitDelete.isValid(mDImplicitDelete) ) throw new FixSessionException(buf, "Invalid enumerated value(" + mDImplicitDelete + ") for tag: " + id );
+				break;
+
+			case FixTags.NOMDENTRYTYPES_INT:
+				mDReqGrp.noMDEntryTypes = FixUtils.getTagIntValue( value );
+				mDReqGrp.getAll(mDReqGrp.noMDEntryTypes, value );
+				break;
+
+			case FixTags.NORELATEDSYM_INT:
+				instrmtMDReqGrp.noRelatedSym = FixUtils.getTagIntValue( value );
+				instrmtMDReqGrp.getAll(instrmtMDReqGrp.noRelatedSym, value );
+				break;
+
+			case FixTags.NOTRADINGSESSIONS_INT:
+				trdgSesGrp.noTradingSessions = FixUtils.getTagIntValue( value );
+				trdgSesGrp.getAll(trdgSesGrp.noTradingSessions, value );
 				break;
 
 			case FixTags.APPLQUEUEACTION_INT:
@@ -158,9 +196,16 @@ public class FixMarketDataRequest extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(mDReqID) ) return FixTags.MDREQID_INT;
 		if (! FixUtils.isSet(subscriptionRequestType) ) return FixTags.SUBSCRIPTIONREQUESTTYPE_INT;
 		if (! FixUtils.isSet(marketDepth) ) return FixTags.MARKETDEPTH_INT;
+		if (! mDReqGrp.isSet() ) return FixTags.NOMDENTRYTYPES_INT;
+		if (! instrmtMDReqGrp.isSet() ) return FixTags.NORELATEDSYM_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -210,15 +255,20 @@ public class FixMarketDataRequest extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.MDREQID_INT, mDReqID, 0, Utils.lastIndexTrim(mDReqID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.SUBSCRIPTIONREQUESTTYPE_INT, subscriptionRequestType );
+		if (FixUtils.isSet(parties.noPartyIDs)) parties.encode( out );
 		FixUtils.putFixTag( out, FixTags.MARKETDEPTH_INT, marketDepth);
 		if (FixUtils.isSet(mDUpdateType)) FixUtils.putFixTag( out, FixTags.MDUPDATETYPE_INT, mDUpdateType);
 		if (FixUtils.isSet(aggregatedBook)) FixUtils.putFixTag( out, FixTags.AGGREGATEDBOOK_INT, aggregatedBook?(byte)'Y':(byte)'N' );
 		if (FixUtils.isSet(openCloseSettlFlag)) FixUtils.putFixTag( out, FixTags.OPENCLOSESETTLFLAG_INT, openCloseSettlFlag, 0, Utils.lastIndexTrim(openCloseSettlFlag, (byte)0) );
 		if (FixUtils.isSet(scope)) FixUtils.putFixTag( out, FixTags.SCOPE_INT, scope, 0, Utils.lastIndexTrim(scope, (byte)0) );
 		if (FixUtils.isSet(mDImplicitDelete)) FixUtils.putFixTag( out, FixTags.MDIMPLICITDELETE_INT, mDImplicitDelete?(byte)'Y':(byte)'N' );
+		mDReqGrp.encode( out );
+		instrmtMDReqGrp.encode( out );
+		if (FixUtils.isSet(trdgSesGrp.noTradingSessions)) trdgSesGrp.encode( out );
 		if (FixUtils.isSet(applQueueAction)) FixUtils.putFixTag( out, FixTags.APPLQUEUEACTION_INT, applQueueAction);
 		if (FixUtils.isSet(applQueueMax)) FixUtils.putFixTag( out, FixTags.APPLQUEUEMAX_INT, applQueueMax);
 		if (FixUtils.isSet(mDQuoteType)) FixUtils.putFixTag( out, FixTags.MDQUOTETYPE_INT, mDQuoteType);
@@ -287,15 +337,20 @@ public class FixMarketDataRequest extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "MDReqID(262)=" + new String(mDReqID) + sep;
 			 s += "SubscriptionRequestType(263)=" + String.valueOf(subscriptionRequestType) + sep;
+			if (FixUtils.isSet(parties.noPartyIDs)) s += parties.toString();
 			 s += "MarketDepth(264)=" + String.valueOf(marketDepth) + sep;
 			if (FixUtils.isSet(mDUpdateType)) s += "MDUpdateType(265)=" + String.valueOf(mDUpdateType) + sep;
 			if (FixUtils.isSet(aggregatedBook)) s += "AggregatedBook(266)=" + String.valueOf(aggregatedBook) + sep;
 			if (FixUtils.isSet(openCloseSettlFlag)) s += "OpenCloseSettlFlag(286)=" + new String(openCloseSettlFlag) + sep;
 			if (FixUtils.isSet(scope)) s += "Scope(546)=" + new String(scope) + sep;
 			if (FixUtils.isSet(mDImplicitDelete)) s += "MDImplicitDelete(547)=" + String.valueOf(mDImplicitDelete) + sep;
+			 s += mDReqGrp.toString();
+			 s += instrmtMDReqGrp.toString();
+			if (FixUtils.isSet(trdgSesGrp.noTradingSessions)) s += trdgSesGrp.toString();
 			if (FixUtils.isSet(applQueueAction)) s += "ApplQueueAction(815)=" + String.valueOf(applQueueAction) + sep;
 			if (FixUtils.isSet(applQueueMax)) s += "ApplQueueMax(812)=" + String.valueOf(applQueueMax) + sep;
 			if (FixUtils.isSet(mDQuoteType)) s += "MDQuoteType(1070)=" + String.valueOf(mDQuoteType) + sep;
@@ -319,6 +374,8 @@ public class FixMarketDataRequest extends FixMessage
 
 		if (!( subscriptionRequestType==msg.subscriptionRequestType)) return false;
 
+		if (!parties.equals(msg.parties)) return false;
+
 		if (!( marketDepth==msg.marketDepth)) return false;
 
 		if (!( mDUpdateType==msg.mDUpdateType)) return false;
@@ -330,6 +387,12 @@ public class FixMarketDataRequest extends FixMessage
 		if (!Utils.equals( scope, msg.scope)) return false;
 
 		if (!( mDImplicitDelete==msg.mDImplicitDelete)) return false;
+
+		if (!mDReqGrp.equals(msg.mDReqGrp)) return false;
+
+		if (!instrmtMDReqGrp.equals(msg.instrmtMDReqGrp)) return false;
+
+		if (!trdgSesGrp.equals(msg.trdgSesGrp)) return false;
 
 		if (!( applQueueAction==msg.applQueueAction)) return false;
 

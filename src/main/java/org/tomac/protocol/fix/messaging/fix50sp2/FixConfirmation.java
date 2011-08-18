@@ -10,10 +10,27 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixOrdAllocGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixTrdRegTimestamps;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrument;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrumentExtension;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixFinancingDetails;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUndInstrmtGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrmtLegGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixYieldData;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixCpctyConfGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixSpreadOrBenchmarkCurveData;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixSettlInstructionsData;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixCommissionData;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixStipulations;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixMiscFeesGrp;
 
 public class FixConfirmation extends FixMessage
 {
@@ -26,16 +43,26 @@ public class FixConfirmation extends FixMessage
 	public boolean copyMsgIndicator = false;
 	public boolean legalConfirm = false;
 	public long confirmStatus = 0;
+	public FixParties parties;
+	public FixOrdAllocGrp ordAllocGrp;
 	public byte[] allocID;
 	public byte[] secondaryAllocID;
 	public byte[] individualAllocID;
 	public byte[] transactTime;
 	public byte[] tradeDate;
+	public FixTrdRegTimestamps trdRegTimestamps;
+	public FixInstrument instrument;
+	public FixInstrumentExtension instrumentExtension;
+	public FixFinancingDetails financingDetails;
+	public FixUndInstrmtGrp undInstrmtGrp;
+	public FixInstrmtLegGrp instrmtLegGrp;
+	public FixYieldData yieldData;
 	public long allocQty = 0;
 	public long qtyType = 0;
 	public byte side = (byte)' ';
 	public byte[] currency;
 	public byte[] lastMkt;
+	public FixCpctyConfGrp cpctyConfGrp;
 	public byte[] allocAccount;
 	public long allocAcctIDSource = 0;
 	public long allocAccountType = 0;
@@ -43,6 +70,7 @@ public class FixConfirmation extends FixMessage
 	public long avgPxPrecision = 0;
 	public long priceType = 0;
 	public long avgParPx = 0;
+	public FixSpreadOrBenchmarkCurveData spreadOrBenchmarkCurveData;
 	public long reportedPx = 0;
 	public byte[] text;
 	public long encodedTextLen = 0;
@@ -67,7 +95,11 @@ public class FixConfirmation extends FixMessage
 	public byte settlCurrFxRateCalc = (byte)' ';
 	public byte[] settlType;
 	public byte[] settlDate;
+	public FixSettlInstructionsData settlInstructionsData;
+	public FixCommissionData commissionData;
 	public long sharedCommission = 0;
+	public FixStipulations stipulations;
+	public FixMiscFeesGrp miscFeesGrp;
 
 	public FixConfirmation() {
 		super();
@@ -75,20 +107,35 @@ public class FixConfirmation extends FixMessage
 		confirmID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		confirmRefID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		confirmReqID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		parties = new FixParties();
+		ordAllocGrp = new FixOrdAllocGrp();
 		allocID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		secondaryAllocID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		individualAllocID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		transactTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
 		tradeDate = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		trdRegTimestamps = new FixTrdRegTimestamps();
+		instrument = new FixInstrument();
+		instrumentExtension = new FixInstrumentExtension();
+		financingDetails = new FixFinancingDetails();
+		undInstrmtGrp = new FixUndInstrmtGrp();
+		instrmtLegGrp = new FixInstrmtLegGrp();
+		yieldData = new FixYieldData();
 		currency = new byte[FixUtils.CURRENCY_LENGTH];
 		lastMkt = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		cpctyConfGrp = new FixCpctyConfGrp();
 		allocAccount = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		spreadOrBenchmarkCurveData = new FixSpreadOrBenchmarkCurveData();
 		text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		encodedText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		exDate = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		settlCurrency = new byte[FixUtils.CURRENCY_LENGTH];
 		settlType = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		settlDate = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		settlInstructionsData = new FixSettlInstructionsData();
+		commissionData = new FixCommissionData();
+		stipulations = new FixStipulations();
+		miscFeesGrp = new FixMiscFeesGrp();
 		this.clear();
 
 		msgType = MsgTypes.CONFIRMATION_INT;
@@ -151,10 +198,25 @@ public class FixConfirmation extends FixMessage
 		Utils.fill( settlType, (byte)0 );
 		Utils.fill( settlDate, (byte)0 );
 		sharedCommission = Long.MAX_VALUE;		
+		parties.clear();
+		ordAllocGrp.clear();
+		trdRegTimestamps.clear();
+		instrument.clear();
+		instrumentExtension.clear();
+		financingDetails.clear();
+		undInstrmtGrp.clear();
+		instrmtLegGrp.clear();
+		yieldData.clear();
+		cpctyConfGrp.clear();
+		spreadOrBenchmarkCurveData.clear();
+		settlInstructionsData.clear();
+		commissionData.clear();
+		stipulations.clear();
+		miscFeesGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -209,6 +271,16 @@ public class FixConfirmation extends FixMessage
 				if (!ConfirmStatus.isValid(confirmStatus) ) throw new FixSessionException(buf, "Invalid enumerated value(" + confirmStatus + ") for tag: " + id );
 				break;
 
+			case FixTags.NOPARTYIDS_INT:
+				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(parties.noPartyIDs, value );
+				break;
+
+			case FixTags.NOORDERS_INT:
+				ordAllocGrp.noOrders = FixUtils.getTagIntValue( value );
+				ordAllocGrp.getAll(ordAllocGrp.noOrders, value );
+				break;
+
 			case FixTags.ALLOCID_INT:
 				allocID = FixUtils.getTagStringValue(value, allocID);
 				break;
@@ -227,6 +299,37 @@ public class FixConfirmation extends FixMessage
 
 			case FixTags.TRADEDATE_INT:
 				tradeDate = FixUtils.getTagStringValue(value, tradeDate);
+				break;
+
+			case FixTags.NOTRDREGTIMESTAMPS_INT:
+				trdRegTimestamps.noTrdRegTimestamps = FixUtils.getTagIntValue( value );
+				trdRegTimestamps.getAll(trdRegTimestamps.noTrdRegTimestamps, value );
+				break;
+
+			case FixTags.SYMBOL_INT:
+				instrument.getAll(FixTags.SYMBOL_INT, value );
+				break;
+
+			case FixTags.DELIVERYFORM_INT:
+				instrumentExtension.getAll(FixTags.DELIVERYFORM_INT, value );
+				break;
+
+			case FixTags.AGREEMENTDESC_INT:
+				financingDetails.getAll(FixTags.AGREEMENTDESC_INT, value );
+				break;
+
+			case FixTags.NOUNDERLYINGS_INT:
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
+				break;
+
+			case FixTags.NOLEGS_INT:
+				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( value );
+				instrmtLegGrp.getAll(instrmtLegGrp.noLegs, value );
+				break;
+
+			case FixTags.YIELDTYPE_INT:
+				yieldData.getAll(FixTags.YIELDTYPE_INT, value );
 				break;
 
 			case FixTags.ALLOCQTY_INT:
@@ -249,6 +352,11 @@ public class FixConfirmation extends FixMessage
 
 			case FixTags.LASTMKT_INT:
 				lastMkt = FixUtils.getTagStringValue(value, lastMkt);
+				break;
+
+			case FixTags.NOCAPACITIES_INT:
+				cpctyConfGrp.noCapacities = FixUtils.getTagIntValue( value );
+				cpctyConfGrp.getAll(cpctyConfGrp.noCapacities, value );
 				break;
 
 			case FixTags.ALLOCACCOUNT_INT:
@@ -279,6 +387,10 @@ public class FixConfirmation extends FixMessage
 
 			case FixTags.AVGPARPX_INT:
 				avgParPx = FixUtils.getTagFloatValue(value);
+				break;
+
+			case FixTags.SPREAD_INT:
+				spreadOrBenchmarkCurveData.getAll(FixTags.SPREAD_INT, value );
 				break;
 
 			case FixTags.REPORTEDPX_INT:
@@ -380,8 +492,26 @@ public class FixConfirmation extends FixMessage
 				settlDate = FixUtils.getTagStringValue(value, settlDate);
 				break;
 
+			case FixTags.SETTLDELIVERYTYPE_INT:
+				settlInstructionsData.getAll(FixTags.SETTLDELIVERYTYPE_INT, value );
+				break;
+
+			case FixTags.COMMISSION_INT:
+				commissionData.getAll(FixTags.COMMISSION_INT, value );
+				break;
+
 			case FixTags.SHAREDCOMMISSION_INT:
 				sharedCommission = FixUtils.getTagFloatValue(value);
+				break;
+
+			case FixTags.NOSTIPULATIONS_INT:
+				stipulations.noStipulations = FixUtils.getTagIntValue( value );
+				stipulations.getAll(stipulations.noStipulations, value );
+				break;
+
+			case FixTags.NOMISCFEES_INT:
+				miscFeesGrp.noMiscFees = FixUtils.getTagIntValue( value );
+				miscFeesGrp.getAll(miscFeesGrp.noMiscFees, value );
 				break;
 
 			// for a message always get the checksum
@@ -409,6 +539,10 @@ public class FixConfirmation extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(confirmID) ) return FixTags.CONFIRMID_INT;
 		if (! FixUtils.isSet(confirmTransType) ) return FixTags.CONFIRMTRANSTYPE_INT;
 		if (! FixUtils.isSet(confirmType) ) return FixTags.CONFIRMTYPE_INT;
@@ -421,6 +555,9 @@ public class FixConfirmation extends FixMessage
 		if (! FixUtils.isSet(avgPx) ) return FixTags.AVGPX_INT;
 		if (! FixUtils.isSet(grossTradeAmt) ) return FixTags.GROSSTRADEAMT_INT;
 		if (! FixUtils.isSet(netMoney) ) return FixTags.NETMONEY_INT;
+		if (! instrument.isSet() ) return FixTags.SYMBOL_INT;
+		if (! cpctyConfGrp.isSet() ) return FixTags.NOCAPACITIES_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -470,6 +607,7 @@ public class FixConfirmation extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.CONFIRMID_INT, confirmID, 0, Utils.lastIndexTrim(confirmID, (byte)0) );
 		if (FixUtils.isSet(confirmRefID)) FixUtils.putFixTag( out, FixTags.CONFIRMREFID_INT, confirmRefID, 0, Utils.lastIndexTrim(confirmRefID, (byte)0) );
@@ -479,16 +617,26 @@ public class FixConfirmation extends FixMessage
 		if (FixUtils.isSet(copyMsgIndicator)) FixUtils.putFixTag( out, FixTags.COPYMSGINDICATOR_INT, copyMsgIndicator?(byte)'Y':(byte)'N' );
 		if (FixUtils.isSet(legalConfirm)) FixUtils.putFixTag( out, FixTags.LEGALCONFIRM_INT, legalConfirm?(byte)'Y':(byte)'N' );
 		FixUtils.putFixTag( out, FixTags.CONFIRMSTATUS_INT, confirmStatus);
+		if (FixUtils.isSet(parties.noPartyIDs)) parties.encode( out );
+		if (FixUtils.isSet(ordAllocGrp.noOrders)) ordAllocGrp.encode( out );
 		if (FixUtils.isSet(allocID)) FixUtils.putFixTag( out, FixTags.ALLOCID_INT, allocID, 0, Utils.lastIndexTrim(allocID, (byte)0) );
 		if (FixUtils.isSet(secondaryAllocID)) FixUtils.putFixTag( out, FixTags.SECONDARYALLOCID_INT, secondaryAllocID, 0, Utils.lastIndexTrim(secondaryAllocID, (byte)0) );
 		if (FixUtils.isSet(individualAllocID)) FixUtils.putFixTag( out, FixTags.INDIVIDUALALLOCID_INT, individualAllocID, 0, Utils.lastIndexTrim(individualAllocID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.TRANSACTTIME_INT, transactTime);
 		FixUtils.putFixTag( out, FixTags.TRADEDATE_INT, tradeDate);
+		if (FixUtils.isSet(trdRegTimestamps.noTrdRegTimestamps)) trdRegTimestamps.encode( out );
+		instrument.encode( out );
+		if (FixUtils.isSet(instrumentExtension.deliveryForm)) instrumentExtension.encode( out );
+		if (FixUtils.isSet(financingDetails.agreementDesc)) financingDetails.encode( out );
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
+		if (FixUtils.isSet(instrmtLegGrp.noLegs)) instrmtLegGrp.encode( out );
+		if (FixUtils.isSet(yieldData.yieldType)) yieldData.encode( out );
 		FixUtils.putFixFloatTag( out, FixTags.ALLOCQTY_INT, allocQty);
 		if (FixUtils.isSet(qtyType)) FixUtils.putFixTag( out, FixTags.QTYTYPE_INT, qtyType);
 		FixUtils.putFixTag( out, FixTags.SIDE_INT, side );
 		if (FixUtils.isSet(currency)) FixUtils.putFixTag( out, FixTags.CURRENCY_INT, currency, 0, Utils.lastIndexTrim(currency, (byte)0) );
 		if (FixUtils.isSet(lastMkt)) FixUtils.putFixTag( out, FixTags.LASTMKT_INT, lastMkt, 0, Utils.lastIndexTrim(lastMkt, (byte)0) );
+		cpctyConfGrp.encode( out );
 		FixUtils.putFixTag( out, FixTags.ALLOCACCOUNT_INT, allocAccount, 0, Utils.lastIndexTrim(allocAccount, (byte)0) );
 		if (FixUtils.isSet(allocAcctIDSource)) FixUtils.putFixTag( out, FixTags.ALLOCACCTIDSOURCE_INT, allocAcctIDSource);
 		if (FixUtils.isSet(allocAccountType)) FixUtils.putFixTag( out, FixTags.ALLOCACCOUNTTYPE_INT, allocAccountType);
@@ -496,6 +644,7 @@ public class FixConfirmation extends FixMessage
 		if (FixUtils.isSet(avgPxPrecision)) FixUtils.putFixTag( out, FixTags.AVGPXPRECISION_INT, avgPxPrecision);
 		if (FixUtils.isSet(priceType)) FixUtils.putFixTag( out, FixTags.PRICETYPE_INT, priceType);
 		if (FixUtils.isSet(avgParPx)) FixUtils.putFixFloatTag( out, FixTags.AVGPARPX_INT, avgParPx);
+		if (FixUtils.isSet(spreadOrBenchmarkCurveData.spread)) spreadOrBenchmarkCurveData.encode( out );
 		if (FixUtils.isSet(reportedPx)) FixUtils.putFixFloatTag( out, FixTags.REPORTEDPX_INT, reportedPx);
 		if (FixUtils.isSet(text)) FixUtils.putFixTag( out, FixTags.TEXT_INT, text, 0, Utils.lastIndexTrim(text, (byte)0) );
 		if (FixUtils.isSet(encodedTextLen)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXTLEN_INT, encodedTextLen);
@@ -520,7 +669,11 @@ public class FixConfirmation extends FixMessage
 		if (FixUtils.isSet(settlCurrFxRateCalc)) FixUtils.putFixTag( out, FixTags.SETTLCURRFXRATECALC_INT, settlCurrFxRateCalc );
 		if (FixUtils.isSet(settlType)) FixUtils.putFixTag( out, FixTags.SETTLTYPE_INT, settlType, 0, Utils.lastIndexTrim(settlType, (byte)0) );
 		if (FixUtils.isSet(settlDate)) FixUtils.putFixTag( out, FixTags.SETTLDATE_INT, settlDate);
+		if (FixUtils.isSet(settlInstructionsData.settlDeliveryType)) settlInstructionsData.encode( out );
+		if (FixUtils.isSet(commissionData.commission)) commissionData.encode( out );
 		if (FixUtils.isSet(sharedCommission)) FixUtils.putFixTag( out, FixTags.SHAREDCOMMISSION_INT, sharedCommission);
+		if (FixUtils.isSet(stipulations.noStipulations)) stipulations.encode( out );
+		if (FixUtils.isSet(miscFeesGrp.noMiscFees)) miscFeesGrp.encode( out );
 		// the checksum at the end
 
 		int checkSumStart = out.position();
@@ -586,6 +739,7 @@ public class FixConfirmation extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "ConfirmID(664)=" + new String(confirmID) + sep;
 			if (FixUtils.isSet(confirmRefID)) s += "ConfirmRefID(772)=" + new String(confirmRefID) + sep;
@@ -595,16 +749,26 @@ public class FixConfirmation extends FixMessage
 			if (FixUtils.isSet(copyMsgIndicator)) s += "CopyMsgIndicator(797)=" + String.valueOf(copyMsgIndicator) + sep;
 			if (FixUtils.isSet(legalConfirm)) s += "LegalConfirm(650)=" + String.valueOf(legalConfirm) + sep;
 			 s += "ConfirmStatus(665)=" + String.valueOf(confirmStatus) + sep;
+			if (FixUtils.isSet(parties.noPartyIDs)) s += parties.toString();
+			if (FixUtils.isSet(ordAllocGrp.noOrders)) s += ordAllocGrp.toString();
 			if (FixUtils.isSet(allocID)) s += "AllocID(70)=" + new String(allocID) + sep;
 			if (FixUtils.isSet(secondaryAllocID)) s += "SecondaryAllocID(793)=" + new String(secondaryAllocID) + sep;
 			if (FixUtils.isSet(individualAllocID)) s += "IndividualAllocID(467)=" + new String(individualAllocID) + sep;
 			 s += "TransactTime(60)=" + new String(transactTime) + sep;
 			 s += "TradeDate(75)=" + new String(tradeDate) + sep;
+			if (FixUtils.isSet(trdRegTimestamps.noTrdRegTimestamps)) s += trdRegTimestamps.toString();
+			 s += instrument.toString();
+			if (FixUtils.isSet(instrumentExtension.deliveryForm)) s += instrumentExtension.toString();
+			if (FixUtils.isSet(financingDetails.agreementDesc)) s += financingDetails.toString();
+			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
+			if (FixUtils.isSet(instrmtLegGrp.noLegs)) s += instrmtLegGrp.toString();
+			if (FixUtils.isSet(yieldData.yieldType)) s += yieldData.toString();
 			 s += "AllocQty(80)=" + String.valueOf(allocQty) + sep;
 			if (FixUtils.isSet(qtyType)) s += "QtyType(854)=" + String.valueOf(qtyType) + sep;
 			 s += "Side(54)=" + String.valueOf(side) + sep;
 			if (FixUtils.isSet(currency)) s += "Currency(15)=" + new String(currency) + sep;
 			if (FixUtils.isSet(lastMkt)) s += "LastMkt(30)=" + new String(lastMkt) + sep;
+			 s += cpctyConfGrp.toString();
 			 s += "AllocAccount(79)=" + new String(allocAccount) + sep;
 			if (FixUtils.isSet(allocAcctIDSource)) s += "AllocAcctIDSource(661)=" + String.valueOf(allocAcctIDSource) + sep;
 			if (FixUtils.isSet(allocAccountType)) s += "AllocAccountType(798)=" + String.valueOf(allocAccountType) + sep;
@@ -612,6 +776,7 @@ public class FixConfirmation extends FixMessage
 			if (FixUtils.isSet(avgPxPrecision)) s += "AvgPxPrecision(74)=" + String.valueOf(avgPxPrecision) + sep;
 			if (FixUtils.isSet(priceType)) s += "PriceType(423)=" + String.valueOf(priceType) + sep;
 			if (FixUtils.isSet(avgParPx)) s += "AvgParPx(860)=" + String.valueOf(avgParPx) + sep;
+			if (FixUtils.isSet(spreadOrBenchmarkCurveData.spread)) s += spreadOrBenchmarkCurveData.toString();
 			if (FixUtils.isSet(reportedPx)) s += "ReportedPx(861)=" + String.valueOf(reportedPx) + sep;
 			if (FixUtils.isSet(text)) s += "Text(58)=" + new String(text) + sep;
 			if (FixUtils.isSet(encodedTextLen)) s += "EncodedTextLen(354)=" + String.valueOf(encodedTextLen) + sep;
@@ -636,7 +801,11 @@ public class FixConfirmation extends FixMessage
 			if (FixUtils.isSet(settlCurrFxRateCalc)) s += "SettlCurrFxRateCalc(156)=" + String.valueOf(settlCurrFxRateCalc) + sep;
 			if (FixUtils.isSet(settlType)) s += "SettlType(63)=" + new String(settlType) + sep;
 			if (FixUtils.isSet(settlDate)) s += "SettlDate(64)=" + new String(settlDate) + sep;
+			if (FixUtils.isSet(settlInstructionsData.settlDeliveryType)) s += settlInstructionsData.toString();
+			if (FixUtils.isSet(commissionData.commission)) s += commissionData.toString();
 			if (FixUtils.isSet(sharedCommission)) s += "SharedCommission(858)=" + String.valueOf(sharedCommission) + sep;
+			if (FixUtils.isSet(stipulations.noStipulations)) s += stipulations.toString();
+			if (FixUtils.isSet(miscFeesGrp.noMiscFees)) s += miscFeesGrp.toString();
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
 
@@ -669,11 +838,29 @@ public class FixConfirmation extends FixMessage
 
 		if (!( confirmStatus==msg.confirmStatus)) return false;
 
+		if (!parties.equals(msg.parties)) return false;
+
+		if (!ordAllocGrp.equals(msg.ordAllocGrp)) return false;
+
 		if (!Utils.equals( allocID, msg.allocID)) return false;
 
 		if (!Utils.equals( secondaryAllocID, msg.secondaryAllocID)) return false;
 
 		if (!Utils.equals( individualAllocID, msg.individualAllocID)) return false;
+
+		if (!trdRegTimestamps.equals(msg.trdRegTimestamps)) return false;
+
+		if (!instrument.equals(msg.instrument)) return false;
+
+		if (!instrumentExtension.equals(msg.instrumentExtension)) return false;
+
+		if (!financingDetails.equals(msg.financingDetails)) return false;
+
+		if (!undInstrmtGrp.equals(msg.undInstrmtGrp)) return false;
+
+		if (!instrmtLegGrp.equals(msg.instrmtLegGrp)) return false;
+
+		if (!yieldData.equals(msg.yieldData)) return false;
 
 		if (!( allocQty==msg.allocQty)) return false;
 
@@ -684,6 +871,8 @@ public class FixConfirmation extends FixMessage
 		if (!Utils.equals( currency, msg.currency)) return false;
 
 		if (!Utils.equals( lastMkt, msg.lastMkt)) return false;
+
+		if (!cpctyConfGrp.equals(msg.cpctyConfGrp)) return false;
 
 		if (!Utils.equals( allocAccount, msg.allocAccount)) return false;
 
@@ -698,6 +887,8 @@ public class FixConfirmation extends FixMessage
 		if (!( priceType==msg.priceType)) return false;
 
 		if (!( avgParPx==msg.avgParPx)) return false;
+
+		if (!spreadOrBenchmarkCurveData.equals(msg.spreadOrBenchmarkCurveData)) return false;
 
 		if (!( reportedPx==msg.reportedPx)) return false;
 
@@ -743,7 +934,15 @@ public class FixConfirmation extends FixMessage
 
 		if (!Utils.equals( settlType, msg.settlType)) return false;
 
+		if (!settlInstructionsData.equals(msg.settlInstructionsData)) return false;
+
+		if (!commissionData.equals(msg.commissionData)) return false;
+
 		if (!( sharedCommission==msg.sharedCommission)) return false;
+
+		if (!stipulations.equals(msg.stipulations)) return false;
+
+		if (!miscFeesGrp.equals(msg.miscFeesGrp)) return false;
 
 		return true;
 	}

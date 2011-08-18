@@ -10,10 +10,15 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixPositionQty;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrmtGrp;
 
 public class FixAdjustedPositionReport extends FixMessage
 {
@@ -24,6 +29,9 @@ public class FixAdjustedPositionReport extends FixMessage
 	public byte[] settlSessID;
 	public long settlPrice = 0;
 	public byte[] posMaintRptRefID;
+	public FixParties parties;
+	public FixPositionQty positionQty;
+	public FixInstrmtGrp instrmtGrp;
 	public long priorSettlPrice = 0;
 
 	public FixAdjustedPositionReport() {
@@ -33,6 +41,9 @@ public class FixAdjustedPositionReport extends FixMessage
 		clearingBusinessDate = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		settlSessID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		posMaintRptRefID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		parties = new FixParties();
+		positionQty = new FixPositionQty();
+		instrmtGrp = new FixInstrmtGrp();
 		this.clear();
 
 		msgType = MsgTypes.ADJUSTEDPOSITIONREPORT_INT;
@@ -52,10 +63,13 @@ public class FixAdjustedPositionReport extends FixMessage
 		settlPrice = Long.MAX_VALUE;		
 		Utils.fill( posMaintRptRefID, (byte)0 );
 		priorSettlPrice = Long.MAX_VALUE;		
+		parties.clear();
+		positionQty.clear();
+		instrmtGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -100,6 +114,21 @@ public class FixAdjustedPositionReport extends FixMessage
 				posMaintRptRefID = FixUtils.getTagStringValue(value, posMaintRptRefID);
 				break;
 
+			case FixTags.NOPARTYIDS_INT:
+				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(parties.noPartyIDs, value );
+				break;
+
+			case FixTags.NOPOSITIONS_INT:
+				positionQty.noPositions = FixUtils.getTagIntValue( value );
+				positionQty.getAll(positionQty.noPositions, value );
+				break;
+
+			case FixTags.NORELATEDSYM_INT:
+				instrmtGrp.noRelatedSym = FixUtils.getTagIntValue( value );
+				instrmtGrp.getAll(instrmtGrp.noRelatedSym, value );
+				break;
+
 			case FixTags.PRIORSETTLPRICE_INT:
 				priorSettlPrice = FixUtils.getTagFloatValue(value);
 				break;
@@ -129,8 +158,15 @@ public class FixAdjustedPositionReport extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(posMaintRptID) ) return FixTags.POSMAINTRPTID_INT;
 		if (! FixUtils.isSet(clearingBusinessDate) ) return FixTags.CLEARINGBUSINESSDATE_INT;
+		if (! parties.isSet() ) return FixTags.NOPARTYIDS_INT;
+		if (! positionQty.isSet() ) return FixTags.NOPOSITIONS_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -180,6 +216,7 @@ public class FixAdjustedPositionReport extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.POSMAINTRPTID_INT, posMaintRptID, 0, Utils.lastIndexTrim(posMaintRptID, (byte)0) );
 		if (FixUtils.isSet(posReqType)) FixUtils.putFixTag( out, FixTags.POSREQTYPE_INT, posReqType);
@@ -187,6 +224,9 @@ public class FixAdjustedPositionReport extends FixMessage
 		if (FixUtils.isSet(settlSessID)) FixUtils.putFixTag( out, FixTags.SETTLSESSID_INT, settlSessID, 0, Utils.lastIndexTrim(settlSessID, (byte)0) );
 		if (FixUtils.isSet(settlPrice)) FixUtils.putFixFloatTag( out, FixTags.SETTLPRICE_INT, settlPrice);
 		if (FixUtils.isSet(posMaintRptRefID)) FixUtils.putFixTag( out, FixTags.POSMAINTRPTREFID_INT, posMaintRptRefID, 0, Utils.lastIndexTrim(posMaintRptRefID, (byte)0) );
+		parties.encode( out );
+		positionQty.encode( out );
+		if (FixUtils.isSet(instrmtGrp.noRelatedSym)) instrmtGrp.encode( out );
 		if (FixUtils.isSet(priorSettlPrice)) FixUtils.putFixFloatTag( out, FixTags.PRIORSETTLPRICE_INT, priorSettlPrice);
 		// the checksum at the end
 
@@ -253,6 +293,7 @@ public class FixAdjustedPositionReport extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "PosMaintRptID(721)=" + new String(posMaintRptID) + sep;
 			if (FixUtils.isSet(posReqType)) s += "PosReqType(724)=" + String.valueOf(posReqType) + sep;
@@ -260,6 +301,9 @@ public class FixAdjustedPositionReport extends FixMessage
 			if (FixUtils.isSet(settlSessID)) s += "SettlSessID(716)=" + new String(settlSessID) + sep;
 			if (FixUtils.isSet(settlPrice)) s += "SettlPrice(730)=" + String.valueOf(settlPrice) + sep;
 			if (FixUtils.isSet(posMaintRptRefID)) s += "PosMaintRptRefID(714)=" + new String(posMaintRptRefID) + sep;
+			 s += parties.toString();
+			 s += positionQty.toString();
+			if (FixUtils.isSet(instrmtGrp.noRelatedSym)) s += instrmtGrp.toString();
 			if (FixUtils.isSet(priorSettlPrice)) s += "PriorSettlPrice(734)=" + String.valueOf(priorSettlPrice) + sep;
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
@@ -286,6 +330,12 @@ public class FixAdjustedPositionReport extends FixMessage
 		if (!( settlPrice==msg.settlPrice)) return false;
 
 		if (!Utils.equals( posMaintRptRefID, msg.posMaintRptRefID)) return false;
+
+		if (!parties.equals(msg.parties)) return false;
+
+		if (!positionQty.equals(msg.positionQty)) return false;
+
+		if (!instrmtGrp.equals(msg.instrmtGrp)) return false;
 
 		if (!( priorSettlPrice==msg.priorSettlPrice)) return false;
 

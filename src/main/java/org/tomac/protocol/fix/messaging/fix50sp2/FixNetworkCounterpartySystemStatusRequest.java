@@ -10,21 +10,26 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixCompIDReqGrp;
 
 public class FixNetworkCounterpartySystemStatusRequest extends FixMessage
 {
 
 	public long networkRequestType = 0;
 	public byte[] networkRequestID;
+	public FixCompIDReqGrp compIDReqGrp;
 
 	public FixNetworkCounterpartySystemStatusRequest() {
 		super();
 
 		networkRequestID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		compIDReqGrp = new FixCompIDReqGrp();
 		this.clear();
 
 		msgType = MsgTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSREQUEST_INT;
@@ -39,10 +44,11 @@ public class FixNetworkCounterpartySystemStatusRequest extends FixMessage
 
 		networkRequestType = Long.MAX_VALUE;		
 		Utils.fill( networkRequestID, (byte)0 );
+		compIDReqGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -70,6 +76,11 @@ public class FixNetworkCounterpartySystemStatusRequest extends FixMessage
 				networkRequestID = FixUtils.getTagStringValue(value, networkRequestID);
 				break;
 
+			case FixTags.NOCOMPIDS_INT:
+				compIDReqGrp.noCompIDs = FixUtils.getTagIntValue( value );
+				compIDReqGrp.getAll(compIDReqGrp.noCompIDs, value );
+				break;
+
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
 				checkSum = FixUtils.getTagIntValue( value );
@@ -95,8 +106,13 @@ public class FixNetworkCounterpartySystemStatusRequest extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(networkRequestType) ) return FixTags.NETWORKREQUESTTYPE_INT;
 		if (! FixUtils.isSet(networkRequestID) ) return FixTags.NETWORKREQUESTID_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -146,9 +162,11 @@ public class FixNetworkCounterpartySystemStatusRequest extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.NETWORKREQUESTTYPE_INT, networkRequestType);
 		FixUtils.putFixTag( out, FixTags.NETWORKREQUESTID_INT, networkRequestID, 0, Utils.lastIndexTrim(networkRequestID, (byte)0) );
+		if (FixUtils.isSet(compIDReqGrp.noCompIDs)) compIDReqGrp.encode( out );
 		// the checksum at the end
 
 		int checkSumStart = out.position();
@@ -214,9 +232,11 @@ public class FixNetworkCounterpartySystemStatusRequest extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "NetworkRequestType(935)=" + String.valueOf(networkRequestType) + sep;
 			 s += "NetworkRequestID(933)=" + new String(networkRequestID) + sep;
+			if (FixUtils.isSet(compIDReqGrp.noCompIDs)) s += compIDReqGrp.toString();
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
 
@@ -236,6 +256,8 @@ public class FixNetworkCounterpartySystemStatusRequest extends FixMessage
 		if (!( networkRequestType==msg.networkRequestType)) return false;
 
 		if (!Utils.equals( networkRequestID, msg.networkRequestID)) return false;
+
+		if (!compIDReqGrp.equals(msg.compIDReqGrp)) return false;
 
 		return true;
 	}

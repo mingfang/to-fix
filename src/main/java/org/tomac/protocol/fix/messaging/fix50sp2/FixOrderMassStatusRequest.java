@@ -10,29 +10,43 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixTargetParties;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrument;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUnderlyingInstrument;
 
 public class FixOrderMassStatusRequest extends FixMessage
 {
 
 	public byte[] massStatusReqID;
 	public long massStatusReqType = 0;
+	public FixParties parties;
+	public FixTargetParties targetParties;
 	public byte[] account;
 	public long acctIDSource = 0;
 	public byte[] tradingSessionID;
 	public byte[] tradingSessionSubID;
+	public FixInstrument instrument;
+	public FixUnderlyingInstrument underlyingInstrument;
 	public byte side = (byte)' ';
 
 	public FixOrderMassStatusRequest() {
 		super();
 
 		massStatusReqID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		parties = new FixParties();
+		targetParties = new FixTargetParties();
 		account = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		tradingSessionID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		tradingSessionSubID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		instrument = new FixInstrument();
+		underlyingInstrument = new FixUnderlyingInstrument();
 		this.clear();
 
 		msgType = MsgTypes.ORDERMASSSTATUSREQUEST_INT;
@@ -52,10 +66,14 @@ public class FixOrderMassStatusRequest extends FixMessage
 		Utils.fill( tradingSessionID, (byte)0 );
 		Utils.fill( tradingSessionSubID, (byte)0 );
 		side = Byte.MAX_VALUE;		
+		parties.clear();
+		targetParties.clear();
+		instrument.clear();
+		underlyingInstrument.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -83,6 +101,16 @@ public class FixOrderMassStatusRequest extends FixMessage
 				if (!MassStatusReqType.isValid(massStatusReqType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + massStatusReqType + ") for tag: " + id );
 				break;
 
+			case FixTags.NOPARTYIDS_INT:
+				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(parties.noPartyIDs, value );
+				break;
+
+			case FixTags.NOTARGETPARTYIDS_INT:
+				targetParties.noTargetPartyIDs = FixUtils.getTagIntValue( value );
+				targetParties.getAll(targetParties.noTargetPartyIDs, value );
+				break;
+
 			case FixTags.ACCOUNT_INT:
 				account = FixUtils.getTagStringValue(value, account);
 				break;
@@ -100,6 +128,14 @@ public class FixOrderMassStatusRequest extends FixMessage
 			case FixTags.TRADINGSESSIONSUBID_INT:
 				tradingSessionSubID = FixUtils.getTagStringValue(value, tradingSessionSubID);
 				if (!TradingSessionSubID.isValid(tradingSessionSubID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradingSessionSubID + ") for tag: " + id );
+				break;
+
+			case FixTags.SYMBOL_INT:
+				instrument.getAll(FixTags.SYMBOL_INT, value );
+				break;
+
+			case FixTags.UNDERLYINGSYMBOL_INT:
+				underlyingInstrument.getAll(FixTags.UNDERLYINGSYMBOL_INT, value );
 				break;
 
 			case FixTags.SIDE_INT:
@@ -132,8 +168,13 @@ public class FixOrderMassStatusRequest extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(massStatusReqID) ) return FixTags.MASSSTATUSREQID_INT;
 		if (! FixUtils.isSet(massStatusReqType) ) return FixTags.MASSSTATUSREQTYPE_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -183,13 +224,18 @@ public class FixOrderMassStatusRequest extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.MASSSTATUSREQID_INT, massStatusReqID, 0, Utils.lastIndexTrim(massStatusReqID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.MASSSTATUSREQTYPE_INT, massStatusReqType);
+		if (FixUtils.isSet(parties.noPartyIDs)) parties.encode( out );
+		if (FixUtils.isSet(targetParties.noTargetPartyIDs)) targetParties.encode( out );
 		if (FixUtils.isSet(account)) FixUtils.putFixTag( out, FixTags.ACCOUNT_INT, account, 0, Utils.lastIndexTrim(account, (byte)0) );
 		if (FixUtils.isSet(acctIDSource)) FixUtils.putFixTag( out, FixTags.ACCTIDSOURCE_INT, acctIDSource);
 		if (FixUtils.isSet(tradingSessionID)) FixUtils.putFixTag( out, FixTags.TRADINGSESSIONID_INT, tradingSessionID, 0, Utils.lastIndexTrim(tradingSessionID, (byte)0) );
 		if (FixUtils.isSet(tradingSessionSubID)) FixUtils.putFixTag( out, FixTags.TRADINGSESSIONSUBID_INT, tradingSessionSubID, 0, Utils.lastIndexTrim(tradingSessionSubID, (byte)0) );
+		if (FixUtils.isSet(instrument.symbol)) instrument.encode( out );
+		if (FixUtils.isSet(underlyingInstrument.underlyingSymbol)) underlyingInstrument.encode( out );
 		if (FixUtils.isSet(side)) FixUtils.putFixTag( out, FixTags.SIDE_INT, side );
 		// the checksum at the end
 
@@ -256,13 +302,18 @@ public class FixOrderMassStatusRequest extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "MassStatusReqID(584)=" + new String(massStatusReqID) + sep;
 			 s += "MassStatusReqType(585)=" + String.valueOf(massStatusReqType) + sep;
+			if (FixUtils.isSet(parties.noPartyIDs)) s += parties.toString();
+			if (FixUtils.isSet(targetParties.noTargetPartyIDs)) s += targetParties.toString();
 			if (FixUtils.isSet(account)) s += "Account(1)=" + new String(account) + sep;
 			if (FixUtils.isSet(acctIDSource)) s += "AcctIDSource(660)=" + String.valueOf(acctIDSource) + sep;
 			if (FixUtils.isSet(tradingSessionID)) s += "TradingSessionID(336)=" + new String(tradingSessionID) + sep;
 			if (FixUtils.isSet(tradingSessionSubID)) s += "TradingSessionSubID(625)=" + new String(tradingSessionSubID) + sep;
+			if (FixUtils.isSet(instrument.symbol)) s += instrument.toString();
+			if (FixUtils.isSet(underlyingInstrument.underlyingSymbol)) s += underlyingInstrument.toString();
 			if (FixUtils.isSet(side)) s += "Side(54)=" + String.valueOf(side) + sep;
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
@@ -284,6 +335,10 @@ public class FixOrderMassStatusRequest extends FixMessage
 
 		if (!( massStatusReqType==msg.massStatusReqType)) return false;
 
+		if (!parties.equals(msg.parties)) return false;
+
+		if (!targetParties.equals(msg.targetParties)) return false;
+
 		if (!Utils.equals( account, msg.account)) return false;
 
 		if (!( acctIDSource==msg.acctIDSource)) return false;
@@ -291,6 +346,10 @@ public class FixOrderMassStatusRequest extends FixMessage
 		if (!Utils.equals( tradingSessionID, msg.tradingSessionID)) return false;
 
 		if (!Utils.equals( tradingSessionSubID, msg.tradingSessionSubID)) return false;
+
+		if (!instrument.equals(msg.instrument)) return false;
+
+		if (!underlyingInstrument.equals(msg.underlyingInstrument)) return false;
 
 		if (!( side==msg.side)) return false;
 

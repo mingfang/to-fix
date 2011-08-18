@@ -10,21 +10,26 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixStrmAsgnReqGrp;
 
 public class FixStreamAssignmentRequest extends FixMessage
 {
 
 	public byte[] streamAsgnReqID;
 	public long streamAsgnReqType = 0;
+	public FixStrmAsgnReqGrp strmAsgnReqGrp;
 
 	public FixStreamAssignmentRequest() {
 		super();
 
 		streamAsgnReqID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		strmAsgnReqGrp = new FixStrmAsgnReqGrp();
 		this.clear();
 
 		msgType = MsgTypes.STREAMASSIGNMENTREQUEST_INT;
@@ -39,10 +44,11 @@ public class FixStreamAssignmentRequest extends FixMessage
 
 		Utils.fill( streamAsgnReqID, (byte)0 );
 		streamAsgnReqType = Long.MAX_VALUE;		
+		strmAsgnReqGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -70,6 +76,11 @@ public class FixStreamAssignmentRequest extends FixMessage
 				if (!StreamAsgnReqType.isValid(streamAsgnReqType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + streamAsgnReqType + ") for tag: " + id );
 				break;
 
+			case FixTags.NOASGNREQS_INT:
+				strmAsgnReqGrp.noAsgnReqs = FixUtils.getTagIntValue( value );
+				strmAsgnReqGrp.getAll(strmAsgnReqGrp.noAsgnReqs, value );
+				break;
+
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
 				checkSum = FixUtils.getTagIntValue( value );
@@ -95,8 +106,14 @@ public class FixStreamAssignmentRequest extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(streamAsgnReqID) ) return FixTags.STREAMASGNREQID_INT;
 		if (! FixUtils.isSet(streamAsgnReqType) ) return FixTags.STREAMASGNREQTYPE_INT;
+		if (! strmAsgnReqGrp.isSet() ) return FixTags.NOASGNREQS_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -146,9 +163,11 @@ public class FixStreamAssignmentRequest extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.STREAMASGNREQID_INT, streamAsgnReqID, 0, Utils.lastIndexTrim(streamAsgnReqID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.STREAMASGNREQTYPE_INT, streamAsgnReqType);
+		strmAsgnReqGrp.encode( out );
 		// the checksum at the end
 
 		int checkSumStart = out.position();
@@ -214,9 +233,11 @@ public class FixStreamAssignmentRequest extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "StreamAsgnReqID(1497)=" + new String(streamAsgnReqID) + sep;
 			 s += "StreamAsgnReqType(1498)=" + String.valueOf(streamAsgnReqType) + sep;
+			 s += strmAsgnReqGrp.toString();
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
 
@@ -236,6 +257,8 @@ public class FixStreamAssignmentRequest extends FixMessage
 		if (!Utils.equals( streamAsgnReqID, msg.streamAsgnReqID)) return false;
 
 		if (!( streamAsgnReqType==msg.streamAsgnReqType)) return false;
+
+		if (!strmAsgnReqGrp.equals(msg.strmAsgnReqGrp)) return false;
 
 		return true;
 	}

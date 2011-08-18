@@ -10,10 +10,16 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrument;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrmtLegGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUndInstrmtGrp;
 
 public class FixRequestForPositionsAck extends FixMessage
 {
@@ -31,10 +37,14 @@ public class FixRequestForPositionsAck extends FixMessage
 	public byte[] settlSessID;
 	public byte[] settlSessSubID;
 	public byte[] settlCurrency;
+	public FixParties parties;
 	public byte[] account;
 	public long acctIDSource = 0;
 	public long accountType = 0;
+	public FixInstrument instrument;
 	public byte[] currency;
+	public FixInstrmtLegGrp instrmtLegGrp;
+	public FixUndInstrmtGrp undInstrmtGrp;
 	public long responseTransportType = 0;
 	public byte[] responseDestination;
 	public byte[] text;
@@ -50,8 +60,12 @@ public class FixRequestForPositionsAck extends FixMessage
 		settlSessID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		settlSessSubID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		settlCurrency = new byte[FixUtils.CURRENCY_LENGTH];
+		parties = new FixParties();
 		account = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		instrument = new FixInstrument();
 		currency = new byte[FixUtils.CURRENCY_LENGTH];
+		instrmtLegGrp = new FixInstrmtLegGrp();
+		undInstrmtGrp = new FixUndInstrmtGrp();
 		responseDestination = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		encodedText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
@@ -89,10 +103,14 @@ public class FixRequestForPositionsAck extends FixMessage
 		Utils.fill( text, (byte)0 );
 		encodedTextLen = Long.MAX_VALUE;		
 		Utils.fill( encodedText, (byte)0 );
+		parties.clear();
+		instrument.clear();
+		instrmtLegGrp.clear();
+		undInstrmtGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -170,6 +188,11 @@ public class FixRequestForPositionsAck extends FixMessage
 				settlCurrency = FixUtils.getTagStringValue(value, settlCurrency);
 				break;
 
+			case FixTags.NOPARTYIDS_INT:
+				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(parties.noPartyIDs, value );
+				break;
+
 			case FixTags.ACCOUNT_INT:
 				account = FixUtils.getTagStringValue(value, account);
 				break;
@@ -184,8 +207,22 @@ public class FixRequestForPositionsAck extends FixMessage
 				if (!AccountType.isValid(accountType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + accountType + ") for tag: " + id );
 				break;
 
+			case FixTags.SYMBOL_INT:
+				instrument.getAll(FixTags.SYMBOL_INT, value );
+				break;
+
 			case FixTags.CURRENCY_INT:
 				currency = FixUtils.getTagStringValue(value, currency);
+				break;
+
+			case FixTags.NOLEGS_INT:
+				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( value );
+				instrmtLegGrp.getAll(instrmtLegGrp.noLegs, value );
+				break;
+
+			case FixTags.NOUNDERLYINGS_INT:
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
 				break;
 
 			case FixTags.RESPONSETRANSPORTTYPE_INT:
@@ -234,9 +271,15 @@ public class FixRequestForPositionsAck extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(posMaintRptID) ) return FixTags.POSMAINTRPTID_INT;
 		if (! FixUtils.isSet(posReqResult) ) return FixTags.POSREQRESULT_INT;
 		if (! FixUtils.isSet(posReqStatus) ) return FixTags.POSREQSTATUS_INT;
+		if (! parties.isSet() ) return FixTags.NOPARTYIDS_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -286,6 +329,7 @@ public class FixRequestForPositionsAck extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.POSMAINTRPTID_INT, posMaintRptID, 0, Utils.lastIndexTrim(posMaintRptID, (byte)0) );
 		if (FixUtils.isSet(posReqID)) FixUtils.putFixTag( out, FixTags.POSREQID_INT, posReqID, 0, Utils.lastIndexTrim(posReqID, (byte)0) );
@@ -300,10 +344,14 @@ public class FixRequestForPositionsAck extends FixMessage
 		if (FixUtils.isSet(settlSessID)) FixUtils.putFixTag( out, FixTags.SETTLSESSID_INT, settlSessID, 0, Utils.lastIndexTrim(settlSessID, (byte)0) );
 		if (FixUtils.isSet(settlSessSubID)) FixUtils.putFixTag( out, FixTags.SETTLSESSSUBID_INT, settlSessSubID, 0, Utils.lastIndexTrim(settlSessSubID, (byte)0) );
 		if (FixUtils.isSet(settlCurrency)) FixUtils.putFixTag( out, FixTags.SETTLCURRENCY_INT, settlCurrency, 0, Utils.lastIndexTrim(settlCurrency, (byte)0) );
+		parties.encode( out );
 		if (FixUtils.isSet(account)) FixUtils.putFixTag( out, FixTags.ACCOUNT_INT, account, 0, Utils.lastIndexTrim(account, (byte)0) );
 		if (FixUtils.isSet(acctIDSource)) FixUtils.putFixTag( out, FixTags.ACCTIDSOURCE_INT, acctIDSource);
 		if (FixUtils.isSet(accountType)) FixUtils.putFixTag( out, FixTags.ACCOUNTTYPE_INT, accountType);
+		if (FixUtils.isSet(instrument.symbol)) instrument.encode( out );
 		if (FixUtils.isSet(currency)) FixUtils.putFixTag( out, FixTags.CURRENCY_INT, currency, 0, Utils.lastIndexTrim(currency, (byte)0) );
+		if (FixUtils.isSet(instrmtLegGrp.noLegs)) instrmtLegGrp.encode( out );
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
 		if (FixUtils.isSet(responseTransportType)) FixUtils.putFixTag( out, FixTags.RESPONSETRANSPORTTYPE_INT, responseTransportType);
 		if (FixUtils.isSet(responseDestination)) FixUtils.putFixTag( out, FixTags.RESPONSEDESTINATION_INT, responseDestination, 0, Utils.lastIndexTrim(responseDestination, (byte)0) );
 		if (FixUtils.isSet(text)) FixUtils.putFixTag( out, FixTags.TEXT_INT, text, 0, Utils.lastIndexTrim(text, (byte)0) );
@@ -374,6 +422,7 @@ public class FixRequestForPositionsAck extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "PosMaintRptID(721)=" + new String(posMaintRptID) + sep;
 			if (FixUtils.isSet(posReqID)) s += "PosReqID(710)=" + new String(posReqID) + sep;
@@ -388,10 +437,14 @@ public class FixRequestForPositionsAck extends FixMessage
 			if (FixUtils.isSet(settlSessID)) s += "SettlSessID(716)=" + new String(settlSessID) + sep;
 			if (FixUtils.isSet(settlSessSubID)) s += "SettlSessSubID(717)=" + new String(settlSessSubID) + sep;
 			if (FixUtils.isSet(settlCurrency)) s += "SettlCurrency(120)=" + new String(settlCurrency) + sep;
+			 s += parties.toString();
 			if (FixUtils.isSet(account)) s += "Account(1)=" + new String(account) + sep;
 			if (FixUtils.isSet(acctIDSource)) s += "AcctIDSource(660)=" + String.valueOf(acctIDSource) + sep;
 			if (FixUtils.isSet(accountType)) s += "AccountType(581)=" + String.valueOf(accountType) + sep;
+			if (FixUtils.isSet(instrument.symbol)) s += instrument.toString();
 			if (FixUtils.isSet(currency)) s += "Currency(15)=" + new String(currency) + sep;
+			if (FixUtils.isSet(instrmtLegGrp.noLegs)) s += instrmtLegGrp.toString();
+			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
 			if (FixUtils.isSet(responseTransportType)) s += "ResponseTransportType(725)=" + String.valueOf(responseTransportType) + sep;
 			if (FixUtils.isSet(responseDestination)) s += "ResponseDestination(726)=" + new String(responseDestination) + sep;
 			if (FixUtils.isSet(text)) s += "Text(58)=" + new String(text) + sep;
@@ -437,13 +490,21 @@ public class FixRequestForPositionsAck extends FixMessage
 
 		if (!Utils.equals( settlCurrency, msg.settlCurrency)) return false;
 
+		if (!parties.equals(msg.parties)) return false;
+
 		if (!Utils.equals( account, msg.account)) return false;
 
 		if (!( acctIDSource==msg.acctIDSource)) return false;
 
 		if (!( accountType==msg.accountType)) return false;
 
+		if (!instrument.equals(msg.instrument)) return false;
+
 		if (!Utils.equals( currency, msg.currency)) return false;
+
+		if (!instrmtLegGrp.equals(msg.instrmtLegGrp)) return false;
+
+		if (!undInstrmtGrp.equals(msg.undInstrmtGrp)) return false;
 
 		if (!( responseTransportType==msg.responseTransportType)) return false;
 

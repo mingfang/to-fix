@@ -10,10 +10,26 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixRootParties;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixSideCrossOrdModGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrument;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUndInstrmtGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrmtLegGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixDisplayInstruction;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixTrdgSesGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixStipulations;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixTriggeringInstruction;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixSpreadOrBenchmarkCurveData;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixYieldData;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixPegInstructions;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixDiscretionInstructions;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixStrategyParametersGrp;
 
 public class FixCrossOrderCancelReplaceRequest extends FixMessage
 {
@@ -24,6 +40,11 @@ public class FixCrossOrderCancelReplaceRequest extends FixMessage
 	public byte[] hostCrossID;
 	public long crossType = 0;
 	public long crossPrioritization = 0;
+	public FixRootParties rootParties;
+	public FixSideCrossOrdModGrp sideCrossOrdModGrp;
+	public FixInstrument instrument;
+	public FixUndInstrmtGrp undInstrmtGrp;
+	public FixInstrmtLegGrp instrmtLegGrp;
 	public byte[] settlType;
 	public byte[] settlDate;
 	public byte handlInst = (byte)' ';
@@ -31,19 +52,25 @@ public class FixCrossOrderCancelReplaceRequest extends FixMessage
 	public long minQty = 0;
 	public long matchIncrement = 0;
 	public long maxPriceLevels = 0;
+	public FixDisplayInstruction displayInstruction;
 	public long maxFloor = 0;
 	public byte[] exDestination;
 	public byte exDestinationIDSource = (byte)' ';
+	public FixTrdgSesGrp trdgSesGrp;
 	public byte processCode = (byte)' ';
 	public long prevClosePx = 0;
 	public boolean locateReqd = false;
 	public byte[] transactTime;
 	public byte[] transBkdTime;
+	public FixStipulations stipulations;
 	public byte ordType = (byte)' ';
 	public long priceType = 0;
 	public long price = 0;
 	public byte priceProtectionScope = (byte)' ';
 	public long stopPx = 0;
+	public FixTriggeringInstruction triggeringInstruction;
+	public FixSpreadOrBenchmarkCurveData spreadOrBenchmarkCurveData;
+	public FixYieldData yieldData;
 	public byte[] currency;
 	public byte[] complianceID;
 	public byte[] iOIID;
@@ -54,7 +81,10 @@ public class FixCrossOrderCancelReplaceRequest extends FixMessage
 	public byte[] expireTime;
 	public long gTBookingInst = 0;
 	public long maxShow = 0;
+	public FixPegInstructions pegInstructions;
+	public FixDiscretionInstructions discretionInstructions;
 	public long targetStrategy = 0;
+	public FixStrategyParametersGrp strategyParametersGrp;
 	public byte[] targetStrategyParameters;
 	public long participationRate = 0;
 	public byte cancellationRights = (byte)' ';
@@ -69,12 +99,23 @@ public class FixCrossOrderCancelReplaceRequest extends FixMessage
 		crossID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		origCrossID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		hostCrossID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		rootParties = new FixRootParties();
+		sideCrossOrdModGrp = new FixSideCrossOrdModGrp();
+		instrument = new FixInstrument();
+		undInstrmtGrp = new FixUndInstrmtGrp();
+		instrmtLegGrp = new FixInstrmtLegGrp();
 		settlType = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		settlDate = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		execInst = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		displayInstruction = new FixDisplayInstruction();
 		exDestination = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		trdgSesGrp = new FixTrdgSesGrp();
 		transactTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
 		transBkdTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
+		stipulations = new FixStipulations();
+		triggeringInstruction = new FixTriggeringInstruction();
+		spreadOrBenchmarkCurveData = new FixSpreadOrBenchmarkCurveData();
+		yieldData = new FixYieldData();
 		currency = new byte[FixUtils.CURRENCY_LENGTH];
 		complianceID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		iOIID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
@@ -82,6 +123,9 @@ public class FixCrossOrderCancelReplaceRequest extends FixMessage
 		effectiveTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
 		expireDate = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		expireTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
+		pegInstructions = new FixPegInstructions();
+		discretionInstructions = new FixDiscretionInstructions();
+		strategyParametersGrp = new FixStrategyParametersGrp();
 		targetStrategyParameters = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		registID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		designation = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
@@ -140,10 +184,24 @@ public class FixCrossOrderCancelReplaceRequest extends FixMessage
 		moneyLaunderingStatus = Byte.MAX_VALUE;		
 		Utils.fill( registID, (byte)0 );
 		Utils.fill( designation, (byte)0 );
+		rootParties.clear();
+		sideCrossOrdModGrp.clear();
+		instrument.clear();
+		undInstrmtGrp.clear();
+		instrmtLegGrp.clear();
+		displayInstruction.clear();
+		trdgSesGrp.clear();
+		stipulations.clear();
+		triggeringInstruction.clear();
+		spreadOrBenchmarkCurveData.clear();
+		yieldData.clear();
+		pegInstructions.clear();
+		discretionInstructions.clear();
+		strategyParametersGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -188,6 +246,30 @@ public class FixCrossOrderCancelReplaceRequest extends FixMessage
 				if (!CrossPrioritization.isValid(crossPrioritization) ) throw new FixSessionException(buf, "Invalid enumerated value(" + crossPrioritization + ") for tag: " + id );
 				break;
 
+			case FixTags.NOROOTPARTYIDS_INT:
+				rootParties.noRootPartyIDs = FixUtils.getTagIntValue( value );
+				rootParties.getAll(rootParties.noRootPartyIDs, value );
+				break;
+
+			case FixTags.NOSIDES_INT:
+				sideCrossOrdModGrp.noSides = FixUtils.getTagIntValue( value );
+				sideCrossOrdModGrp.getAll(sideCrossOrdModGrp.noSides, value );
+				break;
+
+			case FixTags.SYMBOL_INT:
+				instrument.getAll(FixTags.SYMBOL_INT, value );
+				break;
+
+			case FixTags.NOUNDERLYINGS_INT:
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
+				break;
+
+			case FixTags.NOLEGS_INT:
+				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( value );
+				instrmtLegGrp.getAll(instrmtLegGrp.noLegs, value );
+				break;
+
 			case FixTags.SETTLTYPE_INT:
 				settlType = FixUtils.getTagStringValue(value, settlType);
 				if (!SettlType.isValid(settlType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + settlType + ") for tag: " + id );
@@ -219,6 +301,10 @@ public class FixCrossOrderCancelReplaceRequest extends FixMessage
 				maxPriceLevels = FixUtils.getTagIntValue( value );
 				break;
 
+			case FixTags.DISPLAYQTY_INT:
+				displayInstruction.getAll(FixTags.DISPLAYQTY_INT, value );
+				break;
+
 			case FixTags.MAXFLOOR_INT:
 				maxFloor = FixUtils.getTagFloatValue(value);
 				break;
@@ -230,6 +316,11 @@ public class FixCrossOrderCancelReplaceRequest extends FixMessage
 			case FixTags.EXDESTINATIONIDSOURCE_INT:
 				exDestinationIDSource = FixUtils.getTagCharValue( value );
 				if (!ExDestinationIDSource.isValid(exDestinationIDSource) ) throw new FixSessionException(buf, "Invalid enumerated value(" + exDestinationIDSource + ") for tag: " + id );
+				break;
+
+			case FixTags.NOTRADINGSESSIONS_INT:
+				trdgSesGrp.noTradingSessions = FixUtils.getTagIntValue( value );
+				trdgSesGrp.getAll(trdgSesGrp.noTradingSessions, value );
 				break;
 
 			case FixTags.PROCESSCODE_INT:
@@ -254,6 +345,11 @@ public class FixCrossOrderCancelReplaceRequest extends FixMessage
 				transBkdTime = FixUtils.getTagStringValue(value, transBkdTime);
 				break;
 
+			case FixTags.NOSTIPULATIONS_INT:
+				stipulations.noStipulations = FixUtils.getTagIntValue( value );
+				stipulations.getAll(stipulations.noStipulations, value );
+				break;
+
 			case FixTags.ORDTYPE_INT:
 				ordType = FixUtils.getTagCharValue( value );
 				if (!OrdType.isValid(ordType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + ordType + ") for tag: " + id );
@@ -275,6 +371,18 @@ public class FixCrossOrderCancelReplaceRequest extends FixMessage
 
 			case FixTags.STOPPX_INT:
 				stopPx = FixUtils.getTagFloatValue(value);
+				break;
+
+			case FixTags.TRIGGERTYPE_INT:
+				triggeringInstruction.getAll(FixTags.TRIGGERTYPE_INT, value );
+				break;
+
+			case FixTags.SPREAD_INT:
+				spreadOrBenchmarkCurveData.getAll(FixTags.SPREAD_INT, value );
+				break;
+
+			case FixTags.YIELDTYPE_INT:
+				yieldData.getAll(FixTags.YIELDTYPE_INT, value );
 				break;
 
 			case FixTags.CURRENCY_INT:
@@ -319,9 +427,22 @@ public class FixCrossOrderCancelReplaceRequest extends FixMessage
 				maxShow = FixUtils.getTagFloatValue(value);
 				break;
 
+			case FixTags.PEGOFFSETVALUE_INT:
+				pegInstructions.getAll(FixTags.PEGOFFSETVALUE_INT, value );
+				break;
+
+			case FixTags.DISCRETIONINST_INT:
+				discretionInstructions.getAll(FixTags.DISCRETIONINST_INT, value );
+				break;
+
 			case FixTags.TARGETSTRATEGY_INT:
 				targetStrategy = FixUtils.getTagIntValue( value );
 				if (!TargetStrategy.isValid(targetStrategy) ) throw new FixSessionException(buf, "Invalid enumerated value(" + targetStrategy + ") for tag: " + id );
+				break;
+
+			case FixTags.NOSTRATEGYPARAMETERS_INT:
+				strategyParametersGrp.noStrategyParameters = FixUtils.getTagIntValue( value );
+				strategyParametersGrp.getAll(strategyParametersGrp.noStrategyParameters, value );
 				break;
 
 			case FixTags.TARGETSTRATEGYPARAMETERS_INT:
@@ -375,12 +496,19 @@ public class FixCrossOrderCancelReplaceRequest extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(crossID) ) return FixTags.CROSSID_INT;
 		if (! FixUtils.isSet(origCrossID) ) return FixTags.ORIGCROSSID_INT;
 		if (! FixUtils.isSet(crossType) ) return FixTags.CROSSTYPE_INT;
 		if (! FixUtils.isSet(crossPrioritization) ) return FixTags.CROSSPRIORITIZATION_INT;
 		if (! FixUtils.isSet(transactTime) ) return FixTags.TRANSACTTIME_INT;
 		if (! FixUtils.isSet(ordType) ) return FixTags.ORDTYPE_INT;
+		if (! sideCrossOrdModGrp.isSet() ) return FixTags.NOSIDES_INT;
+		if (! instrument.isSet() ) return FixTags.SYMBOL_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -430,6 +558,7 @@ public class FixCrossOrderCancelReplaceRequest extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		if (FixUtils.isSet(orderID)) FixUtils.putFixTag( out, FixTags.ORDERID_INT, orderID, 0, Utils.lastIndexTrim(orderID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.CROSSID_INT, crossID, 0, Utils.lastIndexTrim(crossID, (byte)0) );
@@ -437,6 +566,11 @@ public class FixCrossOrderCancelReplaceRequest extends FixMessage
 		if (FixUtils.isSet(hostCrossID)) FixUtils.putFixTag( out, FixTags.HOSTCROSSID_INT, hostCrossID, 0, Utils.lastIndexTrim(hostCrossID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.CROSSTYPE_INT, crossType);
 		FixUtils.putFixTag( out, FixTags.CROSSPRIORITIZATION_INT, crossPrioritization);
+		if (FixUtils.isSet(rootParties.noRootPartyIDs)) rootParties.encode( out );
+		sideCrossOrdModGrp.encode( out );
+		instrument.encode( out );
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
+		if (FixUtils.isSet(instrmtLegGrp.noLegs)) instrmtLegGrp.encode( out );
 		if (FixUtils.isSet(settlType)) FixUtils.putFixTag( out, FixTags.SETTLTYPE_INT, settlType, 0, Utils.lastIndexTrim(settlType, (byte)0) );
 		if (FixUtils.isSet(settlDate)) FixUtils.putFixTag( out, FixTags.SETTLDATE_INT, settlDate);
 		if (FixUtils.isSet(handlInst)) FixUtils.putFixTag( out, FixTags.HANDLINST_INT, handlInst );
@@ -444,19 +578,25 @@ public class FixCrossOrderCancelReplaceRequest extends FixMessage
 		if (FixUtils.isSet(minQty)) FixUtils.putFixFloatTag( out, FixTags.MINQTY_INT, minQty);
 		if (FixUtils.isSet(matchIncrement)) FixUtils.putFixFloatTag( out, FixTags.MATCHINCREMENT_INT, matchIncrement);
 		if (FixUtils.isSet(maxPriceLevels)) FixUtils.putFixTag( out, FixTags.MAXPRICELEVELS_INT, maxPriceLevels);
+		if (FixUtils.isSet(displayInstruction.displayQty)) displayInstruction.encode( out );
 		if (FixUtils.isSet(maxFloor)) FixUtils.putFixFloatTag( out, FixTags.MAXFLOOR_INT, maxFloor);
 		if (FixUtils.isSet(exDestination)) FixUtils.putFixTag( out, FixTags.EXDESTINATION_INT, exDestination, 0, Utils.lastIndexTrim(exDestination, (byte)0) );
 		if (FixUtils.isSet(exDestinationIDSource)) FixUtils.putFixTag( out, FixTags.EXDESTINATIONIDSOURCE_INT, exDestinationIDSource );
+		if (FixUtils.isSet(trdgSesGrp.noTradingSessions)) trdgSesGrp.encode( out );
 		if (FixUtils.isSet(processCode)) FixUtils.putFixTag( out, FixTags.PROCESSCODE_INT, processCode );
 		if (FixUtils.isSet(prevClosePx)) FixUtils.putFixFloatTag( out, FixTags.PREVCLOSEPX_INT, prevClosePx);
 		if (FixUtils.isSet(locateReqd)) FixUtils.putFixTag( out, FixTags.LOCATEREQD_INT, locateReqd?(byte)'Y':(byte)'N' );
 		FixUtils.putFixTag( out, FixTags.TRANSACTTIME_INT, transactTime);
 		if (FixUtils.isSet(transBkdTime)) FixUtils.putFixTag( out, FixTags.TRANSBKDTIME_INT, transBkdTime);
+		if (FixUtils.isSet(stipulations.noStipulations)) stipulations.encode( out );
 		FixUtils.putFixTag( out, FixTags.ORDTYPE_INT, ordType );
 		if (FixUtils.isSet(priceType)) FixUtils.putFixTag( out, FixTags.PRICETYPE_INT, priceType);
 		if (FixUtils.isSet(price)) FixUtils.putFixFloatTag( out, FixTags.PRICE_INT, price);
 		if (FixUtils.isSet(priceProtectionScope)) FixUtils.putFixTag( out, FixTags.PRICEPROTECTIONSCOPE_INT, priceProtectionScope );
 		if (FixUtils.isSet(stopPx)) FixUtils.putFixFloatTag( out, FixTags.STOPPX_INT, stopPx);
+		if (FixUtils.isSet(triggeringInstruction.triggerType)) triggeringInstruction.encode( out );
+		if (FixUtils.isSet(spreadOrBenchmarkCurveData.spread)) spreadOrBenchmarkCurveData.encode( out );
+		if (FixUtils.isSet(yieldData.yieldType)) yieldData.encode( out );
 		if (FixUtils.isSet(currency)) FixUtils.putFixTag( out, FixTags.CURRENCY_INT, currency, 0, Utils.lastIndexTrim(currency, (byte)0) );
 		if (FixUtils.isSet(complianceID)) FixUtils.putFixTag( out, FixTags.COMPLIANCEID_INT, complianceID, 0, Utils.lastIndexTrim(complianceID, (byte)0) );
 		if (FixUtils.isSet(iOIID)) FixUtils.putFixTag( out, FixTags.IOIID_INT, iOIID, 0, Utils.lastIndexTrim(iOIID, (byte)0) );
@@ -467,7 +607,10 @@ public class FixCrossOrderCancelReplaceRequest extends FixMessage
 		if (FixUtils.isSet(expireTime)) FixUtils.putFixTag( out, FixTags.EXPIRETIME_INT, expireTime);
 		if (FixUtils.isSet(gTBookingInst)) FixUtils.putFixTag( out, FixTags.GTBOOKINGINST_INT, gTBookingInst);
 		if (FixUtils.isSet(maxShow)) FixUtils.putFixFloatTag( out, FixTags.MAXSHOW_INT, maxShow);
+		if (FixUtils.isSet(pegInstructions.pegOffsetValue)) pegInstructions.encode( out );
+		if (FixUtils.isSet(discretionInstructions.discretionInst)) discretionInstructions.encode( out );
 		if (FixUtils.isSet(targetStrategy)) FixUtils.putFixTag( out, FixTags.TARGETSTRATEGY_INT, targetStrategy);
+		if (FixUtils.isSet(strategyParametersGrp.noStrategyParameters)) strategyParametersGrp.encode( out );
 		if (FixUtils.isSet(targetStrategyParameters)) FixUtils.putFixTag( out, FixTags.TARGETSTRATEGYPARAMETERS_INT, targetStrategyParameters, 0, Utils.lastIndexTrim(targetStrategyParameters, (byte)0) );
 		if (FixUtils.isSet(participationRate)) FixUtils.putFixFloatTag( out, FixTags.PARTICIPATIONRATE_INT, participationRate);
 		if (FixUtils.isSet(cancellationRights)) FixUtils.putFixTag( out, FixTags.CANCELLATIONRIGHTS_INT, cancellationRights );
@@ -539,6 +682,7 @@ public class FixCrossOrderCancelReplaceRequest extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			if (FixUtils.isSet(orderID)) s += "OrderID(37)=" + new String(orderID) + sep;
 			 s += "CrossID(548)=" + new String(crossID) + sep;
@@ -546,6 +690,11 @@ public class FixCrossOrderCancelReplaceRequest extends FixMessage
 			if (FixUtils.isSet(hostCrossID)) s += "HostCrossID(961)=" + new String(hostCrossID) + sep;
 			 s += "CrossType(549)=" + String.valueOf(crossType) + sep;
 			 s += "CrossPrioritization(550)=" + String.valueOf(crossPrioritization) + sep;
+			if (FixUtils.isSet(rootParties.noRootPartyIDs)) s += rootParties.toString();
+			 s += sideCrossOrdModGrp.toString();
+			 s += instrument.toString();
+			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
+			if (FixUtils.isSet(instrmtLegGrp.noLegs)) s += instrmtLegGrp.toString();
 			if (FixUtils.isSet(settlType)) s += "SettlType(63)=" + new String(settlType) + sep;
 			if (FixUtils.isSet(settlDate)) s += "SettlDate(64)=" + new String(settlDate) + sep;
 			if (FixUtils.isSet(handlInst)) s += "HandlInst(21)=" + String.valueOf(handlInst) + sep;
@@ -553,19 +702,25 @@ public class FixCrossOrderCancelReplaceRequest extends FixMessage
 			if (FixUtils.isSet(minQty)) s += "MinQty(110)=" + String.valueOf(minQty) + sep;
 			if (FixUtils.isSet(matchIncrement)) s += "MatchIncrement(1089)=" + String.valueOf(matchIncrement) + sep;
 			if (FixUtils.isSet(maxPriceLevels)) s += "MaxPriceLevels(1090)=" + String.valueOf(maxPriceLevels) + sep;
+			if (FixUtils.isSet(displayInstruction.displayQty)) s += displayInstruction.toString();
 			if (FixUtils.isSet(maxFloor)) s += "MaxFloor(111)=" + String.valueOf(maxFloor) + sep;
 			if (FixUtils.isSet(exDestination)) s += "ExDestination(100)=" + new String(exDestination) + sep;
 			if (FixUtils.isSet(exDestinationIDSource)) s += "ExDestinationIDSource(1133)=" + String.valueOf(exDestinationIDSource) + sep;
+			if (FixUtils.isSet(trdgSesGrp.noTradingSessions)) s += trdgSesGrp.toString();
 			if (FixUtils.isSet(processCode)) s += "ProcessCode(81)=" + String.valueOf(processCode) + sep;
 			if (FixUtils.isSet(prevClosePx)) s += "PrevClosePx(140)=" + String.valueOf(prevClosePx) + sep;
 			if (FixUtils.isSet(locateReqd)) s += "LocateReqd(114)=" + String.valueOf(locateReqd) + sep;
 			 s += "TransactTime(60)=" + new String(transactTime) + sep;
 			if (FixUtils.isSet(transBkdTime)) s += "TransBkdTime(483)=" + new String(transBkdTime) + sep;
+			if (FixUtils.isSet(stipulations.noStipulations)) s += stipulations.toString();
 			 s += "OrdType(40)=" + String.valueOf(ordType) + sep;
 			if (FixUtils.isSet(priceType)) s += "PriceType(423)=" + String.valueOf(priceType) + sep;
 			if (FixUtils.isSet(price)) s += "Price(44)=" + String.valueOf(price) + sep;
 			if (FixUtils.isSet(priceProtectionScope)) s += "PriceProtectionScope(1092)=" + String.valueOf(priceProtectionScope) + sep;
 			if (FixUtils.isSet(stopPx)) s += "StopPx(99)=" + String.valueOf(stopPx) + sep;
+			if (FixUtils.isSet(triggeringInstruction.triggerType)) s += triggeringInstruction.toString();
+			if (FixUtils.isSet(spreadOrBenchmarkCurveData.spread)) s += spreadOrBenchmarkCurveData.toString();
+			if (FixUtils.isSet(yieldData.yieldType)) s += yieldData.toString();
 			if (FixUtils.isSet(currency)) s += "Currency(15)=" + new String(currency) + sep;
 			if (FixUtils.isSet(complianceID)) s += "ComplianceID(376)=" + new String(complianceID) + sep;
 			if (FixUtils.isSet(iOIID)) s += "IOIID(23)=" + new String(iOIID) + sep;
@@ -576,7 +731,10 @@ public class FixCrossOrderCancelReplaceRequest extends FixMessage
 			if (FixUtils.isSet(expireTime)) s += "ExpireTime(126)=" + new String(expireTime) + sep;
 			if (FixUtils.isSet(gTBookingInst)) s += "GTBookingInst(427)=" + String.valueOf(gTBookingInst) + sep;
 			if (FixUtils.isSet(maxShow)) s += "MaxShow(210)=" + String.valueOf(maxShow) + sep;
+			if (FixUtils.isSet(pegInstructions.pegOffsetValue)) s += pegInstructions.toString();
+			if (FixUtils.isSet(discretionInstructions.discretionInst)) s += discretionInstructions.toString();
 			if (FixUtils.isSet(targetStrategy)) s += "TargetStrategy(847)=" + String.valueOf(targetStrategy) + sep;
+			if (FixUtils.isSet(strategyParametersGrp.noStrategyParameters)) s += strategyParametersGrp.toString();
 			if (FixUtils.isSet(targetStrategyParameters)) s += "TargetStrategyParameters(848)=" + new String(targetStrategyParameters) + sep;
 			if (FixUtils.isSet(participationRate)) s += "ParticipationRate(849)=" + String.valueOf(participationRate) + sep;
 			if (FixUtils.isSet(cancellationRights)) s += "CancellationRights(480)=" + String.valueOf(cancellationRights) + sep;
@@ -611,6 +769,16 @@ public class FixCrossOrderCancelReplaceRequest extends FixMessage
 
 		if (!( crossPrioritization==msg.crossPrioritization)) return false;
 
+		if (!rootParties.equals(msg.rootParties)) return false;
+
+		if (!sideCrossOrdModGrp.equals(msg.sideCrossOrdModGrp)) return false;
+
+		if (!instrument.equals(msg.instrument)) return false;
+
+		if (!undInstrmtGrp.equals(msg.undInstrmtGrp)) return false;
+
+		if (!instrmtLegGrp.equals(msg.instrmtLegGrp)) return false;
+
 		if (!Utils.equals( settlType, msg.settlType)) return false;
 
 		if (!( handlInst==msg.handlInst)) return false;
@@ -623,17 +791,23 @@ public class FixCrossOrderCancelReplaceRequest extends FixMessage
 
 		if (!( maxPriceLevels==msg.maxPriceLevels)) return false;
 
+		if (!displayInstruction.equals(msg.displayInstruction)) return false;
+
 		if (!( maxFloor==msg.maxFloor)) return false;
 
 		if (!Utils.equals( exDestination, msg.exDestination)) return false;
 
 		if (!( exDestinationIDSource==msg.exDestinationIDSource)) return false;
 
+		if (!trdgSesGrp.equals(msg.trdgSesGrp)) return false;
+
 		if (!( processCode==msg.processCode)) return false;
 
 		if (!( prevClosePx==msg.prevClosePx)) return false;
 
 		if (!( locateReqd==msg.locateReqd)) return false;
+
+		if (!stipulations.equals(msg.stipulations)) return false;
 
 		if (!( ordType==msg.ordType)) return false;
 
@@ -644,6 +818,12 @@ public class FixCrossOrderCancelReplaceRequest extends FixMessage
 		if (!( priceProtectionScope==msg.priceProtectionScope)) return false;
 
 		if (!( stopPx==msg.stopPx)) return false;
+
+		if (!triggeringInstruction.equals(msg.triggeringInstruction)) return false;
+
+		if (!spreadOrBenchmarkCurveData.equals(msg.spreadOrBenchmarkCurveData)) return false;
+
+		if (!yieldData.equals(msg.yieldData)) return false;
 
 		if (!Utils.equals( currency, msg.currency)) return false;
 
@@ -659,7 +839,13 @@ public class FixCrossOrderCancelReplaceRequest extends FixMessage
 
 		if (!( maxShow==msg.maxShow)) return false;
 
+		if (!pegInstructions.equals(msg.pegInstructions)) return false;
+
+		if (!discretionInstructions.equals(msg.discretionInstructions)) return false;
+
 		if (!( targetStrategy==msg.targetStrategy)) return false;
+
+		if (!strategyParametersGrp.equals(msg.strategyParametersGrp)) return false;
 
 		if (!Utils.equals( targetStrategyParameters, msg.targetStrategyParameters)) return false;
 

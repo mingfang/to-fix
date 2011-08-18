@@ -10,10 +10,25 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixOrdAllocGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixExecAllocGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrument;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrumentExtension;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixFinancingDetails;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUndInstrmtGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrmtLegGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixSpreadOrBenchmarkCurveData;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixStipulations;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixYieldData;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixPositionAmountData;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixAllocGrp;
 
 public class FixAllocationInstructionAlert extends FixMessage
 {
@@ -29,10 +44,17 @@ public class FixAllocationInstructionAlert extends FixMessage
 	public long allocLinkType = 0;
 	public byte[] bookingRefID;
 	public long allocNoOrdersType = 0;
+	public FixOrdAllocGrp ordAllocGrp;
+	public FixExecAllocGrp execAllocGrp;
 	public boolean previouslyReported = false;
 	public boolean reversalIndicator = false;
 	public byte[] matchType;
 	public byte side = (byte)' ';
+	public FixInstrument instrument;
+	public FixInstrumentExtension instrumentExtension;
+	public FixFinancingDetails financingDetails;
+	public FixUndInstrmtGrp undInstrmtGrp;
+	public FixInstrmtLegGrp instrmtLegGrp;
 	public long quantity = 0;
 	public long qtyType = 0;
 	public byte[] lastMkt;
@@ -42,8 +64,10 @@ public class FixAllocationInstructionAlert extends FixMessage
 	public long priceType = 0;
 	public long avgPx = 0;
 	public long avgParPx = 0;
+	public FixSpreadOrBenchmarkCurveData spreadOrBenchmarkCurveData;
 	public byte[] currency;
 	public long avgPxPrecision = 0;
+	public FixParties parties;
 	public byte[] tradeDate;
 	public byte[] transactTime;
 	public byte[] settlType;
@@ -67,6 +91,9 @@ public class FixAllocationInstructionAlert extends FixMessage
 	public long startCash = 0;
 	public long endCash = 0;
 	public boolean legalConfirm = false;
+	public FixStipulations stipulations;
+	public FixYieldData yieldData;
+	public FixPositionAmountData positionAmountData;
 	public long totNoAllocs = 0;
 	public boolean lastFragment = false;
 	public long avgPxIndicator = 0;
@@ -78,6 +105,7 @@ public class FixAllocationInstructionAlert extends FixMessage
 	public byte multiLegReportingType = (byte)' ';
 	public byte[] messageEventSource;
 	public long rndPx = 0;
+	public FixAllocGrp allocGrp;
 
 	public FixAllocationInstructionAlert() {
 		super();
@@ -87,21 +115,34 @@ public class FixAllocationInstructionAlert extends FixMessage
 		refAllocID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		allocLinkID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		bookingRefID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		ordAllocGrp = new FixOrdAllocGrp();
+		execAllocGrp = new FixExecAllocGrp();
 		matchType = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		instrument = new FixInstrument();
+		instrumentExtension = new FixInstrumentExtension();
+		financingDetails = new FixFinancingDetails();
+		undInstrmtGrp = new FixUndInstrmtGrp();
+		instrmtLegGrp = new FixInstrmtLegGrp();
 		lastMkt = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		tradeOriginationDate = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		tradingSessionID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		tradingSessionSubID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		spreadOrBenchmarkCurveData = new FixSpreadOrBenchmarkCurveData();
 		currency = new byte[FixUtils.CURRENCY_LENGTH];
+		parties = new FixParties();
 		tradeDate = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		transactTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
 		settlType = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		settlDate = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		encodedText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
+		stipulations = new FixStipulations();
+		yieldData = new FixYieldData();
+		positionAmountData = new FixPositionAmountData();
 		clearingBusinessDate = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		tradeInputSource = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		messageEventSource = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		allocGrp = new FixAllocGrp();
 		this.clear();
 
 		msgType = MsgTypes.ALLOCATIONINSTRUCTIONALERT_INT;
@@ -174,10 +215,23 @@ public class FixAllocationInstructionAlert extends FixMessage
 		multiLegReportingType = Byte.MAX_VALUE;		
 		Utils.fill( messageEventSource, (byte)0 );
 		rndPx = Long.MAX_VALUE;		
+		ordAllocGrp.clear();
+		execAllocGrp.clear();
+		instrument.clear();
+		instrumentExtension.clear();
+		financingDetails.clear();
+		undInstrmtGrp.clear();
+		instrmtLegGrp.clear();
+		spreadOrBenchmarkCurveData.clear();
+		parties.clear();
+		stipulations.clear();
+		yieldData.clear();
+		positionAmountData.clear();
+		allocGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -246,6 +300,16 @@ public class FixAllocationInstructionAlert extends FixMessage
 				if (!AllocNoOrdersType.isValid(allocNoOrdersType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + allocNoOrdersType + ") for tag: " + id );
 				break;
 
+			case FixTags.NOORDERS_INT:
+				ordAllocGrp.noOrders = FixUtils.getTagIntValue( value );
+				ordAllocGrp.getAll(ordAllocGrp.noOrders, value );
+				break;
+
+			case FixTags.NOEXECS_INT:
+				execAllocGrp.noExecs = FixUtils.getTagIntValue( value );
+				execAllocGrp.getAll(execAllocGrp.noExecs, value );
+				break;
+
 			case FixTags.PREVIOUSLYREPORTED_INT:
 				previouslyReported = FixUtils.getTagBooleanValue( value );
 				if (!PreviouslyReported.isValid(previouslyReported) ) throw new FixSessionException(buf, "Invalid enumerated value(" + previouslyReported + ") for tag: " + id );
@@ -263,6 +327,28 @@ public class FixAllocationInstructionAlert extends FixMessage
 			case FixTags.SIDE_INT:
 				side = FixUtils.getTagCharValue( value );
 				if (!Side.isValid(side) ) throw new FixSessionException(buf, "Invalid enumerated value(" + side + ") for tag: " + id );
+				break;
+
+			case FixTags.SYMBOL_INT:
+				instrument.getAll(FixTags.SYMBOL_INT, value );
+				break;
+
+			case FixTags.DELIVERYFORM_INT:
+				instrumentExtension.getAll(FixTags.DELIVERYFORM_INT, value );
+				break;
+
+			case FixTags.AGREEMENTDESC_INT:
+				financingDetails.getAll(FixTags.AGREEMENTDESC_INT, value );
+				break;
+
+			case FixTags.NOUNDERLYINGS_INT:
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
+				break;
+
+			case FixTags.NOLEGS_INT:
+				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( value );
+				instrmtLegGrp.getAll(instrmtLegGrp.noLegs, value );
 				break;
 
 			case FixTags.QUANTITY_INT:
@@ -305,12 +391,21 @@ public class FixAllocationInstructionAlert extends FixMessage
 				avgParPx = FixUtils.getTagFloatValue(value);
 				break;
 
+			case FixTags.SPREAD_INT:
+				spreadOrBenchmarkCurveData.getAll(FixTags.SPREAD_INT, value );
+				break;
+
 			case FixTags.CURRENCY_INT:
 				currency = FixUtils.getTagStringValue(value, currency);
 				break;
 
 			case FixTags.AVGPXPRECISION_INT:
 				avgPxPrecision = FixUtils.getTagIntValue( value );
+				break;
+
+			case FixTags.NOPARTYIDS_INT:
+				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(parties.noPartyIDs, value );
 				break;
 
 			case FixTags.TRADEDATE_INT:
@@ -409,6 +504,20 @@ public class FixAllocationInstructionAlert extends FixMessage
 				if (!LegalConfirm.isValid(legalConfirm) ) throw new FixSessionException(buf, "Invalid enumerated value(" + legalConfirm + ") for tag: " + id );
 				break;
 
+			case FixTags.NOSTIPULATIONS_INT:
+				stipulations.noStipulations = FixUtils.getTagIntValue( value );
+				stipulations.getAll(stipulations.noStipulations, value );
+				break;
+
+			case FixTags.YIELDTYPE_INT:
+				yieldData.getAll(FixTags.YIELDTYPE_INT, value );
+				break;
+
+			case FixTags.NOPOSAMT_INT:
+				positionAmountData.noPosAmt = FixUtils.getTagIntValue( value );
+				positionAmountData.getAll(positionAmountData.noPosAmt, value );
+				break;
+
 			case FixTags.TOTNOALLOCS_INT:
 				totNoAllocs = FixUtils.getTagIntValue( value );
 				break;
@@ -459,6 +568,11 @@ public class FixAllocationInstructionAlert extends FixMessage
 				rndPx = FixUtils.getTagFloatValue(value);
 				break;
 
+			case FixTags.NOALLOCS_INT:
+				allocGrp.noAllocs = FixUtils.getTagIntValue( value );
+				allocGrp.getAll(allocGrp.noAllocs, value );
+				break;
+
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
 				checkSum = FixUtils.getTagIntValue( value );
@@ -484,12 +598,18 @@ public class FixAllocationInstructionAlert extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(allocID) ) return FixTags.ALLOCID_INT;
 		if (! FixUtils.isSet(allocTransType) ) return FixTags.ALLOCTRANSTYPE_INT;
 		if (! FixUtils.isSet(allocType) ) return FixTags.ALLOCTYPE_INT;
 		if (! FixUtils.isSet(side) ) return FixTags.SIDE_INT;
 		if (! FixUtils.isSet(quantity) ) return FixTags.QUANTITY_INT;
 		if (! FixUtils.isSet(tradeDate) ) return FixTags.TRADEDATE_INT;
+		if (! instrument.isSet() ) return FixTags.SYMBOL_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -539,6 +659,7 @@ public class FixAllocationInstructionAlert extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.ALLOCID_INT, allocID, 0, Utils.lastIndexTrim(allocID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.ALLOCTRANSTYPE_INT, allocTransType );
@@ -551,10 +672,17 @@ public class FixAllocationInstructionAlert extends FixMessage
 		if (FixUtils.isSet(allocLinkType)) FixUtils.putFixTag( out, FixTags.ALLOCLINKTYPE_INT, allocLinkType);
 		if (FixUtils.isSet(bookingRefID)) FixUtils.putFixTag( out, FixTags.BOOKINGREFID_INT, bookingRefID, 0, Utils.lastIndexTrim(bookingRefID, (byte)0) );
 		if (FixUtils.isSet(allocNoOrdersType)) FixUtils.putFixTag( out, FixTags.ALLOCNOORDERSTYPE_INT, allocNoOrdersType);
+		if (FixUtils.isSet(ordAllocGrp.noOrders)) ordAllocGrp.encode( out );
+		if (FixUtils.isSet(execAllocGrp.noExecs)) execAllocGrp.encode( out );
 		if (FixUtils.isSet(previouslyReported)) FixUtils.putFixTag( out, FixTags.PREVIOUSLYREPORTED_INT, previouslyReported?(byte)'Y':(byte)'N' );
 		if (FixUtils.isSet(reversalIndicator)) FixUtils.putFixTag( out, FixTags.REVERSALINDICATOR_INT, reversalIndicator?(byte)'Y':(byte)'N' );
 		if (FixUtils.isSet(matchType)) FixUtils.putFixTag( out, FixTags.MATCHTYPE_INT, matchType, 0, Utils.lastIndexTrim(matchType, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.SIDE_INT, side );
+		instrument.encode( out );
+		if (FixUtils.isSet(instrumentExtension.deliveryForm)) instrumentExtension.encode( out );
+		if (FixUtils.isSet(financingDetails.agreementDesc)) financingDetails.encode( out );
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
+		if (FixUtils.isSet(instrmtLegGrp.noLegs)) instrmtLegGrp.encode( out );
 		FixUtils.putFixFloatTag( out, FixTags.QUANTITY_INT, quantity);
 		if (FixUtils.isSet(qtyType)) FixUtils.putFixTag( out, FixTags.QTYTYPE_INT, qtyType);
 		if (FixUtils.isSet(lastMkt)) FixUtils.putFixTag( out, FixTags.LASTMKT_INT, lastMkt, 0, Utils.lastIndexTrim(lastMkt, (byte)0) );
@@ -564,8 +692,10 @@ public class FixAllocationInstructionAlert extends FixMessage
 		if (FixUtils.isSet(priceType)) FixUtils.putFixTag( out, FixTags.PRICETYPE_INT, priceType);
 		if (FixUtils.isSet(avgPx)) FixUtils.putFixFloatTag( out, FixTags.AVGPX_INT, avgPx);
 		if (FixUtils.isSet(avgParPx)) FixUtils.putFixFloatTag( out, FixTags.AVGPARPX_INT, avgParPx);
+		if (FixUtils.isSet(spreadOrBenchmarkCurveData.spread)) spreadOrBenchmarkCurveData.encode( out );
 		if (FixUtils.isSet(currency)) FixUtils.putFixTag( out, FixTags.CURRENCY_INT, currency, 0, Utils.lastIndexTrim(currency, (byte)0) );
 		if (FixUtils.isSet(avgPxPrecision)) FixUtils.putFixTag( out, FixTags.AVGPXPRECISION_INT, avgPxPrecision);
+		if (FixUtils.isSet(parties.noPartyIDs)) parties.encode( out );
 		FixUtils.putFixTag( out, FixTags.TRADEDATE_INT, tradeDate);
 		if (FixUtils.isSet(transactTime)) FixUtils.putFixTag( out, FixTags.TRANSACTTIME_INT, transactTime);
 		if (FixUtils.isSet(settlType)) FixUtils.putFixTag( out, FixTags.SETTLTYPE_INT, settlType, 0, Utils.lastIndexTrim(settlType, (byte)0) );
@@ -589,6 +719,9 @@ public class FixAllocationInstructionAlert extends FixMessage
 		if (FixUtils.isSet(startCash)) FixUtils.putFixTag( out, FixTags.STARTCASH_INT, startCash);
 		if (FixUtils.isSet(endCash)) FixUtils.putFixTag( out, FixTags.ENDCASH_INT, endCash);
 		if (FixUtils.isSet(legalConfirm)) FixUtils.putFixTag( out, FixTags.LEGALCONFIRM_INT, legalConfirm?(byte)'Y':(byte)'N' );
+		if (FixUtils.isSet(stipulations.noStipulations)) stipulations.encode( out );
+		if (FixUtils.isSet(yieldData.yieldType)) yieldData.encode( out );
+		if (FixUtils.isSet(positionAmountData.noPosAmt)) positionAmountData.encode( out );
 		if (FixUtils.isSet(totNoAllocs)) FixUtils.putFixTag( out, FixTags.TOTNOALLOCS_INT, totNoAllocs);
 		if (FixUtils.isSet(lastFragment)) FixUtils.putFixTag( out, FixTags.LASTFRAGMENT_INT, lastFragment?(byte)'Y':(byte)'N' );
 		if (FixUtils.isSet(avgPxIndicator)) FixUtils.putFixTag( out, FixTags.AVGPXINDICATOR_INT, avgPxIndicator);
@@ -600,6 +733,7 @@ public class FixAllocationInstructionAlert extends FixMessage
 		if (FixUtils.isSet(multiLegReportingType)) FixUtils.putFixTag( out, FixTags.MULTILEGREPORTINGTYPE_INT, multiLegReportingType );
 		if (FixUtils.isSet(messageEventSource)) FixUtils.putFixTag( out, FixTags.MESSAGEEVENTSOURCE_INT, messageEventSource, 0, Utils.lastIndexTrim(messageEventSource, (byte)0) );
 		if (FixUtils.isSet(rndPx)) FixUtils.putFixFloatTag( out, FixTags.RNDPX_INT, rndPx);
+		if (FixUtils.isSet(allocGrp.noAllocs)) allocGrp.encode( out );
 		// the checksum at the end
 
 		int checkSumStart = out.position();
@@ -665,6 +799,7 @@ public class FixAllocationInstructionAlert extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "AllocID(70)=" + new String(allocID) + sep;
 			 s += "AllocTransType(71)=" + String.valueOf(allocTransType) + sep;
@@ -677,10 +812,17 @@ public class FixAllocationInstructionAlert extends FixMessage
 			if (FixUtils.isSet(allocLinkType)) s += "AllocLinkType(197)=" + String.valueOf(allocLinkType) + sep;
 			if (FixUtils.isSet(bookingRefID)) s += "BookingRefID(466)=" + new String(bookingRefID) + sep;
 			if (FixUtils.isSet(allocNoOrdersType)) s += "AllocNoOrdersType(857)=" + String.valueOf(allocNoOrdersType) + sep;
+			if (FixUtils.isSet(ordAllocGrp.noOrders)) s += ordAllocGrp.toString();
+			if (FixUtils.isSet(execAllocGrp.noExecs)) s += execAllocGrp.toString();
 			if (FixUtils.isSet(previouslyReported)) s += "PreviouslyReported(570)=" + String.valueOf(previouslyReported) + sep;
 			if (FixUtils.isSet(reversalIndicator)) s += "ReversalIndicator(700)=" + String.valueOf(reversalIndicator) + sep;
 			if (FixUtils.isSet(matchType)) s += "MatchType(574)=" + new String(matchType) + sep;
 			 s += "Side(54)=" + String.valueOf(side) + sep;
+			 s += instrument.toString();
+			if (FixUtils.isSet(instrumentExtension.deliveryForm)) s += instrumentExtension.toString();
+			if (FixUtils.isSet(financingDetails.agreementDesc)) s += financingDetails.toString();
+			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
+			if (FixUtils.isSet(instrmtLegGrp.noLegs)) s += instrmtLegGrp.toString();
 			 s += "Quantity(53)=" + String.valueOf(quantity) + sep;
 			if (FixUtils.isSet(qtyType)) s += "QtyType(854)=" + String.valueOf(qtyType) + sep;
 			if (FixUtils.isSet(lastMkt)) s += "LastMkt(30)=" + new String(lastMkt) + sep;
@@ -690,8 +832,10 @@ public class FixAllocationInstructionAlert extends FixMessage
 			if (FixUtils.isSet(priceType)) s += "PriceType(423)=" + String.valueOf(priceType) + sep;
 			if (FixUtils.isSet(avgPx)) s += "AvgPx(6)=" + String.valueOf(avgPx) + sep;
 			if (FixUtils.isSet(avgParPx)) s += "AvgParPx(860)=" + String.valueOf(avgParPx) + sep;
+			if (FixUtils.isSet(spreadOrBenchmarkCurveData.spread)) s += spreadOrBenchmarkCurveData.toString();
 			if (FixUtils.isSet(currency)) s += "Currency(15)=" + new String(currency) + sep;
 			if (FixUtils.isSet(avgPxPrecision)) s += "AvgPxPrecision(74)=" + String.valueOf(avgPxPrecision) + sep;
+			if (FixUtils.isSet(parties.noPartyIDs)) s += parties.toString();
 			 s += "TradeDate(75)=" + new String(tradeDate) + sep;
 			if (FixUtils.isSet(transactTime)) s += "TransactTime(60)=" + new String(transactTime) + sep;
 			if (FixUtils.isSet(settlType)) s += "SettlType(63)=" + new String(settlType) + sep;
@@ -715,6 +859,9 @@ public class FixAllocationInstructionAlert extends FixMessage
 			if (FixUtils.isSet(startCash)) s += "StartCash(921)=" + String.valueOf(startCash) + sep;
 			if (FixUtils.isSet(endCash)) s += "EndCash(922)=" + String.valueOf(endCash) + sep;
 			if (FixUtils.isSet(legalConfirm)) s += "LegalConfirm(650)=" + String.valueOf(legalConfirm) + sep;
+			if (FixUtils.isSet(stipulations.noStipulations)) s += stipulations.toString();
+			if (FixUtils.isSet(yieldData.yieldType)) s += yieldData.toString();
+			if (FixUtils.isSet(positionAmountData.noPosAmt)) s += positionAmountData.toString();
 			if (FixUtils.isSet(totNoAllocs)) s += "TotNoAllocs(892)=" + String.valueOf(totNoAllocs) + sep;
 			if (FixUtils.isSet(lastFragment)) s += "LastFragment(893)=" + String.valueOf(lastFragment) + sep;
 			if (FixUtils.isSet(avgPxIndicator)) s += "AvgPxIndicator(819)=" + String.valueOf(avgPxIndicator) + sep;
@@ -726,6 +873,7 @@ public class FixAllocationInstructionAlert extends FixMessage
 			if (FixUtils.isSet(multiLegReportingType)) s += "MultiLegReportingType(442)=" + String.valueOf(multiLegReportingType) + sep;
 			if (FixUtils.isSet(messageEventSource)) s += "MessageEventSource(1011)=" + new String(messageEventSource) + sep;
 			if (FixUtils.isSet(rndPx)) s += "RndPx(991)=" + String.valueOf(rndPx) + sep;
+			if (FixUtils.isSet(allocGrp.noAllocs)) s += allocGrp.toString();
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
 
@@ -764,6 +912,10 @@ public class FixAllocationInstructionAlert extends FixMessage
 
 		if (!( allocNoOrdersType==msg.allocNoOrdersType)) return false;
 
+		if (!ordAllocGrp.equals(msg.ordAllocGrp)) return false;
+
+		if (!execAllocGrp.equals(msg.execAllocGrp)) return false;
+
 		if (!( previouslyReported==msg.previouslyReported)) return false;
 
 		if (!( reversalIndicator==msg.reversalIndicator)) return false;
@@ -771,6 +923,16 @@ public class FixAllocationInstructionAlert extends FixMessage
 		if (!Utils.equals( matchType, msg.matchType)) return false;
 
 		if (!( side==msg.side)) return false;
+
+		if (!instrument.equals(msg.instrument)) return false;
+
+		if (!instrumentExtension.equals(msg.instrumentExtension)) return false;
+
+		if (!financingDetails.equals(msg.financingDetails)) return false;
+
+		if (!undInstrmtGrp.equals(msg.undInstrmtGrp)) return false;
+
+		if (!instrmtLegGrp.equals(msg.instrmtLegGrp)) return false;
 
 		if (!( quantity==msg.quantity)) return false;
 
@@ -788,9 +950,13 @@ public class FixAllocationInstructionAlert extends FixMessage
 
 		if (!( avgParPx==msg.avgParPx)) return false;
 
+		if (!spreadOrBenchmarkCurveData.equals(msg.spreadOrBenchmarkCurveData)) return false;
+
 		if (!Utils.equals( currency, msg.currency)) return false;
 
 		if (!( avgPxPrecision==msg.avgPxPrecision)) return false;
+
+		if (!parties.equals(msg.parties)) return false;
 
 		if (!Utils.equals( settlType, msg.settlType)) return false;
 
@@ -832,6 +998,12 @@ public class FixAllocationInstructionAlert extends FixMessage
 
 		if (!( legalConfirm==msg.legalConfirm)) return false;
 
+		if (!stipulations.equals(msg.stipulations)) return false;
+
+		if (!yieldData.equals(msg.yieldData)) return false;
+
+		if (!positionAmountData.equals(msg.positionAmountData)) return false;
+
 		if (!( totNoAllocs==msg.totNoAllocs)) return false;
 
 		if (!( lastFragment==msg.lastFragment)) return false;
@@ -851,6 +1023,8 @@ public class FixAllocationInstructionAlert extends FixMessage
 		if (!Utils.equals( messageEventSource, msg.messageEventSource)) return false;
 
 		if (!( rndPx==msg.rndPx)) return false;
+
+		if (!allocGrp.equals(msg.allocGrp)) return false;
 
 		return true;
 	}

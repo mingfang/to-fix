@@ -10,31 +10,54 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixCollInqQualGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixExecCollGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixTrdCollGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrument;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixFinancingDetails;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrmtLegGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUndInstrmtGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixTrdRegTimestamps;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixSpreadOrBenchmarkCurveData;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixStipulations;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixSettlInstructionsData;
 
 public class FixCollateralInquiry extends FixMessage
 {
 
 	public byte[] collInquiryID;
+	public FixCollInqQualGrp collInqQualGrp;
 	public byte subscriptionRequestType = (byte)' ';
 	public long responseTransportType = 0;
 	public byte[] responseDestination;
+	public FixParties parties;
 	public byte[] account;
 	public long accountType = 0;
 	public byte[] clOrdID;
 	public byte[] orderID;
 	public byte[] secondaryOrderID;
 	public byte[] secondaryClOrdID;
+	public FixExecCollGrp execCollGrp;
+	public FixTrdCollGrp trdCollGrp;
+	public FixInstrument instrument;
+	public FixFinancingDetails financingDetails;
 	public byte[] settlDate;
 	public long quantity = 0;
 	public long qtyType = 0;
 	public byte[] currency;
+	public FixInstrmtLegGrp instrmtLegGrp;
+	public FixUndInstrmtGrp undInstrmtGrp;
 	public long marginExcess = 0;
 	public long totalNetValue = 0;
 	public long cashOutstanding = 0;
+	public FixTrdRegTimestamps trdRegTimestamps;
 	public byte side = (byte)' ';
 	public long price = 0;
 	public long priceType = 0;
@@ -42,6 +65,9 @@ public class FixCollateralInquiry extends FixMessage
 	public long endAccruedInterestAmt = 0;
 	public long startCash = 0;
 	public long endCash = 0;
+	public FixSpreadOrBenchmarkCurveData spreadOrBenchmarkCurveData;
+	public FixStipulations stipulations;
+	public FixSettlInstructionsData settlInstructionsData;
 	public byte[] tradingSessionID;
 	public byte[] tradingSessionSubID;
 	public byte[] settlSessID;
@@ -55,14 +81,26 @@ public class FixCollateralInquiry extends FixMessage
 		super();
 
 		collInquiryID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		collInqQualGrp = new FixCollInqQualGrp();
 		responseDestination = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		parties = new FixParties();
 		account = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		clOrdID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		orderID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		secondaryOrderID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		secondaryClOrdID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		execCollGrp = new FixExecCollGrp();
+		trdCollGrp = new FixTrdCollGrp();
+		instrument = new FixInstrument();
+		financingDetails = new FixFinancingDetails();
 		settlDate = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		currency = new byte[FixUtils.CURRENCY_LENGTH];
+		instrmtLegGrp = new FixInstrmtLegGrp();
+		undInstrmtGrp = new FixUndInstrmtGrp();
+		trdRegTimestamps = new FixTrdRegTimestamps();
+		spreadOrBenchmarkCurveData = new FixSpreadOrBenchmarkCurveData();
+		stipulations = new FixStipulations();
+		settlInstructionsData = new FixSettlInstructionsData();
 		tradingSessionID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		tradingSessionSubID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		settlSessID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
@@ -114,10 +152,22 @@ public class FixCollateralInquiry extends FixMessage
 		Utils.fill( text, (byte)0 );
 		encodedTextLen = Long.MAX_VALUE;		
 		Utils.fill( encodedText, (byte)0 );
+		collInqQualGrp.clear();
+		parties.clear();
+		execCollGrp.clear();
+		trdCollGrp.clear();
+		instrument.clear();
+		financingDetails.clear();
+		instrmtLegGrp.clear();
+		undInstrmtGrp.clear();
+		trdRegTimestamps.clear();
+		spreadOrBenchmarkCurveData.clear();
+		stipulations.clear();
+		settlInstructionsData.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -140,6 +190,11 @@ public class FixCollateralInquiry extends FixMessage
 				collInquiryID = FixUtils.getTagStringValue(value, collInquiryID);
 				break;
 
+			case FixTags.NOCOLLINQUIRYQUALIFIER_INT:
+				collInqQualGrp.noCollInquiryQualifier = FixUtils.getTagIntValue( value );
+				collInqQualGrp.getAll(collInqQualGrp.noCollInquiryQualifier, value );
+				break;
+
 			case FixTags.SUBSCRIPTIONREQUESTTYPE_INT:
 				subscriptionRequestType = FixUtils.getTagCharValue( value );
 				if (!SubscriptionRequestType.isValid(subscriptionRequestType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + subscriptionRequestType + ") for tag: " + id );
@@ -152,6 +207,11 @@ public class FixCollateralInquiry extends FixMessage
 
 			case FixTags.RESPONSEDESTINATION_INT:
 				responseDestination = FixUtils.getTagStringValue(value, responseDestination);
+				break;
+
+			case FixTags.NOPARTYIDS_INT:
+				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(parties.noPartyIDs, value );
 				break;
 
 			case FixTags.ACCOUNT_INT:
@@ -179,6 +239,24 @@ public class FixCollateralInquiry extends FixMessage
 				secondaryClOrdID = FixUtils.getTagStringValue(value, secondaryClOrdID);
 				break;
 
+			case FixTags.NOEXECS_INT:
+				execCollGrp.noExecs = FixUtils.getTagIntValue( value );
+				execCollGrp.getAll(execCollGrp.noExecs, value );
+				break;
+
+			case FixTags.NOTRADES_INT:
+				trdCollGrp.noTrades = FixUtils.getTagIntValue( value );
+				trdCollGrp.getAll(trdCollGrp.noTrades, value );
+				break;
+
+			case FixTags.SYMBOL_INT:
+				instrument.getAll(FixTags.SYMBOL_INT, value );
+				break;
+
+			case FixTags.AGREEMENTDESC_INT:
+				financingDetails.getAll(FixTags.AGREEMENTDESC_INT, value );
+				break;
+
 			case FixTags.SETTLDATE_INT:
 				settlDate = FixUtils.getTagStringValue(value, settlDate);
 				break;
@@ -196,6 +274,16 @@ public class FixCollateralInquiry extends FixMessage
 				currency = FixUtils.getTagStringValue(value, currency);
 				break;
 
+			case FixTags.NOLEGS_INT:
+				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( value );
+				instrmtLegGrp.getAll(instrmtLegGrp.noLegs, value );
+				break;
+
+			case FixTags.NOUNDERLYINGS_INT:
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
+				break;
+
 			case FixTags.MARGINEXCESS_INT:
 				marginExcess = FixUtils.getTagFloatValue(value);
 				break;
@@ -206,6 +294,11 @@ public class FixCollateralInquiry extends FixMessage
 
 			case FixTags.CASHOUTSTANDING_INT:
 				cashOutstanding = FixUtils.getTagFloatValue(value);
+				break;
+
+			case FixTags.NOTRDREGTIMESTAMPS_INT:
+				trdRegTimestamps.noTrdRegTimestamps = FixUtils.getTagIntValue( value );
+				trdRegTimestamps.getAll(trdRegTimestamps.noTrdRegTimestamps, value );
 				break;
 
 			case FixTags.SIDE_INT:
@@ -236,6 +329,19 @@ public class FixCollateralInquiry extends FixMessage
 
 			case FixTags.ENDCASH_INT:
 				endCash = FixUtils.getTagFloatValue(value);
+				break;
+
+			case FixTags.SPREAD_INT:
+				spreadOrBenchmarkCurveData.getAll(FixTags.SPREAD_INT, value );
+				break;
+
+			case FixTags.NOSTIPULATIONS_INT:
+				stipulations.noStipulations = FixUtils.getTagIntValue( value );
+				stipulations.getAll(stipulations.noStipulations, value );
+				break;
+
+			case FixTags.SETTLDELIVERYTYPE_INT:
+				settlInstructionsData.getAll(FixTags.SETTLDELIVERYTYPE_INT, value );
 				break;
 
 			case FixTags.TRADINGSESSIONID_INT:
@@ -298,7 +404,12 @@ public class FixCollateralInquiry extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(collInquiryID) ) return FixTags.COLLINQUIRYID_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -348,24 +459,34 @@ public class FixCollateralInquiry extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.COLLINQUIRYID_INT, collInquiryID, 0, Utils.lastIndexTrim(collInquiryID, (byte)0) );
+		if (FixUtils.isSet(collInqQualGrp.noCollInquiryQualifier)) collInqQualGrp.encode( out );
 		if (FixUtils.isSet(subscriptionRequestType)) FixUtils.putFixTag( out, FixTags.SUBSCRIPTIONREQUESTTYPE_INT, subscriptionRequestType );
 		if (FixUtils.isSet(responseTransportType)) FixUtils.putFixTag( out, FixTags.RESPONSETRANSPORTTYPE_INT, responseTransportType);
 		if (FixUtils.isSet(responseDestination)) FixUtils.putFixTag( out, FixTags.RESPONSEDESTINATION_INT, responseDestination, 0, Utils.lastIndexTrim(responseDestination, (byte)0) );
+		if (FixUtils.isSet(parties.noPartyIDs)) parties.encode( out );
 		if (FixUtils.isSet(account)) FixUtils.putFixTag( out, FixTags.ACCOUNT_INT, account, 0, Utils.lastIndexTrim(account, (byte)0) );
 		if (FixUtils.isSet(accountType)) FixUtils.putFixTag( out, FixTags.ACCOUNTTYPE_INT, accountType);
 		if (FixUtils.isSet(clOrdID)) FixUtils.putFixTag( out, FixTags.CLORDID_INT, clOrdID, 0, Utils.lastIndexTrim(clOrdID, (byte)0) );
 		if (FixUtils.isSet(orderID)) FixUtils.putFixTag( out, FixTags.ORDERID_INT, orderID, 0, Utils.lastIndexTrim(orderID, (byte)0) );
 		if (FixUtils.isSet(secondaryOrderID)) FixUtils.putFixTag( out, FixTags.SECONDARYORDERID_INT, secondaryOrderID, 0, Utils.lastIndexTrim(secondaryOrderID, (byte)0) );
 		if (FixUtils.isSet(secondaryClOrdID)) FixUtils.putFixTag( out, FixTags.SECONDARYCLORDID_INT, secondaryClOrdID, 0, Utils.lastIndexTrim(secondaryClOrdID, (byte)0) );
+		if (FixUtils.isSet(execCollGrp.noExecs)) execCollGrp.encode( out );
+		if (FixUtils.isSet(trdCollGrp.noTrades)) trdCollGrp.encode( out );
+		if (FixUtils.isSet(instrument.symbol)) instrument.encode( out );
+		if (FixUtils.isSet(financingDetails.agreementDesc)) financingDetails.encode( out );
 		if (FixUtils.isSet(settlDate)) FixUtils.putFixTag( out, FixTags.SETTLDATE_INT, settlDate);
 		if (FixUtils.isSet(quantity)) FixUtils.putFixFloatTag( out, FixTags.QUANTITY_INT, quantity);
 		if (FixUtils.isSet(qtyType)) FixUtils.putFixTag( out, FixTags.QTYTYPE_INT, qtyType);
 		if (FixUtils.isSet(currency)) FixUtils.putFixTag( out, FixTags.CURRENCY_INT, currency, 0, Utils.lastIndexTrim(currency, (byte)0) );
+		if (FixUtils.isSet(instrmtLegGrp.noLegs)) instrmtLegGrp.encode( out );
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
 		if (FixUtils.isSet(marginExcess)) FixUtils.putFixTag( out, FixTags.MARGINEXCESS_INT, marginExcess);
 		if (FixUtils.isSet(totalNetValue)) FixUtils.putFixTag( out, FixTags.TOTALNETVALUE_INT, totalNetValue);
 		if (FixUtils.isSet(cashOutstanding)) FixUtils.putFixTag( out, FixTags.CASHOUTSTANDING_INT, cashOutstanding);
+		if (FixUtils.isSet(trdRegTimestamps.noTrdRegTimestamps)) trdRegTimestamps.encode( out );
 		if (FixUtils.isSet(side)) FixUtils.putFixTag( out, FixTags.SIDE_INT, side );
 		if (FixUtils.isSet(price)) FixUtils.putFixFloatTag( out, FixTags.PRICE_INT, price);
 		if (FixUtils.isSet(priceType)) FixUtils.putFixTag( out, FixTags.PRICETYPE_INT, priceType);
@@ -373,6 +494,9 @@ public class FixCollateralInquiry extends FixMessage
 		if (FixUtils.isSet(endAccruedInterestAmt)) FixUtils.putFixTag( out, FixTags.ENDACCRUEDINTERESTAMT_INT, endAccruedInterestAmt);
 		if (FixUtils.isSet(startCash)) FixUtils.putFixTag( out, FixTags.STARTCASH_INT, startCash);
 		if (FixUtils.isSet(endCash)) FixUtils.putFixTag( out, FixTags.ENDCASH_INT, endCash);
+		if (FixUtils.isSet(spreadOrBenchmarkCurveData.spread)) spreadOrBenchmarkCurveData.encode( out );
+		if (FixUtils.isSet(stipulations.noStipulations)) stipulations.encode( out );
+		if (FixUtils.isSet(settlInstructionsData.settlDeliveryType)) settlInstructionsData.encode( out );
 		if (FixUtils.isSet(tradingSessionID)) FixUtils.putFixTag( out, FixTags.TRADINGSESSIONID_INT, tradingSessionID, 0, Utils.lastIndexTrim(tradingSessionID, (byte)0) );
 		if (FixUtils.isSet(tradingSessionSubID)) FixUtils.putFixTag( out, FixTags.TRADINGSESSIONSUBID_INT, tradingSessionSubID, 0, Utils.lastIndexTrim(tradingSessionSubID, (byte)0) );
 		if (FixUtils.isSet(settlSessID)) FixUtils.putFixTag( out, FixTags.SETTLSESSID_INT, settlSessID, 0, Utils.lastIndexTrim(settlSessID, (byte)0) );
@@ -446,24 +570,34 @@ public class FixCollateralInquiry extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "CollInquiryID(909)=" + new String(collInquiryID) + sep;
+			if (FixUtils.isSet(collInqQualGrp.noCollInquiryQualifier)) s += collInqQualGrp.toString();
 			if (FixUtils.isSet(subscriptionRequestType)) s += "SubscriptionRequestType(263)=" + String.valueOf(subscriptionRequestType) + sep;
 			if (FixUtils.isSet(responseTransportType)) s += "ResponseTransportType(725)=" + String.valueOf(responseTransportType) + sep;
 			if (FixUtils.isSet(responseDestination)) s += "ResponseDestination(726)=" + new String(responseDestination) + sep;
+			if (FixUtils.isSet(parties.noPartyIDs)) s += parties.toString();
 			if (FixUtils.isSet(account)) s += "Account(1)=" + new String(account) + sep;
 			if (FixUtils.isSet(accountType)) s += "AccountType(581)=" + String.valueOf(accountType) + sep;
 			if (FixUtils.isSet(clOrdID)) s += "ClOrdID(11)=" + new String(clOrdID) + sep;
 			if (FixUtils.isSet(orderID)) s += "OrderID(37)=" + new String(orderID) + sep;
 			if (FixUtils.isSet(secondaryOrderID)) s += "SecondaryOrderID(198)=" + new String(secondaryOrderID) + sep;
 			if (FixUtils.isSet(secondaryClOrdID)) s += "SecondaryClOrdID(526)=" + new String(secondaryClOrdID) + sep;
+			if (FixUtils.isSet(execCollGrp.noExecs)) s += execCollGrp.toString();
+			if (FixUtils.isSet(trdCollGrp.noTrades)) s += trdCollGrp.toString();
+			if (FixUtils.isSet(instrument.symbol)) s += instrument.toString();
+			if (FixUtils.isSet(financingDetails.agreementDesc)) s += financingDetails.toString();
 			if (FixUtils.isSet(settlDate)) s += "SettlDate(64)=" + new String(settlDate) + sep;
 			if (FixUtils.isSet(quantity)) s += "Quantity(53)=" + String.valueOf(quantity) + sep;
 			if (FixUtils.isSet(qtyType)) s += "QtyType(854)=" + String.valueOf(qtyType) + sep;
 			if (FixUtils.isSet(currency)) s += "Currency(15)=" + new String(currency) + sep;
+			if (FixUtils.isSet(instrmtLegGrp.noLegs)) s += instrmtLegGrp.toString();
+			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
 			if (FixUtils.isSet(marginExcess)) s += "MarginExcess(899)=" + String.valueOf(marginExcess) + sep;
 			if (FixUtils.isSet(totalNetValue)) s += "TotalNetValue(900)=" + String.valueOf(totalNetValue) + sep;
 			if (FixUtils.isSet(cashOutstanding)) s += "CashOutstanding(901)=" + String.valueOf(cashOutstanding) + sep;
+			if (FixUtils.isSet(trdRegTimestamps.noTrdRegTimestamps)) s += trdRegTimestamps.toString();
 			if (FixUtils.isSet(side)) s += "Side(54)=" + String.valueOf(side) + sep;
 			if (FixUtils.isSet(price)) s += "Price(44)=" + String.valueOf(price) + sep;
 			if (FixUtils.isSet(priceType)) s += "PriceType(423)=" + String.valueOf(priceType) + sep;
@@ -471,6 +605,9 @@ public class FixCollateralInquiry extends FixMessage
 			if (FixUtils.isSet(endAccruedInterestAmt)) s += "EndAccruedInterestAmt(920)=" + String.valueOf(endAccruedInterestAmt) + sep;
 			if (FixUtils.isSet(startCash)) s += "StartCash(921)=" + String.valueOf(startCash) + sep;
 			if (FixUtils.isSet(endCash)) s += "EndCash(922)=" + String.valueOf(endCash) + sep;
+			if (FixUtils.isSet(spreadOrBenchmarkCurveData.spread)) s += spreadOrBenchmarkCurveData.toString();
+			if (FixUtils.isSet(stipulations.noStipulations)) s += stipulations.toString();
+			if (FixUtils.isSet(settlInstructionsData.settlDeliveryType)) s += settlInstructionsData.toString();
 			if (FixUtils.isSet(tradingSessionID)) s += "TradingSessionID(336)=" + new String(tradingSessionID) + sep;
 			if (FixUtils.isSet(tradingSessionSubID)) s += "TradingSessionSubID(625)=" + new String(tradingSessionSubID) + sep;
 			if (FixUtils.isSet(settlSessID)) s += "SettlSessID(716)=" + new String(settlSessID) + sep;
@@ -497,11 +634,15 @@ public class FixCollateralInquiry extends FixMessage
 
 		if (!Utils.equals( collInquiryID, msg.collInquiryID)) return false;
 
+		if (!collInqQualGrp.equals(msg.collInqQualGrp)) return false;
+
 		if (!( subscriptionRequestType==msg.subscriptionRequestType)) return false;
 
 		if (!( responseTransportType==msg.responseTransportType)) return false;
 
 		if (!Utils.equals( responseDestination, msg.responseDestination)) return false;
+
+		if (!parties.equals(msg.parties)) return false;
 
 		if (!Utils.equals( account, msg.account)) return false;
 
@@ -515,17 +656,31 @@ public class FixCollateralInquiry extends FixMessage
 
 		if (!Utils.equals( secondaryClOrdID, msg.secondaryClOrdID)) return false;
 
+		if (!execCollGrp.equals(msg.execCollGrp)) return false;
+
+		if (!trdCollGrp.equals(msg.trdCollGrp)) return false;
+
+		if (!instrument.equals(msg.instrument)) return false;
+
+		if (!financingDetails.equals(msg.financingDetails)) return false;
+
 		if (!( quantity==msg.quantity)) return false;
 
 		if (!( qtyType==msg.qtyType)) return false;
 
 		if (!Utils.equals( currency, msg.currency)) return false;
 
+		if (!instrmtLegGrp.equals(msg.instrmtLegGrp)) return false;
+
+		if (!undInstrmtGrp.equals(msg.undInstrmtGrp)) return false;
+
 		if (!( marginExcess==msg.marginExcess)) return false;
 
 		if (!( totalNetValue==msg.totalNetValue)) return false;
 
 		if (!( cashOutstanding==msg.cashOutstanding)) return false;
+
+		if (!trdRegTimestamps.equals(msg.trdRegTimestamps)) return false;
 
 		if (!( side==msg.side)) return false;
 
@@ -540,6 +695,12 @@ public class FixCollateralInquiry extends FixMessage
 		if (!( startCash==msg.startCash)) return false;
 
 		if (!( endCash==msg.endCash)) return false;
+
+		if (!spreadOrBenchmarkCurveData.equals(msg.spreadOrBenchmarkCurveData)) return false;
+
+		if (!stipulations.equals(msg.stipulations)) return false;
+
+		if (!settlInstructionsData.equals(msg.settlInstructionsData)) return false;
 
 		if (!Utils.equals( tradingSessionID, msg.tradingSessionID)) return false;
 

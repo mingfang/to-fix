@@ -10,10 +10,15 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixTargetParties;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixQuotSetAckGrp;
 
 public class FixMassQuoteAcknowledgement extends FixMessage
 {
@@ -25,21 +30,27 @@ public class FixMassQuoteAcknowledgement extends FixMessage
 	public long quoteResponseLevel = 0;
 	public long quoteType = 0;
 	public long quoteCancelType = 0;
+	public FixParties parties;
+	public FixTargetParties targetParties;
 	public byte[] account;
 	public long acctIDSource = 0;
 	public long accountType = 0;
 	public byte[] text;
 	public long encodedTextLen = 0;
 	public byte[] encodedText;
+	public FixQuotSetAckGrp quotSetAckGrp;
 
 	public FixMassQuoteAcknowledgement() {
 		super();
 
 		quoteReqID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		quoteID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		parties = new FixParties();
+		targetParties = new FixTargetParties();
 		account = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		encodedText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
+		quotSetAckGrp = new FixQuotSetAckGrp();
 		this.clear();
 
 		msgType = MsgTypes.MASSQUOTEACKNOWLEDGEMENT_INT;
@@ -65,10 +76,13 @@ public class FixMassQuoteAcknowledgement extends FixMessage
 		Utils.fill( text, (byte)0 );
 		encodedTextLen = Long.MAX_VALUE;		
 		Utils.fill( encodedText, (byte)0 );
+		parties.clear();
+		targetParties.clear();
+		quotSetAckGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -120,6 +134,16 @@ public class FixMassQuoteAcknowledgement extends FixMessage
 				if (!QuoteCancelType.isValid(quoteCancelType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + quoteCancelType + ") for tag: " + id );
 				break;
 
+			case FixTags.NOPARTYIDS_INT:
+				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(parties.noPartyIDs, value );
+				break;
+
+			case FixTags.NOTARGETPARTYIDS_INT:
+				targetParties.noTargetPartyIDs = FixUtils.getTagIntValue( value );
+				targetParties.getAll(targetParties.noTargetPartyIDs, value );
+				break;
+
 			case FixTags.ACCOUNT_INT:
 				account = FixUtils.getTagStringValue(value, account);
 				break;
@@ -144,6 +168,11 @@ public class FixMassQuoteAcknowledgement extends FixMessage
 
 			case FixTags.ENCODEDTEXT_INT:
 				encodedText = FixUtils.getTagStringValue(value, encodedText);
+				break;
+
+			case FixTags.NOQUOTESETS_INT:
+				quotSetAckGrp.noQuoteSets = FixUtils.getTagIntValue( value );
+				quotSetAckGrp.getAll(quotSetAckGrp.noQuoteSets, value );
 				break;
 
 			// for a message always get the checksum
@@ -171,7 +200,12 @@ public class FixMassQuoteAcknowledgement extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(quoteStatus) ) return FixTags.QUOTESTATUS_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -221,6 +255,7 @@ public class FixMassQuoteAcknowledgement extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		if (FixUtils.isSet(quoteReqID)) FixUtils.putFixTag( out, FixTags.QUOTEREQID_INT, quoteReqID, 0, Utils.lastIndexTrim(quoteReqID, (byte)0) );
 		if (FixUtils.isSet(quoteID)) FixUtils.putFixTag( out, FixTags.QUOTEID_INT, quoteID, 0, Utils.lastIndexTrim(quoteID, (byte)0) );
@@ -229,12 +264,15 @@ public class FixMassQuoteAcknowledgement extends FixMessage
 		if (FixUtils.isSet(quoteResponseLevel)) FixUtils.putFixTag( out, FixTags.QUOTERESPONSELEVEL_INT, quoteResponseLevel);
 		if (FixUtils.isSet(quoteType)) FixUtils.putFixTag( out, FixTags.QUOTETYPE_INT, quoteType);
 		if (FixUtils.isSet(quoteCancelType)) FixUtils.putFixTag( out, FixTags.QUOTECANCELTYPE_INT, quoteCancelType);
+		if (FixUtils.isSet(parties.noPartyIDs)) parties.encode( out );
+		if (FixUtils.isSet(targetParties.noTargetPartyIDs)) targetParties.encode( out );
 		if (FixUtils.isSet(account)) FixUtils.putFixTag( out, FixTags.ACCOUNT_INT, account, 0, Utils.lastIndexTrim(account, (byte)0) );
 		if (FixUtils.isSet(acctIDSource)) FixUtils.putFixTag( out, FixTags.ACCTIDSOURCE_INT, acctIDSource);
 		if (FixUtils.isSet(accountType)) FixUtils.putFixTag( out, FixTags.ACCOUNTTYPE_INT, accountType);
 		if (FixUtils.isSet(text)) FixUtils.putFixTag( out, FixTags.TEXT_INT, text, 0, Utils.lastIndexTrim(text, (byte)0) );
 		if (FixUtils.isSet(encodedTextLen)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXTLEN_INT, encodedTextLen);
 		if (FixUtils.isSet(encodedText)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXT_INT, encodedText, 0, Utils.lastIndexTrim(encodedText, (byte)0) );
+		if (FixUtils.isSet(quotSetAckGrp.noQuoteSets)) quotSetAckGrp.encode( out );
 		// the checksum at the end
 
 		int checkSumStart = out.position();
@@ -300,6 +338,7 @@ public class FixMassQuoteAcknowledgement extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			if (FixUtils.isSet(quoteReqID)) s += "QuoteReqID(131)=" + new String(quoteReqID) + sep;
 			if (FixUtils.isSet(quoteID)) s += "QuoteID(117)=" + new String(quoteID) + sep;
@@ -308,12 +347,15 @@ public class FixMassQuoteAcknowledgement extends FixMessage
 			if (FixUtils.isSet(quoteResponseLevel)) s += "QuoteResponseLevel(301)=" + String.valueOf(quoteResponseLevel) + sep;
 			if (FixUtils.isSet(quoteType)) s += "QuoteType(537)=" + String.valueOf(quoteType) + sep;
 			if (FixUtils.isSet(quoteCancelType)) s += "QuoteCancelType(298)=" + String.valueOf(quoteCancelType) + sep;
+			if (FixUtils.isSet(parties.noPartyIDs)) s += parties.toString();
+			if (FixUtils.isSet(targetParties.noTargetPartyIDs)) s += targetParties.toString();
 			if (FixUtils.isSet(account)) s += "Account(1)=" + new String(account) + sep;
 			if (FixUtils.isSet(acctIDSource)) s += "AcctIDSource(660)=" + String.valueOf(acctIDSource) + sep;
 			if (FixUtils.isSet(accountType)) s += "AccountType(581)=" + String.valueOf(accountType) + sep;
 			if (FixUtils.isSet(text)) s += "Text(58)=" + new String(text) + sep;
 			if (FixUtils.isSet(encodedTextLen)) s += "EncodedTextLen(354)=" + String.valueOf(encodedTextLen) + sep;
 			if (FixUtils.isSet(encodedText)) s += "EncodedText(355)=" + new String(encodedText) + sep;
+			if (FixUtils.isSet(quotSetAckGrp.noQuoteSets)) s += quotSetAckGrp.toString();
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
 
@@ -344,6 +386,10 @@ public class FixMassQuoteAcknowledgement extends FixMessage
 
 		if (!( quoteCancelType==msg.quoteCancelType)) return false;
 
+		if (!parties.equals(msg.parties)) return false;
+
+		if (!targetParties.equals(msg.targetParties)) return false;
+
 		if (!Utils.equals( account, msg.account)) return false;
 
 		if (!( acctIDSource==msg.acctIDSource)) return false;
@@ -355,6 +401,8 @@ public class FixMassQuoteAcknowledgement extends FixMessage
 		if (!( encodedTextLen==msg.encodedTextLen)) return false;
 
 		if (!Utils.equals( encodedText, msg.encodedText)) return false;
+
+		if (!quotSetAckGrp.equals(msg.quotSetAckGrp)) return false;
 
 		return true;
 	}

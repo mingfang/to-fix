@@ -10,14 +10,29 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixApplicationSequenceControl;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixRootParties;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrument;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixFinancingDetails;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixYieldData;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUndInstrmtGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixSpreadOrBenchmarkCurveData;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixPositionAmountData;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixTrdInstrmtLegGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixTrdRegTimestamps;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixTrdCapRptSideGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixTrdRepIndicatorsGrp;
 
 public class FixTradeCaptureReport extends FixMessage
 {
 
+	public FixApplicationSequenceControl applicationSequenceControl;
 	public byte[] tradeReportID;
 	public byte[] tradeID;
 	public byte[] secondaryTradeID;
@@ -57,7 +72,12 @@ public class FixTradeCaptureReport extends FixMessage
 	public byte venueType = (byte)' ';
 	public byte[] marketSegmentID;
 	public byte[] marketID;
+	public FixRootParties rootParties;
+	public FixInstrument instrument;
+	public FixFinancingDetails financingDetails;
 	public long qtyType = 0;
+	public FixYieldData yieldData;
+	public FixUndInstrmtGrp undInstrmtGrp;
 	public byte[] underlyingTradingSessionID;
 	public byte[] underlyingTradingSessionSubID;
 	public long lastQty = 0;
@@ -73,20 +93,26 @@ public class FixTradeCaptureReport extends FixMessage
 	public byte[] tradeDate;
 	public byte[] clearingBusinessDate;
 	public long avgPx = 0;
+	public FixSpreadOrBenchmarkCurveData spreadOrBenchmarkCurveData;
 	public long avgPxIndicator = 0;
+	public FixPositionAmountData positionAmountData;
 	public byte multiLegReportingType = (byte)' ';
 	public byte[] tradeLegRefID;
+	public FixTrdInstrmtLegGrp trdInstrmtLegGrp;
 	public byte[] transactTime;
+	public FixTrdRegTimestamps trdRegTimestamps;
 	public byte[] settlType;
 	public byte[] settlDate;
 	public byte[] underlyingSettlementDate;
 	public byte matchStatus = (byte)' ';
 	public byte[] matchType;
+	public FixTrdCapRptSideGrp trdCapRptSideGrp;
 	public long volatility = 0;
 	public long dividendYield = 0;
 	public long riskFreeRate = 0;
 	public long currencyRatio = 0;
 	public boolean copyMsgIndicator = false;
+	public FixTrdRepIndicatorsGrp trdRepIndicatorsGrp;
 	public boolean publishTrdIndicator = false;
 	public long tradePublishIndicator = 0;
 	public long shortSaleReason = 0;
@@ -103,6 +129,7 @@ public class FixTradeCaptureReport extends FixMessage
 	public FixTradeCaptureReport() {
 		super();
 
+		applicationSequenceControl = new FixApplicationSequenceControl();
 		tradeReportID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		tradeID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		secondaryTradeID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
@@ -124,6 +151,11 @@ public class FixTradeCaptureReport extends FixMessage
 		settlSessSubID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		marketSegmentID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		marketID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		rootParties = new FixRootParties();
+		instrument = new FixInstrument();
+		financingDetails = new FixFinancingDetails();
+		yieldData = new FixYieldData();
+		undInstrmtGrp = new FixUndInstrmtGrp();
 		underlyingTradingSessionID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		underlyingTradingSessionSubID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		currency = new byte[FixUtils.CURRENCY_LENGTH];
@@ -131,12 +163,18 @@ public class FixTradeCaptureReport extends FixMessage
 		lastMkt = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		tradeDate = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		clearingBusinessDate = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		spreadOrBenchmarkCurveData = new FixSpreadOrBenchmarkCurveData();
+		positionAmountData = new FixPositionAmountData();
 		tradeLegRefID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		trdInstrmtLegGrp = new FixTrdInstrmtLegGrp();
 		transactTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
+		trdRegTimestamps = new FixTrdRegTimestamps();
 		settlType = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		settlDate = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		underlyingSettlementDate = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		matchType = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		trdCapRptSideGrp = new FixTrdCapRptSideGrp();
+		trdRepIndicatorsGrp = new FixTrdRepIndicatorsGrp();
 		tierCode = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		messageEventSource = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		lastUpdateTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
@@ -235,10 +273,22 @@ public class FixTradeCaptureReport extends FixMessage
 		reportedPxDiff = false;		
 		Utils.fill( rejectText, (byte)0 );
 		feeMultiplier = Long.MAX_VALUE;		
+		applicationSequenceControl.clear();
+		rootParties.clear();
+		instrument.clear();
+		financingDetails.clear();
+		yieldData.clear();
+		undInstrmtGrp.clear();
+		spreadOrBenchmarkCurveData.clear();
+		positionAmountData.clear();
+		trdInstrmtLegGrp.clear();
+		trdRegTimestamps.clear();
+		trdCapRptSideGrp.clear();
+		trdRepIndicatorsGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -256,6 +306,10 @@ public class FixTradeCaptureReport extends FixMessage
 			value = buf;
 
 			switch( id ) {
+
+			case FixTags.APPLID_INT:
+				applicationSequenceControl.getAll(FixTags.APPLID_INT, value );
+				break;
 
 			case FixTags.TRADEREPORTID_INT:
 				tradeReportID = FixUtils.getTagStringValue(value, tradeReportID);
@@ -429,9 +483,31 @@ public class FixTradeCaptureReport extends FixMessage
 				marketID = FixUtils.getTagStringValue(value, marketID);
 				break;
 
+			case FixTags.NOROOTPARTYIDS_INT:
+				rootParties.noRootPartyIDs = FixUtils.getTagIntValue( value );
+				rootParties.getAll(rootParties.noRootPartyIDs, value );
+				break;
+
+			case FixTags.SYMBOL_INT:
+				instrument.getAll(FixTags.SYMBOL_INT, value );
+				break;
+
+			case FixTags.AGREEMENTDESC_INT:
+				financingDetails.getAll(FixTags.AGREEMENTDESC_INT, value );
+				break;
+
 			case FixTags.QTYTYPE_INT:
 				qtyType = FixUtils.getTagIntValue( value );
 				if (!QtyType.isValid(qtyType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + qtyType + ") for tag: " + id );
+				break;
+
+			case FixTags.YIELDTYPE_INT:
+				yieldData.getAll(FixTags.YIELDTYPE_INT, value );
+				break;
+
+			case FixTags.NOUNDERLYINGS_INT:
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
 				break;
 
 			case FixTags.UNDERLYINGTRADINGSESSIONID_INT:
@@ -494,9 +570,18 @@ public class FixTradeCaptureReport extends FixMessage
 				avgPx = FixUtils.getTagFloatValue(value);
 				break;
 
+			case FixTags.SPREAD_INT:
+				spreadOrBenchmarkCurveData.getAll(FixTags.SPREAD_INT, value );
+				break;
+
 			case FixTags.AVGPXINDICATOR_INT:
 				avgPxIndicator = FixUtils.getTagIntValue( value );
 				if (!AvgPxIndicator.isValid(avgPxIndicator) ) throw new FixSessionException(buf, "Invalid enumerated value(" + avgPxIndicator + ") for tag: " + id );
+				break;
+
+			case FixTags.NOPOSAMT_INT:
+				positionAmountData.noPosAmt = FixUtils.getTagIntValue( value );
+				positionAmountData.getAll(positionAmountData.noPosAmt, value );
 				break;
 
 			case FixTags.MULTILEGREPORTINGTYPE_INT:
@@ -508,8 +593,18 @@ public class FixTradeCaptureReport extends FixMessage
 				tradeLegRefID = FixUtils.getTagStringValue(value, tradeLegRefID);
 				break;
 
+			case FixTags.NOLEGS_INT:
+				trdInstrmtLegGrp.noLegs = FixUtils.getTagIntValue( value );
+				trdInstrmtLegGrp.getAll(trdInstrmtLegGrp.noLegs, value );
+				break;
+
 			case FixTags.TRANSACTTIME_INT:
 				transactTime = FixUtils.getTagStringValue(value, transactTime);
+				break;
+
+			case FixTags.NOTRDREGTIMESTAMPS_INT:
+				trdRegTimestamps.noTrdRegTimestamps = FixUtils.getTagIntValue( value );
+				trdRegTimestamps.getAll(trdRegTimestamps.noTrdRegTimestamps, value );
 				break;
 
 			case FixTags.SETTLTYPE_INT:
@@ -535,6 +630,11 @@ public class FixTradeCaptureReport extends FixMessage
 				if (!MatchType.isValid(matchType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + matchType + ") for tag: " + id );
 				break;
 
+			case FixTags.NOSIDES_INT:
+				trdCapRptSideGrp.noSides = FixUtils.getTagIntValue( value );
+				trdCapRptSideGrp.getAll(trdCapRptSideGrp.noSides, value );
+				break;
+
 			case FixTags.VOLATILITY_INT:
 				volatility = FixUtils.getTagFloatValue(value);
 				break;
@@ -553,6 +653,11 @@ public class FixTradeCaptureReport extends FixMessage
 
 			case FixTags.COPYMSGINDICATOR_INT:
 				copyMsgIndicator = FixUtils.getTagBooleanValue( value );
+				break;
+
+			case FixTags.NOTRDREPINDICATORS_INT:
+				trdRepIndicatorsGrp.noTrdRepIndicators = FixUtils.getTagIntValue( value );
+				trdRepIndicatorsGrp.getAll(trdRepIndicatorsGrp.noTrdRepIndicators, value );
 				break;
 
 			case FixTags.PUBLISHTRDINDICATOR_INT:
@@ -631,8 +736,15 @@ public class FixTradeCaptureReport extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(lastQty) ) return FixTags.LASTQTY_INT;
 		if (! FixUtils.isSet(lastPx) ) return FixTags.LASTPX_INT;
+		if (! instrument.isSet() ) return FixTags.SYMBOL_INT;
+		if (! trdCapRptSideGrp.isSet() ) return FixTags.NOSIDES_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -682,7 +794,9 @@ public class FixTradeCaptureReport extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
+		if (FixUtils.isSet(applicationSequenceControl.applID)) applicationSequenceControl.encode( out );
 		if (FixUtils.isSet(tradeReportID)) FixUtils.putFixTag( out, FixTags.TRADEREPORTID_INT, tradeReportID, 0, Utils.lastIndexTrim(tradeReportID, (byte)0) );
 		if (FixUtils.isSet(tradeID)) FixUtils.putFixTag( out, FixTags.TRADEID_INT, tradeID, 0, Utils.lastIndexTrim(tradeID, (byte)0) );
 		if (FixUtils.isSet(secondaryTradeID)) FixUtils.putFixTag( out, FixTags.SECONDARYTRADEID_INT, secondaryTradeID, 0, Utils.lastIndexTrim(secondaryTradeID, (byte)0) );
@@ -722,7 +836,12 @@ public class FixTradeCaptureReport extends FixMessage
 		if (FixUtils.isSet(venueType)) FixUtils.putFixTag( out, FixTags.VENUETYPE_INT, venueType );
 		if (FixUtils.isSet(marketSegmentID)) FixUtils.putFixTag( out, FixTags.MARKETSEGMENTID_INT, marketSegmentID, 0, Utils.lastIndexTrim(marketSegmentID, (byte)0) );
 		if (FixUtils.isSet(marketID)) FixUtils.putFixTag( out, FixTags.MARKETID_INT, marketID, 0, Utils.lastIndexTrim(marketID, (byte)0) );
+		if (FixUtils.isSet(rootParties.noRootPartyIDs)) rootParties.encode( out );
+		instrument.encode( out );
+		if (FixUtils.isSet(financingDetails.agreementDesc)) financingDetails.encode( out );
 		if (FixUtils.isSet(qtyType)) FixUtils.putFixTag( out, FixTags.QTYTYPE_INT, qtyType);
+		if (FixUtils.isSet(yieldData.yieldType)) yieldData.encode( out );
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
 		if (FixUtils.isSet(underlyingTradingSessionID)) FixUtils.putFixTag( out, FixTags.UNDERLYINGTRADINGSESSIONID_INT, underlyingTradingSessionID, 0, Utils.lastIndexTrim(underlyingTradingSessionID, (byte)0) );
 		if (FixUtils.isSet(underlyingTradingSessionSubID)) FixUtils.putFixTag( out, FixTags.UNDERLYINGTRADINGSESSIONSUBID_INT, underlyingTradingSessionSubID, 0, Utils.lastIndexTrim(underlyingTradingSessionSubID, (byte)0) );
 		FixUtils.putFixFloatTag( out, FixTags.LASTQTY_INT, lastQty);
@@ -738,20 +857,26 @@ public class FixTradeCaptureReport extends FixMessage
 		if (FixUtils.isSet(tradeDate)) FixUtils.putFixTag( out, FixTags.TRADEDATE_INT, tradeDate);
 		if (FixUtils.isSet(clearingBusinessDate)) FixUtils.putFixTag( out, FixTags.CLEARINGBUSINESSDATE_INT, clearingBusinessDate);
 		if (FixUtils.isSet(avgPx)) FixUtils.putFixFloatTag( out, FixTags.AVGPX_INT, avgPx);
+		if (FixUtils.isSet(spreadOrBenchmarkCurveData.spread)) spreadOrBenchmarkCurveData.encode( out );
 		if (FixUtils.isSet(avgPxIndicator)) FixUtils.putFixTag( out, FixTags.AVGPXINDICATOR_INT, avgPxIndicator);
+		if (FixUtils.isSet(positionAmountData.noPosAmt)) positionAmountData.encode( out );
 		if (FixUtils.isSet(multiLegReportingType)) FixUtils.putFixTag( out, FixTags.MULTILEGREPORTINGTYPE_INT, multiLegReportingType );
 		if (FixUtils.isSet(tradeLegRefID)) FixUtils.putFixTag( out, FixTags.TRADELEGREFID_INT, tradeLegRefID, 0, Utils.lastIndexTrim(tradeLegRefID, (byte)0) );
+		if (FixUtils.isSet(trdInstrmtLegGrp.noLegs)) trdInstrmtLegGrp.encode( out );
 		if (FixUtils.isSet(transactTime)) FixUtils.putFixTag( out, FixTags.TRANSACTTIME_INT, transactTime);
+		if (FixUtils.isSet(trdRegTimestamps.noTrdRegTimestamps)) trdRegTimestamps.encode( out );
 		if (FixUtils.isSet(settlType)) FixUtils.putFixTag( out, FixTags.SETTLTYPE_INT, settlType, 0, Utils.lastIndexTrim(settlType, (byte)0) );
 		if (FixUtils.isSet(settlDate)) FixUtils.putFixTag( out, FixTags.SETTLDATE_INT, settlDate);
 		if (FixUtils.isSet(underlyingSettlementDate)) FixUtils.putFixTag( out, FixTags.UNDERLYINGSETTLEMENTDATE_INT, underlyingSettlementDate);
 		if (FixUtils.isSet(matchStatus)) FixUtils.putFixTag( out, FixTags.MATCHSTATUS_INT, matchStatus );
 		if (FixUtils.isSet(matchType)) FixUtils.putFixTag( out, FixTags.MATCHTYPE_INT, matchType, 0, Utils.lastIndexTrim(matchType, (byte)0) );
+		trdCapRptSideGrp.encode( out );
 		if (FixUtils.isSet(volatility)) FixUtils.putFixFloatTag( out, FixTags.VOLATILITY_INT, volatility);
 		if (FixUtils.isSet(dividendYield)) FixUtils.putFixFloatTag( out, FixTags.DIVIDENDYIELD_INT, dividendYield);
 		if (FixUtils.isSet(riskFreeRate)) FixUtils.putFixFloatTag( out, FixTags.RISKFREERATE_INT, riskFreeRate);
 		if (FixUtils.isSet(currencyRatio)) FixUtils.putFixFloatTag( out, FixTags.CURRENCYRATIO_INT, currencyRatio);
 		if (FixUtils.isSet(copyMsgIndicator)) FixUtils.putFixTag( out, FixTags.COPYMSGINDICATOR_INT, copyMsgIndicator?(byte)'Y':(byte)'N' );
+		if (FixUtils.isSet(trdRepIndicatorsGrp.noTrdRepIndicators)) trdRepIndicatorsGrp.encode( out );
 		if (FixUtils.isSet(publishTrdIndicator)) FixUtils.putFixTag( out, FixTags.PUBLISHTRDINDICATOR_INT, publishTrdIndicator?(byte)'Y':(byte)'N' );
 		if (FixUtils.isSet(tradePublishIndicator)) FixUtils.putFixTag( out, FixTags.TRADEPUBLISHINDICATOR_INT, tradePublishIndicator);
 		if (FixUtils.isSet(shortSaleReason)) FixUtils.putFixTag( out, FixTags.SHORTSALEREASON_INT, shortSaleReason);
@@ -829,7 +954,9 @@ public class FixTradeCaptureReport extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
+			if (FixUtils.isSet(applicationSequenceControl.applID)) s += applicationSequenceControl.toString();
 			if (FixUtils.isSet(tradeReportID)) s += "TradeReportID(571)=" + new String(tradeReportID) + sep;
 			if (FixUtils.isSet(tradeID)) s += "TradeID(1003)=" + new String(tradeID) + sep;
 			if (FixUtils.isSet(secondaryTradeID)) s += "SecondaryTradeID(1040)=" + new String(secondaryTradeID) + sep;
@@ -869,7 +996,12 @@ public class FixTradeCaptureReport extends FixMessage
 			if (FixUtils.isSet(venueType)) s += "VenueType(1430)=" + String.valueOf(venueType) + sep;
 			if (FixUtils.isSet(marketSegmentID)) s += "MarketSegmentID(1300)=" + new String(marketSegmentID) + sep;
 			if (FixUtils.isSet(marketID)) s += "MarketID(1301)=" + new String(marketID) + sep;
+			if (FixUtils.isSet(rootParties.noRootPartyIDs)) s += rootParties.toString();
+			 s += instrument.toString();
+			if (FixUtils.isSet(financingDetails.agreementDesc)) s += financingDetails.toString();
 			if (FixUtils.isSet(qtyType)) s += "QtyType(854)=" + String.valueOf(qtyType) + sep;
+			if (FixUtils.isSet(yieldData.yieldType)) s += yieldData.toString();
+			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
 			if (FixUtils.isSet(underlyingTradingSessionID)) s += "UnderlyingTradingSessionID(822)=" + new String(underlyingTradingSessionID) + sep;
 			if (FixUtils.isSet(underlyingTradingSessionSubID)) s += "UnderlyingTradingSessionSubID(823)=" + new String(underlyingTradingSessionSubID) + sep;
 			 s += "LastQty(32)=" + String.valueOf(lastQty) + sep;
@@ -885,20 +1017,26 @@ public class FixTradeCaptureReport extends FixMessage
 			if (FixUtils.isSet(tradeDate)) s += "TradeDate(75)=" + new String(tradeDate) + sep;
 			if (FixUtils.isSet(clearingBusinessDate)) s += "ClearingBusinessDate(715)=" + new String(clearingBusinessDate) + sep;
 			if (FixUtils.isSet(avgPx)) s += "AvgPx(6)=" + String.valueOf(avgPx) + sep;
+			if (FixUtils.isSet(spreadOrBenchmarkCurveData.spread)) s += spreadOrBenchmarkCurveData.toString();
 			if (FixUtils.isSet(avgPxIndicator)) s += "AvgPxIndicator(819)=" + String.valueOf(avgPxIndicator) + sep;
+			if (FixUtils.isSet(positionAmountData.noPosAmt)) s += positionAmountData.toString();
 			if (FixUtils.isSet(multiLegReportingType)) s += "MultiLegReportingType(442)=" + String.valueOf(multiLegReportingType) + sep;
 			if (FixUtils.isSet(tradeLegRefID)) s += "TradeLegRefID(824)=" + new String(tradeLegRefID) + sep;
+			if (FixUtils.isSet(trdInstrmtLegGrp.noLegs)) s += trdInstrmtLegGrp.toString();
 			if (FixUtils.isSet(transactTime)) s += "TransactTime(60)=" + new String(transactTime) + sep;
+			if (FixUtils.isSet(trdRegTimestamps.noTrdRegTimestamps)) s += trdRegTimestamps.toString();
 			if (FixUtils.isSet(settlType)) s += "SettlType(63)=" + new String(settlType) + sep;
 			if (FixUtils.isSet(settlDate)) s += "SettlDate(64)=" + new String(settlDate) + sep;
 			if (FixUtils.isSet(underlyingSettlementDate)) s += "UnderlyingSettlementDate(987)=" + new String(underlyingSettlementDate) + sep;
 			if (FixUtils.isSet(matchStatus)) s += "MatchStatus(573)=" + String.valueOf(matchStatus) + sep;
 			if (FixUtils.isSet(matchType)) s += "MatchType(574)=" + new String(matchType) + sep;
+			 s += trdCapRptSideGrp.toString();
 			if (FixUtils.isSet(volatility)) s += "Volatility(1188)=" + String.valueOf(volatility) + sep;
 			if (FixUtils.isSet(dividendYield)) s += "DividendYield(1380)=" + String.valueOf(dividendYield) + sep;
 			if (FixUtils.isSet(riskFreeRate)) s += "RiskFreeRate(1190)=" + String.valueOf(riskFreeRate) + sep;
 			if (FixUtils.isSet(currencyRatio)) s += "CurrencyRatio(1382)=" + String.valueOf(currencyRatio) + sep;
 			if (FixUtils.isSet(copyMsgIndicator)) s += "CopyMsgIndicator(797)=" + String.valueOf(copyMsgIndicator) + sep;
+			if (FixUtils.isSet(trdRepIndicatorsGrp.noTrdRepIndicators)) s += trdRepIndicatorsGrp.toString();
 			if (FixUtils.isSet(publishTrdIndicator)) s += "PublishTrdIndicator(852)=" + String.valueOf(publishTrdIndicator) + sep;
 			if (FixUtils.isSet(tradePublishIndicator)) s += "TradePublishIndicator(1390)=" + String.valueOf(tradePublishIndicator) + sep;
 			if (FixUtils.isSet(shortSaleReason)) s += "ShortSaleReason(853)=" + String.valueOf(shortSaleReason) + sep;
@@ -926,6 +1064,8 @@ public class FixTradeCaptureReport extends FixMessage
 			FixTradeCaptureReport msg = (FixTradeCaptureReport) o;
 
 		if ( ! super.equals(msg) ) return false;
+
+		if (!applicationSequenceControl.equals(msg.applicationSequenceControl)) return false;
 
 		if (!Utils.equals( tradeReportID, msg.tradeReportID)) return false;
 
@@ -1003,7 +1143,17 @@ public class FixTradeCaptureReport extends FixMessage
 
 		if (!Utils.equals( marketID, msg.marketID)) return false;
 
+		if (!rootParties.equals(msg.rootParties)) return false;
+
+		if (!instrument.equals(msg.instrument)) return false;
+
+		if (!financingDetails.equals(msg.financingDetails)) return false;
+
 		if (!( qtyType==msg.qtyType)) return false;
+
+		if (!yieldData.equals(msg.yieldData)) return false;
+
+		if (!undInstrmtGrp.equals(msg.undInstrmtGrp)) return false;
 
 		if (!Utils.equals( underlyingTradingSessionID, msg.underlyingTradingSessionID)) return false;
 
@@ -1031,17 +1181,27 @@ public class FixTradeCaptureReport extends FixMessage
 
 		if (!( avgPx==msg.avgPx)) return false;
 
+		if (!spreadOrBenchmarkCurveData.equals(msg.spreadOrBenchmarkCurveData)) return false;
+
 		if (!( avgPxIndicator==msg.avgPxIndicator)) return false;
+
+		if (!positionAmountData.equals(msg.positionAmountData)) return false;
 
 		if (!( multiLegReportingType==msg.multiLegReportingType)) return false;
 
 		if (!Utils.equals( tradeLegRefID, msg.tradeLegRefID)) return false;
+
+		if (!trdInstrmtLegGrp.equals(msg.trdInstrmtLegGrp)) return false;
+
+		if (!trdRegTimestamps.equals(msg.trdRegTimestamps)) return false;
 
 		if (!Utils.equals( settlType, msg.settlType)) return false;
 
 		if (!( matchStatus==msg.matchStatus)) return false;
 
 		if (!Utils.equals( matchType, msg.matchType)) return false;
+
+		if (!trdCapRptSideGrp.equals(msg.trdCapRptSideGrp)) return false;
 
 		if (!( volatility==msg.volatility)) return false;
 
@@ -1052,6 +1212,8 @@ public class FixTradeCaptureReport extends FixMessage
 		if (!( currencyRatio==msg.currencyRatio)) return false;
 
 		if (!( copyMsgIndicator==msg.copyMsgIndicator)) return false;
+
+		if (!trdRepIndicatorsGrp.equals(msg.trdRepIndicatorsGrp)) return false;
 
 		if (!( publishTrdIndicator==msg.publishTrdIndicator)) return false;
 

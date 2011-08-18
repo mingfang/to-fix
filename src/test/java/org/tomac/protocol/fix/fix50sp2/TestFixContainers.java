@@ -2,39 +2,33 @@ package org.tomac.protocol.fix.fix50sp2;
 
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.nio.ByteBuffer;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.tomac.protocol.fix.FixUtils;
-import org.tomac.protocol.fix.messaging.FixLogon;
-import org.tomac.protocol.fix.messaging.FixMessageInfo;
-import org.tomac.protocol.fix.messaging.FixMessageListenerImpl;
-import org.tomac.protocol.fix.messaging.FixMessageParser;
-import org.tomac.protocol.fix.messaging.FixMessagePool;
-import org.tomac.protocol.fix.messaging.FixTestRequest;
+import org.tomac.protocol.fix.FixGarbledException;
+import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixExecutionReport;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixLogon;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessage;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageParser;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixTestRequest;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixTradeCaptureReport;
 
 public class TestFixContainers {
-	TestFixMessageListener listener;
-	FixValidationError err;
-	
-	FixInMessage inMsg;
+	FixMessageListenerTest listener;
+	FixMessageParser parser;
 	FixMessage outMsg;
 
 	@Before
 	public void setUp() throws Exception {
-		listener = new TestFixMessageListener();
-		err = new FixValidationError();
-		FixUtils.validateChecksum = false;
-		FixUtils.validateOnlyDefinedTagsAllowed = false;
-		FixUtils.validateSession = false;
-		FixUtils.validateSendingTime = false;
-		FixUtils.isNasdaqOMX = false;
+		listener = new FixMessageListenerTest();
+		parser = new FixMessageParser();
 	}
 
 	@After
@@ -44,8 +38,6 @@ public class TestFixContainers {
 	@Test
 	public void testParseValidFixInMessages() {
 		
-		FixMessageParser parser = new FixMessageParser();
-		
 		String[] fixMessages  = {
 			"8=FIXT.1.1\u00019=0106\u000135=A\u000149=MSI\u000156=TOMAC\u000134=1\u000152=20101007-06:00:07.732\u000150=STOM1\u000198=0\u0001108=60\u0001141=N\u00011137=9\u0001553=MSITS1\u0001554=MWAT\u000110=241\u0001",
 			"8=FIXT.1.1\u00019=0061\u000135=0\u000149=MSI\u000156=TOMAC\u000134=2\u000152=20101007-06:01:07.836\u000150=STOM1\u000110=237\u0001",
@@ -53,33 +45,21 @@ public class TestFixContainers {
 		};
 
 		for (String s : fixMessages) {
-			err.clear();
-			ByteBuffer refBuf = ByteBuffer.wrap(s.getBytes());
-			ByteBuffer parseBuf = ByteBuffer.wrap(s.getBytes());
+			ByteBuffer buf = ByteBuffer.wrap(s.getBytes());
 
-			inMsg = FixMessagePool.pool.getFixMessage(refBuf, err);
-
-			assertNotNull(inMsg);
-			assertFalse(err.hasError());
-
-			if (inMsg instanceof FixTestRequest) 
-				assertTrue(((FixTestRequest)inMsg).toString().length() > 0);
-			if (inMsg instanceof FixLogon) {
-				FixLogon l = (FixLogon)inMsg;
-				assertTrue(l.toString().length() > 0);
+			try {
+				parser.parse(buf, listener);
+			} catch (FixSessionException e) {
+				fail(e.getMessage());
+			} catch (FixGarbledException e) {
+				fail(e.getMessage());
 			}
-			
-			err.clear();
-			parser.parse(parseBuf, err, listener, 0);
-			assertFalse(err.toString(), err.hasError());
-			err.clear();
+
 		}
 	}
 
 	@Test
 	public void testParseValidStreamOfFixInMessages() {
-		
-		FixMessageParser parser = new FixMessageParser();
 		
 		String[] fixMessages = { 
 			"8=FIXT.1.1\u00019=0106\u000135=A\u000149=MSI\u000156=TOMAC\u000134=1\u000152=20101007-06:00:07.732\u000150=STOM1\u000198=0\u0001108=60\u0001141=N\u00011137=9\u0001553=MSITS1\u0001554=MWAT\u000110=241\u0001",
@@ -97,20 +77,13 @@ public class TestFixContainers {
 		ByteBuffer buf = ByteBuffer.wrap(ss.getBytes());
 
 		while(buf.hasRemaining()) {
-			err.clear();
-			
-			inMsg = FixMessagePool.pool.getFixMessage(buf, err);
-
-			assertNotNull(inMsg);
-			assertFalse(inMsg.getLastFixValidationError().toString(), inMsg.getLastFixValidationError().hasError());
-
-			ByteBuffer old = buf.duplicate();
-			old.flip();
-			parser.parse(old, err, listener);
-			assertFalse(err.hasError());
-
-			err.clear();
-			
+			try {
+				parser.parse(buf, listener);
+			} catch (FixSessionException e) {
+				fail(e.getMessage());
+			} catch (FixGarbledException e) {
+				fail(e.getMessage());
+			}
 			count--;
 		}
 		assertEquals(0, count);
@@ -127,34 +100,30 @@ public class TestFixContainers {
 		};
 		
 		for (String s : fixMessages) {
-			err.clear();
-
 			ByteBuffer buf = ByteBuffer.wrap(s.getBytes());
 			
-			inMsg = FixMessagePool.pool.getFixMessage(buf, err);
-
-			assertNotNull(inMsg);
-			assertFalse(err.hasError());
+			try {
+				parser.parse(buf, listener);
+			} catch (FixSessionException e) {
+				fail(e.getMessage());
+			} catch (FixGarbledException e) {
+				fail(e.getMessage());
+			}
 			
-			outMsg = (FixMessage) inMsg.clone();
+			outMsg = listener.getOutMsg();
 
 			if (outMsg instanceof FixTestRequest) 
 				assertTrue(((FixTestRequest)outMsg).toString().length() > 0);
 			if (outMsg instanceof FixLogon) 
 				assertTrue(((FixLogon)outMsg).toString().length() > 0);
 
-			byte[] bytes = new byte[1024 * 8];
-			FixUtils.fillNul(bytes);
-			ByteBuffer out = ByteBuffer.wrap(bytes);
-			outMsg.encode(out);
-			// ?
-			assertFalse(err.hasError());
+			ByteBuffer out = ByteBuffer.allocate(1024);
+			try {
+				outMsg.encode(out);
+			} catch (Exception e) {
+				fail(e.getMessage());
+			} 
 			
-			out.position(0);
-			inMsg = FixMessagePool.pool.getFixMessage(out, err);
-
-			assertFalse(err.toString(), err.hasError());
-
 		}
 	}
 
@@ -170,36 +139,29 @@ public class TestFixContainers {
 		};
 		
 		for (String s : fixMessages) {
-			err.clear();
-
 			ByteBuffer buf = ByteBuffer.wrap(s.getBytes());
 			
-			inMsg = FixMessagePool.pool.getFixMessage(buf, err);
-
-			assertNotNull(inMsg);
-			assertFalse(err.hasError());
+			try {
+				parser.parse(buf, listener);
+			} catch (FixSessionException e) {
+				fail(e.getMessage());
+			} catch (FixGarbledException e) {
+				fail(e.getMessage());
+			}
 			
-			outMsg = (FixMessage) inMsg.clone();
+			outMsg = listener.getOutMsg();
 
-			if (outMsg instanceof FixTestRequest) 
-				assertTrue(((FixTestRequest)outMsg).toString().length() > 0);
-			if (outMsg instanceof FixLogon) 
-				assertTrue(((FixLogon)outMsg).toString().length() > 0);
+			assertTrue (outMsg instanceof FixExecutionReport || outMsg instanceof FixTradeCaptureReport);
 
-			byte[] bytes = new byte[1024 * 8];
-			FixUtils.fillNul(bytes);
-			ByteBuffer out = ByteBuffer.wrap(bytes);
-			outMsg.encode(out);
-			// ?
-			assertFalse(err.toString(), err.hasError());
+			ByteBuffer out = ByteBuffer.allocate(1024);
+			try {
+				outMsg.encode(out);
+			} catch (Exception e) {
+				fail(e.getMessage());
+			} 
 			
-			out.position(0);
-			inMsg = FixMessagePool.pool.getFixMessage(out, err);
-
-			assertNotNull(inMsg);
-			assertFalse(err.toString(), err.hasError());
-
 		}
+		
 	}
 
 	@Test
@@ -211,60 +173,21 @@ public class TestFixContainers {
 		};
 		
 		for (String s : fixMessages) {
-			err.clear();
 
 			ByteBuffer buf = ByteBuffer.wrap(s.getBytes());
 			
-			inMsg = FixMessagePool.pool.getFixMessage(buf, err);
+			try {
+				parser.parse(buf, listener);
+				fail("should be rejected");
+			} catch (FixSessionException e) {
 
-			assertNotNull(inMsg);
-			assertTrue(err.toString(), err.hasError());
-			assertEquals(err.sessionRejectReason, (int)FixMessageInfo.SessionRejectReason.REQUIRED_TAG_MISSING);
+			} catch (FixGarbledException e) {
+				fail(e.getMessage());
+			}
 
 		}
 	}
 
-	@Test
-	public void testParseValidOrderRejectFixOutMessages() {
-		
-		String[] fixMessages = { 
-				"8=FIXT.1.1\u00019=0187\u000135=9\u000134=388\u000152=20110211-07:00:08\u000149=TOMAC\u000150=S\u000156=AAL\u000157=AOR001\u000111=2011003345605\u000137=NONE\u000139=8\u000141=2011003345603\u000158=0203 Unknown Original Client Order ID (OrigClOrdID) \u0001102=1\u0001109=AAL\u0001434=1\u000110=170\u0001",
-		};
-		
-		for (String s : fixMessages) {
-			err.clear();
-
-			ByteBuffer buf = ByteBuffer.wrap(s.getBytes());
-			
-			inMsg = FixMessagePool.pool.getFixMessage(buf, err);
-			err.clear();
-
-			assertNotNull(inMsg);
-			assertFalse(err.toString(), err.hasError());
-			
-			outMsg = (FixMessage) inMsg.clone();
-
-			if (outMsg instanceof FixTestRequest) 
-				assertTrue(((FixTestRequest)outMsg).toString().length() > 0);
-			if (outMsg instanceof FixLogon) 
-				assertTrue(((FixLogon)outMsg).toString().length() > 0);
-
-			byte[] bytes = new byte[1024 * 8];
-			FixUtils.fillNul(bytes);
-			ByteBuffer out = ByteBuffer.wrap(bytes);
-			outMsg.encode(out);
-			// ?
-			assertFalse(err.toString(), err.hasError());
-			
-			out.position(0);
-			inMsg = FixMessagePool.pool.getFixMessage(out, err);
-
-			assertNotNull(inMsg);
-			assertFalse(err.hasError());
-
-		}
-	}
-	
 	@Test
 	public void testParseUnknownTagFixInMessages() {
 		
@@ -279,30 +202,21 @@ public class TestFixContainers {
 		// 35=D contains unknown tag Text(58)
 		
 		for (String s : fixMessages) {
-			err.clear();
 
 			ByteBuffer buf = ByteBuffer.wrap(s.getBytes());
 			
 			int startPos = buf.position();
 			
-			inMsg = FixMessagePool.pool.getFixMessage(buf, err);
-
-			assertNotNull(inMsg);
-			assertFalse(inMsg.getLastFixValidationError().hasError());
-
 			buf.position(startPos);
-			parser.parse(buf, err, listener);
-			assertFalse(err.hasError());
-
+			
+			try {
+				parser.parse(buf, listener);
+			} catch (FixSessionException e) {
+				fail(e.getMessage());
+			} catch (FixGarbledException e) {
+				fail(e.getMessage());
+			}
 		}
 	}
 
-	class TestFixMessageListener extends FixMessageListenerImpl {
-
-		@Override
-		public void onFixLogon(FixLogon m) {
-			super.onFixLogon(m);
-			//assertTrue(m.equals(inMsg));
-		}
-	}
 }

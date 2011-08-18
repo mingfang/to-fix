@@ -10,10 +10,23 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixTargetParties;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrument;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixFinancingDetails;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUndInstrmtGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixOrderQtyData;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixStipulations;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixLegQuotStatGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixQuotQualGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixSpreadOrBenchmarkCurveData;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixYieldData;
 
 public class FixQuoteStatusReport extends FixMessage
 {
@@ -25,20 +38,31 @@ public class FixQuoteStatusReport extends FixMessage
 	public byte[] quoteRespID;
 	public long quoteType = 0;
 	public long quoteCancelType = 0;
+	public FixParties parties;
+	public FixTargetParties targetParties;
 	public byte[] tradingSessionID;
 	public byte[] tradingSessionSubID;
+	public FixInstrument instrument;
+	public FixFinancingDetails financingDetails;
+	public FixUndInstrmtGrp undInstrmtGrp;
 	public byte side = (byte)' ';
+	public FixOrderQtyData orderQtyData;
 	public byte[] settlType;
 	public byte[] settlDate;
 	public byte[] settlDate2;
 	public long orderQty2 = 0;
 	public byte[] currency;
+	public FixStipulations stipulations;
 	public byte[] account;
 	public long acctIDSource = 0;
 	public long accountType = 0;
+	public FixLegQuotStatGrp legQuotStatGrp;
+	public FixQuotQualGrp quotQualGrp;
 	public byte[] expireTime;
 	public long price = 0;
 	public long priceType = 0;
+	public FixSpreadOrBenchmarkCurveData spreadOrBenchmarkCurveData;
+	public FixYieldData yieldData;
 	public long bidPx = 0;
 	public long offerPx = 0;
 	public long mktBidPx = 0;
@@ -86,14 +110,25 @@ public class FixQuoteStatusReport extends FixMessage
 		quoteID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		quoteMsgID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		quoteRespID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		parties = new FixParties();
+		targetParties = new FixTargetParties();
 		tradingSessionID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		tradingSessionSubID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		instrument = new FixInstrument();
+		financingDetails = new FixFinancingDetails();
+		undInstrmtGrp = new FixUndInstrmtGrp();
+		orderQtyData = new FixOrderQtyData();
 		settlType = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		settlDate = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		settlDate2 = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		currency = new byte[FixUtils.CURRENCY_LENGTH];
+		stipulations = new FixStipulations();
 		account = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		legQuotStatGrp = new FixLegQuotStatGrp();
+		quotQualGrp = new FixQuotQualGrp();
 		expireTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
+		spreadOrBenchmarkCurveData = new FixSpreadOrBenchmarkCurveData();
+		yieldData = new FixYieldData();
 		validUntilTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
 		transactTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
 		exDestination = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
@@ -171,10 +206,21 @@ public class FixQuoteStatusReport extends FixMessage
 		Utils.fill( text, (byte)0 );
 		encodedTextLen = Long.MAX_VALUE;		
 		Utils.fill( encodedText, (byte)0 );
+		parties.clear();
+		targetParties.clear();
+		instrument.clear();
+		financingDetails.clear();
+		undInstrmtGrp.clear();
+		orderQtyData.clear();
+		stipulations.clear();
+		legQuotStatGrp.clear();
+		quotQualGrp.clear();
+		spreadOrBenchmarkCurveData.clear();
+		yieldData.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -223,6 +269,16 @@ public class FixQuoteStatusReport extends FixMessage
 				if (!QuoteCancelType.isValid(quoteCancelType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + quoteCancelType + ") for tag: " + id );
 				break;
 
+			case FixTags.NOPARTYIDS_INT:
+				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(parties.noPartyIDs, value );
+				break;
+
+			case FixTags.NOTARGETPARTYIDS_INT:
+				targetParties.noTargetPartyIDs = FixUtils.getTagIntValue( value );
+				targetParties.getAll(targetParties.noTargetPartyIDs, value );
+				break;
+
 			case FixTags.TRADINGSESSIONID_INT:
 				tradingSessionID = FixUtils.getTagStringValue(value, tradingSessionID);
 				if (!TradingSessionID.isValid(tradingSessionID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradingSessionID + ") for tag: " + id );
@@ -233,9 +289,26 @@ public class FixQuoteStatusReport extends FixMessage
 				if (!TradingSessionSubID.isValid(tradingSessionSubID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradingSessionSubID + ") for tag: " + id );
 				break;
 
+			case FixTags.SYMBOL_INT:
+				instrument.getAll(FixTags.SYMBOL_INT, value );
+				break;
+
+			case FixTags.AGREEMENTDESC_INT:
+				financingDetails.getAll(FixTags.AGREEMENTDESC_INT, value );
+				break;
+
+			case FixTags.NOUNDERLYINGS_INT:
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
+				break;
+
 			case FixTags.SIDE_INT:
 				side = FixUtils.getTagCharValue( value );
 				if (!Side.isValid(side) ) throw new FixSessionException(buf, "Invalid enumerated value(" + side + ") for tag: " + id );
+				break;
+
+			case FixTags.ORDERQTY_INT:
+				orderQtyData.getAll(FixTags.ORDERQTY_INT, value );
 				break;
 
 			case FixTags.SETTLTYPE_INT:
@@ -259,6 +332,11 @@ public class FixQuoteStatusReport extends FixMessage
 				currency = FixUtils.getTagStringValue(value, currency);
 				break;
 
+			case FixTags.NOSTIPULATIONS_INT:
+				stipulations.noStipulations = FixUtils.getTagIntValue( value );
+				stipulations.getAll(stipulations.noStipulations, value );
+				break;
+
 			case FixTags.ACCOUNT_INT:
 				account = FixUtils.getTagStringValue(value, account);
 				break;
@@ -273,6 +351,16 @@ public class FixQuoteStatusReport extends FixMessage
 				if (!AccountType.isValid(accountType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + accountType + ") for tag: " + id );
 				break;
 
+			case FixTags.NOLEGS_INT:
+				legQuotStatGrp.noLegs = FixUtils.getTagIntValue( value );
+				legQuotStatGrp.getAll(legQuotStatGrp.noLegs, value );
+				break;
+
+			case FixTags.NOQUOTEQUALIFIERS_INT:
+				quotQualGrp.noQuoteQualifiers = FixUtils.getTagIntValue( value );
+				quotQualGrp.getAll(quotQualGrp.noQuoteQualifiers, value );
+				break;
+
 			case FixTags.EXPIRETIME_INT:
 				expireTime = FixUtils.getTagStringValue(value, expireTime);
 				break;
@@ -284,6 +372,14 @@ public class FixQuoteStatusReport extends FixMessage
 			case FixTags.PRICETYPE_INT:
 				priceType = FixUtils.getTagIntValue( value );
 				if (!PriceType.isValid(priceType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + priceType + ") for tag: " + id );
+				break;
+
+			case FixTags.SPREAD_INT:
+				spreadOrBenchmarkCurveData.getAll(FixTags.SPREAD_INT, value );
+				break;
+
+			case FixTags.YIELDTYPE_INT:
+				yieldData.getAll(FixTags.YIELDTYPE_INT, value );
 				break;
 
 			case FixTags.BIDPX_INT:
@@ -473,6 +569,11 @@ public class FixQuoteStatusReport extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -522,6 +623,7 @@ public class FixQuoteStatusReport extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		if (FixUtils.isSet(quoteStatusReqID)) FixUtils.putFixTag( out, FixTags.QUOTESTATUSREQID_INT, quoteStatusReqID, 0, Utils.lastIndexTrim(quoteStatusReqID, (byte)0) );
 		if (FixUtils.isSet(quoteReqID)) FixUtils.putFixTag( out, FixTags.QUOTEREQID_INT, quoteReqID, 0, Utils.lastIndexTrim(quoteReqID, (byte)0) );
@@ -530,20 +632,31 @@ public class FixQuoteStatusReport extends FixMessage
 		if (FixUtils.isSet(quoteRespID)) FixUtils.putFixTag( out, FixTags.QUOTERESPID_INT, quoteRespID, 0, Utils.lastIndexTrim(quoteRespID, (byte)0) );
 		if (FixUtils.isSet(quoteType)) FixUtils.putFixTag( out, FixTags.QUOTETYPE_INT, quoteType);
 		if (FixUtils.isSet(quoteCancelType)) FixUtils.putFixTag( out, FixTags.QUOTECANCELTYPE_INT, quoteCancelType);
+		if (FixUtils.isSet(parties.noPartyIDs)) parties.encode( out );
+		if (FixUtils.isSet(targetParties.noTargetPartyIDs)) targetParties.encode( out );
 		if (FixUtils.isSet(tradingSessionID)) FixUtils.putFixTag( out, FixTags.TRADINGSESSIONID_INT, tradingSessionID, 0, Utils.lastIndexTrim(tradingSessionID, (byte)0) );
 		if (FixUtils.isSet(tradingSessionSubID)) FixUtils.putFixTag( out, FixTags.TRADINGSESSIONSUBID_INT, tradingSessionSubID, 0, Utils.lastIndexTrim(tradingSessionSubID, (byte)0) );
+		if (FixUtils.isSet(instrument.symbol)) instrument.encode( out );
+		if (FixUtils.isSet(financingDetails.agreementDesc)) financingDetails.encode( out );
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
 		if (FixUtils.isSet(side)) FixUtils.putFixTag( out, FixTags.SIDE_INT, side );
+		if (FixUtils.isSet(orderQtyData.orderQty)) orderQtyData.encode( out );
 		if (FixUtils.isSet(settlType)) FixUtils.putFixTag( out, FixTags.SETTLTYPE_INT, settlType, 0, Utils.lastIndexTrim(settlType, (byte)0) );
 		if (FixUtils.isSet(settlDate)) FixUtils.putFixTag( out, FixTags.SETTLDATE_INT, settlDate);
 		if (FixUtils.isSet(settlDate2)) FixUtils.putFixTag( out, FixTags.SETTLDATE2_INT, settlDate2);
 		if (FixUtils.isSet(orderQty2)) FixUtils.putFixFloatTag( out, FixTags.ORDERQTY2_INT, orderQty2);
 		if (FixUtils.isSet(currency)) FixUtils.putFixTag( out, FixTags.CURRENCY_INT, currency, 0, Utils.lastIndexTrim(currency, (byte)0) );
+		if (FixUtils.isSet(stipulations.noStipulations)) stipulations.encode( out );
 		if (FixUtils.isSet(account)) FixUtils.putFixTag( out, FixTags.ACCOUNT_INT, account, 0, Utils.lastIndexTrim(account, (byte)0) );
 		if (FixUtils.isSet(acctIDSource)) FixUtils.putFixTag( out, FixTags.ACCTIDSOURCE_INT, acctIDSource);
 		if (FixUtils.isSet(accountType)) FixUtils.putFixTag( out, FixTags.ACCOUNTTYPE_INT, accountType);
+		if (FixUtils.isSet(legQuotStatGrp.noLegs)) legQuotStatGrp.encode( out );
+		if (FixUtils.isSet(quotQualGrp.noQuoteQualifiers)) quotQualGrp.encode( out );
 		if (FixUtils.isSet(expireTime)) FixUtils.putFixTag( out, FixTags.EXPIRETIME_INT, expireTime);
 		if (FixUtils.isSet(price)) FixUtils.putFixFloatTag( out, FixTags.PRICE_INT, price);
 		if (FixUtils.isSet(priceType)) FixUtils.putFixTag( out, FixTags.PRICETYPE_INT, priceType);
+		if (FixUtils.isSet(spreadOrBenchmarkCurveData.spread)) spreadOrBenchmarkCurveData.encode( out );
+		if (FixUtils.isSet(yieldData.yieldType)) yieldData.encode( out );
 		if (FixUtils.isSet(bidPx)) FixUtils.putFixFloatTag( out, FixTags.BIDPX_INT, bidPx);
 		if (FixUtils.isSet(offerPx)) FixUtils.putFixFloatTag( out, FixTags.OFFERPX_INT, offerPx);
 		if (FixUtils.isSet(mktBidPx)) FixUtils.putFixFloatTag( out, FixTags.MKTBIDPX_INT, mktBidPx);
@@ -647,6 +760,7 @@ public class FixQuoteStatusReport extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			if (FixUtils.isSet(quoteStatusReqID)) s += "QuoteStatusReqID(649)=" + new String(quoteStatusReqID) + sep;
 			if (FixUtils.isSet(quoteReqID)) s += "QuoteReqID(131)=" + new String(quoteReqID) + sep;
@@ -655,20 +769,31 @@ public class FixQuoteStatusReport extends FixMessage
 			if (FixUtils.isSet(quoteRespID)) s += "QuoteRespID(693)=" + new String(quoteRespID) + sep;
 			if (FixUtils.isSet(quoteType)) s += "QuoteType(537)=" + String.valueOf(quoteType) + sep;
 			if (FixUtils.isSet(quoteCancelType)) s += "QuoteCancelType(298)=" + String.valueOf(quoteCancelType) + sep;
+			if (FixUtils.isSet(parties.noPartyIDs)) s += parties.toString();
+			if (FixUtils.isSet(targetParties.noTargetPartyIDs)) s += targetParties.toString();
 			if (FixUtils.isSet(tradingSessionID)) s += "TradingSessionID(336)=" + new String(tradingSessionID) + sep;
 			if (FixUtils.isSet(tradingSessionSubID)) s += "TradingSessionSubID(625)=" + new String(tradingSessionSubID) + sep;
+			if (FixUtils.isSet(instrument.symbol)) s += instrument.toString();
+			if (FixUtils.isSet(financingDetails.agreementDesc)) s += financingDetails.toString();
+			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
 			if (FixUtils.isSet(side)) s += "Side(54)=" + String.valueOf(side) + sep;
+			if (FixUtils.isSet(orderQtyData.orderQty)) s += orderQtyData.toString();
 			if (FixUtils.isSet(settlType)) s += "SettlType(63)=" + new String(settlType) + sep;
 			if (FixUtils.isSet(settlDate)) s += "SettlDate(64)=" + new String(settlDate) + sep;
 			if (FixUtils.isSet(settlDate2)) s += "SettlDate2(193)=" + new String(settlDate2) + sep;
 			if (FixUtils.isSet(orderQty2)) s += "OrderQty2(192)=" + String.valueOf(orderQty2) + sep;
 			if (FixUtils.isSet(currency)) s += "Currency(15)=" + new String(currency) + sep;
+			if (FixUtils.isSet(stipulations.noStipulations)) s += stipulations.toString();
 			if (FixUtils.isSet(account)) s += "Account(1)=" + new String(account) + sep;
 			if (FixUtils.isSet(acctIDSource)) s += "AcctIDSource(660)=" + String.valueOf(acctIDSource) + sep;
 			if (FixUtils.isSet(accountType)) s += "AccountType(581)=" + String.valueOf(accountType) + sep;
+			if (FixUtils.isSet(legQuotStatGrp.noLegs)) s += legQuotStatGrp.toString();
+			if (FixUtils.isSet(quotQualGrp.noQuoteQualifiers)) s += quotQualGrp.toString();
 			if (FixUtils.isSet(expireTime)) s += "ExpireTime(126)=" + new String(expireTime) + sep;
 			if (FixUtils.isSet(price)) s += "Price(44)=" + String.valueOf(price) + sep;
 			if (FixUtils.isSet(priceType)) s += "PriceType(423)=" + String.valueOf(priceType) + sep;
+			if (FixUtils.isSet(spreadOrBenchmarkCurveData.spread)) s += spreadOrBenchmarkCurveData.toString();
+			if (FixUtils.isSet(yieldData.yieldType)) s += yieldData.toString();
 			if (FixUtils.isSet(bidPx)) s += "BidPx(132)=" + String.valueOf(bidPx) + sep;
 			if (FixUtils.isSet(offerPx)) s += "OfferPx(133)=" + String.valueOf(offerPx) + sep;
 			if (FixUtils.isSet(mktBidPx)) s += "MktBidPx(645)=" + String.valueOf(mktBidPx) + sep;
@@ -737,11 +862,23 @@ public class FixQuoteStatusReport extends FixMessage
 
 		if (!( quoteCancelType==msg.quoteCancelType)) return false;
 
+		if (!parties.equals(msg.parties)) return false;
+
+		if (!targetParties.equals(msg.targetParties)) return false;
+
 		if (!Utils.equals( tradingSessionID, msg.tradingSessionID)) return false;
 
 		if (!Utils.equals( tradingSessionSubID, msg.tradingSessionSubID)) return false;
 
+		if (!instrument.equals(msg.instrument)) return false;
+
+		if (!financingDetails.equals(msg.financingDetails)) return false;
+
+		if (!undInstrmtGrp.equals(msg.undInstrmtGrp)) return false;
+
 		if (!( side==msg.side)) return false;
+
+		if (!orderQtyData.equals(msg.orderQtyData)) return false;
 
 		if (!Utils.equals( settlType, msg.settlType)) return false;
 
@@ -749,15 +886,25 @@ public class FixQuoteStatusReport extends FixMessage
 
 		if (!Utils.equals( currency, msg.currency)) return false;
 
+		if (!stipulations.equals(msg.stipulations)) return false;
+
 		if (!Utils.equals( account, msg.account)) return false;
 
 		if (!( acctIDSource==msg.acctIDSource)) return false;
 
 		if (!( accountType==msg.accountType)) return false;
 
+		if (!legQuotStatGrp.equals(msg.legQuotStatGrp)) return false;
+
+		if (!quotQualGrp.equals(msg.quotQualGrp)) return false;
+
 		if (!( price==msg.price)) return false;
 
 		if (!( priceType==msg.priceType)) return false;
+
+		if (!spreadOrBenchmarkCurveData.equals(msg.spreadOrBenchmarkCurveData)) return false;
+
+		if (!yieldData.equals(msg.yieldData)) return false;
 
 		if (!( bidPx==msg.bidPx)) return false;
 

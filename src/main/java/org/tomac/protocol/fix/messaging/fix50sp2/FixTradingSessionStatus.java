@@ -10,14 +10,19 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixApplicationSequenceControl;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrument;
 
 public class FixTradingSessionStatus extends FixMessage
 {
 
+	public FixApplicationSequenceControl applicationSequenceControl;
 	public byte[] tradSesReqID;
 	public byte[] marketID;
 	public byte[] marketSegmentID;
@@ -38,10 +43,12 @@ public class FixTradingSessionStatus extends FixMessage
 	public byte[] text;
 	public long encodedTextLen = 0;
 	public byte[] encodedText;
+	public FixInstrument instrument;
 
 	public FixTradingSessionStatus() {
 		super();
 
+		applicationSequenceControl = new FixApplicationSequenceControl();
 		tradSesReqID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		marketID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		marketSegmentID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
@@ -54,6 +61,7 @@ public class FixTradingSessionStatus extends FixMessage
 		tradSesEndTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
 		text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		encodedText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
+		instrument = new FixInstrument();
 		this.clear();
 
 		msgType = MsgTypes.TRADINGSESSIONSTATUS_INT;
@@ -86,10 +94,12 @@ public class FixTradingSessionStatus extends FixMessage
 		Utils.fill( text, (byte)0 );
 		encodedTextLen = Long.MAX_VALUE;		
 		Utils.fill( encodedText, (byte)0 );
+		applicationSequenceControl.clear();
+		instrument.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -107,6 +117,10 @@ public class FixTradingSessionStatus extends FixMessage
 			value = buf;
 
 			switch( id ) {
+
+			case FixTags.APPLID_INT:
+				applicationSequenceControl.getAll(FixTags.APPLID_INT, value );
+				break;
 
 			case FixTags.TRADSESREQID_INT:
 				tradSesReqID = FixUtils.getTagStringValue(value, tradSesReqID);
@@ -196,6 +210,10 @@ public class FixTradingSessionStatus extends FixMessage
 				encodedText = FixUtils.getTagStringValue(value, encodedText);
 				break;
 
+			case FixTags.SYMBOL_INT:
+				instrument.getAll(FixTags.SYMBOL_INT, value );
+				break;
+
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
 				checkSum = FixUtils.getTagIntValue( value );
@@ -221,8 +239,13 @@ public class FixTradingSessionStatus extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(tradingSessionID) ) return FixTags.TRADINGSESSIONID_INT;
 		if (! FixUtils.isSet(tradSesStatus) ) return FixTags.TRADSESSTATUS_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -272,7 +295,9 @@ public class FixTradingSessionStatus extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
+		if (FixUtils.isSet(applicationSequenceControl.applID)) applicationSequenceControl.encode( out );
 		if (FixUtils.isSet(tradSesReqID)) FixUtils.putFixTag( out, FixTags.TRADSESREQID_INT, tradSesReqID, 0, Utils.lastIndexTrim(tradSesReqID, (byte)0) );
 		if (FixUtils.isSet(marketID)) FixUtils.putFixTag( out, FixTags.MARKETID_INT, marketID, 0, Utils.lastIndexTrim(marketID, (byte)0) );
 		if (FixUtils.isSet(marketSegmentID)) FixUtils.putFixTag( out, FixTags.MARKETSEGMENTID_INT, marketSegmentID, 0, Utils.lastIndexTrim(marketSegmentID, (byte)0) );
@@ -293,6 +318,7 @@ public class FixTradingSessionStatus extends FixMessage
 		if (FixUtils.isSet(text)) FixUtils.putFixTag( out, FixTags.TEXT_INT, text, 0, Utils.lastIndexTrim(text, (byte)0) );
 		if (FixUtils.isSet(encodedTextLen)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXTLEN_INT, encodedTextLen);
 		if (FixUtils.isSet(encodedText)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXT_INT, encodedText, 0, Utils.lastIndexTrim(encodedText, (byte)0) );
+		if (FixUtils.isSet(instrument.symbol)) instrument.encode( out );
 		// the checksum at the end
 
 		int checkSumStart = out.position();
@@ -358,7 +384,9 @@ public class FixTradingSessionStatus extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
+			if (FixUtils.isSet(applicationSequenceControl.applID)) s += applicationSequenceControl.toString();
 			if (FixUtils.isSet(tradSesReqID)) s += "TradSesReqID(335)=" + new String(tradSesReqID) + sep;
 			if (FixUtils.isSet(marketID)) s += "MarketID(1301)=" + new String(marketID) + sep;
 			if (FixUtils.isSet(marketSegmentID)) s += "MarketSegmentID(1300)=" + new String(marketSegmentID) + sep;
@@ -379,6 +407,7 @@ public class FixTradingSessionStatus extends FixMessage
 			if (FixUtils.isSet(text)) s += "Text(58)=" + new String(text) + sep;
 			if (FixUtils.isSet(encodedTextLen)) s += "EncodedTextLen(354)=" + String.valueOf(encodedTextLen) + sep;
 			if (FixUtils.isSet(encodedText)) s += "EncodedText(355)=" + new String(encodedText) + sep;
+			if (FixUtils.isSet(instrument.symbol)) s += instrument.toString();
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
 
@@ -394,6 +423,8 @@ public class FixTradingSessionStatus extends FixMessage
 			FixTradingSessionStatus msg = (FixTradingSessionStatus) o;
 
 		if ( ! super.equals(msg) ) return false;
+
+		if (!applicationSequenceControl.equals(msg.applicationSequenceControl)) return false;
 
 		if (!Utils.equals( tradSesReqID, msg.tradSesReqID)) return false;
 
@@ -424,6 +455,8 @@ public class FixTradingSessionStatus extends FixMessage
 		if (!( encodedTextLen==msg.encodedTextLen)) return false;
 
 		if (!Utils.equals( encodedText, msg.encodedText)) return false;
+
+		if (!instrument.equals(msg.instrument)) return false;
 
 		return true;
 	}

@@ -10,15 +10,20 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixAllocAckGrp;
 
 public class FixAllocationInstructionAck extends FixMessage
 {
 
 	public byte[] allocID;
+	public FixParties parties;
 	public byte[] secondaryAllocID;
 	public byte[] tradeDate;
 	public byte[] transactTime;
@@ -32,17 +37,20 @@ public class FixAllocationInstructionAck extends FixMessage
 	public byte[] text;
 	public long encodedTextLen = 0;
 	public byte[] encodedText;
+	public FixAllocAckGrp allocAckGrp;
 
 	public FixAllocationInstructionAck() {
 		super();
 
 		allocID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		parties = new FixParties();
 		secondaryAllocID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		tradeDate = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		transactTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
 		securityType = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		encodedText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
+		allocAckGrp = new FixAllocAckGrp();
 		this.clear();
 
 		msgType = MsgTypes.ALLOCATIONINSTRUCTIONACK_INT;
@@ -69,10 +77,12 @@ public class FixAllocationInstructionAck extends FixMessage
 		Utils.fill( text, (byte)0 );
 		encodedTextLen = Long.MAX_VALUE;		
 		Utils.fill( encodedText, (byte)0 );
+		parties.clear();
+		allocAckGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -93,6 +103,11 @@ public class FixAllocationInstructionAck extends FixMessage
 
 			case FixTags.ALLOCID_INT:
 				allocID = FixUtils.getTagStringValue(value, allocID);
+				break;
+
+			case FixTags.NOPARTYIDS_INT:
+				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(parties.noPartyIDs, value );
 				break;
 
 			case FixTags.SECONDARYALLOCID_INT:
@@ -154,6 +169,11 @@ public class FixAllocationInstructionAck extends FixMessage
 				encodedText = FixUtils.getTagStringValue(value, encodedText);
 				break;
 
+			case FixTags.NOALLOCS_INT:
+				allocAckGrp.noAllocs = FixUtils.getTagIntValue( value );
+				allocAckGrp.getAll(allocAckGrp.noAllocs, value );
+				break;
+
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
 				checkSum = FixUtils.getTagIntValue( value );
@@ -179,8 +199,13 @@ public class FixAllocationInstructionAck extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(allocID) ) return FixTags.ALLOCID_INT;
 		if (! FixUtils.isSet(allocStatus) ) return FixTags.ALLOCSTATUS_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -230,8 +255,10 @@ public class FixAllocationInstructionAck extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.ALLOCID_INT, allocID, 0, Utils.lastIndexTrim(allocID, (byte)0) );
+		if (FixUtils.isSet(parties.noPartyIDs)) parties.encode( out );
 		if (FixUtils.isSet(secondaryAllocID)) FixUtils.putFixTag( out, FixTags.SECONDARYALLOCID_INT, secondaryAllocID, 0, Utils.lastIndexTrim(secondaryAllocID, (byte)0) );
 		if (FixUtils.isSet(tradeDate)) FixUtils.putFixTag( out, FixTags.TRADEDATE_INT, tradeDate);
 		if (FixUtils.isSet(transactTime)) FixUtils.putFixTag( out, FixTags.TRANSACTTIME_INT, transactTime);
@@ -245,6 +272,7 @@ public class FixAllocationInstructionAck extends FixMessage
 		if (FixUtils.isSet(text)) FixUtils.putFixTag( out, FixTags.TEXT_INT, text, 0, Utils.lastIndexTrim(text, (byte)0) );
 		if (FixUtils.isSet(encodedTextLen)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXTLEN_INT, encodedTextLen);
 		if (FixUtils.isSet(encodedText)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXT_INT, encodedText, 0, Utils.lastIndexTrim(encodedText, (byte)0) );
+		if (FixUtils.isSet(allocAckGrp.noAllocs)) allocAckGrp.encode( out );
 		// the checksum at the end
 
 		int checkSumStart = out.position();
@@ -310,8 +338,10 @@ public class FixAllocationInstructionAck extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "AllocID(70)=" + new String(allocID) + sep;
+			if (FixUtils.isSet(parties.noPartyIDs)) s += parties.toString();
 			if (FixUtils.isSet(secondaryAllocID)) s += "SecondaryAllocID(793)=" + new String(secondaryAllocID) + sep;
 			if (FixUtils.isSet(tradeDate)) s += "TradeDate(75)=" + new String(tradeDate) + sep;
 			if (FixUtils.isSet(transactTime)) s += "TransactTime(60)=" + new String(transactTime) + sep;
@@ -325,6 +355,7 @@ public class FixAllocationInstructionAck extends FixMessage
 			if (FixUtils.isSet(text)) s += "Text(58)=" + new String(text) + sep;
 			if (FixUtils.isSet(encodedTextLen)) s += "EncodedTextLen(354)=" + String.valueOf(encodedTextLen) + sep;
 			if (FixUtils.isSet(encodedText)) s += "EncodedText(355)=" + new String(encodedText) + sep;
+			if (FixUtils.isSet(allocAckGrp.noAllocs)) s += allocAckGrp.toString();
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
 
@@ -342,6 +373,8 @@ public class FixAllocationInstructionAck extends FixMessage
 		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( allocID, msg.allocID)) return false;
+
+		if (!parties.equals(msg.parties)) return false;
 
 		if (!Utils.equals( secondaryAllocID, msg.secondaryAllocID)) return false;
 
@@ -364,6 +397,8 @@ public class FixAllocationInstructionAck extends FixMessage
 		if (!( encodedTextLen==msg.encodedTextLen)) return false;
 
 		if (!Utils.equals( encodedText, msg.encodedText)) return false;
+
+		if (!allocAckGrp.equals(msg.allocAckGrp)) return false;
 
 		return true;
 	}

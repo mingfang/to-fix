@@ -10,10 +10,19 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrument;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrmtLegGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUndInstrmtGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixTrdgSesGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixPositionQty;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixPositionAmountData;
 
 public class FixPositionMaintenanceRequest extends FixMessage
 {
@@ -26,11 +35,18 @@ public class FixPositionMaintenanceRequest extends FixMessage
 	public byte[] clearingBusinessDate;
 	public byte[] settlSessID;
 	public byte[] settlSessSubID;
+	public FixParties parties;
 	public byte[] account;
 	public long acctIDSource = 0;
 	public long accountType = 0;
+	public FixInstrument instrument;
 	public byte[] currency;
+	public FixInstrmtLegGrp instrmtLegGrp;
+	public FixUndInstrmtGrp undInstrmtGrp;
+	public FixTrdgSesGrp trdgSesGrp;
 	public byte[] transactTime;
+	public FixPositionQty positionQty;
+	public FixPositionAmountData positionAmountData;
 	public long adjustmentType = 0;
 	public boolean contraryInstructionIndicator = false;
 	public boolean priorSpreadIndicator = false;
@@ -49,9 +65,16 @@ public class FixPositionMaintenanceRequest extends FixMessage
 		clearingBusinessDate = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		settlSessID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		settlSessSubID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		parties = new FixParties();
 		account = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		instrument = new FixInstrument();
 		currency = new byte[FixUtils.CURRENCY_LENGTH];
+		instrmtLegGrp = new FixInstrmtLegGrp();
+		undInstrmtGrp = new FixUndInstrmtGrp();
+		trdgSesGrp = new FixTrdgSesGrp();
 		transactTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
+		positionQty = new FixPositionQty();
+		positionAmountData = new FixPositionAmountData();
 		text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		encodedText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		settlCurrency = new byte[FixUtils.CURRENCY_LENGTH];
@@ -88,10 +111,17 @@ public class FixPositionMaintenanceRequest extends FixMessage
 		encodedTextLen = Long.MAX_VALUE;		
 		Utils.fill( encodedText, (byte)0 );
 		Utils.fill( settlCurrency, (byte)0 );
+		parties.clear();
+		instrument.clear();
+		instrmtLegGrp.clear();
+		undInstrmtGrp.clear();
+		trdgSesGrp.clear();
+		positionQty.clear();
+		positionAmountData.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -145,6 +175,11 @@ public class FixPositionMaintenanceRequest extends FixMessage
 				settlSessSubID = FixUtils.getTagStringValue(value, settlSessSubID);
 				break;
 
+			case FixTags.NOPARTYIDS_INT:
+				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(parties.noPartyIDs, value );
+				break;
+
 			case FixTags.ACCOUNT_INT:
 				account = FixUtils.getTagStringValue(value, account);
 				break;
@@ -159,12 +194,41 @@ public class FixPositionMaintenanceRequest extends FixMessage
 				if (!AccountType.isValid(accountType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + accountType + ") for tag: " + id );
 				break;
 
+			case FixTags.SYMBOL_INT:
+				instrument.getAll(FixTags.SYMBOL_INT, value );
+				break;
+
 			case FixTags.CURRENCY_INT:
 				currency = FixUtils.getTagStringValue(value, currency);
 				break;
 
+			case FixTags.NOLEGS_INT:
+				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( value );
+				instrmtLegGrp.getAll(instrmtLegGrp.noLegs, value );
+				break;
+
+			case FixTags.NOUNDERLYINGS_INT:
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
+				break;
+
+			case FixTags.NOTRADINGSESSIONS_INT:
+				trdgSesGrp.noTradingSessions = FixUtils.getTagIntValue( value );
+				trdgSesGrp.getAll(trdgSesGrp.noTradingSessions, value );
+				break;
+
 			case FixTags.TRANSACTTIME_INT:
 				transactTime = FixUtils.getTagStringValue(value, transactTime);
+				break;
+
+			case FixTags.NOPOSITIONS_INT:
+				positionQty.noPositions = FixUtils.getTagIntValue( value );
+				positionQty.getAll(positionQty.noPositions, value );
+				break;
+
+			case FixTags.NOPOSAMT_INT:
+				positionAmountData.noPosAmt = FixUtils.getTagIntValue( value );
+				positionAmountData.getAll(positionAmountData.noPosAmt, value );
 				break;
 
 			case FixTags.ADJUSTMENTTYPE_INT:
@@ -225,9 +289,17 @@ public class FixPositionMaintenanceRequest extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(posTransType) ) return FixTags.POSTRANSTYPE_INT;
 		if (! FixUtils.isSet(posMaintAction) ) return FixTags.POSMAINTACTION_INT;
 		if (! FixUtils.isSet(clearingBusinessDate) ) return FixTags.CLEARINGBUSINESSDATE_INT;
+		if (! parties.isSet() ) return FixTags.NOPARTYIDS_INT;
+		if (! instrument.isSet() ) return FixTags.SYMBOL_INT;
+		if (! positionQty.isSet() ) return FixTags.NOPOSITIONS_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -277,6 +349,7 @@ public class FixPositionMaintenanceRequest extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		if (FixUtils.isSet(posReqID)) FixUtils.putFixTag( out, FixTags.POSREQID_INT, posReqID, 0, Utils.lastIndexTrim(posReqID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.POSTRANSTYPE_INT, posTransType);
@@ -286,11 +359,18 @@ public class FixPositionMaintenanceRequest extends FixMessage
 		FixUtils.putFixTag( out, FixTags.CLEARINGBUSINESSDATE_INT, clearingBusinessDate);
 		if (FixUtils.isSet(settlSessID)) FixUtils.putFixTag( out, FixTags.SETTLSESSID_INT, settlSessID, 0, Utils.lastIndexTrim(settlSessID, (byte)0) );
 		if (FixUtils.isSet(settlSessSubID)) FixUtils.putFixTag( out, FixTags.SETTLSESSSUBID_INT, settlSessSubID, 0, Utils.lastIndexTrim(settlSessSubID, (byte)0) );
+		parties.encode( out );
 		if (FixUtils.isSet(account)) FixUtils.putFixTag( out, FixTags.ACCOUNT_INT, account, 0, Utils.lastIndexTrim(account, (byte)0) );
 		if (FixUtils.isSet(acctIDSource)) FixUtils.putFixTag( out, FixTags.ACCTIDSOURCE_INT, acctIDSource);
 		if (FixUtils.isSet(accountType)) FixUtils.putFixTag( out, FixTags.ACCOUNTTYPE_INT, accountType);
+		instrument.encode( out );
 		if (FixUtils.isSet(currency)) FixUtils.putFixTag( out, FixTags.CURRENCY_INT, currency, 0, Utils.lastIndexTrim(currency, (byte)0) );
+		if (FixUtils.isSet(instrmtLegGrp.noLegs)) instrmtLegGrp.encode( out );
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
+		if (FixUtils.isSet(trdgSesGrp.noTradingSessions)) trdgSesGrp.encode( out );
 		if (FixUtils.isSet(transactTime)) FixUtils.putFixTag( out, FixTags.TRANSACTTIME_INT, transactTime);
+		positionQty.encode( out );
+		if (FixUtils.isSet(positionAmountData.noPosAmt)) positionAmountData.encode( out );
 		if (FixUtils.isSet(adjustmentType)) FixUtils.putFixTag( out, FixTags.ADJUSTMENTTYPE_INT, adjustmentType);
 		if (FixUtils.isSet(contraryInstructionIndicator)) FixUtils.putFixTag( out, FixTags.CONTRARYINSTRUCTIONINDICATOR_INT, contraryInstructionIndicator?(byte)'Y':(byte)'N' );
 		if (FixUtils.isSet(priorSpreadIndicator)) FixUtils.putFixTag( out, FixTags.PRIORSPREADINDICATOR_INT, priorSpreadIndicator?(byte)'Y':(byte)'N' );
@@ -364,6 +444,7 @@ public class FixPositionMaintenanceRequest extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			if (FixUtils.isSet(posReqID)) s += "PosReqID(710)=" + new String(posReqID) + sep;
 			 s += "PosTransType(709)=" + String.valueOf(posTransType) + sep;
@@ -373,11 +454,18 @@ public class FixPositionMaintenanceRequest extends FixMessage
 			 s += "ClearingBusinessDate(715)=" + new String(clearingBusinessDate) + sep;
 			if (FixUtils.isSet(settlSessID)) s += "SettlSessID(716)=" + new String(settlSessID) + sep;
 			if (FixUtils.isSet(settlSessSubID)) s += "SettlSessSubID(717)=" + new String(settlSessSubID) + sep;
+			 s += parties.toString();
 			if (FixUtils.isSet(account)) s += "Account(1)=" + new String(account) + sep;
 			if (FixUtils.isSet(acctIDSource)) s += "AcctIDSource(660)=" + String.valueOf(acctIDSource) + sep;
 			if (FixUtils.isSet(accountType)) s += "AccountType(581)=" + String.valueOf(accountType) + sep;
+			 s += instrument.toString();
 			if (FixUtils.isSet(currency)) s += "Currency(15)=" + new String(currency) + sep;
+			if (FixUtils.isSet(instrmtLegGrp.noLegs)) s += instrmtLegGrp.toString();
+			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
+			if (FixUtils.isSet(trdgSesGrp.noTradingSessions)) s += trdgSesGrp.toString();
 			if (FixUtils.isSet(transactTime)) s += "TransactTime(60)=" + new String(transactTime) + sep;
+			 s += positionQty.toString();
+			if (FixUtils.isSet(positionAmountData.noPosAmt)) s += positionAmountData.toString();
 			if (FixUtils.isSet(adjustmentType)) s += "AdjustmentType(718)=" + String.valueOf(adjustmentType) + sep;
 			if (FixUtils.isSet(contraryInstructionIndicator)) s += "ContraryInstructionIndicator(719)=" + String.valueOf(contraryInstructionIndicator) + sep;
 			if (FixUtils.isSet(priorSpreadIndicator)) s += "PriorSpreadIndicator(720)=" + String.valueOf(priorSpreadIndicator) + sep;
@@ -416,13 +504,27 @@ public class FixPositionMaintenanceRequest extends FixMessage
 
 		if (!Utils.equals( settlSessSubID, msg.settlSessSubID)) return false;
 
+		if (!parties.equals(msg.parties)) return false;
+
 		if (!Utils.equals( account, msg.account)) return false;
 
 		if (!( acctIDSource==msg.acctIDSource)) return false;
 
 		if (!( accountType==msg.accountType)) return false;
 
+		if (!instrument.equals(msg.instrument)) return false;
+
 		if (!Utils.equals( currency, msg.currency)) return false;
+
+		if (!instrmtLegGrp.equals(msg.instrmtLegGrp)) return false;
+
+		if (!undInstrmtGrp.equals(msg.undInstrmtGrp)) return false;
+
+		if (!trdgSesGrp.equals(msg.trdgSesGrp)) return false;
+
+		if (!positionQty.equals(msg.positionQty)) return false;
+
+		if (!positionAmountData.equals(msg.positionAmountData)) return false;
 
 		if (!( adjustmentType==msg.adjustmentType)) return false;
 

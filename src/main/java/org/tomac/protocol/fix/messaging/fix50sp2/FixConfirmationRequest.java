@@ -10,16 +10,20 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixOrdAllocGrp;
 
 public class FixConfirmationRequest extends FixMessage
 {
 
 	public byte[] confirmReqID;
 	public long confirmType = 0;
+	public FixOrdAllocGrp ordAllocGrp;
 	public byte[] allocID;
 	public byte[] secondaryAllocID;
 	public byte[] individualAllocID;
@@ -35,6 +39,7 @@ public class FixConfirmationRequest extends FixMessage
 		super();
 
 		confirmReqID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		ordAllocGrp = new FixOrdAllocGrp();
 		allocID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		secondaryAllocID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		individualAllocID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
@@ -66,10 +71,11 @@ public class FixConfirmationRequest extends FixMessage
 		Utils.fill( text, (byte)0 );
 		encodedTextLen = Long.MAX_VALUE;		
 		Utils.fill( encodedText, (byte)0 );
+		ordAllocGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -95,6 +101,11 @@ public class FixConfirmationRequest extends FixMessage
 			case FixTags.CONFIRMTYPE_INT:
 				confirmType = FixUtils.getTagIntValue( value );
 				if (!ConfirmType.isValid(confirmType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + confirmType + ") for tag: " + id );
+				break;
+
+			case FixTags.NOORDERS_INT:
+				ordAllocGrp.noOrders = FixUtils.getTagIntValue( value );
+				ordAllocGrp.getAll(ordAllocGrp.noOrders, value );
 				break;
 
 			case FixTags.ALLOCID_INT:
@@ -163,9 +174,14 @@ public class FixConfirmationRequest extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(confirmReqID) ) return FixTags.CONFIRMREQID_INT;
 		if (! FixUtils.isSet(confirmType) ) return FixTags.CONFIRMTYPE_INT;
 		if (! FixUtils.isSet(transactTime) ) return FixTags.TRANSACTTIME_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -215,9 +231,11 @@ public class FixConfirmationRequest extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.CONFIRMREQID_INT, confirmReqID, 0, Utils.lastIndexTrim(confirmReqID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.CONFIRMTYPE_INT, confirmType);
+		if (FixUtils.isSet(ordAllocGrp.noOrders)) ordAllocGrp.encode( out );
 		if (FixUtils.isSet(allocID)) FixUtils.putFixTag( out, FixTags.ALLOCID_INT, allocID, 0, Utils.lastIndexTrim(allocID, (byte)0) );
 		if (FixUtils.isSet(secondaryAllocID)) FixUtils.putFixTag( out, FixTags.SECONDARYALLOCID_INT, secondaryAllocID, 0, Utils.lastIndexTrim(secondaryAllocID, (byte)0) );
 		if (FixUtils.isSet(individualAllocID)) FixUtils.putFixTag( out, FixTags.INDIVIDUALALLOCID_INT, individualAllocID, 0, Utils.lastIndexTrim(individualAllocID, (byte)0) );
@@ -293,9 +311,11 @@ public class FixConfirmationRequest extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "ConfirmReqID(859)=" + new String(confirmReqID) + sep;
 			 s += "ConfirmType(773)=" + String.valueOf(confirmType) + sep;
+			if (FixUtils.isSet(ordAllocGrp.noOrders)) s += ordAllocGrp.toString();
 			if (FixUtils.isSet(allocID)) s += "AllocID(70)=" + new String(allocID) + sep;
 			if (FixUtils.isSet(secondaryAllocID)) s += "SecondaryAllocID(793)=" + new String(secondaryAllocID) + sep;
 			if (FixUtils.isSet(individualAllocID)) s += "IndividualAllocID(467)=" + new String(individualAllocID) + sep;
@@ -325,6 +345,8 @@ public class FixConfirmationRequest extends FixMessage
 		if (!Utils.equals( confirmReqID, msg.confirmReqID)) return false;
 
 		if (!( confirmType==msg.confirmType)) return false;
+
+		if (!ordAllocGrp.equals(msg.ordAllocGrp)) return false;
 
 		if (!Utils.equals( allocID, msg.allocID)) return false;
 

@@ -10,16 +10,22 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixApplIDRequestGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
 
 public class FixApplicationMessageRequest extends FixMessage
 {
 
 	public byte[] applReqID;
 	public long applReqType = 0;
+	public FixApplIDRequestGrp applIDRequestGrp;
+	public FixParties parties;
 	public byte[] text;
 	public long encodedTextLen = 0;
 	public byte[] encodedText;
@@ -28,6 +34,8 @@ public class FixApplicationMessageRequest extends FixMessage
 		super();
 
 		applReqID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		applIDRequestGrp = new FixApplIDRequestGrp();
+		parties = new FixParties();
 		text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		encodedText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		this.clear();
@@ -47,10 +55,12 @@ public class FixApplicationMessageRequest extends FixMessage
 		Utils.fill( text, (byte)0 );
 		encodedTextLen = Long.MAX_VALUE;		
 		Utils.fill( encodedText, (byte)0 );
+		applIDRequestGrp.clear();
+		parties.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -76,6 +86,16 @@ public class FixApplicationMessageRequest extends FixMessage
 			case FixTags.APPLREQTYPE_INT:
 				applReqType = FixUtils.getTagIntValue( value );
 				if (!ApplReqType.isValid(applReqType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + applReqType + ") for tag: " + id );
+				break;
+
+			case FixTags.NOAPPLIDS_INT:
+				applIDRequestGrp.noApplIDs = FixUtils.getTagIntValue( value );
+				applIDRequestGrp.getAll(applIDRequestGrp.noApplIDs, value );
+				break;
+
+			case FixTags.NOPARTYIDS_INT:
+				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(parties.noPartyIDs, value );
 				break;
 
 			case FixTags.TEXT_INT:
@@ -115,8 +135,13 @@ public class FixApplicationMessageRequest extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(applReqID) ) return FixTags.APPLREQID_INT;
 		if (! FixUtils.isSet(applReqType) ) return FixTags.APPLREQTYPE_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -166,9 +191,12 @@ public class FixApplicationMessageRequest extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.APPLREQID_INT, applReqID, 0, Utils.lastIndexTrim(applReqID, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.APPLREQTYPE_INT, applReqType);
+		if (FixUtils.isSet(applIDRequestGrp.noApplIDs)) applIDRequestGrp.encode( out );
+		if (FixUtils.isSet(parties.noPartyIDs)) parties.encode( out );
 		if (FixUtils.isSet(text)) FixUtils.putFixTag( out, FixTags.TEXT_INT, text, 0, Utils.lastIndexTrim(text, (byte)0) );
 		if (FixUtils.isSet(encodedTextLen)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXTLEN_INT, encodedTextLen);
 		if (FixUtils.isSet(encodedText)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXT_INT, encodedText, 0, Utils.lastIndexTrim(encodedText, (byte)0) );
@@ -237,9 +265,12 @@ public class FixApplicationMessageRequest extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "ApplReqID(1346)=" + new String(applReqID) + sep;
 			 s += "ApplReqType(1347)=" + String.valueOf(applReqType) + sep;
+			if (FixUtils.isSet(applIDRequestGrp.noApplIDs)) s += applIDRequestGrp.toString();
+			if (FixUtils.isSet(parties.noPartyIDs)) s += parties.toString();
 			if (FixUtils.isSet(text)) s += "Text(58)=" + new String(text) + sep;
 			if (FixUtils.isSet(encodedTextLen)) s += "EncodedTextLen(354)=" + String.valueOf(encodedTextLen) + sep;
 			if (FixUtils.isSet(encodedText)) s += "EncodedText(355)=" + new String(encodedText) + sep;
@@ -262,6 +293,10 @@ public class FixApplicationMessageRequest extends FixMessage
 		if (!Utils.equals( applReqID, msg.applReqID)) return false;
 
 		if (!( applReqType==msg.applReqType)) return false;
+
+		if (!applIDRequestGrp.equals(msg.applIDRequestGrp)) return false;
+
+		if (!parties.equals(msg.parties)) return false;
 
 		if (!Utils.equals( text, msg.text)) return false;
 

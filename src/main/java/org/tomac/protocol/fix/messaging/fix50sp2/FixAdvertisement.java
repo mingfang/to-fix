@@ -10,10 +10,15 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrument;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrmtLegGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUndInstrmtGrp;
 
 public class FixAdvertisement extends FixMessage
 {
@@ -21,6 +26,9 @@ public class FixAdvertisement extends FixMessage
 	public byte[] advId;
 	public byte[] advTransType;
 	public byte[] advRefID;
+	public FixInstrument instrument;
+	public FixInstrmtLegGrp instrmtLegGrp;
+	public FixUndInstrmtGrp undInstrmtGrp;
 	public byte advSide = (byte)' ';
 	public long quantity = 0;
 	public long qtyType = 0;
@@ -42,6 +50,9 @@ public class FixAdvertisement extends FixMessage
 		advId = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		advTransType = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		advRefID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		instrument = new FixInstrument();
+		instrmtLegGrp = new FixInstrmtLegGrp();
+		undInstrmtGrp = new FixUndInstrmtGrp();
 		currency = new byte[FixUtils.CURRENCY_LENGTH];
 		tradeDate = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		transactTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
@@ -80,10 +91,13 @@ public class FixAdvertisement extends FixMessage
 		Utils.fill( lastMkt, (byte)0 );
 		Utils.fill( tradingSessionID, (byte)0 );
 		Utils.fill( tradingSessionSubID, (byte)0 );
+		instrument.clear();
+		instrmtLegGrp.clear();
+		undInstrmtGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -113,6 +127,20 @@ public class FixAdvertisement extends FixMessage
 
 			case FixTags.ADVREFID_INT:
 				advRefID = FixUtils.getTagStringValue(value, advRefID);
+				break;
+
+			case FixTags.SYMBOL_INT:
+				instrument.getAll(FixTags.SYMBOL_INT, value );
+				break;
+
+			case FixTags.NOLEGS_INT:
+				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( value );
+				instrmtLegGrp.getAll(instrmtLegGrp.noLegs, value );
+				break;
+
+			case FixTags.NOUNDERLYINGS_INT:
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
 				break;
 
 			case FixTags.ADVSIDE_INT:
@@ -200,10 +228,16 @@ public class FixAdvertisement extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(advId) ) return FixTags.ADVID_INT;
 		if (! FixUtils.isSet(advTransType) ) return FixTags.ADVTRANSTYPE_INT;
 		if (! FixUtils.isSet(advSide) ) return FixTags.ADVSIDE_INT;
 		if (! FixUtils.isSet(quantity) ) return FixTags.QUANTITY_INT;
+		if (! instrument.isSet() ) return FixTags.SYMBOL_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -253,10 +287,14 @@ public class FixAdvertisement extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.ADVID_INT, advId, 0, Utils.lastIndexTrim(advId, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.ADVTRANSTYPE_INT, advTransType, 0, Utils.lastIndexTrim(advTransType, (byte)0) );
 		if (FixUtils.isSet(advRefID)) FixUtils.putFixTag( out, FixTags.ADVREFID_INT, advRefID, 0, Utils.lastIndexTrim(advRefID, (byte)0) );
+		instrument.encode( out );
+		if (FixUtils.isSet(instrmtLegGrp.noLegs)) instrmtLegGrp.encode( out );
+		if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) undInstrmtGrp.encode( out );
 		FixUtils.putFixTag( out, FixTags.ADVSIDE_INT, advSide );
 		FixUtils.putFixFloatTag( out, FixTags.QUANTITY_INT, quantity);
 		if (FixUtils.isSet(qtyType)) FixUtils.putFixTag( out, FixTags.QTYTYPE_INT, qtyType);
@@ -336,10 +374,14 @@ public class FixAdvertisement extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "AdvId(2)=" + new String(advId) + sep;
 			 s += "AdvTransType(5)=" + new String(advTransType) + sep;
 			if (FixUtils.isSet(advRefID)) s += "AdvRefID(3)=" + new String(advRefID) + sep;
+			 s += instrument.toString();
+			if (FixUtils.isSet(instrmtLegGrp.noLegs)) s += instrmtLegGrp.toString();
+			if (FixUtils.isSet(undInstrmtGrp.noUnderlyings)) s += undInstrmtGrp.toString();
 			 s += "AdvSide(4)=" + String.valueOf(advSide) + sep;
 			 s += "Quantity(53)=" + String.valueOf(quantity) + sep;
 			if (FixUtils.isSet(qtyType)) s += "QtyType(854)=" + String.valueOf(qtyType) + sep;
@@ -375,6 +417,12 @@ public class FixAdvertisement extends FixMessage
 		if (!Utils.equals( advTransType, msg.advTransType)) return false;
 
 		if (!Utils.equals( advRefID, msg.advRefID)) return false;
+
+		if (!instrument.equals(msg.instrument)) return false;
+
+		if (!instrmtLegGrp.equals(msg.instrmtLegGrp)) return false;
+
+		if (!undInstrmtGrp.equals(msg.undInstrmtGrp)) return false;
 
 		if (!( advSide==msg.advSide)) return false;
 

@@ -10,10 +10,14 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixRootParties;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixListOrdGrp;
 
 public class FixNewOrderList extends FixMessage
 {
@@ -37,6 +41,8 @@ public class FixNewOrderList extends FixMessage
 	public byte[] allowableOneSidednessCurr;
 	public long totNoOrders = 0;
 	public boolean lastFragment = false;
+	public FixRootParties rootParties;
+	public FixListOrdGrp listOrdGrp;
 
 	public FixNewOrderList() {
 		super();
@@ -48,6 +54,8 @@ public class FixNewOrderList extends FixMessage
 		listExecInst = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		encodedListExecInst = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		allowableOneSidednessCurr = new byte[FixUtils.CURRENCY_LENGTH];
+		rootParties = new FixRootParties();
+		listOrdGrp = new FixListOrdGrp();
 		this.clear();
 
 		msgType = MsgTypes.NEWORDERLIST_INT;
@@ -79,10 +87,12 @@ public class FixNewOrderList extends FixMessage
 		Utils.fill( allowableOneSidednessCurr, (byte)0 );
 		totNoOrders = Long.MAX_VALUE;		
 		lastFragment = false;		
+		rootParties.clear();
+		listOrdGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -184,6 +194,16 @@ public class FixNewOrderList extends FixMessage
 				if (!LastFragment.isValid(lastFragment) ) throw new FixSessionException(buf, "Invalid enumerated value(" + lastFragment + ") for tag: " + id );
 				break;
 
+			case FixTags.NOROOTPARTYIDS_INT:
+				rootParties.noRootPartyIDs = FixUtils.getTagIntValue( value );
+				rootParties.getAll(rootParties.noRootPartyIDs, value );
+				break;
+
+			case FixTags.NOORDERS_INT:
+				listOrdGrp.noOrders = FixUtils.getTagIntValue( value );
+				listOrdGrp.getAll(listOrdGrp.noOrders, value );
+				break;
+
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
 				checkSum = FixUtils.getTagIntValue( value );
@@ -209,9 +229,15 @@ public class FixNewOrderList extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(listID) ) return FixTags.LISTID_INT;
 		if (! FixUtils.isSet(bidType) ) return FixTags.BIDTYPE_INT;
 		if (! FixUtils.isSet(totNoOrders) ) return FixTags.TOTNOORDERS_INT;
+		if (! listOrdGrp.isSet() ) return FixTags.NOORDERS_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -261,6 +287,7 @@ public class FixNewOrderList extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.LISTID_INT, listID, 0, Utils.lastIndexTrim(listID, (byte)0) );
 		if (FixUtils.isSet(bidID)) FixUtils.putFixTag( out, FixTags.BIDID_INT, bidID, 0, Utils.lastIndexTrim(bidID, (byte)0) );
@@ -281,6 +308,8 @@ public class FixNewOrderList extends FixMessage
 		if (FixUtils.isSet(allowableOneSidednessCurr)) FixUtils.putFixTag( out, FixTags.ALLOWABLEONESIDEDNESSCURR_INT, allowableOneSidednessCurr, 0, Utils.lastIndexTrim(allowableOneSidednessCurr, (byte)0) );
 		FixUtils.putFixTag( out, FixTags.TOTNOORDERS_INT, totNoOrders);
 		if (FixUtils.isSet(lastFragment)) FixUtils.putFixTag( out, FixTags.LASTFRAGMENT_INT, lastFragment?(byte)'Y':(byte)'N' );
+		if (FixUtils.isSet(rootParties.noRootPartyIDs)) rootParties.encode( out );
+		listOrdGrp.encode( out );
 		// the checksum at the end
 
 		int checkSumStart = out.position();
@@ -346,6 +375,7 @@ public class FixNewOrderList extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "ListID(66)=" + new String(listID) + sep;
 			if (FixUtils.isSet(bidID)) s += "BidID(390)=" + new String(bidID) + sep;
@@ -366,6 +396,8 @@ public class FixNewOrderList extends FixMessage
 			if (FixUtils.isSet(allowableOneSidednessCurr)) s += "AllowableOneSidednessCurr(767)=" + new String(allowableOneSidednessCurr) + sep;
 			 s += "TotNoOrders(68)=" + String.valueOf(totNoOrders) + sep;
 			if (FixUtils.isSet(lastFragment)) s += "LastFragment(893)=" + String.valueOf(lastFragment) + sep;
+			if (FixUtils.isSet(rootParties.noRootPartyIDs)) s += rootParties.toString();
+			 s += listOrdGrp.toString();
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
 
@@ -419,6 +451,10 @@ public class FixNewOrderList extends FixMessage
 		if (!( totNoOrders==msg.totNoOrders)) return false;
 
 		if (!( lastFragment==msg.lastFragment)) return false;
+
+		if (!rootParties.equals(msg.rootParties)) return false;
+
+		if (!listOrdGrp.equals(msg.listOrdGrp)) return false;
 
 		return true;
 	}

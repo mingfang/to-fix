@@ -10,20 +10,28 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixApplicationSequenceControl;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixTrdSessLstGrp;
 
 public class FixTradingSessionList extends FixMessage
 {
 
+	public FixApplicationSequenceControl applicationSequenceControl;
 	public byte[] tradSesReqID;
+	public FixTrdSessLstGrp trdSessLstGrp;
 
 	public FixTradingSessionList() {
 		super();
 
+		applicationSequenceControl = new FixApplicationSequenceControl();
 		tradSesReqID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		trdSessLstGrp = new FixTrdSessLstGrp();
 		this.clear();
 
 		msgType = MsgTypes.TRADINGSESSIONLIST_INT;
@@ -37,10 +45,12 @@ public class FixTradingSessionList extends FixMessage
 		// clear out all the fields that aren't msgType
 
 		Utils.fill( tradSesReqID, (byte)0 );
+		applicationSequenceControl.clear();
+		trdSessLstGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -59,8 +69,17 @@ public class FixTradingSessionList extends FixMessage
 
 			switch( id ) {
 
+			case FixTags.APPLID_INT:
+				applicationSequenceControl.getAll(FixTags.APPLID_INT, value );
+				break;
+
 			case FixTags.TRADSESREQID_INT:
 				tradSesReqID = FixUtils.getTagStringValue(value, tradSesReqID);
+				break;
+
+			case FixTags.NOTRADINGSESSIONS_INT:
+				trdSessLstGrp.noTradingSessions = FixUtils.getTagIntValue( value );
+				trdSessLstGrp.getAll(trdSessLstGrp.noTradingSessions, value );
 				break;
 
 			// for a message always get the checksum
@@ -88,6 +107,12 @@ public class FixTradingSessionList extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
+		if (! trdSessLstGrp.isSet() ) return FixTags.NOTRADINGSESSIONS_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -137,8 +162,11 @@ public class FixTradingSessionList extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
+		if (FixUtils.isSet(applicationSequenceControl.applID)) applicationSequenceControl.encode( out );
 		if (FixUtils.isSet(tradSesReqID)) FixUtils.putFixTag( out, FixTags.TRADSESREQID_INT, tradSesReqID, 0, Utils.lastIndexTrim(tradSesReqID, (byte)0) );
+		trdSessLstGrp.encode( out );
 		// the checksum at the end
 
 		int checkSumStart = out.position();
@@ -204,8 +232,11 @@ public class FixTradingSessionList extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
+			if (FixUtils.isSet(applicationSequenceControl.applID)) s += applicationSequenceControl.toString();
 			if (FixUtils.isSet(tradSesReqID)) s += "TradSesReqID(335)=" + new String(tradSesReqID) + sep;
+			 s += trdSessLstGrp.toString();
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
 
@@ -222,7 +253,11 @@ public class FixTradingSessionList extends FixMessage
 
 		if ( ! super.equals(msg) ) return false;
 
+		if (!applicationSequenceControl.equals(msg.applicationSequenceControl)) return false;
+
 		if (!Utils.equals( tradSesReqID, msg.tradSesReqID)) return false;
+
+		if (!trdSessLstGrp.equals(msg.trdSessLstGrp)) return false;
 
 		return true;
 	}

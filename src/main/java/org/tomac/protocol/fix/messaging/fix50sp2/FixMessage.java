@@ -10,9 +10,11 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
 
 public abstract class FixMessage extends FixGeneratedBaseMessage
 {
@@ -53,6 +55,7 @@ public abstract class FixMessage extends FixGeneratedBaseMessage
 	public byte[] xmlData;
 	public byte[] messageEncoding;
 	public long lastMsgSeqNumProcessed = 0;
+	public FixHopGrp hopGrp;
 	
 	private static byte[] tmpMsgType = new byte[4];
 	private static byte[] tmpBeginString = new byte[7];
@@ -63,46 +66,42 @@ public abstract class FixMessage extends FixGeneratedBaseMessage
 	 * @return msgType as an int.
 	 * @throws FixSessionException
 	 */
-	public static int crackMsgType( ByteBuffer buf ) throws FixSessionException {
+	public static int crackMsgType( ByteBuffer buf ) throws FixSessionException, FixGarbledException {
 		int startPos;
 		int checkSum;
 		int msgType = MsgTypes.UNKNOWN_INT;
+
+		try {
 		startPos = buf.position();
-		if(buf.remaining() < 2) // To start processing we need at least 8=
-			return MsgTypes.UNKNOWN_INT; //Don't have a full message
+		if(buf.remaining() < (FixMessageInfo.BEGINSTRING_VALUE_WITH_TAG.length + 1 /* SOH */ + 5 /* 9=00SOH */) )
+			throw new FixGarbledException(buf, "Message too short to contain mandatory header tags");
 
 		int begin = buf.position();
 
 		int tagId = FixUtils.getTagId(buf);
-		if(tagId != FixTags.BEGINSTRING_INT) {
-			buf.position(startPos);
-			throw new FixSessionException(buf, "First tag in FIX message is not BEGINSTRING (8)");
-		}
+		if(tagId != FixTags.BEGINSTRING_INT)
+			throw new FixGarbledException(buf, "First tag in FIX message is not BEGINSTRING (8)");
 
 		FixUtils.getTagStringValue(buf, tmpBeginString);
 		//now look to get bodyLength field
 		tagId = FixUtils.getTagId(buf);
-		if(tagId != FixTags.BODYLENGTH_INT) {
-			buf.position(startPos);
-			throw new FixSessionException(buf, "Second tag in FIX message is not BODYLENGTH (9)");
-		}
+		if(tagId != FixTags.BODYLENGTH_INT)
+			throw new FixGarbledException(buf, "Second tag in FIX message is not BODYLENGTH (9)");
 
 		int bodyLength = FixUtils.getTagIntValue(buf);
-		if(bodyLength < 0) {
-			buf.position(startPos);
-			throw new FixSessionException(buf, "Invalid BODYLENGTH (9) value: " + bodyLength);
-		}
+		if(bodyLength < 0)
+
+			throw new FixGarbledException(buf, "Invalid BODYLENGTH (9) value: " + bodyLength);
 
 		int checkSumBegin = buf.position() + bodyLength; 
-		if(checkSumBegin > buf.limit()) {
-			buf.position(startPos);
-			return MsgTypes.UNKNOWN_INT; //Don't have a full message
-		}
+		if(checkSumBegin > buf.limit()) 
+
+			throw new FixGarbledException(buf, "Message too short to contain mandatory checksum");
 
 		//FIRST, validate that we got a msgType field
 		tagId = FixUtils.getTagId(buf);
 		if(tagId != FixTags.MSGTYPE_INT)
-			throw new FixSessionException(buf, "Third tag in FIX message is not MSGTYPE (35)");
+			throw new FixGarbledException(buf, "Third tag in FIX message is not MSGTYPE (35)");
 
 		FixUtils.getTagStringValue(buf, tmpMsgType);
 
@@ -110,20 +109,27 @@ public abstract class FixMessage extends FixGeneratedBaseMessage
 		buf.position(checkSumBegin);
 		tagId = FixUtils.getTagId(buf);
 		if(tagId != FixTags.CHECKSUM_INT)
-			throw new FixSessionException(buf, "Final tag in FIX message is not CHECKSUM (10)");
+			throw new FixGarbledException(buf, "Final tag in FIX message is not CHECKSUM (10)");
 
 		checkSum = FixUtils.getTagIntValue(buf);
 		int calculatedCheckSum = FixUtils.computeChecksum(buf, begin, checkSumBegin);
 		if(checkSum != calculatedCheckSum && !IGNORE_CHECKSUM)
-			throw new FixSessionException(buf, String.format("Checksum mismatch; calculated: %s is not equal message checksum: %s", calculatedCheckSum, checkSum));
+			throw new FixGarbledException(buf, String.format("Checksum mismatch; calculated: %s is not equal message checksum: %s", calculatedCheckSum, checkSum));
 
 		// finish-up
+		buf.flip();
 
 		buf.position(startPos);
 
 		msgType = FixUtils.getMsgTypeTagAsInt(tmpMsgType, Utils.lastIndexTrim(tmpMsgType, (byte)0));
 
 		msgType = FixUtils.crackNasdaqMsgType(msgType, buf);
+
+		} catch (FixSessionException e) {
+			throw new FixGarbledException(buf, e.getMessage());
+		} catch (NumberFormatException e) {
+			throw new FixGarbledException(buf, e.getMessage());
+		}
 
 		return msgType;
 	}
@@ -151,6 +157,7 @@ public abstract class FixMessage extends FixGeneratedBaseMessage
 		origSendingTime = new byte[FixUtils.UTCTIMESTAMP_LENGTH];
 		xmlData = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		messageEncoding = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		hopGrp = new FixHopGrp();
 
 
 	}
@@ -192,56 +199,49 @@ public abstract class FixMessage extends FixGeneratedBaseMessage
 		Utils.fill( xmlData, (byte)0 );
 		Utils.fill( messageEncoding, (byte)0 );
 		lastMsgSeqNumProcessed = Long.MAX_VALUE;		
+		hopGrp.clear();
 	}
 
 	/**
 	 * getAll performs stateless session level message validations. Throws a FixSessionException if this fails 
 	 */
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		startPos = buf.position();
-		if(buf.remaining() < 2) // To start processing we need at least 8=
-			throw new FixSessionException(buf, "Incorrect BodyLength(9) or incomplete message");
+		if(buf.remaining() < (FixMessageInfo.BEGINSTRING_VALUE_WITH_TAG.length + 1 /* SOH */ + 5 /* 9=00SOH */) )
+			throw new FixGarbledException(buf, "Message too short to contain mandatory header tags");
 
 		int begin = buf.position();
 
 		int tagId = FixUtils.getTagId(buf);
-		if(tagId != FixTags.BEGINSTRING_INT) {
-			buf.position(startPos);
-			throw new FixSessionException(buf, "First tag in FIX message is not BEGINSTRING (8)");
-		}
+		if(tagId != FixTags.BEGINSTRING_INT)
+			throw new FixGarbledException(buf, "First tag in FIX message is not BEGINSTRING (8)");
 
 		FixUtils.getTagStringValue(buf, tmpBeginString);
-		if(!Utils.equals(FixMessageInfo.BEGINSTRING_VALUE, tmpBeginString)) {
-			buf.position(startPos);
+		if(!Utils.equals(FixMessageInfo.BEGINSTRING_VALUE, tmpBeginString))
 			throw new FixSessionException(buf, "BeginString not equal to: " + new String(FixMessageInfo.BEGINSTRING_VALUE));
-		}
 
 		//now look to get bodyLength field
 		tagId = FixUtils.getTagId(buf);
-		if(tagId != FixTags.BODYLENGTH_INT) {
-			buf.position(startPos);
-			throw new FixSessionException(buf, "Second tag in FIX message is not BODYLENGTH (9)");
-		}
+		if(tagId != FixTags.BODYLENGTH_INT)
+			throw new FixGarbledException(buf, "Second tag in FIX message is not BODYLENGTH (9)");
 
 		int bodyLength = FixUtils.getTagIntValue(buf);
-		if(bodyLength < 0) {
-			buf.position(startPos);
-			throw new FixSessionException(buf, "Invalid BODYLENGTH (9) value: " + bodyLength);
-		}
+		if(bodyLength < 0)
+
+			throw new FixGarbledException(buf, "Invalid BODYLENGTH (9) value: " + bodyLength);
 
 		int checkSumBegin = buf.position() + bodyLength; 
-		if(checkSumBegin > buf.limit()) {
-			buf.position(startPos);
-			throw new FixSessionException(buf, "Incorrect BodyLength(9) or incomplete message");
-		}
+		if(checkSumBegin > buf.limit()) 
+
+			throw new FixGarbledException(buf, "Message too short to contain mandatory checksum");
 
 		//FIRST, validate that we got a msgType field
 		tagId = FixUtils.getTagId(buf);
 		if(tagId != FixTags.MSGTYPE_INT)
-			throw new FixSessionException(buf, "Third tag in FIX message is not MSGTYPE (35)");
+			throw new FixGarbledException(buf, "Third tag in FIX message is not MSGTYPE (35)");
 
 		FixUtils.getTagStringValue(buf, tmpMsgType);
 
@@ -251,15 +251,14 @@ public abstract class FixMessage extends FixGeneratedBaseMessage
 		buf.position(checkSumBegin);
 		tagId = FixUtils.getTagId(buf);
 		if(tagId != FixTags.CHECKSUM_INT)
-			throw new FixSessionException(buf, "Final tag in FIX message is not CHECKSUM (10)");
+			throw new FixGarbledException(buf, "Final tag in FIX message is not CHECKSUM (10)");
 
 		checkSum = FixUtils.getTagIntValue(buf);
 		int calculatedCheckSum = FixUtils.computeChecksum(buf, begin, checkSumBegin);
 		if(checkSum != calculatedCheckSum && !IGNORE_CHECKSUM)
-			throw new FixSessionException(buf, String.format("Checksum mismatch; calculated: %s is not equal message checksum: %s", calculatedCheckSum, checkSum));
+			throw new FixGarbledException(buf, String.format("Checksum mismatch; calculated: %s is not equal message checksum: %s", calculatedCheckSum, checkSum));
 
 		// finish-up
-
 		buf.position(startPos);
 
 		msgType = FixUtils.getMsgTypeTagAsInt(tmpMsgType, Utils.lastIndexTrim(tmpMsgType, (byte)0));
@@ -471,6 +470,8 @@ public abstract class FixMessage extends FixGeneratedBaseMessage
 		if (!Utils.equals( messageEncoding, msg.messageEncoding)) return false;
 
 		if (!( lastMsgSeqNumProcessed==msg.lastMsgSeqNumProcessed)) return false;
+
+		if (!hopGrp.equals(msg.hopGrp)) return false;
 
 		return true;
 

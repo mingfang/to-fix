@@ -10,16 +10,22 @@ import java.nio.ByteBuffer;
 
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixMDRjctGrp;
 
 public class FixMarketDataRequestReject extends FixMessage
 {
 
 	public byte[] mDReqID;
+	public FixParties parties;
 	public byte mDReqRejReason = (byte)' ';
+	public FixMDRjctGrp mDRjctGrp;
 	public byte[] text;
 	public long encodedTextLen = 0;
 	public byte[] encodedText;
@@ -28,6 +34,8 @@ public class FixMarketDataRequestReject extends FixMessage
 		super();
 
 		mDReqID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		parties = new FixParties();
+		mDRjctGrp = new FixMDRjctGrp();
 		text = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		encodedText = new byte[FixUtils.FIX_MAX_STRING_TEXT_LENGTH];
 		this.clear();
@@ -47,10 +55,12 @@ public class FixMarketDataRequestReject extends FixMessage
 		Utils.fill( text, (byte)0 );
 		encodedTextLen = Long.MAX_VALUE;		
 		Utils.fill( encodedText, (byte)0 );
+		parties.clear();
+		mDRjctGrp.clear();
 	}
 
 	@Override
-	public void getAll() throws FixSessionException, IllegalStateException
+	public void getAll() throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
@@ -73,9 +83,19 @@ public class FixMarketDataRequestReject extends FixMessage
 				mDReqID = FixUtils.getTagStringValue(value, mDReqID);
 				break;
 
+			case FixTags.NOPARTYIDS_INT:
+				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(parties.noPartyIDs, value );
+				break;
+
 			case FixTags.MDREQREJREASON_INT:
 				mDReqRejReason = FixUtils.getTagCharValue( value );
 				if (!MDReqRejReason.isValid(mDReqRejReason) ) throw new FixSessionException(buf, "Invalid enumerated value(" + mDReqRejReason + ") for tag: " + id );
+				break;
+
+			case FixTags.NOALTMDSOURCE_INT:
+				mDRjctGrp.noAltMDSource = FixUtils.getTagIntValue( value );
+				mDRjctGrp.getAll(mDRjctGrp.noAltMDSource, value );
 				break;
 
 			case FixTags.TEXT_INT:
@@ -115,7 +135,12 @@ public class FixMarketDataRequestReject extends FixMessage
 	private int checkRequiredTags() {
 		int tag = -1;
 
+		if (! FixUtils.isSet(senderCompID) ) return FixTags.SENDERCOMPID_INT;
+		if (! FixUtils.isSet(targetCompID) ) return FixTags.TARGETCOMPID_INT;
+		if (! FixUtils.isSet(msgSeqNum) ) return FixTags.MSGSEQNUM_INT;
+		if (! FixUtils.isSet(sendingTime) ) return FixTags.SENDINGTIME_INT;
 		if (! FixUtils.isSet(mDReqID) ) return FixTags.MDREQID_INT;
+		if (! FixUtils.isSet(checkSum) ) return FixTags.CHECKSUM_INT;
 		return tag;
 
 	}
@@ -165,9 +190,12 @@ public class FixMarketDataRequestReject extends FixMessage
 		if (FixUtils.isSet(xmlData)) FixUtils.putFixTag( out, FixTags.XMLDATA_INT, xmlData, 0, Utils.lastIndexTrim(xmlData, (byte)0) );
 		if (FixUtils.isSet(messageEncoding)) FixUtils.putFixTag( out, FixTags.MESSAGEENCODING_INT, messageEncoding, 0, Utils.lastIndexTrim(messageEncoding, (byte)0) );
 		if (FixUtils.isSet(lastMsgSeqNumProcessed)) FixUtils.putFixTag( out, FixTags.LASTMSGSEQNUMPROCESSED_INT, lastMsgSeqNumProcessed);
+		if ( FixUtils.isSet(hopGrp.noHops) )hopGrp.encode( out );
 
 		FixUtils.putFixTag( out, FixTags.MDREQID_INT, mDReqID, 0, Utils.lastIndexTrim(mDReqID, (byte)0) );
+		if (FixUtils.isSet(parties.noPartyIDs)) parties.encode( out );
 		if (FixUtils.isSet(mDReqRejReason)) FixUtils.putFixTag( out, FixTags.MDREQREJREASON_INT, mDReqRejReason );
+		if (FixUtils.isSet(mDRjctGrp.noAltMDSource)) mDRjctGrp.encode( out );
 		if (FixUtils.isSet(text)) FixUtils.putFixTag( out, FixTags.TEXT_INT, text, 0, Utils.lastIndexTrim(text, (byte)0) );
 		if (FixUtils.isSet(encodedTextLen)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXTLEN_INT, encodedTextLen);
 		if (FixUtils.isSet(encodedText)) FixUtils.putFixTag( out, FixTags.ENCODEDTEXT_INT, encodedText, 0, Utils.lastIndexTrim(encodedText, (byte)0) );
@@ -236,9 +264,12 @@ public class FixMarketDataRequestReject extends FixMessage
 			if (FixUtils.isSet(xmlData)) s += "XmlData(213)=" + new String(xmlData) + sep;
 			if (FixUtils.isSet(messageEncoding)) s += "MessageEncoding(347)=" + new String(messageEncoding) + sep;
 			if (FixUtils.isSet(lastMsgSeqNumProcessed)) s += "LastMsgSeqNumProcessed(369)=" + String.valueOf(lastMsgSeqNumProcessed) + sep;
+			if (FixUtils.isSet(hopGrp.noHops)) s += hopGrp.toString();
 
 			 s += "MDReqID(262)=" + new String(mDReqID) + sep;
+			if (FixUtils.isSet(parties.noPartyIDs)) s += parties.toString();
 			if (FixUtils.isSet(mDReqRejReason)) s += "MDReqRejReason(281)=" + String.valueOf(mDReqRejReason) + sep;
+			if (FixUtils.isSet(mDRjctGrp.noAltMDSource)) s += mDRjctGrp.toString();
 			if (FixUtils.isSet(text)) s += "Text(58)=" + new String(text) + sep;
 			if (FixUtils.isSet(encodedTextLen)) s += "EncodedTextLen(354)=" + String.valueOf(encodedTextLen) + sep;
 			if (FixUtils.isSet(encodedText)) s += "EncodedText(355)=" + new String(encodedText) + sep;
@@ -260,7 +291,11 @@ public class FixMarketDataRequestReject extends FixMessage
 
 		if (!Utils.equals( mDReqID, msg.mDReqID)) return false;
 
+		if (!parties.equals(msg.parties)) return false;
+
 		if (!( mDReqRejReason==msg.mDReqRejReason)) return false;
+
+		if (!mDRjctGrp.equals(msg.mDRjctGrp)) return false;
 
 		if (!Utils.equals( text, msg.text)) return false;
 

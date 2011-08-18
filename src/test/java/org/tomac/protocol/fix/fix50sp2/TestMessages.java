@@ -14,12 +14,11 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.tomac.protocol.fix.FixSessionException;
 import org.tomac.protocol.fix.FixUtils;
-import org.tomac.protocol.fix.fix42nordic.TestFixMessageListener;
-import org.tomac.protocol.fix.messaging.fix42nordic.FixMessageParser;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageParser;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixNewOrderSingle;
 
 public class TestMessages {
-	TestFixMessageListener listener = new TestFixMessageListener();
+	FixMessageListenerTest listener = new FixMessageListenerTest();
 	FixMessageParser parser;
 	ByteBuffer out = ByteBuffer.allocate(1024);
 	
