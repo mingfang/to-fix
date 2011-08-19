@@ -705,7 +705,7 @@ public class FixMessageGenerator {
 		
 		out.write("\t\n");
 		out.write("\tprivate static byte[] tmpMsgType = new byte[4];\n");
-		out.write("\tprivate static byte[] tmpBeginString = new byte[7];\n\n");
+		out.write("\tprivate static byte[] tmpBeginString = new byte[BEGINSTRING_VALUE.length];\n\n");
 
 		out.write("\t/**\n");
 		out.write("\t * crackMsgType performs a garbled check on the fix message. \n");
@@ -786,8 +786,7 @@ public class FixMessageGenerator {
 	 		out.write("\t\t\tcase FixTags." + f.name.toUpperCase() + "_INT:\n");
 	 		decodeFieldValue(f, out);
 			if (f.domFixValues.size() > 0 && FixMessageDom.toInt(f.type) != FixMessageDom.BOOLEAN ) {
-				for (final DomFixValue v : f.domFixValues)
-		 			out.write("\t\t\t\tif (!" + capFirst(f.name) + ".isValid("+ uncapFirst(f.name) + ") ) throw new FixSessionException(buf, \"Invalid enumerated value(\" + " + uncapFirst(f.name) + " + \") for tag: \" + id );\n");
+	 			out.write("\t\t\t\tif (!" + capFirst(f.name) + ".isValid("+ uncapFirst(f.name) + ") ) throw new FixSessionException(buf, \"Invalid enumerated value(\" + " + uncapFirst(f.name) + " + \") for tag: \" + id );\n");
 			}
 	 		out.write("\t\t\t\tbreak;\n\n");
 		} 		

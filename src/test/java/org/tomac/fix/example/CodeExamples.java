@@ -6,13 +6,13 @@
 package org.tomac.fix.example;
 
 
+import static org.junit.Assert.fail;
+
 import java.nio.ByteBuffer;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.protocol.fix.FixSessionException;
-import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.messaging.fix50sp2.*;
 
 /**
@@ -23,35 +23,40 @@ public class CodeExamples {
 
 	@Test
 	public void simpleCodeExample() {
-		// out bound message
-		FixLogon logon = new FixLogon();
-		// populate the fields
-		logon.heartBtInt = 10;
-		// get field values
-		long heartBtInt = logon.heartBtInt;
-
-		ByteBuffer buf = ByteBuffer.wrap(new String("8=FIXT.1.1\u00019=75\u000135=A\u000149=TOC\u000156=TOMAC\u000134=1\u000150=TOC\u000157=S\u000152=20110211-05:40:09.425\u000198=0\u0001108=30\u000110=167\u0001").getBytes());
+		ByteBuffer buf = ByteBuffer.wrap(new String("8=FIXT.1.1\u00019=82\u000135=A\u000149=TOC\u000156=TOMAC\u000134=1\u000150=TOC\u000157=S\u000152=20110211-05:40:09.425\u000198=0\u0001108=30\u00011137=9\u000110=102\u0001").getBytes());
 		// In-bound message from raw fix message byte buffer
 		
 		try {
 			// Get the message type 
 			FixMessage.crackMsgType(buf);
 			// based on message type pares the message
-			FixLogout logout = new FixLogout();
+			FixLogon logon = new FixLogon();
 
 			// decode the message
-			logout.setBuffer(buf);
-			logout.getAll();
+			logon.setBuffer(buf);
+			logon.getAll();
 
 			// get field values
-			long bodyLength = logout.bodyLength;
+			long bodyLength = logon.bodyLength;
 			// ...
 		} catch (FixGarbledException e) {
 			e.printStackTrace();
+			fail(e.getMessage());
 		} catch (FixSessionException e) {
 			// catch FixSessionException and.. check for SessionRejectReason errors
-			e.printStackTrace();
+			fail(e.getMessage());
 		}
+
+	}
+	
+	@Test 
+	public void SetAndGetTags() {
+		// out bound message
+		FixLogon logon = new FixLogon();
+		// populate the fields
+		logon.heartBtInt = 10;
+		// get field values
+		long heartBtInt = logon.heartBtInt;
 
 	}
 	
@@ -61,20 +66,20 @@ public class CodeExamples {
 		MyFixMessageListener listener = new MyFixMessageListener();
 		FixMessageParser parser = new FixMessageParser();
 		
-		ByteBuffer buf = ByteBuffer.wrap(new String("8=FIXT.1.1\u00019=75\u000135=A\u000149=TOC\u000156=TOMAC\u000134=1\u000150=TOC\u000157=S\u000152=20110211-05:40:09.425\u000198=0\u0001108=30\u000110=167\u0001").getBytes());
+		ByteBuffer buf = ByteBuffer.wrap(new String("8=FIXT.1.1\u00019=75\u000135=A\u000149=TOC\u000156=TOMAC\u000134=1\u000150=TOC\u000157=S\u000152=20110211-05:40:09.425\u000198=0\u0001108=30\u000110=37\u0001").getBytes());
 		// the buf ByteBuffer contains the raw fix message
 		try {
 			parser.parse(buf, listener);
 		} catch (FixSessionException e) {
-			e.printStackTrace();
+			fail(e.getMessage());
 		} catch (FixGarbledException e) {
-			e.printStackTrace();
+			fail(e.getMessage());
 		}
 		
 	}
 	
-	public class MyFixMessageListener implements FixMessageListener { // or implements FixMessageListener
-
+	public class MyFixMessageListener implements FixMessageListener { 
+		
 		@Override
 	    public void onFixLogon( FixLogon msg ) { 
 			//handle the FIX logon message

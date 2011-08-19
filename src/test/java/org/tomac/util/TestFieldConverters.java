@@ -42,7 +42,7 @@ public class TestFieldConverters {
         assertEquals(123L, Utils.longValueOf("123".getBytes(), 0 , 3));
         Utils.fill(out, (byte) ' ');
     	Utils.longToNumeric(out, 0, -1, out.length);
-        assertTrue(Utils.equals(" -1".getBytes(), out));
+        assertTrue(new String(out), Utils.equals("-01".getBytes(), out));
         try {
         	Utils.longValueOf("abc".getBytes(), 0 , 3);
         	fail();
@@ -59,22 +59,22 @@ public class TestFieldConverters {
 
 	@Test
     public void testDoubleConversion() throws Exception {
-        assertEquals("45.32", Utils.FixFloatConverter.convert(4532));
-        assertEquals("0.45", Utils.FixFloatConverter.convert(45));
-        assertEquals("-0.1", Utils.FixFloatConverter.convert(-10));
-        assertEquals("-0.01", Utils.FixFloatConverter.convert(-1));
+        assertEquals("45.32", Utils.FixFloatConverter.convert(453200));
+        assertEquals("0.45", Utils.FixFloatConverter.convert(4500));
+        assertEquals("-0.1", Utils.FixFloatConverter.convert(-1000));
+        assertEquals("-0.01", Utils.FixFloatConverter.convert(-100));
         assertEquals("0.0", Utils.FixFloatConverter.convert(0));
-        assertEquals(4532L, Utils.FixFloatConverter.convert("45.32".getBytes()), 0);
-        assertEquals(4532L, Utils.FixFloatConverter.convert("45.3200".getBytes()), 0);
-        assertEquals(340244000L, Utils.FixFloatConverter.convert("0003402440.00".getBytes()), 0);
-        assertEquals(4532L, Utils.FixFloatConverter.convert("45.32".getBytes()), 0);
-        assertEquals(120100L, Utils.FixFloatConverter.convert("1201".getBytes()), 0);
+        assertEquals(453200L, Utils.FixFloatConverter.convert("45.32".getBytes()), 0);
+        assertEquals(453200L, Utils.FixFloatConverter.convert("45.3200".getBytes()), 0);
+        assertEquals(34024400000L, Utils.FixFloatConverter.convert("0003402440.00".getBytes()), 0);
+        assertEquals(453200L, Utils.FixFloatConverter.convert("45.32".getBytes()), 0);
+        assertEquals(12010000L, Utils.FixFloatConverter.convert("1201".getBytes()), 0);
         assertEquals(0L, Utils.FixFloatConverter.convert("0.0".getBytes()), 0);
-        assertEquals(4532L, Utils.FixFloatConverter.convert("0045.32".getBytes()), 0);
+        assertEquals(453200L, Utils.FixFloatConverter.convert("0045.32".getBytes()), 0);
         assertEquals(0L, Utils.FixFloatConverter.convert("0.".getBytes()), 0);
         assertEquals(0L, Utils.FixFloatConverter.convert(".0".getBytes()), 0);
-        assertEquals(6L, Utils.FixFloatConverter.convert("000.06".getBytes()), 0);
-        assertEquals(6L, Utils.FixFloatConverter.convert("0.0600".getBytes()), 0);
+        assertEquals(600L, Utils.FixFloatConverter.convert("000.06".getBytes()), 0);
+        assertEquals(600L, Utils.FixFloatConverter.convert("0.0600".getBytes()), 0);
 
         try {
         	Utils.FixFloatConverter.convert("abc".getBytes());

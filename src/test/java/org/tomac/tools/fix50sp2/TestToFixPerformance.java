@@ -49,27 +49,7 @@ public class TestToFixPerformance {
     		}
     		@Override
     		public void onFixMarketDataSnapshotFullRefresh(FixMarketDataSnapshotFullRefresh msg) {
-    			// Encode the message
-    			msg.encode(out);
-    			
-    			out.get(tmp, 0, out.limit());
-    			
-    			// Encode again as tag order may change, and the message is still equal.
-    			buf.clear();
-    			buf.put(tmp, 0, out.limit());
-    			buf.position(0);
-
-    			try {
-    				int msgType = FixMessage.crackMsgType(buf);
-
-    				message.setBuffer(buf);
-    			
-					message.getAll();
-				} catch (FixGarbledException e) {
-					Assert.fail(e.getMessage());
-				} catch (FixSessionException e) {
-					Assert.fail(e.getMessage());
-				}
+    			message = msg;
     		}
 			@Override
 			public void onUnknownMessageType(ByteBuffer msg, int msgType) {
@@ -702,11 +682,7 @@ public class TestToFixPerformance {
 	
 	@Test
 	public void testInBoundLatency() throws Exception {
-        final String data = "8=FIXT.1.19=24935=D49=SenderCompId56=TargetCompId34=3752=20070223-22:28:33"
-            + "11=18333922=838=140=244=1248=BHP54=255=BHP59=1"
-            + "60=20060223-22:38:33526=362078=279=AllocACC180=1010.1"
-            + "79=AllocACC280=2020.2453=2448=8447=D452=4448=AAA35354447=D452=310=168";
-        ByteBuffer buf = ByteBuffer.wrap(data.getBytes());
+		ByteBuffer buf = ByteBuffer.wrap("8=FIXT.1.1\u00019=249\u000135=D\u000149=SenderCompId\u000156=TargetCompId\u000134=37\u000152=20070223-22:28:33\u000111=1833\u00013922=8\u000138=1\u000140=2\u000144=12\u000148=BHP\u000154=2\u000155=BHP\u000159=1\u000160=20060223-22:38:33\u0001526=3620\u000178=2\u000179=AllocACC180=1010.1\u000179=AllocACC2\u000180=2020.2\u0001453=2\u0001448=8\u0001447=D\u0001452=4\u0001448=AAA35354\u0001447=D4\u0001452=3\u000110=219\u0001".getBytes());
 
         int count = 0;
         long cumTime = 0L;
@@ -719,7 +695,6 @@ public class TestToFixPerformance {
         	long t0 = System.nanoTime();
         	parser.parse(buf, listener);
         	long t1 = System.nanoTime();
-        	buf.flip();
         	cumTime += t1 - t0;
         	cumTimeIntervall += t1 - t0;
         	++count;
@@ -740,10 +715,7 @@ public class TestToFixPerformance {
 	
     @Test
     public void testOutBoundLatency() throws Exception {
-        final String data = "8=FIXT.1.19=18235=W34=249=ABFX52=20080722-16:37:11.23456=X2RV1"
-                + "55=EUR/USD262=CAP0000011268=2269=0270=1.5784415=EUR271=500000272=20080724"
-                + "269=1270=1.5786915=EUR271=500000272=2008072410=097";
-        ByteBuffer buf = ByteBuffer.wrap(data.getBytes());
+    	ByteBuffer buf = ByteBuffer.wrap("8=FIXT.1.1\u00019=181\u000135=W\u000134=2\u000149=ABFX\u000152=20080722-16:37:11.234\u000156=X2RV1\u00155=EUR/USD\u0001262=CAP00000112\u000168=22\u000169=0\u0001270=1.5784\u0001415=EUR\u0001271=500000\u0001272=20080724\u0001269=1\u0001270=1.5786\u0001915=EUR\u0001271=500000\u0001272=20080724\u000110=065\u0001".getBytes());
         
     	parser.parse(buf, listener);
         ByteBuffer out = ByteBuffer.allocate(1024);

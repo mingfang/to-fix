@@ -41,7 +41,7 @@ public class TestMessages {
 	@Ignore
     @Test
     public void testRepeatingField() throws Exception {
-        String data = "8=FIXT.1.1\0019=65\00135=D\00134=2\00149=TW\00156=ISLD\00111=ID\00121=1\00140=1\00154=1\00140=2\00138=200\00155=INTC\00110=160\001";
+        String data = "8=FIXT.1.1\u00019=65\u000135=D\u000134=2\u000149=TW\u000156=ISLD\u000111=ID\u000121=1\u000140=1\u000154=1\u000140=2\u000138=200\u000155=INTC\u000110=160\u0001";
         ByteBuffer buf = ByteBuffer.wrap(data.getBytes());
 
         try {
@@ -60,7 +60,7 @@ public class TestMessages {
         order.signatureLength = 3;
 
         order.encode(out);
-        assertTrue(new String(out.array()).contains("93=3\00189=FOO\001"));
+        assertTrue(new String(out.array()), new String(out.array()).contains("89=FOO\u0001"));
     }
 
     private FixNewOrderSingle createNewOrderSingle() {
@@ -76,7 +76,7 @@ public class TestMessages {
 
     @Test
     public void testHeaderGroupParsing() throws Exception {
-        ByteBuffer buf = ByteBuffer.wrap("8=FIX.4.2\0019=40\00135=A\001627=2\001628=FOO\001628=BAR\00198=0\001384=2\001372=D\001385=R\001372=8\001385=S\00110=228\001".getBytes());
+        ByteBuffer buf = ByteBuffer.wrap("8=FIX.4.2\u00019=40\u000135=A\u0001627=2\u0001628=FOO\u0001628=BAR\u000198=0\u0001384=2\u0001372=D\u0001385=R\u0001372=8\u0001385=S\u000110=228\u0001".getBytes());
     	parser.parse(buf, new FixMessageListenerTest() {
     		@Override
     		public void onFixLogon(FixLogon msg) {
@@ -208,7 +208,7 @@ public class TestMessages {
                 FixMessageInfo.PartyIDSource.GENERALLY_ACCEPTED_MARKET_PARTICIPANT_IDENTIFIER_EG_NASD_MNEMONI;
         order.parties.group[0].partyRole = 11;
         order.encode(out); 
-        assertTrue(new String(out.array()).indexOf("453=1\001448=TraderName") != -1);
+        assertTrue(new String(out.array()).indexOf("453=1\u0001448=TraderName") != -1);
     }
 
     @Test
@@ -221,8 +221,8 @@ public class TestMessages {
 
     @Test
     public void testHeaderDataField() throws Exception {
-    	String data = "8=FIX.4.2\0019=53\00135=A\00190=4\00191=ABCD\001"
-                + "98=0\001384=2\001372=D\001385=R\001372=8\001385=S\00110=241\001";
+    	String data = "8=FIX.4.2\u00019=53\u000135=A\u000190=4\u000191=ABCD\u0001"
+                + "98=0\u0001384=2\u0001372=D\u0001385=R\u0001372=8\u0001385=S\u000110=241\u0001";
         ByteBuffer buf = ByteBuffer.wrap(data.getBytes());
     	parser.parse(buf,  new FixMessageListenerTest() {
     		@Override
@@ -259,21 +259,21 @@ public class TestMessages {
      */
     @Test
     public void testDataFieldParsing() throws Exception {
-        final String dl = "10001=Canonical.1.00\00110002=001058\00125001=01\00110003=SAPI_ADMRESP\00110004=SUBSCRIBE_RESP\001"
-                + "10009=705\00110012=01\00110005=SPGW\00110006=SAPI\00110007=0\00110010=16:25:11.537\001"
-                + "10045=SDQADL:01:/SDB/ENT/@/@/STKSDLL:7\00110955=Y\00110963=043\00110961=03\00111285=N\001"
-                + "11339=823,980\00110919=N\00111111=86795696\00110898=043\00110920=~\00110938=N\00111340=5-  9.99\001"
-                + "11343=0.20\00111344=~\00111341=~\00111342=0.15\00111345=10- 14.99\00111348=0.25\00111349=~\00111346=~\001"
-                + "11347=0.15\00111350=15- 19.99\00111353=0.30\00111354=~\00111351=~\00111352=0.20\00111338=23SEP05\001"
-                + "10981=0\00110485=N\00110761=0\00111220=~\00111224=N\00110808=N\00110921=~\00110960=N\00110957=N\00111329=N\001"
-                + "11286=0\00111214=USA\00110917=Y\00111288=0\00110906=N\00110737=0.01\00110956=~\00110967=~\00110965=~\00110809=0\001"
-                + "10762=N\00110763=N\00110712=1\00110905=09:30:00\00110918=YA0101\00110951=Y\00110469=1\00110949=1\00110487=Q\00110950=Y\001"
-                + "10899=N\00110380=N\00110696=03\00111082=18.41\00110217=12\00110954=N\00110708=E\00110958=N\00111213=US \00111334=N\001"
-                + "11332=N\00111331=N\00111330=N\00111335=N\00111333=N\00110767=3\00110974=~\00110980=AIRTRAN HOLDINGS                \00111289=N\001"
-                + "10912=4\00110915=0501\00110914=0501\00110975=N\00110913=SLK\00110698=055\00110666=AAI\00110903=S\00111328=N\001"
-                + "10624=L\00111287=0\00110699=0\00110962=L\00111227=SUB1\00111229=5\00111228=1\00111236=16:24:41.521\00111277=16:25:11.630\001";
+        final String dl = "10001=Canonical.1.00\u000110002=001058\u000125001=01\u000110003=SAPI_ADMRESP\u000110004=SUBSCRIBE_RESP\u0001"
+                + "10009=705\u000110012=01\u000110005=SPGW\u000110006=SAPI\u000110007=0\u000110010=16:25:11.537\u0001"
+                + "10045=SDQADL:01:/SDB/ENT/@/@/STKSDLL:7\u000110955=Y\u000110963=043\u000110961=03\u000111285=N\u0001"
+                + "11339=823,980\u000110919=N\u000111111=86795696\u000110898=043\u000110920=~\u000110938=N\u000111340=5-  9.99\u0001"
+                + "11343=0.20\u000111344=~\u000111341=~\u000111342=0.15\u000111345=10- 14.99\u000111348=0.25\u000111349=~\u000111346=~\u0001"
+                + "11347=0.15\u000111350=15- 19.99\u000111353=0.30\u000111354=~\u000111351=~\u000111352=0.20\u000111338=23SEP05\u0001"
+                + "10981=0\u000110485=N\u000110761=0\u000111220=~\u000111224=N\u000110808=N\u000110921=~\u000110960=N\u000110957=N\u000111329=N\u0001"
+                + "11286=0\u000111214=USA\u000110917=Y\u000111288=0\u000110906=N\u000110737=0.01\u000110956=~\u000110967=~\u000110965=~\u000110809=0\u0001"
+                + "10762=N\u000110763=N\u000110712=1\u000110905=09:30:00\u000110918=YA0101\u000110951=Y\u000110469=1\u000110949=1\u000110487=Q\u000110950=Y\u0001"
+                + "10899=N\u000110380=N\u000110696=03\u000111082=18.41\u000110217=12\u000110954=N\u000110708=E\u000110958=N\u000111213=US \u000111334=N\u0001"
+                + "11332=N\u000111331=N\u000111330=N\u000111335=N\u000111333=N\u000110767=3\u000110974=~\u000110980=AIRTRAN HOLDINGS                \u000111289=N\u0001"
+                + "10912=4\u000110915=0501\u000110914=0501\u000110975=N\u000110913=SLK\u000110698=055\u000110666=AAI\u000110903=S\u000111328=N\u0001"
+                + "10624=L\u000111287=0\u000110699=0\u000110962=L\u000111227=SUB1\u000111229=5\u000111228=1\u000111236=16:24:41.521\u000111277=16:25:11.630\u0001";
 
-		String data = "8=FIX.4.4\0019=1144\00135=A\001" + "98=0\001384=2\001372=D\001385=R\001372=8\001385=S\00195=1092\001" + "96=" + dl + "\00110=5\001";
+		String data = "8=FIX.4.4\u00019=1144\u000135=A\u0001" + "98=0\u0001384=2\u0001372=D\u0001385=R\u0001372=8\u0001385=S\u000195=1092\u0001" + "96=" + dl + "\u000110=5\u0001";
 		ByteBuffer buf = ByteBuffer.wrap(data.getBytes());
 		
 		try {
@@ -390,8 +390,8 @@ public class TestMessages {
 
     @Test
     public void testHeaderFieldInBody() throws Exception {
-        final Message message = new Message("8=FIX.4.2\0019=40\00135=A\001"
-                + "98=0\001212=4\001384=2\001372=D\001385=R\001372=8\001385=S\00110=103\001",
+        final Message message = new Message("8=FIX.4.2\u00019=40\u000135=A\u0001"
+                + "98=0\u0001212=4\u0001384=2\u0001372=D\u0001385=R\u0001372=8\u0001385=S\u000110=103\u0001",
                 DataDictionaryTest.getDictionary());
 
         assertFalse(message.hasValidStructure());
@@ -405,8 +405,8 @@ public class TestMessages {
 
    @Test
    public void testTrailerFieldInBody() throws Exception {
-        final Message message = new Message("8=FIX.4.2\0019=40\00135=A\001"
-                + "98=0\00193=5\001384=2\001372=D\001385=R\001372=8\001385=S\00110=63\001",
+        final Message message = new Message("8=FIX.4.2\u00019=40\u000135=A\u0001"
+                + "98=0\u000193=5\u0001384=2\u0001372=D\u0001385=R\u0001372=8\u0001385=S\u000110=63\u0001",
                 DataDictionaryTest.getDictionary());
 
         assertFalse(message.hasValidStructure());
@@ -422,18 +422,18 @@ public class TestMessages {
 
         boolean badMessage = false;
         try {
-            message = new Message("8=FIX.4.2\0019=12\00135=A\001108=30\00110=036\001");
+            message = new Message("8=FIX.4.2\u00019=12\u000135=A\u0001108=30\u000110=036\u0001");
         } catch (final InvalidMessage e) {
             badMessage = true;
         }
         assertTrue("Message should be invalid", badMessage);
 
         try {
-            message = new Message("8=FIX.4.2\0019=12\00135=A\001108=30\00110=026\001");
+            message = new Message("8=FIX.4.2\u00019=12\u000135=A\u0001108=30\u000110=026\u0001");
         } catch (final InvalidMessage e) {
             assertTrue("Message should be valid (" + e.getMessage() + ")", false);
         }
-        assertEquals("8=FIX.4.2\0019=12\00135=A\001108=30\00110=026\001", message.toString());
+        assertEquals("8=FIX.4.2\u00019=12\u000135=A\u0001108=30\u000110=026\u0001", message.toString());
     }
 
     @Test
@@ -491,7 +491,7 @@ public class TestMessages {
     public void testMessageGroupRemovalUsingGroupObject() {
         final Message message = new Message();
         final int length = message.calculateLength();
-        final int messageFieldWithZeroLengthGroup = length + "79=0\001".length();
+        final int messageFieldWithZeroLengthGroup = length + "79=0\u0001".length();
 
         NewOrderSingle.NoAllocs numAllocs = setUpGroups(message);
 
@@ -525,14 +525,14 @@ public class TestMessages {
 
     private void assertZeroLengthField(Message message) {
         assertTrue("Incorrect length in message.toString()", message.toString()
-                .contains("\00178=0"));
+                .contains("\u000178=0"));
     }
 
     @Test
     public void testMessageGroupRemovalUsingGroupFieldTag() {
         final Message message = new Message();
         final int length = message.calculateLength();
-        final int messageFieldWithZeroLengthGroup = length + "79=0\001".length();
+        final int messageFieldWithZeroLengthGroup = length + "79=0\u0001".length();
         final int expectedTotalWithZeroLengthGroup = new IntField(78, 0).getTotal();
 
         NewOrderSingle.NoAllocs numAllocs = setUpGroups(message);
@@ -572,7 +572,7 @@ public class TestMessages {
     public void testMessageGroupRemovalFromEmptyGroup() {
         final Message message = new Message();
         final int length = message.calculateLength();
-        final int messageFieldWithZeroLengthGroup = length + "79=0\001".length();
+        final int messageFieldWithZeroLengthGroup = length + "79=0\u0001".length();
         final int expectedTotalWithZeroLengthGroup = new IntField(78, 0).getTotal();
         final NewOrderSingle.NoAllocs numAllocs = setUpGroups(message);
         message.removeGroup(numAllocs);
@@ -768,7 +768,7 @@ public class TestMessages {
         }
 
         try {
-            message = new Message("8=FIX.4.2\0019=12\00135=A\001108=30\00110=026\001");
+            message = new Message("8=FIX.4.2\u00019=12\u000135=A\u0001108=30\u000110=026\u0001");
             i = message.iterator();
             assertTrue(i.hasNext());
             StringField field = (StringField) i.next();
@@ -924,7 +924,7 @@ public class TestMessages {
             final DataDictionary dd = DataDictionaryTest.getDictionary();
             // duplicated tag 98
             // QFJ-65
-            new Message("8=FIX.4.4\0019=22\00135=A\00198=0\00198=0\001108=30\00110=223\001", dd,
+            new Message("8=FIX.4.4\u00019=22\u000135=A\u000198=0\u000198=0\u0001108=30\u000110=223\u0001", dd,
                     true);
             // For now, this will not cause an exception if the length and checksum are correct
         } catch (final Exception e) {
@@ -939,9 +939,9 @@ public class TestMessages {
             final DataDictionary dd = DataDictionaryTest.getDictionary();
             // duplicated tag 98
             // QFJ-65
-            // 8=FIX.4.4\0019=941\00135=AE\00149=ICE\00134=63\00152=20091117-18:59:04.780\00156=XXXX\00157=X\001571=219449\001487=0\001856=0\001828=0\001150=F\00117=44750544433\00139=2\001570=N\00155=480120\00148=WBS FMG0010-BRN FMG0010\00122=8\001461=FXXXXX\001916=20100201\001917=20100228\00132=1.0\00131=0.69\0019018=1\0019022=1\00175=20091117\00160=20091117-18:59:04.775\001552=1\00154=2\00137=41296064\00111=557859232\001453=7\001448=trader\001447=D\001452=11\001448=Trading Corp\001447=D\001452=13\001448=2757\001447=D\001452=56\001448=805\001447=D\001452=4\001448=11122556\001447=D\001452=51\001448=FCM\001447=D\001452=60\001448=U\001447=D\001452=5 458=41293051\001555=2\001600=460130\001602=WBS FMG0010!\001603=8\001608=FXXXXX\001624=2\001637=80.78\001687=1.0\001654=41296074\0019019=1\0019023=1\0019020=20100201\0019021=20100228\001539=4\001524=805\001525=D\001538=4\001524=11122556\001525=D\001538=51\001524=FCM\001525=D\001538=60 524=U\001525=D\001538=54\001600=217927\001602=BRN FMG0010! 63=8 608-FXXXXX 624=1 637=80.09 687=1.0 654=41296073 9019=1 9023=1 9020=20100201 9021=20100228 539=4 524=805\001525=D\001538=4\001524=11122556 525=D\001538=51 524=Newedge 525=D 538=60 524=U 525=D 538=54 10=112
+            // 8=FIX.4.4\u00019=941\u000135=AE\u000149=ICE\u000134=63\u000152=20091117-18:59:04.780\u000156=XXXX\u000157=X\u0001571=219449\u0001487=0\u0001856=0\u0001828=0\u0001150=F\u000117=44750544433\u000139=2\u0001570=N\u000155=480120\u000148=WBS FMG0010-BRN FMG0010\u000122=8\u0001461=FXXXXX\u0001916=20100201\u0001917=20100228\u000132=1.0\u000131=0.69\u00019018=1\u00019022=1\u000175=20091117\u000160=20091117-18:59:04.775\u0001552=1\u000154=2\u000137=41296064\u000111=557859232\u0001453=7\u0001448=trader\u0001447=D\u0001452=11\u0001448=Trading Corp\u0001447=D\u0001452=13\u0001448=2757\u0001447=D\u0001452=56\u0001448=805\u0001447=D\u0001452=4\u0001448=11122556\u0001447=D\u0001452=51\u0001448=FCM\u0001447=D\u0001452=60\u0001448=U\u0001447=D\u0001452=5 458=41293051\u0001555=2\u0001600=460130\u0001602=WBS FMG0010!\u0001603=8\u0001608=FXXXXX\u0001624=2\u0001637=80.78\u0001687=1.0\u0001654=41296074\u00019019=1\u00019023=1\u00019020=20100201\u00019021=20100228\u0001539=4\u0001524=805\u0001525=D\u0001538=4\u0001524=11122556\u0001525=D\u0001538=51\u0001524=FCM\u0001525=D\u0001538=60 524=U\u0001525=D\u0001538=54\u0001600=217927\u0001602=BRN FMG0010! 63=8 608-FXXXXX 624=1 637=80.09 687=1.0 654=41296073 9019=1 9023=1 9020=20100201 9021=20100228 539=4 524=805\u0001525=D\u0001538=4\u0001524=11122556 525=D\u0001538=51 524=Newedge 525=D 538=60 524=U 525=D 538=54 10=112
             new Message(
-                    "8=FIX.4.4\0019=941\00135=AE\00149=ICE\00134=63\00152=20091117-18:59:04.780\00156=XXXX\00157=X\001571=219449\001487=0\001856=0\001828=0\001150=F\00117=44750544433\00139=2\001570=N\00155=480120\00148=WBS FMG0010-BRN FMG0010\00122=8\001461=FXXXXX\001916=20100201\001917=20100228\00132=1.0\00131=0.69\0019018=1\0019022=1\00175=20091117\00160=20091117-18:59:04.775\001552=1\00154=2\00137=41296064\00111=557859232\001453=7\001448=trader\001447=D\001452=11\001448=Trading Corp\001447=D\001452=13\001448=2757\001447=D\001452=56\001448=805\001447=D\001452=4\001448=11122556\001447=D\001452=51\001448=FCM\001447=D\001452=60\001448=U\001447=D\001452=5 458=41293051\001555=2\001600=460130\001602=WBS FMG0010!\001603=8\001608=FXXXXX\001624=2\001637=80.78\001687=1.0\001654=41296074\0019019=1\0019023=1\0019020=20100201\0019021=20100228\001539=4\001524=805\001525=D\001538=4\001524=11122556\001525=D\001538=51\001524=FCM\001525=D\001538=60 524=U\001525=D\001538=54\001600=217927\001602=BRN FMG0010!\00163=8 608-FXXXXX\001624=1\001637=80.09\001687=1.0\001654=41296073\0019019=1\0019023=1\0019020=20100201\001021=20100228\001539=4\001524=805\001525=D\001538=4\001524=11122556\001525=D\001538=51\001524=FCM\001525=D\001538=60 524=U\001525=D\001538=54\001600=217927\001602=BRN FMG0010!\00163=8 608-FXXXXX\001624=1\001637=80.09\001687=1.0\001654=41296073\0019019=1\0019023=1\0019020=20100201\001021=20100228\001",
+                    "8=FIX.4.4\u00019=941\u000135=AE\u000149=ICE\u000134=63\u000152=20091117-18:59:04.780\u000156=XXXX\u000157=X\u0001571=219449\u0001487=0\u0001856=0\u0001828=0\u0001150=F\u000117=44750544433\u000139=2\u0001570=N\u000155=480120\u000148=WBS FMG0010-BRN FMG0010\u000122=8\u0001461=FXXXXX\u0001916=20100201\u0001917=20100228\u000132=1.0\u000131=0.69\u00019018=1\u00019022=1\u000175=20091117\u000160=20091117-18:59:04.775\u0001552=1\u000154=2\u000137=41296064\u000111=557859232\u0001453=7\u0001448=trader\u0001447=D\u0001452=11\u0001448=Trading Corp\u0001447=D\u0001452=13\u0001448=2757\u0001447=D\u0001452=56\u0001448=805\u0001447=D\u0001452=4\u0001448=11122556\u0001447=D\u0001452=51\u0001448=FCM\u0001447=D\u0001452=60\u0001448=U\u0001447=D\u0001452=5 458=41293051\u0001555=2\u0001600=460130\u0001602=WBS FMG0010!\u0001603=8\u0001608=FXXXXX\u0001624=2\u0001637=80.78\u0001687=1.0\u0001654=41296074\u00019019=1\u00019023=1\u00019020=20100201\u00019021=20100228\u0001539=4\u0001524=805\u0001525=D\u0001538=4\u0001524=11122556\u0001525=D\u0001538=51\u0001524=FCM\u0001525=D\u0001538=60 524=U\u0001525=D\u0001538=54\u0001600=217927\u0001602=BRN FMG0010!\u000163=8 608-FXXXXX\u0001624=1\u0001637=80.09\u0001687=1.0\u0001654=41296073\u00019019=1\u00019023=1\u00019020=20100201\u0001021=20100228\u0001539=4\u0001524=805\u0001525=D\u0001538=4\u0001524=11122556\u0001525=D\u0001538=51\u0001524=FCM\u0001525=D\u0001538=60 524=U\u0001525=D\u0001538=54\u0001600=217927\u0001602=BRN FMG0010!\u000163=8 608-FXXXXX\u0001624=1\u0001637=80.09\u0001687=1.0\u0001654=41296073\u00019019=1\u00019023=1\u00019020=20100201\u0001021=20100228\u0001",
                     dd, true);
             // For now, this will not cause an exception if the length and checksum are correct
         } catch (final Exception e) {
@@ -956,7 +956,7 @@ public class TestMessages {
             final DataDictionary dd = DataDictionaryTest.getDictionary();
             // duplicated raw data length 
             // QFJ-121
-            new Message("8=FIX.4.4\0019=22\00135=A\00196=X\001108=30\00110=223\001", dd, true);
+            new Message("8=FIX.4.4\u00019=22\u000135=A\u000196=X\u0001108=30\u000110=223\u0001", dd, true);
         } catch (final Exception e) {
             final String text = e.getMessage();
             assertTrue("Wrong exception message: " + text, text != null

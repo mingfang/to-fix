@@ -58,7 +58,7 @@ public abstract class FixMessage extends FixGeneratedBaseMessage
 	public FixHopGrp hopGrp;
 	
 	private static byte[] tmpMsgType = new byte[4];
-	private static byte[] tmpBeginString = new byte[7];
+	private static byte[] tmpBeginString = new byte[BEGINSTRING_VALUE.length];
 
 	/**
 	 * crackMsgType performs a garbled check on the fix message. 
@@ -128,7 +128,7 @@ public abstract class FixMessage extends FixGeneratedBaseMessage
 		} catch (FixSessionException e) {
 			throw new FixGarbledException(buf, e.getMessage());
 		} catch (NumberFormatException e) {
-			throw new FixGarbledException(buf, e.getMessage());
+			throw new FixGarbledException(buf, "Number format exeception");
 		}
 
 		return msgType;
@@ -281,15 +281,6 @@ public abstract class FixMessage extends FixGeneratedBaseMessage
 
 			case FixTags.APPLVERID_INT:
 				applVerID = FixUtils.getTagStringValue(value, applVerID);
-				if (!ApplVerID.isValid(applVerID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + applVerID + ") for tag: " + id );
-				if (!ApplVerID.isValid(applVerID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + applVerID + ") for tag: " + id );
-				if (!ApplVerID.isValid(applVerID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + applVerID + ") for tag: " + id );
-				if (!ApplVerID.isValid(applVerID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + applVerID + ") for tag: " + id );
-				if (!ApplVerID.isValid(applVerID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + applVerID + ") for tag: " + id );
-				if (!ApplVerID.isValid(applVerID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + applVerID + ") for tag: " + id );
-				if (!ApplVerID.isValid(applVerID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + applVerID + ") for tag: " + id );
-				if (!ApplVerID.isValid(applVerID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + applVerID + ") for tag: " + id );
-				if (!ApplVerID.isValid(applVerID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + applVerID + ") for tag: " + id );
 				if (!ApplVerID.isValid(applVerID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + applVerID + ") for tag: " + id );
 				break;
 

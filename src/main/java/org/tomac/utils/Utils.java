@@ -91,6 +91,23 @@ public class Utils {
         
         return 19;
     }
+	
+	public static final int multiplier( int number ) {
+        
+		switch(number) {
+		case 0: return 1;
+		case 1: return 10;
+		case 2: return 100;
+		case 3: return 1000;
+		case 4: return 10000;
+		case 5: return 100000;
+		case 6: return 1000000;
+		case 7: return 10000000;
+		case 8: return 100000000;
+		case 9: return 1000000000;
+		default: return 1000000000;
+		}
+    }
     
 	public static boolean equals(final byte[] x, final byte[] y) {
 
@@ -290,7 +307,8 @@ public class Utils {
 
 		} while ((j /= radix) != 0);
 		if (negative)
-			out[--pos] = (byte) '-';
+			out[0] = (byte) '-';
+			//out[--pos] = (byte) '-';
 
 	}
 
@@ -447,7 +465,7 @@ public class Utils {
 		}
 
 		public Date convert(byte[] buf) {
-			return Utils.convert(buf, true, false);
+			return Utils.convert(buf, true, true);
 		}
 
 	}

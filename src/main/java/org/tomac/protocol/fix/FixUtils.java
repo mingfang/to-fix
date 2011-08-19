@@ -284,8 +284,8 @@ public class FixUtils {
 
 		if (decimal > -1) {
 			value = Utils.longValueOf(s, 0, decimal) * FIX_FLOAT_NUMBER_OF_DECIMALS;
-			value += Utils.intValueOf(s, decimal + 1 < length ? decimal + 1 : length - 1,
-					FIX_FLOAT_NUMBER_OF_DECIMALS_DIGITS < decimals ? FIX_FLOAT_NUMBER_OF_DECIMALS_DIGITS : decimals);
+			int dec = FIX_FLOAT_NUMBER_OF_DECIMALS_DIGITS < decimals ? FIX_FLOAT_NUMBER_OF_DECIMALS_DIGITS : decimals;
+			value += Utils.intValueOf(s, decimal + 1 < length ? decimal + 1 : length - 1, dec) * Utils.multiplier(FIX_FLOAT_NUMBER_OF_DECIMALS_DIGITS - dec);
 		} else
 			value = Utils.longValueOf(s, 0, decimals) * FIX_FLOAT_NUMBER_OF_DECIMALS;
 

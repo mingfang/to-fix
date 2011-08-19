@@ -44,11 +44,8 @@ public class TestUtils {
 			Utils.fill(buf, (byte) ' ');
 			Utils.longToNumeric(buf, 0, val, buf.length);
 			int i = 0;
-			byte[] expected = "  1234".getBytes();
-			for (byte b : expected) {
-				assertEquals(b, buf[i]);
-				i++;
-			}
+			byte[] expected = "001234".getBytes();
+			assertArrayEquals(expected, buf);
 		} catch (NumberFormatException n) {
 			fail();
 		}
@@ -57,9 +54,8 @@ public class TestUtils {
 			Utils.fill(buf, (byte) 0);
 			Utils.longToNumeric(buf, 0, val, buf.length);
 			int i = 0;
-			byte[] expected = "  1234".getBytes();
-			expected[0] = (byte) 0;
-			expected[1] = (byte) 0;
+			byte[] expected = "001234".getBytes();
+			assertArrayEquals(expected, buf);
 			for (byte b : expected) {
 				assertEquals(b, buf[i]);
 				i++;
