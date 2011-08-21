@@ -30,8 +30,11 @@ public class FixNestedParties4
 
 		if (noNested4PartyIDs < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noNested4PartyIDs) 
+		if (group == null || group.length < noNested4PartyIDs) {
 			group = new NestedParties4[noNested4PartyIDs];
+
+			for ( int i = 0; i < noNested4PartyIDs; i++ ) group[i] = new NestedParties4();
+	}
 
 		for ( int i = 0; i < noNested4PartyIDs; i++ ) 
 			group[i].getAllGroup(buf);

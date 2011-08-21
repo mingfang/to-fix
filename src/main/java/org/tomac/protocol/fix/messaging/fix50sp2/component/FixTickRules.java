@@ -29,8 +29,11 @@ public class FixTickRules
 
 		if (noTickRules < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noTickRules) 
+		if (group == null || group.length < noTickRules) {
 			group = new TickRules[noTickRules];
+
+			for ( int i = 0; i < noTickRules; i++ ) group[i] = new TickRules();
+	}
 
 		for ( int i = 0; i < noTickRules; i++ ) 
 			group[i].getAllGroup(buf);

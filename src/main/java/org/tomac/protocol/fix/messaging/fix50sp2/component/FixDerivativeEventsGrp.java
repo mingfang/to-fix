@@ -29,8 +29,11 @@ public class FixDerivativeEventsGrp
 
 		if (noDerivativeEvents < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noDerivativeEvents) 
+		if (group == null || group.length < noDerivativeEvents) {
 			group = new DerivativeEventsGrp[noDerivativeEvents];
+
+			for ( int i = 0; i < noDerivativeEvents; i++ ) group[i] = new DerivativeEventsGrp();
+	}
 
 		for ( int i = 0; i < noDerivativeEvents; i++ ) 
 			group[i].getAllGroup(buf);

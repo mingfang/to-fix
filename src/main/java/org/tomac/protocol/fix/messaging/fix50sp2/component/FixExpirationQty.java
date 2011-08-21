@@ -29,8 +29,11 @@ public class FixExpirationQty
 
 		if (noExpiration < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noExpiration) 
+		if (group == null || group.length < noExpiration) {
 			group = new ExpirationQty[noExpiration];
+
+			for ( int i = 0; i < noExpiration; i++ ) group[i] = new ExpirationQty();
+	}
 
 		for ( int i = 0; i < noExpiration; i++ ) 
 			group[i].getAllGroup(buf);

@@ -29,8 +29,11 @@ public class FixDerivativeInstrumentPartySubIDsGrp
 
 		if (noDerivativeInstrumentPartySubIDs < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noDerivativeInstrumentPartySubIDs) 
+		if (group == null || group.length < noDerivativeInstrumentPartySubIDs) {
 			group = new DerivativeInstrumentPartySubIDsGrp[noDerivativeInstrumentPartySubIDs];
+
+			for ( int i = 0; i < noDerivativeInstrumentPartySubIDs; i++ ) group[i] = new DerivativeInstrumentPartySubIDsGrp();
+	}
 
 		for ( int i = 0; i < noDerivativeInstrumentPartySubIDs; i++ ) 
 			group[i].getAllGroup(buf);

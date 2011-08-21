@@ -31,8 +31,11 @@ public class FixPartyListGrp
 
 		if (noPartyList < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noPartyList) 
+		if (group == null || group.length < noPartyList) {
 			group = new PartyListGrp[noPartyList];
+
+			for ( int i = 0; i < noPartyList; i++ ) group[i] = new PartyListGrp();
+	}
 
 		for ( int i = 0; i < noPartyList; i++ ) 
 			group[i].getAllGroup(buf);

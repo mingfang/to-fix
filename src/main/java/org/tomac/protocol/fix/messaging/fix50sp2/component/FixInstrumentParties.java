@@ -30,8 +30,11 @@ public class FixInstrumentParties
 
 		if (noInstrumentParties < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noInstrumentParties) 
+		if (group == null || group.length < noInstrumentParties) {
 			group = new InstrumentParties[noInstrumentParties];
+
+			for ( int i = 0; i < noInstrumentParties; i++ ) group[i] = new InstrumentParties();
+	}
 
 		for ( int i = 0; i < noInstrumentParties; i++ ) 
 			group[i].getAllGroup(buf);

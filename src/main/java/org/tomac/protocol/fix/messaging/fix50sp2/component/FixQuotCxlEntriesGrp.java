@@ -33,8 +33,11 @@ public class FixQuotCxlEntriesGrp
 
 		if (noQuoteEntries < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noQuoteEntries) 
+		if (group == null || group.length < noQuoteEntries) {
 			group = new QuotCxlEntriesGrp[noQuoteEntries];
+
+			for ( int i = 0; i < noQuoteEntries; i++ ) group[i] = new QuotCxlEntriesGrp();
+	}
 
 		for ( int i = 0; i < noQuoteEntries; i++ ) 
 			group[i].getAllGroup(buf);

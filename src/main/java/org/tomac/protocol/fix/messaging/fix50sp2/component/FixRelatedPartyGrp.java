@@ -31,8 +31,11 @@ public class FixRelatedPartyGrp
 
 		if (noRelatedPartyIDs < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noRelatedPartyIDs) 
+		if (group == null || group.length < noRelatedPartyIDs) {
 			group = new RelatedPartyGrp[noRelatedPartyIDs];
+
+			for ( int i = 0; i < noRelatedPartyIDs; i++ ) group[i] = new RelatedPartyGrp();
+	}
 
 		for ( int i = 0; i < noRelatedPartyIDs; i++ ) 
 			group[i].getAllGroup(buf);

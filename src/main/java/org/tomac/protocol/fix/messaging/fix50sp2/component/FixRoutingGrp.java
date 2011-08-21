@@ -29,8 +29,11 @@ public class FixRoutingGrp
 
 		if (noRoutingIDs < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noRoutingIDs) 
+		if (group == null || group.length < noRoutingIDs) {
 			group = new RoutingGrp[noRoutingIDs];
+
+			for ( int i = 0; i < noRoutingIDs; i++ ) group[i] = new RoutingGrp();
+	}
 
 		for ( int i = 0; i < noRoutingIDs; i++ ) 
 			group[i].getAllGroup(buf);

@@ -29,8 +29,11 @@ public class FixCollInqQualGrp
 
 		if (noCollInquiryQualifier < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noCollInquiryQualifier) 
+		if (group == null || group.length < noCollInquiryQualifier) {
 			group = new CollInqQualGrp[noCollInquiryQualifier];
+
+			for ( int i = 0; i < noCollInquiryQualifier; i++ ) group[i] = new CollInqQualGrp();
+	}
 
 		for ( int i = 0; i < noCollInquiryQualifier; i++ ) 
 			group[i].getAllGroup(buf);

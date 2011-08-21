@@ -29,8 +29,11 @@ public class FixLotTypeRules
 
 		if (noLotTypeRules < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noLotTypeRules) 
+		if (group == null || group.length < noLotTypeRules) {
 			group = new LotTypeRules[noLotTypeRules];
+
+			for ( int i = 0; i < noLotTypeRules; i++ ) group[i] = new LotTypeRules();
+	}
 
 		for ( int i = 0; i < noLotTypeRules; i++ ) 
 			group[i].getAllGroup(buf);

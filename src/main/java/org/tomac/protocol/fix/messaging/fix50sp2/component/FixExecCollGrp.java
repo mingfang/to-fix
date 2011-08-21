@@ -29,8 +29,11 @@ public class FixExecCollGrp
 
 		if (noExecs < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noExecs) 
+		if (group == null || group.length < noExecs) {
 			group = new ExecCollGrp[noExecs];
+
+			for ( int i = 0; i < noExecs; i++ ) group[i] = new ExecCollGrp();
+	}
 
 		for ( int i = 0; i < noExecs; i++ ) 
 			group[i].getAllGroup(buf);

@@ -29,8 +29,11 @@ public class FixTrdgSesGrp
 
 		if (noTradingSessions < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noTradingSessions) 
+		if (group == null || group.length < noTradingSessions) {
 			group = new TrdgSesGrp[noTradingSessions];
+
+			for ( int i = 0; i < noTradingSessions; i++ ) group[i] = new TrdgSesGrp();
+	}
 
 		for ( int i = 0; i < noTradingSessions; i++ ) 
 			group[i].getAllGroup(buf);

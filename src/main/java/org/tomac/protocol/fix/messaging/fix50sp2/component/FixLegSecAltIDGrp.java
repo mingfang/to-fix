@@ -29,8 +29,11 @@ public class FixLegSecAltIDGrp
 
 		if (noLegSecurityAltID < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noLegSecurityAltID) 
+		if (group == null || group.length < noLegSecurityAltID) {
 			group = new LegSecAltIDGrp[noLegSecurityAltID];
+
+			for ( int i = 0; i < noLegSecurityAltID; i++ ) group[i] = new LegSecAltIDGrp();
+	}
 
 		for ( int i = 0; i < noLegSecurityAltID; i++ ) 
 			group[i].getAllGroup(buf);

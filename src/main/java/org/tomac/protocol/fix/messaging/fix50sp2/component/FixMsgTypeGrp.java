@@ -29,8 +29,11 @@ public class FixMsgTypeGrp
 
 		if (noMsgTypes < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noMsgTypes) 
+		if (group == null || group.length < noMsgTypes) {
 			group = new MsgTypeGrp[noMsgTypes];
+
+			for ( int i = 0; i < noMsgTypes; i++ ) group[i] = new MsgTypeGrp();
+	}
 
 		for ( int i = 0; i < noMsgTypes; i++ ) 
 			group[i].getAllGroup(buf);

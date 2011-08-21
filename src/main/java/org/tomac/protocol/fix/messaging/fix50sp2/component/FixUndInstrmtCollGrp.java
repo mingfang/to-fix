@@ -30,8 +30,11 @@ public class FixUndInstrmtCollGrp
 
 		if (noUnderlyings < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noUnderlyings) 
+		if (group == null || group.length < noUnderlyings) {
 			group = new UndInstrmtCollGrp[noUnderlyings];
+
+			for ( int i = 0; i < noUnderlyings; i++ ) group[i] = new UndInstrmtCollGrp();
+	}
 
 		for ( int i = 0; i < noUnderlyings; i++ ) 
 			group[i].getAllGroup(buf);

@@ -30,8 +30,11 @@ public class FixRgstDtlsGrp
 
 		if (noRegistDtls < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noRegistDtls) 
+		if (group == null || group.length < noRegistDtls) {
 			group = new RgstDtlsGrp[noRegistDtls];
+
+			for ( int i = 0; i < noRegistDtls; i++ ) group[i] = new RgstDtlsGrp();
+	}
 
 		for ( int i = 0; i < noRegistDtls; i++ ) 
 			group[i].getAllGroup(buf);

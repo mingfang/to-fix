@@ -30,8 +30,11 @@ public class FixSettlDetails
 
 		if (noSettlDetails < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noSettlDetails) 
+		if (group == null || group.length < noSettlDetails) {
 			group = new SettlDetails[noSettlDetails];
+
+			for ( int i = 0; i < noSettlDetails; i++ ) group[i] = new SettlDetails();
+	}
 
 		for ( int i = 0; i < noSettlDetails; i++ ) 
 			group[i].getAllGroup(buf);

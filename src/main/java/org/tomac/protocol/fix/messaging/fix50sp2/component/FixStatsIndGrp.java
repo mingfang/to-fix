@@ -29,8 +29,11 @@ public class FixStatsIndGrp
 
 		if (noStatsIndicators < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noStatsIndicators) 
+		if (group == null || group.length < noStatsIndicators) {
 			group = new StatsIndGrp[noStatsIndicators];
+
+			for ( int i = 0; i < noStatsIndicators; i++ ) group[i] = new StatsIndGrp();
+	}
 
 		for ( int i = 0; i < noStatsIndicators; i++ ) 
 			group[i].getAllGroup(buf);

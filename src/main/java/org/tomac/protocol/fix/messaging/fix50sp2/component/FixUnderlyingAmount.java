@@ -29,8 +29,11 @@ public class FixUnderlyingAmount
 
 		if (noUnderlyingAmounts < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noUnderlyingAmounts) 
+		if (group == null || group.length < noUnderlyingAmounts) {
 			group = new UnderlyingAmount[noUnderlyingAmounts];
+
+			for ( int i = 0; i < noUnderlyingAmounts; i++ ) group[i] = new UnderlyingAmount();
+	}
 
 		for ( int i = 0; i < noUnderlyingAmounts; i++ ) 
 			group[i].getAllGroup(buf);

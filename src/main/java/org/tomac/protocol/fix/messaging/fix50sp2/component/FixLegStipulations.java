@@ -29,8 +29,11 @@ public class FixLegStipulations
 
 		if (noLegStipulations < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noLegStipulations) 
+		if (group == null || group.length < noLegStipulations) {
 			group = new LegStipulations[noLegStipulations];
+
+			for ( int i = 0; i < noLegStipulations; i++ ) group[i] = new LegStipulations();
+	}
 
 		for ( int i = 0; i < noLegStipulations; i++ ) 
 			group[i].getAllGroup(buf);

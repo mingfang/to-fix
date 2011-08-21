@@ -31,8 +31,11 @@ public class FixMarketSegmentGrp
 
 		if (noMarketSegments < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noMarketSegments) 
+		if (group == null || group.length < noMarketSegments) {
 			group = new MarketSegmentGrp[noMarketSegments];
+
+			for ( int i = 0; i < noMarketSegments; i++ ) group[i] = new MarketSegmentGrp();
+	}
 
 		for ( int i = 0; i < noMarketSegments; i++ ) 
 			group[i].getAllGroup(buf);

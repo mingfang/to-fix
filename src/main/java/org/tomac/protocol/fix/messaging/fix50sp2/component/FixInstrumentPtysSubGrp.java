@@ -29,8 +29,11 @@ public class FixInstrumentPtysSubGrp
 
 		if (noInstrumentPartySubIDs < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noInstrumentPartySubIDs) 
+		if (group == null || group.length < noInstrumentPartySubIDs) {
 			group = new InstrumentPtysSubGrp[noInstrumentPartySubIDs];
+
+			for ( int i = 0; i < noInstrumentPartySubIDs; i++ ) group[i] = new InstrumentPtysSubGrp();
+	}
 
 		for ( int i = 0; i < noInstrumentPartySubIDs; i++ ) 
 			group[i].getAllGroup(buf);

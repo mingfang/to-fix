@@ -29,8 +29,11 @@ public class FixRootSubParties
 
 		if (noRootPartySubIDs < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noRootPartySubIDs) 
+		if (group == null || group.length < noRootPartySubIDs) {
 			group = new RootSubParties[noRootPartySubIDs];
+
+			for ( int i = 0; i < noRootPartySubIDs; i++ ) group[i] = new RootSubParties();
+	}
 
 		for ( int i = 0; i < noRootPartySubIDs; i++ ) 
 			group[i].getAllGroup(buf);

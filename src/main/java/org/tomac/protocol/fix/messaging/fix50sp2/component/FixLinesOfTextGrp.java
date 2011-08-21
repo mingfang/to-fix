@@ -29,8 +29,11 @@ public class FixLinesOfTextGrp
 
 		if (noLinesOfText < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noLinesOfText) 
+		if (group == null || group.length < noLinesOfText) {
 			group = new LinesOfTextGrp[noLinesOfText];
+
+			for ( int i = 0; i < noLinesOfText; i++ ) group[i] = new LinesOfTextGrp();
+	}
 
 		for ( int i = 0; i < noLinesOfText; i++ ) 
 			group[i].getAllGroup(buf);

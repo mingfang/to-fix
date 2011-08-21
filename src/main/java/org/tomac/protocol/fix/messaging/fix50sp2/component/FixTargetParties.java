@@ -29,8 +29,11 @@ public class FixTargetParties
 
 		if (noTargetPartyIDs < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noTargetPartyIDs) 
+		if (group == null || group.length < noTargetPartyIDs) {
 			group = new TargetParties[noTargetPartyIDs];
+
+			for ( int i = 0; i < noTargetPartyIDs; i++ ) group[i] = new TargetParties();
+	}
 
 		for ( int i = 0; i < noTargetPartyIDs; i++ ) 
 			group[i].getAllGroup(buf);

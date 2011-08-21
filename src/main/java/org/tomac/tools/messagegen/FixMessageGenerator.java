@@ -5,10 +5,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.SortedSet;
 
 import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
+import org.tomac.protocol.fix.messaging.fix42nordic.FixMessageListener;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.tools.messagegen.FixMessageDom.DomBase;
 import org.tomac.tools.messagegen.FixMessageDom.DomFixComponent;
@@ -632,6 +634,17 @@ public class FixMessageGenerator {
 
 		genListenerInterface(dom, new BufferedWriter(new FileWriter(f)));
 
+		// generate a listener interface implementation
+		f = new File(packageDir, dom.type + "MessageListenerImpl.java");
+
+		genListenerInterfaceImpl(dom, new BufferedWriter(new FileWriter(f)));
+		
+		// generate a listener interface proxy
+		f = new File(packageDir, dom.type + "MessageListenerProxy.java");
+
+		genListenerInterfaceProxy(dom, new BufferedWriter(new FileWriter(f)));
+		
+
 		// generate a parser
 		f = new File(packageDir, dom.type + "MessageParser.java");
 
@@ -1002,6 +1015,77 @@ public class FixMessageGenerator {
 		out.close();
 	}
 
+	private void genListenerInterfaceImpl(final FixMessageDom dom, final BufferedWriter out) throws Exception {
+
+		// write package line
+		out.write("package " + dom.packageName + ";\n\n");
+
+		writeGeneratedFileHeader(out);
+
+		out.write(strInByteBuffer + "\n");
+
+		// write out the open to the interface
+		out.write("public class " + dom.type + "MessageListenerImpl implements " + dom.type + "MessageListener\n{\n\n");
+
+		out.write("\t\t@Override\n");
+		out.write("\t\tpublic void onUnknownMessageType(ByteBuffer msg, int msgType) {}\n\n");
+						
+		// write out each callback
+		for (final DomFixMessage m : dom.domFixMessages) {
+			out.write("\t\t@Override\n");
+			out.write("\t\tpublic void on" + dom.type + m.name + "( " + dom.type + m.name + " msg ) {}\n\n");
+		}
+		
+		// write out the close to the class
+		out.write("}\n");
+
+		// done. close out the file
+		out.close();
+	}
+	
+	private void genListenerInterfaceProxy(final FixMessageDom dom, final BufferedWriter out) throws Exception {
+
+		// write package line
+		out.write("package " + dom.packageName + ";\n\n");
+
+		writeGeneratedFileHeader(out);
+
+		out.write(strInByteBuffer + "\n");
+
+		// write out the open to the interface
+		out.write("public class " + dom.type + "MessageListenerProxy implements " + dom.type + "MessageListener\n{\n\n");
+
+		// write out a handler for unknown message types 	
+		out.write("\tFixMessageListener sessionLayer;\n");
+		out.write("\tFixMessageListener applicationLayer;\n\n");
+
+		out.write("\tpublic FixMessageListenerProxy(FixMessageListener l1, FixMessageListener l2) {\n");
+		out.write("\t\tthis.sessionLayer = l1;\n");
+		out.write("\t\tthis.applicationLayer = l2;\n");
+		out.write("\t}\n\n");
+
+		out.write("\t@Override\n");
+		out.write("\tpublic void onUnknownMessageType(ByteBuffer msg, int msgType) {\n");
+		out.write("\t\tsessionLayer.onUnknownMessageType(msg, msgType);\n");
+		out.write("\t\tapplicationLayer.onUnknownMessageType(msg, msgType);\n");
+		out.write("\t}\n\n");
+						
+		// write out each callback
+		for (final DomFixMessage m : dom.domFixMessages) {
+			out.write("\t@Override\n");
+			out.write("\tpublic void on" + dom.type + m.name + "( " + dom.type + m.name + " msg ) {\n");
+			out.write("\t\tsessionLayer.on" + dom.type + m.name + "( msg );\n");
+			out.write("\t\tapplicationLayer.on" + dom.type + m.name + "( msg );\n");
+			out.write("\t}\n\n");
+		}
+		
+		// write out the close to the class
+		out.write("}\n");
+
+		// done. close out the file
+		out.close();
+	}
+	
 	private void genMessage(final DomFixMessage m, final FixMessageDom dom, final BufferedWriter out) throws Exception {
 
 		String name = dom.type + m.name;
@@ -1345,8 +1429,10 @@ public class FixMessageGenerator {
 			
 		out.write("\t\tif (" + uncapFirst(m.noInGroupTag) + " < 1) throw new FixSessionException(\"asdasd\");\n");
 		out.write("\t\t// this will leak memory if we grow the group\n");
-		out.write("\t\tif (group.length < " + uncapFirst(m.noInGroupTag) + ") \n");
+		out.write("\t\tif (group == null || group.length < " + uncapFirst(m.noInGroupTag) + ") {\n");
 		out.write("\t\t\tgroup = new " + capFirst(m.name) + "[" + uncapFirst(m.noInGroupTag) + "];\n\n");
+		out.write("\t\t\tfor ( int i = 0; i < " + uncapFirst(m.noInGroupTag) + "; i++ ) group[i] = new " + capFirst(m.name) + "();\n");
+		out.write("\t}\n\n");
 
 		out.write("\t	for ( int i = 0; i < " + uncapFirst(m.noInGroupTag) + "; i++ ) \n");
 		out.write("\t		group[i].getAllGroup(buf);\n");
@@ -1710,6 +1796,7 @@ public class FixMessageGenerator {
 			final String name = dom.type.toLowerCase() + m.name;
 			out.write("\t\t\tcase MsgTypes." + m.name.toUpperCase() + "_INT:\n");
 			out.write("\t\t\t\t" + name + ".setBuffer( buf );\n");
+			out.write("\t\t\t\t" + name + ".getAll();\n");
 			out.write("\t\t\t\tl.on" + capFirst(dom.type.toLowerCase()) + m.name + "(" + name + ");\n");
 			out.write("\t\t\t\tbreak;\n");
 		}

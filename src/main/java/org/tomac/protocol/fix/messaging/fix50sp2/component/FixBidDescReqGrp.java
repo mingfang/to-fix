@@ -29,8 +29,11 @@ public class FixBidDescReqGrp
 
 		if (noBidDescriptors < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noBidDescriptors) 
+		if (group == null || group.length < noBidDescriptors) {
 			group = new BidDescReqGrp[noBidDescriptors];
+
+			for ( int i = 0; i < noBidDescriptors; i++ ) group[i] = new BidDescReqGrp();
+	}
 
 		for ( int i = 0; i < noBidDescriptors; i++ ) 
 			group[i].getAllGroup(buf);

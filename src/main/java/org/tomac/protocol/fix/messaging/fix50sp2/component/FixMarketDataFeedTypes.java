@@ -29,8 +29,11 @@ public class FixMarketDataFeedTypes
 
 		if (noMDFeedTypes < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noMDFeedTypes) 
+		if (group == null || group.length < noMDFeedTypes) {
 			group = new MarketDataFeedTypes[noMDFeedTypes];
+
+			for ( int i = 0; i < noMDFeedTypes; i++ ) group[i] = new MarketDataFeedTypes();
+	}
 
 		for ( int i = 0; i < noMDFeedTypes; i++ ) 
 			group[i].getAllGroup(buf);

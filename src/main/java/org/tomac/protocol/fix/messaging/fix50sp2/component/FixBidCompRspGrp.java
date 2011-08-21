@@ -30,8 +30,11 @@ public class FixBidCompRspGrp
 
 		if (noBidComponents < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noBidComponents) 
+		if (group == null || group.length < noBidComponents) {
 			group = new BidCompRspGrp[noBidComponents];
+
+			for ( int i = 0; i < noBidComponents; i++ ) group[i] = new BidCompRspGrp();
+	}
 
 		for ( int i = 0; i < noBidComponents; i++ ) 
 			group[i].getAllGroup(buf);

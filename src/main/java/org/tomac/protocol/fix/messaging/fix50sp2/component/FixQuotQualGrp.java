@@ -29,8 +29,11 @@ public class FixQuotQualGrp
 
 		if (noQuoteQualifiers < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noQuoteQualifiers) 
+		if (group == null || group.length < noQuoteQualifiers) {
 			group = new QuotQualGrp[noQuoteQualifiers];
+
+			for ( int i = 0; i < noQuoteQualifiers; i++ ) group[i] = new QuotQualGrp();
+	}
 
 		for ( int i = 0; i < noQuoteQualifiers; i++ ) 
 			group[i].getAllGroup(buf);

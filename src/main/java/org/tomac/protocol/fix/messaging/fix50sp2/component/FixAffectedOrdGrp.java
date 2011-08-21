@@ -29,8 +29,11 @@ public class FixAffectedOrdGrp
 
 		if (noAffectedOrders < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noAffectedOrders) 
+		if (group == null || group.length < noAffectedOrders) {
 			group = new AffectedOrdGrp[noAffectedOrders];
+
+			for ( int i = 0; i < noAffectedOrders; i++ ) group[i] = new AffectedOrdGrp();
+	}
 
 		for ( int i = 0; i < noAffectedOrders; i++ ) 
 			group[i].getAllGroup(buf);

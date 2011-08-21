@@ -29,8 +29,11 @@ public class FixUnderlyingStipulations
 
 		if (noUnderlyingStips < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noUnderlyingStips) 
+		if (group == null || group.length < noUnderlyingStips) {
 			group = new UnderlyingStipulations[noUnderlyingStips];
+
+			for ( int i = 0; i < noUnderlyingStips; i++ ) group[i] = new UnderlyingStipulations();
+	}
 
 		for ( int i = 0; i < noUnderlyingStips; i++ ) 
 			group[i].getAllGroup(buf);

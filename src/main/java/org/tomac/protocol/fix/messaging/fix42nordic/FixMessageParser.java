@@ -50,118 +50,147 @@ public class FixMessageParser implements FixMessageInfo
 
 			case MsgTypes.ACCEPTEDCANCELREPLACE_INT:
 				fixAcceptedCancelReplace.setBuffer( buf );
+				fixAcceptedCancelReplace.getAll();
 				l.onFixAcceptedCancelReplace(fixAcceptedCancelReplace);
 				break;
 			case MsgTypes.ACCEPTEDCANCEL_INT:
 				fixAcceptedCancel.setBuffer( buf );
+				fixAcceptedCancel.getAll();
 				l.onFixAcceptedCancel(fixAcceptedCancel);
 				break;
 			case MsgTypes.APPLICATIONREJECT_INT:
 				fixApplicationReject.setBuffer( buf );
+				fixApplicationReject.getAll();
 				l.onFixApplicationReject(fixApplicationReject);
 				break;
 			case MsgTypes.BREAKNOTIFICATION_INT:
 				fixBreakNotification.setBuffer( buf );
+				fixBreakNotification.getAll();
 				l.onFixBreakNotification(fixBreakNotification);
 				break;
 			case MsgTypes.BUSINESSREJECT_INT:
 				fixBusinessReject.setBuffer( buf );
+				fixBusinessReject.getAll();
 				l.onFixBusinessReject(fixBusinessReject);
 				break;
 			case MsgTypes.CANCELNOTIFICATION_INT:
 				fixCancelNotification.setBuffer( buf );
+				fixCancelNotification.getAll();
 				l.onFixCancelNotification(fixCancelNotification);
 				break;
 			case MsgTypes.ENTRYNOTIFICATIONTOALLEGEDFIRM_INT:
 				fixEntryNotificationtoAllegedFirm.setBuffer( buf );
+				fixEntryNotificationtoAllegedFirm.getAll();
 				l.onFixEntryNotificationtoAllegedFirm(fixEntryNotificationtoAllegedFirm);
 				break;
 			case MsgTypes.EXECUTIONREPORTFILL_INT:
 				fixExecutionReportFill.setBuffer( buf );
+				fixExecutionReportFill.getAll();
 				l.onFixExecutionReportFill(fixExecutionReportFill);
 				break;
 			case MsgTypes.EXECUTIONRESTATEMENT_INT:
 				fixExecutionRestatement.setBuffer( buf );
+				fixExecutionRestatement.getAll();
 				l.onFixExecutionRestatement(fixExecutionRestatement);
 				break;
 			case MsgTypes.LOCKEDINNOTIFICATION_INT:
 				fixLockedinNotification.setBuffer( buf );
+				fixLockedinNotification.getAll();
 				l.onFixLockedinNotification(fixLockedinNotification);
 				break;
 			case MsgTypes.LOCKEDINTRADEBREAK_INT:
 				fixLockedinTradeBreak.setBuffer( buf );
+				fixLockedinTradeBreak.getAll();
 				l.onFixLockedinTradeBreak(fixLockedinTradeBreak);
 				break;
 			case MsgTypes.ORDERACKNOWLEDGEMENT_INT:
 				fixOrderAcknowledgement.setBuffer( buf );
+				fixOrderAcknowledgement.getAll();
 				l.onFixOrderAcknowledgement(fixOrderAcknowledgement);
 				break;
 			case MsgTypes.ORDERREJECT_INT:
 				fixOrderReject.setBuffer( buf );
+				fixOrderReject.getAll();
 				l.onFixOrderReject(fixOrderReject);
 				break;
 			case MsgTypes.PENDINGCANCEL_INT:
 				fixPendingCancel.setBuffer( buf );
+				fixPendingCancel.getAll();
 				l.onFixPendingCancel(fixPendingCancel);
 				break;
 			case MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM_INT:
 				fixTradeEntryNotificationtoEnteringFirm.setBuffer( buf );
+				fixTradeEntryNotificationtoEnteringFirm.getAll();
 				l.onFixTradeEntryNotificationtoEnteringFirm(fixTradeEntryNotificationtoEnteringFirm);
 				break;
 			case MsgTypes.TRADEREPORTCANCEL_INT:
 				fixTradeReportCancel.setBuffer( buf );
+				fixTradeReportCancel.getAll();
 				l.onFixTradeReportCancel(fixTradeReportCancel);
 				break;
 			case MsgTypes.TRADEREPORTENTRY_INT:
 				fixTradeReportEntry.setBuffer( buf );
+				fixTradeReportEntry.getAll();
 				l.onFixTradeReportEntry(fixTradeReportEntry);
 				break;
 			case MsgTypes.HEARTBEAT_INT:
 				fixHeartbeat.setBuffer( buf );
+				fixHeartbeat.getAll();
 				l.onFixHeartbeat(fixHeartbeat);
 				break;
 			case MsgTypes.LOGON_INT:
 				fixLogon.setBuffer( buf );
+				fixLogon.getAll();
 				l.onFixLogon(fixLogon);
 				break;
 			case MsgTypes.LOGOUT_INT:
 				fixLogout.setBuffer( buf );
+				fixLogout.getAll();
 				l.onFixLogout(fixLogout);
 				break;
 			case MsgTypes.ORDERSINGLE_INT:
 				fixOrderSingle.setBuffer( buf );
+				fixOrderSingle.getAll();
 				l.onFixOrderSingle(fixOrderSingle);
 				break;
 			case MsgTypes.ORDERCANCELREJECT_INT:
 				fixOrderCancelReject.setBuffer( buf );
+				fixOrderCancelReject.getAll();
 				l.onFixOrderCancelReject(fixOrderCancelReject);
 				break;
 			case MsgTypes.REJECTEDCANCELREPLACE_INT:
 				fixRejectedCancelReplace.setBuffer( buf );
+				fixRejectedCancelReplace.getAll();
 				l.onFixRejectedCancelReplace(fixRejectedCancelReplace);
 				break;
 			case MsgTypes.ORDERCANCELREPLACEREQUEST_INT:
 				fixOrderCancelReplaceRequest.setBuffer( buf );
+				fixOrderCancelReplaceRequest.getAll();
 				l.onFixOrderCancelReplaceRequest(fixOrderCancelReplaceRequest);
 				break;
 			case MsgTypes.ORDERCANCELREQUEST_INT:
 				fixOrderCancelRequest.setBuffer( buf );
+				fixOrderCancelRequest.getAll();
 				l.onFixOrderCancelRequest(fixOrderCancelRequest);
 				break;
 			case MsgTypes.REJECT_INT:
 				fixReject.setBuffer( buf );
+				fixReject.getAll();
 				l.onFixReject(fixReject);
 				break;
 			case MsgTypes.RESENDREQUEST_INT:
 				fixResendRequest.setBuffer( buf );
+				fixResendRequest.getAll();
 				l.onFixResendRequest(fixResendRequest);
 				break;
 			case MsgTypes.SEQUENCERESET_INT:
 				fixSequenceReset.setBuffer( buf );
+				fixSequenceReset.getAll();
 				l.onFixSequenceReset(fixSequenceReset);
 				break;
 			case MsgTypes.TESTREQUEST_INT:
 				fixTestRequest.setBuffer( buf );
+				fixTestRequest.getAll();
 				l.onFixTestRequest(fixTestRequest);
 				break;
 

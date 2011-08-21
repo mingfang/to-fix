@@ -30,8 +30,11 @@ public class FixTradeCapLegUnderlyingsGrp
 
 		if (noOfLegUnderlyings < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noOfLegUnderlyings) 
+		if (group == null || group.length < noOfLegUnderlyings) {
 			group = new TradeCapLegUnderlyingsGrp[noOfLegUnderlyings];
+
+			for ( int i = 0; i < noOfLegUnderlyings; i++ ) group[i] = new TradeCapLegUnderlyingsGrp();
+	}
 
 		for ( int i = 0; i < noOfLegUnderlyings; i++ ) 
 			group[i].getAllGroup(buf);

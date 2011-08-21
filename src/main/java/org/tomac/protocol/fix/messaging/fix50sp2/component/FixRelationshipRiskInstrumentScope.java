@@ -30,8 +30,11 @@ public class FixRelationshipRiskInstrumentScope
 
 		if (noRelationshipRiskInstruments < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noRelationshipRiskInstruments) 
+		if (group == null || group.length < noRelationshipRiskInstruments) {
 			group = new RelationshipRiskInstrumentScope[noRelationshipRiskInstruments];
+
+			for ( int i = 0; i < noRelationshipRiskInstruments; i++ ) group[i] = new RelationshipRiskInstrumentScope();
+	}
 
 		for ( int i = 0; i < noRelationshipRiskInstruments; i++ ) 
 			group[i].getAllGroup(buf);

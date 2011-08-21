@@ -29,8 +29,11 @@ public class FixRgstDistInstGrp
 
 		if (noDistribInsts < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noDistribInsts) 
+		if (group == null || group.length < noDistribInsts) {
 			group = new RgstDistInstGrp[noDistribInsts];
+
+			for ( int i = 0; i < noDistribInsts; i++ ) group[i] = new RgstDistInstGrp();
+	}
 
 		for ( int i = 0; i < noDistribInsts; i++ ) 
 			group[i].getAllGroup(buf);

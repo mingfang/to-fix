@@ -107,7 +107,7 @@ public class FixUtils {
 		}
 
 		if (buf.get() != SOH) {
-			throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, "Integer value length exceeds one character");
+			throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, "Integer value length exceeds one character, read" + buf.get(buf.position()-1));
 		}
 
 		return c;
@@ -141,7 +141,7 @@ public class FixUtils {
 	}
 
 	public static int getTagIntValue(final ByteBuffer buf) throws FixSessionException {
-		byte c;
+		byte c = SOH;
 		int start = 0;
 		final int end = FIX_MAX_DIGITS;
 
@@ -160,7 +160,10 @@ public class FixUtils {
 
 		if (start == 0)
 			throw new FixSessionException(SessionRejectReason.TAG_SPECIFIED_WITHOUT_A_VALUE, "Tag specified without a value");
-			
+
+		if (c != SOH)
+			throw new FixSessionException(SessionRejectReason.TAG_SPECIFIED_WITHOUT_A_VALUE, "Message not terminated by SOH");
+		
 		return Utils.intValueOf(digitsBuf, 0, start);
 	}
 
@@ -178,8 +181,7 @@ public class FixUtils {
 				break;
 
 			if (start >= end) {
-				throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, "Value length exceeds maximum of "
-						+ (end - start));
+				throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, "Value length exceeds maximum of " + end);
 			} else {
 				dst[start] = c;
 				start++;

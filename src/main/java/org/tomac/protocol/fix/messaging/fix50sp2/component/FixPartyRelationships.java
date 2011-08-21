@@ -29,8 +29,11 @@ public class FixPartyRelationships
 
 		if (noPartyRelationships < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noPartyRelationships) 
+		if (group == null || group.length < noPartyRelationships) {
 			group = new PartyRelationships[noPartyRelationships];
+
+			for ( int i = 0; i < noPartyRelationships; i++ ) group[i] = new PartyRelationships();
+	}
 
 		for ( int i = 0; i < noPartyRelationships; i++ ) 
 			group[i].getAllGroup(buf);

@@ -29,8 +29,11 @@ public class FixRelatedAltPtysSubGrp
 
 		if (noRelatedPartyAltSubIDs < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noRelatedPartyAltSubIDs) 
+		if (group == null || group.length < noRelatedPartyAltSubIDs) {
 			group = new RelatedAltPtysSubGrp[noRelatedPartyAltSubIDs];
+
+			for ( int i = 0; i < noRelatedPartyAltSubIDs; i++ ) group[i] = new RelatedAltPtysSubGrp();
+	}
 
 		for ( int i = 0; i < noRelatedPartyAltSubIDs; i++ ) 
 			group[i].getAllGroup(buf);

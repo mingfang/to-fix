@@ -25,7 +25,7 @@ public class FixHeartbeat extends FixMessage
 	public FixHeartbeat() {
 		super();
 
-		testReqID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		testReqID = new byte[64];
 		this.clear();
 
 		msgType = MsgTypes.HEARTBEAT_INT;

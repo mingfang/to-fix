@@ -25,7 +25,7 @@ public class FixTestRequest extends FixMessage
 	public FixTestRequest() {
 		super();
 
-		testReqID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		testReqID = new byte[64];
 		this.clear();
 
 		msgType = MsgTypes.TESTREQUEST_INT;

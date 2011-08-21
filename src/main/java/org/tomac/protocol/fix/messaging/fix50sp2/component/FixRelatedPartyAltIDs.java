@@ -30,8 +30,11 @@ public class FixRelatedPartyAltIDs
 
 		if (noRelatedPartyAltIDs < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noRelatedPartyAltIDs) 
+		if (group == null || group.length < noRelatedPartyAltIDs) {
 			group = new RelatedPartyAltIDs[noRelatedPartyAltIDs];
+
+			for ( int i = 0; i < noRelatedPartyAltIDs; i++ ) group[i] = new RelatedPartyAltIDs();
+	}
 
 		for ( int i = 0; i < noRelatedPartyAltIDs; i++ ) 
 			group[i].getAllGroup(buf);

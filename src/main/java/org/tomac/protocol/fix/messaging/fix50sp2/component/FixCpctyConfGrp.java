@@ -29,8 +29,11 @@ public class FixCpctyConfGrp
 
 		if (noCapacities < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noCapacities) 
+		if (group == null || group.length < noCapacities) {
 			group = new CpctyConfGrp[noCapacities];
+
+			for ( int i = 0; i < noCapacities; i++ ) group[i] = new CpctyConfGrp();
+	}
 
 		for ( int i = 0; i < noCapacities; i++ ) 
 			group[i].getAllGroup(buf);

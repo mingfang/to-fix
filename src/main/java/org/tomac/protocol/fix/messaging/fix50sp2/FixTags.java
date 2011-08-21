@@ -331,6 +331,7 @@ public class FixTags {
 
 	public static final int TESTREQID_INT = 112;
 	public static final byte[]  TESTREQID = "112".getBytes();
+	public static final int TESTREQID_LENGTH = 64;
 
 	public static final int REPORTTOEXCH_INT = 113;
 	public static final byte[]  REPORTTOEXCH = "113".getBytes();

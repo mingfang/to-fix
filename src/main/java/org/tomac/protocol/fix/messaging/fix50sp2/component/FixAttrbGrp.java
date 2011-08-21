@@ -29,8 +29,11 @@ public class FixAttrbGrp
 
 		if (noInstrAttrib < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noInstrAttrib) 
+		if (group == null || group.length < noInstrAttrib) {
 			group = new AttrbGrp[noInstrAttrib];
+
+			for ( int i = 0; i < noInstrAttrib; i++ ) group[i] = new AttrbGrp();
+	}
 
 		for ( int i = 0; i < noInstrAttrib; i++ ) 
 			group[i].getAllGroup(buf);

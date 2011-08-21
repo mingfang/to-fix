@@ -30,8 +30,11 @@ public class FixUndlyInstrumentParties
 
 		if (noUndlyInstrumentParties < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noUndlyInstrumentParties) 
+		if (group == null || group.length < noUndlyInstrumentParties) {
 			group = new UndlyInstrumentParties[noUndlyInstrumentParties];
+
+			for ( int i = 0; i < noUndlyInstrumentParties; i++ ) group[i] = new UndlyInstrumentParties();
+	}
 
 		for ( int i = 0; i < noUndlyInstrumentParties; i++ ) 
 			group[i].getAllGroup(buf);

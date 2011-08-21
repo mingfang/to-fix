@@ -32,8 +32,11 @@ public class FixInstrmtLegSecListGrp
 
 		if (noLegs < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noLegs) 
+		if (group == null || group.length < noLegs) {
 			group = new InstrmtLegSecListGrp[noLegs];
+
+			for ( int i = 0; i < noLegs; i++ ) group[i] = new InstrmtLegSecListGrp();
+	}
 
 		for ( int i = 0; i < noLegs; i++ ) 
 			group[i].getAllGroup(buf);

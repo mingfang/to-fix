@@ -29,8 +29,11 @@ public class FixContextPtysSubGrp
 
 		if (noContextPartySubIDs < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noContextPartySubIDs) 
+		if (group == null || group.length < noContextPartySubIDs) {
 			group = new ContextPtysSubGrp[noContextPartySubIDs];
+
+			for ( int i = 0; i < noContextPartySubIDs; i++ ) group[i] = new ContextPtysSubGrp();
+	}
 
 		for ( int i = 0; i < noContextPartySubIDs; i++ ) 
 			group[i].getAllGroup(buf);

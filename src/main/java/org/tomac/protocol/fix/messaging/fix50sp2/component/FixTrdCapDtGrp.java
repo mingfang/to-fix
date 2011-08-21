@@ -29,8 +29,11 @@ public class FixTrdCapDtGrp
 
 		if (noDates < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noDates) 
+		if (group == null || group.length < noDates) {
 			group = new TrdCapDtGrp[noDates];
+
+			for ( int i = 0; i < noDates; i++ ) group[i] = new TrdCapDtGrp();
+	}
 
 		for ( int i = 0; i < noDates; i++ ) 
 			group[i].getAllGroup(buf);

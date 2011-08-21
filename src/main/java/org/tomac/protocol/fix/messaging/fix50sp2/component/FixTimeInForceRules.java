@@ -29,8 +29,11 @@ public class FixTimeInForceRules
 
 		if (noTimeInForceRules < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noTimeInForceRules) 
+		if (group == null || group.length < noTimeInForceRules) {
 			group = new TimeInForceRules[noTimeInForceRules];
+
+			for ( int i = 0; i < noTimeInForceRules; i++ ) group[i] = new TimeInForceRules();
+	}
 
 		for ( int i = 0; i < noTimeInForceRules; i++ ) 
 			group[i].getAllGroup(buf);

@@ -39,8 +39,11 @@ public class FixTrdCapRptAckSideGrp
 
 		if (noSides < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noSides) 
+		if (group == null || group.length < noSides) {
 			group = new TrdCapRptAckSideGrp[noSides];
+
+			for ( int i = 0; i < noSides; i++ ) group[i] = new TrdCapRptAckSideGrp();
+	}
 
 		for ( int i = 0; i < noSides; i++ ) 
 			group[i].getAllGroup(buf);

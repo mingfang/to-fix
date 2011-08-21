@@ -34,8 +34,11 @@ public class FixMDFullGrp
 
 		if (noMDEntries < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noMDEntries) 
+		if (group == null || group.length < noMDEntries) {
 			group = new MDFullGrp[noMDEntries];
+
+			for ( int i = 0; i < noMDEntries; i++ ) group[i] = new MDFullGrp();
+	}
 
 		for ( int i = 0; i < noMDEntries; i++ ) 
 			group[i].getAllGroup(buf);

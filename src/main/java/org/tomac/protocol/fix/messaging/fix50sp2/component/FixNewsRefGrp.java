@@ -29,8 +29,11 @@ public class FixNewsRefGrp
 
 		if (noNewsRefIDs < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noNewsRefIDs) 
+		if (group == null || group.length < noNewsRefIDs) {
 			group = new NewsRefGrp[noNewsRefIDs];
+
+			for ( int i = 0; i < noNewsRefIDs; i++ ) group[i] = new NewsRefGrp();
+	}
 
 		for ( int i = 0; i < noNewsRefIDs; i++ ) 
 			group[i].getAllGroup(buf);

@@ -31,8 +31,11 @@ public class FixStrmAsgnReqGrp
 
 		if (noAsgnReqs < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noAsgnReqs) 
+		if (group == null || group.length < noAsgnReqs) {
 			group = new StrmAsgnReqGrp[noAsgnReqs];
+
+			for ( int i = 0; i < noAsgnReqs; i++ ) group[i] = new StrmAsgnReqGrp();
+	}
 
 		for ( int i = 0; i < noAsgnReqs; i++ ) 
 			group[i].getAllGroup(buf);

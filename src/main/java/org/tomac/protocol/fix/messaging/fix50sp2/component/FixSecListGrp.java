@@ -39,8 +39,11 @@ public class FixSecListGrp
 
 		if (noRelatedSym < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noRelatedSym) 
+		if (group == null || group.length < noRelatedSym) {
 			group = new SecListGrp[noRelatedSym];
+
+			for ( int i = 0; i < noRelatedSym; i++ ) group[i] = new SecListGrp();
+	}
 
 		for ( int i = 0; i < noRelatedSym; i++ ) 
 			group[i].getAllGroup(buf);

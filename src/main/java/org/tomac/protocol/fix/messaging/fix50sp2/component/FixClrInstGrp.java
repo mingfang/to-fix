@@ -29,8 +29,11 @@ public class FixClrInstGrp
 
 		if (noClearingInstructions < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noClearingInstructions) 
+		if (group == null || group.length < noClearingInstructions) {
 			group = new ClrInstGrp[noClearingInstructions];
+
+			for ( int i = 0; i < noClearingInstructions; i++ ) group[i] = new ClrInstGrp();
+	}
 
 		for ( int i = 0; i < noClearingInstructions; i++ ) 
 			group[i].getAllGroup(buf);

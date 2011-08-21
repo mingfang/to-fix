@@ -30,8 +30,11 @@ public class FixSettlParties
 
 		if (noSettlPartyIDs < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noSettlPartyIDs) 
+		if (group == null || group.length < noSettlPartyIDs) {
 			group = new SettlParties[noSettlPartyIDs];
+
+			for ( int i = 0; i < noSettlPartyIDs; i++ ) group[i] = new SettlParties();
+	}
 
 		for ( int i = 0; i < noSettlPartyIDs; i++ ) 
 			group[i].getAllGroup(buf);

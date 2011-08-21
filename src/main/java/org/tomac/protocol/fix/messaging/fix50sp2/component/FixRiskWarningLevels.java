@@ -29,8 +29,11 @@ public class FixRiskWarningLevels
 
 		if (noRiskWarningLevels < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noRiskWarningLevels) 
+		if (group == null || group.length < noRiskWarningLevels) {
 			group = new RiskWarningLevels[noRiskWarningLevels];
+
+			for ( int i = 0; i < noRiskWarningLevels; i++ ) group[i] = new RiskWarningLevels();
+	}
 
 		for ( int i = 0; i < noRiskWarningLevels; i++ ) 
 			group[i].getAllGroup(buf);

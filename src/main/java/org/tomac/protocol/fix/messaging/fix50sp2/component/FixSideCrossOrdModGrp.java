@@ -33,8 +33,11 @@ public class FixSideCrossOrdModGrp
 
 		if (noSides < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noSides) 
+		if (group == null || group.length < noSides) {
 			group = new SideCrossOrdModGrp[noSides];
+
+			for ( int i = 0; i < noSides; i++ ) group[i] = new SideCrossOrdModGrp();
+	}
 
 		for ( int i = 0; i < noSides; i++ ) 
 			group[i].getAllGroup(buf);

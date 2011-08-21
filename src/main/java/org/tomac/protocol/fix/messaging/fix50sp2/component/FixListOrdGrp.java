@@ -44,8 +44,11 @@ public class FixListOrdGrp
 
 		if (noOrders < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noOrders) 
+		if (group == null || group.length < noOrders) {
 			group = new ListOrdGrp[noOrders];
+
+			for ( int i = 0; i < noOrders; i++ ) group[i] = new ListOrdGrp();
+	}
 
 		for ( int i = 0; i < noOrders; i++ ) 
 			group[i].getAllGroup(buf);

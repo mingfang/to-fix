@@ -31,8 +31,11 @@ public class FixQuotSetAckGrp
 
 		if (noQuoteSets < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noQuoteSets) 
+		if (group == null || group.length < noQuoteSets) {
 			group = new QuotSetAckGrp[noQuoteSets];
+
+			for ( int i = 0; i < noQuoteSets; i++ ) group[i] = new QuotSetAckGrp();
+	}
 
 		for ( int i = 0; i < noQuoteSets; i++ ) 
 			group[i].getAllGroup(buf);

@@ -29,8 +29,11 @@ public class FixDerivativeInstrumentAttribute
 
 		if (noDerivativeInstrAttrib < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noDerivativeInstrAttrib) 
+		if (group == null || group.length < noDerivativeInstrAttrib) {
 			group = new DerivativeInstrumentAttribute[noDerivativeInstrAttrib];
+
+			for ( int i = 0; i < noDerivativeInstrAttrib; i++ ) group[i] = new DerivativeInstrumentAttribute();
+	}
 
 		for ( int i = 0; i < noDerivativeInstrAttrib; i++ ) 
 			group[i].getAllGroup(buf);

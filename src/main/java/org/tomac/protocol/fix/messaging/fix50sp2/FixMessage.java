@@ -128,7 +128,7 @@ public abstract class FixMessage extends FixGeneratedBaseMessage
 		} catch (FixSessionException e) {
 			throw new FixGarbledException(buf, e.getMessage());
 		} catch (NumberFormatException e) {
-			throw new FixGarbledException(buf, "Number format exeception");
+			throw new FixGarbledException(buf, e.getMessage());
 		}
 
 		return msgType;

@@ -29,8 +29,11 @@ public class FixRequestedPartyRoleGrp
 
 		if (noRequestedPartyRoles < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noRequestedPartyRoles) 
+		if (group == null || group.length < noRequestedPartyRoles) {
 			group = new RequestedPartyRoleGrp[noRequestedPartyRoles];
+
+			for ( int i = 0; i < noRequestedPartyRoles; i++ ) group[i] = new RequestedPartyRoleGrp();
+	}
 
 		for ( int i = 0; i < noRequestedPartyRoles; i++ ) 
 			group[i].getAllGroup(buf);

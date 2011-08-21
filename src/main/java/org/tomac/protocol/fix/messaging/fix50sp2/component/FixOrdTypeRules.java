@@ -29,8 +29,11 @@ public class FixOrdTypeRules
 
 		if (noOrdTypeRules < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noOrdTypeRules) 
+		if (group == null || group.length < noOrdTypeRules) {
 			group = new OrdTypeRules[noOrdTypeRules];
+
+			for ( int i = 0; i < noOrdTypeRules; i++ ) group[i] = new OrdTypeRules();
+	}
 
 		for ( int i = 0; i < noOrdTypeRules; i++ ) 
 			group[i].getAllGroup(buf);

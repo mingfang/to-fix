@@ -29,8 +29,11 @@ public class FixUsernameGrp
 
 		if (noUsernames < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noUsernames) 
+		if (group == null || group.length < noUsernames) {
 			group = new UsernameGrp[noUsernames];
+
+			for ( int i = 0; i < noUsernames; i++ ) group[i] = new UsernameGrp();
+	}
 
 		for ( int i = 0; i < noUsernames; i++ ) 
 			group[i].getAllGroup(buf);

@@ -66,7 +66,7 @@ public class CodeExamples {
 		MyFixMessageListener listener = new MyFixMessageListener();
 		FixMessageParser parser = new FixMessageParser();
 		
-		ByteBuffer buf = ByteBuffer.wrap(new String("8=FIXT.1.1\u00019=75\u000135=A\u000149=TOC\u000156=TOMAC\u000134=1\u000150=TOC\u000157=S\u000152=20110211-05:40:09.425\u000198=0\u0001108=30\u000110=37\u0001").getBytes());
+		ByteBuffer buf = ByteBuffer.wrap(new String("8=FIXT.1.1\u00019=82\u000135=A\u000149=TOC\u000156=TOMAC\u000134=1\u000150=TOC\u000157=S\u000152=20110211-05:40:09.425\u000198=0\u0001108=30\u00011137=9\u000110=102\u0001").getBytes());
 		// the buf ByteBuffer contains the raw fix message
 		try {
 			parser.parse(buf, listener);

@@ -31,8 +31,11 @@ public class FixRiskLimits
 
 		if (noRiskLimits < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noRiskLimits) 
+		if (group == null || group.length < noRiskLimits) {
 			group = new RiskLimits[noRiskLimits];
+
+			for ( int i = 0; i < noRiskLimits; i++ ) group[i] = new RiskLimits();
+	}
 
 		for ( int i = 0; i < noRiskLimits; i++ ) 
 			group[i].getAllGroup(buf);

@@ -29,8 +29,11 @@ public class FixRiskSecAltIDGrp
 
 		if (noRiskSecurityAltID < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noRiskSecurityAltID) 
+		if (group == null || group.length < noRiskSecurityAltID) {
 			group = new RiskSecAltIDGrp[noRiskSecurityAltID];
+
+			for ( int i = 0; i < noRiskSecurityAltID; i++ ) group[i] = new RiskSecAltIDGrp();
+	}
 
 		for ( int i = 0; i < noRiskSecurityAltID; i++ ) 
 			group[i].getAllGroup(buf);

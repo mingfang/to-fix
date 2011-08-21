@@ -30,8 +30,11 @@ public class FixOrdAllocGrp
 
 		if (noOrders < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noOrders) 
+		if (group == null || group.length < noOrders) {
 			group = new OrdAllocGrp[noOrders];
+
+			for ( int i = 0; i < noOrders; i++ ) group[i] = new OrdAllocGrp();
+	}
 
 		for ( int i = 0; i < noOrders; i++ ) 
 			group[i].getAllGroup(buf);

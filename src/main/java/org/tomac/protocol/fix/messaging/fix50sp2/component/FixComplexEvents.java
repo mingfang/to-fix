@@ -30,8 +30,11 @@ public class FixComplexEvents
 
 		if (noComplexEvents < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noComplexEvents) 
+		if (group == null || group.length < noComplexEvents) {
 			group = new ComplexEvents[noComplexEvents];
+
+			for ( int i = 0; i < noComplexEvents; i++ ) group[i] = new ComplexEvents();
+	}
 
 		for ( int i = 0; i < noComplexEvents; i++ ) 
 			group[i].getAllGroup(buf);

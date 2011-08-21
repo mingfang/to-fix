@@ -29,8 +29,11 @@ public class FixCompIDStatGrp
 
 		if (noCompIDs < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noCompIDs) 
+		if (group == null || group.length < noCompIDs) {
 			group = new CompIDStatGrp[noCompIDs];
+
+			for ( int i = 0; i < noCompIDs; i++ ) group[i] = new CompIDStatGrp();
+	}
 
 		for ( int i = 0; i < noCompIDs; i++ ) 
 			group[i].getAllGroup(buf);

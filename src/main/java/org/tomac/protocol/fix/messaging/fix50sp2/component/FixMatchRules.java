@@ -29,8 +29,11 @@ public class FixMatchRules
 
 		if (noMatchRules < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noMatchRules) 
+		if (group == null || group.length < noMatchRules) {
 			group = new MatchRules[noMatchRules];
+
+			for ( int i = 0; i < noMatchRules; i++ ) group[i] = new MatchRules();
+	}
 
 		for ( int i = 0; i < noMatchRules; i++ ) 
 			group[i].getAllGroup(buf);

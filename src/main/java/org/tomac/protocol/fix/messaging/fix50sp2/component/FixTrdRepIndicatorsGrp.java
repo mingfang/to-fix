@@ -29,8 +29,11 @@ public class FixTrdRepIndicatorsGrp
 
 		if (noTrdRepIndicators < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noTrdRepIndicators) 
+		if (group == null || group.length < noTrdRepIndicators) {
 			group = new TrdRepIndicatorsGrp[noTrdRepIndicators];
+
+			for ( int i = 0; i < noTrdRepIndicators; i++ ) group[i] = new TrdRepIndicatorsGrp();
+	}
 
 		for ( int i = 0; i < noTrdRepIndicators; i++ ) 
 			group[i].getAllGroup(buf);

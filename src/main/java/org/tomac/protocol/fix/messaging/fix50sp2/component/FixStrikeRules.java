@@ -30,8 +30,11 @@ public class FixStrikeRules
 
 		if (noStrikeRules < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noStrikeRules) 
+		if (group == null || group.length < noStrikeRules) {
 			group = new StrikeRules[noStrikeRules];
+
+			for ( int i = 0; i < noStrikeRules; i++ ) group[i] = new StrikeRules();
+	}
 
 		for ( int i = 0; i < noStrikeRules; i++ ) 
 			group[i].getAllGroup(buf);

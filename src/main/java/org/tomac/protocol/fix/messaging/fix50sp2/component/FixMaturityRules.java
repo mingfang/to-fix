@@ -29,8 +29,11 @@ public class FixMaturityRules
 
 		if (noMaturityRules < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noMaturityRules) 
+		if (group == null || group.length < noMaturityRules) {
 			group = new MaturityRules[noMaturityRules];
+
+			for ( int i = 0; i < noMaturityRules; i++ ) group[i] = new MaturityRules();
+	}
 
 		for ( int i = 0; i < noMaturityRules; i++ ) 
 			group[i].getAllGroup(buf);

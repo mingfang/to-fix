@@ -41,7 +41,7 @@ public abstract class FixMessage extends FixGeneratedBaseMessage
 	public byte[] deliverToSubID;
 	
 	private static byte[] tmpMsgType = new byte[4];
-	private static byte[] tmpBeginString = new byte[7];
+	private static byte[] tmpBeginString = new byte[BEGINSTRING_VALUE.length];
 
 	/**
 	 * crackMsgType performs a garbled check on the fix message. 

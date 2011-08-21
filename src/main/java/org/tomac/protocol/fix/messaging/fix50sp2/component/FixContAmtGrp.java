@@ -29,8 +29,11 @@ public class FixContAmtGrp
 
 		if (noContAmts < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noContAmts) 
+		if (group == null || group.length < noContAmts) {
 			group = new ContAmtGrp[noContAmts];
+
+			for ( int i = 0; i < noContAmts; i++ ) group[i] = new ContAmtGrp();
+	}
 
 		for ( int i = 0; i < noContAmts; i++ ) 
 			group[i].getAllGroup(buf);

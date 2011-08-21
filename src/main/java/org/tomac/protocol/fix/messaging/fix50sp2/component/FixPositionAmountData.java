@@ -29,8 +29,11 @@ public class FixPositionAmountData
 
 		if (noPosAmt < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noPosAmt) 
+		if (group == null || group.length < noPosAmt) {
 			group = new PositionAmountData[noPosAmt];
+
+			for ( int i = 0; i < noPosAmt; i++ ) group[i] = new PositionAmountData();
+	}
 
 		for ( int i = 0; i < noPosAmt; i++ ) 
 			group[i].getAllGroup(buf);

@@ -30,8 +30,11 @@ public class FixApplIDRequestGrp
 
 		if (noApplIDs < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noApplIDs) 
+		if (group == null || group.length < noApplIDs) {
 			group = new ApplIDRequestGrp[noApplIDs];
+
+			for ( int i = 0; i < noApplIDs; i++ ) group[i] = new ApplIDRequestGrp();
+	}
 
 		for ( int i = 0; i < noApplIDs; i++ ) 
 			group[i].getAllGroup(buf);

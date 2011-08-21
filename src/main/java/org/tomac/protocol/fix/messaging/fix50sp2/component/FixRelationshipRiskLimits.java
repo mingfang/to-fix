@@ -31,8 +31,11 @@ public class FixRelationshipRiskLimits
 
 		if (noRelationshipRiskLimits < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noRelationshipRiskLimits) 
+		if (group == null || group.length < noRelationshipRiskLimits) {
 			group = new RelationshipRiskLimits[noRelationshipRiskLimits];
+
+			for ( int i = 0; i < noRelationshipRiskLimits; i++ ) group[i] = new RelationshipRiskLimits();
+	}
 
 		for ( int i = 0; i < noRelationshipRiskLimits; i++ ) 
 			group[i].getAllGroup(buf);

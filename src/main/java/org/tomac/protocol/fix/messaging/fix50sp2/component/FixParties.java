@@ -30,8 +30,11 @@ public class FixParties
 
 		if (noPartyIDs < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noPartyIDs) 
+		if (group == null || group.length < noPartyIDs) {
 			group = new Parties[noPartyIDs];
+
+			for ( int i = 0; i < noPartyIDs; i++ ) group[i] = new Parties();
+	}
 
 		for ( int i = 0; i < noPartyIDs; i++ ) 
 			group[i].getAllGroup(buf);

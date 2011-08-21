@@ -138,470 +138,587 @@ public class FixMessageParser implements FixMessageInfo
 
 			case MsgTypes.HEARTBEAT_INT:
 				fixHeartbeat.setBuffer( buf );
+				fixHeartbeat.getAll();
 				l.onFixHeartbeat(fixHeartbeat);
 				break;
 			case MsgTypes.TESTREQUEST_INT:
 				fixTestRequest.setBuffer( buf );
+				fixTestRequest.getAll();
 				l.onFixTestRequest(fixTestRequest);
 				break;
 			case MsgTypes.RESENDREQUEST_INT:
 				fixResendRequest.setBuffer( buf );
+				fixResendRequest.getAll();
 				l.onFixResendRequest(fixResendRequest);
 				break;
 			case MsgTypes.REJECT_INT:
 				fixReject.setBuffer( buf );
+				fixReject.getAll();
 				l.onFixReject(fixReject);
 				break;
 			case MsgTypes.SEQUENCERESET_INT:
 				fixSequenceReset.setBuffer( buf );
+				fixSequenceReset.getAll();
 				l.onFixSequenceReset(fixSequenceReset);
 				break;
 			case MsgTypes.LOGOUT_INT:
 				fixLogout.setBuffer( buf );
+				fixLogout.getAll();
 				l.onFixLogout(fixLogout);
 				break;
 			case MsgTypes.IOI_INT:
 				fixIOI.setBuffer( buf );
+				fixIOI.getAll();
 				l.onFixIOI(fixIOI);
 				break;
 			case MsgTypes.ADVERTISEMENT_INT:
 				fixAdvertisement.setBuffer( buf );
+				fixAdvertisement.getAll();
 				l.onFixAdvertisement(fixAdvertisement);
 				break;
 			case MsgTypes.EXECUTIONREPORT_INT:
 				fixExecutionReport.setBuffer( buf );
+				fixExecutionReport.getAll();
 				l.onFixExecutionReport(fixExecutionReport);
 				break;
 			case MsgTypes.ORDERCANCELREJECT_INT:
 				fixOrderCancelReject.setBuffer( buf );
+				fixOrderCancelReject.getAll();
 				l.onFixOrderCancelReject(fixOrderCancelReject);
 				break;
 			case MsgTypes.LOGON_INT:
 				fixLogon.setBuffer( buf );
+				fixLogon.getAll();
 				l.onFixLogon(fixLogon);
 				break;
 			case MsgTypes.NEWS_INT:
 				fixNews.setBuffer( buf );
+				fixNews.getAll();
 				l.onFixNews(fixNews);
 				break;
 			case MsgTypes.EMAIL_INT:
 				fixEmail.setBuffer( buf );
+				fixEmail.getAll();
 				l.onFixEmail(fixEmail);
 				break;
 			case MsgTypes.NEWORDERSINGLE_INT:
 				fixNewOrderSingle.setBuffer( buf );
+				fixNewOrderSingle.getAll();
 				l.onFixNewOrderSingle(fixNewOrderSingle);
 				break;
 			case MsgTypes.NEWORDERLIST_INT:
 				fixNewOrderList.setBuffer( buf );
+				fixNewOrderList.getAll();
 				l.onFixNewOrderList(fixNewOrderList);
 				break;
 			case MsgTypes.ORDERCANCELREQUEST_INT:
 				fixOrderCancelRequest.setBuffer( buf );
+				fixOrderCancelRequest.getAll();
 				l.onFixOrderCancelRequest(fixOrderCancelRequest);
 				break;
 			case MsgTypes.ORDERCANCELREPLACEREQUEST_INT:
 				fixOrderCancelReplaceRequest.setBuffer( buf );
+				fixOrderCancelReplaceRequest.getAll();
 				l.onFixOrderCancelReplaceRequest(fixOrderCancelReplaceRequest);
 				break;
 			case MsgTypes.ORDERSTATUSREQUEST_INT:
 				fixOrderStatusRequest.setBuffer( buf );
+				fixOrderStatusRequest.getAll();
 				l.onFixOrderStatusRequest(fixOrderStatusRequest);
 				break;
 			case MsgTypes.ALLOCATIONINSTRUCTION_INT:
 				fixAllocationInstruction.setBuffer( buf );
+				fixAllocationInstruction.getAll();
 				l.onFixAllocationInstruction(fixAllocationInstruction);
 				break;
 			case MsgTypes.LISTCANCELREQUEST_INT:
 				fixListCancelRequest.setBuffer( buf );
+				fixListCancelRequest.getAll();
 				l.onFixListCancelRequest(fixListCancelRequest);
 				break;
 			case MsgTypes.LISTEXECUTE_INT:
 				fixListExecute.setBuffer( buf );
+				fixListExecute.getAll();
 				l.onFixListExecute(fixListExecute);
 				break;
 			case MsgTypes.LISTSTATUSREQUEST_INT:
 				fixListStatusRequest.setBuffer( buf );
+				fixListStatusRequest.getAll();
 				l.onFixListStatusRequest(fixListStatusRequest);
 				break;
 			case MsgTypes.LISTSTATUS_INT:
 				fixListStatus.setBuffer( buf );
+				fixListStatus.getAll();
 				l.onFixListStatus(fixListStatus);
 				break;
 			case MsgTypes.ALLOCATIONINSTRUCTIONACK_INT:
 				fixAllocationInstructionAck.setBuffer( buf );
+				fixAllocationInstructionAck.getAll();
 				l.onFixAllocationInstructionAck(fixAllocationInstructionAck);
 				break;
 			case MsgTypes.DONTKNOWTRADEDK_INT:
 				fixDontKnowTradeDK.setBuffer( buf );
+				fixDontKnowTradeDK.getAll();
 				l.onFixDontKnowTradeDK(fixDontKnowTradeDK);
 				break;
 			case MsgTypes.QUOTEREQUEST_INT:
 				fixQuoteRequest.setBuffer( buf );
+				fixQuoteRequest.getAll();
 				l.onFixQuoteRequest(fixQuoteRequest);
 				break;
 			case MsgTypes.QUOTE_INT:
 				fixQuote.setBuffer( buf );
+				fixQuote.getAll();
 				l.onFixQuote(fixQuote);
 				break;
 			case MsgTypes.SETTLEMENTINSTRUCTIONS_INT:
 				fixSettlementInstructions.setBuffer( buf );
+				fixSettlementInstructions.getAll();
 				l.onFixSettlementInstructions(fixSettlementInstructions);
 				break;
 			case MsgTypes.MARKETDATAREQUEST_INT:
 				fixMarketDataRequest.setBuffer( buf );
+				fixMarketDataRequest.getAll();
 				l.onFixMarketDataRequest(fixMarketDataRequest);
 				break;
 			case MsgTypes.MARKETDATASNAPSHOTFULLREFRESH_INT:
 				fixMarketDataSnapshotFullRefresh.setBuffer( buf );
+				fixMarketDataSnapshotFullRefresh.getAll();
 				l.onFixMarketDataSnapshotFullRefresh(fixMarketDataSnapshotFullRefresh);
 				break;
 			case MsgTypes.MARKETDATAINCREMENTALREFRESH_INT:
 				fixMarketDataIncrementalRefresh.setBuffer( buf );
+				fixMarketDataIncrementalRefresh.getAll();
 				l.onFixMarketDataIncrementalRefresh(fixMarketDataIncrementalRefresh);
 				break;
 			case MsgTypes.MARKETDATAREQUESTREJECT_INT:
 				fixMarketDataRequestReject.setBuffer( buf );
+				fixMarketDataRequestReject.getAll();
 				l.onFixMarketDataRequestReject(fixMarketDataRequestReject);
 				break;
 			case MsgTypes.QUOTECANCEL_INT:
 				fixQuoteCancel.setBuffer( buf );
+				fixQuoteCancel.getAll();
 				l.onFixQuoteCancel(fixQuoteCancel);
 				break;
 			case MsgTypes.QUOTESTATUSREQUEST_INT:
 				fixQuoteStatusRequest.setBuffer( buf );
+				fixQuoteStatusRequest.getAll();
 				l.onFixQuoteStatusRequest(fixQuoteStatusRequest);
 				break;
 			case MsgTypes.MASSQUOTEACKNOWLEDGEMENT_INT:
 				fixMassQuoteAcknowledgement.setBuffer( buf );
+				fixMassQuoteAcknowledgement.getAll();
 				l.onFixMassQuoteAcknowledgement(fixMassQuoteAcknowledgement);
 				break;
 			case MsgTypes.SECURITYDEFINITIONREQUEST_INT:
 				fixSecurityDefinitionRequest.setBuffer( buf );
+				fixSecurityDefinitionRequest.getAll();
 				l.onFixSecurityDefinitionRequest(fixSecurityDefinitionRequest);
 				break;
 			case MsgTypes.SECURITYDEFINITION_INT:
 				fixSecurityDefinition.setBuffer( buf );
+				fixSecurityDefinition.getAll();
 				l.onFixSecurityDefinition(fixSecurityDefinition);
 				break;
 			case MsgTypes.SECURITYSTATUSREQUEST_INT:
 				fixSecurityStatusRequest.setBuffer( buf );
+				fixSecurityStatusRequest.getAll();
 				l.onFixSecurityStatusRequest(fixSecurityStatusRequest);
 				break;
 			case MsgTypes.SECURITYSTATUS_INT:
 				fixSecurityStatus.setBuffer( buf );
+				fixSecurityStatus.getAll();
 				l.onFixSecurityStatus(fixSecurityStatus);
 				break;
 			case MsgTypes.TRADINGSESSIONSTATUSREQUEST_INT:
 				fixTradingSessionStatusRequest.setBuffer( buf );
+				fixTradingSessionStatusRequest.getAll();
 				l.onFixTradingSessionStatusRequest(fixTradingSessionStatusRequest);
 				break;
 			case MsgTypes.TRADINGSESSIONSTATUS_INT:
 				fixTradingSessionStatus.setBuffer( buf );
+				fixTradingSessionStatus.getAll();
 				l.onFixTradingSessionStatus(fixTradingSessionStatus);
 				break;
 			case MsgTypes.MASSQUOTE_INT:
 				fixMassQuote.setBuffer( buf );
+				fixMassQuote.getAll();
 				l.onFixMassQuote(fixMassQuote);
 				break;
 			case MsgTypes.BUSINESSMESSAGEREJECT_INT:
 				fixBusinessMessageReject.setBuffer( buf );
+				fixBusinessMessageReject.getAll();
 				l.onFixBusinessMessageReject(fixBusinessMessageReject);
 				break;
 			case MsgTypes.BIDREQUEST_INT:
 				fixBidRequest.setBuffer( buf );
+				fixBidRequest.getAll();
 				l.onFixBidRequest(fixBidRequest);
 				break;
 			case MsgTypes.BIDRESPONSE_INT:
 				fixBidResponse.setBuffer( buf );
+				fixBidResponse.getAll();
 				l.onFixBidResponse(fixBidResponse);
 				break;
 			case MsgTypes.LISTSTRIKEPRICE_INT:
 				fixListStrikePrice.setBuffer( buf );
+				fixListStrikePrice.getAll();
 				l.onFixListStrikePrice(fixListStrikePrice);
 				break;
 			case MsgTypes.REGISTRATIONINSTRUCTIONS_INT:
 				fixRegistrationInstructions.setBuffer( buf );
+				fixRegistrationInstructions.getAll();
 				l.onFixRegistrationInstructions(fixRegistrationInstructions);
 				break;
 			case MsgTypes.REGISTRATIONINSTRUCTIONSRESPONSE_INT:
 				fixRegistrationInstructionsResponse.setBuffer( buf );
+				fixRegistrationInstructionsResponse.getAll();
 				l.onFixRegistrationInstructionsResponse(fixRegistrationInstructionsResponse);
 				break;
 			case MsgTypes.ORDERMASSCANCELREQUEST_INT:
 				fixOrderMassCancelRequest.setBuffer( buf );
+				fixOrderMassCancelRequest.getAll();
 				l.onFixOrderMassCancelRequest(fixOrderMassCancelRequest);
 				break;
 			case MsgTypes.ORDERMASSCANCELREPORT_INT:
 				fixOrderMassCancelReport.setBuffer( buf );
+				fixOrderMassCancelReport.getAll();
 				l.onFixOrderMassCancelReport(fixOrderMassCancelReport);
 				break;
 			case MsgTypes.NEWORDERCROSS_INT:
 				fixNewOrderCross.setBuffer( buf );
+				fixNewOrderCross.getAll();
 				l.onFixNewOrderCross(fixNewOrderCross);
 				break;
 			case MsgTypes.CROSSORDERCANCELREPLACEREQUEST_INT:
 				fixCrossOrderCancelReplaceRequest.setBuffer( buf );
+				fixCrossOrderCancelReplaceRequest.getAll();
 				l.onFixCrossOrderCancelReplaceRequest(fixCrossOrderCancelReplaceRequest);
 				break;
 			case MsgTypes.CROSSORDERCANCELREQUEST_INT:
 				fixCrossOrderCancelRequest.setBuffer( buf );
+				fixCrossOrderCancelRequest.getAll();
 				l.onFixCrossOrderCancelRequest(fixCrossOrderCancelRequest);
 				break;
 			case MsgTypes.SECURITYTYPEREQUEST_INT:
 				fixSecurityTypeRequest.setBuffer( buf );
+				fixSecurityTypeRequest.getAll();
 				l.onFixSecurityTypeRequest(fixSecurityTypeRequest);
 				break;
 			case MsgTypes.SECURITYTYPES_INT:
 				fixSecurityTypes.setBuffer( buf );
+				fixSecurityTypes.getAll();
 				l.onFixSecurityTypes(fixSecurityTypes);
 				break;
 			case MsgTypes.SECURITYLISTREQUEST_INT:
 				fixSecurityListRequest.setBuffer( buf );
+				fixSecurityListRequest.getAll();
 				l.onFixSecurityListRequest(fixSecurityListRequest);
 				break;
 			case MsgTypes.SECURITYLIST_INT:
 				fixSecurityList.setBuffer( buf );
+				fixSecurityList.getAll();
 				l.onFixSecurityList(fixSecurityList);
 				break;
 			case MsgTypes.DERIVATIVESECURITYLISTREQUEST_INT:
 				fixDerivativeSecurityListRequest.setBuffer( buf );
+				fixDerivativeSecurityListRequest.getAll();
 				l.onFixDerivativeSecurityListRequest(fixDerivativeSecurityListRequest);
 				break;
 			case MsgTypes.DERIVATIVESECURITYLIST_INT:
 				fixDerivativeSecurityList.setBuffer( buf );
+				fixDerivativeSecurityList.getAll();
 				l.onFixDerivativeSecurityList(fixDerivativeSecurityList);
 				break;
 			case MsgTypes.NEWORDERMULTILEG_INT:
 				fixNewOrderMultileg.setBuffer( buf );
+				fixNewOrderMultileg.getAll();
 				l.onFixNewOrderMultileg(fixNewOrderMultileg);
 				break;
 			case MsgTypes.MULTILEGORDERCANCELREPLACE_INT:
 				fixMultilegOrderCancelReplace.setBuffer( buf );
+				fixMultilegOrderCancelReplace.getAll();
 				l.onFixMultilegOrderCancelReplace(fixMultilegOrderCancelReplace);
 				break;
 			case MsgTypes.TRADECAPTUREREPORTREQUEST_INT:
 				fixTradeCaptureReportRequest.setBuffer( buf );
+				fixTradeCaptureReportRequest.getAll();
 				l.onFixTradeCaptureReportRequest(fixTradeCaptureReportRequest);
 				break;
 			case MsgTypes.TRADECAPTUREREPORT_INT:
 				fixTradeCaptureReport.setBuffer( buf );
+				fixTradeCaptureReport.getAll();
 				l.onFixTradeCaptureReport(fixTradeCaptureReport);
 				break;
 			case MsgTypes.ORDERMASSSTATUSREQUEST_INT:
 				fixOrderMassStatusRequest.setBuffer( buf );
+				fixOrderMassStatusRequest.getAll();
 				l.onFixOrderMassStatusRequest(fixOrderMassStatusRequest);
 				break;
 			case MsgTypes.QUOTEREQUESTREJECT_INT:
 				fixQuoteRequestReject.setBuffer( buf );
+				fixQuoteRequestReject.getAll();
 				l.onFixQuoteRequestReject(fixQuoteRequestReject);
 				break;
 			case MsgTypes.RFQREQUEST_INT:
 				fixRFQRequest.setBuffer( buf );
+				fixRFQRequest.getAll();
 				l.onFixRFQRequest(fixRFQRequest);
 				break;
 			case MsgTypes.QUOTESTATUSREPORT_INT:
 				fixQuoteStatusReport.setBuffer( buf );
+				fixQuoteStatusReport.getAll();
 				l.onFixQuoteStatusReport(fixQuoteStatusReport);
 				break;
 			case MsgTypes.QUOTERESPONSE_INT:
 				fixQuoteResponse.setBuffer( buf );
+				fixQuoteResponse.getAll();
 				l.onFixQuoteResponse(fixQuoteResponse);
 				break;
 			case MsgTypes.CONFIRMATION_INT:
 				fixConfirmation.setBuffer( buf );
+				fixConfirmation.getAll();
 				l.onFixConfirmation(fixConfirmation);
 				break;
 			case MsgTypes.POSITIONMAINTENANCEREQUEST_INT:
 				fixPositionMaintenanceRequest.setBuffer( buf );
+				fixPositionMaintenanceRequest.getAll();
 				l.onFixPositionMaintenanceRequest(fixPositionMaintenanceRequest);
 				break;
 			case MsgTypes.POSITIONMAINTENANCEREPORT_INT:
 				fixPositionMaintenanceReport.setBuffer( buf );
+				fixPositionMaintenanceReport.getAll();
 				l.onFixPositionMaintenanceReport(fixPositionMaintenanceReport);
 				break;
 			case MsgTypes.REQUESTFORPOSITIONS_INT:
 				fixRequestForPositions.setBuffer( buf );
+				fixRequestForPositions.getAll();
 				l.onFixRequestForPositions(fixRequestForPositions);
 				break;
 			case MsgTypes.REQUESTFORPOSITIONSACK_INT:
 				fixRequestForPositionsAck.setBuffer( buf );
+				fixRequestForPositionsAck.getAll();
 				l.onFixRequestForPositionsAck(fixRequestForPositionsAck);
 				break;
 			case MsgTypes.POSITIONREPORT_INT:
 				fixPositionReport.setBuffer( buf );
+				fixPositionReport.getAll();
 				l.onFixPositionReport(fixPositionReport);
 				break;
 			case MsgTypes.TRADECAPTUREREPORTREQUESTACK_INT:
 				fixTradeCaptureReportRequestAck.setBuffer( buf );
+				fixTradeCaptureReportRequestAck.getAll();
 				l.onFixTradeCaptureReportRequestAck(fixTradeCaptureReportRequestAck);
 				break;
 			case MsgTypes.TRADECAPTUREREPORTACK_INT:
 				fixTradeCaptureReportAck.setBuffer( buf );
+				fixTradeCaptureReportAck.getAll();
 				l.onFixTradeCaptureReportAck(fixTradeCaptureReportAck);
 				break;
 			case MsgTypes.ALLOCATIONREPORT_INT:
 				fixAllocationReport.setBuffer( buf );
+				fixAllocationReport.getAll();
 				l.onFixAllocationReport(fixAllocationReport);
 				break;
 			case MsgTypes.ALLOCATIONREPORTACK_INT:
 				fixAllocationReportAck.setBuffer( buf );
+				fixAllocationReportAck.getAll();
 				l.onFixAllocationReportAck(fixAllocationReportAck);
 				break;
 			case MsgTypes.CONFIRMATION_ACK_INT:
 				fixConfirmation_Ack.setBuffer( buf );
+				fixConfirmation_Ack.getAll();
 				l.onFixConfirmation_Ack(fixConfirmation_Ack);
 				break;
 			case MsgTypes.SETTLEMENTINSTRUCTIONREQUEST_INT:
 				fixSettlementInstructionRequest.setBuffer( buf );
+				fixSettlementInstructionRequest.getAll();
 				l.onFixSettlementInstructionRequest(fixSettlementInstructionRequest);
 				break;
 			case MsgTypes.ASSIGNMENTREPORT_INT:
 				fixAssignmentReport.setBuffer( buf );
+				fixAssignmentReport.getAll();
 				l.onFixAssignmentReport(fixAssignmentReport);
 				break;
 			case MsgTypes.COLLATERALREQUEST_INT:
 				fixCollateralRequest.setBuffer( buf );
+				fixCollateralRequest.getAll();
 				l.onFixCollateralRequest(fixCollateralRequest);
 				break;
 			case MsgTypes.COLLATERALASSIGNMENT_INT:
 				fixCollateralAssignment.setBuffer( buf );
+				fixCollateralAssignment.getAll();
 				l.onFixCollateralAssignment(fixCollateralAssignment);
 				break;
 			case MsgTypes.COLLATERALRESPONSE_INT:
 				fixCollateralResponse.setBuffer( buf );
+				fixCollateralResponse.getAll();
 				l.onFixCollateralResponse(fixCollateralResponse);
 				break;
 			case MsgTypes.COLLATERALREPORT_INT:
 				fixCollateralReport.setBuffer( buf );
+				fixCollateralReport.getAll();
 				l.onFixCollateralReport(fixCollateralReport);
 				break;
 			case MsgTypes.COLLATERALINQUIRY_INT:
 				fixCollateralInquiry.setBuffer( buf );
+				fixCollateralInquiry.getAll();
 				l.onFixCollateralInquiry(fixCollateralInquiry);
 				break;
 			case MsgTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSREQUEST_INT:
 				fixNetworkCounterpartySystemStatusRequest.setBuffer( buf );
+				fixNetworkCounterpartySystemStatusRequest.getAll();
 				l.onFixNetworkCounterpartySystemStatusRequest(fixNetworkCounterpartySystemStatusRequest);
 				break;
 			case MsgTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSRESPONSE_INT:
 				fixNetworkCounterpartySystemStatusResponse.setBuffer( buf );
+				fixNetworkCounterpartySystemStatusResponse.getAll();
 				l.onFixNetworkCounterpartySystemStatusResponse(fixNetworkCounterpartySystemStatusResponse);
 				break;
 			case MsgTypes.USERREQUEST_INT:
 				fixUserRequest.setBuffer( buf );
+				fixUserRequest.getAll();
 				l.onFixUserRequest(fixUserRequest);
 				break;
 			case MsgTypes.USERRESPONSE_INT:
 				fixUserResponse.setBuffer( buf );
+				fixUserResponse.getAll();
 				l.onFixUserResponse(fixUserResponse);
 				break;
 			case MsgTypes.COLLATERALINQUIRYACK_INT:
 				fixCollateralInquiryAck.setBuffer( buf );
+				fixCollateralInquiryAck.getAll();
 				l.onFixCollateralInquiryAck(fixCollateralInquiryAck);
 				break;
 			case MsgTypes.CONFIRMATIONREQUEST_INT:
 				fixConfirmationRequest.setBuffer( buf );
+				fixConfirmationRequest.getAll();
 				l.onFixConfirmationRequest(fixConfirmationRequest);
 				break;
 			case MsgTypes.CONTRARYINTENTIONREPORT_INT:
 				fixContraryIntentionReport.setBuffer( buf );
+				fixContraryIntentionReport.getAll();
 				l.onFixContraryIntentionReport(fixContraryIntentionReport);
 				break;
 			case MsgTypes.SECURITYDEFINITIONUPDATEREPORT_INT:
 				fixSecurityDefinitionUpdateReport.setBuffer( buf );
+				fixSecurityDefinitionUpdateReport.getAll();
 				l.onFixSecurityDefinitionUpdateReport(fixSecurityDefinitionUpdateReport);
 				break;
 			case MsgTypes.SECURITYLISTUPDATEREPORT_INT:
 				fixSecurityListUpdateReport.setBuffer( buf );
+				fixSecurityListUpdateReport.getAll();
 				l.onFixSecurityListUpdateReport(fixSecurityListUpdateReport);
 				break;
 			case MsgTypes.ADJUSTEDPOSITIONREPORT_INT:
 				fixAdjustedPositionReport.setBuffer( buf );
+				fixAdjustedPositionReport.getAll();
 				l.onFixAdjustedPositionReport(fixAdjustedPositionReport);
 				break;
 			case MsgTypes.ALLOCATIONINSTRUCTIONALERT_INT:
 				fixAllocationInstructionAlert.setBuffer( buf );
+				fixAllocationInstructionAlert.getAll();
 				l.onFixAllocationInstructionAlert(fixAllocationInstructionAlert);
 				break;
 			case MsgTypes.EXECUTIONACKNOWLEDGEMENT_INT:
 				fixExecutionAcknowledgement.setBuffer( buf );
+				fixExecutionAcknowledgement.getAll();
 				l.onFixExecutionAcknowledgement(fixExecutionAcknowledgement);
 				break;
 			case MsgTypes.TRADINGSESSIONLIST_INT:
 				fixTradingSessionList.setBuffer( buf );
+				fixTradingSessionList.getAll();
 				l.onFixTradingSessionList(fixTradingSessionList);
 				break;
 			case MsgTypes.TRADINGSESSIONLISTREQUEST_INT:
 				fixTradingSessionListRequest.setBuffer( buf );
+				fixTradingSessionListRequest.getAll();
 				l.onFixTradingSessionListRequest(fixTradingSessionListRequest);
 				break;
 			case MsgTypes.SETTLEMENTOBLIGATIONREPORT_INT:
 				fixSettlementObligationReport.setBuffer( buf );
+				fixSettlementObligationReport.getAll();
 				l.onFixSettlementObligationReport(fixSettlementObligationReport);
 				break;
 			case MsgTypes.DERIVATIVESECURITYLISTUPDATEREPORT_INT:
 				fixDerivativeSecurityListUpdateReport.setBuffer( buf );
+				fixDerivativeSecurityListUpdateReport.getAll();
 				l.onFixDerivativeSecurityListUpdateReport(fixDerivativeSecurityListUpdateReport);
 				break;
 			case MsgTypes.TRADINGSESSIONLISTUPDATEREPORT_INT:
 				fixTradingSessionListUpdateReport.setBuffer( buf );
+				fixTradingSessionListUpdateReport.getAll();
 				l.onFixTradingSessionListUpdateReport(fixTradingSessionListUpdateReport);
 				break;
 			case MsgTypes.MARKETDEFINITIONREQUEST_INT:
 				fixMarketDefinitionRequest.setBuffer( buf );
+				fixMarketDefinitionRequest.getAll();
 				l.onFixMarketDefinitionRequest(fixMarketDefinitionRequest);
 				break;
 			case MsgTypes.MARKETDEFINITION_INT:
 				fixMarketDefinition.setBuffer( buf );
+				fixMarketDefinition.getAll();
 				l.onFixMarketDefinition(fixMarketDefinition);
 				break;
 			case MsgTypes.MARKETDEFINITIONUPDATEREPORT_INT:
 				fixMarketDefinitionUpdateReport.setBuffer( buf );
+				fixMarketDefinitionUpdateReport.getAll();
 				l.onFixMarketDefinitionUpdateReport(fixMarketDefinitionUpdateReport);
 				break;
 			case MsgTypes.USERNOTIFICATION_INT:
 				fixUserNotification.setBuffer( buf );
+				fixUserNotification.getAll();
 				l.onFixUserNotification(fixUserNotification);
 				break;
 			case MsgTypes.ORDERMASSACTIONREPORT_INT:
 				fixOrderMassActionReport.setBuffer( buf );
+				fixOrderMassActionReport.getAll();
 				l.onFixOrderMassActionReport(fixOrderMassActionReport);
 				break;
 			case MsgTypes.ORDERMASSACTIONREQUEST_INT:
 				fixOrderMassActionRequest.setBuffer( buf );
+				fixOrderMassActionRequest.getAll();
 				l.onFixOrderMassActionRequest(fixOrderMassActionRequest);
 				break;
 			case MsgTypes.APPLICATIONMESSAGEREQUEST_INT:
 				fixApplicationMessageRequest.setBuffer( buf );
+				fixApplicationMessageRequest.getAll();
 				l.onFixApplicationMessageRequest(fixApplicationMessageRequest);
 				break;
 			case MsgTypes.APPLICATIONMESSAGEREQUESTACK_INT:
 				fixApplicationMessageRequestAck.setBuffer( buf );
+				fixApplicationMessageRequestAck.getAll();
 				l.onFixApplicationMessageRequestAck(fixApplicationMessageRequestAck);
 				break;
 			case MsgTypes.APPLICATIONMESSAGEREPORT_INT:
 				fixApplicationMessageReport.setBuffer( buf );
+				fixApplicationMessageReport.getAll();
 				l.onFixApplicationMessageReport(fixApplicationMessageReport);
 				break;
 			case MsgTypes.STREAMASSIGNMENTREQUEST_INT:
 				fixStreamAssignmentRequest.setBuffer( buf );
+				fixStreamAssignmentRequest.getAll();
 				l.onFixStreamAssignmentRequest(fixStreamAssignmentRequest);
 				break;
 			case MsgTypes.STREAMASSIGNMENTREPORT_INT:
 				fixStreamAssignmentReport.setBuffer( buf );
+				fixStreamAssignmentReport.getAll();
 				l.onFixStreamAssignmentReport(fixStreamAssignmentReport);
 				break;
 			case MsgTypes.STREAMASSIGNMENTREPORTACK_INT:
 				fixStreamAssignmentReportACK.setBuffer( buf );
+				fixStreamAssignmentReportACK.getAll();
 				l.onFixStreamAssignmentReportACK(fixStreamAssignmentReportACK);
 				break;
 			case MsgTypes.PARTYDETAILSLISTREQUEST_INT:
 				fixPartyDetailsListRequest.setBuffer( buf );
+				fixPartyDetailsListRequest.getAll();
 				l.onFixPartyDetailsListRequest(fixPartyDetailsListRequest);
 				break;
 			case MsgTypes.PARTYDETAILSLISTREPORT_INT:
 				fixPartyDetailsListReport.setBuffer( buf );
+				fixPartyDetailsListReport.getAll();
 				l.onFixPartyDetailsListReport(fixPartyDetailsListReport);
 				break;
 

@@ -31,8 +31,11 @@ public class FixSettlInstGrp
 
 		if (noSettlInst < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noSettlInst) 
+		if (group == null || group.length < noSettlInst) {
 			group = new SettlInstGrp[noSettlInst];
+
+			for ( int i = 0; i < noSettlInst; i++ ) group[i] = new SettlInstGrp();
+	}
 
 		for ( int i = 0; i < noSettlInst; i++ ) 
 			group[i].getAllGroup(buf);

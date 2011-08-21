@@ -29,8 +29,11 @@ public class FixStrategyParametersGrp
 
 		if (noStrategyParameters < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noStrategyParameters) 
+		if (group == null || group.length < noStrategyParameters) {
 			group = new StrategyParametersGrp[noStrategyParameters];
+
+			for ( int i = 0; i < noStrategyParameters; i++ ) group[i] = new StrategyParametersGrp();
+	}
 
 		for ( int i = 0; i < noStrategyParameters; i++ ) 
 			group[i].getAllGroup(buf);

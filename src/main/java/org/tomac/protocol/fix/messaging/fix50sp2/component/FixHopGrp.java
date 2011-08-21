@@ -29,8 +29,11 @@ public class FixHopGrp
 
 		if (noHops < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noHops) 
+		if (group == null || group.length < noHops) {
 			group = new HopGrp[noHops];
+
+			for ( int i = 0; i < noHops; i++ ) group[i] = new HopGrp();
+	}
 
 		for ( int i = 0; i < noHops; i++ ) 
 			group[i].getAllGroup(buf);

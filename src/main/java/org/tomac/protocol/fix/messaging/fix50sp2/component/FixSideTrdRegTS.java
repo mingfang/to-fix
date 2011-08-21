@@ -29,8 +29,11 @@ public class FixSideTrdRegTS
 
 		if (noSideTrdRegTS < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noSideTrdRegTS) 
+		if (group == null || group.length < noSideTrdRegTS) {
 			group = new SideTrdRegTS[noSideTrdRegTS];
+
+			for ( int i = 0; i < noSideTrdRegTS; i++ ) group[i] = new SideTrdRegTS();
+	}
 
 		for ( int i = 0; i < noSideTrdRegTS; i++ ) 
 			group[i].getAllGroup(buf);

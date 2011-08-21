@@ -30,8 +30,11 @@ public class FixFillsGrp
 
 		if (noFills < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noFills) 
+		if (group == null || group.length < noFills) {
 			group = new FillsGrp[noFills];
+
+			for ( int i = 0; i < noFills; i++ ) group[i] = new FillsGrp();
+	}
 
 		for ( int i = 0; i < noFills; i++ ) 
 			group[i].getAllGroup(buf);

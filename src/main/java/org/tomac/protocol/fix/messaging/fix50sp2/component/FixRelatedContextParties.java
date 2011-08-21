@@ -30,8 +30,11 @@ public class FixRelatedContextParties
 
 		if (noRelatedContextPartyIDs < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noRelatedContextPartyIDs) 
+		if (group == null || group.length < noRelatedContextPartyIDs) {
 			group = new RelatedContextParties[noRelatedContextPartyIDs];
+
+			for ( int i = 0; i < noRelatedContextPartyIDs; i++ ) group[i] = new RelatedContextParties();
+	}
 
 		for ( int i = 0; i < noRelatedContextPartyIDs; i++ ) 
 			group[i].getAllGroup(buf);

@@ -29,8 +29,11 @@ public class FixNstdPtys3SubGrp
 
 		if (noNested3PartySubIDs < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noNested3PartySubIDs) 
+		if (group == null || group.length < noNested3PartySubIDs) {
 			group = new NstdPtys3SubGrp[noNested3PartySubIDs];
+
+			for ( int i = 0; i < noNested3PartySubIDs; i++ ) group[i] = new NstdPtys3SubGrp();
+	}
 
 		for ( int i = 0; i < noNested3PartySubIDs; i++ ) 
 			group[i].getAllGroup(buf);

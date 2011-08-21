@@ -6276,7 +6276,7 @@
     <field name="ClientID" number="109" type="STRING"/>
     <field name="MinQty" number="110" type="QTY"/>
     <field name="MaxFloor" number="111" type="QTY"/>
-    <field name="TestReqID" number="112" type="STRING"/>
+    <field name="TestReqID" number="112" type="STRING" length="64"/>
     <field name="ReportToExch" number="113" type="BOOLEAN">
       <value enum="N" description="INDICATES_THE_PARTY_SENDING_MESSAGE_WILL_REPORT_TRADE"/>
       <value enum="Y" description="INDICATES_THE_PARTY_RECEIVING_MESSAGE_MUST_REPORT_TRADE"/>

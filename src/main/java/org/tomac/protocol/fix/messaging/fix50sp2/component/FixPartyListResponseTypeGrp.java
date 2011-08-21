@@ -29,8 +29,11 @@ public class FixPartyListResponseTypeGrp
 
 		if (noPartyListResponseTypes < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noPartyListResponseTypes) 
+		if (group == null || group.length < noPartyListResponseTypes) {
 			group = new PartyListResponseTypeGrp[noPartyListResponseTypes];
+
+			for ( int i = 0; i < noPartyListResponseTypes; i++ ) group[i] = new PartyListResponseTypeGrp();
+	}
 
 		for ( int i = 0; i < noPartyListResponseTypes; i++ ) 
 			group[i].getAllGroup(buf);

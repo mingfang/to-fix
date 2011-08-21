@@ -29,8 +29,11 @@ public class FixEvntGrp
 
 		if (noEvents < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noEvents) 
+		if (group == null || group.length < noEvents) {
 			group = new EvntGrp[noEvents];
+
+			for ( int i = 0; i < noEvents; i++ ) group[i] = new EvntGrp();
+	}
 
 		for ( int i = 0; i < noEvents; i++ ) 
 			group[i].getAllGroup(buf);

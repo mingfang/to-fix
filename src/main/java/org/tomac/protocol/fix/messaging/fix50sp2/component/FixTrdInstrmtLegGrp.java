@@ -33,8 +33,11 @@ public class FixTrdInstrmtLegGrp
 
 		if (noLegs < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noLegs) 
+		if (group == null || group.length < noLegs) {
 			group = new TrdInstrmtLegGrp[noLegs];
+
+			for ( int i = 0; i < noLegs; i++ ) group[i] = new TrdInstrmtLegGrp();
+	}
 
 		for ( int i = 0; i < noLegs; i++ ) 
 			group[i].getAllGroup(buf);

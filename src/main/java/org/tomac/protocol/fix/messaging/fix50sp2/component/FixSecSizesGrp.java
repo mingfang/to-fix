@@ -29,8 +29,11 @@ public class FixSecSizesGrp
 
 		if (noOfSecSizes < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noOfSecSizes) 
+		if (group == null || group.length < noOfSecSizes) {
 			group = new SecSizesGrp[noOfSecSizes];
+
+			for ( int i = 0; i < noOfSecSizes; i++ ) group[i] = new SecSizesGrp();
+	}
 
 		for ( int i = 0; i < noOfSecSizes; i++ ) 
 			group[i].getAllGroup(buf);

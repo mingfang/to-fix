@@ -29,8 +29,11 @@ public class FixDerivativeSecurityAltIDGrp
 
 		if (noDerivativeSecurityAltID < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noDerivativeSecurityAltID) 
+		if (group == null || group.length < noDerivativeSecurityAltID) {
 			group = new DerivativeSecurityAltIDGrp[noDerivativeSecurityAltID];
+
+			for ( int i = 0; i < noDerivativeSecurityAltID; i++ ) group[i] = new DerivativeSecurityAltIDGrp();
+	}
 
 		for ( int i = 0; i < noDerivativeSecurityAltID; i++ ) 
 			group[i].getAllGroup(buf);

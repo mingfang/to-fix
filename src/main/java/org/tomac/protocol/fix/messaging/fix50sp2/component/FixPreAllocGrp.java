@@ -30,8 +30,11 @@ public class FixPreAllocGrp
 
 		if (noAllocs < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noAllocs) 
+		if (group == null || group.length < noAllocs) {
 			group = new PreAllocGrp[noAllocs];
+
+			for ( int i = 0; i < noAllocs; i++ ) group[i] = new PreAllocGrp();
+	}
 
 		for ( int i = 0; i < noAllocs; i++ ) 
 			group[i].getAllGroup(buf);

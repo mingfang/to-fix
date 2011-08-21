@@ -29,8 +29,11 @@ public class FixRateSource
 
 		if (noRateSources < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noRateSources) 
+		if (group == null || group.length < noRateSources) {
 			group = new RateSource[noRateSources];
+
+			for ( int i = 0; i < noRateSources; i++ ) group[i] = new RateSource();
+	}
 
 		for ( int i = 0; i < noRateSources; i++ ) 
 			group[i].getAllGroup(buf);

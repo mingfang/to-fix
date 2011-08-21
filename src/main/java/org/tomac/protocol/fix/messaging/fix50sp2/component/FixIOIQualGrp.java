@@ -29,8 +29,11 @@ public class FixIOIQualGrp
 
 		if (noIOIQualifiers < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noIOIQualifiers) 
+		if (group == null || group.length < noIOIQualifiers) {
 			group = new IOIQualGrp[noIOIQualifiers];
+
+			for ( int i = 0; i < noIOIQualifiers; i++ ) group[i] = new IOIQualGrp();
+	}
 
 		for ( int i = 0; i < noIOIQualifiers; i++ ) 
 			group[i].getAllGroup(buf);

@@ -29,8 +29,11 @@ public class FixTrdCollGrp
 
 		if (noTrades < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noTrades) 
+		if (group == null || group.length < noTrades) {
 			group = new TrdCollGrp[noTrades];
+
+			for ( int i = 0; i < noTrades; i++ ) group[i] = new TrdCollGrp();
+	}
 
 		for ( int i = 0; i < noTrades; i++ ) 
 			group[i].getAllGroup(buf);

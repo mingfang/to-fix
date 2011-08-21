@@ -29,8 +29,11 @@ public class FixRelationshipRiskWarningLevels
 
 		if (noRelationshipRiskWarningLevels < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noRelationshipRiskWarningLevels) 
+		if (group == null || group.length < noRelationshipRiskWarningLevels) {
 			group = new RelationshipRiskWarningLevels[noRelationshipRiskWarningLevels];
+
+			for ( int i = 0; i < noRelationshipRiskWarningLevels; i++ ) group[i] = new RelationshipRiskWarningLevels();
+	}
 
 		for ( int i = 0; i < noRelationshipRiskWarningLevels; i++ ) 
 			group[i].getAllGroup(buf);

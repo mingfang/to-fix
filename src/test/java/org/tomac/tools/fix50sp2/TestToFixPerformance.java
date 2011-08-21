@@ -682,7 +682,7 @@ public class TestToFixPerformance {
 	
 	@Test
 	public void testInBoundLatency() throws Exception {
-		ByteBuffer buf = ByteBuffer.wrap("8=FIXT.1.1\u00019=249\u000135=D\u000149=SenderCompId\u000156=TargetCompId\u000134=37\u000152=20070223-22:28:33\u000111=1833\u00013922=8\u000138=1\u000140=2\u000144=12\u000148=BHP\u000154=2\u000155=BHP\u000159=1\u000160=20060223-22:38:33\u0001526=3620\u000178=2\u000179=AllocACC180=1010.1\u000179=AllocACC2\u000180=2020.2\u0001453=2\u0001448=8\u0001447=D\u0001452=4\u0001448=AAA35354\u0001447=D4\u0001452=3\u000110=219\u0001".getBytes());
+		ByteBuffer buf = ByteBuffer.wrap("8=FIXT.1.1\u00019=241\u000135=D\u000149=SenderCompId\u000156=TargetCompId\u000134=37\u000152=20070223-22:28:33\u000111=1833\u000138=1\u000140=2\u000144=12\u000154=2\u000155=BHP\u000148=BHP\u000159=1\u000160=20060223-22:38:33\u0001526=3620\u000178=2\u000179=AllocACC180=1010.1\u000179=AllocACC2\u000180=2020.2\u0001453=2\u0001448=8\u0001447=D\u0001452=4\u0001448=AAA35354\u0001447=D\u0001452=3\u000110=089\u0001".getBytes());
 
         int count = 0;
         long cumTime = 0L;
@@ -706,6 +706,7 @@ public class TestToFixPerformance {
         		//System.out.println(cumTime / count + " " + cumTimeIntervall / DO_SAMPLE_DATA);
         		cumTimeIntervall = 0L;
         	}
+        	buf.flip();
         }
 		System.out.println("ns/msg\t#count\ttotns/msg\t#totCount");
 		System.out.println(sampleTime / sampleCount + "\t" + 
@@ -715,7 +716,7 @@ public class TestToFixPerformance {
 	
     @Test
     public void testOutBoundLatency() throws Exception {
-    	ByteBuffer buf = ByteBuffer.wrap("8=FIXT.1.1\u00019=181\u000135=W\u000134=2\u000149=ABFX\u000152=20080722-16:37:11.234\u000156=X2RV1\u00155=EUR/USD\u0001262=CAP00000112\u000168=22\u000169=0\u0001270=1.5784\u0001415=EUR\u0001271=500000\u0001272=20080724\u0001269=1\u0001270=1.5786\u0001915=EUR\u0001271=500000\u0001272=20080724\u000110=065\u0001".getBytes());
+    	ByteBuffer buf = ByteBuffer.wrap("8=FIXT.1.1\u00019=155\u000135=W\u000134=2\u000149=ABFX\u000152=20080722-16:37:11.234\u000156=X2RV1\u00155=EUR/USD\u0001262=CAP00000112\u0001268=2\u0001269=1\u0001270=1.5786\u0001271=500000\u0001272=20080724\u0001269=1\u0001271=500000\u0001272=20080724\u000110=218\u0001".getBytes());
         
     	parser.parse(buf, listener);
         ByteBuffer out = ByteBuffer.allocate(1024);

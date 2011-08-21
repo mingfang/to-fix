@@ -30,8 +30,11 @@ public class FixDlvyInstGrp
 
 		if (noDlvyInst < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noDlvyInst) 
+		if (group == null || group.length < noDlvyInst) {
 			group = new DlvyInstGrp[noDlvyInst];
+
+			for ( int i = 0; i < noDlvyInst; i++ ) group[i] = new DlvyInstGrp();
+	}
 
 		for ( int i = 0; i < noDlvyInst; i++ ) 
 			group[i].getAllGroup(buf);

@@ -29,8 +29,11 @@ public class FixContraGrp
 
 		if (noContraBrokers < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noContraBrokers) 
+		if (group == null || group.length < noContraBrokers) {
 			group = new ContraGrp[noContraBrokers];
+
+			for ( int i = 0; i < noContraBrokers; i++ ) group[i] = new ContraGrp();
+	}
 
 		for ( int i = 0; i < noContraBrokers; i++ ) 
 			group[i].getAllGroup(buf);

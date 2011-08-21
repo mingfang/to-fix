@@ -29,8 +29,11 @@ public class FixExecInstRules
 
 		if (noExecInstRules < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noExecInstRules) 
+		if (group == null || group.length < noExecInstRules) {
 			group = new ExecInstRules[noExecInstRules];
+
+			for ( int i = 0; i < noExecInstRules; i++ ) group[i] = new ExecInstRules();
+	}
 
 		for ( int i = 0; i < noExecInstRules; i++ ) 
 			group[i].getAllGroup(buf);

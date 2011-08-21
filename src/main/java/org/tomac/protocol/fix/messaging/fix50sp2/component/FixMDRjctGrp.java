@@ -29,8 +29,11 @@ public class FixMDRjctGrp
 
 		if (noAltMDSource < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noAltMDSource) 
+		if (group == null || group.length < noAltMDSource) {
 			group = new MDRjctGrp[noAltMDSource];
+
+			for ( int i = 0; i < noAltMDSource; i++ ) group[i] = new MDRjctGrp();
+	}
 
 		for ( int i = 0; i < noAltMDSource; i++ ) 
 			group[i].getAllGroup(buf);

@@ -29,8 +29,11 @@ public class FixTrdRegTimestamps
 
 		if (noTrdRegTimestamps < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noTrdRegTimestamps) 
+		if (group == null || group.length < noTrdRegTimestamps) {
 			group = new TrdRegTimestamps[noTrdRegTimestamps];
+
+			for ( int i = 0; i < noTrdRegTimestamps; i++ ) group[i] = new TrdRegTimestamps();
+	}
 
 		for ( int i = 0; i < noTrdRegTimestamps; i++ ) 
 			group[i].getAllGroup(buf);

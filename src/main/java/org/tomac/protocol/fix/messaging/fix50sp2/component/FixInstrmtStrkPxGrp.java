@@ -31,8 +31,11 @@ public class FixInstrmtStrkPxGrp
 
 		if (noStrikes < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noStrikes) 
+		if (group == null || group.length < noStrikes) {
 			group = new InstrmtStrkPxGrp[noStrikes];
+
+			for ( int i = 0; i < noStrikes; i++ ) group[i] = new InstrmtStrkPxGrp();
+	}
 
 		for ( int i = 0; i < noStrikes; i++ ) 
 			group[i].getAllGroup(buf);

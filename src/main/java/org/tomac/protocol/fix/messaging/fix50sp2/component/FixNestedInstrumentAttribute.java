@@ -29,8 +29,11 @@ public class FixNestedInstrumentAttribute
 
 		if (noNestedInstrAttrib < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noNestedInstrAttrib) 
+		if (group == null || group.length < noNestedInstrAttrib) {
 			group = new NestedInstrumentAttribute[noNestedInstrAttrib];
+
+			for ( int i = 0; i < noNestedInstrAttrib; i++ ) group[i] = new NestedInstrumentAttribute();
+	}
 
 		for ( int i = 0; i < noNestedInstrAttrib; i++ ) 
 			group[i].getAllGroup(buf);

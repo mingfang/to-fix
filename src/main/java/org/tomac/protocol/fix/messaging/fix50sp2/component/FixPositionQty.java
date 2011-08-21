@@ -30,8 +30,11 @@ public class FixPositionQty
 
 		if (noPositions < 1) throw new FixSessionException("asdasd");
 		// this will leak memory if we grow the group
-		if (group.length < noPositions) 
+		if (group == null || group.length < noPositions) {
 			group = new PositionQty[noPositions];
+
+			for ( int i = 0; i < noPositions; i++ ) group[i] = new PositionQty();
+	}
 
 		for ( int i = 0; i < noPositions; i++ ) 
 			group[i].getAllGroup(buf);
