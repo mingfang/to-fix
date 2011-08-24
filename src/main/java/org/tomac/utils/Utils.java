@@ -167,6 +167,11 @@ public class Utils {
 		for (int i = 0; i < buf.length; i++)
 			buf[i] = b;
 	}
+
+	public static void fill(final byte[] buf, int offset, int len, byte b) {
+		for (int i = offset; i < len; i++)
+			buf[i] = b;
+	}
 	
 	/**
 	 * Index if last byte. Trimming trailing bytes.
@@ -276,9 +281,14 @@ public class Utils {
 	}
 
 	public static void longToNumeric(final byte out[], final int offset, long l, final int length) {
+		longToNumeric(out, offset, out.length, l, length);
+
+	}
+	
+	public static void longToNumeric(final byte out[], final int offset, int outLen, long l, final int length) {
 		final int radix = 10;
 		
-		fill(out, (byte) '0');
+		fill(out, offset, outLen, (byte) '0');
 
 		if (l == 0) {
 			out[offset + length - 1] = (byte) '0';
@@ -466,6 +476,25 @@ public class Utils {
 
 		public Date convert(byte[] buf) {
 			return Utils.convert(buf, true, true);
+		}
+
+		public void convertToUtcTimestamp(byte[] buf, long currentTimeMillis, boolean useMillis) {
+			calendarUTC.clear();
+			calendarUTC.setTimeInMillis(currentTimeMillis);
+			Utils.longToNumeric(buf, 0, calendarUTC.get(Calendar.YEAR), 4); // 0 yyyy
+			Utils.longToNumeric(buf, 4, calendarUTC.get(Calendar.MONTH + 1), 2); // 4 yyyyMM
+			Utils.longToNumeric(buf, 6, calendarUTC.get(Calendar.DAY_OF_MONTH), 2); // 6 yyyyMMdd
+			buf[8] = (byte)'-'; // 8 yyyyMMdd-
+			Utils.longToNumeric(buf, 9, calendarUTC.get(Calendar.HOUR_OF_DAY), 2); // 9 yyyyMMdd-HH
+			buf[11] = (byte)':'; // 11 yyyyMMdd-HH: 
+			Utils.longToNumeric(buf, 12, calendarUTC.get(Calendar.MINUTE), 2); // 12 yyyyMMdd-HH:mm
+			buf[14] = (byte)':'; // 14 yyyyMMdd-HH:mm:
+			Utils.longToNumeric(buf, 15, calendarUTC.get(Calendar.SECOND), 2); // 15 yyyyMMdd-HH:mm:ss
+			if (useMillis) {
+				buf[17] = (byte)'.'; // 17 yyyyMMdd-HH:mm:ss.
+				Utils.longToNumeric(buf, 18, calendarUTC.get(Calendar.MILLISECOND), 3); // 18 yyyyMMdd-HH:mm:ss.SSS
+			}
+
 		}
 
 	}
