@@ -278,7 +278,7 @@ public class FixInstrument implements FixComponent
 
 			case FixTags.SYMBOLSFX_INT:
 				symbolSfx = FixUtils.getTagStringValue(value, symbolSfx);
-				if (!SymbolSfx.isValid(symbolSfx) ) throw new FixSessionException(buf, "Invalid enumerated value(" + symbolSfx + ") for tag: " + id );
+				if (!SymbolSfx.isValid(symbolSfx) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + symbolSfx + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.SECURITYID_INT:
@@ -287,7 +287,7 @@ public class FixInstrument implements FixComponent
 
 			case FixTags.SECURITYIDSOURCE_INT:
 				securityIDSource = FixUtils.getTagStringValue(value, securityIDSource);
-				if (!SecurityIDSource.isValid(securityIDSource) ) throw new FixSessionException(buf, "Invalid enumerated value(" + securityIDSource + ") for tag: " + id );
+				if (!SecurityIDSource.isValid(securityIDSource) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + securityIDSource + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.NOSECURITYALTID_INT:
@@ -297,7 +297,7 @@ public class FixInstrument implements FixComponent
 
 			case FixTags.PRODUCT_INT:
 				product = FixUtils.getTagIntValue( value );
-				if (!Product.isValid(product) ) throw new FixSessionException(buf, "Invalid enumerated value(" + product + ") for tag: " + id );
+				if (!Product.isValid(product) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + product + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.SECURITYGROUP_INT:
@@ -314,7 +314,7 @@ public class FixInstrument implements FixComponent
 
 			case FixTags.SECURITYTYPE_INT:
 				securityType = FixUtils.getTagStringValue(value, securityType);
-				if (!SecurityType.isValid(securityType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + securityType + ") for tag: " + id );
+				if (!SecurityType.isValid(securityType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + securityType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.SECURITYSUBTYPE_INT:
@@ -331,7 +331,7 @@ public class FixInstrument implements FixComponent
 
 			case FixTags.SECURITYSTATUS_INT:
 				securityStatus = FixUtils.getTagStringValue(value, securityStatus);
-				if (!SecurityStatus.isValid(securityStatus) ) throw new FixSessionException(buf, "Invalid enumerated value(" + securityStatus + ") for tag: " + id );
+				if (!SecurityStatus.isValid(securityStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + securityStatus + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.SETTLEONOPENFLAG_INT:
@@ -352,12 +352,12 @@ public class FixInstrument implements FixComponent
 
 			case FixTags.RESTRUCTURINGTYPE_INT:
 				restructuringType = FixUtils.getTagStringValue(value, restructuringType);
-				if (!RestructuringType.isValid(restructuringType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + restructuringType + ") for tag: " + id );
+				if (!RestructuringType.isValid(restructuringType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + restructuringType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.SENIORITY_INT:
 				seniority = FixUtils.getTagStringValue(value, seniority);
-				if (!Seniority.isValid(seniority) ) throw new FixSessionException(buf, "Invalid enumerated value(" + seniority + ") for tag: " + id );
+				if (!Seniority.isValid(seniority) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + seniority + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.NOTIONALPERCENTAGEOUTSTANDING_INT:
@@ -438,12 +438,12 @@ public class FixInstrument implements FixComponent
 
 			case FixTags.STRIKEPRICEDETERMINATIONMETHOD_INT:
 				strikePriceDeterminationMethod = FixUtils.getTagIntValue( value );
-				if (!StrikePriceDeterminationMethod.isValid(strikePriceDeterminationMethod) ) throw new FixSessionException(buf, "Invalid enumerated value(" + strikePriceDeterminationMethod + ") for tag: " + id );
+				if (!StrikePriceDeterminationMethod.isValid(strikePriceDeterminationMethod) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + strikePriceDeterminationMethod + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.STRIKEPRICEBOUNDARYMETHOD_INT:
 				strikePriceBoundaryMethod = FixUtils.getTagIntValue( value );
-				if (!StrikePriceBoundaryMethod.isValid(strikePriceBoundaryMethod) ) throw new FixSessionException(buf, "Invalid enumerated value(" + strikePriceBoundaryMethod + ") for tag: " + id );
+				if (!StrikePriceBoundaryMethod.isValid(strikePriceBoundaryMethod) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + strikePriceBoundaryMethod + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.STRIKEPRICEBOUNDARYPRECISION_INT:
@@ -452,7 +452,7 @@ public class FixInstrument implements FixComponent
 
 			case FixTags.UNDERLYINGPRICEDETERMINATIONMETHOD_INT:
 				underlyingPriceDeterminationMethod = FixUtils.getTagIntValue( value );
-				if (!UnderlyingPriceDeterminationMethod.isValid(underlyingPriceDeterminationMethod) ) throw new FixSessionException(buf, "Invalid enumerated value(" + underlyingPriceDeterminationMethod + ") for tag: " + id );
+				if (!UnderlyingPriceDeterminationMethod.isValid(underlyingPriceDeterminationMethod) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + underlyingPriceDeterminationMethod + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.OPTATTRIBUTE_INT:
@@ -469,12 +469,12 @@ public class FixInstrument implements FixComponent
 
 			case FixTags.UNITOFMEASURE_INT:
 				unitOfMeasure = FixUtils.getTagStringValue(value, unitOfMeasure);
-				if (!UnitOfMeasure.isValid(unitOfMeasure) ) throw new FixSessionException(buf, "Invalid enumerated value(" + unitOfMeasure + ") for tag: " + id );
+				if (!UnitOfMeasure.isValid(unitOfMeasure) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + unitOfMeasure + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.TIMEUNIT_INT:
 				timeUnit = FixUtils.getTagStringValue(value, timeUnit);
-				if (!TimeUnit.isValid(timeUnit) ) throw new FixSessionException(buf, "Invalid enumerated value(" + timeUnit + ") for tag: " + id );
+				if (!TimeUnit.isValid(timeUnit) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + timeUnit + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.MINPRICEINCREMENTAMOUNT_INT:
@@ -495,12 +495,12 @@ public class FixInstrument implements FixComponent
 
 			case FixTags.SETTLMETHOD_INT:
 				settlMethod = FixUtils.getTagCharValue( value );
-				if (!SettlMethod.isValid(settlMethod) ) throw new FixSessionException(buf, "Invalid enumerated value(" + settlMethod + ") for tag: " + id );
+				if (!SettlMethod.isValid(settlMethod) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + settlMethod + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.EXERCISESTYLE_INT:
 				exerciseStyle = FixUtils.getTagIntValue( value );
-				if (!ExerciseStyle.isValid(exerciseStyle) ) throw new FixSessionException(buf, "Invalid enumerated value(" + exerciseStyle + ") for tag: " + id );
+				if (!ExerciseStyle.isValid(exerciseStyle) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + exerciseStyle + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.OPTPAYOUTAMOUNT_INT:
@@ -509,12 +509,12 @@ public class FixInstrument implements FixComponent
 
 			case FixTags.PRICEQUOTEMETHOD_INT:
 				priceQuoteMethod = FixUtils.getTagStringValue(value, priceQuoteMethod);
-				if (!PriceQuoteMethod.isValid(priceQuoteMethod) ) throw new FixSessionException(buf, "Invalid enumerated value(" + priceQuoteMethod + ") for tag: " + id );
+				if (!PriceQuoteMethod.isValid(priceQuoteMethod) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + priceQuoteMethod + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.LISTMETHOD_INT:
 				listMethod = FixUtils.getTagIntValue( value );
-				if (!ListMethod.isValid(listMethod) ) throw new FixSessionException(buf, "Invalid enumerated value(" + listMethod + ") for tag: " + id );
+				if (!ListMethod.isValid(listMethod) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + listMethod + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.CAPPRICE_INT:
@@ -527,7 +527,7 @@ public class FixInstrument implements FixComponent
 
 			case FixTags.PUTORCALL_INT:
 				putOrCall = FixUtils.getTagIntValue( value );
-				if (!PutOrCall.isValid(putOrCall) ) throw new FixSessionException(buf, "Invalid enumerated value(" + putOrCall + ") for tag: " + id );
+				if (!PutOrCall.isValid(putOrCall) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + putOrCall + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.FLEXIBLEINDICATOR_INT:
@@ -540,22 +540,22 @@ public class FixInstrument implements FixComponent
 
 			case FixTags.VALUATIONMETHOD_INT:
 				valuationMethod = FixUtils.getTagStringValue(value, valuationMethod);
-				if (!ValuationMethod.isValid(valuationMethod) ) throw new FixSessionException(buf, "Invalid enumerated value(" + valuationMethod + ") for tag: " + id );
+				if (!ValuationMethod.isValid(valuationMethod) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + valuationMethod + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.CONTRACTMULTIPLIERUNIT_INT:
 				contractMultiplierUnit = FixUtils.getTagIntValue( value );
-				if (!ContractMultiplierUnit.isValid(contractMultiplierUnit) ) throw new FixSessionException(buf, "Invalid enumerated value(" + contractMultiplierUnit + ") for tag: " + id );
+				if (!ContractMultiplierUnit.isValid(contractMultiplierUnit) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + contractMultiplierUnit + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.FLOWSCHEDULETYPE_INT:
 				flowScheduleType = FixUtils.getTagIntValue( value );
-				if (!FlowScheduleType.isValid(flowScheduleType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + flowScheduleType + ") for tag: " + id );
+				if (!FlowScheduleType.isValid(flowScheduleType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + flowScheduleType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.OPTPAYOUTTYPE_INT:
 				optPayoutType = FixUtils.getTagIntValue( value );
-				if (!OptPayoutType.isValid(optPayoutType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + optPayoutType + ") for tag: " + id );
+				if (!OptPayoutType.isValid(optPayoutType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + optPayoutType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.COUPONRATE_INT:
@@ -612,7 +612,7 @@ public class FixInstrument implements FixComponent
 
 			case FixTags.CPPROGRAM_INT:
 				cPProgram = FixUtils.getTagIntValue( value );
-				if (!CPProgram.isValid(cPProgram) ) throw new FixSessionException(buf, "Invalid enumerated value(" + cPProgram + ") for tag: " + id );
+				if (!CPProgram.isValid(cPProgram) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + cPProgram + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.CPREGTYPE_INT:
@@ -645,7 +645,7 @@ public class FixInstrument implements FixComponent
 			// we will always endup with unknown tag, unread and return to upper layer in hierarchy
 			default:
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 				buf.position( lastTagPosition );
 				return;

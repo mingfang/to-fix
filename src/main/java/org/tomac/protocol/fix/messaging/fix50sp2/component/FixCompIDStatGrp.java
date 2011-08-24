@@ -15,6 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.SessionRejectReason;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
@@ -27,7 +28,7 @@ public class FixCompIDStatGrp
 	public void getAll(int noCompIDs, ByteBuffer buf) throws FixSessionException {
 		this.noCompIDs = noCompIDs;
 
-		if (noCompIDs < 1) throw new FixSessionException("asdasd");
+		if (noCompIDs < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noCompIDs ).getBytes(), FixTags.NOCOMPIDS_INT, new byte[0]);
 		// this will leak memory if we grow the group
 		if (group == null || group.length < noCompIDs) {
 			group = new CompIDStatGrp[noCompIDs];
@@ -138,7 +139,7 @@ public class CompIDStatGrp implements FixComponent
 
 			if(id == FixTags.STATUSVALUE_INT) {
 				statusValue = FixUtils.getTagIntValue( value );
-				if (!FixMessageInfo.StatusValue.isValid(statusValue) ) throw new FixSessionException(buf, "Invalid enumerated value(" + statusValue + ") for tag: " + id );
+				if (!FixMessageInfo.StatusValue.isValid(statusValue) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + statusValue + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -152,7 +153,7 @@ public class CompIDStatGrp implements FixComponent
 			}
 
 			id = checkRequiredTags();
-			if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 			buf.position( lastTagPosition );
 			return;

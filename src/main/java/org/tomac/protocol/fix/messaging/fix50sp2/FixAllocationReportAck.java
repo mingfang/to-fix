@@ -127,7 +127,7 @@ public class FixAllocationReportAck extends FixMessage
 
 			case FixTags.AVGPXINDICATOR_INT:
 				avgPxIndicator = FixUtils.getTagIntValue( value );
-				if (!AvgPxIndicator.isValid(avgPxIndicator) ) throw new FixSessionException(buf, "Invalid enumerated value(" + avgPxIndicator + ") for tag: " + id );
+				if (!AvgPxIndicator.isValid(avgPxIndicator) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + avgPxIndicator + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.QUANTITY_INT:
@@ -136,7 +136,7 @@ public class FixAllocationReportAck extends FixMessage
 
 			case FixTags.ALLOCTRANSTYPE_INT:
 				allocTransType = FixUtils.getTagCharValue( value );
-				if (!AllocTransType.isValid(allocTransType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + allocTransType + ") for tag: " + id );
+				if (!AllocTransType.isValid(allocTransType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + allocTransType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NOPARTYIDS_INT:
@@ -158,37 +158,37 @@ public class FixAllocationReportAck extends FixMessage
 
 			case FixTags.ALLOCSTATUS_INT:
 				allocStatus = FixUtils.getTagIntValue( value );
-				if (!AllocStatus.isValid(allocStatus) ) throw new FixSessionException(buf, "Invalid enumerated value(" + allocStatus + ") for tag: " + id );
+				if (!AllocStatus.isValid(allocStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + allocStatus + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.ALLOCREJCODE_INT:
 				allocRejCode = FixUtils.getTagIntValue( value );
-				if (!AllocRejCode.isValid(allocRejCode) ) throw new FixSessionException(buf, "Invalid enumerated value(" + allocRejCode + ") for tag: " + id );
+				if (!AllocRejCode.isValid(allocRejCode) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + allocRejCode + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.ALLOCREPORTTYPE_INT:
 				allocReportType = FixUtils.getTagIntValue( value );
-				if (!AllocReportType.isValid(allocReportType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + allocReportType + ") for tag: " + id );
+				if (!AllocReportType.isValid(allocReportType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + allocReportType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.ALLOCINTERMEDREQTYPE_INT:
 				allocIntermedReqType = FixUtils.getTagIntValue( value );
-				if (!AllocIntermedReqType.isValid(allocIntermedReqType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + allocIntermedReqType + ") for tag: " + id );
+				if (!AllocIntermedReqType.isValid(allocIntermedReqType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + allocIntermedReqType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.MATCHSTATUS_INT:
 				matchStatus = FixUtils.getTagCharValue( value );
-				if (!MatchStatus.isValid(matchStatus) ) throw new FixSessionException(buf, "Invalid enumerated value(" + matchStatus + ") for tag: " + id );
+				if (!MatchStatus.isValid(matchStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + matchStatus + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.PRODUCT_INT:
 				product = FixUtils.getTagIntValue( value );
-				if (!Product.isValid(product) ) throw new FixSessionException(buf, "Invalid enumerated value(" + product + ") for tag: " + id );
+				if (!Product.isValid(product) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + product + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.SECURITYTYPE_INT:
 				securityType = FixUtils.getTagStringValue(value, securityType);
-				if (!SecurityType.isValid(securityType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + securityType + ") for tag: " + id );
+				if (!SecurityType.isValid(securityType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + securityType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TEXT_INT:
@@ -213,12 +213,12 @@ public class FixAllocationReportAck extends FixMessage
 				checkSum = FixUtils.getTagIntValue( value );
 
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 				return;
 
 			default:
-				throw new FixSessionException(buf, "Unknown tag: " + id );
+				throw new FixSessionException(SessionRejectReason.UNDEFINED_TAG, "Unknown tag".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 			}
 

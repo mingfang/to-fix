@@ -159,7 +159,7 @@ public class FixIOI extends FixMessage
 
 			case FixTags.IOITRANSTYPE_INT:
 				iOITransType = FixUtils.getTagCharValue( value );
-				if (!IOITransType.isValid(iOITransType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + iOITransType + ") for tag: " + id );
+				if (!IOITransType.isValid(iOITransType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + iOITransType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.IOIREFID_INT:
@@ -186,12 +186,12 @@ public class FixIOI extends FixMessage
 
 			case FixTags.SIDE_INT:
 				side = FixUtils.getTagCharValue( value );
-				if (!Side.isValid(side) ) throw new FixSessionException(buf, "Invalid enumerated value(" + side + ") for tag: " + id );
+				if (!Side.isValid(side) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + side + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.QTYTYPE_INT:
 				qtyType = FixUtils.getTagIntValue( value );
-				if (!QtyType.isValid(qtyType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + qtyType + ") for tag: " + id );
+				if (!QtyType.isValid(qtyType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + qtyType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.ORDERQTY_INT:
@@ -200,7 +200,7 @@ public class FixIOI extends FixMessage
 
 			case FixTags.IOIQTY_INT:
 				iOIQty = FixUtils.getTagStringValue(value, iOIQty);
-				if (!IOIQty.isValid(iOIQty) ) throw new FixSessionException(buf, "Invalid enumerated value(" + iOIQty + ") for tag: " + id );
+				if (!IOIQty.isValid(iOIQty) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + iOIQty + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.CURRENCY_INT:
@@ -219,7 +219,7 @@ public class FixIOI extends FixMessage
 
 			case FixTags.PRICETYPE_INT:
 				priceType = FixUtils.getTagIntValue( value );
-				if (!PriceType.isValid(priceType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + priceType + ") for tag: " + id );
+				if (!PriceType.isValid(priceType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + priceType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.PRICE_INT:
@@ -232,12 +232,12 @@ public class FixIOI extends FixMessage
 
 			case FixTags.IOIQLTYIND_INT:
 				iOIQltyInd = FixUtils.getTagCharValue( value );
-				if (!IOIQltyInd.isValid(iOIQltyInd) ) throw new FixSessionException(buf, "Invalid enumerated value(" + iOIQltyInd + ") for tag: " + id );
+				if (!IOIQltyInd.isValid(iOIQltyInd) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + iOIQltyInd + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.IOINATURALFLAG_INT:
 				iOINaturalFlag = FixUtils.getTagBooleanValue( value );
-				if (!IOINaturalFlag.isValid(iOINaturalFlag) ) throw new FixSessionException(buf, "Invalid enumerated value(" + iOINaturalFlag + ") for tag: " + id );
+				if (!IOINaturalFlag.isValid(iOINaturalFlag) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + iOINaturalFlag + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NOIOIQUALIFIERS_INT:
@@ -283,12 +283,12 @@ public class FixIOI extends FixMessage
 				checkSum = FixUtils.getTagIntValue( value );
 
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 				return;
 
 			default:
-				throw new FixSessionException(buf, "Unknown tag: " + id );
+				throw new FixSessionException(SessionRejectReason.UNDEFINED_TAG, "Unknown tag".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 			}
 

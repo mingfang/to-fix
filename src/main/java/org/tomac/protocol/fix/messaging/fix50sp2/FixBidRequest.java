@@ -138,7 +138,7 @@ public class FixBidRequest extends FixMessage
 
 			case FixTags.BIDREQUESTTRANSTYPE_INT:
 				bidRequestTransType = FixUtils.getTagCharValue( value );
-				if (!BidRequestTransType.isValid(bidRequestTransType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + bidRequestTransType + ") for tag: " + id );
+				if (!BidRequestTransType.isValid(bidRequestTransType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + bidRequestTransType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.LISTNAME_INT:
@@ -151,7 +151,7 @@ public class FixBidRequest extends FixMessage
 
 			case FixTags.BIDTYPE_INT:
 				bidType = FixUtils.getTagIntValue( value );
-				if (!BidType.isValid(bidType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + bidType + ") for tag: " + id );
+				if (!BidType.isValid(bidType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + bidType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NUMTICKETS_INT:
@@ -182,7 +182,7 @@ public class FixBidRequest extends FixMessage
 
 			case FixTags.LIQUIDITYINDTYPE_INT:
 				liquidityIndType = FixUtils.getTagIntValue( value );
-				if (!LiquidityIndType.isValid(liquidityIndType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + liquidityIndType + ") for tag: " + id );
+				if (!LiquidityIndType.isValid(liquidityIndType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + liquidityIndType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.WTAVERAGELIQUIDITY_INT:
@@ -191,7 +191,7 @@ public class FixBidRequest extends FixMessage
 
 			case FixTags.EXCHANGEFORPHYSICAL_INT:
 				exchangeForPhysical = FixUtils.getTagBooleanValue( value );
-				if (!ExchangeForPhysical.isValid(exchangeForPhysical) ) throw new FixSessionException(buf, "Invalid enumerated value(" + exchangeForPhysical + ") for tag: " + id );
+				if (!ExchangeForPhysical.isValid(exchangeForPhysical) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + exchangeForPhysical + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.OUTMAINCNTRYUINDEX_INT:
@@ -204,7 +204,7 @@ public class FixBidRequest extends FixMessage
 
 			case FixTags.PROGRPTREQS_INT:
 				progRptReqs = FixUtils.getTagIntValue( value );
-				if (!ProgRptReqs.isValid(progRptReqs) ) throw new FixSessionException(buf, "Invalid enumerated value(" + progRptReqs + ") for tag: " + id );
+				if (!ProgRptReqs.isValid(progRptReqs) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + progRptReqs + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.PROGPERIODINTERVAL_INT:
@@ -213,12 +213,12 @@ public class FixBidRequest extends FixMessage
 
 			case FixTags.INCTAXIND_INT:
 				incTaxInd = FixUtils.getTagIntValue( value );
-				if (!IncTaxInd.isValid(incTaxInd) ) throw new FixSessionException(buf, "Invalid enumerated value(" + incTaxInd + ") for tag: " + id );
+				if (!IncTaxInd.isValid(incTaxInd) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + incTaxInd + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.FOREXREQ_INT:
 				forexReq = FixUtils.getTagBooleanValue( value );
-				if (!ForexReq.isValid(forexReq) ) throw new FixSessionException(buf, "Invalid enumerated value(" + forexReq + ") for tag: " + id );
+				if (!ForexReq.isValid(forexReq) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + forexReq + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NUMBIDDERS_INT:
@@ -231,12 +231,12 @@ public class FixBidRequest extends FixMessage
 
 			case FixTags.BIDTRADETYPE_INT:
 				bidTradeType = FixUtils.getTagCharValue( value );
-				if (!BidTradeType.isValid(bidTradeType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + bidTradeType + ") for tag: " + id );
+				if (!BidTradeType.isValid(bidTradeType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + bidTradeType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.BASISPXTYPE_INT:
 				basisPxType = FixUtils.getTagCharValue( value );
-				if (!BasisPxType.isValid(basisPxType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + basisPxType + ") for tag: " + id );
+				if (!BasisPxType.isValid(basisPxType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + basisPxType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.STRIKETIME_INT:
@@ -260,12 +260,12 @@ public class FixBidRequest extends FixMessage
 				checkSum = FixUtils.getTagIntValue( value );
 
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 				return;
 
 			default:
-				throw new FixSessionException(buf, "Unknown tag: " + id );
+				throw new FixSessionException(SessionRejectReason.UNDEFINED_TAG, "Unknown tag".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 			}
 

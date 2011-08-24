@@ -221,9 +221,7 @@ public abstract class FixMessage extends FixGeneratedBaseMessage
 
 		FixUtils.getTagStringValue(buf, tmpBeginString);
 		if(!Utils.equals(FixMessageInfo.BEGINSTRING_VALUE, tmpBeginString))
-			throw new FixSessionException(buf, "BeginString not equal to: " + new String(FixMessageInfo.BEGINSTRING_VALUE));
-
-		//now look to get bodyLength field
+			throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("BeginString not equal to: " + new String(FixMessageInfo.BEGINSTRING_VALUE)).getBytes(), FixTags.BEGINSTRING_INT, new byte[0]);		//now look to get bodyLength field
 		tagId = FixUtils.getTagId(buf);
 		if(tagId != FixTags.BODYLENGTH_INT)
 			throw new FixGarbledException(buf, "Second tag in FIX message is not BODYLENGTH (9)");
@@ -266,7 +264,7 @@ public abstract class FixMessage extends FixGeneratedBaseMessage
 		msgType = FixUtils.crackNasdaqMsgType(msgType, buf);
 
 		if (! MsgType.isValid(tmpMsgType))
-			throw new FixSessionException(buf, msgEnd, String.format("MsgType not in specification: %s", new String(tmpMsgType).trim()));		// assumption message is full otherwise decode would return null
+			throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, "MsgType not in specificaton for tag".getBytes(), FixTags.MSGTYPE_INT, FixUtils.getMsgType(msgType) );		// assumption message is full otherwise decode would return null
 		// so negative id means that we are at the end of the message
 		int id;
 		buf.position(msgTypeEnd);
@@ -281,7 +279,7 @@ public abstract class FixMessage extends FixGeneratedBaseMessage
 
 			case FixTags.APPLVERID_INT:
 				applVerID = FixUtils.getTagStringValue(value, applVerID);
-				if (!ApplVerID.isValid(applVerID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + applVerID + ") for tag: " + id );
+				if (!ApplVerID.isValid(applVerID) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + applVerID + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.CSTMAPPLVERID_INT:

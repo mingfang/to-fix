@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.protocol.fix.FixSessionException;
 import org.tomac.protocol.fix.FixUtils;
+import org.tomac.protocol.fix.messaging.fix42nordic.FixMessageInfo.SessionRejectReason;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixMessage;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixExecutionReport;
 
@@ -191,7 +192,7 @@ public class TestFixContainerSession {
 			
 			fail("In msg is invalid: " + new String(msgByteArray));
 		} catch( FixSessionException e )  {
-			assertTrue(e.getMessage(), e.getMessage().startsWith("Framing Exception: (BeginString not equal to: FIXT.1.1)"));
+			assertEquals(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, e.sessionRejectReason);
 		} catch( FixGarbledException e ) {
 			fail(e.getMessage());
 		}		
@@ -255,7 +256,7 @@ public class TestFixContainerSession {
 			
 			fail("In msg is invalid: " + new String(msgByteArray));
 		} catch( FixSessionException e )  {
-			assertTrue(e.getMessage(), e.getMessage().startsWith("Framing Exception: (MsgType not in specification: X)"));
+			assertEquals(SessionRejectReason.INVALID_MSGTYPE, e.sessionRejectReason);
 		} catch( FixGarbledException e ) {
 			fail(e.getMessage());
 		}		
@@ -407,7 +408,7 @@ public class TestFixContainerSession {
 			
 			fail("In msg is invalid: " + new String(msgByteArray));
 		} catch( FixSessionException e )  {
-			assertTrue(e.getMessage(), e.getMessage().startsWith("Framing Exception: (Unknown tag: 99)"));
+			assertEquals(SessionRejectReason.UNDEFINED_TAG, e.sessionRejectReason);
 		} catch( FixGarbledException e ) {
 			fail(e.getMessage());
 		}		
@@ -444,7 +445,7 @@ public class TestFixContainerSession {
 			
 			fail("In msg is invalid: " + new String(msgByteArray));
 		} catch( FixSessionException e )  {
-			assertTrue(e.getMessage(), e.getMessage().startsWith("Framing Exception: (Required tag missing: 37)"));
+			assertEquals(SessionRejectReason.REQUIRED_TAG_MISSING, e.sessionRejectReason);
 		} catch( FixGarbledException e ) {
 			e.printStackTrace();
 			fail(e.getMessage());
@@ -481,7 +482,7 @@ public class TestFixContainerSession {
 			
 			fail("In msg is invalid: " + new String(msgByteArray));
 		} catch( FixSessionException e )  {
-			assertTrue(e.getMessage(), e.getMessage().startsWith("Framing Exception: (Unknown tag: 45)"));
+			assertEquals(SessionRejectReason.UNDEFINED_TAG, e.sessionRejectReason);
 		} catch( FixGarbledException e ) {
 			fail(e.getMessage());
 		}				
@@ -519,7 +520,7 @@ public class TestFixContainerSession {
 			
 			fail("In msg is invalid: " + msg);
 		} catch( FixSessionException e )  {
-			assertTrue(e.getMessage(), e.getMessage().startsWith("Framing Exception: (Tag specified without a value)"));
+			assertEquals(SessionRejectReason.TAG_SPECIFIED_WITHOUT_A_VALUE, e.sessionRejectReason);
 		} catch( FixGarbledException e ) {
 			fail(e.getMessage());
 		}				
@@ -560,7 +561,7 @@ public class TestFixContainerSession {
 			
 			fail("In msg is invalid: " + new String(msgByteArray));
 		} catch( FixSessionException e )  {
-			assertTrue(e.getMessage(), e.getMessage().startsWith("Framing Exception: (Invalid enumerated value(57) for tag: 54)"));
+			assertEquals(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, e.sessionRejectReason);
 		} catch( FixGarbledException e ) {
 			fail(e.getMessage());
 		}			
@@ -598,7 +599,7 @@ public class TestFixContainerSession {
 			
 			fail("In msg is invalid: " + new String(msgByteArray));
 		} catch( FixSessionException e )  {
-			assertTrue(e.getMessage(), e.getMessage().startsWith("Framing Exception: (Incorrect data format for value)"));
+			assertEquals(SessionRejectReason.INCORRECT_DATA_FORMAT_FOR_VALUE, e.sessionRejectReason);
 		} catch( FixGarbledException e ) {
 			fail(e.getMessage());
 		}				

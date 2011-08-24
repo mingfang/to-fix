@@ -199,7 +199,7 @@ public class FixBreakNotification extends FixMessage
 
 			case FixTags.EXECTRANSTYPE_INT:
 				execTransType = FixUtils.getTagCharValue( value );
-				if (!ExecTransType.isValid(execTransType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + execTransType + ") for tag: " + id );
+				if (!ExecTransType.isValid(execTransType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + execTransType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.ORDERID_INT:
@@ -208,7 +208,7 @@ public class FixBreakNotification extends FixMessage
 
 			case FixTags.ORDSTATUS_INT:
 				ordStatus = FixUtils.getTagCharValue( value );
-				if (!OrdStatus.isValid(ordStatus) ) throw new FixSessionException(buf, "Invalid enumerated value(" + ordStatus + ") for tag: " + id );
+				if (!OrdStatus.isValid(ordStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + ordStatus + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.SECURITYID_INT:
@@ -217,7 +217,7 @@ public class FixBreakNotification extends FixMessage
 
 			case FixTags.SIDE_INT:
 				side = FixUtils.getTagCharValue( value );
-				if (!Side.isValid(side) ) throw new FixSessionException(buf, "Invalid enumerated value(" + side + ") for tag: " + id );
+				if (!Side.isValid(side) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + side + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.SYMBOL_INT:
@@ -238,7 +238,7 @@ public class FixBreakNotification extends FixMessage
 
 			case FixTags.SECURITYDESC_INT:
 				securityDesc = FixUtils.getTagStringValue(value, securityDesc);
-				if (!SecurityDesc.isValid(securityDesc) ) throw new FixSessionException(buf, "Invalid enumerated value(" + securityDesc + ") for tag: " + id );
+				if (!SecurityDesc.isValid(securityDesc) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + securityDesc + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.CLIENTID_INT:
@@ -247,7 +247,7 @@ public class FixBreakNotification extends FixMessage
 
 			case FixTags.EXECTYPE_INT:
 				execType = FixUtils.getTagCharValue( value );
-				if (!ExecType.isValid(execType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + execType + ") for tag: " + id );
+				if (!ExecType.isValid(execType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + execType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.LEAVESQTY_INT:
@@ -264,7 +264,7 @@ public class FixBreakNotification extends FixMessage
 
 			case FixTags.PRICETYPE_INT:
 				priceType = FixUtils.getTagIntValue( value );
-				if (!PriceType.isValid(priceType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + priceType + ") for tag: " + id );
+				if (!PriceType.isValid(priceType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + priceType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TRANSBKDTIME_INT:
@@ -281,12 +281,12 @@ public class FixBreakNotification extends FixMessage
 
 			case FixTags.ORDERCAPACITY_INT:
 				orderCapacity = FixUtils.getTagStringValue(value, orderCapacity);
-				if (!OrderCapacity.isValid(orderCapacity) ) throw new FixSessionException(buf, "Invalid enumerated value(" + orderCapacity + ") for tag: " + id );
+				if (!OrderCapacity.isValid(orderCapacity) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + orderCapacity + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.ORDERRESTRICTIONS_INT:
 				orderRestrictions = FixUtils.getTagStringValue(value, orderRestrictions);
-				if (!OrderRestrictions.isValid(orderRestrictions) ) throw new FixSessionException(buf, "Invalid enumerated value(" + orderRestrictions + ") for tag: " + id );
+				if (!OrderRestrictions.isValid(orderRestrictions) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + orderRestrictions + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TRADEREPORTID_INT:
@@ -299,22 +299,22 @@ public class FixBreakNotification extends FixMessage
 
 			case FixTags.CLEARINGINSTRUCTION_INT:
 				clearingInstruction = FixUtils.getTagStringValue(value, clearingInstruction);
-				if (!ClearingInstruction.isValid(clearingInstruction) ) throw new FixSessionException(buf, "Invalid enumerated value(" + clearingInstruction + ") for tag: " + id );
+				if (!ClearingInstruction.isValid(clearingInstruction) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + clearingInstruction + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TRADETYPE_INT:
 				tradeType = FixUtils.getTagStringValue(value, tradeType);
-				if (!TradeType.isValid(tradeType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradeType + ") for tag: " + id );
+				if (!TradeType.isValid(tradeType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + tradeType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.PUBLISHTRDINDICATOR_INT:
 				publishTrdIndicator = FixUtils.getTagStringValue(value, publishTrdIndicator);
-				if (!PublishTrdIndicator.isValid(publishTrdIndicator) ) throw new FixSessionException(buf, "Invalid enumerated value(" + publishTrdIndicator + ") for tag: " + id );
+				if (!PublishTrdIndicator.isValid(publishTrdIndicator) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + publishTrdIndicator + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TRADEREPORTTYPE_INT:
 				tradeReportType = FixUtils.getTagStringValue(value, tradeReportType);
-				if (!TradeReportType.isValid(tradeReportType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradeReportType + ") for tag: " + id );
+				if (!TradeReportType.isValid(tradeReportType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + tradeReportType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TRDMATCHID_INT:
@@ -351,17 +351,17 @@ public class FixBreakNotification extends FixMessage
 
 			case FixTags.LOCKEDINSTATUS_INT:
 				lockedInStatus = FixUtils.getTagCharValue( value );
-				if (!LockedInStatus.isValid(lockedInStatus) ) throw new FixSessionException(buf, "Invalid enumerated value(" + lockedInStatus + ") for tag: " + id );
+				if (!LockedInStatus.isValid(lockedInStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + lockedInStatus + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.DELAYEDDISSEMINATIONINST_INT:
 				delayedDisseminationInst = FixUtils.getTagCharValue( value );
-				if (!DelayedDisseminationInst.isValid(delayedDisseminationInst) ) throw new FixSessionException(buf, "Invalid enumerated value(" + delayedDisseminationInst + ") for tag: " + id );
+				if (!DelayedDisseminationInst.isValid(delayedDisseminationInst) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + delayedDisseminationInst + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.BREAKINDICATOR_INT:
 				breakIndicator = FixUtils.getTagCharValue( value );
-				if (!BreakIndicator.isValid(breakIndicator) ) throw new FixSessionException(buf, "Invalid enumerated value(" + breakIndicator + ") for tag: " + id );
+				if (!BreakIndicator.isValid(breakIndicator) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + breakIndicator + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.BRSEQNBR_INT:
@@ -373,12 +373,12 @@ public class FixBreakNotification extends FixMessage
 				checkSum = FixUtils.getTagIntValue( value );
 
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 				return;
 
 			default:
-				throw new FixSessionException(buf, "Unknown tag: " + id );
+				throw new FixSessionException(SessionRejectReason.UNDEFINED_TAG, "Unknown tag".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 			}
 

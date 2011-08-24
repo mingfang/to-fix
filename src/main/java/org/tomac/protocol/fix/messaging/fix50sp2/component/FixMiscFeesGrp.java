@@ -15,6 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.SessionRejectReason;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
@@ -27,7 +28,7 @@ public class FixMiscFeesGrp
 	public void getAll(int noMiscFees, ByteBuffer buf) throws FixSessionException {
 		this.noMiscFees = noMiscFees;
 
-		if (noMiscFees < 1) throw new FixSessionException("asdasd");
+		if (noMiscFees < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noMiscFees ).getBytes(), FixTags.NOMISCFEES_INT, new byte[0]);
 		// this will leak memory if we grow the group
 		if (group == null || group.length < noMiscFees) {
 			group = new MiscFeesGrp[noMiscFees];
@@ -117,7 +118,7 @@ public class MiscFeesGrp implements FixComponent
 
 			if(id == FixTags.MISCFEETYPE_INT) {
 				miscFeeType = FixUtils.getTagStringValue(value, miscFeeType);
-				if (!FixMessageInfo.MiscFeeType.isValid(miscFeeType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + miscFeeType + ") for tag: " + id );
+				if (!FixMessageInfo.MiscFeeType.isValid(miscFeeType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + miscFeeType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -125,14 +126,14 @@ public class MiscFeesGrp implements FixComponent
 
 			if(id == FixTags.MISCFEEBASIS_INT) {
 				miscFeeBasis = FixUtils.getTagIntValue( value );
-				if (!FixMessageInfo.MiscFeeBasis.isValid(miscFeeBasis) ) throw new FixSessionException(buf, "Invalid enumerated value(" + miscFeeBasis + ") for tag: " + id );
+				if (!FixMessageInfo.MiscFeeBasis.isValid(miscFeeBasis) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + miscFeeBasis + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			id = checkRequiredTags();
-			if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 			buf.position( lastTagPosition );
 			return;

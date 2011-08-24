@@ -15,6 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.SessionRejectReason;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixRelatedAltPtysSubGrp;
@@ -28,7 +29,7 @@ public class FixRelatedPartyAltIDs
 	public void getAll(int noRelatedPartyAltIDs, ByteBuffer buf) throws FixSessionException {
 		this.noRelatedPartyAltIDs = noRelatedPartyAltIDs;
 
-		if (noRelatedPartyAltIDs < 1) throw new FixSessionException("asdasd");
+		if (noRelatedPartyAltIDs < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noRelatedPartyAltIDs ).getBytes(), FixTags.NORELATEDPARTYALTIDS_INT, new byte[0]);
 		// this will leak memory if we grow the group
 		if (group == null || group.length < noRelatedPartyAltIDs) {
 			group = new RelatedPartyAltIDs[noRelatedPartyAltIDs];
@@ -122,7 +123,7 @@ public class RelatedPartyAltIDs implements FixComponent
 			}
 
 			id = checkRequiredTags();
-			if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 			buf.position( lastTagPosition );
 			return;

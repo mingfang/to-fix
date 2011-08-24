@@ -88,7 +88,7 @@ public class FixOrderCancelReject extends FixMessage
 
 			case FixTags.ORDSTATUS_INT:
 				ordStatus = FixUtils.getTagCharValue( value );
-				if (!OrdStatus.isValid(ordStatus) ) throw new FixSessionException(buf, "Invalid enumerated value(" + ordStatus + ") for tag: " + id );
+				if (!OrdStatus.isValid(ordStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + ordStatus + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.ORIGCLORDID_INT:
@@ -101,7 +101,7 @@ public class FixOrderCancelReject extends FixMessage
 
 			case FixTags.CXLREJREASON_INT:
 				cxlRejReason = FixUtils.getTagIntValue( value );
-				if (!CxlRejReason.isValid(cxlRejReason) ) throw new FixSessionException(buf, "Invalid enumerated value(" + cxlRejReason + ") for tag: " + id );
+				if (!CxlRejReason.isValid(cxlRejReason) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + cxlRejReason + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.CLIENTID_INT:
@@ -110,7 +110,7 @@ public class FixOrderCancelReject extends FixMessage
 
 			case FixTags.CXLREJRESPONSETO_INT:
 				cxlRejResponseTo = FixUtils.getTagCharValue( value );
-				if (!CxlRejResponseTo.isValid(cxlRejResponseTo) ) throw new FixSessionException(buf, "Invalid enumerated value(" + cxlRejResponseTo + ") for tag: " + id );
+				if (!CxlRejResponseTo.isValid(cxlRejResponseTo) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + cxlRejResponseTo + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			// for a message always get the checksum
@@ -118,12 +118,12 @@ public class FixOrderCancelReject extends FixMessage
 				checkSum = FixUtils.getTagIntValue( value );
 
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 				return;
 
 			default:
-				throw new FixSessionException(buf, "Unknown tag: " + id );
+				throw new FixSessionException(SessionRejectReason.UNDEFINED_TAG, "Unknown tag".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 			}
 

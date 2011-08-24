@@ -192,10 +192,18 @@ public interface FixMessageInfo
 	}
 
 	public static class SessionRejectReason {
+		public static final long NON_DATA_VALUE_INCLUDES_FIELD_DELIMITER_SOH_CHARACTER = 17;
+		public static final long INVALIDUNSUPPORTED_APPLICATION_VERSION = 18;
+		public static final long REPEATING_GROUP_FIELDS_OUT_OF_ORDER = 15;
+		public static final long INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP = 16;
+		public static final long TAG_APPEARS_MORE_THAN_ONCE = 13;
+		public static final long TAG_SPECIFIED_OUT_OF_REQUIRED_ORDER = 14;
+		public static final long INVALID_MSGTYPE = 11;
+		public static final long XML_VALIDATION_ERROR = 12;
 		public static final long UNDEFINED_TAG = 3;
 		public static final long TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE = 2;
-		public static final long SENDINGTIME_ACCURACY_PROBLEM = 10;
 		public static final long REQUIRED_TAG_MISSING = 1;
+		public static final long SENDINGTIME_ACCURACY_PROBLEM = 10;
 		public static final long INVALID_TAG_NUMBER = 0;
 		public static final long DECRYPTION_PROBLEM = 7;
 		public static final long INCORRECT_DATA_FORMAT_FOR_VALUE = 6;
@@ -203,12 +211,20 @@ public interface FixMessageInfo
 		public static final long TAG_SPECIFIED_WITHOUT_A_VALUE = 4;
 		public static final long COMPID_PROBLEM = 9;
 		public static final long SIGNATURE_PROBLEM = 8;
-		public static final long INVALID_MSGTYPE = 11;
+		public static final long OTHER = 99;
 		public static boolean isValid(long val) {
+			if (( NON_DATA_VALUE_INCLUDES_FIELD_DELIMITER_SOH_CHARACTER==val)) return true;
+			if (( INVALIDUNSUPPORTED_APPLICATION_VERSION==val)) return true;
+			if (( REPEATING_GROUP_FIELDS_OUT_OF_ORDER==val)) return true;
+			if (( INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP==val)) return true;
+			if (( TAG_APPEARS_MORE_THAN_ONCE==val)) return true;
+			if (( TAG_SPECIFIED_OUT_OF_REQUIRED_ORDER==val)) return true;
+			if (( INVALID_MSGTYPE==val)) return true;
+			if (( XML_VALIDATION_ERROR==val)) return true;
 			if (( UNDEFINED_TAG==val)) return true;
 			if (( TAG_NOT_DEFINED_FOR_THIS_MESSAGE_TYPE==val)) return true;
-			if (( SENDINGTIME_ACCURACY_PROBLEM==val)) return true;
 			if (( REQUIRED_TAG_MISSING==val)) return true;
+			if (( SENDINGTIME_ACCURACY_PROBLEM==val)) return true;
 			if (( INVALID_TAG_NUMBER==val)) return true;
 			if (( DECRYPTION_PROBLEM==val)) return true;
 			if (( INCORRECT_DATA_FORMAT_FOR_VALUE==val)) return true;
@@ -216,7 +232,7 @@ public interface FixMessageInfo
 			if (( TAG_SPECIFIED_WITHOUT_A_VALUE==val)) return true;
 			if (( COMPID_PROBLEM==val)) return true;
 			if (( SIGNATURE_PROBLEM==val)) return true;
-			if (( INVALID_MSGTYPE==val)) return true;
+			if (( OTHER==val)) return true;
 			return false;
 		}
 	}

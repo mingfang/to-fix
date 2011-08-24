@@ -67,7 +67,7 @@ public class FixYieldData implements FixComponent
 
 			case FixTags.YIELDTYPE_INT:
 				yieldType = FixUtils.getTagStringValue(value, yieldType);
-				if (!YieldType.isValid(yieldType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + yieldType + ") for tag: " + id );
+				if (!YieldType.isValid(yieldType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + yieldType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.YIELD_INT:
@@ -93,7 +93,7 @@ public class FixYieldData implements FixComponent
 			// we will always endup with unknown tag, unread and return to upper layer in hierarchy
 			default:
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 				buf.position( lastTagPosition );
 				return;

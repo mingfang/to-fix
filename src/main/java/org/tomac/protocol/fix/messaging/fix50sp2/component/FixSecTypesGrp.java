@@ -15,6 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.SessionRejectReason;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
@@ -27,7 +28,7 @@ public class FixSecTypesGrp
 	public void getAll(int noSecurityTypes, ByteBuffer buf) throws FixSessionException {
 		this.noSecurityTypes = noSecurityTypes;
 
-		if (noSecurityTypes < 1) throw new FixSessionException("asdasd");
+		if (noSecurityTypes < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noSecurityTypes ).getBytes(), FixTags.NOSECURITYTYPES_INT, new byte[0]);
 		// this will leak memory if we grow the group
 		if (group == null || group.length < noSecurityTypes) {
 			group = new SecTypesGrp[noSecurityTypes];
@@ -107,7 +108,7 @@ public class SecTypesGrp implements FixComponent
 
 			if(id == FixTags.SECURITYTYPE_INT) {
 				securityType = FixUtils.getTagStringValue(value, securityType);
-				if (!FixMessageInfo.SecurityType.isValid(securityType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + securityType + ") for tag: " + id );
+				if (!FixMessageInfo.SecurityType.isValid(securityType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + securityType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -122,7 +123,7 @@ public class SecTypesGrp implements FixComponent
 
 			if(id == FixTags.PRODUCT_INT) {
 				product = FixUtils.getTagIntValue( value );
-				if (!FixMessageInfo.Product.isValid(product) ) throw new FixSessionException(buf, "Invalid enumerated value(" + product + ") for tag: " + id );
+				if (!FixMessageInfo.Product.isValid(product) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + product + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -143,7 +144,7 @@ public class SecTypesGrp implements FixComponent
 			}
 
 			id = checkRequiredTags();
-			if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 			buf.position( lastTagPosition );
 			return;

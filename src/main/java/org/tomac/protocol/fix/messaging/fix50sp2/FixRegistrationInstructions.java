@@ -99,7 +99,7 @@ public class FixRegistrationInstructions extends FixMessage
 
 			case FixTags.REGISTTRANSTYPE_INT:
 				registTransType = FixUtils.getTagCharValue( value );
-				if (!RegistTransType.isValid(registTransType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + registTransType + ") for tag: " + id );
+				if (!RegistTransType.isValid(registTransType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + registTransType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.REGISTREFID_INT:
@@ -121,7 +121,7 @@ public class FixRegistrationInstructions extends FixMessage
 
 			case FixTags.ACCTIDSOURCE_INT:
 				acctIDSource = FixUtils.getTagIntValue( value );
-				if (!AcctIDSource.isValid(acctIDSource) ) throw new FixSessionException(buf, "Invalid enumerated value(" + acctIDSource + ") for tag: " + id );
+				if (!AcctIDSource.isValid(acctIDSource) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + acctIDSource + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.REGISTACCTTYPE_INT:
@@ -130,12 +130,12 @@ public class FixRegistrationInstructions extends FixMessage
 
 			case FixTags.TAXADVANTAGETYPE_INT:
 				taxAdvantageType = FixUtils.getTagIntValue( value );
-				if (!TaxAdvantageType.isValid(taxAdvantageType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + taxAdvantageType + ") for tag: " + id );
+				if (!TaxAdvantageType.isValid(taxAdvantageType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + taxAdvantageType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.OWNERSHIPTYPE_INT:
 				ownershipType = FixUtils.getTagCharValue( value );
-				if (!OwnershipType.isValid(ownershipType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + ownershipType + ") for tag: " + id );
+				if (!OwnershipType.isValid(ownershipType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + ownershipType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NOREGISTDTLS_INT:
@@ -153,12 +153,12 @@ public class FixRegistrationInstructions extends FixMessage
 				checkSum = FixUtils.getTagIntValue( value );
 
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 				return;
 
 			default:
-				throw new FixSessionException(buf, "Unknown tag: " + id );
+				throw new FixSessionException(SessionRejectReason.UNDEFINED_TAG, "Unknown tag".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 			}
 

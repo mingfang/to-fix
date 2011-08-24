@@ -15,6 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.SessionRejectReason;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixComplexEventDates;
@@ -28,7 +29,7 @@ public class FixComplexEvents
 	public void getAll(int noComplexEvents, ByteBuffer buf) throws FixSessionException {
 		this.noComplexEvents = noComplexEvents;
 
-		if (noComplexEvents < 1) throw new FixSessionException("asdasd");
+		if (noComplexEvents < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noComplexEvents ).getBytes(), FixTags.NOCOMPLEXEVENTS_INT, new byte[0]);
 		// this will leak memory if we grow the group
 		if (group == null || group.length < noComplexEvents) {
 			group = new ComplexEvents[noComplexEvents];
@@ -111,7 +112,7 @@ public class ComplexEvents implements FixComponent
 
 			if(id == FixTags.COMPLEXEVENTTYPE_INT) {
 				complexEventType = FixUtils.getTagIntValue( value );
-				if (!FixMessageInfo.ComplexEventType.isValid(complexEventType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + complexEventType + ") for tag: " + id );
+				if (!FixMessageInfo.ComplexEventType.isValid(complexEventType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + complexEventType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -133,7 +134,7 @@ public class ComplexEvents implements FixComponent
 
 			if(id == FixTags.COMPLEXEVENTPRICEBOUNDARYMETHOD_INT) {
 				complexEventPriceBoundaryMethod = FixUtils.getTagIntValue( value );
-				if (!FixMessageInfo.ComplexEventPriceBoundaryMethod.isValid(complexEventPriceBoundaryMethod) ) throw new FixSessionException(buf, "Invalid enumerated value(" + complexEventPriceBoundaryMethod + ") for tag: " + id );
+				if (!FixMessageInfo.ComplexEventPriceBoundaryMethod.isValid(complexEventPriceBoundaryMethod) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + complexEventPriceBoundaryMethod + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -148,7 +149,7 @@ public class ComplexEvents implements FixComponent
 
 			if(id == FixTags.COMPLEXEVENTPRICETIMETYPE_INT) {
 				complexEventPriceTimeType = FixUtils.getTagIntValue( value );
-				if (!FixMessageInfo.ComplexEventPriceTimeType.isValid(complexEventPriceTimeType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + complexEventPriceTimeType + ") for tag: " + id );
+				if (!FixMessageInfo.ComplexEventPriceTimeType.isValid(complexEventPriceTimeType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + complexEventPriceTimeType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -156,7 +157,7 @@ public class ComplexEvents implements FixComponent
 
 			if(id == FixTags.COMPLEXEVENTCONDITION_INT) {
 				complexEventCondition = FixUtils.getTagIntValue( value );
-				if (!FixMessageInfo.ComplexEventCondition.isValid(complexEventCondition) ) throw new FixSessionException(buf, "Invalid enumerated value(" + complexEventCondition + ") for tag: " + id );
+				if (!FixMessageInfo.ComplexEventCondition.isValid(complexEventCondition) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + complexEventCondition + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -170,7 +171,7 @@ public class ComplexEvents implements FixComponent
 			}
 
 			id = checkRequiredTags();
-			if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 			buf.position( lastTagPosition );
 			return;

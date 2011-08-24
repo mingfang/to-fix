@@ -457,7 +457,7 @@ public class FixUnderlyingInstrument implements FixComponent
 
 			case FixTags.UNDERLYINGSETTLEMENTTYPE_INT:
 				underlyingSettlementType = FixUtils.getTagIntValue( value );
-				if (!UnderlyingSettlementType.isValid(underlyingSettlementType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + underlyingSettlementType + ") for tag: " + id );
+				if (!UnderlyingSettlementType.isValid(underlyingSettlementType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + underlyingSettlementType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.UNDERLYINGCASHAMOUNT_INT:
@@ -466,7 +466,7 @@ public class FixUnderlyingInstrument implements FixComponent
 
 			case FixTags.UNDERLYINGCASHTYPE_INT:
 				underlyingCashType = FixUtils.getTagStringValue(value, underlyingCashType);
-				if (!UnderlyingCashType.isValid(underlyingCashType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + underlyingCashType + ") for tag: " + id );
+				if (!UnderlyingCashType.isValid(underlyingCashType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + underlyingCashType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.UNDERLYINGPX_INT:
@@ -503,7 +503,7 @@ public class FixUnderlyingInstrument implements FixComponent
 
 			case FixTags.UNDERLYINGFXRATECALC_INT:
 				underlyingFXRateCalc = FixUtils.getTagCharValue( value );
-				if (!UnderlyingFXRateCalc.isValid(underlyingFXRateCalc) ) throw new FixSessionException(buf, "Invalid enumerated value(" + underlyingFXRateCalc + ") for tag: " + id );
+				if (!UnderlyingFXRateCalc.isValid(underlyingFXRateCalc) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + underlyingFXRateCalc + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.NOUNDERLYINGSTIPS_INT:
@@ -531,7 +531,7 @@ public class FixUnderlyingInstrument implements FixComponent
 			// we will always endup with unknown tag, unread and return to upper layer in hierarchy
 			default:
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 				buf.position( lastTagPosition );
 				return;

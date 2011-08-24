@@ -83,12 +83,12 @@ public class FixUtils {
 			c = buf.get();
 
 			if (c == SOH) {
-				throw new FixSessionException(SessionRejectReason.TAG_SPECIFIED_WITHOUT_A_VALUE, "Premature end of buffer missing SOH");
+				throw new FixSessionException(SessionRejectReason.TAG_SPECIFIED_WITHOUT_A_VALUE, "Premature end of buffer missing SOH".getBytes());
 			}
 		}
 
 		if (buf.get() != SOH) {
-			throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, "Integer value length exceeds one character");
+			throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, "Integer value length exceeds one character".getBytes());
 		}
 
 		return c == (byte)'Y' ? true : false;
@@ -102,12 +102,12 @@ public class FixUtils {
 			c = buf.get();
 
 			if (c == SOH) {
-				throw new FixSessionException(SessionRejectReason.TAG_SPECIFIED_WITHOUT_A_VALUE, "Premature end of buffer missing SOH");
+				throw new FixSessionException(SessionRejectReason.TAG_SPECIFIED_WITHOUT_A_VALUE, "Premature end of buffer missing SOH".getBytes());
 			}
 		}
 
 		if (buf.get() != SOH) {
-			throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, "Integer value length exceeds one character, read" + buf.get(buf.position()-1));
+			throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Integer value length exceeds one character, read" + buf.get(buf.position()-1) ).getBytes());
 		}
 
 		return c;
@@ -129,14 +129,14 @@ public class FixUtils {
 
 			if (start == end) {
 				throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
-						"Value is incorrect or out of range for this tag" + FIX_MAX_DIGITS);
+						("Value is incorrect or out of range for this tag " + FIX_MAX_DIGITS).getBytes() );
 			}
 		}
 		try {
 			long val = fixFloatValueOf(digitsBuf, start);
 			return val;
 		} catch (NumberFormatException n) {
-			throw new FixSessionException(SessionRejectReason.INCORRECT_DATA_FORMAT_FOR_VALUE, "Incorrect data format for value");
+			throw new FixSessionException(SessionRejectReason.INCORRECT_DATA_FORMAT_FOR_VALUE, "Incorrect data format for value".getBytes());
 		}
 	}
 
@@ -154,15 +154,15 @@ public class FixUtils {
 
 			if (start == end) {
 				throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
-						"Value length exceeds maximum number of digits " + FIX_MAX_DIGITS);
+						("Value length exceeds maximum number of digits " + FIX_MAX_DIGITS).getBytes());
 			}
 		}
 
 		if (start == 0)
-			throw new FixSessionException(SessionRejectReason.TAG_SPECIFIED_WITHOUT_A_VALUE, "Tag specified without a value");
+			throw new FixSessionException(SessionRejectReason.TAG_SPECIFIED_WITHOUT_A_VALUE, "Tag specified without a value".getBytes());
 
 		if (c != SOH)
-			throw new FixSessionException(SessionRejectReason.TAG_SPECIFIED_WITHOUT_A_VALUE, "Message not terminated by SOH");
+			throw new FixSessionException(SessionRejectReason.TAG_SPECIFIED_WITHOUT_A_VALUE, "Message not terminated by SOH".getBytes());
 		
 		return Utils.intValueOf(digitsBuf, 0, start);
 	}
@@ -181,7 +181,7 @@ public class FixUtils {
 				break;
 
 			if (start >= end) {
-				throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, "Value length exceeds maximum of " + end);
+				throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Value length exceeds maximum of " + end).getBytes());
 			} else {
 				dst[start] = c;
 				start++;
@@ -189,7 +189,7 @@ public class FixUtils {
 		}
 		
 		if (start == 0)
-			throw new FixSessionException(SessionRejectReason.TAG_SPECIFIED_WITHOUT_A_VALUE, "Tag specified without a value");
+			throw new FixSessionException(SessionRejectReason.TAG_SPECIFIED_WITHOUT_A_VALUE, "Tag specified without a value".getBytes());
 			
 		return dst;
 	}
@@ -479,6 +479,14 @@ public class FixUtils {
 		buf.position(pos);
 
 		return msgType;
+	}
+
+	public static byte[] getMsgType(int msgType) {
+        return new byte[] {
+                //(byte)(msgType >>> 24),
+                //(byte)(msgType >>> 16),
+                (byte)(msgType >>> 8),
+                (byte)msgType};
 	}
 	
 }

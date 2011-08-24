@@ -125,12 +125,12 @@ public class FixNewOrderList extends FixMessage
 
 			case FixTags.PROGRPTREQS_INT:
 				progRptReqs = FixUtils.getTagIntValue( value );
-				if (!ProgRptReqs.isValid(progRptReqs) ) throw new FixSessionException(buf, "Invalid enumerated value(" + progRptReqs + ") for tag: " + id );
+				if (!ProgRptReqs.isValid(progRptReqs) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + progRptReqs + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.BIDTYPE_INT:
 				bidType = FixUtils.getTagIntValue( value );
-				if (!BidType.isValid(bidType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + bidType + ") for tag: " + id );
+				if (!BidType.isValid(bidType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + bidType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.PROGPERIODINTERVAL_INT:
@@ -139,12 +139,12 @@ public class FixNewOrderList extends FixMessage
 
 			case FixTags.CANCELLATIONRIGHTS_INT:
 				cancellationRights = FixUtils.getTagCharValue( value );
-				if (!CancellationRights.isValid(cancellationRights) ) throw new FixSessionException(buf, "Invalid enumerated value(" + cancellationRights + ") for tag: " + id );
+				if (!CancellationRights.isValid(cancellationRights) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + cancellationRights + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.MONEYLAUNDERINGSTATUS_INT:
 				moneyLaunderingStatus = FixUtils.getTagCharValue( value );
-				if (!MoneyLaunderingStatus.isValid(moneyLaunderingStatus) ) throw new FixSessionException(buf, "Invalid enumerated value(" + moneyLaunderingStatus + ") for tag: " + id );
+				if (!MoneyLaunderingStatus.isValid(moneyLaunderingStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + moneyLaunderingStatus + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.REGISTID_INT:
@@ -153,7 +153,7 @@ public class FixNewOrderList extends FixMessage
 
 			case FixTags.LISTEXECINSTTYPE_INT:
 				listExecInstType = FixUtils.getTagCharValue( value );
-				if (!ListExecInstType.isValid(listExecInstType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + listExecInstType + ") for tag: " + id );
+				if (!ListExecInstType.isValid(listExecInstType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + listExecInstType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.LISTEXECINST_INT:
@@ -162,7 +162,7 @@ public class FixNewOrderList extends FixMessage
 
 			case FixTags.CONTINGENCYTYPE_INT:
 				contingencyType = FixUtils.getTagIntValue( value );
-				if (!ContingencyType.isValid(contingencyType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + contingencyType + ") for tag: " + id );
+				if (!ContingencyType.isValid(contingencyType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + contingencyType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.ENCODEDLISTEXECINSTLEN_INT:
@@ -191,7 +191,7 @@ public class FixNewOrderList extends FixMessage
 
 			case FixTags.LASTFRAGMENT_INT:
 				lastFragment = FixUtils.getTagBooleanValue( value );
-				if (!LastFragment.isValid(lastFragment) ) throw new FixSessionException(buf, "Invalid enumerated value(" + lastFragment + ") for tag: " + id );
+				if (!LastFragment.isValid(lastFragment) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + lastFragment + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NOROOTPARTYIDS_INT:
@@ -209,12 +209,12 @@ public class FixNewOrderList extends FixMessage
 				checkSum = FixUtils.getTagIntValue( value );
 
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 				return;
 
 			default:
-				throw new FixSessionException(buf, "Unknown tag: " + id );
+				throw new FixSessionException(SessionRejectReason.UNDEFINED_TAG, "Unknown tag".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 			}
 

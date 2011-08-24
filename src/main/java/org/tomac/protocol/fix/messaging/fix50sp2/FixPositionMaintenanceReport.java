@@ -153,7 +153,7 @@ public class FixPositionMaintenanceReport extends FixMessage
 
 			case FixTags.POSTRANSTYPE_INT:
 				posTransType = FixUtils.getTagIntValue( value );
-				if (!PosTransType.isValid(posTransType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + posTransType + ") for tag: " + id );
+				if (!PosTransType.isValid(posTransType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + posTransType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.POSREQID_INT:
@@ -162,7 +162,7 @@ public class FixPositionMaintenanceReport extends FixMessage
 
 			case FixTags.POSMAINTACTION_INT:
 				posMaintAction = FixUtils.getTagIntValue( value );
-				if (!PosMaintAction.isValid(posMaintAction) ) throw new FixSessionException(buf, "Invalid enumerated value(" + posMaintAction + ") for tag: " + id );
+				if (!PosMaintAction.isValid(posMaintAction) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + posMaintAction + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.ORIGPOSREQREFID_INT:
@@ -171,12 +171,12 @@ public class FixPositionMaintenanceReport extends FixMessage
 
 			case FixTags.POSMAINTSTATUS_INT:
 				posMaintStatus = FixUtils.getTagIntValue( value );
-				if (!PosMaintStatus.isValid(posMaintStatus) ) throw new FixSessionException(buf, "Invalid enumerated value(" + posMaintStatus + ") for tag: " + id );
+				if (!PosMaintStatus.isValid(posMaintStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + posMaintStatus + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.POSMAINTRESULT_INT:
 				posMaintResult = FixUtils.getTagIntValue( value );
-				if (!PosMaintResult.isValid(posMaintResult) ) throw new FixSessionException(buf, "Invalid enumerated value(" + posMaintResult + ") for tag: " + id );
+				if (!PosMaintResult.isValid(posMaintResult) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + posMaintResult + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.CLEARINGBUSINESSDATE_INT:
@@ -185,7 +185,7 @@ public class FixPositionMaintenanceReport extends FixMessage
 
 			case FixTags.SETTLSESSID_INT:
 				settlSessID = FixUtils.getTagStringValue(value, settlSessID);
-				if (!SettlSessID.isValid(settlSessID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + settlSessID + ") for tag: " + id );
+				if (!SettlSessID.isValid(settlSessID) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + settlSessID + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.SETTLSESSSUBID_INT:
@@ -203,12 +203,12 @@ public class FixPositionMaintenanceReport extends FixMessage
 
 			case FixTags.ACCTIDSOURCE_INT:
 				acctIDSource = FixUtils.getTagIntValue( value );
-				if (!AcctIDSource.isValid(acctIDSource) ) throw new FixSessionException(buf, "Invalid enumerated value(" + acctIDSource + ") for tag: " + id );
+				if (!AcctIDSource.isValid(acctIDSource) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + acctIDSource + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.ACCOUNTTYPE_INT:
 				accountType = FixUtils.getTagIntValue( value );
-				if (!AccountType.isValid(accountType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + accountType + ") for tag: " + id );
+				if (!AccountType.isValid(accountType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + accountType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.POSMAINTRPTREFID_INT:
@@ -266,7 +266,7 @@ public class FixPositionMaintenanceReport extends FixMessage
 
 			case FixTags.ADJUSTMENTTYPE_INT:
 				adjustmentType = FixUtils.getTagIntValue( value );
-				if (!AdjustmentType.isValid(adjustmentType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + adjustmentType + ") for tag: " + id );
+				if (!AdjustmentType.isValid(adjustmentType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + adjustmentType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.THRESHOLDAMOUNT_INT:
@@ -290,12 +290,12 @@ public class FixPositionMaintenanceReport extends FixMessage
 				checkSum = FixUtils.getTagIntValue( value );
 
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 				return;
 
 			default:
-				throw new FixSessionException(buf, "Unknown tag: " + id );
+				throw new FixSessionException(SessionRejectReason.UNDEFINED_TAG, "Unknown tag".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 			}
 

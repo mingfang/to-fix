@@ -15,6 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.SessionRejectReason;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixNestedParties;
@@ -32,7 +33,7 @@ public class FixAllocGrp
 	public void getAll(int noAllocs, ByteBuffer buf) throws FixSessionException {
 		this.noAllocs = noAllocs;
 
-		if (noAllocs < 1) throw new FixSessionException("asdasd");
+		if (noAllocs < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noAllocs ).getBytes(), FixTags.NOALLOCS_INT, new byte[0]);
 		// this will leak memory if we grow the group
 		if (group == null || group.length < noAllocs) {
 			group = new AllocGrp[noAllocs];
@@ -194,7 +195,7 @@ public class AllocGrp implements FixComponent
 
 			if(id == FixTags.MATCHSTATUS_INT) {
 				matchStatus = FixUtils.getTagCharValue( value );
-				if (!FixMessageInfo.MatchStatus.isValid(matchStatus) ) throw new FixSessionException(buf, "Invalid enumerated value(" + matchStatus + ") for tag: " + id );
+				if (!FixMessageInfo.MatchStatus.isValid(matchStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + matchStatus + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -223,7 +224,7 @@ public class AllocGrp implements FixComponent
 
 			if(id == FixTags.PROCESSCODE_INT) {
 				processCode = FixUtils.getTagCharValue( value );
-				if (!FixMessageInfo.ProcessCode.isValid(processCode) ) throw new FixSessionException(buf, "Invalid enumerated value(" + processCode + ") for tag: " + id );
+				if (!FixMessageInfo.ProcessCode.isValid(processCode) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + processCode + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -238,7 +239,7 @@ public class AllocGrp implements FixComponent
 
 			if(id == FixTags.ALLOCMETHOD_INT) {
 				allocMethod = FixUtils.getTagIntValue( value );
-				if (!FixMessageInfo.AllocMethod.isValid(allocMethod) ) throw new FixSessionException(buf, "Invalid enumerated value(" + allocMethod + ") for tag: " + id );
+				if (!FixMessageInfo.AllocMethod.isValid(allocMethod) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + allocMethod + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -253,7 +254,7 @@ public class AllocGrp implements FixComponent
 
 			if(id == FixTags.INDIVIDUALALLOCTYPE_INT) {
 				individualAllocType = FixUtils.getTagIntValue( value );
-				if (!FixMessageInfo.IndividualAllocType.isValid(individualAllocType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + individualAllocType + ") for tag: " + id );
+				if (!FixMessageInfo.IndividualAllocType.isValid(individualAllocType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + individualAllocType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -261,7 +262,7 @@ public class AllocGrp implements FixComponent
 
 			if(id == FixTags.ALLOCPOSITIONEFFECT_INT) {
 				allocPositionEffect = FixUtils.getTagCharValue( value );
-				if (!FixMessageInfo.AllocPositionEffect.isValid(allocPositionEffect) ) throw new FixSessionException(buf, "Invalid enumerated value(" + allocPositionEffect + ") for tag: " + id );
+				if (!FixMessageInfo.AllocPositionEffect.isValid(allocPositionEffect) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + allocPositionEffect + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -276,7 +277,7 @@ public class AllocGrp implements FixComponent
 
 			if(id == FixTags.NOTIFYBROKEROFCREDIT_INT) {
 				notifyBrokerOfCredit = FixUtils.getTagBooleanValue( value );
-				if (!FixMessageInfo.NotifyBrokerOfCredit.isValid(notifyBrokerOfCredit) ) throw new FixSessionException(buf, "Invalid enumerated value(" + notifyBrokerOfCredit + ") for tag: " + id );
+				if (!FixMessageInfo.NotifyBrokerOfCredit.isValid(notifyBrokerOfCredit) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + notifyBrokerOfCredit + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -284,7 +285,7 @@ public class AllocGrp implements FixComponent
 
 			if(id == FixTags.ALLOCHANDLINST_INT) {
 				allocHandlInst = FixUtils.getTagIntValue( value );
-				if (!FixMessageInfo.AllocHandlInst.isValid(allocHandlInst) ) throw new FixSessionException(buf, "Invalid enumerated value(" + allocHandlInst + ") for tag: " + id );
+				if (!FixMessageInfo.AllocHandlInst.isValid(allocHandlInst) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + allocHandlInst + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -369,7 +370,7 @@ public class AllocGrp implements FixComponent
 
 			if(id == FixTags.SETTLCURRFXRATECALC_INT) {
 				settlCurrFxRateCalc = FixUtils.getTagCharValue( value );
-				if (!FixMessageInfo.SettlCurrFxRateCalc.isValid(settlCurrFxRateCalc) ) throw new FixSessionException(buf, "Invalid enumerated value(" + settlCurrFxRateCalc + ") for tag: " + id );
+				if (!FixMessageInfo.SettlCurrFxRateCalc.isValid(settlCurrFxRateCalc) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + settlCurrFxRateCalc + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -398,7 +399,7 @@ public class AllocGrp implements FixComponent
 
 			if(id == FixTags.CLEARINGFEEINDICATOR_INT) {
 				clearingFeeIndicator = FixUtils.getTagStringValue(value, clearingFeeIndicator);
-				if (!FixMessageInfo.ClearingFeeIndicator.isValid(clearingFeeIndicator) ) throw new FixSessionException(buf, "Invalid enumerated value(" + clearingFeeIndicator + ") for tag: " + id );
+				if (!FixMessageInfo.ClearingFeeIndicator.isValid(clearingFeeIndicator) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + clearingFeeIndicator + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -413,7 +414,7 @@ public class AllocGrp implements FixComponent
 
 			if(id == FixTags.ALLOCSETTLINSTTYPE_INT) {
 				allocSettlInstType = FixUtils.getTagIntValue( value );
-				if (!FixMessageInfo.AllocSettlInstType.isValid(allocSettlInstType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + allocSettlInstType + ") for tag: " + id );
+				if (!FixMessageInfo.AllocSettlInstType.isValid(allocSettlInstType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + allocSettlInstType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -427,7 +428,7 @@ public class AllocGrp implements FixComponent
 			}
 
 			id = checkRequiredTags();
-			if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 			buf.position( lastTagPosition );
 			return;

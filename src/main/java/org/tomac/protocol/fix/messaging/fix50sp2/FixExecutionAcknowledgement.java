@@ -126,7 +126,7 @@ public class FixExecutionAcknowledgement extends FixMessage
 
 			case FixTags.EXECACKSTATUS_INT:
 				execAckStatus = FixUtils.getTagCharValue( value );
-				if (!ExecAckStatus.isValid(execAckStatus) ) throw new FixSessionException(buf, "Invalid enumerated value(" + execAckStatus + ") for tag: " + id );
+				if (!ExecAckStatus.isValid(execAckStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + execAckStatus + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.EXECID_INT:
@@ -135,7 +135,7 @@ public class FixExecutionAcknowledgement extends FixMessage
 
 			case FixTags.DKREASON_INT:
 				dKReason = FixUtils.getTagCharValue( value );
-				if (!DKReason.isValid(dKReason) ) throw new FixSessionException(buf, "Invalid enumerated value(" + dKReason + ") for tag: " + id );
+				if (!DKReason.isValid(dKReason) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + dKReason + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.SYMBOL_INT:
@@ -154,7 +154,7 @@ public class FixExecutionAcknowledgement extends FixMessage
 
 			case FixTags.SIDE_INT:
 				side = FixUtils.getTagCharValue( value );
-				if (!Side.isValid(side) ) throw new FixSessionException(buf, "Invalid enumerated value(" + side + ") for tag: " + id );
+				if (!Side.isValid(side) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + side + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.ORDERQTY_INT:
@@ -171,7 +171,7 @@ public class FixExecutionAcknowledgement extends FixMessage
 
 			case FixTags.PRICETYPE_INT:
 				priceType = FixUtils.getTagIntValue( value );
-				if (!PriceType.isValid(priceType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + priceType + ") for tag: " + id );
+				if (!PriceType.isValid(priceType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + priceType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.LASTPARPX_INT:
@@ -203,12 +203,12 @@ public class FixExecutionAcknowledgement extends FixMessage
 				checkSum = FixUtils.getTagIntValue( value );
 
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 				return;
 
 			default:
-				throw new FixSessionException(buf, "Unknown tag: " + id );
+				throw new FixSessionException(SessionRejectReason.UNDEFINED_TAG, "Unknown tag".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 			}
 

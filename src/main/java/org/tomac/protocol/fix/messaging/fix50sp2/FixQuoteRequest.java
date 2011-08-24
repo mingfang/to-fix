@@ -110,12 +110,12 @@ public class FixQuoteRequest extends FixMessage
 
 			case FixTags.BOOKINGTYPE_INT:
 				bookingType = FixUtils.getTagIntValue( value );
-				if (!BookingType.isValid(bookingType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + bookingType + ") for tag: " + id );
+				if (!BookingType.isValid(bookingType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + bookingType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.ORDERCAPACITY_INT:
 				orderCapacity = FixUtils.getTagCharValue( value );
-				if (!OrderCapacity.isValid(orderCapacity) ) throw new FixSessionException(buf, "Invalid enumerated value(" + orderCapacity + ") for tag: " + id );
+				if (!OrderCapacity.isValid(orderCapacity) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + orderCapacity + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.PRIVATEQUOTE_INT:
@@ -124,7 +124,7 @@ public class FixQuoteRequest extends FixMessage
 
 			case FixTags.RESPONDENTTYPE_INT:
 				respondentType = FixUtils.getTagIntValue( value );
-				if (!RespondentType.isValid(respondentType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + respondentType + ") for tag: " + id );
+				if (!RespondentType.isValid(respondentType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + respondentType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.PRETRADEANONYMITY_INT:
@@ -133,7 +133,7 @@ public class FixQuoteRequest extends FixMessage
 
 			case FixTags.ORDERRESTRICTIONS_INT:
 				orderRestrictions = FixUtils.getTagStringValue(value, orderRestrictions);
-				if (!OrderRestrictions.isValid(orderRestrictions) ) throw new FixSessionException(buf, "Invalid enumerated value(" + orderRestrictions + ") for tag: " + id );
+				if (!OrderRestrictions.isValid(orderRestrictions) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + orderRestrictions + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NOROOTPARTYIDS_INT:
@@ -163,12 +163,12 @@ public class FixQuoteRequest extends FixMessage
 				checkSum = FixUtils.getTagIntValue( value );
 
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 				return;
 
 			default:
-				throw new FixSessionException(buf, "Unknown tag: " + id );
+				throw new FixSessionException(SessionRejectReason.UNDEFINED_TAG, "Unknown tag".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 			}
 

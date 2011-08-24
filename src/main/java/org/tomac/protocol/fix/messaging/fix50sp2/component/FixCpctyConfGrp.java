@@ -15,6 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.SessionRejectReason;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
@@ -27,7 +28,7 @@ public class FixCpctyConfGrp
 	public void getAll(int noCapacities, ByteBuffer buf) throws FixSessionException {
 		this.noCapacities = noCapacities;
 
-		if (noCapacities < 1) throw new FixSessionException("asdasd");
+		if (noCapacities < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noCapacities ).getBytes(), FixTags.NOCAPACITIES_INT, new byte[0]);
 		// this will leak memory if we grow the group
 		if (group == null || group.length < noCapacities) {
 			group = new CpctyConfGrp[noCapacities];
@@ -100,7 +101,7 @@ public class CpctyConfGrp implements FixComponent
 
 			if(id == FixTags.ORDERCAPACITY_INT) {
 				orderCapacity = FixUtils.getTagCharValue( value );
-				if (!FixMessageInfo.OrderCapacity.isValid(orderCapacity) ) throw new FixSessionException(buf, "Invalid enumerated value(" + orderCapacity + ") for tag: " + id );
+				if (!FixMessageInfo.OrderCapacity.isValid(orderCapacity) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + orderCapacity + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -108,7 +109,7 @@ public class CpctyConfGrp implements FixComponent
 
 			if(id == FixTags.ORDERRESTRICTIONS_INT) {
 				orderRestrictions = FixUtils.getTagStringValue(value, orderRestrictions);
-				if (!FixMessageInfo.OrderRestrictions.isValid(orderRestrictions) ) throw new FixSessionException(buf, "Invalid enumerated value(" + orderRestrictions + ") for tag: " + id );
+				if (!FixMessageInfo.OrderRestrictions.isValid(orderRestrictions) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + orderRestrictions + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -122,7 +123,7 @@ public class CpctyConfGrp implements FixComponent
 			}
 
 			id = checkRequiredTags();
-			if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 			buf.position( lastTagPosition );
 			return;

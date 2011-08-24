@@ -88,12 +88,12 @@ public class FixTriggeringInstruction implements FixComponent
 
 			case FixTags.TRIGGERTYPE_INT:
 				triggerType = FixUtils.getTagCharValue( value );
-				if (!TriggerType.isValid(triggerType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + triggerType + ") for tag: " + id );
+				if (!TriggerType.isValid(triggerType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + triggerType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.TRIGGERACTION_INT:
 				triggerAction = FixUtils.getTagCharValue( value );
-				if (!TriggerAction.isValid(triggerAction) ) throw new FixSessionException(buf, "Invalid enumerated value(" + triggerAction + ") for tag: " + id );
+				if (!TriggerAction.isValid(triggerAction) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + triggerAction + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.TRIGGERPRICE_INT:
@@ -118,17 +118,17 @@ public class FixTriggeringInstruction implements FixComponent
 
 			case FixTags.TRIGGERPRICETYPE_INT:
 				triggerPriceType = FixUtils.getTagCharValue( value );
-				if (!TriggerPriceType.isValid(triggerPriceType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + triggerPriceType + ") for tag: " + id );
+				if (!TriggerPriceType.isValid(triggerPriceType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + triggerPriceType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.TRIGGERPRICETYPESCOPE_INT:
 				triggerPriceTypeScope = FixUtils.getTagCharValue( value );
-				if (!TriggerPriceTypeScope.isValid(triggerPriceTypeScope) ) throw new FixSessionException(buf, "Invalid enumerated value(" + triggerPriceTypeScope + ") for tag: " + id );
+				if (!TriggerPriceTypeScope.isValid(triggerPriceTypeScope) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + triggerPriceTypeScope + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.TRIGGERPRICEDIRECTION_INT:
 				triggerPriceDirection = FixUtils.getTagCharValue( value );
-				if (!TriggerPriceDirection.isValid(triggerPriceDirection) ) throw new FixSessionException(buf, "Invalid enumerated value(" + triggerPriceDirection + ") for tag: " + id );
+				if (!TriggerPriceDirection.isValid(triggerPriceDirection) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + triggerPriceDirection + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.TRIGGERNEWPRICE_INT:
@@ -137,7 +137,7 @@ public class FixTriggeringInstruction implements FixComponent
 
 			case FixTags.TRIGGERORDERTYPE_INT:
 				triggerOrderType = FixUtils.getTagCharValue( value );
-				if (!TriggerOrderType.isValid(triggerOrderType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + triggerOrderType + ") for tag: " + id );
+				if (!TriggerOrderType.isValid(triggerOrderType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + triggerOrderType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.TRIGGERNEWQTY_INT:
@@ -155,7 +155,7 @@ public class FixTriggeringInstruction implements FixComponent
 			// we will always endup with unknown tag, unread and return to upper layer in hierarchy
 			default:
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 				buf.position( lastTagPosition );
 				return;

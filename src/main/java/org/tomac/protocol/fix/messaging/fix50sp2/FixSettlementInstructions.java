@@ -96,12 +96,12 @@ public class FixSettlementInstructions extends FixMessage
 
 			case FixTags.SETTLINSTMODE_INT:
 				settlInstMode = FixUtils.getTagCharValue( value );
-				if (!SettlInstMode.isValid(settlInstMode) ) throw new FixSessionException(buf, "Invalid enumerated value(" + settlInstMode + ") for tag: " + id );
+				if (!SettlInstMode.isValid(settlInstMode) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + settlInstMode + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.SETTLINSTREQREJCODE_INT:
 				settlInstReqRejCode = FixUtils.getTagIntValue( value );
-				if (!SettlInstReqRejCode.isValid(settlInstReqRejCode) ) throw new FixSessionException(buf, "Invalid enumerated value(" + settlInstReqRejCode + ") for tag: " + id );
+				if (!SettlInstReqRejCode.isValid(settlInstReqRejCode) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + settlInstReqRejCode + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TEXT_INT:
@@ -134,12 +134,12 @@ public class FixSettlementInstructions extends FixMessage
 				checkSum = FixUtils.getTagIntValue( value );
 
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 				return;
 
 			default:
-				throw new FixSessionException(buf, "Unknown tag: " + id );
+				throw new FixSessionException(SessionRejectReason.UNDEFINED_TAG, "Unknown tag".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 			}
 

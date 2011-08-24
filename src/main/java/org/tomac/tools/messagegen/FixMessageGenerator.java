@@ -5,13 +5,15 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.SortedSet;
 
 import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
-import org.tomac.protocol.fix.messaging.fix42nordic.FixMessageListener;
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
+import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.FixUtils;
+import org.tomac.protocol.fix.messaging.fix42nordic.FixMessageInfo;
+import org.tomac.protocol.fix.messaging.fix42nordic.FixTags;
+import org.tomac.protocol.fix.messaging.fix42nordic.FixMessageInfo.SessionRejectReason;
 import org.tomac.tools.messagegen.FixMessageDom.DomBase;
 import org.tomac.tools.messagegen.FixMessageDom.DomFixComponent;
 import org.tomac.tools.messagegen.FixMessageDom.DomFixComponentRef;
@@ -649,7 +651,15 @@ public class FixMessageGenerator {
 		f = new File(packageDir, dom.type + "MessageParser.java");
 
 		genParser(dom, new BufferedWriter(new FileWriter(f)));
+
+		// generate session validator callback
+		f = new File(packageDir, dom.type + "SessionValidator.java");
+
+		genSessionValidator(dom, new BufferedWriter(new FileWriter(f)));
+		
+	
 	}
+
 
 	private void genFixComponent(FixMessageDom dom, final BufferedWriter out) throws Exception 
 	{
@@ -799,7 +809,8 @@ public class FixMessageGenerator {
 	 		out.write("\t\t\tcase FixTags." + f.name.toUpperCase() + "_INT:\n");
 	 		decodeFieldValue(f, out);
 			if (f.domFixValues.size() > 0 && FixMessageDom.toInt(f.type) != FixMessageDom.BOOLEAN ) {
-	 			out.write("\t\t\t\tif (!" + capFirst(f.name) + ".isValid("+ uncapFirst(f.name) + ") ) throw new FixSessionException(buf, \"Invalid enumerated value(\" + " + uncapFirst(f.name) + " + \") for tag: \" + id );\n");
+	 			out.write("\t\t\t\tif (!" + capFirst(f.name) + ".isValid("+ uncapFirst(f.name) + ") ) " +
+	 					"throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, (\"Invalid enumerated value(\" + " + uncapFirst(f.name) + " + \") for tag\").getBytes(), id, FixUtils.getMsgType(msgType) );\n");
 			}
 	 		out.write("\t\t\t\tbreak;\n\n");
 		} 		
@@ -865,7 +876,7 @@ public class FixMessageGenerator {
 		out.write("\t\tFixUtils.getTagStringValue(buf, tmpBeginString);\n");
 		if (!isCrackMsgType) {
 			out.write("\t\tif(!Utils.equals(FixMessageInfo.BEGINSTRING_VALUE, tmpBeginString))\n");
-			out.write("\t\t	throw new FixSessionException(buf, \"BeginString not equal to: \" + new String(FixMessageInfo.BEGINSTRING_VALUE));\n\n");
+			out.write("\t\t	throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, (\"BeginString not equal to: \" + new String(FixMessageInfo.BEGINSTRING_VALUE)).getBytes(), FixTags.BEGINSTRING_INT, new byte[0]);");
 		}
 		
 		out.write("\t\t//now look to get bodyLength field\n");
@@ -914,7 +925,7 @@ public class FixMessageGenerator {
 		
 		if (!isCrackMsgType) {
 			out.write("\t\tif (! MsgType.isValid(tmpMsgType))\n");
-			out.write("\t\t\tthrow new FixSessionException(buf, msgEnd, String.format(\"MsgType not in specification: %s\", new String(tmpMsgType).trim()));");
+			out.write("\t\t\tthrow new FixSessionException(SessionRejectReason.INVALID_MSGTYPE, \"MsgType not in specificaton for tag\".getBytes(), FixTags.MSGTYPE_INT, FixUtils.getMsgType(msgType) );");
 		}
 		
 		if (isCrackMsgType) {
@@ -1191,7 +1202,8 @@ public class FixMessageGenerator {
 				out.write("\t\t\tcase FixTags." + f.name.toUpperCase() + "_INT:\n");
 				decodeFieldValue(f, out);
 				if (f.domFixValues.size() > 0) {
-					out.write("\t\t\t\tif (!" + capFirst(f.name) + ".isValid("+ uncapFirst(f.name) + ") ) throw new FixSessionException(buf, \"Invalid enumerated value(\" + " + uncapFirst(f.name) + " + \") for tag: \" + id );\n");
+					out.write("\t\t\t\tif (!" + capFirst(f.name) + ".isValid("+ uncapFirst(f.name) + ") ) " + 
+							"throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, (\"Invalid enumerated value(\" + " + uncapFirst(f.name) + " + \") for tag\").getBytes(), id, FixUtils.getMsgType(msgType) );\n");
 	 			}
 	 			out.write("\t\t\t\tbreak;\n\n");
 			}
@@ -1214,12 +1226,12 @@ public class FixMessageGenerator {
 		out.write("\t\t\t\tcheckSum = FixUtils.getTagIntValue( value );\n\n");
 		
 		out.write("\t\t\t\tid = checkRequiredTags();\n");
-		out.write("\t\t\t\tif (id > 0) throw new FixSessionException(buf, \"Required tag missing: \" + id );\n\n");
+		out.write("\t\t\t\tif (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, \"Required tag missing\".getBytes(), id, FixUtils.getMsgType(msgType) );\n\n");
 		
 		out.write("\t\t\t\treturn;\n\n");
 
  		out.write("\t\t\tdefault:\n");
-		out.write("\t\t\t\tthrow new FixSessionException(buf, \"Unknown tag: \" + id );\n\n");
+		out.write("\t\t\t\tthrow new FixSessionException(SessionRejectReason.UNDEFINED_TAG, \"Unknown tag\".getBytes(), id, FixUtils.getMsgType(msgType) );\n\n");
  		// for components -> out.write("\t\t\t\tbuf.position( lastTagPosition );\n\n");
  		//out.write("\t\t\t\treturn;\n\n");
 
@@ -1412,6 +1424,7 @@ public class FixMessageGenerator {
 		out.write(strConstants + "\n");
 		out.write(strBaseUtils + "\n");
 		out.write(strOtherUtils + "\n");
+		out.write("import " + dom.packageName + ".FixMessageInfo.SessionRejectReason;\n");
 		out.write("import " + dom.packageName + ".FixMessageInfo;\n");
 		out.write("import " + dom.packageName + ".FixTags;\n");
 		for (DomFixComponentRef c : m.components)
@@ -1427,7 +1440,7 @@ public class FixMessageGenerator {
 		out.write("\tpublic void getAll(int " + uncapFirst(m.noInGroupTag) + ", ByteBuffer buf) throws FixSessionException {\n");
 		out.write("\t\tthis." + uncapFirst(m.noInGroupTag) + " = " + uncapFirst(m.noInGroupTag) + ";\n\n");
 			
-		out.write("\t\tif (" + uncapFirst(m.noInGroupTag) + " < 1) throw new FixSessionException(\"asdasd\");\n");
+		out.write("\t\tif (" + uncapFirst(m.noInGroupTag) + " < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, (\"Incorrect num in group count \" + " + uncapFirst(m.noInGroupTag) + " ).getBytes(), FixTags." + m.noInGroupTag.toUpperCase() + "_INT, new byte[0]);\n");
 		out.write("\t\t// this will leak memory if we grow the group\n");
 		out.write("\t\tif (group == null || group.length < " + uncapFirst(m.noInGroupTag) + ") {\n");
 		out.write("\t\t\tgroup = new " + capFirst(m.name) + "[" + uncapFirst(m.noInGroupTag) + "];\n\n");
@@ -1683,7 +1696,8 @@ public class FixMessageGenerator {
 				out.write("\t\t\tif(id == FixTags." + f.name.toUpperCase() + "_INT) {\n");
 				decodeFieldValue(f, out);
 				if (f.domFixValues.size() > 0) {
-					out.write("\t\t\t\tif (!FixMessageInfo." + capFirst(f.name) + ".isValid("+ uncapFirst(f.name) + ") ) throw new FixSessionException(buf, \"Invalid enumerated value(\" + " + uncapFirst(f.name) + " + \") for tag: \" + id );\n");
+					out.write("\t\t\t\tif (!FixMessageInfo." + capFirst(f.name) + ".isValid("+ uncapFirst(f.name) + ") ) " + 
+		 					"throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, (\"Invalid enumerated value(\" + " + uncapFirst(f.name) + " + \") for tag\").getBytes(), id, new byte[0] );\n");
 	 			}
 		 		out.write("\t\t\t\tlastTagPosition = buf.position();\n\n");
 				out.write("\t\t\t\tid = FixUtils.getTagId( buf );\n");
@@ -1708,7 +1722,7 @@ public class FixMessageGenerator {
 		} 		
 		// unknown, unread
 		out.write("\t\t\tid = checkRequiredTags();\n");
-		out.write("\t\t\tif (id > 0) throw new FixSessionException(buf, \"Required tag missing: \" + id );\n\n");
+		out.write("\t\t\t\tif (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, \"Required tag missing\".getBytes(), id, new byte[0] );\n\n");
 		
 		out.write("\t\t\tbuf.position( lastTagPosition );\n");
  		out.write("\t\t\treturn;\n\n");
@@ -1729,7 +1743,8 @@ public class FixMessageGenerator {
 				out.write("\t\t\tcase FixTags." + f.name.toUpperCase() + "_INT:\n");
 				decodeFieldValue(f, out);
 				if (f.domFixValues.size() > 0) {
-					out.write("\t\t\t\tif (!" + capFirst(f.name) + ".isValid("+ uncapFirst(f.name) + ") ) throw new FixSessionException(buf, \"Invalid enumerated value(\" + " + uncapFirst(f.name) + " + \") for tag: \" + id );\n");
+					out.write("\t\t\t\tif (!" + capFirst(f.name) + ".isValid("+ uncapFirst(f.name) + ") ) " + 
+		 					"throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, (\"Invalid enumerated value(\" + " + uncapFirst(f.name) + " + \") for tag\").getBytes(), id, new byte[0] );\n");
 	 			}
 	 			out.write("\t\t\t\tbreak;\n\n");
 			}
@@ -1750,7 +1765,7 @@ public class FixMessageGenerator {
 		out.write("\t\t\t// we will always endup with unknown tag, unread and return to upper layer in hierarchy\n");
  		out.write("\t\t\tdefault:\n");
 		out.write("\t\t\t\tid = checkRequiredTags();\n");
-		out.write("\t\t\t\tif (id > 0) throw new FixSessionException(buf, \"Required tag missing: \" + id );\n\n");
+		out.write("\t\t\t\tif (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, \"Required tag missing\".getBytes(), id, new byte[0] );\n\n");
 		
 		out.write("\t\t\t\tbuf.position( lastTagPosition );\n");
  		out.write("\t\t\t\treturn;\n\n");
@@ -1778,6 +1793,7 @@ public class FixMessageGenerator {
 
 		// write out the open to the parser class
 		out.write("public class " + dom.type + "MessageParser implements " + dom.type + "MessageInfo\n{\n\n");
+		out.write("\tpublic FixSessionValidator validator = new FixSessionValidator() {};\n\n");
 
 		for (final DomFixMessage m : dom.domFixMessages) {
 			out.write("\t" + capFirst(dom.type.toLowerCase()) + capFirst(m.name) + " " + dom.type.toLowerCase() + capFirst(m.name) + 
@@ -1797,6 +1813,7 @@ public class FixMessageGenerator {
 			out.write("\t\t\tcase MsgTypes." + m.name.toUpperCase() + "_INT:\n");
 			out.write("\t\t\t\t" + name + ".setBuffer( buf );\n");
 			out.write("\t\t\t\t" + name + ".getAll();\n");
+			out.write("\t\t\t\tif (!validator.validate(" + name + ")) return;\n");
 			out.write("\t\t\t\tl.on" + capFirst(dom.type.toLowerCase()) + m.name + "(" + name + ");\n");
 			out.write("\t\t\t\tbreak;\n");
 		}
@@ -1812,6 +1829,21 @@ public class FixMessageGenerator {
 		out.write("}\n");
 
 		// done. close out the file
+		out.close();
+	}
+	
+	private void genSessionValidator(FixMessageDom dom, BufferedWriter out) throws IOException 
+	{
+		out.write("package " + dom.packageName + ";\n\n");
+
+		out.write(strFixException + "\n\n");
+
+		out.write("public abstract class FixSessionValidator {\n\n");
+
+		out.write("\tpublic boolean validate(FixMessage msg)  throws FixSessionException {return true;}\n\n");
+
+		out.write("}\n");		
+
 		out.close();
 	}
 

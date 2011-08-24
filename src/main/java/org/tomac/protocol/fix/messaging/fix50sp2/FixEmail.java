@@ -111,7 +111,7 @@ public class FixEmail extends FixMessage
 
 			case FixTags.EMAILTYPE_INT:
 				emailType = FixUtils.getTagCharValue( value );
-				if (!EmailType.isValid(emailType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + emailType + ") for tag: " + id );
+				if (!EmailType.isValid(emailType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + emailType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.ORIGTIME_INT:
@@ -176,12 +176,12 @@ public class FixEmail extends FixMessage
 				checkSum = FixUtils.getTagIntValue( value );
 
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 				return;
 
 			default:
-				throw new FixSessionException(buf, "Unknown tag: " + id );
+				throw new FixSessionException(SessionRejectReason.UNDEFINED_TAG, "Unknown tag".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 			}
 

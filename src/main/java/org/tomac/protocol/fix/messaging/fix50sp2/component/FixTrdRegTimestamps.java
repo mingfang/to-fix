@@ -15,6 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.SessionRejectReason;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
@@ -27,7 +28,7 @@ public class FixTrdRegTimestamps
 	public void getAll(int noTrdRegTimestamps, ByteBuffer buf) throws FixSessionException {
 		this.noTrdRegTimestamps = noTrdRegTimestamps;
 
-		if (noTrdRegTimestamps < 1) throw new FixSessionException("asdasd");
+		if (noTrdRegTimestamps < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noTrdRegTimestamps ).getBytes(), FixTags.NOTRDREGTIMESTAMPS_INT, new byte[0]);
 		// this will leak memory if we grow the group
 		if (group == null || group.length < noTrdRegTimestamps) {
 			group = new TrdRegTimestamps[noTrdRegTimestamps];
@@ -116,7 +117,7 @@ public class TrdRegTimestamps implements FixComponent
 
 			if(id == FixTags.TRDREGTIMESTAMPTYPE_INT) {
 				trdRegTimestampType = FixUtils.getTagIntValue( value );
-				if (!FixMessageInfo.TrdRegTimestampType.isValid(trdRegTimestampType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + trdRegTimestampType + ") for tag: " + id );
+				if (!FixMessageInfo.TrdRegTimestampType.isValid(trdRegTimestampType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + trdRegTimestampType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -131,7 +132,7 @@ public class TrdRegTimestamps implements FixComponent
 
 			if(id == FixTags.DESKTYPE_INT) {
 				deskType = FixUtils.getTagStringValue(value, deskType);
-				if (!FixMessageInfo.DeskType.isValid(deskType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + deskType + ") for tag: " + id );
+				if (!FixMessageInfo.DeskType.isValid(deskType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + deskType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -139,7 +140,7 @@ public class TrdRegTimestamps implements FixComponent
 
 			if(id == FixTags.DESKTYPESOURCE_INT) {
 				deskTypeSource = FixUtils.getTagIntValue( value );
-				if (!FixMessageInfo.DeskTypeSource.isValid(deskTypeSource) ) throw new FixSessionException(buf, "Invalid enumerated value(" + deskTypeSource + ") for tag: " + id );
+				if (!FixMessageInfo.DeskTypeSource.isValid(deskTypeSource) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + deskTypeSource + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -147,14 +148,14 @@ public class TrdRegTimestamps implements FixComponent
 
 			if(id == FixTags.DESKORDERHANDLINGINST_INT) {
 				deskOrderHandlingInst = FixUtils.getTagStringValue(value, deskOrderHandlingInst);
-				if (!FixMessageInfo.DeskOrderHandlingInst.isValid(deskOrderHandlingInst) ) throw new FixSessionException(buf, "Invalid enumerated value(" + deskOrderHandlingInst + ") for tag: " + id );
+				if (!FixMessageInfo.DeskOrderHandlingInst.isValid(deskOrderHandlingInst) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + deskOrderHandlingInst + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			id = checkRequiredTags();
-			if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 			buf.position( lastTagPosition );
 			return;

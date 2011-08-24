@@ -100,7 +100,7 @@ public class FixPartyDetailsListReport extends FixMessage
 
 			case FixTags.PARTYDETAILSREQUESTRESULT_INT:
 				partyDetailsRequestResult = FixUtils.getTagIntValue( value );
-				if (!PartyDetailsRequestResult.isValid(partyDetailsRequestResult) ) throw new FixSessionException(buf, "Invalid enumerated value(" + partyDetailsRequestResult + ") for tag: " + id );
+				if (!PartyDetailsRequestResult.isValid(partyDetailsRequestResult) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + partyDetailsRequestResult + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TOTNOPARTYLIST_INT:
@@ -109,7 +109,7 @@ public class FixPartyDetailsListReport extends FixMessage
 
 			case FixTags.LASTFRAGMENT_INT:
 				lastFragment = FixUtils.getTagBooleanValue( value );
-				if (!LastFragment.isValid(lastFragment) ) throw new FixSessionException(buf, "Invalid enumerated value(" + lastFragment + ") for tag: " + id );
+				if (!LastFragment.isValid(lastFragment) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + lastFragment + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NOPARTYLIST_INT:
@@ -134,12 +134,12 @@ public class FixPartyDetailsListReport extends FixMessage
 				checkSum = FixUtils.getTagIntValue( value );
 
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 				return;
 
 			default:
-				throw new FixSessionException(buf, "Unknown tag: " + id );
+				throw new FixSessionException(SessionRejectReason.UNDEFINED_TAG, "Unknown tag".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 			}
 

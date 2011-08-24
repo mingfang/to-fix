@@ -15,6 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.SessionRejectReason;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixPartyDetail;
@@ -29,7 +30,7 @@ public class FixPartyListGrp
 	public void getAll(int noPartyList, ByteBuffer buf) throws FixSessionException {
 		this.noPartyList = noPartyList;
 
-		if (noPartyList < 1) throw new FixSessionException("asdasd");
+		if (noPartyList < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noPartyList ).getBytes(), FixTags.NOPARTYLIST_INT, new byte[0]);
 		// this will leak memory if we grow the group
 		if (group == null || group.length < noPartyList) {
 			group = new PartyListGrp[noPartyList];
@@ -114,7 +115,7 @@ public class PartyListGrp implements FixComponent
 			}
 
 			id = checkRequiredTags();
-			if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 			buf.position( lastTagPosition );
 			return;

@@ -15,6 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.SessionRejectReason;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
@@ -27,7 +28,7 @@ public class FixMaturityRules
 	public void getAll(int noMaturityRules, ByteBuffer buf) throws FixSessionException {
 		this.noMaturityRules = noMaturityRules;
 
-		if (noMaturityRules < 1) throw new FixSessionException("asdasd");
+		if (noMaturityRules < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noMaturityRules ).getBytes(), FixTags.NOMATURITYRULES_INT, new byte[0]);
 		// this will leak memory if we grow the group
 		if (group == null || group.length < noMaturityRules) {
 			group = new MaturityRules[noMaturityRules];
@@ -115,7 +116,7 @@ public class MaturityRules implements FixComponent
 
 			if(id == FixTags.MATURITYMONTHYEARFORMAT_INT) {
 				maturityMonthYearFormat = FixUtils.getTagIntValue( value );
-				if (!FixMessageInfo.MaturityMonthYearFormat.isValid(maturityMonthYearFormat) ) throw new FixSessionException(buf, "Invalid enumerated value(" + maturityMonthYearFormat + ") for tag: " + id );
+				if (!FixMessageInfo.MaturityMonthYearFormat.isValid(maturityMonthYearFormat) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + maturityMonthYearFormat + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -123,7 +124,7 @@ public class MaturityRules implements FixComponent
 
 			if(id == FixTags.MATURITYMONTHYEARINCREMENTUNITS_INT) {
 				maturityMonthYearIncrementUnits = FixUtils.getTagIntValue( value );
-				if (!FixMessageInfo.MaturityMonthYearIncrementUnits.isValid(maturityMonthYearIncrementUnits) ) throw new FixSessionException(buf, "Invalid enumerated value(" + maturityMonthYearIncrementUnits + ") for tag: " + id );
+				if (!FixMessageInfo.MaturityMonthYearIncrementUnits.isValid(maturityMonthYearIncrementUnits) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + maturityMonthYearIncrementUnits + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -151,7 +152,7 @@ public class MaturityRules implements FixComponent
 			}
 
 			id = checkRequiredTags();
-			if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 			buf.position( lastTagPosition );
 			return;

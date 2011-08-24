@@ -249,12 +249,12 @@ public class FixConfirmation extends FixMessage
 
 			case FixTags.CONFIRMTRANSTYPE_INT:
 				confirmTransType = FixUtils.getTagIntValue( value );
-				if (!ConfirmTransType.isValid(confirmTransType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + confirmTransType + ") for tag: " + id );
+				if (!ConfirmTransType.isValid(confirmTransType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + confirmTransType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.CONFIRMTYPE_INT:
 				confirmType = FixUtils.getTagIntValue( value );
-				if (!ConfirmType.isValid(confirmType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + confirmType + ") for tag: " + id );
+				if (!ConfirmType.isValid(confirmType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + confirmType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.COPYMSGINDICATOR_INT:
@@ -263,12 +263,12 @@ public class FixConfirmation extends FixMessage
 
 			case FixTags.LEGALCONFIRM_INT:
 				legalConfirm = FixUtils.getTagBooleanValue( value );
-				if (!LegalConfirm.isValid(legalConfirm) ) throw new FixSessionException(buf, "Invalid enumerated value(" + legalConfirm + ") for tag: " + id );
+				if (!LegalConfirm.isValid(legalConfirm) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + legalConfirm + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.CONFIRMSTATUS_INT:
 				confirmStatus = FixUtils.getTagIntValue( value );
-				if (!ConfirmStatus.isValid(confirmStatus) ) throw new FixSessionException(buf, "Invalid enumerated value(" + confirmStatus + ") for tag: " + id );
+				if (!ConfirmStatus.isValid(confirmStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + confirmStatus + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NOPARTYIDS_INT:
@@ -338,12 +338,12 @@ public class FixConfirmation extends FixMessage
 
 			case FixTags.QTYTYPE_INT:
 				qtyType = FixUtils.getTagIntValue( value );
-				if (!QtyType.isValid(qtyType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + qtyType + ") for tag: " + id );
+				if (!QtyType.isValid(qtyType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + qtyType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.SIDE_INT:
 				side = FixUtils.getTagCharValue( value );
-				if (!Side.isValid(side) ) throw new FixSessionException(buf, "Invalid enumerated value(" + side + ") for tag: " + id );
+				if (!Side.isValid(side) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + side + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.CURRENCY_INT:
@@ -369,7 +369,7 @@ public class FixConfirmation extends FixMessage
 
 			case FixTags.ALLOCACCOUNTTYPE_INT:
 				allocAccountType = FixUtils.getTagIntValue( value );
-				if (!AllocAccountType.isValid(allocAccountType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + allocAccountType + ") for tag: " + id );
+				if (!AllocAccountType.isValid(allocAccountType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + allocAccountType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.AVGPX_INT:
@@ -382,7 +382,7 @@ public class FixConfirmation extends FixMessage
 
 			case FixTags.PRICETYPE_INT:
 				priceType = FixUtils.getTagIntValue( value );
-				if (!PriceType.isValid(priceType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + priceType + ") for tag: " + id );
+				if (!PriceType.isValid(priceType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + priceType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.AVGPARPX_INT:
@@ -411,7 +411,7 @@ public class FixConfirmation extends FixMessage
 
 			case FixTags.PROCESSCODE_INT:
 				processCode = FixUtils.getTagCharValue( value );
-				if (!ProcessCode.isValid(processCode) ) throw new FixSessionException(buf, "Invalid enumerated value(" + processCode + ") for tag: " + id );
+				if (!ProcessCode.isValid(processCode) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + processCode + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.GROSSTRADEAMT_INT:
@@ -480,12 +480,12 @@ public class FixConfirmation extends FixMessage
 
 			case FixTags.SETTLCURRFXRATECALC_INT:
 				settlCurrFxRateCalc = FixUtils.getTagCharValue( value );
-				if (!SettlCurrFxRateCalc.isValid(settlCurrFxRateCalc) ) throw new FixSessionException(buf, "Invalid enumerated value(" + settlCurrFxRateCalc + ") for tag: " + id );
+				if (!SettlCurrFxRateCalc.isValid(settlCurrFxRateCalc) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + settlCurrFxRateCalc + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.SETTLTYPE_INT:
 				settlType = FixUtils.getTagStringValue(value, settlType);
-				if (!SettlType.isValid(settlType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + settlType + ") for tag: " + id );
+				if (!SettlType.isValid(settlType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + settlType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.SETTLDATE_INT:
@@ -519,12 +519,12 @@ public class FixConfirmation extends FixMessage
 				checkSum = FixUtils.getTagIntValue( value );
 
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 				return;
 
 			default:
-				throw new FixSessionException(buf, "Unknown tag: " + id );
+				throw new FixSessionException(SessionRejectReason.UNDEFINED_TAG, "Unknown tag".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 			}
 

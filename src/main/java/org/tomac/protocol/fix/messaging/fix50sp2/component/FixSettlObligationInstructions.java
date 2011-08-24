@@ -15,6 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.SessionRejectReason;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixInstrument;
@@ -30,7 +31,7 @@ public class FixSettlObligationInstructions
 	public void getAll(int noSettlOblig, ByteBuffer buf) throws FixSessionException {
 		this.noSettlOblig = noSettlOblig;
 
-		if (noSettlOblig < 1) throw new FixSessionException("asdasd");
+		if (noSettlOblig < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noSettlOblig ).getBytes(), FixTags.NOSETTLOBLIG_INT, new byte[0]);
 		// this will leak memory if we grow the group
 		if (group == null || group.length < noSettlOblig) {
 			group = new SettlObligationInstructions[noSettlOblig];
@@ -139,7 +140,7 @@ public class SettlObligationInstructions implements FixComponent
 
 			if(id == FixTags.NETGROSSIND_INT) {
 				netGrossInd = FixUtils.getTagIntValue( value );
-				if (!FixMessageInfo.NetGrossInd.isValid(netGrossInd) ) throw new FixSessionException(buf, "Invalid enumerated value(" + netGrossInd + ") for tag: " + id );
+				if (!FixMessageInfo.NetGrossInd.isValid(netGrossInd) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + netGrossInd + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -154,7 +155,7 @@ public class SettlObligationInstructions implements FixComponent
 
 			if(id == FixTags.SETTLOBLIGTRANSTYPE_INT) {
 				settlObligTransType = FixUtils.getTagCharValue( value );
-				if (!FixMessageInfo.SettlObligTransType.isValid(settlObligTransType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + settlObligTransType + ") for tag: " + id );
+				if (!FixMessageInfo.SettlObligTransType.isValid(settlObligTransType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + settlObligTransType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -252,7 +253,7 @@ public class SettlObligationInstructions implements FixComponent
 			}
 
 			id = checkRequiredTags();
-			if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 			buf.position( lastTagPosition );
 			return;

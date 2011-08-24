@@ -15,6 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.SessionRejectReason;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
@@ -27,7 +28,7 @@ public class FixOrdListStatGrp
 	public void getAll(int noOrders, ByteBuffer buf) throws FixSessionException {
 		this.noOrders = noOrders;
 
-		if (noOrders < 1) throw new FixSessionException("asdasd");
+		if (noOrders < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noOrders ).getBytes(), FixTags.NOORDERS_INT, new byte[0]);
 		// this will leak memory if we grow the group
 		if (group == null || group.length < noOrders) {
 			group = new OrdListStatGrp[noOrders];
@@ -152,7 +153,7 @@ public class OrdListStatGrp implements FixComponent
 
 			if(id == FixTags.ORDSTATUS_INT) {
 				ordStatus = FixUtils.getTagCharValue( value );
-				if (!FixMessageInfo.OrdStatus.isValid(ordStatus) ) throw new FixSessionException(buf, "Invalid enumerated value(" + ordStatus + ") for tag: " + id );
+				if (!FixMessageInfo.OrdStatus.isValid(ordStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + ordStatus + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -160,7 +161,7 @@ public class OrdListStatGrp implements FixComponent
 
 			if(id == FixTags.WORKINGINDICATOR_INT) {
 				workingIndicator = FixUtils.getTagBooleanValue( value );
-				if (!FixMessageInfo.WorkingIndicator.isValid(workingIndicator) ) throw new FixSessionException(buf, "Invalid enumerated value(" + workingIndicator + ") for tag: " + id );
+				if (!FixMessageInfo.WorkingIndicator.isValid(workingIndicator) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + workingIndicator + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -189,7 +190,7 @@ public class OrdListStatGrp implements FixComponent
 
 			if(id == FixTags.ORDREJREASON_INT) {
 				ordRejReason = FixUtils.getTagIntValue( value );
-				if (!FixMessageInfo.OrdRejReason.isValid(ordRejReason) ) throw new FixSessionException(buf, "Invalid enumerated value(" + ordRejReason + ") for tag: " + id );
+				if (!FixMessageInfo.OrdRejReason.isValid(ordRejReason) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + ordRejReason + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -217,7 +218,7 @@ public class OrdListStatGrp implements FixComponent
 			}
 
 			id = checkRequiredTags();
-			if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 			buf.position( lastTagPosition );
 			return;

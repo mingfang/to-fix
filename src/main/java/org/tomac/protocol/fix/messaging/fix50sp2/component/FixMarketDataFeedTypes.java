@@ -15,6 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.SessionRejectReason;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
@@ -27,7 +28,7 @@ public class FixMarketDataFeedTypes
 	public void getAll(int noMDFeedTypes, ByteBuffer buf) throws FixSessionException {
 		this.noMDFeedTypes = noMDFeedTypes;
 
-		if (noMDFeedTypes < 1) throw new FixSessionException("asdasd");
+		if (noMDFeedTypes < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noMDFeedTypes ).getBytes(), FixTags.NOMDFEEDTYPES_INT, new byte[0]);
 		// this will leak memory if we grow the group
 		if (group == null || group.length < noMDFeedTypes) {
 			group = new MarketDataFeedTypes[noMDFeedTypes];
@@ -114,14 +115,14 @@ public class MarketDataFeedTypes implements FixComponent
 
 			if(id == FixTags.MDBOOKTYPE_INT) {
 				mDBookType = FixUtils.getTagIntValue( value );
-				if (!FixMessageInfo.MDBookType.isValid(mDBookType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + mDBookType + ") for tag: " + id );
+				if (!FixMessageInfo.MDBookType.isValid(mDBookType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + mDBookType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			id = checkRequiredTags();
-			if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 			buf.position( lastTagPosition );
 			return;

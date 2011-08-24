@@ -146,12 +146,12 @@ public class FixSecurityDefinition extends FixMessage
 
 			case FixTags.SECURITYRESPONSETYPE_INT:
 				securityResponseType = FixUtils.getTagIntValue( value );
-				if (!SecurityResponseType.isValid(securityResponseType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + securityResponseType + ") for tag: " + id );
+				if (!SecurityResponseType.isValid(securityResponseType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + securityResponseType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.CORPORATEACTION_INT:
 				corporateAction = FixUtils.getTagStringValue(value, corporateAction);
-				if (!CorporateAction.isValid(corporateAction) ) throw new FixSessionException(buf, "Invalid enumerated value(" + corporateAction + ") for tag: " + id );
+				if (!CorporateAction.isValid(corporateAction) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + corporateAction + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.SYMBOL_INT:
@@ -215,12 +215,12 @@ public class FixSecurityDefinition extends FixMessage
 				checkSum = FixUtils.getTagIntValue( value );
 
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 				return;
 
 			default:
-				throw new FixSessionException(buf, "Unknown tag: " + id );
+				throw new FixSessionException(SessionRejectReason.UNDEFINED_TAG, "Unknown tag".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 			}
 

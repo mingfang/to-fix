@@ -69,7 +69,7 @@ public class FixNetworkCounterpartySystemStatusRequest extends FixMessage
 
 			case FixTags.NETWORKREQUESTTYPE_INT:
 				networkRequestType = FixUtils.getTagIntValue( value );
-				if (!NetworkRequestType.isValid(networkRequestType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + networkRequestType + ") for tag: " + id );
+				if (!NetworkRequestType.isValid(networkRequestType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + networkRequestType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NETWORKREQUESTID_INT:
@@ -86,12 +86,12 @@ public class FixNetworkCounterpartySystemStatusRequest extends FixMessage
 				checkSum = FixUtils.getTagIntValue( value );
 
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 				return;
 
 			default:
-				throw new FixSessionException(buf, "Unknown tag: " + id );
+				throw new FixSessionException(SessionRejectReason.UNDEFINED_TAG, "Unknown tag".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 			}
 

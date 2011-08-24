@@ -15,6 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.SessionRejectReason;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixNstdPtys4SubGrp;
@@ -28,7 +29,7 @@ public class FixNestedParties4
 	public void getAll(int noNested4PartyIDs, ByteBuffer buf) throws FixSessionException {
 		this.noNested4PartyIDs = noNested4PartyIDs;
 
-		if (noNested4PartyIDs < 1) throw new FixSessionException("asdasd");
+		if (noNested4PartyIDs < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noNested4PartyIDs ).getBytes(), FixTags.NONESTED4PARTYIDS_INT, new byte[0]);
 		// this will leak memory if we grow the group
 		if (group == null || group.length < noNested4PartyIDs) {
 			group = new NestedParties4[noNested4PartyIDs];
@@ -131,7 +132,7 @@ public class NestedParties4 implements FixComponent
 			}
 
 			id = checkRequiredTags();
-			if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 			buf.position( lastTagPosition );
 			return;

@@ -65,7 +65,7 @@ public class FixCommissionData implements FixComponent
 
 			case FixTags.COMMTYPE_INT:
 				commType = FixUtils.getTagCharValue( value );
-				if (!CommType.isValid(commType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + commType + ") for tag: " + id );
+				if (!CommType.isValid(commType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + commType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.COMMCURRENCY_INT:
@@ -74,13 +74,13 @@ public class FixCommissionData implements FixComponent
 
 			case FixTags.FUNDRENEWWAIV_INT:
 				fundRenewWaiv = FixUtils.getTagCharValue( value );
-				if (!FundRenewWaiv.isValid(fundRenewWaiv) ) throw new FixSessionException(buf, "Invalid enumerated value(" + fundRenewWaiv + ") for tag: " + id );
+				if (!FundRenewWaiv.isValid(fundRenewWaiv) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + fundRenewWaiv + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			// we will always endup with unknown tag, unread and return to upper layer in hierarchy
 			default:
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 				buf.position( lastTagPosition );
 				return;

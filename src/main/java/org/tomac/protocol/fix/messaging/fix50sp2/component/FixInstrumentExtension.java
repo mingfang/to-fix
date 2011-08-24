@@ -60,7 +60,7 @@ public class FixInstrumentExtension implements FixComponent
 
 			case FixTags.DELIVERYFORM_INT:
 				deliveryForm = FixUtils.getTagIntValue( value );
-				if (!DeliveryForm.isValid(deliveryForm) ) throw new FixSessionException(buf, "Invalid enumerated value(" + deliveryForm + ") for tag: " + id );
+				if (!DeliveryForm.isValid(deliveryForm) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + deliveryForm + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.PCTATRISK_INT:
@@ -75,7 +75,7 @@ public class FixInstrumentExtension implements FixComponent
 			// we will always endup with unknown tag, unread and return to upper layer in hierarchy
 			default:
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 				buf.position( lastTagPosition );
 				return;

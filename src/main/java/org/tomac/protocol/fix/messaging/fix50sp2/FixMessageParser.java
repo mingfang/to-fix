@@ -12,6 +12,8 @@ import org.tomac.protocol.fix.FixGarbledException;
 public class FixMessageParser implements FixMessageInfo
 {
 
+	public FixSessionValidator validator = new FixSessionValidator() {};
+
 	FixHeartbeat fixHeartbeat = new FixHeartbeat();
 	FixTestRequest fixTestRequest = new FixTestRequest();
 	FixResendRequest fixResendRequest = new FixResendRequest();
@@ -139,586 +141,703 @@ public class FixMessageParser implements FixMessageInfo
 			case MsgTypes.HEARTBEAT_INT:
 				fixHeartbeat.setBuffer( buf );
 				fixHeartbeat.getAll();
+				if (!validator.validate(fixHeartbeat)) return;
 				l.onFixHeartbeat(fixHeartbeat);
 				break;
 			case MsgTypes.TESTREQUEST_INT:
 				fixTestRequest.setBuffer( buf );
 				fixTestRequest.getAll();
+				if (!validator.validate(fixTestRequest)) return;
 				l.onFixTestRequest(fixTestRequest);
 				break;
 			case MsgTypes.RESENDREQUEST_INT:
 				fixResendRequest.setBuffer( buf );
 				fixResendRequest.getAll();
+				if (!validator.validate(fixResendRequest)) return;
 				l.onFixResendRequest(fixResendRequest);
 				break;
 			case MsgTypes.REJECT_INT:
 				fixReject.setBuffer( buf );
 				fixReject.getAll();
+				if (!validator.validate(fixReject)) return;
 				l.onFixReject(fixReject);
 				break;
 			case MsgTypes.SEQUENCERESET_INT:
 				fixSequenceReset.setBuffer( buf );
 				fixSequenceReset.getAll();
+				if (!validator.validate(fixSequenceReset)) return;
 				l.onFixSequenceReset(fixSequenceReset);
 				break;
 			case MsgTypes.LOGOUT_INT:
 				fixLogout.setBuffer( buf );
 				fixLogout.getAll();
+				if (!validator.validate(fixLogout)) return;
 				l.onFixLogout(fixLogout);
 				break;
 			case MsgTypes.IOI_INT:
 				fixIOI.setBuffer( buf );
 				fixIOI.getAll();
+				if (!validator.validate(fixIOI)) return;
 				l.onFixIOI(fixIOI);
 				break;
 			case MsgTypes.ADVERTISEMENT_INT:
 				fixAdvertisement.setBuffer( buf );
 				fixAdvertisement.getAll();
+				if (!validator.validate(fixAdvertisement)) return;
 				l.onFixAdvertisement(fixAdvertisement);
 				break;
 			case MsgTypes.EXECUTIONREPORT_INT:
 				fixExecutionReport.setBuffer( buf );
 				fixExecutionReport.getAll();
+				if (!validator.validate(fixExecutionReport)) return;
 				l.onFixExecutionReport(fixExecutionReport);
 				break;
 			case MsgTypes.ORDERCANCELREJECT_INT:
 				fixOrderCancelReject.setBuffer( buf );
 				fixOrderCancelReject.getAll();
+				if (!validator.validate(fixOrderCancelReject)) return;
 				l.onFixOrderCancelReject(fixOrderCancelReject);
 				break;
 			case MsgTypes.LOGON_INT:
 				fixLogon.setBuffer( buf );
 				fixLogon.getAll();
+				if (!validator.validate(fixLogon)) return;
 				l.onFixLogon(fixLogon);
 				break;
 			case MsgTypes.NEWS_INT:
 				fixNews.setBuffer( buf );
 				fixNews.getAll();
+				if (!validator.validate(fixNews)) return;
 				l.onFixNews(fixNews);
 				break;
 			case MsgTypes.EMAIL_INT:
 				fixEmail.setBuffer( buf );
 				fixEmail.getAll();
+				if (!validator.validate(fixEmail)) return;
 				l.onFixEmail(fixEmail);
 				break;
 			case MsgTypes.NEWORDERSINGLE_INT:
 				fixNewOrderSingle.setBuffer( buf );
 				fixNewOrderSingle.getAll();
+				if (!validator.validate(fixNewOrderSingle)) return;
 				l.onFixNewOrderSingle(fixNewOrderSingle);
 				break;
 			case MsgTypes.NEWORDERLIST_INT:
 				fixNewOrderList.setBuffer( buf );
 				fixNewOrderList.getAll();
+				if (!validator.validate(fixNewOrderList)) return;
 				l.onFixNewOrderList(fixNewOrderList);
 				break;
 			case MsgTypes.ORDERCANCELREQUEST_INT:
 				fixOrderCancelRequest.setBuffer( buf );
 				fixOrderCancelRequest.getAll();
+				if (!validator.validate(fixOrderCancelRequest)) return;
 				l.onFixOrderCancelRequest(fixOrderCancelRequest);
 				break;
 			case MsgTypes.ORDERCANCELREPLACEREQUEST_INT:
 				fixOrderCancelReplaceRequest.setBuffer( buf );
 				fixOrderCancelReplaceRequest.getAll();
+				if (!validator.validate(fixOrderCancelReplaceRequest)) return;
 				l.onFixOrderCancelReplaceRequest(fixOrderCancelReplaceRequest);
 				break;
 			case MsgTypes.ORDERSTATUSREQUEST_INT:
 				fixOrderStatusRequest.setBuffer( buf );
 				fixOrderStatusRequest.getAll();
+				if (!validator.validate(fixOrderStatusRequest)) return;
 				l.onFixOrderStatusRequest(fixOrderStatusRequest);
 				break;
 			case MsgTypes.ALLOCATIONINSTRUCTION_INT:
 				fixAllocationInstruction.setBuffer( buf );
 				fixAllocationInstruction.getAll();
+				if (!validator.validate(fixAllocationInstruction)) return;
 				l.onFixAllocationInstruction(fixAllocationInstruction);
 				break;
 			case MsgTypes.LISTCANCELREQUEST_INT:
 				fixListCancelRequest.setBuffer( buf );
 				fixListCancelRequest.getAll();
+				if (!validator.validate(fixListCancelRequest)) return;
 				l.onFixListCancelRequest(fixListCancelRequest);
 				break;
 			case MsgTypes.LISTEXECUTE_INT:
 				fixListExecute.setBuffer( buf );
 				fixListExecute.getAll();
+				if (!validator.validate(fixListExecute)) return;
 				l.onFixListExecute(fixListExecute);
 				break;
 			case MsgTypes.LISTSTATUSREQUEST_INT:
 				fixListStatusRequest.setBuffer( buf );
 				fixListStatusRequest.getAll();
+				if (!validator.validate(fixListStatusRequest)) return;
 				l.onFixListStatusRequest(fixListStatusRequest);
 				break;
 			case MsgTypes.LISTSTATUS_INT:
 				fixListStatus.setBuffer( buf );
 				fixListStatus.getAll();
+				if (!validator.validate(fixListStatus)) return;
 				l.onFixListStatus(fixListStatus);
 				break;
 			case MsgTypes.ALLOCATIONINSTRUCTIONACK_INT:
 				fixAllocationInstructionAck.setBuffer( buf );
 				fixAllocationInstructionAck.getAll();
+				if (!validator.validate(fixAllocationInstructionAck)) return;
 				l.onFixAllocationInstructionAck(fixAllocationInstructionAck);
 				break;
 			case MsgTypes.DONTKNOWTRADEDK_INT:
 				fixDontKnowTradeDK.setBuffer( buf );
 				fixDontKnowTradeDK.getAll();
+				if (!validator.validate(fixDontKnowTradeDK)) return;
 				l.onFixDontKnowTradeDK(fixDontKnowTradeDK);
 				break;
 			case MsgTypes.QUOTEREQUEST_INT:
 				fixQuoteRequest.setBuffer( buf );
 				fixQuoteRequest.getAll();
+				if (!validator.validate(fixQuoteRequest)) return;
 				l.onFixQuoteRequest(fixQuoteRequest);
 				break;
 			case MsgTypes.QUOTE_INT:
 				fixQuote.setBuffer( buf );
 				fixQuote.getAll();
+				if (!validator.validate(fixQuote)) return;
 				l.onFixQuote(fixQuote);
 				break;
 			case MsgTypes.SETTLEMENTINSTRUCTIONS_INT:
 				fixSettlementInstructions.setBuffer( buf );
 				fixSettlementInstructions.getAll();
+				if (!validator.validate(fixSettlementInstructions)) return;
 				l.onFixSettlementInstructions(fixSettlementInstructions);
 				break;
 			case MsgTypes.MARKETDATAREQUEST_INT:
 				fixMarketDataRequest.setBuffer( buf );
 				fixMarketDataRequest.getAll();
+				if (!validator.validate(fixMarketDataRequest)) return;
 				l.onFixMarketDataRequest(fixMarketDataRequest);
 				break;
 			case MsgTypes.MARKETDATASNAPSHOTFULLREFRESH_INT:
 				fixMarketDataSnapshotFullRefresh.setBuffer( buf );
 				fixMarketDataSnapshotFullRefresh.getAll();
+				if (!validator.validate(fixMarketDataSnapshotFullRefresh)) return;
 				l.onFixMarketDataSnapshotFullRefresh(fixMarketDataSnapshotFullRefresh);
 				break;
 			case MsgTypes.MARKETDATAINCREMENTALREFRESH_INT:
 				fixMarketDataIncrementalRefresh.setBuffer( buf );
 				fixMarketDataIncrementalRefresh.getAll();
+				if (!validator.validate(fixMarketDataIncrementalRefresh)) return;
 				l.onFixMarketDataIncrementalRefresh(fixMarketDataIncrementalRefresh);
 				break;
 			case MsgTypes.MARKETDATAREQUESTREJECT_INT:
 				fixMarketDataRequestReject.setBuffer( buf );
 				fixMarketDataRequestReject.getAll();
+				if (!validator.validate(fixMarketDataRequestReject)) return;
 				l.onFixMarketDataRequestReject(fixMarketDataRequestReject);
 				break;
 			case MsgTypes.QUOTECANCEL_INT:
 				fixQuoteCancel.setBuffer( buf );
 				fixQuoteCancel.getAll();
+				if (!validator.validate(fixQuoteCancel)) return;
 				l.onFixQuoteCancel(fixQuoteCancel);
 				break;
 			case MsgTypes.QUOTESTATUSREQUEST_INT:
 				fixQuoteStatusRequest.setBuffer( buf );
 				fixQuoteStatusRequest.getAll();
+				if (!validator.validate(fixQuoteStatusRequest)) return;
 				l.onFixQuoteStatusRequest(fixQuoteStatusRequest);
 				break;
 			case MsgTypes.MASSQUOTEACKNOWLEDGEMENT_INT:
 				fixMassQuoteAcknowledgement.setBuffer( buf );
 				fixMassQuoteAcknowledgement.getAll();
+				if (!validator.validate(fixMassQuoteAcknowledgement)) return;
 				l.onFixMassQuoteAcknowledgement(fixMassQuoteAcknowledgement);
 				break;
 			case MsgTypes.SECURITYDEFINITIONREQUEST_INT:
 				fixSecurityDefinitionRequest.setBuffer( buf );
 				fixSecurityDefinitionRequest.getAll();
+				if (!validator.validate(fixSecurityDefinitionRequest)) return;
 				l.onFixSecurityDefinitionRequest(fixSecurityDefinitionRequest);
 				break;
 			case MsgTypes.SECURITYDEFINITION_INT:
 				fixSecurityDefinition.setBuffer( buf );
 				fixSecurityDefinition.getAll();
+				if (!validator.validate(fixSecurityDefinition)) return;
 				l.onFixSecurityDefinition(fixSecurityDefinition);
 				break;
 			case MsgTypes.SECURITYSTATUSREQUEST_INT:
 				fixSecurityStatusRequest.setBuffer( buf );
 				fixSecurityStatusRequest.getAll();
+				if (!validator.validate(fixSecurityStatusRequest)) return;
 				l.onFixSecurityStatusRequest(fixSecurityStatusRequest);
 				break;
 			case MsgTypes.SECURITYSTATUS_INT:
 				fixSecurityStatus.setBuffer( buf );
 				fixSecurityStatus.getAll();
+				if (!validator.validate(fixSecurityStatus)) return;
 				l.onFixSecurityStatus(fixSecurityStatus);
 				break;
 			case MsgTypes.TRADINGSESSIONSTATUSREQUEST_INT:
 				fixTradingSessionStatusRequest.setBuffer( buf );
 				fixTradingSessionStatusRequest.getAll();
+				if (!validator.validate(fixTradingSessionStatusRequest)) return;
 				l.onFixTradingSessionStatusRequest(fixTradingSessionStatusRequest);
 				break;
 			case MsgTypes.TRADINGSESSIONSTATUS_INT:
 				fixTradingSessionStatus.setBuffer( buf );
 				fixTradingSessionStatus.getAll();
+				if (!validator.validate(fixTradingSessionStatus)) return;
 				l.onFixTradingSessionStatus(fixTradingSessionStatus);
 				break;
 			case MsgTypes.MASSQUOTE_INT:
 				fixMassQuote.setBuffer( buf );
 				fixMassQuote.getAll();
+				if (!validator.validate(fixMassQuote)) return;
 				l.onFixMassQuote(fixMassQuote);
 				break;
 			case MsgTypes.BUSINESSMESSAGEREJECT_INT:
 				fixBusinessMessageReject.setBuffer( buf );
 				fixBusinessMessageReject.getAll();
+				if (!validator.validate(fixBusinessMessageReject)) return;
 				l.onFixBusinessMessageReject(fixBusinessMessageReject);
 				break;
 			case MsgTypes.BIDREQUEST_INT:
 				fixBidRequest.setBuffer( buf );
 				fixBidRequest.getAll();
+				if (!validator.validate(fixBidRequest)) return;
 				l.onFixBidRequest(fixBidRequest);
 				break;
 			case MsgTypes.BIDRESPONSE_INT:
 				fixBidResponse.setBuffer( buf );
 				fixBidResponse.getAll();
+				if (!validator.validate(fixBidResponse)) return;
 				l.onFixBidResponse(fixBidResponse);
 				break;
 			case MsgTypes.LISTSTRIKEPRICE_INT:
 				fixListStrikePrice.setBuffer( buf );
 				fixListStrikePrice.getAll();
+				if (!validator.validate(fixListStrikePrice)) return;
 				l.onFixListStrikePrice(fixListStrikePrice);
 				break;
 			case MsgTypes.REGISTRATIONINSTRUCTIONS_INT:
 				fixRegistrationInstructions.setBuffer( buf );
 				fixRegistrationInstructions.getAll();
+				if (!validator.validate(fixRegistrationInstructions)) return;
 				l.onFixRegistrationInstructions(fixRegistrationInstructions);
 				break;
 			case MsgTypes.REGISTRATIONINSTRUCTIONSRESPONSE_INT:
 				fixRegistrationInstructionsResponse.setBuffer( buf );
 				fixRegistrationInstructionsResponse.getAll();
+				if (!validator.validate(fixRegistrationInstructionsResponse)) return;
 				l.onFixRegistrationInstructionsResponse(fixRegistrationInstructionsResponse);
 				break;
 			case MsgTypes.ORDERMASSCANCELREQUEST_INT:
 				fixOrderMassCancelRequest.setBuffer( buf );
 				fixOrderMassCancelRequest.getAll();
+				if (!validator.validate(fixOrderMassCancelRequest)) return;
 				l.onFixOrderMassCancelRequest(fixOrderMassCancelRequest);
 				break;
 			case MsgTypes.ORDERMASSCANCELREPORT_INT:
 				fixOrderMassCancelReport.setBuffer( buf );
 				fixOrderMassCancelReport.getAll();
+				if (!validator.validate(fixOrderMassCancelReport)) return;
 				l.onFixOrderMassCancelReport(fixOrderMassCancelReport);
 				break;
 			case MsgTypes.NEWORDERCROSS_INT:
 				fixNewOrderCross.setBuffer( buf );
 				fixNewOrderCross.getAll();
+				if (!validator.validate(fixNewOrderCross)) return;
 				l.onFixNewOrderCross(fixNewOrderCross);
 				break;
 			case MsgTypes.CROSSORDERCANCELREPLACEREQUEST_INT:
 				fixCrossOrderCancelReplaceRequest.setBuffer( buf );
 				fixCrossOrderCancelReplaceRequest.getAll();
+				if (!validator.validate(fixCrossOrderCancelReplaceRequest)) return;
 				l.onFixCrossOrderCancelReplaceRequest(fixCrossOrderCancelReplaceRequest);
 				break;
 			case MsgTypes.CROSSORDERCANCELREQUEST_INT:
 				fixCrossOrderCancelRequest.setBuffer( buf );
 				fixCrossOrderCancelRequest.getAll();
+				if (!validator.validate(fixCrossOrderCancelRequest)) return;
 				l.onFixCrossOrderCancelRequest(fixCrossOrderCancelRequest);
 				break;
 			case MsgTypes.SECURITYTYPEREQUEST_INT:
 				fixSecurityTypeRequest.setBuffer( buf );
 				fixSecurityTypeRequest.getAll();
+				if (!validator.validate(fixSecurityTypeRequest)) return;
 				l.onFixSecurityTypeRequest(fixSecurityTypeRequest);
 				break;
 			case MsgTypes.SECURITYTYPES_INT:
 				fixSecurityTypes.setBuffer( buf );
 				fixSecurityTypes.getAll();
+				if (!validator.validate(fixSecurityTypes)) return;
 				l.onFixSecurityTypes(fixSecurityTypes);
 				break;
 			case MsgTypes.SECURITYLISTREQUEST_INT:
 				fixSecurityListRequest.setBuffer( buf );
 				fixSecurityListRequest.getAll();
+				if (!validator.validate(fixSecurityListRequest)) return;
 				l.onFixSecurityListRequest(fixSecurityListRequest);
 				break;
 			case MsgTypes.SECURITYLIST_INT:
 				fixSecurityList.setBuffer( buf );
 				fixSecurityList.getAll();
+				if (!validator.validate(fixSecurityList)) return;
 				l.onFixSecurityList(fixSecurityList);
 				break;
 			case MsgTypes.DERIVATIVESECURITYLISTREQUEST_INT:
 				fixDerivativeSecurityListRequest.setBuffer( buf );
 				fixDerivativeSecurityListRequest.getAll();
+				if (!validator.validate(fixDerivativeSecurityListRequest)) return;
 				l.onFixDerivativeSecurityListRequest(fixDerivativeSecurityListRequest);
 				break;
 			case MsgTypes.DERIVATIVESECURITYLIST_INT:
 				fixDerivativeSecurityList.setBuffer( buf );
 				fixDerivativeSecurityList.getAll();
+				if (!validator.validate(fixDerivativeSecurityList)) return;
 				l.onFixDerivativeSecurityList(fixDerivativeSecurityList);
 				break;
 			case MsgTypes.NEWORDERMULTILEG_INT:
 				fixNewOrderMultileg.setBuffer( buf );
 				fixNewOrderMultileg.getAll();
+				if (!validator.validate(fixNewOrderMultileg)) return;
 				l.onFixNewOrderMultileg(fixNewOrderMultileg);
 				break;
 			case MsgTypes.MULTILEGORDERCANCELREPLACE_INT:
 				fixMultilegOrderCancelReplace.setBuffer( buf );
 				fixMultilegOrderCancelReplace.getAll();
+				if (!validator.validate(fixMultilegOrderCancelReplace)) return;
 				l.onFixMultilegOrderCancelReplace(fixMultilegOrderCancelReplace);
 				break;
 			case MsgTypes.TRADECAPTUREREPORTREQUEST_INT:
 				fixTradeCaptureReportRequest.setBuffer( buf );
 				fixTradeCaptureReportRequest.getAll();
+				if (!validator.validate(fixTradeCaptureReportRequest)) return;
 				l.onFixTradeCaptureReportRequest(fixTradeCaptureReportRequest);
 				break;
 			case MsgTypes.TRADECAPTUREREPORT_INT:
 				fixTradeCaptureReport.setBuffer( buf );
 				fixTradeCaptureReport.getAll();
+				if (!validator.validate(fixTradeCaptureReport)) return;
 				l.onFixTradeCaptureReport(fixTradeCaptureReport);
 				break;
 			case MsgTypes.ORDERMASSSTATUSREQUEST_INT:
 				fixOrderMassStatusRequest.setBuffer( buf );
 				fixOrderMassStatusRequest.getAll();
+				if (!validator.validate(fixOrderMassStatusRequest)) return;
 				l.onFixOrderMassStatusRequest(fixOrderMassStatusRequest);
 				break;
 			case MsgTypes.QUOTEREQUESTREJECT_INT:
 				fixQuoteRequestReject.setBuffer( buf );
 				fixQuoteRequestReject.getAll();
+				if (!validator.validate(fixQuoteRequestReject)) return;
 				l.onFixQuoteRequestReject(fixQuoteRequestReject);
 				break;
 			case MsgTypes.RFQREQUEST_INT:
 				fixRFQRequest.setBuffer( buf );
 				fixRFQRequest.getAll();
+				if (!validator.validate(fixRFQRequest)) return;
 				l.onFixRFQRequest(fixRFQRequest);
 				break;
 			case MsgTypes.QUOTESTATUSREPORT_INT:
 				fixQuoteStatusReport.setBuffer( buf );
 				fixQuoteStatusReport.getAll();
+				if (!validator.validate(fixQuoteStatusReport)) return;
 				l.onFixQuoteStatusReport(fixQuoteStatusReport);
 				break;
 			case MsgTypes.QUOTERESPONSE_INT:
 				fixQuoteResponse.setBuffer( buf );
 				fixQuoteResponse.getAll();
+				if (!validator.validate(fixQuoteResponse)) return;
 				l.onFixQuoteResponse(fixQuoteResponse);
 				break;
 			case MsgTypes.CONFIRMATION_INT:
 				fixConfirmation.setBuffer( buf );
 				fixConfirmation.getAll();
+				if (!validator.validate(fixConfirmation)) return;
 				l.onFixConfirmation(fixConfirmation);
 				break;
 			case MsgTypes.POSITIONMAINTENANCEREQUEST_INT:
 				fixPositionMaintenanceRequest.setBuffer( buf );
 				fixPositionMaintenanceRequest.getAll();
+				if (!validator.validate(fixPositionMaintenanceRequest)) return;
 				l.onFixPositionMaintenanceRequest(fixPositionMaintenanceRequest);
 				break;
 			case MsgTypes.POSITIONMAINTENANCEREPORT_INT:
 				fixPositionMaintenanceReport.setBuffer( buf );
 				fixPositionMaintenanceReport.getAll();
+				if (!validator.validate(fixPositionMaintenanceReport)) return;
 				l.onFixPositionMaintenanceReport(fixPositionMaintenanceReport);
 				break;
 			case MsgTypes.REQUESTFORPOSITIONS_INT:
 				fixRequestForPositions.setBuffer( buf );
 				fixRequestForPositions.getAll();
+				if (!validator.validate(fixRequestForPositions)) return;
 				l.onFixRequestForPositions(fixRequestForPositions);
 				break;
 			case MsgTypes.REQUESTFORPOSITIONSACK_INT:
 				fixRequestForPositionsAck.setBuffer( buf );
 				fixRequestForPositionsAck.getAll();
+				if (!validator.validate(fixRequestForPositionsAck)) return;
 				l.onFixRequestForPositionsAck(fixRequestForPositionsAck);
 				break;
 			case MsgTypes.POSITIONREPORT_INT:
 				fixPositionReport.setBuffer( buf );
 				fixPositionReport.getAll();
+				if (!validator.validate(fixPositionReport)) return;
 				l.onFixPositionReport(fixPositionReport);
 				break;
 			case MsgTypes.TRADECAPTUREREPORTREQUESTACK_INT:
 				fixTradeCaptureReportRequestAck.setBuffer( buf );
 				fixTradeCaptureReportRequestAck.getAll();
+				if (!validator.validate(fixTradeCaptureReportRequestAck)) return;
 				l.onFixTradeCaptureReportRequestAck(fixTradeCaptureReportRequestAck);
 				break;
 			case MsgTypes.TRADECAPTUREREPORTACK_INT:
 				fixTradeCaptureReportAck.setBuffer( buf );
 				fixTradeCaptureReportAck.getAll();
+				if (!validator.validate(fixTradeCaptureReportAck)) return;
 				l.onFixTradeCaptureReportAck(fixTradeCaptureReportAck);
 				break;
 			case MsgTypes.ALLOCATIONREPORT_INT:
 				fixAllocationReport.setBuffer( buf );
 				fixAllocationReport.getAll();
+				if (!validator.validate(fixAllocationReport)) return;
 				l.onFixAllocationReport(fixAllocationReport);
 				break;
 			case MsgTypes.ALLOCATIONREPORTACK_INT:
 				fixAllocationReportAck.setBuffer( buf );
 				fixAllocationReportAck.getAll();
+				if (!validator.validate(fixAllocationReportAck)) return;
 				l.onFixAllocationReportAck(fixAllocationReportAck);
 				break;
 			case MsgTypes.CONFIRMATION_ACK_INT:
 				fixConfirmation_Ack.setBuffer( buf );
 				fixConfirmation_Ack.getAll();
+				if (!validator.validate(fixConfirmation_Ack)) return;
 				l.onFixConfirmation_Ack(fixConfirmation_Ack);
 				break;
 			case MsgTypes.SETTLEMENTINSTRUCTIONREQUEST_INT:
 				fixSettlementInstructionRequest.setBuffer( buf );
 				fixSettlementInstructionRequest.getAll();
+				if (!validator.validate(fixSettlementInstructionRequest)) return;
 				l.onFixSettlementInstructionRequest(fixSettlementInstructionRequest);
 				break;
 			case MsgTypes.ASSIGNMENTREPORT_INT:
 				fixAssignmentReport.setBuffer( buf );
 				fixAssignmentReport.getAll();
+				if (!validator.validate(fixAssignmentReport)) return;
 				l.onFixAssignmentReport(fixAssignmentReport);
 				break;
 			case MsgTypes.COLLATERALREQUEST_INT:
 				fixCollateralRequest.setBuffer( buf );
 				fixCollateralRequest.getAll();
+				if (!validator.validate(fixCollateralRequest)) return;
 				l.onFixCollateralRequest(fixCollateralRequest);
 				break;
 			case MsgTypes.COLLATERALASSIGNMENT_INT:
 				fixCollateralAssignment.setBuffer( buf );
 				fixCollateralAssignment.getAll();
+				if (!validator.validate(fixCollateralAssignment)) return;
 				l.onFixCollateralAssignment(fixCollateralAssignment);
 				break;
 			case MsgTypes.COLLATERALRESPONSE_INT:
 				fixCollateralResponse.setBuffer( buf );
 				fixCollateralResponse.getAll();
+				if (!validator.validate(fixCollateralResponse)) return;
 				l.onFixCollateralResponse(fixCollateralResponse);
 				break;
 			case MsgTypes.COLLATERALREPORT_INT:
 				fixCollateralReport.setBuffer( buf );
 				fixCollateralReport.getAll();
+				if (!validator.validate(fixCollateralReport)) return;
 				l.onFixCollateralReport(fixCollateralReport);
 				break;
 			case MsgTypes.COLLATERALINQUIRY_INT:
 				fixCollateralInquiry.setBuffer( buf );
 				fixCollateralInquiry.getAll();
+				if (!validator.validate(fixCollateralInquiry)) return;
 				l.onFixCollateralInquiry(fixCollateralInquiry);
 				break;
 			case MsgTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSREQUEST_INT:
 				fixNetworkCounterpartySystemStatusRequest.setBuffer( buf );
 				fixNetworkCounterpartySystemStatusRequest.getAll();
+				if (!validator.validate(fixNetworkCounterpartySystemStatusRequest)) return;
 				l.onFixNetworkCounterpartySystemStatusRequest(fixNetworkCounterpartySystemStatusRequest);
 				break;
 			case MsgTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSRESPONSE_INT:
 				fixNetworkCounterpartySystemStatusResponse.setBuffer( buf );
 				fixNetworkCounterpartySystemStatusResponse.getAll();
+				if (!validator.validate(fixNetworkCounterpartySystemStatusResponse)) return;
 				l.onFixNetworkCounterpartySystemStatusResponse(fixNetworkCounterpartySystemStatusResponse);
 				break;
 			case MsgTypes.USERREQUEST_INT:
 				fixUserRequest.setBuffer( buf );
 				fixUserRequest.getAll();
+				if (!validator.validate(fixUserRequest)) return;
 				l.onFixUserRequest(fixUserRequest);
 				break;
 			case MsgTypes.USERRESPONSE_INT:
 				fixUserResponse.setBuffer( buf );
 				fixUserResponse.getAll();
+				if (!validator.validate(fixUserResponse)) return;
 				l.onFixUserResponse(fixUserResponse);
 				break;
 			case MsgTypes.COLLATERALINQUIRYACK_INT:
 				fixCollateralInquiryAck.setBuffer( buf );
 				fixCollateralInquiryAck.getAll();
+				if (!validator.validate(fixCollateralInquiryAck)) return;
 				l.onFixCollateralInquiryAck(fixCollateralInquiryAck);
 				break;
 			case MsgTypes.CONFIRMATIONREQUEST_INT:
 				fixConfirmationRequest.setBuffer( buf );
 				fixConfirmationRequest.getAll();
+				if (!validator.validate(fixConfirmationRequest)) return;
 				l.onFixConfirmationRequest(fixConfirmationRequest);
 				break;
 			case MsgTypes.CONTRARYINTENTIONREPORT_INT:
 				fixContraryIntentionReport.setBuffer( buf );
 				fixContraryIntentionReport.getAll();
+				if (!validator.validate(fixContraryIntentionReport)) return;
 				l.onFixContraryIntentionReport(fixContraryIntentionReport);
 				break;
 			case MsgTypes.SECURITYDEFINITIONUPDATEREPORT_INT:
 				fixSecurityDefinitionUpdateReport.setBuffer( buf );
 				fixSecurityDefinitionUpdateReport.getAll();
+				if (!validator.validate(fixSecurityDefinitionUpdateReport)) return;
 				l.onFixSecurityDefinitionUpdateReport(fixSecurityDefinitionUpdateReport);
 				break;
 			case MsgTypes.SECURITYLISTUPDATEREPORT_INT:
 				fixSecurityListUpdateReport.setBuffer( buf );
 				fixSecurityListUpdateReport.getAll();
+				if (!validator.validate(fixSecurityListUpdateReport)) return;
 				l.onFixSecurityListUpdateReport(fixSecurityListUpdateReport);
 				break;
 			case MsgTypes.ADJUSTEDPOSITIONREPORT_INT:
 				fixAdjustedPositionReport.setBuffer( buf );
 				fixAdjustedPositionReport.getAll();
+				if (!validator.validate(fixAdjustedPositionReport)) return;
 				l.onFixAdjustedPositionReport(fixAdjustedPositionReport);
 				break;
 			case MsgTypes.ALLOCATIONINSTRUCTIONALERT_INT:
 				fixAllocationInstructionAlert.setBuffer( buf );
 				fixAllocationInstructionAlert.getAll();
+				if (!validator.validate(fixAllocationInstructionAlert)) return;
 				l.onFixAllocationInstructionAlert(fixAllocationInstructionAlert);
 				break;
 			case MsgTypes.EXECUTIONACKNOWLEDGEMENT_INT:
 				fixExecutionAcknowledgement.setBuffer( buf );
 				fixExecutionAcknowledgement.getAll();
+				if (!validator.validate(fixExecutionAcknowledgement)) return;
 				l.onFixExecutionAcknowledgement(fixExecutionAcknowledgement);
 				break;
 			case MsgTypes.TRADINGSESSIONLIST_INT:
 				fixTradingSessionList.setBuffer( buf );
 				fixTradingSessionList.getAll();
+				if (!validator.validate(fixTradingSessionList)) return;
 				l.onFixTradingSessionList(fixTradingSessionList);
 				break;
 			case MsgTypes.TRADINGSESSIONLISTREQUEST_INT:
 				fixTradingSessionListRequest.setBuffer( buf );
 				fixTradingSessionListRequest.getAll();
+				if (!validator.validate(fixTradingSessionListRequest)) return;
 				l.onFixTradingSessionListRequest(fixTradingSessionListRequest);
 				break;
 			case MsgTypes.SETTLEMENTOBLIGATIONREPORT_INT:
 				fixSettlementObligationReport.setBuffer( buf );
 				fixSettlementObligationReport.getAll();
+				if (!validator.validate(fixSettlementObligationReport)) return;
 				l.onFixSettlementObligationReport(fixSettlementObligationReport);
 				break;
 			case MsgTypes.DERIVATIVESECURITYLISTUPDATEREPORT_INT:
 				fixDerivativeSecurityListUpdateReport.setBuffer( buf );
 				fixDerivativeSecurityListUpdateReport.getAll();
+				if (!validator.validate(fixDerivativeSecurityListUpdateReport)) return;
 				l.onFixDerivativeSecurityListUpdateReport(fixDerivativeSecurityListUpdateReport);
 				break;
 			case MsgTypes.TRADINGSESSIONLISTUPDATEREPORT_INT:
 				fixTradingSessionListUpdateReport.setBuffer( buf );
 				fixTradingSessionListUpdateReport.getAll();
+				if (!validator.validate(fixTradingSessionListUpdateReport)) return;
 				l.onFixTradingSessionListUpdateReport(fixTradingSessionListUpdateReport);
 				break;
 			case MsgTypes.MARKETDEFINITIONREQUEST_INT:
 				fixMarketDefinitionRequest.setBuffer( buf );
 				fixMarketDefinitionRequest.getAll();
+				if (!validator.validate(fixMarketDefinitionRequest)) return;
 				l.onFixMarketDefinitionRequest(fixMarketDefinitionRequest);
 				break;
 			case MsgTypes.MARKETDEFINITION_INT:
 				fixMarketDefinition.setBuffer( buf );
 				fixMarketDefinition.getAll();
+				if (!validator.validate(fixMarketDefinition)) return;
 				l.onFixMarketDefinition(fixMarketDefinition);
 				break;
 			case MsgTypes.MARKETDEFINITIONUPDATEREPORT_INT:
 				fixMarketDefinitionUpdateReport.setBuffer( buf );
 				fixMarketDefinitionUpdateReport.getAll();
+				if (!validator.validate(fixMarketDefinitionUpdateReport)) return;
 				l.onFixMarketDefinitionUpdateReport(fixMarketDefinitionUpdateReport);
 				break;
 			case MsgTypes.USERNOTIFICATION_INT:
 				fixUserNotification.setBuffer( buf );
 				fixUserNotification.getAll();
+				if (!validator.validate(fixUserNotification)) return;
 				l.onFixUserNotification(fixUserNotification);
 				break;
 			case MsgTypes.ORDERMASSACTIONREPORT_INT:
 				fixOrderMassActionReport.setBuffer( buf );
 				fixOrderMassActionReport.getAll();
+				if (!validator.validate(fixOrderMassActionReport)) return;
 				l.onFixOrderMassActionReport(fixOrderMassActionReport);
 				break;
 			case MsgTypes.ORDERMASSACTIONREQUEST_INT:
 				fixOrderMassActionRequest.setBuffer( buf );
 				fixOrderMassActionRequest.getAll();
+				if (!validator.validate(fixOrderMassActionRequest)) return;
 				l.onFixOrderMassActionRequest(fixOrderMassActionRequest);
 				break;
 			case MsgTypes.APPLICATIONMESSAGEREQUEST_INT:
 				fixApplicationMessageRequest.setBuffer( buf );
 				fixApplicationMessageRequest.getAll();
+				if (!validator.validate(fixApplicationMessageRequest)) return;
 				l.onFixApplicationMessageRequest(fixApplicationMessageRequest);
 				break;
 			case MsgTypes.APPLICATIONMESSAGEREQUESTACK_INT:
 				fixApplicationMessageRequestAck.setBuffer( buf );
 				fixApplicationMessageRequestAck.getAll();
+				if (!validator.validate(fixApplicationMessageRequestAck)) return;
 				l.onFixApplicationMessageRequestAck(fixApplicationMessageRequestAck);
 				break;
 			case MsgTypes.APPLICATIONMESSAGEREPORT_INT:
 				fixApplicationMessageReport.setBuffer( buf );
 				fixApplicationMessageReport.getAll();
+				if (!validator.validate(fixApplicationMessageReport)) return;
 				l.onFixApplicationMessageReport(fixApplicationMessageReport);
 				break;
 			case MsgTypes.STREAMASSIGNMENTREQUEST_INT:
 				fixStreamAssignmentRequest.setBuffer( buf );
 				fixStreamAssignmentRequest.getAll();
+				if (!validator.validate(fixStreamAssignmentRequest)) return;
 				l.onFixStreamAssignmentRequest(fixStreamAssignmentRequest);
 				break;
 			case MsgTypes.STREAMASSIGNMENTREPORT_INT:
 				fixStreamAssignmentReport.setBuffer( buf );
 				fixStreamAssignmentReport.getAll();
+				if (!validator.validate(fixStreamAssignmentReport)) return;
 				l.onFixStreamAssignmentReport(fixStreamAssignmentReport);
 				break;
 			case MsgTypes.STREAMASSIGNMENTREPORTACK_INT:
 				fixStreamAssignmentReportACK.setBuffer( buf );
 				fixStreamAssignmentReportACK.getAll();
+				if (!validator.validate(fixStreamAssignmentReportACK)) return;
 				l.onFixStreamAssignmentReportACK(fixStreamAssignmentReportACK);
 				break;
 			case MsgTypes.PARTYDETAILSLISTREQUEST_INT:
 				fixPartyDetailsListRequest.setBuffer( buf );
 				fixPartyDetailsListRequest.getAll();
+				if (!validator.validate(fixPartyDetailsListRequest)) return;
 				l.onFixPartyDetailsListRequest(fixPartyDetailsListRequest);
 				break;
 			case MsgTypes.PARTYDETAILSLISTREPORT_INT:
 				fixPartyDetailsListReport.setBuffer( buf );
 				fixPartyDetailsListReport.getAll();
+				if (!validator.validate(fixPartyDetailsListReport)) return;
 				l.onFixPartyDetailsListReport(fixPartyDetailsListReport);
 				break;
 

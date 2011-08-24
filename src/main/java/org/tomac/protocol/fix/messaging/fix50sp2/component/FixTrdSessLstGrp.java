@@ -15,6 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.SessionRejectReason;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixTradingSessionRules;
@@ -28,7 +29,7 @@ public class FixTrdSessLstGrp
 	public void getAll(int noTradingSessions, ByteBuffer buf) throws FixSessionException {
 		this.noTradingSessions = noTradingSessions;
 
-		if (noTradingSessions < 1) throw new FixSessionException("asdasd");
+		if (noTradingSessions < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noTradingSessions ).getBytes(), FixTags.NOTRADINGSESSIONS_INT, new byte[0]);
 		// this will leak memory if we grow the group
 		if (group == null || group.length < noTradingSessions) {
 			group = new TrdSessLstGrp[noTradingSessions];
@@ -155,7 +156,7 @@ public class TrdSessLstGrp implements FixComponent
 
 			if(id == FixTags.TRADINGSESSIONID_INT) {
 				tradingSessionID = FixUtils.getTagStringValue(value, tradingSessionID);
-				if (!FixMessageInfo.TradingSessionID.isValid(tradingSessionID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradingSessionID + ") for tag: " + id );
+				if (!FixMessageInfo.TradingSessionID.isValid(tradingSessionID) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + tradingSessionID + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -163,7 +164,7 @@ public class TrdSessLstGrp implements FixComponent
 
 			if(id == FixTags.TRADINGSESSIONSUBID_INT) {
 				tradingSessionSubID = FixUtils.getTagStringValue(value, tradingSessionSubID);
-				if (!FixMessageInfo.TradingSessionSubID.isValid(tradingSessionSubID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradingSessionSubID + ") for tag: " + id );
+				if (!FixMessageInfo.TradingSessionSubID.isValid(tradingSessionSubID) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + tradingSessionSubID + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -178,7 +179,7 @@ public class TrdSessLstGrp implements FixComponent
 
 			if(id == FixTags.TRADSESMETHOD_INT) {
 				tradSesMethod = FixUtils.getTagIntValue( value );
-				if (!FixMessageInfo.TradSesMethod.isValid(tradSesMethod) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradSesMethod + ") for tag: " + id );
+				if (!FixMessageInfo.TradSesMethod.isValid(tradSesMethod) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + tradSesMethod + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -186,7 +187,7 @@ public class TrdSessLstGrp implements FixComponent
 
 			if(id == FixTags.TRADSESMODE_INT) {
 				tradSesMode = FixUtils.getTagIntValue( value );
-				if (!FixMessageInfo.TradSesMode.isValid(tradSesMode) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradSesMode + ") for tag: " + id );
+				if (!FixMessageInfo.TradSesMode.isValid(tradSesMode) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + tradSesMode + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -194,7 +195,7 @@ public class TrdSessLstGrp implements FixComponent
 
 			if(id == FixTags.UNSOLICITEDINDICATOR_INT) {
 				unsolicitedIndicator = FixUtils.getTagBooleanValue( value );
-				if (!FixMessageInfo.UnsolicitedIndicator.isValid(unsolicitedIndicator) ) throw new FixSessionException(buf, "Invalid enumerated value(" + unsolicitedIndicator + ") for tag: " + id );
+				if (!FixMessageInfo.UnsolicitedIndicator.isValid(unsolicitedIndicator) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + unsolicitedIndicator + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -202,7 +203,7 @@ public class TrdSessLstGrp implements FixComponent
 
 			if(id == FixTags.TRADSESSTATUS_INT) {
 				tradSesStatus = FixUtils.getTagIntValue( value );
-				if (!FixMessageInfo.TradSesStatus.isValid(tradSesStatus) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradSesStatus + ") for tag: " + id );
+				if (!FixMessageInfo.TradSesStatus.isValid(tradSesStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + tradSesStatus + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -210,7 +211,7 @@ public class TrdSessLstGrp implements FixComponent
 
 			if(id == FixTags.TRADSESSTATUSREJREASON_INT) {
 				tradSesStatusRejReason = FixUtils.getTagIntValue( value );
-				if (!FixMessageInfo.TradSesStatusRejReason.isValid(tradSesStatusRejReason) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradSesStatusRejReason + ") for tag: " + id );
+				if (!FixMessageInfo.TradSesStatusRejReason.isValid(tradSesStatusRejReason) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + tradSesStatusRejReason + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -322,7 +323,7 @@ public class TrdSessLstGrp implements FixComponent
 			}
 
 			id = checkRequiredTags();
-			if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 			buf.position( lastTagPosition );
 			return;

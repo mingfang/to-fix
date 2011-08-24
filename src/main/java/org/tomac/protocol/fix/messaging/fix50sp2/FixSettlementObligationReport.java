@@ -105,7 +105,7 @@ public class FixSettlementObligationReport extends FixMessage
 
 			case FixTags.SETTLOBLIGMODE_INT:
 				settlObligMode = FixUtils.getTagIntValue( value );
-				if (!SettlObligMode.isValid(settlObligMode) ) throw new FixSessionException(buf, "Invalid enumerated value(" + settlObligMode + ") for tag: " + id );
+				if (!SettlObligMode.isValid(settlObligMode) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + settlObligMode + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TEXT_INT:
@@ -134,12 +134,12 @@ public class FixSettlementObligationReport extends FixMessage
 				checkSum = FixUtils.getTagIntValue( value );
 
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 				return;
 
 			default:
-				throw new FixSessionException(buf, "Unknown tag: " + id );
+				throw new FixSessionException(SessionRejectReason.UNDEFINED_TAG, "Unknown tag".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 			}
 

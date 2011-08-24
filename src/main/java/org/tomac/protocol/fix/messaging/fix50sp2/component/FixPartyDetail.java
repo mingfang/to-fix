@@ -79,12 +79,12 @@ public class FixPartyDetail implements FixComponent
 
 			case FixTags.PARTYIDSOURCE_INT:
 				partyIDSource = FixUtils.getTagCharValue( value );
-				if (!PartyIDSource.isValid(partyIDSource) ) throw new FixSessionException(buf, "Invalid enumerated value(" + partyIDSource + ") for tag: " + id );
+				if (!PartyIDSource.isValid(partyIDSource) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + partyIDSource + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.PARTYROLE_INT:
 				partyRole = FixUtils.getTagIntValue( value );
-				if (!PartyRole.isValid(partyRole) ) throw new FixSessionException(buf, "Invalid enumerated value(" + partyRole + ") for tag: " + id );
+				if (!PartyRole.isValid(partyRole) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + partyRole + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.NOPARTYSUBIDS_INT:
@@ -110,7 +110,7 @@ public class FixPartyDetail implements FixComponent
 			// we will always endup with unknown tag, unread and return to upper layer in hierarchy
 			default:
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 				buf.position( lastTagPosition );
 				return;

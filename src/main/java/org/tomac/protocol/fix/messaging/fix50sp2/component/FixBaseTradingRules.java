@@ -85,7 +85,7 @@ public class FixBaseTradingRules implements FixComponent
 
 			case FixTags.EXPIRATIONCYCLE_INT:
 				expirationCycle = FixUtils.getTagIntValue( value );
-				if (!ExpirationCycle.isValid(expirationCycle) ) throw new FixSessionException(buf, "Invalid enumerated value(" + expirationCycle + ") for tag: " + id );
+				if (!ExpirationCycle.isValid(expirationCycle) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + expirationCycle + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.MINTRADEVOL_INT:
@@ -102,7 +102,7 @@ public class FixBaseTradingRules implements FixComponent
 
 			case FixTags.IMPLIEDMARKETINDICATOR_INT:
 				impliedMarketIndicator = FixUtils.getTagIntValue( value );
-				if (!ImpliedMarketIndicator.isValid(impliedMarketIndicator) ) throw new FixSessionException(buf, "Invalid enumerated value(" + impliedMarketIndicator + ") for tag: " + id );
+				if (!ImpliedMarketIndicator.isValid(impliedMarketIndicator) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + impliedMarketIndicator + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.TRADINGCURRENCY_INT:
@@ -129,23 +129,23 @@ public class FixBaseTradingRules implements FixComponent
 
 			case FixTags.MULTILEGMODEL_INT:
 				multilegModel = FixUtils.getTagIntValue( value );
-				if (!MultilegModel.isValid(multilegModel) ) throw new FixSessionException(buf, "Invalid enumerated value(" + multilegModel + ") for tag: " + id );
+				if (!MultilegModel.isValid(multilegModel) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + multilegModel + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.MULTILEGPRICEMETHOD_INT:
 				multilegPriceMethod = FixUtils.getTagIntValue( value );
-				if (!MultilegPriceMethod.isValid(multilegPriceMethod) ) throw new FixSessionException(buf, "Invalid enumerated value(" + multilegPriceMethod + ") for tag: " + id );
+				if (!MultilegPriceMethod.isValid(multilegPriceMethod) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + multilegPriceMethod + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.PRICETYPE_INT:
 				priceType = FixUtils.getTagIntValue( value );
-				if (!PriceType.isValid(priceType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + priceType + ") for tag: " + id );
+				if (!PriceType.isValid(priceType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + priceType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			// we will always endup with unknown tag, unread and return to upper layer in hierarchy
 			default:
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 				buf.position( lastTagPosition );
 				return;

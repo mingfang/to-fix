@@ -105,12 +105,12 @@ public class FixDerivativeSecurityListUpdateReport extends FixMessage
 
 			case FixTags.SECURITYREQUESTRESULT_INT:
 				securityRequestResult = FixUtils.getTagIntValue( value );
-				if (!SecurityRequestResult.isValid(securityRequestResult) ) throw new FixSessionException(buf, "Invalid enumerated value(" + securityRequestResult + ") for tag: " + id );
+				if (!SecurityRequestResult.isValid(securityRequestResult) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + securityRequestResult + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.SECURITYUPDATEACTION_INT:
 				securityUpdateAction = FixUtils.getTagCharValue( value );
-				if (!SecurityUpdateAction.isValid(securityUpdateAction) ) throw new FixSessionException(buf, "Invalid enumerated value(" + securityUpdateAction + ") for tag: " + id );
+				if (!SecurityUpdateAction.isValid(securityUpdateAction) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + securityUpdateAction + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.UNDERLYINGSYMBOL_INT:
@@ -131,7 +131,7 @@ public class FixDerivativeSecurityListUpdateReport extends FixMessage
 
 			case FixTags.LASTFRAGMENT_INT:
 				lastFragment = FixUtils.getTagBooleanValue( value );
-				if (!LastFragment.isValid(lastFragment) ) throw new FixSessionException(buf, "Invalid enumerated value(" + lastFragment + ") for tag: " + id );
+				if (!LastFragment.isValid(lastFragment) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + lastFragment + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NORELATEDSYM_INT:
@@ -144,12 +144,12 @@ public class FixDerivativeSecurityListUpdateReport extends FixMessage
 				checkSum = FixUtils.getTagIntValue( value );
 
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 				return;
 
 			default:
-				throw new FixSessionException(buf, "Unknown tag: " + id );
+				throw new FixSessionException(SessionRejectReason.UNDEFINED_TAG, "Unknown tag".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 			}
 

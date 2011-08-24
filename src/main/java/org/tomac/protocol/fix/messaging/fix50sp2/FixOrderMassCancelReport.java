@@ -152,17 +152,17 @@ public class FixOrderMassCancelReport extends FixMessage
 
 			case FixTags.MASSCANCELREQUESTTYPE_INT:
 				massCancelRequestType = FixUtils.getTagCharValue( value );
-				if (!MassCancelRequestType.isValid(massCancelRequestType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + massCancelRequestType + ") for tag: " + id );
+				if (!MassCancelRequestType.isValid(massCancelRequestType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + massCancelRequestType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.MASSCANCELRESPONSE_INT:
 				massCancelResponse = FixUtils.getTagCharValue( value );
-				if (!MassCancelResponse.isValid(massCancelResponse) ) throw new FixSessionException(buf, "Invalid enumerated value(" + massCancelResponse + ") for tag: " + id );
+				if (!MassCancelResponse.isValid(massCancelResponse) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + massCancelResponse + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.MASSCANCELREJECTREASON_INT:
 				massCancelRejectReason = FixUtils.getTagIntValue( value );
-				if (!MassCancelRejectReason.isValid(massCancelRejectReason) ) throw new FixSessionException(buf, "Invalid enumerated value(" + massCancelRejectReason + ") for tag: " + id );
+				if (!MassCancelRejectReason.isValid(massCancelRejectReason) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + massCancelRejectReason + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TOTALAFFECTEDORDERS_INT:
@@ -181,12 +181,12 @@ public class FixOrderMassCancelReport extends FixMessage
 
 			case FixTags.TRADINGSESSIONID_INT:
 				tradingSessionID = FixUtils.getTagStringValue(value, tradingSessionID);
-				if (!TradingSessionID.isValid(tradingSessionID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradingSessionID + ") for tag: " + id );
+				if (!TradingSessionID.isValid(tradingSessionID) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + tradingSessionID + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TRADINGSESSIONSUBID_INT:
 				tradingSessionSubID = FixUtils.getTagStringValue(value, tradingSessionSubID);
-				if (!TradingSessionSubID.isValid(tradingSessionSubID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradingSessionSubID + ") for tag: " + id );
+				if (!TradingSessionSubID.isValid(tradingSessionSubID) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + tradingSessionSubID + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NOPARTYIDS_INT:
@@ -217,7 +217,7 @@ public class FixOrderMassCancelReport extends FixMessage
 
 			case FixTags.SIDE_INT:
 				side = FixUtils.getTagCharValue( value );
-				if (!Side.isValid(side) ) throw new FixSessionException(buf, "Invalid enumerated value(" + side + ") for tag: " + id );
+				if (!Side.isValid(side) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + side + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TRANSACTTIME_INT:
@@ -241,12 +241,12 @@ public class FixOrderMassCancelReport extends FixMessage
 				checkSum = FixUtils.getTagIntValue( value );
 
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 				return;
 
 			default:
-				throw new FixSessionException(buf, "Unknown tag: " + id );
+				throw new FixSessionException(SessionRejectReason.UNDEFINED_TAG, "Unknown tag".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 			}
 

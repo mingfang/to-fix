@@ -75,7 +75,7 @@ public class FixStreamAssignmentReportACK extends FixMessage
 
 			case FixTags.STREAMASGNACKTYPE_INT:
 				streamAsgnAckType = FixUtils.getTagIntValue( value );
-				if (!StreamAsgnAckType.isValid(streamAsgnAckType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + streamAsgnAckType + ") for tag: " + id );
+				if (!StreamAsgnAckType.isValid(streamAsgnAckType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + streamAsgnAckType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.STREAMASGNRPTID_INT:
@@ -84,7 +84,7 @@ public class FixStreamAssignmentReportACK extends FixMessage
 
 			case FixTags.STREAMASGNREJREASON_INT:
 				streamAsgnRejReason = FixUtils.getTagIntValue( value );
-				if (!StreamAsgnRejReason.isValid(streamAsgnRejReason) ) throw new FixSessionException(buf, "Invalid enumerated value(" + streamAsgnRejReason + ") for tag: " + id );
+				if (!StreamAsgnRejReason.isValid(streamAsgnRejReason) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + streamAsgnRejReason + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TEXT_INT:
@@ -104,12 +104,12 @@ public class FixStreamAssignmentReportACK extends FixMessage
 				checkSum = FixUtils.getTagIntValue( value );
 
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 				return;
 
 			default:
-				throw new FixSessionException(buf, "Unknown tag: " + id );
+				throw new FixSessionException(SessionRejectReason.UNDEFINED_TAG, "Unknown tag".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 			}
 

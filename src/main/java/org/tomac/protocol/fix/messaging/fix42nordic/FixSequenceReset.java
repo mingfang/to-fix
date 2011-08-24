@@ -67,7 +67,7 @@ public class FixSequenceReset extends FixMessage
 
 			case FixTags.GAPFILLFLAG_INT:
 				gapFillFlag = FixUtils.getTagBooleanValue( value );
-				if (!GapFillFlag.isValid(gapFillFlag) ) throw new FixSessionException(buf, "Invalid enumerated value(" + gapFillFlag + ") for tag: " + id );
+				if (!GapFillFlag.isValid(gapFillFlag) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + gapFillFlag + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			// for a message always get the checksum
@@ -75,12 +75,12 @@ public class FixSequenceReset extends FixMessage
 				checkSum = FixUtils.getTagIntValue( value );
 
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 				return;
 
 			default:
-				throw new FixSessionException(buf, "Unknown tag: " + id );
+				throw new FixSessionException(SessionRejectReason.UNDEFINED_TAG, "Unknown tag".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 			}
 

@@ -15,6 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.SessionRejectReason;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixRiskSecAltIDGrp;
@@ -28,7 +29,7 @@ public class FixRiskInstrumentScope
 	public void getAll(int noRiskInstruments, ByteBuffer buf) throws FixSessionException {
 		this.noRiskInstruments = noRiskInstruments;
 
-		if (noRiskInstruments < 1) throw new FixSessionException("asdasd");
+		if (noRiskInstruments < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noRiskInstruments ).getBytes(), FixTags.NORISKINSTRUMENTS_INT, new byte[0]);
 		// this will leak memory if we grow the group
 		if (group == null || group.length < noRiskInstruments) {
 			group = new RiskInstrumentScope[noRiskInstruments];
@@ -162,7 +163,7 @@ public class RiskInstrumentScope implements FixComponent
 
 			if(id == FixTags.RISKINSTRUMENTOPERATOR_INT) {
 				riskInstrumentOperator = FixUtils.getTagIntValue( value );
-				if (!FixMessageInfo.RiskInstrumentOperator.isValid(riskInstrumentOperator) ) throw new FixSessionException(buf, "Invalid enumerated value(" + riskInstrumentOperator + ") for tag: " + id );
+				if (!FixMessageInfo.RiskInstrumentOperator.isValid(riskInstrumentOperator) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + riskInstrumentOperator + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -337,7 +338,7 @@ public class RiskInstrumentScope implements FixComponent
 			}
 
 			id = checkRequiredTags();
-			if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 			buf.position( lastTagPosition );
 			return;

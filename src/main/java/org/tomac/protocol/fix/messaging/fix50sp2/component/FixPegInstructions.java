@@ -82,32 +82,32 @@ public class FixPegInstructions implements FixComponent
 
 			case FixTags.PEGPRICETYPE_INT:
 				pegPriceType = FixUtils.getTagIntValue( value );
-				if (!PegPriceType.isValid(pegPriceType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + pegPriceType + ") for tag: " + id );
+				if (!PegPriceType.isValid(pegPriceType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + pegPriceType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.PEGMOVETYPE_INT:
 				pegMoveType = FixUtils.getTagIntValue( value );
-				if (!PegMoveType.isValid(pegMoveType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + pegMoveType + ") for tag: " + id );
+				if (!PegMoveType.isValid(pegMoveType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + pegMoveType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.PEGOFFSETTYPE_INT:
 				pegOffsetType = FixUtils.getTagIntValue( value );
-				if (!PegOffsetType.isValid(pegOffsetType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + pegOffsetType + ") for tag: " + id );
+				if (!PegOffsetType.isValid(pegOffsetType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + pegOffsetType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.PEGLIMITTYPE_INT:
 				pegLimitType = FixUtils.getTagIntValue( value );
-				if (!PegLimitType.isValid(pegLimitType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + pegLimitType + ") for tag: " + id );
+				if (!PegLimitType.isValid(pegLimitType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + pegLimitType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.PEGROUNDDIRECTION_INT:
 				pegRoundDirection = FixUtils.getTagIntValue( value );
-				if (!PegRoundDirection.isValid(pegRoundDirection) ) throw new FixSessionException(buf, "Invalid enumerated value(" + pegRoundDirection + ") for tag: " + id );
+				if (!PegRoundDirection.isValid(pegRoundDirection) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + pegRoundDirection + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.PEGSCOPE_INT:
 				pegScope = FixUtils.getTagIntValue( value );
-				if (!PegScope.isValid(pegScope) ) throw new FixSessionException(buf, "Invalid enumerated value(" + pegScope + ") for tag: " + id );
+				if (!PegScope.isValid(pegScope) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + pegScope + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.PEGSECURITYIDSOURCE_INT:
@@ -129,7 +129,7 @@ public class FixPegInstructions implements FixComponent
 			// we will always endup with unknown tag, unread and return to upper layer in hierarchy
 			default:
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 				buf.position( lastTagPosition );
 				return;

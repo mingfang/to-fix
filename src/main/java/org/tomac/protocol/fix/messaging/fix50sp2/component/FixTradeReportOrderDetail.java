@@ -146,17 +146,17 @@ public class FixTradeReportOrderDetail implements FixComponent
 
 			case FixTags.REFORDERIDSOURCE_INT:
 				refOrderIDSource = FixUtils.getTagCharValue( value );
-				if (!RefOrderIDSource.isValid(refOrderIDSource) ) throw new FixSessionException(buf, "Invalid enumerated value(" + refOrderIDSource + ") for tag: " + id );
+				if (!RefOrderIDSource.isValid(refOrderIDSource) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + refOrderIDSource + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.REFORDIDREASON_INT:
 				refOrdIDReason = FixUtils.getTagIntValue( value );
-				if (!RefOrdIDReason.isValid(refOrdIDReason) ) throw new FixSessionException(buf, "Invalid enumerated value(" + refOrdIDReason + ") for tag: " + id );
+				if (!RefOrdIDReason.isValid(refOrdIDReason) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + refOrdIDReason + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.ORDTYPE_INT:
 				ordType = FixUtils.getTagCharValue( value );
-				if (!OrdType.isValid(ordType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + ordType + ") for tag: " + id );
+				if (!OrdType.isValid(ordType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + ordType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.PRICE_INT:
@@ -169,12 +169,12 @@ public class FixTradeReportOrderDetail implements FixComponent
 
 			case FixTags.EXECINST_INT:
 				execInst = FixUtils.getTagStringValue(value, execInst);
-				if (!ExecInst.isValid(execInst) ) throw new FixSessionException(buf, "Invalid enumerated value(" + execInst + ") for tag: " + id );
+				if (!ExecInst.isValid(execInst) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + execInst + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.ORDSTATUS_INT:
 				ordStatus = FixUtils.getTagCharValue( value );
-				if (!OrdStatus.isValid(ordStatus) ) throw new FixSessionException(buf, "Invalid enumerated value(" + ordStatus + ") for tag: " + id );
+				if (!OrdStatus.isValid(ordStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + ordStatus + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.ORDERQTY_INT:
@@ -191,7 +191,7 @@ public class FixTradeReportOrderDetail implements FixComponent
 
 			case FixTags.TIMEINFORCE_INT:
 				timeInForce = FixUtils.getTagCharValue( value );
-				if (!TimeInForce.isValid(timeInForce) ) throw new FixSessionException(buf, "Invalid enumerated value(" + timeInForce + ") for tag: " + id );
+				if (!TimeInForce.isValid(timeInForce) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + timeInForce + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.EXPIRETIME_INT:
@@ -204,22 +204,22 @@ public class FixTradeReportOrderDetail implements FixComponent
 
 			case FixTags.ORDERCAPACITY_INT:
 				orderCapacity = FixUtils.getTagCharValue( value );
-				if (!OrderCapacity.isValid(orderCapacity) ) throw new FixSessionException(buf, "Invalid enumerated value(" + orderCapacity + ") for tag: " + id );
+				if (!OrderCapacity.isValid(orderCapacity) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + orderCapacity + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.ORDERRESTRICTIONS_INT:
 				orderRestrictions = FixUtils.getTagStringValue(value, orderRestrictions);
-				if (!OrderRestrictions.isValid(orderRestrictions) ) throw new FixSessionException(buf, "Invalid enumerated value(" + orderRestrictions + ") for tag: " + id );
+				if (!OrderRestrictions.isValid(orderRestrictions) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + orderRestrictions + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.BOOKINGTYPE_INT:
 				bookingType = FixUtils.getTagIntValue( value );
-				if (!BookingType.isValid(bookingType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + bookingType + ") for tag: " + id );
+				if (!BookingType.isValid(bookingType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + bookingType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.ORIGCUSTORDERCAPACITY_INT:
 				origCustOrderCapacity = FixUtils.getTagIntValue( value );
-				if (!OrigCustOrderCapacity.isValid(origCustOrderCapacity) ) throw new FixSessionException(buf, "Invalid enumerated value(" + origCustOrderCapacity + ") for tag: " + id );
+				if (!OrigCustOrderCapacity.isValid(origCustOrderCapacity) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + origCustOrderCapacity + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.ORDERINPUTDEVICE_INT:
@@ -228,7 +228,7 @@ public class FixTradeReportOrderDetail implements FixComponent
 
 			case FixTags.LOTTYPE_INT:
 				lotType = FixUtils.getTagCharValue( value );
-				if (!LotType.isValid(lotType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + lotType + ") for tag: " + id );
+				if (!LotType.isValid(lotType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + lotType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.TRANSBKDTIME_INT:
@@ -242,7 +242,7 @@ public class FixTradeReportOrderDetail implements FixComponent
 			// we will always endup with unknown tag, unread and return to upper layer in hierarchy
 			default:
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 				buf.position( lastTagPosition );
 				return;

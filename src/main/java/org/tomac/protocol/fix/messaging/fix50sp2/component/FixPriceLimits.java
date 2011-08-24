@@ -60,7 +60,7 @@ public class FixPriceLimits implements FixComponent
 
 			case FixTags.PRICELIMITTYPE_INT:
 				priceLimitType = FixUtils.getTagIntValue( value );
-				if (!PriceLimitType.isValid(priceLimitType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + priceLimitType + ") for tag: " + id );
+				if (!PriceLimitType.isValid(priceLimitType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + priceLimitType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.LOWLIMITPRICE_INT:
@@ -78,7 +78,7 @@ public class FixPriceLimits implements FixComponent
 			// we will always endup with unknown tag, unread and return to upper layer in hierarchy
 			default:
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 				buf.position( lastTagPosition );
 				return;

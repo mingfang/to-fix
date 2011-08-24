@@ -66,12 +66,12 @@ public class FixSettlInstructionsData implements FixComponent
 
 			case FixTags.SETTLDELIVERYTYPE_INT:
 				settlDeliveryType = FixUtils.getTagIntValue( value );
-				if (!SettlDeliveryType.isValid(settlDeliveryType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + settlDeliveryType + ") for tag: " + id );
+				if (!SettlDeliveryType.isValid(settlDeliveryType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + settlDeliveryType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.STANDINSTDBTYPE_INT:
 				standInstDbType = FixUtils.getTagIntValue( value );
-				if (!StandInstDbType.isValid(standInstDbType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + standInstDbType + ") for tag: " + id );
+				if (!StandInstDbType.isValid(standInstDbType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + standInstDbType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.STANDINSTDBNAME_INT:
@@ -90,7 +90,7 @@ public class FixSettlInstructionsData implements FixComponent
 			// we will always endup with unknown tag, unread and return to upper layer in hierarchy
 			default:
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 				buf.position( lastTagPosition );
 				return;

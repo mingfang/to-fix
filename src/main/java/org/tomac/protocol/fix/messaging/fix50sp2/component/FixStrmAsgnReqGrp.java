@@ -15,6 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.SessionRejectReason;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixParties;
@@ -29,7 +30,7 @@ public class FixStrmAsgnReqGrp
 	public void getAll(int noAsgnReqs, ByteBuffer buf) throws FixSessionException {
 		this.noAsgnReqs = noAsgnReqs;
 
-		if (noAsgnReqs < 1) throw new FixSessionException("asdasd");
+		if (noAsgnReqs < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noAsgnReqs ).getBytes(), FixTags.NOASGNREQS_INT, new byte[0]);
 		// this will leak memory if we grow the group
 		if (group == null || group.length < noAsgnReqs) {
 			group = new StrmAsgnReqGrp[noAsgnReqs];
@@ -114,7 +115,7 @@ public class StrmAsgnReqGrp implements FixComponent
 			}
 
 			id = checkRequiredTags();
-			if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 			buf.position( lastTagPosition );
 			return;

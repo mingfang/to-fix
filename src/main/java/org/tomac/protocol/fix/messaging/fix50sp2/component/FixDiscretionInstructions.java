@@ -66,7 +66,7 @@ public class FixDiscretionInstructions implements FixComponent
 
 			case FixTags.DISCRETIONINST_INT:
 				discretionInst = FixUtils.getTagCharValue( value );
-				if (!DiscretionInst.isValid(discretionInst) ) throw new FixSessionException(buf, "Invalid enumerated value(" + discretionInst + ") for tag: " + id );
+				if (!DiscretionInst.isValid(discretionInst) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + discretionInst + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.DISCRETIONOFFSETVALUE_INT:
@@ -75,33 +75,33 @@ public class FixDiscretionInstructions implements FixComponent
 
 			case FixTags.DISCRETIONMOVETYPE_INT:
 				discretionMoveType = FixUtils.getTagIntValue( value );
-				if (!DiscretionMoveType.isValid(discretionMoveType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + discretionMoveType + ") for tag: " + id );
+				if (!DiscretionMoveType.isValid(discretionMoveType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + discretionMoveType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.DISCRETIONOFFSETTYPE_INT:
 				discretionOffsetType = FixUtils.getTagIntValue( value );
-				if (!DiscretionOffsetType.isValid(discretionOffsetType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + discretionOffsetType + ") for tag: " + id );
+				if (!DiscretionOffsetType.isValid(discretionOffsetType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + discretionOffsetType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.DISCRETIONLIMITTYPE_INT:
 				discretionLimitType = FixUtils.getTagIntValue( value );
-				if (!DiscretionLimitType.isValid(discretionLimitType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + discretionLimitType + ") for tag: " + id );
+				if (!DiscretionLimitType.isValid(discretionLimitType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + discretionLimitType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.DISCRETIONROUNDDIRECTION_INT:
 				discretionRoundDirection = FixUtils.getTagIntValue( value );
-				if (!DiscretionRoundDirection.isValid(discretionRoundDirection) ) throw new FixSessionException(buf, "Invalid enumerated value(" + discretionRoundDirection + ") for tag: " + id );
+				if (!DiscretionRoundDirection.isValid(discretionRoundDirection) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + discretionRoundDirection + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.DISCRETIONSCOPE_INT:
 				discretionScope = FixUtils.getTagIntValue( value );
-				if (!DiscretionScope.isValid(discretionScope) ) throw new FixSessionException(buf, "Invalid enumerated value(" + discretionScope + ") for tag: " + id );
+				if (!DiscretionScope.isValid(discretionScope) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + discretionScope + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			// we will always endup with unknown tag, unread and return to upper layer in hierarchy
 			default:
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 				buf.position( lastTagPosition );
 				return;

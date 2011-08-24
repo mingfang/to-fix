@@ -1,39 +1,29 @@
 package org.tomac.protocol.fix;
 
-import java.nio.ByteBuffer;
-
 public class FixSessionException extends Exception {
 
 	private static final long serialVersionUID = -1L;
 	
-	StringBuffer description = new StringBuffer();
+	public byte[] text;
+	public long refTagID = 0;
+	public byte[] refMsgType;
+	public long sessionRejectReason = 0;	
 	
-	public FixSessionException(String message) {
-		description.append("Framing Exception: (").append(message).append(")\n");
+	public FixSessionException(long sessionRejectReason, byte[] text, long refTagID, byte[] refMsgType) {
+		this.sessionRejectReason = sessionRejectReason;
+		this.text = text;
+		this.refTagID = refTagID;
+		this.refMsgType = refMsgType;
 	}
 	
-	public FixSessionException(String message, Throwable cause) {
-		super(cause);
-		description.append("Framing Exception: (").append(message).append(")\n");
-	}
-
-	public FixSessionException(ByteBuffer packetBuf, String message) {
-		description.append("Framing Exception: (").append(message).append(")\n");
-	}
-
-	public FixSessionException(ByteBuffer packetBuf, int msgEnd, String message) {
-		description.append("Framing Exception: (").append(message).append(")\n");
-		packetBuf.position(msgEnd);
-	}
-
-	
-	public FixSessionException(long sessionRejectReason, String message) {
-		description.append("Framing Exception: (").append(message).append(")\n");
+	public FixSessionException(long sessionRejectReason, byte[] text) {
+		this.sessionRejectReason = sessionRejectReason;
+		this.text = text;
 	}
 
 	@Override
 	public String getMessage() {
-		return description.toString();
+		return sessionRejectReason + ": " + "text=" + new String(text) + " refTagID=" + refTagID + " refMsgType=" + new String(refMsgType);
 	}
 
 

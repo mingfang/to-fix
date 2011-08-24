@@ -98,7 +98,7 @@ public class FixQuoteRequestReject extends FixMessage
 
 			case FixTags.QUOTEREQUESTREJECTREASON_INT:
 				quoteRequestRejectReason = FixUtils.getTagIntValue( value );
-				if (!QuoteRequestRejectReason.isValid(quoteRequestRejectReason) ) throw new FixSessionException(buf, "Invalid enumerated value(" + quoteRequestRejectReason + ") for tag: " + id );
+				if (!QuoteRequestRejectReason.isValid(quoteRequestRejectReason) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + quoteRequestRejectReason + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.PRIVATEQUOTE_INT:
@@ -107,7 +107,7 @@ public class FixQuoteRequestReject extends FixMessage
 
 			case FixTags.RESPONDENTTYPE_INT:
 				respondentType = FixUtils.getTagIntValue( value );
-				if (!RespondentType.isValid(respondentType) ) throw new FixSessionException(buf, "Invalid enumerated value(" + respondentType + ") for tag: " + id );
+				if (!RespondentType.isValid(respondentType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + respondentType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.PRETRADEANONYMITY_INT:
@@ -141,12 +141,12 @@ public class FixQuoteRequestReject extends FixMessage
 				checkSum = FixUtils.getTagIntValue( value );
 
 				id = checkRequiredTags();
-				if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 				return;
 
 			default:
-				throw new FixSessionException(buf, "Unknown tag: " + id );
+				throw new FixSessionException(SessionRejectReason.UNDEFINED_TAG, "Unknown tag".getBytes(), id, FixUtils.getMsgType(msgType) );
 
 			}
 

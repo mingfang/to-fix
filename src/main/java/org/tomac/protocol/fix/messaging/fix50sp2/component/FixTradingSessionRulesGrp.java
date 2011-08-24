@@ -15,6 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.SessionRejectReason;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixTradingSessionRules;
@@ -28,7 +29,7 @@ public class FixTradingSessionRulesGrp
 	public void getAll(int noTradingSessionRules, ByteBuffer buf) throws FixSessionException {
 		this.noTradingSessionRules = noTradingSessionRules;
 
-		if (noTradingSessionRules < 1) throw new FixSessionException("asdasd");
+		if (noTradingSessionRules < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noTradingSessionRules ).getBytes(), FixTags.NOTRADINGSESSIONRULES_INT, new byte[0]);
 		// this will leak memory if we grow the group
 		if (group == null || group.length < noTradingSessionRules) {
 			group = new TradingSessionRulesGrp[noTradingSessionRules];
@@ -103,7 +104,7 @@ public class TradingSessionRulesGrp implements FixComponent
 
 			if(id == FixTags.TRADINGSESSIONID_INT) {
 				tradingSessionID = FixUtils.getTagStringValue(value, tradingSessionID);
-				if (!FixMessageInfo.TradingSessionID.isValid(tradingSessionID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradingSessionID + ") for tag: " + id );
+				if (!FixMessageInfo.TradingSessionID.isValid(tradingSessionID) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + tradingSessionID + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -111,7 +112,7 @@ public class TradingSessionRulesGrp implements FixComponent
 
 			if(id == FixTags.TRADINGSESSIONSUBID_INT) {
 				tradingSessionSubID = FixUtils.getTagStringValue(value, tradingSessionSubID);
-				if (!FixMessageInfo.TradingSessionSubID.isValid(tradingSessionSubID) ) throw new FixSessionException(buf, "Invalid enumerated value(" + tradingSessionSubID + ") for tag: " + id );
+				if (!FixMessageInfo.TradingSessionSubID.isValid(tradingSessionSubID) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + tradingSessionSubID + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -125,7 +126,7 @@ public class TradingSessionRulesGrp implements FixComponent
 			}
 
 			id = checkRequiredTags();
-			if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 			buf.position( lastTagPosition );
 			return;

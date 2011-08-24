@@ -15,6 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.SessionRejectReason;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 
@@ -27,7 +28,7 @@ public class FixRgstDistInstGrp
 	public void getAll(int noDistribInsts, ByteBuffer buf) throws FixSessionException {
 		this.noDistribInsts = noDistribInsts;
 
-		if (noDistribInsts < 1) throw new FixSessionException("asdasd");
+		if (noDistribInsts < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noDistribInsts ).getBytes(), FixTags.NODISTRIBINSTS_INT, new byte[0]);
 		// this will leak memory if we grow the group
 		if (group == null || group.length < noDistribInsts) {
 			group = new RgstDistInstGrp[noDistribInsts];
@@ -115,7 +116,7 @@ public class RgstDistInstGrp implements FixComponent
 
 			if(id == FixTags.DISTRIBPAYMENTMETHOD_INT) {
 				distribPaymentMethod = FixUtils.getTagIntValue( value );
-				if (!FixMessageInfo.DistribPaymentMethod.isValid(distribPaymentMethod) ) throw new FixSessionException(buf, "Invalid enumerated value(" + distribPaymentMethod + ") for tag: " + id );
+				if (!FixMessageInfo.DistribPaymentMethod.isValid(distribPaymentMethod) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + distribPaymentMethod + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -171,7 +172,7 @@ public class RgstDistInstGrp implements FixComponent
 			}
 
 			id = checkRequiredTags();
-			if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 			buf.position( lastTagPosition );
 			return;

@@ -15,6 +15,7 @@ import org.tomac.utils.Utils;
 import org.tomac.protocol.fix.FixConstants;
 
 
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo.SessionRejectReason;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixTags;
 import org.tomac.protocol.fix.messaging.fix50sp2.component.FixUnderlyingInstrument;
@@ -29,7 +30,7 @@ public class FixQuotSetAckGrp
 	public void getAll(int noQuoteSets, ByteBuffer buf) throws FixSessionException {
 		this.noQuoteSets = noQuoteSets;
 
-		if (noQuoteSets < 1) throw new FixSessionException("asdasd");
+		if (noQuoteSets < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noQuoteSets ).getBytes(), FixTags.NOQUOTESETS_INT, new byte[0]);
 		// this will leak memory if we grow the group
 		if (group == null || group.length < noQuoteSets) {
 			group = new QuotSetAckGrp[noQuoteSets];
@@ -166,7 +167,7 @@ public class QuotSetAckGrp implements FixComponent
 
 			if(id == FixTags.LASTFRAGMENT_INT) {
 				lastFragment = FixUtils.getTagBooleanValue( value );
-				if (!FixMessageInfo.LastFragment.isValid(lastFragment) ) throw new FixSessionException(buf, "Invalid enumerated value(" + lastFragment + ") for tag: " + id );
+				if (!FixMessageInfo.LastFragment.isValid(lastFragment) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + lastFragment + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -180,7 +181,7 @@ public class QuotSetAckGrp implements FixComponent
 			}
 
 			id = checkRequiredTags();
-			if (id > 0) throw new FixSessionException(buf, "Required tag missing: " + id );
+				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, new byte[0] );
 
 			buf.position( lastTagPosition );
 			return;
