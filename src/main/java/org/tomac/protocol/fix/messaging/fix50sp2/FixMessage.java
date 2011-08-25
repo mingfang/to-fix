@@ -264,7 +264,7 @@ public abstract class FixMessage extends FixGeneratedBaseMessage
 		msgType = FixUtils.crackNasdaqMsgType(msgType, buf);
 
 		if (! MsgType.isValid(tmpMsgType))
-			throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, "MsgType not in specificaton for tag".getBytes(), FixTags.MSGTYPE_INT, FixUtils.getMsgType(msgType) );		// assumption message is full otherwise decode would return null
+			throw new FixSessionException(SessionRejectReason.INVALID_MSGTYPE, "MsgType not in specificaton for tag".getBytes(), FixTags.MSGTYPE_INT, FixUtils.getMsgType(msgType) );		// assumption message is full otherwise decode would return null
 		// so negative id means that we are at the end of the message
 		int id;
 		buf.position(msgTypeEnd);

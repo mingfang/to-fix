@@ -81,6 +81,10 @@ public class FixReject extends FixMessage
 				refTagID = FixUtils.getTagIntValue( value );
 				break;
 
+			case FixTags.REFMSGTYPE_INT:
+				refMsgType = FixUtils.getTagStringValue(value, refMsgType);
+				break;
+
 			case FixTags.SESSIONREJECTREASON_INT:
 				sessionRejectReason = FixUtils.getTagIntValue( value );
 				if (!SessionRejectReason.isValid(sessionRejectReason) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + sessionRejectReason + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );

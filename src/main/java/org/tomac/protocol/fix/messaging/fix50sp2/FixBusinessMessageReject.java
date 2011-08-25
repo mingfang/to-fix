@@ -88,6 +88,10 @@ public class FixBusinessMessageReject extends FixMessage
 				refSeqNum = FixUtils.getTagIntValue( value );
 				break;
 
+			case FixTags.REFMSGTYPE_INT:
+				refMsgType = FixUtils.getTagStringValue(value, refMsgType);
+				break;
+
 			case FixTags.REFAPPLVERID_INT:
 				refApplVerID = FixUtils.getTagStringValue(value, refApplVerID);
 				break;

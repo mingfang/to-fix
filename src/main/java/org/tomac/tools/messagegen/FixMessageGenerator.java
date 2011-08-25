@@ -1198,7 +1198,7 @@ public class FixMessageGenerator {
 		for (DomBase b : m.fieldsAndComponents ) {
 			if (b instanceof DomFixField) {
 				DomFixField f = (DomFixField) b;
-				if (f.name.contains("BeginString") || f.name.contains("BodyLength") || f.name.contains("MsgType") ) continue;
+				if (f.name.contains("BeginString") || f.name.contains("BodyLength") || f.name.equals("MsgType") ) continue;
 				out.write("\t\t\tcase FixTags." + f.name.toUpperCase() + "_INT:\n");
 				decodeFieldValue(f, out);
 				if (f.domFixValues.size() > 0) {
@@ -1249,7 +1249,7 @@ public class FixMessageGenerator {
 		out.write("\t\tint tag = -1;\n\n");
 		
 		for (DomFixField f : dom.domFixHeader.fields ) {
-			if (f.reqd.equals("N") || f.name.contains("BeginString") || f.name.contains("BodyLength") || f.name.contains("MsgType") ) continue;
+			if (f.reqd.equals("N") || f.name.contains("BeginString") || f.name.contains("BodyLength") || f.name.equals("MsgType") ) continue;
 			out.write("\t\tif (! FixUtils.isSet(" + uncapFirst(f.name) + ") ) return FixTags." + f.name.toUpperCase() + "_INT;\n");
 		}
 
