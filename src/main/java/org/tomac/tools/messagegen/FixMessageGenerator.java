@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.SortedSet;
 
 import org.dom4j.Document;
@@ -12,6 +13,7 @@ import org.dom4j.io.SAXReader;
 import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.protocol.fix.FixSessionException;
 import org.tomac.protocol.fix.FixUtils;
+import org.tomac.protocol.fix.messaging.fix42nordic.FixMessage;
 import org.tomac.protocol.fix.messaging.fix42nordic.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix42nordic.FixTags;
 import org.tomac.protocol.fix.messaging.fix42nordic.FixMessageInfo.SessionRejectReason;
@@ -915,8 +917,8 @@ public class FixMessageGenerator {
 		out.write("\t\t	throw new FixGarbledException(buf, String.format(\"Checksum mismatch; calculated: %s is not equal message checksum: %s\", calculatedCheckSum, checkSum));\n\n");
 
 		out.write("\t\t// finish-up\n");
-		if (isCrackMsgType) 
-			out.write("\t\tbuf.flip();\n\n");
+		//if (isCrackMsgType) 
+		//	out.write("\t\tbuf.flip();\n\n");
 		
 		out.write("\t\tbuf.position(startPos);\n\n");
 
@@ -1014,7 +1016,7 @@ public class FixMessageGenerator {
 		out.write("public interface " + dom.type + "MessageListener\n{\n\n");
 
 		// write out a handler for unknown message types 	
-		out.write("\tpublic void onUnknownMessageType( " + strReadableByteBuffer + " msg, int msgType );\n\n");
+		out.write("\tpublic void onUnknownMessageType( FixMessage msg );\n\n");
 
 		// write out each callback
 		for (final DomFixMessage m : dom.domFixMessages)
@@ -1040,7 +1042,7 @@ public class FixMessageGenerator {
 		out.write("public class " + dom.type + "MessageListenerImpl implements " + dom.type + "MessageListener\n{\n\n");
 
 		out.write("\t\t@Override\n");
-		out.write("\t\tpublic void onUnknownMessageType(ByteBuffer msg, int msgType) {}\n\n");
+		out.write("\t\tpublic void onUnknownMessageType( FixMessage msg ) {}\n\n");
 						
 		// write out each callback
 		for (final DomFixMessage m : dom.domFixMessages) {
@@ -1077,9 +1079,9 @@ public class FixMessageGenerator {
 		out.write("\t}\n\n");
 
 		out.write("\t@Override\n");
-		out.write("\tpublic void onUnknownMessageType(ByteBuffer msg, int msgType) {\n");
-		out.write("\t\tsessionLayer.onUnknownMessageType(msg, msgType);\n");
-		out.write("\t\tapplicationLayer.onUnknownMessageType(msg, msgType);\n");
+		out.write("\tpublic void onUnknownMessageType(FixMessage msg) {\n");
+		out.write("\t\tsessionLayer.onUnknownMessageType(msg);\n");
+		out.write("\t\tapplicationLayer.onUnknownMessageType(msg);\n");
 		out.write("\t}\n\n");
 						
 		// write out each callback
@@ -1791,6 +1793,7 @@ public class FixMessageGenerator {
 		out.write(strInByteBuffer + "\n");
 		out.write(strFixException + "\n");
 		out.write(strFixGarbledException + "\n");
+		out.write(strFixUtils + "\n");
 
 		// write out the open to the parser class
 		out.write("public class " + dom.type + "MessageParser implements " + dom.type + "MessageInfo\n{\n\n");
@@ -1800,6 +1803,14 @@ public class FixMessageGenerator {
 			out.write("\t" + capFirst(dom.type.toLowerCase()) + capFirst(m.name) + " " + dom.type.toLowerCase() + capFirst(m.name) + 
 					" = new " + dom.type + capFirst(m.name) + "();\n");
 		}
+		out.write("\tFixMessage fixMessage = new FixMessage() {\n");
+		out.write("\t	@Override\n");
+		out.write("\t	public void encode(ByteBuffer out) {}\n");
+		out.write("\t	@Override\n");
+		out.write("\t	public void printBuffer(ByteBuffer out) {}\n");
+		out.write("\t	@Override\n");
+		out.write("\t	public String toString() { return null; }\n");
+		out.write("\t	};\n");
 		out.write("\n");
 		
 		out.write("\tpublic void parse( " + strReadableByteBuffer + " buf, FixMessageListener l) throws FixSessionException, FixGarbledException {\n\n");
@@ -1821,10 +1832,14 @@ public class FixMessageGenerator {
 		out.write("\n");
 
 		out.write("\t\t\tdefault:\n");
-		out.write("\t\t\t\tl.onUnknownMessageType( buf, msgTypeInt );\n");
+		out.write("\t\t\t\tfixMessage.setBuffer(buf);\n");
+		out.write("\t\t\t\tfixMessage.getAll();\n");
+		out.write("\t\t\t\tFixUtils.findEndOfMessage(buf);\n");
+		out.write("\t\t\t\tif (!validator.validate(fixMessage)) return;\n");
+		out.write("\t\t\t\tl.onUnknownMessageType( fixMessage );\n");
 		out.write("\t\t\t\tbreak;\n\n");
-		out.write("\t\t\t}\n\n");
 		out.write("\t\t}\n\n");
+		out.write("\t}\n\n");
 
 		// write out the close to the parser class
 		out.write("}\n");

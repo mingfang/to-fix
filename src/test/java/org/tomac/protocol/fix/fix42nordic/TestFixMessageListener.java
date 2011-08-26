@@ -21,6 +21,7 @@ import org.tomac.protocol.fix.messaging.fix42nordic.FixLockedinNotification;
 import org.tomac.protocol.fix.messaging.fix42nordic.FixLockedinTradeBreak;
 import org.tomac.protocol.fix.messaging.fix42nordic.FixLogon;
 import org.tomac.protocol.fix.messaging.fix42nordic.FixLogout;
+import org.tomac.protocol.fix.messaging.fix42nordic.FixMessage;
 import org.tomac.protocol.fix.messaging.fix42nordic.FixMessageListener;
 import org.tomac.protocol.fix.messaging.fix42nordic.FixOrderAcknowledgement;
 import org.tomac.protocol.fix.messaging.fix42nordic.FixOrderCancelReject;
@@ -46,7 +47,7 @@ import org.tomac.protocol.fix.messaging.fix42nordic.FixTradeReportEntry;
 public class TestFixMessageListener implements FixMessageListener {
 
 	@Override
-	public void onUnknownMessageType(ByteBuffer msg, int msgType) {
+	public void onUnknownMessageType(FixMessage msg) {
 		// TODO Auto-generated method stub
 		
 	}

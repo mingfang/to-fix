@@ -78,9 +78,13 @@ public class TestParseFixStream {
 	public void tearDown() throws Exception {
 	}
 
-	@Ignore
+	//@Ignore
 	@Test
 	public void testParesFixStream() {
+		System.setProperty("useNasdaq", "true");
+		
+		boolean b = Boolean.getBoolean("useNasdaq");
+		
 		File f = new File(RAW_FIX_LOG);
 		FixMessage.IGNORE_CHECKSUM = true;
 		
@@ -88,39 +92,31 @@ public class TestParseFixStream {
 
 		try {
 			int read = 0;
-			int offset = 0;
+			int totRead = 0;
 
 			InputStream is = new FileInputStream(f);
 
-			while ((read = is.read(readByteArray, offset, readByteArray.length - offset)) > 0) {
+			while ((read = is.read(readByteArray)) > 0) {
 
-				// find the last checksum tag.Use the readByteArry up till that.
-				int endPos = findLastCehcksum(readByteArray, offset, read - offset);
-				
-				if (endPos < 0) fail("no checksum");
-				
-				buf.clear();
-				buf.put(readByteArray, 0, endPos); 
-
-				// calc new readByteArray offset and move trailng bytes to begining of buffer
-				offset = readByteArray.length - endPos;
-				Utils.copy(readByteArray, endPos, readByteArray, 0, offset);
-
+				buf.put(readByteArray); 
 				buf.flip();
+
+				totRead += read;
 				
 				//System.out.println("Read data: " + new String(buf.array()));
 				//System.out.println("readByteArray: " + new String(readByteArray));
 
 				while (buf.hasRemaining()) {
 
-					ByteBuffer curr = buf.slice();
-						
 					try {
+						
+						parser.parse(buf, listener);
 
-						parser.parse(curr, listener);
-						
-						buf.position(buf.position() + curr.limit());
-						
+						if (buf.remaining() < 1024 && read == readByteArray.length) { 	
+							buf.compact();
+							break;
+						}
+
 					} catch (FixGarbledException e) {
 						fail(e.getMessage());
 					} catch (FixSessionException e) {
@@ -154,7 +150,7 @@ public class TestParseFixStream {
 	private class FixMessageListenerImpl implements FixMessageListener {
 
 		private void printIt(FixMessage msg) {
-			try {
+			/*try {
 				msg.getAll();
 
 				if (Boolean.getBoolean("fix.raw")) {
@@ -174,7 +170,7 @@ public class TestParseFixStream {
 				e.printStackTrace();
 			} catch (FixGarbledException e) {
 				e.printStackTrace();
-			}
+			}*/
 		}
 
 		/**
@@ -182,7 +178,7 @@ public class TestParseFixStream {
 		 */
 
 		@Override
-		public void onUnknownMessageType(ByteBuffer msg, int msgType) {
+		public void onUnknownMessageType(FixMessage msg) {
 		}
 
 		@Override

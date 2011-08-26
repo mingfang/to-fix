@@ -9,6 +9,7 @@ package org.tomac.protocol.fix.messaging.fix42nordic;
 import java.nio.ByteBuffer;
 import org.tomac.protocol.fix.FixSessionException;
 import org.tomac.protocol.fix.FixGarbledException;
+import org.tomac.protocol.fix.FixUtils;
 public class FixMessageParser implements FixMessageInfo
 {
 
@@ -43,6 +44,14 @@ public class FixMessageParser implements FixMessageInfo
 	FixResendRequest fixResendRequest = new FixResendRequest();
 	FixSequenceReset fixSequenceReset = new FixSequenceReset();
 	FixTestRequest fixTestRequest = new FixTestRequest();
+	FixMessage fixMessage = new FixMessage() {
+		@Override
+		public void encode(ByteBuffer out) {}
+		@Override
+		public void printBuffer(ByteBuffer out) {}
+		@Override
+		public String toString() { return null; }
+		};
 
 	public void parse( ByteBuffer buf, FixMessageListener l) throws FixSessionException, FixGarbledException {
 
@@ -226,11 +235,15 @@ public class FixMessageParser implements FixMessageInfo
 				break;
 
 			default:
-				l.onUnknownMessageType( buf, msgTypeInt );
+				fixMessage.setBuffer(buf);
+				fixMessage.getAll();
+				FixUtils.findEndOfMessage(buf);
+				if (!validator.validate(fixMessage)) return;
+				l.onUnknownMessageType( fixMessage );
 				break;
 
-			}
-
 		}
+
+	}
 
 }

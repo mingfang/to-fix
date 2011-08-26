@@ -627,6 +627,9 @@
       <field name="DisplayInst" required="N"/>
       <field name="CrossTradeFlag" required="N"/>
       <field name="BrSeqNbr" required="N"/>
+      <field name="SecurityIDSource" required="N"/>
+      <field name="ClientID" required="N"/>
+      <field name="SecurityExchange" required="N"/>
     </message>
     <message name="OrderCancelReject" msgcat="app" msgtype="9" msgsubtype="1">
       <field name="ClOrdID" required="Y"/>
@@ -1009,6 +1012,8 @@
     </field>
     <field name="NewSeqNo" number="36" type="INT"/>
     <field name="SecurityID" number="48" type="STRING"/>
+    <field name="SecurityIDSource" number="22" type="STRING" />
+    <field name="SecurityExchange" number="207" type="STRING" />
     <field name="SenderCompID" number="49" type="STRING" length="12"/>
     <field name="Price" number="44" type="PRICE"/>
     <field name="RefSeqNum" number="45" type="INT"/>

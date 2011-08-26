@@ -5,19 +5,10 @@
  **/
 package org.tomac.tools.fix50sp2;
 
-import static org.junit.Assert.assertFalse;
-
 import java.nio.ByteBuffer;
 
-import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-
-import org.tomac.protocol.fix.FixGarbledException;
-import org.tomac.protocol.fix.FixSessionException;
-import org.tomac.protocol.fix.FixUtils;
-import org.tomac.protocol.fix.messaging.fix42nordic.FixMessage;
 import org.tomac.protocol.fix.messaging.fix50sp2.*;
 
 
@@ -51,11 +42,6 @@ public class TestToFixPerformance {
     		public void onFixMarketDataSnapshotFullRefresh(FixMarketDataSnapshotFullRefresh msg) {
     			message = msg;
     		}
-			@Override
-			public void onUnknownMessageType(ByteBuffer msg, int msgType) {
-				// TODO Auto-generated method stub
-				
-			}
 			@Override
 			public void onFixHeartbeat(FixHeartbeat msg) {
 				// TODO Auto-generated method stub
@@ -674,6 +660,12 @@ public class TestToFixPerformance {
 			@Override
 			public void onFixPartyDetailsListReport(
 					FixPartyDetailsListReport msg) {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void onUnknownMessageType(
+					org.tomac.protocol.fix.messaging.fix50sp2.FixMessage msg) {
 				// TODO Auto-generated method stub
 				
 			}

@@ -8,7 +8,7 @@ public class FixMessageListenerTest implements FixMessageListener {
 	FixMessage outMsg;
 
 	@Override
-	public void onUnknownMessageType(ByteBuffer msg, int msgType) {
+	public void onUnknownMessageType(FixMessage msg) {
 		outMsg = null;
 	}
 

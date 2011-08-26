@@ -330,6 +330,12 @@ public class FixTags {
 	public static final int SECURITYID_INT = 48;
 	public static final byte[]  SECURITYID = "48".getBytes();
 
+	public static final int SECURITYIDSOURCE_INT = 22;
+	public static final byte[]  SECURITYIDSOURCE = "22".getBytes();
+
+	public static final int SECURITYEXCHANGE_INT = 207;
+	public static final byte[]  SECURITYEXCHANGE = "207".getBytes();
+
 	public static final int SENDERCOMPID_INT = 49;
 	public static final byte[]  SENDERCOMPID = "49".getBytes();
 	public static final int SENDERCOMPID_LENGTH = 12;

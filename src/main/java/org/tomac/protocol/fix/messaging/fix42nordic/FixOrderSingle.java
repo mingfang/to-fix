@@ -47,6 +47,9 @@ public class FixOrderSingle extends FixMessage
 	public byte displayInst = (byte)' ';
 	public byte crossTradeFlag = (byte)' ';
 	public byte[] brSeqNbr;
+	public byte[] securityIDSource;
+	public byte[] clientID;
+	public byte[] securityExchange;
 
 	public FixOrderSingle() {
 		super();
@@ -66,6 +69,9 @@ public class FixOrderSingle extends FixMessage
 		subMktID = new byte[3];
 		clRefID = new byte[15];
 		brSeqNbr = new byte[10];
+		securityIDSource = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		clientID = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
+		securityExchange = new byte[FixUtils.FIX_MAX_STRING_LENGTH];
 		this.clear();
 
 		msgType = MsgTypes.ORDERSINGLE_INT;
@@ -106,6 +112,9 @@ public class FixOrderSingle extends FixMessage
 		displayInst = Byte.MAX_VALUE;		
 		crossTradeFlag = Byte.MAX_VALUE;		
 		Utils.fill( brSeqNbr, (byte)0 );
+		Utils.fill( securityIDSource, (byte)0 );
+		Utils.fill( clientID, (byte)0 );
+		Utils.fill( securityExchange, (byte)0 );
 	}
 
 	@Override
@@ -251,6 +260,18 @@ public class FixOrderSingle extends FixMessage
 				brSeqNbr = FixUtils.getTagStringValue(value, brSeqNbr);
 				break;
 
+			case FixTags.SECURITYIDSOURCE_INT:
+				securityIDSource = FixUtils.getTagStringValue(value, securityIDSource);
+				break;
+
+			case FixTags.CLIENTID_INT:
+				clientID = FixUtils.getTagStringValue(value, clientID);
+				break;
+
+			case FixTags.SECURITYEXCHANGE_INT:
+				securityExchange = FixUtils.getTagStringValue(value, securityExchange);
+				break;
+
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
 				checkSum = FixUtils.getTagIntValue( value );
@@ -353,6 +374,9 @@ public class FixOrderSingle extends FixMessage
 		if (FixUtils.isSet(displayInst)) FixUtils.putFixTag( out, FixTags.DISPLAYINST_INT, displayInst );
 		if (FixUtils.isSet(crossTradeFlag)) FixUtils.putFixTag( out, FixTags.CROSSTRADEFLAG_INT, crossTradeFlag );
 		if (FixUtils.isSet(brSeqNbr)) FixUtils.putFixTag( out, FixTags.BRSEQNBR_INT, brSeqNbr, 0, Utils.lastIndexTrim(brSeqNbr, (byte)0) );
+		if (FixUtils.isSet(securityIDSource)) FixUtils.putFixTag( out, FixTags.SECURITYIDSOURCE_INT, securityIDSource, 0, Utils.lastIndexTrim(securityIDSource, (byte)0) );
+		if (FixUtils.isSet(clientID)) FixUtils.putFixTag( out, FixTags.CLIENTID_INT, clientID, 0, Utils.lastIndexTrim(clientID, (byte)0) );
+		if (FixUtils.isSet(securityExchange)) FixUtils.putFixTag( out, FixTags.SECURITYEXCHANGE_INT, securityExchange, 0, Utils.lastIndexTrim(securityExchange, (byte)0) );
 		// the checksum at the end
 
 		int checkSumStart = out.position();
@@ -434,6 +458,9 @@ public class FixOrderSingle extends FixMessage
 			if (FixUtils.isSet(displayInst)) s += "DisplayInst(9140)=" + String.valueOf(displayInst) + sep;
 			if (FixUtils.isSet(crossTradeFlag)) s += "CrossTradeFlag(9355)=" + String.valueOf(crossTradeFlag) + sep;
 			if (FixUtils.isSet(brSeqNbr)) s += "BrSeqNbr(9861)=" + new String(brSeqNbr) + sep;
+			if (FixUtils.isSet(securityIDSource)) s += "SecurityIDSource(22)=" + new String(securityIDSource) + sep;
+			if (FixUtils.isSet(clientID)) s += "ClientID(109)=" + new String(clientID) + sep;
+			if (FixUtils.isSet(securityExchange)) s += "SecurityExchange(207)=" + new String(securityExchange) + sep;
 
 			s += "checkSum(10)=" + String.valueOf(checkSum) + sep;
 
@@ -501,6 +528,12 @@ public class FixOrderSingle extends FixMessage
 		if (!( crossTradeFlag==msg.crossTradeFlag)) return false;
 
 		if (!Utils.equals( brSeqNbr, msg.brSeqNbr)) return false;
+
+		if (!Utils.equals( securityIDSource, msg.securityIDSource)) return false;
+
+		if (!Utils.equals( clientID, msg.clientID)) return false;
+
+		if (!Utils.equals( securityExchange, msg.securityExchange)) return false;
 
 		return true;
 	}

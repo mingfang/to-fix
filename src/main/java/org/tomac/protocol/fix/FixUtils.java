@@ -444,7 +444,7 @@ public class FixUtils {
 	
 	public static int crackNasdaqMsgType(int msgType, final ByteBuffer buf) throws FixSessionException {
 
-		if (! Boolean.valueOf("useNasdaq")) return msgType;
+		if (! Boolean.getBoolean("useNasdaq")) return msgType;
 		
 		final int pos = buf.position();
 
@@ -477,7 +477,7 @@ public class FixUtils {
 			}
 
 		} 
-
+		
 		buf.position(pos);
 
 		return msgType;
@@ -489,6 +489,21 @@ public class FixUtils {
                 //(byte)(msgType >>> 16),
                 (byte)(msgType >>> 8),
                 (byte)msgType};
+	}
+
+	public static void findEndOfMessage(ByteBuffer buf) {
+		while(buf.hasRemaining()) {
+			int pos; 
+			if ( ( pos = Utils.scan(buf, buf.position(), SOH) ) < 0 ) return;
+			buf.position(pos + 1);
+			if (buf.get() != (byte)'1') continue;
+			if (buf.get() != (byte)'0') continue;
+			if (buf.get() != EQL) continue;
+			if ( ( pos = Utils.scan(buf, buf.position(), SOH) ) < 0 ) return;
+			buf.position(pos + 1);
+			return;
+		}
+		
 	}
 	
 }

@@ -90,7 +90,7 @@ public class CodeExamples {
 		}
 
 		@Override
-		public void onUnknownMessageType(ByteBuffer msg, int msgType) {
+		public void onUnknownMessageType(FixMessage msg) {
 			// TODO Auto-generated method stub
 			
 		}

@@ -11,7 +11,7 @@ public class FixMessageListenerImpl implements FixMessageListener
 {
 
 		@Override
-		public void onUnknownMessageType(ByteBuffer msg, int msgType) {}
+		public void onUnknownMessageType( FixMessage msg ) {}
 
 		@Override
 		public void onFixHeartbeat( FixHeartbeat msg ) {}

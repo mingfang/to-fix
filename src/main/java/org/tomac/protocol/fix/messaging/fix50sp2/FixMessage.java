@@ -117,8 +117,6 @@ public abstract class FixMessage extends FixGeneratedBaseMessage
 			throw new FixGarbledException(buf, String.format("Checksum mismatch; calculated: %s is not equal message checksum: %s", calculatedCheckSum, checkSum));
 
 		// finish-up
-		buf.flip();
-
 		buf.position(startPos);
 
 		msgType = FixUtils.getMsgTypeTagAsInt(tmpMsgType, Utils.lastIndexTrim(tmpMsgType, (byte)0));

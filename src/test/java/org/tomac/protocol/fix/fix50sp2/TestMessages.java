@@ -17,6 +17,7 @@ import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixExecutionReport;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixLogon;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixMarketDataSnapshotFullRefresh;
+import org.tomac.protocol.fix.messaging.fix50sp2.FixMessage;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageParser;
 import org.tomac.protocol.fix.messaging.fix50sp2.FixNewOrderSingle;
@@ -128,8 +129,8 @@ public class TestMessages {
         ByteBuffer buf = ByteBuffer.wrap(data.getBytes());
     	parser.parse(buf,  new FixMessageListenerTest() {
     		@Override
-    		public void onUnknownMessageType(ByteBuffer msg, int msgType) {
-    	        assertEquals(-1, msgType);
+    		public void onUnknownMessageType(FixMessage msg) {
+    	        assertEquals(-1, msg.msgType);
     		}
     	});
     }

@@ -19,9 +19,9 @@ public class FixMessageListenerProxy implements FixMessageListener
 	}
 
 	@Override
-	public void onUnknownMessageType(ByteBuffer msg, int msgType) {
-		sessionLayer.onUnknownMessageType(msg, msgType);
-		applicationLayer.onUnknownMessageType(msg, msgType);
+	public void onUnknownMessageType(FixMessage msg) {
+		sessionLayer.onUnknownMessageType(msg);
+		applicationLayer.onUnknownMessageType(msg);
 	}
 
 	@Override
