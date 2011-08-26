@@ -25,7 +25,7 @@ public class FixDerivativeInstrumentPartySubIDsGrp
 	public int noDerivativeInstrumentPartySubIDs;
 	public DerivativeInstrumentPartySubIDsGrp[] group;
 
-	public void getAll(int noDerivativeInstrumentPartySubIDs, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noDerivativeInstrumentPartySubIDs, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noDerivativeInstrumentPartySubIDs = noDerivativeInstrumentPartySubIDs;
 
 		if (noDerivativeInstrumentPartySubIDs < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noDerivativeInstrumentPartySubIDs ).getBytes(), FixTags.NODERIVATIVEINSTRUMENTPARTYSUBIDS_INT, new byte[0]);
@@ -86,7 +86,7 @@ public class DerivativeInstrumentPartySubIDsGrp implements FixComponent
 		derivativeInstrumentPartySubIDType = Long.MAX_VALUE;		
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

@@ -25,7 +25,7 @@ public class FixLotTypeRules
 	public int noLotTypeRules;
 	public LotTypeRules[] group;
 
-	public void getAll(int noLotTypeRules, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noLotTypeRules, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noLotTypeRules = noLotTypeRules;
 
 		if (noLotTypeRules < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noLotTypeRules ).getBytes(), FixTags.NOLOTTYPERULES_INT, new byte[0]);
@@ -85,7 +85,7 @@ public class LotTypeRules implements FixComponent
 		minLotSize = Long.MAX_VALUE;		
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

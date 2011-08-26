@@ -25,7 +25,7 @@ public class FixPartyRelationships
 	public int noPartyRelationships;
 	public PartyRelationships[] group;
 
-	public void getAll(int noPartyRelationships, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noPartyRelationships, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noPartyRelationships = noPartyRelationships;
 
 		if (noPartyRelationships < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noPartyRelationships ).getBytes(), FixTags.NOPARTYRELATIONSHIPS_INT, new byte[0]);
@@ -83,7 +83,7 @@ public class PartyRelationships implements FixComponent
 		partyRelationship = Long.MAX_VALUE;		
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

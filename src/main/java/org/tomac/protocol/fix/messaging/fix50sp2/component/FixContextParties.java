@@ -26,7 +26,7 @@ public class FixContextParties
 	public int noContextPartyIDs;
 	public ContextParties[] group;
 
-	public void getAll(int noContextPartyIDs, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noContextPartyIDs, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noContextPartyIDs = noContextPartyIDs;
 
 		if (noContextPartyIDs < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noContextPartyIDs ).getBytes(), FixTags.NOCONTEXTPARTYIDS_INT, new byte[0]);
@@ -92,7 +92,7 @@ public class ContextParties implements FixComponent
 		contextPtysSubGrp.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

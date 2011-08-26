@@ -26,7 +26,7 @@ public class FixBidCompRspGrp
 	public int noBidComponents;
 	public BidCompRspGrp[] group;
 
-	public void getAll(int noBidComponents, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noBidComponents, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noBidComponents = noBidComponents;
 
 		if (noBidComponents < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noBidComponents ).getBytes(), FixTags.NOBIDCOMPONENTS_INT, new byte[0]);
@@ -121,7 +121,7 @@ public class BidCompRspGrp implements FixComponent
 		commissionData.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

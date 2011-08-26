@@ -26,7 +26,7 @@ public class FixRiskInstrumentScope
 	public int noRiskInstruments;
 	public RiskInstrumentScope[] group;
 
-	public void getAll(int noRiskInstruments, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noRiskInstruments, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noRiskInstruments = noRiskInstruments;
 
 		if (noRiskInstruments < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noRiskInstruments ).getBytes(), FixTags.NORISKINSTRUMENTS_INT, new byte[0]);
@@ -150,7 +150,7 @@ public class RiskInstrumentScope implements FixComponent
 		riskSecAltIDGrp.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

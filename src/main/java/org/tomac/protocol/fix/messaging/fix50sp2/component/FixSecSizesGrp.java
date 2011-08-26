@@ -25,7 +25,7 @@ public class FixSecSizesGrp
 	public int noOfSecSizes;
 	public SecSizesGrp[] group;
 
-	public void getAll(int noOfSecSizes, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noOfSecSizes, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noOfSecSizes = noOfSecSizes;
 
 		if (noOfSecSizes < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noOfSecSizes ).getBytes(), FixTags.NOOFSECSIZES_INT, new byte[0]);
@@ -85,7 +85,7 @@ public class SecSizesGrp implements FixComponent
 		mDSecSize = Long.MAX_VALUE;		
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

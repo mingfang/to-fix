@@ -47,13 +47,15 @@ public class FixUtils {
 	 * @param data
 	 * @return
 	 */
-	public static int getTagId( ByteBuffer data )
+	public static int getTagId( ByteBuffer data ) throws FixGarbledException
 	{
 		int pos     = data.position();
 		int tagIdEq = Utils.scan( data, pos, EQL );	
 		int len = tagIdEq - pos;
 		
-		if ( tagIdEq < 0 || FIX_MAX_TAG_DIGITS < len || data.remaining() < len ) return -1;
+		if (tagIdEq < 0 || FIX_MAX_TAG_DIGITS < len ) throw new FixGarbledException(data, "Tag not terminated by \'=\' or exceding " + FIX_MAX_DIGITS);
+		
+		if ( data.remaining() < len ) return -1;
 
 		int id = Utils.intValueOf( data, len );
 

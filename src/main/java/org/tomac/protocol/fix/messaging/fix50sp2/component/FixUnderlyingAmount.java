@@ -25,7 +25,7 @@ public class FixUnderlyingAmount
 	public int noUnderlyingAmounts;
 	public UnderlyingAmount[] group;
 
-	public void getAll(int noUnderlyingAmounts, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noUnderlyingAmounts, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noUnderlyingAmounts = noUnderlyingAmounts;
 
 		if (noUnderlyingAmounts < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noUnderlyingAmounts ).getBytes(), FixTags.NOUNDERLYINGAMOUNTS_INT, new byte[0]);
@@ -91,7 +91,7 @@ public class UnderlyingAmount implements FixComponent
 		Utils.fill( underlyingSettlementStatus, (byte)0 );
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

@@ -26,7 +26,7 @@ public class FixFillsGrp
 	public int noFills;
 	public FillsGrp[] group;
 
-	public void getAll(int noFills, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noFills, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noFills = noFills;
 
 		if (noFills < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noFills ).getBytes(), FixTags.NOFILLS_INT, new byte[0]);
@@ -94,7 +94,7 @@ public class FillsGrp implements FixComponent
 		nestedParties4.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

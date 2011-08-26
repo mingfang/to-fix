@@ -25,7 +25,7 @@ public class FixDerivativeInstrumentAttribute
 	public int noDerivativeInstrAttrib;
 	public DerivativeInstrumentAttribute[] group;
 
-	public void getAll(int noDerivativeInstrAttrib, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noDerivativeInstrAttrib, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noDerivativeInstrAttrib = noDerivativeInstrAttrib;
 
 		if (noDerivativeInstrAttrib < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noDerivativeInstrAttrib ).getBytes(), FixTags.NODERIVATIVEINSTRATTRIB_INT, new byte[0]);
@@ -86,7 +86,7 @@ public class DerivativeInstrumentAttribute implements FixComponent
 		Utils.fill( derivativeInstrAttribValue, (byte)0 );
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

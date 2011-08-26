@@ -26,7 +26,7 @@ public class FixPreAllocGrp
 	public int noAllocs;
 	public PreAllocGrp[] group;
 
-	public void getAll(int noAllocs, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noAllocs, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noAllocs = noAllocs;
 
 		if (noAllocs < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noAllocs ).getBytes(), FixTags.NOALLOCS_INT, new byte[0]);
@@ -98,7 +98,7 @@ public class PreAllocGrp implements FixComponent
 		nestedParties.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

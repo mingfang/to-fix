@@ -26,7 +26,7 @@ public class FixDlvyInstGrp
 	public int noDlvyInst;
 	public DlvyInstGrp[] group;
 
-	public void getAll(int noDlvyInst, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noDlvyInst, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noDlvyInst = noDlvyInst;
 
 		if (noDlvyInst < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noDlvyInst ).getBytes(), FixTags.NODLVYINST_INT, new byte[0]);
@@ -89,7 +89,7 @@ public class DlvyInstGrp implements FixComponent
 		settlParties.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

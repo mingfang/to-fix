@@ -25,7 +25,7 @@ public class FixHopGrp
 	public int noHops;
 	public HopGrp[] group;
 
-	public void getAll(int noHops, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noHops, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noHops = noHops;
 
 		if (noHops < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noHops ).getBytes(), FixTags.NOHOPS_INT, new byte[0]);
@@ -89,7 +89,7 @@ public class HopGrp implements FixComponent
 		hopRefID = Long.MAX_VALUE;		
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

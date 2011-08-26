@@ -25,7 +25,7 @@ public class FixExecAllocGrp
 	public int noExecs;
 	public ExecAllocGrp[] group;
 
-	public void getAll(int noExecs, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noExecs, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noExecs = noExecs;
 
 		if (noExecs < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noExecs ).getBytes(), FixTags.NOEXECS_INT, new byte[0]);
@@ -101,7 +101,7 @@ public class ExecAllocGrp implements FixComponent
 		Utils.fill( firmTradeID, (byte)0 );
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

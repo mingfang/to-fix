@@ -25,7 +25,7 @@ public class FixRgstDistInstGrp
 	public int noDistribInsts;
 	public RgstDistInstGrp[] group;
 
-	public void getAll(int noDistribInsts, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noDistribInsts, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noDistribInsts = noDistribInsts;
 
 		if (noDistribInsts < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noDistribInsts ).getBytes(), FixTags.NODISTRIBINSTS_INT, new byte[0]);
@@ -103,7 +103,7 @@ public class RgstDistInstGrp implements FixComponent
 		Utils.fill( cashDistribAgentAcctName, (byte)0 );
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

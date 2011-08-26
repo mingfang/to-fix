@@ -25,7 +25,7 @@ public class FixMaturityRules
 	public int noMaturityRules;
 	public MaturityRules[] group;
 
-	public void getAll(int noMaturityRules, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noMaturityRules, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noMaturityRules = noMaturityRules;
 
 		if (noMaturityRules < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noMaturityRules ).getBytes(), FixTags.NOMATURITYRULES_INT, new byte[0]);
@@ -96,7 +96,7 @@ public class MaturityRules implements FixComponent
 		maturityMonthYearIncrement = Long.MAX_VALUE;		
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

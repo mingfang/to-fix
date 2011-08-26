@@ -25,7 +25,7 @@ public class FixTrdRegTimestamps
 	public int noTrdRegTimestamps;
 	public TrdRegTimestamps[] group;
 
-	public void getAll(int noTrdRegTimestamps, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noTrdRegTimestamps, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noTrdRegTimestamps = noTrdRegTimestamps;
 
 		if (noTrdRegTimestamps < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noTrdRegTimestamps ).getBytes(), FixTags.NOTRDREGTIMESTAMPS_INT, new byte[0]);
@@ -97,7 +97,7 @@ public class TrdRegTimestamps implements FixComponent
 		Utils.fill( deskOrderHandlingInst, (byte)0 );
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

@@ -27,7 +27,7 @@ public class FixQuotSetAckGrp
 	public int noQuoteSets;
 	public QuotSetAckGrp[] group;
 
-	public void getAll(int noQuoteSets, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noQuoteSets, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noQuoteSets = noQuoteSets;
 
 		if (noQuoteSets < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noQuoteSets ).getBytes(), FixTags.NOQUOTESETS_INT, new byte[0]);
@@ -105,7 +105,7 @@ public class QuotSetAckGrp implements FixComponent
 		quotEntryAckGrp.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

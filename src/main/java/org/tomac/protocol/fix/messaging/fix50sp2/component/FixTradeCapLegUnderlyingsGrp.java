@@ -26,7 +26,7 @@ public class FixTradeCapLegUnderlyingsGrp
 	public int noOfLegUnderlyings;
 	public TradeCapLegUnderlyingsGrp[] group;
 
-	public void getAll(int noOfLegUnderlyings, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noOfLegUnderlyings, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noOfLegUnderlyings = noOfLegUnderlyings;
 
 		if (noOfLegUnderlyings < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noOfLegUnderlyings ).getBytes(), FixTags.NOOFLEGUNDERLYINGS_INT, new byte[0]);
@@ -85,7 +85,7 @@ public class TradeCapLegUnderlyingsGrp implements FixComponent
 		underlyingLegInstrument.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

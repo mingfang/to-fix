@@ -51,7 +51,7 @@ public class FixSettlInstructionsData implements FixComponent
 		dlvyInstGrp.clear();
 	}
 
-	public void getAll(int id, ByteBuffer buf) throws FixSessionException
+	public void getAll(int id, ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

@@ -224,7 +224,7 @@ public class TestFixContainerSession {
 			
 			fail("In msg is invalid: " + new String(msgByteArray));
 		} catch( FixGarbledException e )  {
-			assertTrue(e.getMessage().startsWith("Final tag in FIX message is not CHECKSUM (10)"));
+			assertTrue(e.getMessage().startsWith("Tag not terminated by "));
 		} catch( FixSessionException e ) {
 			fail();
 		}				
@@ -345,7 +345,7 @@ public class TestFixContainerSession {
 			
 			fail("In msg is invalid: " + new String(msgByteArray));
 		} catch( FixGarbledException e )  {
-			assertTrue(e.getMessage().startsWith("Final tag in FIX message is not CHECKSUM (10)"));
+			assertTrue(e.getMessage().startsWith("Tag not terminated by "));
 		} catch( FixSessionException e ) {
 			fail();
 		}		

@@ -25,7 +25,7 @@ public class FixRelatedContextPtysSubGrp
 	public int noRelatedContextPartySubIDs;
 	public RelatedContextPtysSubGrp[] group;
 
-	public void getAll(int noRelatedContextPartySubIDs, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noRelatedContextPartySubIDs, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noRelatedContextPartySubIDs = noRelatedContextPartySubIDs;
 
 		if (noRelatedContextPartySubIDs < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noRelatedContextPartySubIDs ).getBytes(), FixTags.NORELATEDCONTEXTPARTYSUBIDS_INT, new byte[0]);
@@ -86,7 +86,7 @@ public class RelatedContextPtysSubGrp implements FixComponent
 		relatedContextPartySubIDType = Long.MAX_VALUE;		
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

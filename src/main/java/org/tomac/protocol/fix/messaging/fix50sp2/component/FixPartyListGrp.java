@@ -27,7 +27,7 @@ public class FixPartyListGrp
 	public int noPartyList;
 	public PartyListGrp[] group;
 
-	public void getAll(int noPartyList, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noPartyList, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noPartyList = noPartyList;
 
 		if (noPartyList < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noPartyList ).getBytes(), FixTags.NOPARTYLIST_INT, new byte[0]);
@@ -89,7 +89,7 @@ public class PartyListGrp implements FixComponent
 		relatedPartyGrp.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

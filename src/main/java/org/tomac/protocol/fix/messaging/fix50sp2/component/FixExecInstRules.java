@@ -25,7 +25,7 @@ public class FixExecInstRules
 	public int noExecInstRules;
 	public ExecInstRules[] group;
 
-	public void getAll(int noExecInstRules, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noExecInstRules, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noExecInstRules = noExecInstRules;
 
 		if (noExecInstRules < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noExecInstRules ).getBytes(), FixTags.NOEXECINSTRULES_INT, new byte[0]);
@@ -83,7 +83,7 @@ public class ExecInstRules implements FixComponent
 		execInstValue = Byte.MAX_VALUE;		
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

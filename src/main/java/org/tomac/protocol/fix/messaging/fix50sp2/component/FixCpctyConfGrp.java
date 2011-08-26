@@ -25,7 +25,7 @@ public class FixCpctyConfGrp
 	public int noCapacities;
 	public CpctyConfGrp[] group;
 
-	public void getAll(int noCapacities, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noCapacities, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noCapacities = noCapacities;
 
 		if (noCapacities < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noCapacities ).getBytes(), FixTags.NOCAPACITIES_INT, new byte[0]);
@@ -88,7 +88,7 @@ public class CpctyConfGrp implements FixComponent
 		orderCapacityQty = Long.MAX_VALUE;		
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

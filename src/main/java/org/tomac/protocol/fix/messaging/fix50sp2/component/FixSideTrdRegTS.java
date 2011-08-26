@@ -25,7 +25,7 @@ public class FixSideTrdRegTS
 	public int noSideTrdRegTS;
 	public SideTrdRegTS[] group;
 
-	public void getAll(int noSideTrdRegTS, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noSideTrdRegTS, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noSideTrdRegTS = noSideTrdRegTS;
 
 		if (noSideTrdRegTS < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noSideTrdRegTS ).getBytes(), FixTags.NOSIDETRDREGTS_INT, new byte[0]);
@@ -89,7 +89,7 @@ public class SideTrdRegTS implements FixComponent
 		Utils.fill( sideTrdRegTimestampSrc, (byte)0 );
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

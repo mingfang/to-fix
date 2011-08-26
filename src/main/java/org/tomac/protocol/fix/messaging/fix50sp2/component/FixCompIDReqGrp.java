@@ -25,7 +25,7 @@ public class FixCompIDReqGrp
 	public int noCompIDs;
 	public CompIDReqGrp[] group;
 
-	public void getAll(int noCompIDs, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noCompIDs, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noCompIDs = noCompIDs;
 
 		if (noCompIDs < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noCompIDs ).getBytes(), FixTags.NOCOMPIDS_INT, new byte[0]);
@@ -93,7 +93,7 @@ public class CompIDReqGrp implements FixComponent
 		Utils.fill( deskID, (byte)0 );
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

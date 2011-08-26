@@ -26,7 +26,7 @@ public class FixLegPreAllocGrp
 	public int noLegAllocs;
 	public LegPreAllocGrp[] group;
 
-	public void getAll(int noLegAllocs, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noLegAllocs, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noLegAllocs = noLegAllocs;
 
 		if (noLegAllocs < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noLegAllocs ).getBytes(), FixTags.NOLEGALLOCS_INT, new byte[0]);
@@ -99,7 +99,7 @@ public class LegPreAllocGrp implements FixComponent
 		nestedParties2.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

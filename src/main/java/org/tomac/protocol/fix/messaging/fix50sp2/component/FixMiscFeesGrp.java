@@ -25,7 +25,7 @@ public class FixMiscFeesGrp
 	public int noMiscFees;
 	public MiscFeesGrp[] group;
 
-	public void getAll(int noMiscFees, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noMiscFees, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noMiscFees = noMiscFees;
 
 		if (noMiscFees < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noMiscFees ).getBytes(), FixTags.NOMISCFEES_INT, new byte[0]);
@@ -91,7 +91,7 @@ public class MiscFeesGrp implements FixComponent
 		miscFeeBasis = Long.MAX_VALUE;		
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

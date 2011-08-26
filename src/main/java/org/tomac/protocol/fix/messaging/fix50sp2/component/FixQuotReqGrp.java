@@ -36,7 +36,7 @@ public class FixQuotReqGrp
 	public int noRelatedSym;
 	public QuotReqGrp[] group;
 
-	public void getAll(int noRelatedSym, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noRelatedSym, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noRelatedSym = noRelatedSym;
 
 		if (noRelatedSym < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noRelatedSym ).getBytes(), FixTags.NORELATEDSYM_INT, new byte[0]);
@@ -189,7 +189,7 @@ public class QuotReqGrp implements FixComponent
 		parties.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

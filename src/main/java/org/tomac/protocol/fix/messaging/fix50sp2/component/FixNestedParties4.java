@@ -26,7 +26,7 @@ public class FixNestedParties4
 	public int noNested4PartyIDs;
 	public NestedParties4[] group;
 
-	public void getAll(int noNested4PartyIDs, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noNested4PartyIDs, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noNested4PartyIDs = noNested4PartyIDs;
 
 		if (noNested4PartyIDs < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noNested4PartyIDs ).getBytes(), FixTags.NONESTED4PARTYIDS_INT, new byte[0]);
@@ -92,7 +92,7 @@ public class NestedParties4 implements FixComponent
 		nstdPtys4SubGrp.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

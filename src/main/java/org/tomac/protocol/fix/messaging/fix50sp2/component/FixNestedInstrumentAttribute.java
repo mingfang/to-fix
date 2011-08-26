@@ -25,7 +25,7 @@ public class FixNestedInstrumentAttribute
 	public int noNestedInstrAttrib;
 	public NestedInstrumentAttribute[] group;
 
-	public void getAll(int noNestedInstrAttrib, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noNestedInstrAttrib, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noNestedInstrAttrib = noNestedInstrAttrib;
 
 		if (noNestedInstrAttrib < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noNestedInstrAttrib ).getBytes(), FixTags.NONESTEDINSTRATTRIB_INT, new byte[0]);
@@ -86,7 +86,7 @@ public class NestedInstrumentAttribute implements FixComponent
 		Utils.fill( nestedInstrAttribValue, (byte)0 );
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

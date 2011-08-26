@@ -45,7 +45,7 @@ public class FixInstrumentExtension implements FixComponent
 		attrbGrp.clear();
 	}
 
-	public void getAll(int id, ByteBuffer buf) throws FixSessionException
+	public void getAll(int id, ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

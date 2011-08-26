@@ -25,7 +25,7 @@ public class FixNotAffectedOrdersGrp
 	public int noNotAffectedOrders;
 	public NotAffectedOrdersGrp[] group;
 
-	public void getAll(int noNotAffectedOrders, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noNotAffectedOrders, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noNotAffectedOrders = noNotAffectedOrders;
 
 		if (noNotAffectedOrders < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noNotAffectedOrders ).getBytes(), FixTags.NONOTAFFECTEDORDERS_INT, new byte[0]);
@@ -87,7 +87,7 @@ public class NotAffectedOrdersGrp implements FixComponent
 		Utils.fill( notAffectedOrderID, (byte)0 );
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

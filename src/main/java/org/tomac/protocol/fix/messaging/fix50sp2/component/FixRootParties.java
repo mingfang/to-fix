@@ -26,7 +26,7 @@ public class FixRootParties
 	public int noRootPartyIDs;
 	public RootParties[] group;
 
-	public void getAll(int noRootPartyIDs, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noRootPartyIDs, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noRootPartyIDs = noRootPartyIDs;
 
 		if (noRootPartyIDs < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noRootPartyIDs ).getBytes(), FixTags.NOROOTPARTYIDS_INT, new byte[0]);
@@ -92,7 +92,7 @@ public class RootParties implements FixComponent
 		rootSubParties.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

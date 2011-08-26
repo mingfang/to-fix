@@ -26,7 +26,7 @@ public class FixApplIDRequestAckGrp
 	public int noApplIDs;
 	public ApplIDRequestAckGrp[] group;
 
-	public void getAll(int noApplIDs, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noApplIDs, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noApplIDs = noApplIDs;
 
 		if (noApplIDs < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noApplIDs ).getBytes(), FixTags.NOAPPLIDS_INT, new byte[0]);
@@ -99,7 +99,7 @@ public class ApplIDRequestAckGrp implements FixComponent
 		nestedParties.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

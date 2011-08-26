@@ -25,7 +25,7 @@ public class FixExpirationQty
 	public int noExpiration;
 	public ExpirationQty[] group;
 
-	public void getAll(int noExpiration, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noExpiration, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noExpiration = noExpiration;
 
 		if (noExpiration < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noExpiration ).getBytes(), FixTags.NOEXPIRATION_INT, new byte[0]);
@@ -85,7 +85,7 @@ public class ExpirationQty implements FixComponent
 		expQty = Long.MAX_VALUE;		
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

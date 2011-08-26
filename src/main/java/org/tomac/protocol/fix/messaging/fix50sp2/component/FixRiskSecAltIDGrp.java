@@ -25,7 +25,7 @@ public class FixRiskSecAltIDGrp
 	public int noRiskSecurityAltID;
 	public RiskSecAltIDGrp[] group;
 
-	public void getAll(int noRiskSecurityAltID, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noRiskSecurityAltID, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noRiskSecurityAltID = noRiskSecurityAltID;
 
 		if (noRiskSecurityAltID < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noRiskSecurityAltID ).getBytes(), FixTags.NORISKSECURITYALTID_INT, new byte[0]);
@@ -89,7 +89,7 @@ public class RiskSecAltIDGrp implements FixComponent
 		Utils.fill( riskSecurityAltIDSource, (byte)0 );
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

@@ -25,7 +25,7 @@ public class FixPositionAmountData
 	public int noPosAmt;
 	public PositionAmountData[] group;
 
-	public void getAll(int noPosAmt, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noPosAmt, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noPosAmt = noPosAmt;
 
 		if (noPosAmt < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noPosAmt ).getBytes(), FixTags.NOPOSAMT_INT, new byte[0]);
@@ -89,7 +89,7 @@ public class PositionAmountData implements FixComponent
 		Utils.fill( positionCurrency, (byte)0 );
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

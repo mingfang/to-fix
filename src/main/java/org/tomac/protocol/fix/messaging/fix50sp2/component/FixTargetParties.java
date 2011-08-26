@@ -25,7 +25,7 @@ public class FixTargetParties
 	public int noTargetPartyIDs;
 	public TargetParties[] group;
 
-	public void getAll(int noTargetPartyIDs, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noTargetPartyIDs, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noTargetPartyIDs = noTargetPartyIDs;
 
 		if (noTargetPartyIDs < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noTargetPartyIDs ).getBytes(), FixTags.NOTARGETPARTYIDS_INT, new byte[0]);
@@ -88,7 +88,7 @@ public class TargetParties implements FixComponent
 		targetPartyRole = Long.MAX_VALUE;		
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

@@ -73,7 +73,7 @@ public class FixTriggeringInstruction implements FixComponent
 		Utils.fill( triggerTradingSessionSubID, (byte)0 );
 	}
 
-	public void getAll(int id, ByteBuffer buf) throws FixSessionException
+	public void getAll(int id, ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

@@ -25,7 +25,7 @@ public class FixMsgTypeGrp
 	public int noMsgTypes;
 	public MsgTypeGrp[] group;
 
-	public void getAll(int noMsgTypes, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noMsgTypes, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noMsgTypes = noMsgTypes;
 
 		if (noMsgTypes < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noMsgTypes ).getBytes(), FixTags.NOMSGTYPES_INT, new byte[0]);
@@ -96,7 +96,7 @@ public class MsgTypeGrp implements FixComponent
 		defaultVerIndicator = false;		
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

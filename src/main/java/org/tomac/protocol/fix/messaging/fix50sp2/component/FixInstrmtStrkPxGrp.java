@@ -27,7 +27,7 @@ public class FixInstrmtStrkPxGrp
 	public int noStrikes;
 	public InstrmtStrkPxGrp[] group;
 
-	public void getAll(int noStrikes, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noStrikes, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noStrikes = noStrikes;
 
 		if (noStrikes < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noStrikes ).getBytes(), FixTags.NOSTRIKES_INT, new byte[0]);
@@ -112,7 +112,7 @@ public class InstrmtStrkPxGrp implements FixComponent
 		undInstrmtGrp.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

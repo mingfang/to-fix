@@ -25,7 +25,7 @@ public class FixSecTypesGrp
 	public int noSecurityTypes;
 	public SecTypesGrp[] group;
 
-	public void getAll(int noSecurityTypes, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noSecurityTypes, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noSecurityTypes = noSecurityTypes;
 
 		if (noSecurityTypes < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noSecurityTypes ).getBytes(), FixTags.NOSECURITYTYPES_INT, new byte[0]);
@@ -95,7 +95,7 @@ public class SecTypesGrp implements FixComponent
 		Utils.fill( transactTime, (byte)0 );
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

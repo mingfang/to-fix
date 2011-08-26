@@ -9,6 +9,7 @@ import java.util.SortedSet;
 
 import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
+import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.protocol.fix.FixSessionException;
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.messaging.fix42nordic.FixMessageInfo;
@@ -1437,7 +1438,7 @@ public class FixMessageGenerator {
 		out.write("\tpublic int " + uncapFirst(m.noInGroupTag) + ";\n");
 		out.write("\tpublic " + m.name + "[] group;\n\n");
 
-		out.write("\tpublic void getAll(int " + uncapFirst(m.noInGroupTag) + ", ByteBuffer buf) throws FixSessionException {\n");
+		out.write("\tpublic void getAll(int " + uncapFirst(m.noInGroupTag) + ", ByteBuffer buf) throws FixSessionException, FixGarbledException {\n");
 		out.write("\t\tthis." + uncapFirst(m.noInGroupTag) + " = " + uncapFirst(m.noInGroupTag) + ";\n\n");
 			
 		out.write("\t\tif (" + uncapFirst(m.noInGroupTag) + " < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, (\"Incorrect num in group count \" + " + uncapFirst(m.noInGroupTag) + " ).getBytes(), FixTags." + m.noInGroupTag.toUpperCase() + "_INT, new byte[0]);\n");
@@ -1567,9 +1568,9 @@ public class FixMessageGenerator {
 		
 		// getAll()
 		if (m.isRepeating) 
-			out.write("\tpublic void getAllGroup(" + strReadableByteBuffer + " buf) throws FixSessionException\n");
+			out.write("\tpublic void getAllGroup(" + strReadableByteBuffer + " buf) throws FixSessionException, FixGarbledException\n");
 		else
-			out.write("\tpublic void getAll(int id, " + strReadableByteBuffer + " buf) throws FixSessionException\n");
+			out.write("\tpublic void getAll(int id, " + strReadableByteBuffer + " buf) throws FixSessionException, FixGarbledException\n");
 		out.write("\t{\n\n");
 
  		out.write("\t\tint startTagPosition = buf.position();\n\n");

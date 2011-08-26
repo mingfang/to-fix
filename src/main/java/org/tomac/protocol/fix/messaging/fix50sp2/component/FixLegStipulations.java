@@ -25,7 +25,7 @@ public class FixLegStipulations
 	public int noLegStipulations;
 	public LegStipulations[] group;
 
-	public void getAll(int noLegStipulations, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noLegStipulations, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noLegStipulations = noLegStipulations;
 
 		if (noLegStipulations < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noLegStipulations ).getBytes(), FixTags.NOLEGSTIPULATIONS_INT, new byte[0]);
@@ -87,7 +87,7 @@ public class LegStipulations implements FixComponent
 		Utils.fill( legStipulationValue, (byte)0 );
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

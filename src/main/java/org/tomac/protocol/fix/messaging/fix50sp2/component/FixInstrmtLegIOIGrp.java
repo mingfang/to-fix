@@ -27,7 +27,7 @@ public class FixInstrmtLegIOIGrp
 	public int noLegs;
 	public InstrmtLegIOIGrp[] group;
 
-	public void getAll(int noLegs, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noLegs, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noLegs = noLegs;
 
 		if (noLegs < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noLegs ).getBytes(), FixTags.NOLEGS_INT, new byte[0]);
@@ -92,7 +92,7 @@ public class InstrmtLegIOIGrp implements FixComponent
 		legStipulations.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

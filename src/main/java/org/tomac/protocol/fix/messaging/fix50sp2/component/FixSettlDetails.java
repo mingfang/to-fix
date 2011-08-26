@@ -26,7 +26,7 @@ public class FixSettlDetails
 	public int noSettlDetails;
 	public SettlDetails[] group;
 
-	public void getAll(int noSettlDetails, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noSettlDetails, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noSettlDetails = noSettlDetails;
 
 		if (noSettlDetails < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noSettlDetails ).getBytes(), FixTags.NOSETTLDETAILS_INT, new byte[0]);
@@ -87,7 +87,7 @@ public class SettlDetails implements FixComponent
 		settlParties.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

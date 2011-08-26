@@ -25,7 +25,7 @@ public class FixUnderlyingStipulations
 	public int noUnderlyingStips;
 	public UnderlyingStipulations[] group;
 
-	public void getAll(int noUnderlyingStips, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noUnderlyingStips, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noUnderlyingStips = noUnderlyingStips;
 
 		if (noUnderlyingStips < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noUnderlyingStips ).getBytes(), FixTags.NOUNDERLYINGSTIPS_INT, new byte[0]);
@@ -87,7 +87,7 @@ public class UnderlyingStipulations implements FixComponent
 		Utils.fill( underlyingStipValue, (byte)0 );
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

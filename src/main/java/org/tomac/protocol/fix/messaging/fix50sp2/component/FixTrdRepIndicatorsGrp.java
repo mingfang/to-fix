@@ -25,7 +25,7 @@ public class FixTrdRepIndicatorsGrp
 	public int noTrdRepIndicators;
 	public TrdRepIndicatorsGrp[] group;
 
-	public void getAll(int noTrdRepIndicators, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noTrdRepIndicators, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noTrdRepIndicators = noTrdRepIndicators;
 
 		if (noTrdRepIndicators < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noTrdRepIndicators ).getBytes(), FixTags.NOTRDREPINDICATORS_INT, new byte[0]);
@@ -85,7 +85,7 @@ public class TrdRepIndicatorsGrp implements FixComponent
 		trdRepIndicator = false;		
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

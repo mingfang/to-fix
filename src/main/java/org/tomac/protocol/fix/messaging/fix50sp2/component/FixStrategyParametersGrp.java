@@ -25,7 +25,7 @@ public class FixStrategyParametersGrp
 	public int noStrategyParameters;
 	public StrategyParametersGrp[] group;
 
-	public void getAll(int noStrategyParameters, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noStrategyParameters, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noStrategyParameters = noStrategyParameters;
 
 		if (noStrategyParameters < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noStrategyParameters ).getBytes(), FixTags.NOSTRATEGYPARAMETERS_INT, new byte[0]);
@@ -89,7 +89,7 @@ public class StrategyParametersGrp implements FixComponent
 		Utils.fill( strategyParameterValue, (byte)0 );
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

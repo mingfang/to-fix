@@ -25,7 +25,7 @@ public class FixRateSource
 	public int noRateSources;
 	public RateSource[] group;
 
-	public void getAll(int noRateSources, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noRateSources, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noRateSources = noRateSources;
 
 		if (noRateSources < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noRateSources ).getBytes(), FixTags.NORATESOURCES_INT, new byte[0]);
@@ -88,7 +88,7 @@ public class RateSource implements FixComponent
 		Utils.fill( referencePage, (byte)0 );
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

@@ -25,7 +25,7 @@ public class FixContraGrp
 	public int noContraBrokers;
 	public ContraGrp[] group;
 
-	public void getAll(int noContraBrokers, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noContraBrokers, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noContraBrokers = noContraBrokers;
 
 		if (noContraBrokers < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noContraBrokers ).getBytes(), FixTags.NOCONTRABROKERS_INT, new byte[0]);
@@ -95,7 +95,7 @@ public class ContraGrp implements FixComponent
 		Utils.fill( contraLegRefID, (byte)0 );
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

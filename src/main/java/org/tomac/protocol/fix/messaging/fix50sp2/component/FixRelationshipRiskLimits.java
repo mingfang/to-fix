@@ -27,7 +27,7 @@ public class FixRelationshipRiskLimits
 	public int noRelationshipRiskLimits;
 	public RelationshipRiskLimits[] group;
 
-	public void getAll(int noRelationshipRiskLimits, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noRelationshipRiskLimits, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noRelationshipRiskLimits = noRelationshipRiskLimits;
 
 		if (noRelationshipRiskLimits < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noRelationshipRiskLimits ).getBytes(), FixTags.NORELATIONSHIPRISKLIMITS_INT, new byte[0]);
@@ -99,7 +99,7 @@ public class RelationshipRiskLimits implements FixComponent
 		relationshipRiskWarningLevels.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

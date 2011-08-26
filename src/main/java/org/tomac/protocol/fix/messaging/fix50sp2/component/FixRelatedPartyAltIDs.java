@@ -26,7 +26,7 @@ public class FixRelatedPartyAltIDs
 	public int noRelatedPartyAltIDs;
 	public RelatedPartyAltIDs[] group;
 
-	public void getAll(int noRelatedPartyAltIDs, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noRelatedPartyAltIDs, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noRelatedPartyAltIDs = noRelatedPartyAltIDs;
 
 		if (noRelatedPartyAltIDs < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noRelatedPartyAltIDs ).getBytes(), FixTags.NORELATEDPARTYALTIDS_INT, new byte[0]);
@@ -90,7 +90,7 @@ public class RelatedPartyAltIDs implements FixComponent
 		relatedAltPtysSubGrp.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

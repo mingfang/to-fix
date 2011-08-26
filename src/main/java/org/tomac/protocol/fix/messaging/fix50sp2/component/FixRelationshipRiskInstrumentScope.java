@@ -26,7 +26,7 @@ public class FixRelationshipRiskInstrumentScope
 	public int noRelationshipRiskInstruments;
 	public RelationshipRiskInstrumentScope[] group;
 
-	public void getAll(int noRelationshipRiskInstruments, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noRelationshipRiskInstruments, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noRelationshipRiskInstruments = noRelationshipRiskInstruments;
 
 		if (noRelationshipRiskInstruments < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noRelationshipRiskInstruments ).getBytes(), FixTags.NORELATIONSHIPRISKINSTRUMENTS_INT, new byte[0]);
@@ -150,7 +150,7 @@ public class RelationshipRiskInstrumentScope implements FixComponent
 		relationshipRiskSecAltIDGrp.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

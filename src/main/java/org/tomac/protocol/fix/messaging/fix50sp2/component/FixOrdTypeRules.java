@@ -25,7 +25,7 @@ public class FixOrdTypeRules
 	public int noOrdTypeRules;
 	public OrdTypeRules[] group;
 
-	public void getAll(int noOrdTypeRules, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noOrdTypeRules, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noOrdTypeRules = noOrdTypeRules;
 
 		if (noOrdTypeRules < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noOrdTypeRules ).getBytes(), FixTags.NOORDTYPERULES_INT, new byte[0]);
@@ -83,7 +83,7 @@ public class OrdTypeRules implements FixComponent
 		ordType = Byte.MAX_VALUE;		
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

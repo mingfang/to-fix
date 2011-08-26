@@ -26,7 +26,7 @@ public class FixPositionQty
 	public int noPositions;
 	public PositionQty[] group;
 
-	public void getAll(int noPositions, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noPositions, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noPositions = noPositions;
 
 		if (noPositions < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noPositions ).getBytes(), FixTags.NOPOSITIONS_INT, new byte[0]);
@@ -97,7 +97,7 @@ public class PositionQty implements FixComponent
 		nestedParties.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

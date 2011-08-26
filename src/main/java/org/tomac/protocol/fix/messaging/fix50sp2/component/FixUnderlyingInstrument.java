@@ -221,7 +221,7 @@ public class FixUnderlyingInstrument implements FixComponent
 		undlyInstrumentParties.clear();
 	}
 
-	public void getAll(int id, ByteBuffer buf) throws FixSessionException
+	public void getAll(int id, ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

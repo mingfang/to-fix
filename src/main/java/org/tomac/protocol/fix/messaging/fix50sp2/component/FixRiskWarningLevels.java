@@ -25,7 +25,7 @@ public class FixRiskWarningLevels
 	public int noRiskWarningLevels;
 	public RiskWarningLevels[] group;
 
-	public void getAll(int noRiskWarningLevels, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noRiskWarningLevels, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noRiskWarningLevels = noRiskWarningLevels;
 
 		if (noRiskWarningLevels < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noRiskWarningLevels ).getBytes(), FixTags.NORISKWARNINGLEVELS_INT, new byte[0]);
@@ -86,7 +86,7 @@ public class RiskWarningLevels implements FixComponent
 		Utils.fill( riskWarningLevelName, (byte)0 );
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

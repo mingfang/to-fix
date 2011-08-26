@@ -25,7 +25,7 @@ public class FixPartyListResponseTypeGrp
 	public int noPartyListResponseTypes;
 	public PartyListResponseTypeGrp[] group;
 
-	public void getAll(int noPartyListResponseTypes, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noPartyListResponseTypes, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noPartyListResponseTypes = noPartyListResponseTypes;
 
 		if (noPartyListResponseTypes < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noPartyListResponseTypes ).getBytes(), FixTags.NOPARTYLISTRESPONSETYPES_INT, new byte[0]);
@@ -83,7 +83,7 @@ public class PartyListResponseTypeGrp implements FixComponent
 		partyListResponseType = Long.MAX_VALUE;		
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

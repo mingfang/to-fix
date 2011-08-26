@@ -25,7 +25,7 @@ public class FixUndSecAltIDGrp
 	public int noUnderlyingSecurityAltID;
 	public UndSecAltIDGrp[] group;
 
-	public void getAll(int noUnderlyingSecurityAltID, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noUnderlyingSecurityAltID, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noUnderlyingSecurityAltID = noUnderlyingSecurityAltID;
 
 		if (noUnderlyingSecurityAltID < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noUnderlyingSecurityAltID ).getBytes(), FixTags.NOUNDERLYINGSECURITYALTID_INT, new byte[0]);
@@ -87,7 +87,7 @@ public class UndSecAltIDGrp implements FixComponent
 		Utils.fill( underlyingSecurityAltIDSource, (byte)0 );
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

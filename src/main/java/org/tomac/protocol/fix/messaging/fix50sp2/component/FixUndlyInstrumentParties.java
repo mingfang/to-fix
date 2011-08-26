@@ -26,7 +26,7 @@ public class FixUndlyInstrumentParties
 	public int noUndlyInstrumentParties;
 	public UndlyInstrumentParties[] group;
 
-	public void getAll(int noUndlyInstrumentParties, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noUndlyInstrumentParties, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noUndlyInstrumentParties = noUndlyInstrumentParties;
 
 		if (noUndlyInstrumentParties < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noUndlyInstrumentParties ).getBytes(), FixTags.NOUNDLYINSTRUMENTPARTIES_INT, new byte[0]);
@@ -92,7 +92,7 @@ public class UndlyInstrumentParties implements FixComponent
 		undlyInstrumentPtysSubGrp.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

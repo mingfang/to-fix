@@ -25,7 +25,7 @@ public class FixEvntGrp
 	public int noEvents;
 	public EvntGrp[] group;
 
-	public void getAll(int noEvents, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noEvents, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noEvents = noEvents;
 
 		if (noEvents < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noEvents ).getBytes(), FixTags.NOEVENTS_INT, new byte[0]);
@@ -94,7 +94,7 @@ public class EvntGrp implements FixComponent
 		Utils.fill( eventText, (byte)0 );
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

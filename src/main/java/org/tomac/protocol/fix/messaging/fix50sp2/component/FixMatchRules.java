@@ -25,7 +25,7 @@ public class FixMatchRules
 	public int noMatchRules;
 	public MatchRules[] group;
 
-	public void getAll(int noMatchRules, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noMatchRules, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noMatchRules = noMatchRules;
 
 		if (noMatchRules < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noMatchRules ).getBytes(), FixTags.NOMATCHRULES_INT, new byte[0]);
@@ -87,7 +87,7 @@ public class MatchRules implements FixComponent
 		Utils.fill( matchType, (byte)0 );
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

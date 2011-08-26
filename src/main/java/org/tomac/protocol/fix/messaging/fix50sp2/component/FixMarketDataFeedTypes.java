@@ -25,7 +25,7 @@ public class FixMarketDataFeedTypes
 	public int noMDFeedTypes;
 	public MarketDataFeedTypes[] group;
 
-	public void getAll(int noMDFeedTypes, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noMDFeedTypes, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noMDFeedTypes = noMDFeedTypes;
 
 		if (noMDFeedTypes < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noMDFeedTypes ).getBytes(), FixTags.NOMDFEEDTYPES_INT, new byte[0]);
@@ -88,7 +88,7 @@ public class MarketDataFeedTypes implements FixComponent
 		mDBookType = Long.MAX_VALUE;		
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

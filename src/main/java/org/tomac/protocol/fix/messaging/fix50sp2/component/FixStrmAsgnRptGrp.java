@@ -27,7 +27,7 @@ public class FixStrmAsgnRptGrp
 	public int noAsgnReqs;
 	public StrmAsgnRptGrp[] group;
 
-	public void getAll(int noAsgnReqs, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noAsgnReqs, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noAsgnReqs = noAsgnReqs;
 
 		if (noAsgnReqs < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noAsgnReqs ).getBytes(), FixTags.NOASGNREQS_INT, new byte[0]);
@@ -89,7 +89,7 @@ public class StrmAsgnRptGrp implements FixComponent
 		strmAsgnRptInstrmtGrp.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

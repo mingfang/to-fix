@@ -25,7 +25,7 @@ public class FixTickRules
 	public int noTickRules;
 	public TickRules[] group;
 
-	public void getAll(int noTickRules, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noTickRules, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noTickRules = noTickRules;
 
 		if (noTickRules < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noTickRules ).getBytes(), FixTags.NOTICKRULES_INT, new byte[0]);
@@ -89,7 +89,7 @@ public class TickRules implements FixComponent
 		tickRuleType = Long.MAX_VALUE;		
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

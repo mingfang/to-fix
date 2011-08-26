@@ -25,7 +25,7 @@ public class FixPtysSubGrp
 	public int noPartySubIDs;
 	public PtysSubGrp[] group;
 
-	public void getAll(int noPartySubIDs, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noPartySubIDs, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noPartySubIDs = noPartySubIDs;
 
 		if (noPartySubIDs < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noPartySubIDs ).getBytes(), FixTags.NOPARTYSUBIDS_INT, new byte[0]);
@@ -86,7 +86,7 @@ public class PtysSubGrp implements FixComponent
 		partySubIDType = Long.MAX_VALUE;		
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

@@ -26,7 +26,7 @@ public class FixRgstDtlsGrp
 	public int noRegistDtls;
 	public RgstDtlsGrp[] group;
 
-	public void getAll(int noRegistDtls, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noRegistDtls, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noRegistDtls = noRegistDtls;
 
 		if (noRegistDtls < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noRegistDtls ).getBytes(), FixTags.NOREGISTDTLS_INT, new byte[0]);
@@ -105,7 +105,7 @@ public class RgstDtlsGrp implements FixComponent
 		nestedParties.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

@@ -25,7 +25,7 @@ public class FixQuotQualGrp
 	public int noQuoteQualifiers;
 	public QuotQualGrp[] group;
 
-	public void getAll(int noQuoteQualifiers, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noQuoteQualifiers, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noQuoteQualifiers = noQuoteQualifiers;
 
 		if (noQuoteQualifiers < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noQuoteQualifiers ).getBytes(), FixTags.NOQUOTEQUALIFIERS_INT, new byte[0]);
@@ -83,7 +83,7 @@ public class QuotQualGrp implements FixComponent
 		quoteQualifier = Byte.MAX_VALUE;		
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

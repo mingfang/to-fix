@@ -27,7 +27,7 @@ public class FixSettlInstGrp
 	public int noSettlInst;
 	public SettlInstGrp[] group;
 
-	public void getAll(int noSettlInst, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noSettlInst, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noSettlInst = noSettlInst;
 
 		if (noSettlInst < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noSettlInst ).getBytes(), FixTags.NOSETTLINST_INT, new byte[0]);
@@ -145,7 +145,7 @@ public class SettlInstGrp implements FixComponent
 		settlInstructionsData.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

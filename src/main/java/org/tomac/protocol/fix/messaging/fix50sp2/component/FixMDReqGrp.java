@@ -25,7 +25,7 @@ public class FixMDReqGrp
 	public int noMDEntryTypes;
 	public MDReqGrp[] group;
 
-	public void getAll(int noMDEntryTypes, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noMDEntryTypes, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noMDEntryTypes = noMDEntryTypes;
 
 		if (noMDEntryTypes < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noMDEntryTypes ).getBytes(), FixTags.NOMDENTRYTYPES_INT, new byte[0]);
@@ -83,7 +83,7 @@ public class MDReqGrp implements FixComponent
 		mDEntryType = Byte.MAX_VALUE;		
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

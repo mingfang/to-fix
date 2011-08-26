@@ -25,7 +25,7 @@ public class FixTimeInForceRules
 	public int noTimeInForceRules;
 	public TimeInForceRules[] group;
 
-	public void getAll(int noTimeInForceRules, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noTimeInForceRules, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noTimeInForceRules = noTimeInForceRules;
 
 		if (noTimeInForceRules < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noTimeInForceRules ).getBytes(), FixTags.NOTIMEINFORCERULES_INT, new byte[0]);
@@ -83,7 +83,7 @@ public class TimeInForceRules implements FixComponent
 		timeInForce = Byte.MAX_VALUE;		
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

@@ -26,7 +26,7 @@ public class FixComplexEventDates
 	public int noComplexEventDates;
 	public ComplexEventDates[] group;
 
-	public void getAll(int noComplexEventDates, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noComplexEventDates, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noComplexEventDates = noComplexEventDates;
 
 		if (noComplexEventDates < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noComplexEventDates ).getBytes(), FixTags.NOCOMPLEXEVENTDATES_INT, new byte[0]);
@@ -91,7 +91,7 @@ public class ComplexEventDates implements FixComponent
 		complexEventTimes.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

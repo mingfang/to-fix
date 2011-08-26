@@ -25,7 +25,7 @@ public class FixBidDescReqGrp
 	public int noBidDescriptors;
 	public BidDescReqGrp[] group;
 
-	public void getAll(int noBidDescriptors, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noBidDescriptors, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noBidDescriptors = noBidDescriptors;
 
 		if (noBidDescriptors < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noBidDescriptors ).getBytes(), FixTags.NOBIDDESCRIPTORS_INT, new byte[0]);
@@ -104,7 +104,7 @@ public class BidDescReqGrp implements FixComponent
 		valueOfFutures = Long.MAX_VALUE;		
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

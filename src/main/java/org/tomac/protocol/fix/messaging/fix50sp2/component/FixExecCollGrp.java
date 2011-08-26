@@ -25,7 +25,7 @@ public class FixExecCollGrp
 	public int noExecs;
 	public ExecCollGrp[] group;
 
-	public void getAll(int noExecs, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noExecs, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noExecs = noExecs;
 
 		if (noExecs < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noExecs ).getBytes(), FixTags.NOEXECS_INT, new byte[0]);
@@ -84,7 +84,7 @@ public class ExecCollGrp implements FixComponent
 		Utils.fill( execID, (byte)0 );
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

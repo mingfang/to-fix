@@ -25,7 +25,7 @@ public class FixClrInstGrp
 	public int noClearingInstructions;
 	public ClrInstGrp[] group;
 
-	public void getAll(int noClearingInstructions, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noClearingInstructions, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noClearingInstructions = noClearingInstructions;
 
 		if (noClearingInstructions < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noClearingInstructions ).getBytes(), FixTags.NOCLEARINGINSTRUCTIONS_INT, new byte[0]);
@@ -83,7 +83,7 @@ public class ClrInstGrp implements FixComponent
 		clearingInstruction = Long.MAX_VALUE;		
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

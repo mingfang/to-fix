@@ -26,7 +26,7 @@ public class FixUndInstrmtGrp
 	public int noUnderlyings;
 	public UndInstrmtGrp[] group;
 
-	public void getAll(int noUnderlyings, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noUnderlyings, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noUnderlyings = noUnderlyings;
 
 		if (noUnderlyings < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noUnderlyings ).getBytes(), FixTags.NOUNDERLYINGS_INT, new byte[0]);
@@ -85,7 +85,7 @@ public class UndInstrmtGrp implements FixComponent
 		underlyingInstrument.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

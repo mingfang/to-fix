@@ -25,7 +25,7 @@ public class FixUnderlyingLegSecurityAltIDGrp
 	public int noUnderlyingLegSecurityAltID;
 	public UnderlyingLegSecurityAltIDGrp[] group;
 
-	public void getAll(int noUnderlyingLegSecurityAltID, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noUnderlyingLegSecurityAltID, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noUnderlyingLegSecurityAltID = noUnderlyingLegSecurityAltID;
 
 		if (noUnderlyingLegSecurityAltID < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noUnderlyingLegSecurityAltID ).getBytes(), FixTags.NOUNDERLYINGLEGSECURITYALTID_INT, new byte[0]);
@@ -87,7 +87,7 @@ public class UnderlyingLegSecurityAltIDGrp implements FixComponent
 		Utils.fill( underlyingLegSecurityAltIDSource, (byte)0 );
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

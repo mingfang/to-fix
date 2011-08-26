@@ -25,7 +25,7 @@ public class FixRelationshipRiskSecAltIDGrp
 	public int noRelationshipRiskSecurityAltID;
 	public RelationshipRiskSecAltIDGrp[] group;
 
-	public void getAll(int noRelationshipRiskSecurityAltID, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noRelationshipRiskSecurityAltID, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noRelationshipRiskSecurityAltID = noRelationshipRiskSecurityAltID;
 
 		if (noRelationshipRiskSecurityAltID < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noRelationshipRiskSecurityAltID ).getBytes(), FixTags.NORELATIONSHIPRISKSECURITYALTID_INT, new byte[0]);
@@ -89,7 +89,7 @@ public class RelationshipRiskSecAltIDGrp implements FixComponent
 		Utils.fill( relationshipRiskSecurityAltIDSource, (byte)0 );
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

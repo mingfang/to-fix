@@ -47,7 +47,7 @@ public class FixOrderQtyData implements FixComponent
 		roundingModulus = Long.MAX_VALUE;		
 	}
 
-	public void getAll(int id, ByteBuffer buf) throws FixSessionException
+	public void getAll(int id, ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

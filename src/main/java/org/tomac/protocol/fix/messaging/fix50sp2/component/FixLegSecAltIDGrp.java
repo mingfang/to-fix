@@ -25,7 +25,7 @@ public class FixLegSecAltIDGrp
 	public int noLegSecurityAltID;
 	public LegSecAltIDGrp[] group;
 
-	public void getAll(int noLegSecurityAltID, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noLegSecurityAltID, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noLegSecurityAltID = noLegSecurityAltID;
 
 		if (noLegSecurityAltID < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noLegSecurityAltID ).getBytes(), FixTags.NOLEGSECURITYALTID_INT, new byte[0]);
@@ -90,7 +90,7 @@ public class LegSecAltIDGrp implements FixComponent
 		Utils.fill( legSecurityAltIDSource, (byte)0 );
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

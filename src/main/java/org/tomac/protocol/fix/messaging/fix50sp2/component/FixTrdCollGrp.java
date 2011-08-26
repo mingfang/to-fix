@@ -25,7 +25,7 @@ public class FixTrdCollGrp
 	public int noTrades;
 	public TrdCollGrp[] group;
 
-	public void getAll(int noTrades, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noTrades, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noTrades = noTrades;
 
 		if (noTrades < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noTrades ).getBytes(), FixTags.NOTRADES_INT, new byte[0]);
@@ -87,7 +87,7 @@ public class TrdCollGrp implements FixComponent
 		Utils.fill( secondaryTradeReportID, (byte)0 );
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

@@ -29,7 +29,7 @@ public class FixQuotCxlEntriesGrp
 	public int noQuoteEntries;
 	public QuotCxlEntriesGrp[] group;
 
-	public void getAll(int noQuoteEntries, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noQuoteEntries, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noQuoteEntries = noQuoteEntries;
 
 		if (noQuoteEntries < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noQuoteEntries ).getBytes(), FixTags.NOQUOTEENTRIES_INT, new byte[0]);
@@ -97,7 +97,7 @@ public class QuotCxlEntriesGrp implements FixComponent
 		instrmtLegGrp.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

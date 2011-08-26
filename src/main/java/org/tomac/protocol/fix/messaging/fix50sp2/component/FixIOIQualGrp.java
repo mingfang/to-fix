@@ -25,7 +25,7 @@ public class FixIOIQualGrp
 	public int noIOIQualifiers;
 	public IOIQualGrp[] group;
 
-	public void getAll(int noIOIQualifiers, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noIOIQualifiers, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noIOIQualifiers = noIOIQualifiers;
 
 		if (noIOIQualifiers < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noIOIQualifiers ).getBytes(), FixTags.NOIOIQUALIFIERS_INT, new byte[0]);
@@ -83,7 +83,7 @@ public class IOIQualGrp implements FixComponent
 		iOIQualifier = Byte.MAX_VALUE;		
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

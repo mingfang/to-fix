@@ -25,7 +25,7 @@ public class FixNstdPtys3SubGrp
 	public int noNested3PartySubIDs;
 	public NstdPtys3SubGrp[] group;
 
-	public void getAll(int noNested3PartySubIDs, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noNested3PartySubIDs, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noNested3PartySubIDs = noNested3PartySubIDs;
 
 		if (noNested3PartySubIDs < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noNested3PartySubIDs ).getBytes(), FixTags.NONESTED3PARTYSUBIDS_INT, new byte[0]);
@@ -86,7 +86,7 @@ public class NstdPtys3SubGrp implements FixComponent
 		nested3PartySubIDType = Long.MAX_VALUE;		
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

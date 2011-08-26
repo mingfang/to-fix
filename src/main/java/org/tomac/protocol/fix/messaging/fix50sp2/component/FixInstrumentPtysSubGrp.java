@@ -25,7 +25,7 @@ public class FixInstrumentPtysSubGrp
 	public int noInstrumentPartySubIDs;
 	public InstrumentPtysSubGrp[] group;
 
-	public void getAll(int noInstrumentPartySubIDs, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noInstrumentPartySubIDs, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noInstrumentPartySubIDs = noInstrumentPartySubIDs;
 
 		if (noInstrumentPartySubIDs < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noInstrumentPartySubIDs ).getBytes(), FixTags.NOINSTRUMENTPARTYSUBIDS_INT, new byte[0]);
@@ -86,7 +86,7 @@ public class InstrumentPtysSubGrp implements FixComponent
 		instrumentPartySubIDType = Long.MAX_VALUE;		
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

@@ -34,7 +34,7 @@ public class FixMDIncGrp
 	public int noMDEntries;
 	public MDIncGrp[] group;
 
-	public void getAll(int noMDEntries, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noMDEntries, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noMDEntries = noMDEntries;
 
 		if (noMDEntries < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noMDEntries ).getBytes(), FixTags.NOMDENTRIES_INT, new byte[0]);
@@ -292,7 +292,7 @@ public class MDIncGrp implements FixComponent
 		statsIndGrp.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

@@ -25,7 +25,7 @@ public class FixRoutingGrp
 	public int noRoutingIDs;
 	public RoutingGrp[] group;
 
-	public void getAll(int noRoutingIDs, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noRoutingIDs, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noRoutingIDs = noRoutingIDs;
 
 		if (noRoutingIDs < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noRoutingIDs ).getBytes(), FixTags.NOROUTINGIDS_INT, new byte[0]);
@@ -86,7 +86,7 @@ public class RoutingGrp implements FixComponent
 		Utils.fill( routingID, (byte)0 );
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

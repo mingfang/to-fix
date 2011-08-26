@@ -25,7 +25,7 @@ public class FixTrdCapDtGrp
 	public int noDates;
 	public TrdCapDtGrp[] group;
 
-	public void getAll(int noDates, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noDates, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noDates = noDates;
 
 		if (noDates < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noDates ).getBytes(), FixTags.NODATES_INT, new byte[0]);
@@ -92,7 +92,7 @@ public class TrdCapDtGrp implements FixComponent
 		Utils.fill( transactTime, (byte)0 );
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

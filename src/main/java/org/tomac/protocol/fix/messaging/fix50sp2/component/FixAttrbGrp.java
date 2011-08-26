@@ -25,7 +25,7 @@ public class FixAttrbGrp
 	public int noInstrAttrib;
 	public AttrbGrp[] group;
 
-	public void getAll(int noInstrAttrib, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noInstrAttrib, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noInstrAttrib = noInstrAttrib;
 
 		if (noInstrAttrib < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noInstrAttrib ).getBytes(), FixTags.NOINSTRATTRIB_INT, new byte[0]);
@@ -86,7 +86,7 @@ public class AttrbGrp implements FixComponent
 		Utils.fill( instrAttribValue, (byte)0 );
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

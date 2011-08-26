@@ -52,7 +52,7 @@ public class FixYieldData implements FixComponent
 		yieldRedemptionPriceType = Long.MAX_VALUE;		
 	}
 
-	public void getAll(int id, ByteBuffer buf) throws FixSessionException
+	public void getAll(int id, ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

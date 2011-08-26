@@ -26,7 +26,7 @@ public class FixStrikeRules
 	public int noStrikeRules;
 	public StrikeRules[] group;
 
-	public void getAll(int noStrikeRules, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noStrikeRules, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noStrikeRules = noStrikeRules;
 
 		if (noStrikeRules < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noStrikeRules ).getBytes(), FixTags.NOSTRIKERULES_INT, new byte[0]);
@@ -96,7 +96,7 @@ public class StrikeRules implements FixComponent
 		maturityRules.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

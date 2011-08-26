@@ -29,7 +29,7 @@ public class FixSideCrossOrdModGrp
 	public int noSides;
 	public SideCrossOrdModGrp[] group;
 
-	public void getAll(int noSides, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noSides, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noSides = noSides;
 
 		if (noSides < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noSides ).getBytes(), FixTags.NOSIDES_INT, new byte[0]);
@@ -176,7 +176,7 @@ public class SideCrossOrdModGrp implements FixComponent
 		commissionData.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

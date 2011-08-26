@@ -25,7 +25,7 @@ public class FixMDRjctGrp
 	public int noAltMDSource;
 	public MDRjctGrp[] group;
 
-	public void getAll(int noAltMDSource, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noAltMDSource, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noAltMDSource = noAltMDSource;
 
 		if (noAltMDSource < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noAltMDSource ).getBytes(), FixTags.NOALTMDSOURCE_INT, new byte[0]);
@@ -84,7 +84,7 @@ public class MDRjctGrp implements FixComponent
 		Utils.fill( altMDSourceID, (byte)0 );
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

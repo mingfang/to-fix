@@ -25,7 +25,7 @@ public class FixRequestedPartyRoleGrp
 	public int noRequestedPartyRoles;
 	public RequestedPartyRoleGrp[] group;
 
-	public void getAll(int noRequestedPartyRoles, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noRequestedPartyRoles, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noRequestedPartyRoles = noRequestedPartyRoles;
 
 		if (noRequestedPartyRoles < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noRequestedPartyRoles ).getBytes(), FixTags.NOREQUESTEDPARTYROLES_INT, new byte[0]);
@@ -83,7 +83,7 @@ public class RequestedPartyRoleGrp implements FixComponent
 		requestedPartyRole = Long.MAX_VALUE;		
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

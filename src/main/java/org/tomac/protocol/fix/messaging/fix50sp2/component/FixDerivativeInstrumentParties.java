@@ -26,7 +26,7 @@ public class FixDerivativeInstrumentParties
 	public int noDerivativeInstrumentParties;
 	public DerivativeInstrumentParties[] group;
 
-	public void getAll(int noDerivativeInstrumentParties, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noDerivativeInstrumentParties, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noDerivativeInstrumentParties = noDerivativeInstrumentParties;
 
 		if (noDerivativeInstrumentParties < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noDerivativeInstrumentParties ).getBytes(), FixTags.NODERIVATIVEINSTRUMENTPARTIES_INT, new byte[0]);
@@ -93,7 +93,7 @@ public class DerivativeInstrumentParties implements FixComponent
 		derivativeInstrumentPartySubIDsGrp.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

@@ -25,7 +25,7 @@ public class FixUsernameGrp
 	public int noUsernames;
 	public UsernameGrp[] group;
 
-	public void getAll(int noUsernames, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noUsernames, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noUsernames = noUsernames;
 
 		if (noUsernames < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noUsernames ).getBytes(), FixTags.NOUSERNAMES_INT, new byte[0]);
@@ -84,7 +84,7 @@ public class UsernameGrp implements FixComponent
 		Utils.fill( username, (byte)0 );
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

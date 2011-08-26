@@ -25,7 +25,7 @@ public class FixStatsIndGrp
 	public int noStatsIndicators;
 	public StatsIndGrp[] group;
 
-	public void getAll(int noStatsIndicators, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noStatsIndicators, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noStatsIndicators = noStatsIndicators;
 
 		if (noStatsIndicators < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noStatsIndicators ).getBytes(), FixTags.NOSTATSINDICATORS_INT, new byte[0]);
@@ -83,7 +83,7 @@ public class StatsIndGrp implements FixComponent
 		statsType = Long.MAX_VALUE;		
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

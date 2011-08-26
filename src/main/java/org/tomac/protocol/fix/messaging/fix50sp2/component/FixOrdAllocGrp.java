@@ -26,7 +26,7 @@ public class FixOrdAllocGrp
 	public int noOrders;
 	public OrdAllocGrp[] group;
 
-	public void getAll(int noOrders, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noOrders, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noOrders = noOrders;
 
 		if (noOrders < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noOrders ).getBytes(), FixTags.NOORDERS_INT, new byte[0]);
@@ -106,7 +106,7 @@ public class OrdAllocGrp implements FixComponent
 		nestedParties2.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();

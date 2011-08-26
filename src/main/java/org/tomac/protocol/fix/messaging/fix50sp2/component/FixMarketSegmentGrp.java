@@ -27,7 +27,7 @@ public class FixMarketSegmentGrp
 	public int noMarketSegments;
 	public MarketSegmentGrp[] group;
 
-	public void getAll(int noMarketSegments, ByteBuffer buf) throws FixSessionException {
+	public void getAll(int noMarketSegments, ByteBuffer buf) throws FixSessionException, FixGarbledException {
 		this.noMarketSegments = noMarketSegments;
 
 		if (noMarketSegments < 1) throw new FixSessionException(SessionRejectReason.INCORRECT_NUMINGROUP_COUNT_FOR_REPEATING_GROUP, ("Incorrect num in group count " + noMarketSegments ).getBytes(), FixTags.NOMARKETSEGMENTS_INT, new byte[0]);
@@ -95,7 +95,7 @@ public class MarketSegmentGrp implements FixComponent
 		strikeRules.clear();
 	}
 
-	public void getAllGroup(ByteBuffer buf) throws FixSessionException
+	public void getAllGroup(ByteBuffer buf) throws FixSessionException, FixGarbledException
 	{
 
 		int startTagPosition = buf.position();
