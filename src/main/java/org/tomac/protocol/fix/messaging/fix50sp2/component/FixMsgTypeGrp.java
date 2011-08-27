@@ -55,6 +55,17 @@ public class FixMsgTypeGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixMsgTypeGrp)) return false;
+
+		FixMsgTypeGrp msg = (FixMsgTypeGrp) o;
+
+		for (int i = 0; i<noMsgTypes; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noMsgTypes; i++)
@@ -204,8 +215,6 @@ public class MsgTypeGrp implements FixComponent
 		if (! ( o instanceof MsgTypeGrp)) return false;
 
 			MsgTypeGrp msg = (MsgTypeGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( refMsgType, msg.refMsgType)) return false;
 

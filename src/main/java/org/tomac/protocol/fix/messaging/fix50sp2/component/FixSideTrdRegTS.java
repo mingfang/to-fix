@@ -55,6 +55,17 @@ public class FixSideTrdRegTS
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixSideTrdRegTS)) return false;
+
+		FixSideTrdRegTS msg = (FixSideTrdRegTS) o;
+
+		for (int i = 0; i<noSideTrdRegTS; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noSideTrdRegTS; i++)
@@ -173,8 +184,6 @@ public class SideTrdRegTS implements FixComponent
 		if (! ( o instanceof SideTrdRegTS)) return false;
 
 			SideTrdRegTS msg = (SideTrdRegTS) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( sideTrdRegTimestampType==msg.sideTrdRegTimestampType)) return false;
 

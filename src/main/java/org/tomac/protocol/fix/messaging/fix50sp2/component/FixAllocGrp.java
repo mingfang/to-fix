@@ -60,6 +60,17 @@ public class FixAllocGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixAllocGrp)) return false;
+
+		FixAllocGrp msg = (FixAllocGrp) o;
+
+		for (int i = 0; i<noAllocs; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noAllocs; i++)
@@ -269,7 +280,9 @@ public class AllocGrp implements FixComponent
 			}
 
 			if(id == FixTags.NONESTEDPARTYIDS_INT) {
-				nestedParties.getAll(FixTags.NONESTEDPARTYIDS_INT, buf);
+				int noNestedPartyIDs;
+				noNestedPartyIDs = FixUtils.getTagIntValue( value );
+				nestedParties.getAll(noNestedPartyIDs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -391,7 +404,9 @@ public class AllocGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOMISCFEES_INT) {
-				miscFeesGrp.getAll(FixTags.NOMISCFEES_INT, buf);
+				int noMiscFees;
+				noMiscFees = FixUtils.getTagIntValue( value );
+				miscFeesGrp.getAll(noMiscFees, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -406,7 +421,9 @@ public class AllocGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOCLEARINGINSTRUCTIONS_INT) {
-				clrInstGrp.getAll(FixTags.NOCLEARINGINSTRUCTIONS_INT, buf);
+				int noClearingInstructions;
+				noClearingInstructions = FixUtils.getTagIntValue( value );
+				clrInstGrp.getAll(noClearingInstructions, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -572,8 +589,6 @@ public class AllocGrp implements FixComponent
 		if (! ( o instanceof AllocGrp)) return false;
 
 			AllocGrp msg = (AllocGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( allocAccount, msg.allocAccount)) return false;
 

@@ -55,6 +55,17 @@ public class FixAffectedOrdGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixAffectedOrdGrp)) return false;
+
+		FixAffectedOrdGrp msg = (FixAffectedOrdGrp) o;
+
+		for (int i = 0; i<noAffectedOrders; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noAffectedOrders; i++)
@@ -174,8 +185,6 @@ public class AffectedOrdGrp implements FixComponent
 		if (! ( o instanceof AffectedOrdGrp)) return false;
 
 			AffectedOrdGrp msg = (AffectedOrdGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( origClOrdID, msg.origClOrdID)) return false;
 

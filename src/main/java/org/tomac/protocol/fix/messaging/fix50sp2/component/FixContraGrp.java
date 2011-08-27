@@ -55,6 +55,17 @@ public class FixContraGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixContraGrp)) return false;
+
+		FixContraGrp msg = (FixContraGrp) o;
+
+		for (int i = 0; i<noContraBrokers; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noContraBrokers; i++)
@@ -199,8 +210,6 @@ public class ContraGrp implements FixComponent
 		if (! ( o instanceof ContraGrp)) return false;
 
 			ContraGrp msg = (ContraGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( contraBroker, msg.contraBroker)) return false;
 

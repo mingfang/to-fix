@@ -164,8 +164,6 @@ public class FixTradingSessionRules implements FixComponent
 
 			FixTradingSessionRules msg = (FixTradingSessionRules) o;
 
-		if ( ! super.equals(msg) ) return false;
-
 		if (!ordTypeRules.equals(msg.ordTypeRules)) return false;
 
 		if (!timeInForceRules.equals(msg.timeInForceRules)) return false;

@@ -55,6 +55,17 @@ public class FixMiscFeesGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixMiscFeesGrp)) return false;
+
+		FixMiscFeesGrp msg = (FixMiscFeesGrp) o;
+
+		for (int i = 0; i<noMiscFees; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noMiscFees; i++)
@@ -187,8 +198,6 @@ public class MiscFeesGrp implements FixComponent
 		if (! ( o instanceof MiscFeesGrp)) return false;
 
 			MiscFeesGrp msg = (MiscFeesGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( miscFeeAmt==msg.miscFeeAmt)) return false;
 

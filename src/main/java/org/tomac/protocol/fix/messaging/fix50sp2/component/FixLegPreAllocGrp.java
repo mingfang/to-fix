@@ -56,6 +56,17 @@ public class FixLegPreAllocGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixLegPreAllocGrp)) return false;
+
+		FixLegPreAllocGrp msg = (FixLegPreAllocGrp) o;
+
+		for (int i = 0; i<noLegAllocs; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noLegAllocs; i++)
@@ -125,7 +136,9 @@ public class LegPreAllocGrp implements FixComponent
 			}
 
 			if(id == FixTags.NONESTED2PARTYIDS_INT) {
-				nestedParties2.getAll(FixTags.NONESTED2PARTYIDS_INT, buf);
+				int noNested2PartyIDs;
+				noNested2PartyIDs = FixUtils.getTagIntValue( value );
+				nestedParties2.getAll(noNested2PartyIDs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -213,8 +226,6 @@ public class LegPreAllocGrp implements FixComponent
 		if (! ( o instanceof LegPreAllocGrp)) return false;
 
 			LegPreAllocGrp msg = (LegPreAllocGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( legAllocAccount, msg.legAllocAccount)) return false;
 

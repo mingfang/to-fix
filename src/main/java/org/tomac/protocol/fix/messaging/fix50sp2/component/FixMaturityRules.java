@@ -55,6 +55,17 @@ public class FixMaturityRules
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixMaturityRules)) return false;
+
+		FixMaturityRules msg = (FixMaturityRules) o;
+
+		for (int i = 0; i<noMaturityRules; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noMaturityRules; i++)
@@ -212,8 +223,6 @@ public class MaturityRules implements FixComponent
 		if (! ( o instanceof MaturityRules)) return false;
 
 			MaturityRules msg = (MaturityRules) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( maturityRuleID, msg.maturityRuleID)) return false;
 

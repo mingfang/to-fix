@@ -55,6 +55,17 @@ public class FixNestedInstrumentAttribute
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixNestedInstrumentAttribute)) return false;
+
+		FixNestedInstrumentAttribute msg = (FixNestedInstrumentAttribute) o;
+
+		for (int i = 0; i<noNestedInstrAttrib; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noNestedInstrAttrib; i++)
@@ -160,8 +171,6 @@ public class NestedInstrumentAttribute implements FixComponent
 		if (! ( o instanceof NestedInstrumentAttribute)) return false;
 
 			NestedInstrumentAttribute msg = (NestedInstrumentAttribute) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( nestedInstrAttribType==msg.nestedInstrAttribType)) return false;
 

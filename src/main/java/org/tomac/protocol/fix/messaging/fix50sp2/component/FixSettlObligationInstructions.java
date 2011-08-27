@@ -58,6 +58,17 @@ public class FixSettlObligationInstructions
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixSettlObligationInstructions)) return false;
+
+		FixSettlObligationInstructions msg = (FixSettlObligationInstructions) o;
+
+		for (int i = 0; i<noSettlOblig; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noSettlOblig; i++)
@@ -239,14 +250,18 @@ public class SettlObligationInstructions implements FixComponent
 			}
 
 			if(id == FixTags.NOPARTYIDS_INT) {
-				parties.getAll(FixTags.NOPARTYIDS_INT, buf);
+				int noPartyIDs;
+				noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(noPartyIDs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.NOSETTLDETAILS_INT) {
-				settlDetails.getAll(FixTags.NOSETTLDETAILS_INT, buf);
+				int noSettlDetails;
+				noSettlDetails = FixUtils.getTagIntValue( value );
+				settlDetails.getAll(noSettlDetails, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -343,8 +358,6 @@ public class SettlObligationInstructions implements FixComponent
 		if (! ( o instanceof SettlObligationInstructions)) return false;
 
 			SettlObligationInstructions msg = (SettlObligationInstructions) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( netGrossInd==msg.netGrossInd)) return false;
 

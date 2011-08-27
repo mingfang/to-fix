@@ -56,6 +56,17 @@ public class FixInstrumentParties
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixInstrumentParties)) return false;
+
+		FixInstrumentParties msg = (FixInstrumentParties) o;
+
+		for (int i = 0; i<noInstrumentParties; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noInstrumentParties; i++)
@@ -125,7 +136,9 @@ public class InstrumentParties implements FixComponent
 			}
 
 			if(id == FixTags.NOINSTRUMENTPARTYSUBIDS_INT) {
-				instrumentPtysSubGrp.getAll(FixTags.NOINSTRUMENTPARTYSUBIDS_INT, buf);
+				int noInstrumentPartySubIDs;
+				noInstrumentPartySubIDs = FixUtils.getTagIntValue( value );
+				instrumentPtysSubGrp.getAll(noInstrumentPartySubIDs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -186,8 +199,6 @@ public class InstrumentParties implements FixComponent
 		if (! ( o instanceof InstrumentParties)) return false;
 
 			InstrumentParties msg = (InstrumentParties) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( instrumentPartyID, msg.instrumentPartyID)) return false;
 

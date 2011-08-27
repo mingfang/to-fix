@@ -55,6 +55,17 @@ public class FixRequestedPartyRoleGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixRequestedPartyRoleGrp)) return false;
+
+		FixRequestedPartyRoleGrp msg = (FixRequestedPartyRoleGrp) o;
+
+		for (int i = 0; i<noRequestedPartyRoles; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noRequestedPartyRoles; i++)
@@ -147,8 +158,6 @@ public class RequestedPartyRoleGrp implements FixComponent
 		if (! ( o instanceof RequestedPartyRoleGrp)) return false;
 
 			RequestedPartyRoleGrp msg = (RequestedPartyRoleGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( requestedPartyRole==msg.requestedPartyRole)) return false;
 

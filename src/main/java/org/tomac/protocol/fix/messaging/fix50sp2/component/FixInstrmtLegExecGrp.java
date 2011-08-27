@@ -59,6 +59,17 @@ public class FixInstrmtLegExecGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixInstrmtLegExecGrp)) return false;
+
+		FixInstrmtLegExecGrp msg = (FixInstrmtLegExecGrp) o;
+
+		for (int i = 0; i<noLegs; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noLegs; i++)
@@ -188,14 +199,18 @@ public class InstrmtLegExecGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOLEGSTIPULATIONS_INT) {
-				legStipulations.getAll(FixTags.NOLEGSTIPULATIONS_INT, buf);
+				int noLegStipulations;
+				noLegStipulations = FixUtils.getTagIntValue( value );
+				legStipulations.getAll(noLegStipulations, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.NOLEGALLOCS_INT) {
-				legPreAllocGrp.getAll(FixTags.NOLEGALLOCS_INT, buf);
+				int noLegAllocs;
+				noLegAllocs = FixUtils.getTagIntValue( value );
+				legPreAllocGrp.getAll(noLegAllocs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -216,7 +231,9 @@ public class InstrmtLegExecGrp implements FixComponent
 			}
 
 			if(id == FixTags.NONESTED3PARTYIDS_INT) {
-				nestedParties3.getAll(FixTags.NONESTED3PARTYIDS_INT, buf);
+				int noNested3PartyIDs;
+				noNested3PartyIDs = FixUtils.getTagIntValue( value );
+				nestedParties3.getAll(noNested3PartyIDs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -425,8 +442,6 @@ public class InstrmtLegExecGrp implements FixComponent
 		if (! ( o instanceof InstrmtLegExecGrp)) return false;
 
 			InstrmtLegExecGrp msg = (InstrmtLegExecGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!instrumentLeg.equals(msg.instrumentLeg)) return false;
 

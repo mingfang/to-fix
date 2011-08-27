@@ -55,6 +55,17 @@ public class FixUnderlyingLegSecurityAltIDGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixUnderlyingLegSecurityAltIDGrp)) return false;
+
+		FixUnderlyingLegSecurityAltIDGrp msg = (FixUnderlyingLegSecurityAltIDGrp) o;
+
+		for (int i = 0; i<noUnderlyingLegSecurityAltID; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noUnderlyingLegSecurityAltID; i++)
@@ -161,8 +172,6 @@ public class UnderlyingLegSecurityAltIDGrp implements FixComponent
 		if (! ( o instanceof UnderlyingLegSecurityAltIDGrp)) return false;
 
 			UnderlyingLegSecurityAltIDGrp msg = (UnderlyingLegSecurityAltIDGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( underlyingLegSecurityAltID, msg.underlyingLegSecurityAltID)) return false;
 

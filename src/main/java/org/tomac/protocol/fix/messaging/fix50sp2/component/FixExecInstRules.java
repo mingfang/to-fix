@@ -55,6 +55,17 @@ public class FixExecInstRules
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixExecInstRules)) return false;
+
+		FixExecInstRules msg = (FixExecInstRules) o;
+
+		for (int i = 0; i<noExecInstRules; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noExecInstRules; i++)
@@ -147,8 +158,6 @@ public class ExecInstRules implements FixComponent
 		if (! ( o instanceof ExecInstRules)) return false;
 
 			ExecInstRules msg = (ExecInstRules) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( execInstValue==msg.execInstValue)) return false;
 

@@ -56,6 +56,17 @@ public class FixStrikeRules
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixStrikeRules)) return false;
+
+		FixStrikeRules msg = (FixStrikeRules) o;
+
+		for (int i = 0; i<noStrikeRules; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noStrikeRules; i++)
@@ -143,7 +154,9 @@ public class StrikeRules implements FixComponent
 			}
 
 			if(id == FixTags.NOMATURITYRULES_INT) {
-				maturityRules.getAll(FixTags.NOMATURITYRULES_INT, buf);
+				int noMaturityRules;
+				noMaturityRules = FixUtils.getTagIntValue( value );
+				maturityRules.getAll(noMaturityRules, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -210,8 +223,6 @@ public class StrikeRules implements FixComponent
 		if (! ( o instanceof StrikeRules)) return false;
 
 			StrikeRules msg = (StrikeRules) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( strikeRuleID, msg.strikeRuleID)) return false;
 

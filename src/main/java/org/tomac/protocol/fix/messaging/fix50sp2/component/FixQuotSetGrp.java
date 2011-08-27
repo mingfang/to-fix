@@ -57,6 +57,17 @@ public class FixQuotSetGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixQuotSetGrp)) return false;
+
+		FixQuotSetGrp msg = (FixQuotSetGrp) o;
+
+		for (int i = 0; i<noQuoteSets; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noQuoteSets; i++)
@@ -147,7 +158,9 @@ public class QuotSetGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOQUOTEENTRIES_INT) {
-				quotEntryGrp.getAll(FixTags.NOQUOTEENTRIES_INT, buf);
+				int noQuoteEntries;
+				noQuoteEntries = FixUtils.getTagIntValue( value );
+				quotEntryGrp.getAll(noQuoteEntries, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -215,8 +228,6 @@ public class QuotSetGrp implements FixComponent
 		if (! ( o instanceof QuotSetGrp)) return false;
 
 			QuotSetGrp msg = (QuotSetGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( quoteSetID, msg.quoteSetID)) return false;
 

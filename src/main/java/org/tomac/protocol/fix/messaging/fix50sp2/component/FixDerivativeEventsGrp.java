@@ -55,6 +55,17 @@ public class FixDerivativeEventsGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixDerivativeEventsGrp)) return false;
+
+		FixDerivativeEventsGrp msg = (FixDerivativeEventsGrp) o;
+
+		for (int i = 0; i<noDerivativeEvents; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noDerivativeEvents; i++)
@@ -198,8 +209,6 @@ public class DerivativeEventsGrp implements FixComponent
 		if (! ( o instanceof DerivativeEventsGrp)) return false;
 
 			DerivativeEventsGrp msg = (DerivativeEventsGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( derivativeEventType==msg.derivativeEventType)) return false;
 

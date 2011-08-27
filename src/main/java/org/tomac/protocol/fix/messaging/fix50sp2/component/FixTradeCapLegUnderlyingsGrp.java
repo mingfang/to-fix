@@ -56,6 +56,17 @@ public class FixTradeCapLegUnderlyingsGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixTradeCapLegUnderlyingsGrp)) return false;
+
+		FixTradeCapLegUnderlyingsGrp msg = (FixTradeCapLegUnderlyingsGrp) o;
+
+		for (int i = 0; i<noOfLegUnderlyings; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noOfLegUnderlyings; i++)
@@ -149,8 +160,6 @@ public class TradeCapLegUnderlyingsGrp implements FixComponent
 		if (! ( o instanceof TradeCapLegUnderlyingsGrp)) return false;
 
 			TradeCapLegUnderlyingsGrp msg = (TradeCapLegUnderlyingsGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!underlyingLegInstrument.equals(msg.underlyingLegInstrument)) return false;
 

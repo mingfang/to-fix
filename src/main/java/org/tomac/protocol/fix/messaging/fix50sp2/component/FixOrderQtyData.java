@@ -150,8 +150,6 @@ public class FixOrderQtyData implements FixComponent
 
 			FixOrderQtyData msg = (FixOrderQtyData) o;
 
-		if ( ! super.equals(msg) ) return false;
-
 		if (!( orderQty==msg.orderQty)) return false;
 
 		if (!( cashOrderQty==msg.cashOrderQty)) return false;

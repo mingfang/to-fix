@@ -55,6 +55,17 @@ public class FixClrInstGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixClrInstGrp)) return false;
+
+		FixClrInstGrp msg = (FixClrInstGrp) o;
+
+		for (int i = 0; i<noClearingInstructions; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noClearingInstructions; i++)
@@ -148,8 +159,6 @@ public class ClrInstGrp implements FixComponent
 		if (! ( o instanceof ClrInstGrp)) return false;
 
 			ClrInstGrp msg = (ClrInstGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( clearingInstruction==msg.clearingInstruction)) return false;
 

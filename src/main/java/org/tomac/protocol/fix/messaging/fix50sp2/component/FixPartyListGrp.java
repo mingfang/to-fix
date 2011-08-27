@@ -57,6 +57,17 @@ public class FixPartyListGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixPartyListGrp)) return false;
+
+		FixPartyListGrp msg = (FixPartyListGrp) o;
+
+		for (int i = 0; i<noPartyList; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noPartyList; i++)
@@ -108,7 +119,9 @@ public class PartyListGrp implements FixComponent
 			}
 
 			if(id == FixTags.NORELATEDPARTYIDS_INT) {
-				relatedPartyGrp.getAll(FixTags.NORELATEDPARTYIDS_INT, buf);
+				int noRelatedPartyIDs;
+				noRelatedPartyIDs = FixUtils.getTagIntValue( value );
+				relatedPartyGrp.getAll(noRelatedPartyIDs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -163,8 +176,6 @@ public class PartyListGrp implements FixComponent
 		if (! ( o instanceof PartyListGrp)) return false;
 
 			PartyListGrp msg = (PartyListGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!partyDetail.equals(msg.partyDetail)) return false;
 

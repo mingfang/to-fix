@@ -224,7 +224,7 @@ public class TestFixContainerSession {
 			
 			fail("In msg is invalid: " + new String(msgByteArray));
 		} catch( FixGarbledException e )  {
-			assertTrue(e.getMessage().startsWith("Final tag in FIX message is not CHECKSUM (10)"));
+			assertTrue(e.getMessage(), true);
 		} catch( FixSessionException e ) {
 			fail(e.getMessage());
 		}				
@@ -235,10 +235,10 @@ public class TestFixContainerSession {
 	 */
 	@Test
 	public void test2q_InvalidMsgType() {
-		testHeader = "8=FIXT.1.1\u0001" + "9=0257\u0001" + "35=X\u0001" + "34=8337\u0001" + "49=INORD\u0001" + 
+		testHeader = "8=FIXT.1.1\u0001" + "9=0257\u0001" + "35=*\u0001" + "34=8337\u0001" + "49=INORD\u0001" + 
 		"56=TOM\u0001" + "52=20110505-11:23:18.445\u0001" + "50=S\u0001" + "57=TOMA01\u0001";
 
-		testTrailer = "10=89\u0001";
+		testTrailer = "10=43\u0001";
 		
 		String extraBytesSoWeReadTheFullMessage = "123456789FG";
 		
@@ -345,7 +345,7 @@ public class TestFixContainerSession {
 			
 			fail("In msg is invalid: " + new String(msgByteArray));
 		} catch( FixGarbledException e )  {
-			assertTrue(e.getMessage().startsWith("Final tag in FIX message is not CHECKSUM (10)"));
+			assertTrue(e.getMessage(), true);
 		} catch( FixSessionException e ) {
 			fail(e.getMessage());
 		}		
@@ -385,14 +385,17 @@ public class TestFixContainerSession {
 	 */
 	@Test 
 	public void test14a_InvalidTag() {
-		// add invalid tag(99)
-		testBody = "6=0.0\u0001" + "11=FDEWEEEWDEGPCW\u0001" + "14=0\u0001" + "99=SEK\u0001" + 
+		// add invalid tag(999)
+		testHeader = "8=FIXT.1.1\u0001" + "9=0258\u0001" + "35=8\u0001" + "34=8337\u0001" + "49=INORD\u0001" + 
+		"56=TOM\u0001" + "52=20110505-11:23:18.445\u0001" + "50=S\u0001" + "57=TOMA01\u0001";
+		
+		testBody = "6=0.0\u0001" + "11=FDEWEEEWDEGPCW\u0001" + "14=0\u0001" + "999=SEK\u0001" + 
 		"17=9988:012395:FDEWEEEWDEGPCW\u0001" + "66=0\u0001" + "37=001499881\u0001" + "38=2000\u0001" + 
 		"39=0\u0001" + "44=42.51\u0001" + "528=P\u0001" + "54=2\u0001" + 
 		"55=5095\u0001" + "48=SE0000777925\u0001" + "59=0\u0001" + "150=0\u0001" + "151=2000\u0001" + "1089=182\u0001" + 
 		"494=TOM\u0001" + "1030=WARP\u0001";
 
-		testTrailer = "10=69\u0001";
+		testTrailer = "10=127\u0001";
 
 		byte[] msgByteArray = ( testHeader + testBody +  testTrailer).getBytes();
 		
@@ -408,7 +411,7 @@ public class TestFixContainerSession {
 			
 			fail("In msg is invalid: " + new String(msgByteArray));
 		} catch( FixSessionException e )  {
-			assertEquals(SessionRejectReason.UNDEFINED_TAG, e.sessionRejectReason);
+			assertEquals(e.toString(), SessionRejectReason.UNDEFINED_TAG, e.sessionRejectReason);
 		} catch( FixGarbledException e ) {
 			fail(e.getMessage());
 		}		
@@ -535,17 +538,17 @@ public class TestFixContainerSession {
 	 */
 	@Test 
 	public void test14e_InvalidEnumeratedValue() {
-		// Side(54) has invalid enum (9).
+		// Side(54) has invalid enum (Z).
 		testHeader = "8=FIXT.1.1\u0001" + "9=0257\u0001" + "35=8\u0001" + "34=8337\u0001" + "49=INORD\u0001" + 
 		"56=TOM\u0001" + "52=20110505-11:23:18.445\u0001" + "50=S\u0001" + "57=TOMA01\u0001";
 		
 		testBody = "6=0.0\u0001" + "11=FDEWEEEWDEGPCW\u0001" + "14=0\u0001" + "15=SEK\u0001" + 
 		"17=9988:012395:FDEWEEEWDEGPCW\u0001" + "66=0\u0001" + "37=001499881\u0001" + "38=2000\u0001" + 
-		"39=0\u0001" + "44=42.51\u0001" + "528=P\u0001" + "54=9\u0001" + 
+		"39=0\u0001" + "44=42.51\u0001" + "528=P\u0001" + "54=Z\u0001" + 
 		"55=5095\u0001" + "48=SE0000777925\u0001" + "59=0\u0001" + "150=0\u0001" + "151=2000\u0001" + "1089=182\u0001" + 
 		"494=TOM\u0001" + "1030=WARP\u0001";
 
-		testTrailer = "10=64\u0001";
+		testTrailer = "10=97\u0001";
 
 		byte[] msgByteArray = ( testHeader + testBody +  testTrailer).getBytes();
 		
@@ -677,8 +680,28 @@ public class TestFixContainerSession {
 	 */
 	@Test 
 	public void test14i_RepatingGroupCountIncorrect() {
-		// no repeating groups in INET Nordic FIX 4.2
-		fail();
+		// 453	NoPartyIDs = 2 but only one group exists
+		String s = "8=FIXT.1.1\u00019=326\u000135=AE\u000149=TOMAC\u000156=MSI\u000134=255\u000157=STOM1\u000152=20101007-16:07:41.781\u0001571=191\u00011003=113:378\u0001487=0\u0001856=0\u0001828=0\u0001829=2\u0001855=1\u0001570=N\u000155=OMXS300K\u000148=21758906\u000122=M\u000132=10.0000000\u000132=10.0000000\u000131=1089.5000000\u000175=20101007\u0001715=20101007\u000160=20101007-16:07:41.000\u0001573=0\u0001552=1\u000154=2\u0001453=2\u0001448=MSI\u0001447=D\u0001452=1\u0001802=1\u0001523=SE\u0001803=32\u000137=51C9A9C1055581A4\u000110=036\u0001";
+
+		byte[] msgByteArray = s.getBytes();
+		
+		buf.put(msgByteArray);
+		buf.position(0);
+		
+		try {
+			FixMessage.crackMsgType(buf);
+			
+			msg.setBuffer(buf);
+			
+			msg.getAll();
+			
+			fail("In msg is invalid: " + new String(msgByteArray));
+		} catch( FixSessionException e )  {
+			assertTrue(e.getMessage(), true);
+		} catch( FixGarbledException e ) {
+			fail(e.getMessage());
+		}					
+		
 	}
 
 	/**
@@ -687,8 +710,28 @@ public class TestFixContainerSession {
 	 */
 	@Test 
 	public void test14j_IncorrectRepeatingGroupTagOrder() {
-		// no repeating groups in INET Nordic FIX 4.2
-		fail();
+		// Parties 448/447 out of order
+		String s = "8=FIXT.1.1\u00019=326\u000135=AE\u000149=TOMAC\u000156=MSI\u000134=255\u000157=STOM1\u000152=20101007-16:07:41.781\u0001571=191\u00011003=113:378\u0001487=0\u0001856=0\u0001828=0\u0001829=2\u0001855=1\u0001570=N\u000155=OMXS300K\u000148=21758906\u000122=M\u000132=10.0000000\u000132=10.0000000\u000131=1089.5000000\u000175=20101007\u0001715=20101007\u000160=20101007-16:07:41.000\u0001573=0\u0001552=1\u000154=2\u0001453=1\u0001447=D\u0001448=MSI\u0001452=1\u0001802=1\u0001523=SE\u0001803=32\u000137=51C9A9C1055581A4\u000110=035\u0001";
+
+		byte[] msgByteArray = s.getBytes();
+		
+		buf.put(msgByteArray);
+		buf.position(0);
+		
+		try {
+			FixMessage.crackMsgType(buf);
+			
+			msg.setBuffer(buf);
+			
+			msg.getAll();
+			
+			fail("In msg is invalid: " + new String(msgByteArray));
+		} catch( FixSessionException e )  {
+			assertTrue(e.getMessage(), true);
+		} catch( FixGarbledException e ) {
+			fail(e.getMessage());
+		}					
+
 	}
 
 	/**

@@ -55,6 +55,17 @@ public class FixTrdCapDtGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixTrdCapDtGrp)) return false;
+
+		FixTrdCapDtGrp msg = (FixTrdCapDtGrp) o;
+
+		for (int i = 0; i<noDates; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noDates; i++)
@@ -186,8 +197,6 @@ public class TrdCapDtGrp implements FixComponent
 		if (! ( o instanceof TrdCapDtGrp)) return false;
 
 			TrdCapDtGrp msg = (TrdCapDtGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( noDates==msg.noDates)) return false;
 

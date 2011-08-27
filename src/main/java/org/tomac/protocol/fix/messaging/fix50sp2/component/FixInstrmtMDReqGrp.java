@@ -58,6 +58,17 @@ public class FixInstrmtMDReqGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixInstrmtMDReqGrp)) return false;
+
+		FixInstrmtMDReqGrp msg = (FixInstrmtMDReqGrp) o;
+
+		for (int i = 0; i<noRelatedSym; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noRelatedSym; i++)
@@ -128,7 +139,9 @@ public class InstrmtMDReqGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOUNDERLYINGS_INT) {
-				undInstrmtGrp.getAll(FixTags.NOUNDERLYINGS_INT, buf);
+				int noUnderlyings;
+				noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.getAll(noUnderlyings, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -172,7 +185,9 @@ public class InstrmtMDReqGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOLEGS_INT) {
-				instrmtLegGrp.getAll(FixTags.NOLEGS_INT, buf);
+				int noLegs;
+				noLegs = FixUtils.getTagIntValue( value );
+				instrmtLegGrp.getAll(noLegs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -256,8 +271,6 @@ public class InstrmtMDReqGrp implements FixComponent
 		if (! ( o instanceof InstrmtMDReqGrp)) return false;
 
 			InstrmtMDReqGrp msg = (InstrmtMDReqGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!instrument.equals(msg.instrument)) return false;
 

@@ -374,8 +374,6 @@ public class FixTradeReportOrderDetail implements FixComponent
 
 			FixTradeReportOrderDetail msg = (FixTradeReportOrderDetail) o;
 
-		if ( ! super.equals(msg) ) return false;
-
 		if (!Utils.equals( orderID, msg.orderID)) return false;
 
 		if (!Utils.equals( secondaryOrderID, msg.secondaryOrderID)) return false;

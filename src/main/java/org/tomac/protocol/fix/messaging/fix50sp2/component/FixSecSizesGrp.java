@@ -55,6 +55,17 @@ public class FixSecSizesGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixSecSizesGrp)) return false;
+
+		FixSecSizesGrp msg = (FixSecSizesGrp) o;
+
+		for (int i = 0; i<noOfSecSizes; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noOfSecSizes; i++)
@@ -160,8 +171,6 @@ public class SecSizesGrp implements FixComponent
 		if (! ( o instanceof SecSizesGrp)) return false;
 
 			SecSizesGrp msg = (SecSizesGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( mDSecSizeType==msg.mDSecSizeType)) return false;
 

@@ -139,8 +139,6 @@ public class FixDerivativeSecurityDefinition implements FixComponent
 
 			FixDerivativeSecurityDefinition msg = (FixDerivativeSecurityDefinition) o;
 
-		if ( ! super.equals(msg) ) return false;
-
 		if (!derivativeInstrument.equals(msg.derivativeInstrument)) return false;
 
 		if (!derivativeInstrumentAttribute.equals(msg.derivativeInstrumentAttribute)) return false;

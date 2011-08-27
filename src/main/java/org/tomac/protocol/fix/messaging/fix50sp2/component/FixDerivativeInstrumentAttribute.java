@@ -55,6 +55,17 @@ public class FixDerivativeInstrumentAttribute
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixDerivativeInstrumentAttribute)) return false;
+
+		FixDerivativeInstrumentAttribute msg = (FixDerivativeInstrumentAttribute) o;
+
+		for (int i = 0; i<noDerivativeInstrAttrib; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noDerivativeInstrAttrib; i++)
@@ -160,8 +171,6 @@ public class DerivativeInstrumentAttribute implements FixComponent
 		if (! ( o instanceof DerivativeInstrumentAttribute)) return false;
 
 			DerivativeInstrumentAttribute msg = (DerivativeInstrumentAttribute) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( derivativeInstrAttribType==msg.derivativeInstrAttribType)) return false;
 

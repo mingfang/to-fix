@@ -55,6 +55,17 @@ public class FixUnderlyingAmount
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixUnderlyingAmount)) return false;
+
+		FixUnderlyingAmount msg = (FixUnderlyingAmount) o;
+
+		for (int i = 0; i<noUnderlyingAmounts; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noUnderlyingAmounts; i++)
@@ -185,8 +196,6 @@ public class UnderlyingAmount implements FixComponent
 		if (! ( o instanceof UnderlyingAmount)) return false;
 
 			UnderlyingAmount msg = (UnderlyingAmount) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( underlyingPayAmount==msg.underlyingPayAmount)) return false;
 

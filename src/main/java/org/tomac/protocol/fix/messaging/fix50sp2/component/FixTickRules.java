@@ -55,6 +55,17 @@ public class FixTickRules
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixTickRules)) return false;
+
+		FixTickRules msg = (FixTickRules) o;
+
+		for (int i = 0; i<noTickRules; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noTickRules; i++)
@@ -184,8 +195,6 @@ public class TickRules implements FixComponent
 		if (! ( o instanceof TickRules)) return false;
 
 			TickRules msg = (TickRules) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( startTickPriceRange==msg.startTickPriceRange)) return false;
 

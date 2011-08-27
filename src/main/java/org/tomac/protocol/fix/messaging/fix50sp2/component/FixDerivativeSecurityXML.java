@@ -133,8 +133,6 @@ public class FixDerivativeSecurityXML implements FixComponent
 
 			FixDerivativeSecurityXML msg = (FixDerivativeSecurityXML) o;
 
-		if ( ! super.equals(msg) ) return false;
-
 		if (!( derivativeSecurityXMLLen==msg.derivativeSecurityXMLLen)) return false;
 
 		if (!Utils.equals( derivativeSecurityXML, msg.derivativeSecurityXML)) return false;

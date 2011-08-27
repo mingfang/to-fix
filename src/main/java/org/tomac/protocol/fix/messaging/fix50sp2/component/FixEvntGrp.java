@@ -55,6 +55,17 @@ public class FixEvntGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixEvntGrp)) return false;
+
+		FixEvntGrp msg = (FixEvntGrp) o;
+
+		for (int i = 0; i<noEvents; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noEvents; i++)
@@ -199,8 +210,6 @@ public class EvntGrp implements FixComponent
 		if (! ( o instanceof EvntGrp)) return false;
 
 			EvntGrp msg = (EvntGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( eventType==msg.eventType)) return false;
 

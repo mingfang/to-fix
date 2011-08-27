@@ -56,6 +56,17 @@ public class FixPartyAltIDs
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixPartyAltIDs)) return false;
+
+		FixPartyAltIDs msg = (FixPartyAltIDs) o;
+
+		for (int i = 0; i<noPartyAltIDs; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noPartyAltIDs; i++)
@@ -116,7 +127,9 @@ public class PartyAltIDs implements FixComponent
 			}
 
 			if(id == FixTags.NOPARTYALTSUBIDS_INT) {
-				altPtysSubGrp.getAll(FixTags.NOPARTYALTSUBIDS_INT, buf);
+				int noPartyAltSubIDs;
+				noPartyAltSubIDs = FixUtils.getTagIntValue( value );
+				altPtysSubGrp.getAll(noPartyAltSubIDs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -174,8 +187,6 @@ public class PartyAltIDs implements FixComponent
 		if (! ( o instanceof PartyAltIDs)) return false;
 
 			PartyAltIDs msg = (PartyAltIDs) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( partyAltID, msg.partyAltID)) return false;
 

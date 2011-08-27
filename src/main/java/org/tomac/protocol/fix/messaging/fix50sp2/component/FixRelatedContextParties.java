@@ -56,6 +56,17 @@ public class FixRelatedContextParties
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixRelatedContextParties)) return false;
+
+		FixRelatedContextParties msg = (FixRelatedContextParties) o;
+
+		for (int i = 0; i<noRelatedContextPartyIDs; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noRelatedContextPartyIDs; i++)
@@ -125,7 +136,9 @@ public class RelatedContextParties implements FixComponent
 			}
 
 			if(id == FixTags.NORELATEDCONTEXTPARTYSUBIDS_INT) {
-				relatedContextPtysSubGrp.getAll(FixTags.NORELATEDCONTEXTPARTYSUBIDS_INT, buf);
+				int noRelatedContextPartySubIDs;
+				noRelatedContextPartySubIDs = FixUtils.getTagIntValue( value );
+				relatedContextPtysSubGrp.getAll(noRelatedContextPartySubIDs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -186,8 +199,6 @@ public class RelatedContextParties implements FixComponent
 		if (! ( o instanceof RelatedContextParties)) return false;
 
 			RelatedContextParties msg = (RelatedContextParties) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( relatedContextPartyID, msg.relatedContextPartyID)) return false;
 

@@ -56,6 +56,17 @@ public class FixRelationshipRiskInstrumentScope
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixRelationshipRiskInstrumentScope)) return false;
+
+		FixRelationshipRiskInstrumentScope msg = (FixRelationshipRiskInstrumentScope) o;
+
+		for (int i = 0; i<noRelationshipRiskInstruments; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noRelationshipRiskInstruments; i++)
@@ -197,7 +208,9 @@ public class RelationshipRiskInstrumentScope implements FixComponent
 			}
 
 			if(id == FixTags.NORELATIONSHIPRISKSECURITYALTID_INT) {
-				relationshipRiskSecAltIDGrp.getAll(FixTags.NORELATIONSHIPRISKSECURITYALTID_INT, buf);
+				int noRelationshipRiskSecurityAltID;
+				noRelationshipRiskSecurityAltID = FixUtils.getTagIntValue( value );
+				relationshipRiskSecAltIDGrp.getAll(noRelationshipRiskSecurityAltID, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -454,8 +467,6 @@ public class RelationshipRiskInstrumentScope implements FixComponent
 		if (! ( o instanceof RelationshipRiskInstrumentScope)) return false;
 
 			RelationshipRiskInstrumentScope msg = (RelationshipRiskInstrumentScope) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( relationshipRiskInstrumentOperator==msg.relationshipRiskInstrumentOperator)) return false;
 

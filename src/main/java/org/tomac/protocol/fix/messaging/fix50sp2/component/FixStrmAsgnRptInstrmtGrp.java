@@ -56,6 +56,17 @@ public class FixStrmAsgnRptInstrmtGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixStrmAsgnRptInstrmtGrp)) return false;
+
+		FixStrmAsgnRptInstrmtGrp msg = (FixStrmAsgnRptInstrmtGrp) o;
+
+		for (int i = 0; i<noRelatedSym; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noRelatedSym; i++)
@@ -240,8 +251,6 @@ public class StrmAsgnRptInstrmtGrp implements FixComponent
 		if (! ( o instanceof StrmAsgnRptInstrmtGrp)) return false;
 
 			StrmAsgnRptInstrmtGrp msg = (StrmAsgnRptInstrmtGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!instrument.equals(msg.instrument)) return false;
 

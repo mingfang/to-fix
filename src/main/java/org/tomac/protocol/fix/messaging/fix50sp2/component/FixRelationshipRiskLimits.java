@@ -57,6 +57,17 @@ public class FixRelationshipRiskLimits
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixRelationshipRiskLimits)) return false;
+
+		FixRelationshipRiskLimits msg = (FixRelationshipRiskLimits) o;
+
+		for (int i = 0; i<noRelationshipRiskLimits; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noRelationshipRiskLimits; i++)
@@ -139,14 +150,18 @@ public class RelationshipRiskLimits implements FixComponent
 			}
 
 			if(id == FixTags.NORELATIONSHIPRISKINSTRUMENTS_INT) {
-				relationshipRiskInstrumentScope.getAll(FixTags.NORELATIONSHIPRISKINSTRUMENTS_INT, buf);
+				int noRelationshipRiskInstruments;
+				noRelationshipRiskInstruments = FixUtils.getTagIntValue( value );
+				relationshipRiskInstrumentScope.getAll(noRelationshipRiskInstruments, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.NORELATIONSHIPRISKWARNINGLEVELS_INT) {
-				relationshipRiskWarningLevels.getAll(FixTags.NORELATIONSHIPRISKWARNINGLEVELS_INT, buf);
+				int noRelationshipRiskWarningLevels;
+				noRelationshipRiskWarningLevels = FixUtils.getTagIntValue( value );
+				relationshipRiskWarningLevels.getAll(noRelationshipRiskWarningLevels, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -213,8 +228,6 @@ public class RelationshipRiskLimits implements FixComponent
 		if (! ( o instanceof RelationshipRiskLimits)) return false;
 
 			RelationshipRiskLimits msg = (RelationshipRiskLimits) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( relationshipRiskLimitType==msg.relationshipRiskLimitType)) return false;
 

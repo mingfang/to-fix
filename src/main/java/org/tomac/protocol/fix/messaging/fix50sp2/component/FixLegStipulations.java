@@ -55,6 +55,17 @@ public class FixLegStipulations
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixLegStipulations)) return false;
+
+		FixLegStipulations msg = (FixLegStipulations) o;
+
+		for (int i = 0; i<noLegStipulations; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noLegStipulations; i++)
@@ -161,8 +172,6 @@ public class LegStipulations implements FixComponent
 		if (! ( o instanceof LegStipulations)) return false;
 
 			LegStipulations msg = (LegStipulations) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( legStipulationType, msg.legStipulationType)) return false;
 

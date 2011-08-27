@@ -178,8 +178,6 @@ public class FixDisplayInstruction implements FixComponent
 
 			FixDisplayInstruction msg = (FixDisplayInstruction) o;
 
-		if ( ! super.equals(msg) ) return false;
-
 		if (!( displayQty==msg.displayQty)) return false;
 
 		if (!( secondaryDisplayQty==msg.secondaryDisplayQty)) return false;

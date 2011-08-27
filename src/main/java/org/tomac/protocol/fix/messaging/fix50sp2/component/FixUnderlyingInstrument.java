@@ -798,8 +798,6 @@ public class FixUnderlyingInstrument implements FixComponent
 
 			FixUnderlyingInstrument msg = (FixUnderlyingInstrument) o;
 
-		if ( ! super.equals(msg) ) return false;
-
 		if (!Utils.equals( underlyingSymbol, msg.underlyingSymbol)) return false;
 
 		if (!Utils.equals( underlyingSymbolSfx, msg.underlyingSymbolSfx)) return false;

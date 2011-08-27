@@ -55,6 +55,17 @@ public class FixStipulations
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixStipulations)) return false;
+
+		FixStipulations msg = (FixStipulations) o;
+
+		for (int i = 0; i<noStipulations; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noStipulations; i++)
@@ -162,8 +173,6 @@ public class Stipulations implements FixComponent
 		if (! ( o instanceof Stipulations)) return false;
 
 			Stipulations msg = (Stipulations) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( stipulationType, msg.stipulationType)) return false;
 

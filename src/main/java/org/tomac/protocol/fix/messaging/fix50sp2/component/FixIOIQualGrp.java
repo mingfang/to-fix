@@ -55,6 +55,17 @@ public class FixIOIQualGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixIOIQualGrp)) return false;
+
+		FixIOIQualGrp msg = (FixIOIQualGrp) o;
+
+		for (int i = 0; i<noIOIQualifiers; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noIOIQualifiers; i++)
@@ -148,8 +159,6 @@ public class IOIQualGrp implements FixComponent
 		if (! ( o instanceof IOIQualGrp)) return false;
 
 			IOIQualGrp msg = (IOIQualGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( iOIQualifier==msg.iOIQualifier)) return false;
 

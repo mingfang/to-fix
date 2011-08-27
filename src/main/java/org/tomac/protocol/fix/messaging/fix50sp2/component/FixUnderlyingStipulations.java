@@ -55,6 +55,17 @@ public class FixUnderlyingStipulations
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixUnderlyingStipulations)) return false;
+
+		FixUnderlyingStipulations msg = (FixUnderlyingStipulations) o;
+
+		for (int i = 0; i<noUnderlyingStips; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noUnderlyingStips; i++)
@@ -161,8 +172,6 @@ public class UnderlyingStipulations implements FixComponent
 		if (! ( o instanceof UnderlyingStipulations)) return false;
 
 			UnderlyingStipulations msg = (UnderlyingStipulations) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( underlyingStipType, msg.underlyingStipType)) return false;
 

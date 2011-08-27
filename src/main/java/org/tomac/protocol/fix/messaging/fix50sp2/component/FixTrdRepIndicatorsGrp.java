@@ -55,6 +55,17 @@ public class FixTrdRepIndicatorsGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixTrdRepIndicatorsGrp)) return false;
+
+		FixTrdRepIndicatorsGrp msg = (FixTrdRepIndicatorsGrp) o;
+
+		for (int i = 0; i<noTrdRepIndicators; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noTrdRepIndicators; i++)
@@ -159,8 +170,6 @@ public class TrdRepIndicatorsGrp implements FixComponent
 		if (! ( o instanceof TrdRepIndicatorsGrp)) return false;
 
 			TrdRepIndicatorsGrp msg = (TrdRepIndicatorsGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( trdRepPartyRole==msg.trdRepPartyRole)) return false;
 

@@ -55,6 +55,17 @@ public class FixExpirationQty
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixExpirationQty)) return false;
+
+		FixExpirationQty msg = (FixExpirationQty) o;
+
+		for (int i = 0; i<noExpiration; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noExpiration; i++)
@@ -160,8 +171,6 @@ public class ExpirationQty implements FixComponent
 		if (! ( o instanceof ExpirationQty)) return false;
 
 			ExpirationQty msg = (ExpirationQty) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( expirationQtyType==msg.expirationQtyType)) return false;
 

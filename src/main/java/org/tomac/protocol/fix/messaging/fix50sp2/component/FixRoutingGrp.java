@@ -55,6 +55,17 @@ public class FixRoutingGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixRoutingGrp)) return false;
+
+		FixRoutingGrp msg = (FixRoutingGrp) o;
+
+		for (int i = 0; i<noRoutingIDs; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noRoutingIDs; i++)
@@ -161,8 +172,6 @@ public class RoutingGrp implements FixComponent
 		if (! ( o instanceof RoutingGrp)) return false;
 
 			RoutingGrp msg = (RoutingGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( routingType==msg.routingType)) return false;
 

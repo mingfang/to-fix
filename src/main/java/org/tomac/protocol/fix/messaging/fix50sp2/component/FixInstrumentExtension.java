@@ -135,8 +135,6 @@ public class FixInstrumentExtension implements FixComponent
 
 			FixInstrumentExtension msg = (FixInstrumentExtension) o;
 
-		if ( ! super.equals(msg) ) return false;
-
 		if (!( deliveryForm==msg.deliveryForm)) return false;
 
 		if (!( pctAtRisk==msg.pctAtRisk)) return false;

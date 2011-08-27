@@ -141,8 +141,6 @@ public class FixApplicationSequenceControl implements FixComponent
 
 			FixApplicationSequenceControl msg = (FixApplicationSequenceControl) o;
 
-		if ( ! super.equals(msg) ) return false;
-
 		if (!Utils.equals( applID, msg.applID)) return false;
 
 		if (!( applSeqNum==msg.applSeqNum)) return false;

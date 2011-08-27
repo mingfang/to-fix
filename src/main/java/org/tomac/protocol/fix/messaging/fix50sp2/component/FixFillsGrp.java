@@ -56,6 +56,17 @@ public class FixFillsGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixFillsGrp)) return false;
+
+		FixFillsGrp msg = (FixFillsGrp) o;
+
+		for (int i = 0; i<noFills; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noFills; i++)
@@ -134,7 +145,9 @@ public class FillsGrp implements FixComponent
 			}
 
 			if(id == FixTags.NONESTED4PARTYIDS_INT) {
-				nestedParties4.getAll(FixTags.NONESTED4PARTYIDS_INT, buf);
+				int noNested4PartyIDs;
+				noNested4PartyIDs = FixUtils.getTagIntValue( value );
+				nestedParties4.getAll(noNested4PartyIDs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -198,8 +211,6 @@ public class FillsGrp implements FixComponent
 		if (! ( o instanceof FillsGrp)) return false;
 
 			FillsGrp msg = (FillsGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( fillExecID, msg.fillExecID)) return false;
 

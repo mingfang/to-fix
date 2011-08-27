@@ -56,6 +56,17 @@ public class FixUndlyInstrumentParties
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixUndlyInstrumentParties)) return false;
+
+		FixUndlyInstrumentParties msg = (FixUndlyInstrumentParties) o;
+
+		for (int i = 0; i<noUndlyInstrumentParties; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noUndlyInstrumentParties; i++)
@@ -125,7 +136,9 @@ public class UndlyInstrumentParties implements FixComponent
 			}
 
 			if(id == FixTags.NOUNDLYINSTRUMENTPARTYSUBIDS_INT) {
-				undlyInstrumentPtysSubGrp.getAll(FixTags.NOUNDLYINSTRUMENTPARTYSUBIDS_INT, buf);
+				int noUndlyInstrumentPartySubIDs;
+				noUndlyInstrumentPartySubIDs = FixUtils.getTagIntValue( value );
+				undlyInstrumentPtysSubGrp.getAll(noUndlyInstrumentPartySubIDs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -186,8 +199,6 @@ public class UndlyInstrumentParties implements FixComponent
 		if (! ( o instanceof UndlyInstrumentParties)) return false;
 
 			UndlyInstrumentParties msg = (UndlyInstrumentParties) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( underlyingInstrumentPartyID, msg.underlyingInstrumentPartyID)) return false;
 

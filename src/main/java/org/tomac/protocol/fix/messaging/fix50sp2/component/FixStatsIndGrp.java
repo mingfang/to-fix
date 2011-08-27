@@ -55,6 +55,17 @@ public class FixStatsIndGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixStatsIndGrp)) return false;
+
+		FixStatsIndGrp msg = (FixStatsIndGrp) o;
+
+		for (int i = 0; i<noStatsIndicators; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noStatsIndicators; i++)
@@ -148,8 +159,6 @@ public class StatsIndGrp implements FixComponent
 		if (! ( o instanceof StatsIndGrp)) return false;
 
 			StatsIndGrp msg = (StatsIndGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( statsType==msg.statsType)) return false;
 

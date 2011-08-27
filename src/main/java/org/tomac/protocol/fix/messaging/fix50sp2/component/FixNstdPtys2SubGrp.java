@@ -55,6 +55,17 @@ public class FixNstdPtys2SubGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixNstdPtys2SubGrp)) return false;
+
+		FixNstdPtys2SubGrp msg = (FixNstdPtys2SubGrp) o;
+
+		for (int i = 0; i<noNested2PartySubIDs; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noNested2PartySubIDs; i++)
@@ -160,8 +171,6 @@ public class NstdPtys2SubGrp implements FixComponent
 		if (! ( o instanceof NstdPtys2SubGrp)) return false;
 
 			NstdPtys2SubGrp msg = (NstdPtys2SubGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( nested2PartySubID, msg.nested2PartySubID)) return false;
 

@@ -55,6 +55,17 @@ public class FixTargetParties
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixTargetParties)) return false;
+
+		FixTargetParties msg = (FixTargetParties) o;
+
+		for (int i = 0; i<noTargetPartyIDs; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noTargetPartyIDs; i++)
@@ -172,8 +183,6 @@ public class TargetParties implements FixComponent
 		if (! ( o instanceof TargetParties)) return false;
 
 			TargetParties msg = (TargetParties) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( targetPartyID, msg.targetPartyID)) return false;
 

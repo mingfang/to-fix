@@ -59,6 +59,17 @@ public class FixTrdInstrmtLegGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixTrdInstrmtLegGrp)) return false;
+
+		FixTrdInstrmtLegGrp msg = (FixTrdInstrmtLegGrp) o;
+
+		for (int i = 0; i<noLegs; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noLegs; i++)
@@ -188,7 +199,9 @@ public class TrdInstrmtLegGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOLEGSTIPULATIONS_INT) {
-				legStipulations.getAll(FixTags.NOLEGSTIPULATIONS_INT, buf);
+				int noLegStipulations;
+				noLegStipulations = FixUtils.getTagIntValue( value );
+				legStipulations.getAll(noLegStipulations, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -209,7 +222,9 @@ public class TrdInstrmtLegGrp implements FixComponent
 			}
 
 			if(id == FixTags.NONESTEDPARTYIDS_INT) {
-				nestedParties.getAll(FixTags.NONESTEDPARTYIDS_INT, buf);
+				int noNestedPartyIDs;
+				noNestedPartyIDs = FixUtils.getTagIntValue( value );
+				nestedParties.getAll(noNestedPartyIDs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -307,7 +322,9 @@ public class TrdInstrmtLegGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOOFLEGUNDERLYINGS_INT) {
-				tradeCapLegUnderlyingsGrp.getAll(FixTags.NOOFLEGUNDERLYINGS_INT, buf);
+				int noOfLegUnderlyings;
+				noOfLegUnderlyings = FixUtils.getTagIntValue( value );
+				tradeCapLegUnderlyingsGrp.getAll(noOfLegUnderlyings, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -425,8 +442,6 @@ public class TrdInstrmtLegGrp implements FixComponent
 		if (! ( o instanceof TrdInstrmtLegGrp)) return false;
 
 			TrdInstrmtLegGrp msg = (TrdInstrmtLegGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!instrumentLeg.equals(msg.instrumentLeg)) return false;
 

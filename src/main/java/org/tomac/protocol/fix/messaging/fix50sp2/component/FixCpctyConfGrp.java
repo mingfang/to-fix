@@ -55,6 +55,17 @@ public class FixCpctyConfGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixCpctyConfGrp)) return false;
+
+		FixCpctyConfGrp msg = (FixCpctyConfGrp) o;
+
+		for (int i = 0; i<noCapacities; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noCapacities; i++)
@@ -174,8 +185,6 @@ public class CpctyConfGrp implements FixComponent
 		if (! ( o instanceof CpctyConfGrp)) return false;
 
 			CpctyConfGrp msg = (CpctyConfGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( orderCapacity==msg.orderCapacity)) return false;
 

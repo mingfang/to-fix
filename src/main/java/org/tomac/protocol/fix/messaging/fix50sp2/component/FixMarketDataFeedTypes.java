@@ -55,6 +55,17 @@ public class FixMarketDataFeedTypes
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixMarketDataFeedTypes)) return false;
+
+		FixMarketDataFeedTypes msg = (FixMarketDataFeedTypes) o;
+
+		for (int i = 0; i<noMDFeedTypes; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noMDFeedTypes; i++)
@@ -173,8 +184,6 @@ public class MarketDataFeedTypes implements FixComponent
 		if (! ( o instanceof MarketDataFeedTypes)) return false;
 
 			MarketDataFeedTypes msg = (MarketDataFeedTypes) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( mDFeedType, msg.mDFeedType)) return false;
 

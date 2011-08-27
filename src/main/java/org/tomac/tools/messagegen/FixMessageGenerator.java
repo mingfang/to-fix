@@ -17,6 +17,7 @@ import org.tomac.protocol.fix.messaging.fix42nordic.FixMessage;
 import org.tomac.protocol.fix.messaging.fix42nordic.FixMessageInfo;
 import org.tomac.protocol.fix.messaging.fix42nordic.FixTags;
 import org.tomac.protocol.fix.messaging.fix42nordic.FixMessageInfo.SessionRejectReason;
+import org.tomac.protocol.fix.messaging.fix50sp2.component.FixHopGrp;
 import org.tomac.tools.messagegen.FixMessageDom.DomBase;
 import org.tomac.tools.messagegen.FixMessageDom.DomFixComponent;
 import org.tomac.tools.messagegen.FixMessageDom.DomFixComponentRef;
@@ -1472,6 +1473,17 @@ public class FixMessageGenerator {
 		out.write("\t}\n\n");
 
 		out.write("\t@Override\n");
+		out.write("\tpublic boolean equals(Object o) {\n");
+		out.write("\t\tif (! ( o instanceof Fix" + name + ")) return false;\n\n");
+
+		out.write("\t\tFix" + name + " msg = (Fix" + name + ") o;\n\n");
+
+		out.write("\t\tfor (int i = 0; i<" + uncapFirst(m.noInGroupTag) + "; i++)\n");
+		out.write("\t\t\tif (!group[i].equals(msg.group[i])) return false;\n");
+		out.write("\t\treturn true;\n");
+		out.write("\t}\n\n");
+		
+		out.write("\t@Override\n");
 		out.write("\tpublic String toString() {\n");
 		out.write("\t	String s = \"\";\n");
 		out.write("\t	for (int i = 0; i<" + uncapFirst(m.noInGroupTag) + "; i++)\n");
@@ -1581,7 +1593,7 @@ public class FixMessageGenerator {
  		out.write("\t\tint lastTagPosition = buf.position();\n");
 
  		if (m.isRepeating) {
- 			genGetTagsSwitchForRepeatingComponent(m, out);
+ 			genGetTagsSwitchForRepeatingComponent(dom, m, out);
  		} else {
  			genGetTagsSwitchForComponent(m, out);
  		}
@@ -1675,7 +1687,7 @@ public class FixMessageGenerator {
 		out.write("\tpublic boolean equals(Object o) {\n");
 		out.write("\t\tif (! ( o instanceof " + name + ")) return false;\n\n");
 		out.write("\t\t\t" + name + " msg = (" + name + ") o;\n\n");
-		out.write("\t\tif ( ! super.equals(msg) ) return false;\n\n");
+		//out.write("\t\tif ( ! super.equals(msg) ) return false;\n\n");
 		printEquals(out, m.fieldsAndComponents);
 		out.write("\t}\n");
 
@@ -1687,7 +1699,7 @@ public class FixMessageGenerator {
 			out.close();
 	}
 	
-	private void genGetTagsSwitchForRepeatingComponent(DomFixComponent m, BufferedWriter out) throws IOException {
+	private void genGetTagsSwitchForRepeatingComponent(final FixMessageDom dom, DomFixComponent m, BufferedWriter out) throws IOException {
  		out.write("\t\t\t" + strReadableByteBuffer + " value;\n\n");
 		
  		out.write("\t\t\tvalue = buf;\n\n");
@@ -1710,7 +1722,9 @@ public class FixMessageGenerator {
 				DomFixComponentRef c = (DomFixComponentRef) b;
 				if (c.isRepeating()) {
 					out.write("\t\t\tif(id == FixTags." + c.noInGroupTag().toUpperCase() + "_INT) {\n");
-					out.write("\t\t\t\t" + uncapFirst(c.name) + ".getAll(FixTags." + c.noInGroupTag().toUpperCase() + "_INT, buf);\n");
+					out.write("\t\t\t\tint " + uncapFirst(c.noInGroupTag()) + ";\n"); 
+					decodeFieldValue(dom.domFixNamedFields.get(c.noInGroupTag()), out);
+					out.write("\t\t\t\t" + uncapFirst(c.name) + ".getAll(" + uncapFirst(c.noInGroupTag()) + ", buf);\n");
 					out.write("\t\t\t\tlastTagPosition = buf.position();\n\n");
 					out.write("\t\t\t\tid = FixUtils.getTagId( buf );\n");
 					out.write("\t\t\t}\n\n");

@@ -57,6 +57,17 @@ public class FixMarketSegmentGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixMarketSegmentGrp)) return false;
+
+		FixMarketSegmentGrp msg = (FixMarketSegmentGrp) o;
+
+		for (int i = 0; i<noMarketSegments; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noMarketSegments; i++)
@@ -128,7 +139,9 @@ public class MarketSegmentGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOSTRIKERULES_INT) {
-				strikeRules.getAll(FixTags.NOSTRIKERULES_INT, buf);
+				int noStrikeRules;
+				noStrikeRules = FixUtils.getTagIntValue( value );
+				strikeRules.getAll(noStrikeRules, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -189,8 +202,6 @@ public class MarketSegmentGrp implements FixComponent
 		if (! ( o instanceof MarketSegmentGrp)) return false;
 
 			MarketSegmentGrp msg = (MarketSegmentGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( marketID, msg.marketID)) return false;
 

@@ -263,8 +263,6 @@ public class FixUnderlyingLegInstrument implements FixComponent
 
 			FixUnderlyingLegInstrument msg = (FixUnderlyingLegInstrument) o;
 
-		if ( ! super.equals(msg) ) return false;
-
 		if (!Utils.equals( underlyingLegSymbol, msg.underlyingLegSymbol)) return false;
 
 		if (!Utils.equals( underlyingLegSymbolSfx, msg.underlyingLegSymbolSfx)) return false;

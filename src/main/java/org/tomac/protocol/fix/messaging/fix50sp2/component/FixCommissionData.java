@@ -143,8 +143,6 @@ public class FixCommissionData implements FixComponent
 
 			FixCommissionData msg = (FixCommissionData) o;
 
-		if ( ! super.equals(msg) ) return false;
-
 		if (!( commission==msg.commission)) return false;
 
 		if (!( commType==msg.commType)) return false;

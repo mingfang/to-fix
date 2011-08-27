@@ -59,6 +59,17 @@ public class FixSideCrossOrdModGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixSideCrossOrdModGrp)) return false;
+
+		FixSideCrossOrdModGrp msg = (FixSideCrossOrdModGrp) o;
+
+		for (int i = 0; i<noSides; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noSides; i++)
@@ -224,7 +235,9 @@ public class SideCrossOrdModGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOPARTYIDS_INT) {
-				parties.getAll(FixTags.NOPARTYIDS_INT, buf);
+				int noPartyIDs;
+				noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(noPartyIDs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -299,7 +312,9 @@ public class SideCrossOrdModGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOALLOCS_INT) {
-				preAllocGrp.getAll(FixTags.NOALLOCS_INT, buf);
+				int noAllocs;
+				noAllocs = FixUtils.getTagIntValue( value );
+				preAllocGrp.getAll(noAllocs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -608,8 +623,6 @@ public class SideCrossOrdModGrp implements FixComponent
 		if (! ( o instanceof SideCrossOrdModGrp)) return false;
 
 			SideCrossOrdModGrp msg = (SideCrossOrdModGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( side==msg.side)) return false;
 

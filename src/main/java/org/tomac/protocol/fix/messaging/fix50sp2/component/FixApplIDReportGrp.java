@@ -55,6 +55,17 @@ public class FixApplIDReportGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixApplIDReportGrp)) return false;
+
+		FixApplIDReportGrp msg = (FixApplIDReportGrp) o;
+
+		for (int i = 0; i<noApplIDs; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noApplIDs; i++)
@@ -172,8 +183,6 @@ public class ApplIDReportGrp implements FixComponent
 		if (! ( o instanceof ApplIDReportGrp)) return false;
 
 			ApplIDReportGrp msg = (ApplIDReportGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( refApplID, msg.refApplID)) return false;
 

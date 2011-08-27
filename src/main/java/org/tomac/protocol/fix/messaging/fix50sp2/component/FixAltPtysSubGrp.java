@@ -55,6 +55,17 @@ public class FixAltPtysSubGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixAltPtysSubGrp)) return false;
+
+		FixAltPtysSubGrp msg = (FixAltPtysSubGrp) o;
+
+		for (int i = 0; i<noPartyAltSubIDs; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noPartyAltSubIDs; i++)
@@ -160,8 +171,6 @@ public class AltPtysSubGrp implements FixComponent
 		if (! ( o instanceof AltPtysSubGrp)) return false;
 
 			AltPtysSubGrp msg = (AltPtysSubGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( partyAltSubID, msg.partyAltSubID)) return false;
 

@@ -55,6 +55,17 @@ public class FixOrdListStatGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixOrdListStatGrp)) return false;
+
+		FixOrdListStatGrp msg = (FixOrdListStatGrp) o;
+
+		for (int i = 0; i<noOrders; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noOrders; i++)
@@ -299,8 +310,6 @@ public class OrdListStatGrp implements FixComponent
 		if (! ( o instanceof OrdListStatGrp)) return false;
 
 			OrdListStatGrp msg = (OrdListStatGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( clOrdID, msg.clOrdID)) return false;
 

@@ -55,6 +55,17 @@ public class FixMatchRules
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixMatchRules)) return false;
+
+		FixMatchRules msg = (FixMatchRules) o;
+
+		for (int i = 0; i<noMatchRules; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noMatchRules; i++)
@@ -162,8 +173,6 @@ public class MatchRules implements FixComponent
 		if (! ( o instanceof MatchRules)) return false;
 
 			MatchRules msg = (MatchRules) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( matchAlgorithm, msg.matchAlgorithm)) return false;
 

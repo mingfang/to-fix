@@ -57,6 +57,17 @@ public class FixQuotEntryAckGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixQuotEntryAckGrp)) return false;
+
+		FixQuotEntryAckGrp msg = (FixQuotEntryAckGrp) o;
+
+		for (int i = 0; i<noQuoteEntries; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noQuoteEntries; i++)
@@ -182,7 +193,9 @@ public class QuotEntryAckGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOLEGS_INT) {
-				instrmtLegGrp.getAll(FixTags.NOLEGS_INT, buf);
+				int noLegs;
+				noLegs = FixUtils.getTagIntValue( value );
+				instrmtLegGrp.getAll(noLegs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -527,8 +540,6 @@ public class QuotEntryAckGrp implements FixComponent
 		if (! ( o instanceof QuotEntryAckGrp)) return false;
 
 			QuotEntryAckGrp msg = (QuotEntryAckGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( quoteEntryID, msg.quoteEntryID)) return false;
 

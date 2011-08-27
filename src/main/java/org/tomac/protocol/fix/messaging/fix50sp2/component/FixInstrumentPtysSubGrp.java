@@ -55,6 +55,17 @@ public class FixInstrumentPtysSubGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixInstrumentPtysSubGrp)) return false;
+
+		FixInstrumentPtysSubGrp msg = (FixInstrumentPtysSubGrp) o;
+
+		for (int i = 0; i<noInstrumentPartySubIDs; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noInstrumentPartySubIDs; i++)
@@ -160,8 +171,6 @@ public class InstrumentPtysSubGrp implements FixComponent
 		if (! ( o instanceof InstrumentPtysSubGrp)) return false;
 
 			InstrumentPtysSubGrp msg = (InstrumentPtysSubGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( instrumentPartySubID, msg.instrumentPartySubID)) return false;
 

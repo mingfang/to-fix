@@ -55,6 +55,17 @@ public class FixTrdRegTimestamps
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixTrdRegTimestamps)) return false;
+
+		FixTrdRegTimestamps msg = (FixTrdRegTimestamps) o;
+
+		for (int i = 0; i<noTrdRegTimestamps; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noTrdRegTimestamps; i++)
@@ -215,8 +226,6 @@ public class TrdRegTimestamps implements FixComponent
 		if (! ( o instanceof TrdRegTimestamps)) return false;
 
 			TrdRegTimestamps msg = (TrdRegTimestamps) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( trdRegTimestampType==msg.trdRegTimestampType)) return false;
 

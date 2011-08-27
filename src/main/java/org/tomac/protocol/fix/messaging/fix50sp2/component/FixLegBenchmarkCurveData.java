@@ -152,8 +152,6 @@ public class FixLegBenchmarkCurveData implements FixComponent
 
 			FixLegBenchmarkCurveData msg = (FixLegBenchmarkCurveData) o;
 
-		if ( ! super.equals(msg) ) return false;
-
 		if (!Utils.equals( legBenchmarkCurveCurrency, msg.legBenchmarkCurveCurrency)) return false;
 
 		if (!Utils.equals( legBenchmarkCurveName, msg.legBenchmarkCurveName)) return false;

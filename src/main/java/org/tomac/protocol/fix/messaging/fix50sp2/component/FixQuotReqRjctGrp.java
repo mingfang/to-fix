@@ -65,6 +65,17 @@ public class FixQuotReqRjctGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixQuotReqRjctGrp)) return false;
+
+		FixQuotReqRjctGrp msg = (FixQuotReqRjctGrp) o;
+
+		for (int i = 0; i<noRelatedSym; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noRelatedSym; i++)
@@ -203,7 +214,9 @@ public class QuotReqRjctGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOUNDERLYINGS_INT) {
-				undInstrmtGrp.getAll(FixTags.NOUNDERLYINGS_INT, buf);
+				int noUnderlyings;
+				noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.getAll(noUnderlyings, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -315,7 +328,9 @@ public class QuotReqRjctGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOSTIPULATIONS_INT) {
-				stipulations.getAll(FixTags.NOSTIPULATIONS_INT, buf);
+				int noStipulations;
+				noStipulations = FixUtils.getTagIntValue( value );
+				stipulations.getAll(noStipulations, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -345,14 +360,18 @@ public class QuotReqRjctGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOLEGS_INT) {
-				quotReqLegsGrp.getAll(FixTags.NOLEGS_INT, buf);
+				int noLegs;
+				noLegs = FixUtils.getTagIntValue( value );
+				quotReqLegsGrp.getAll(noLegs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.NOQUOTEQUALIFIERS_INT) {
-				quotQualGrp.getAll(FixTags.NOQUOTEQUALIFIERS_INT, buf);
+				int noQuoteQualifiers;
+				noQuoteQualifiers = FixUtils.getTagIntValue( value );
+				quotQualGrp.getAll(noQuoteQualifiers, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -425,7 +444,9 @@ public class QuotReqRjctGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOPARTYIDS_INT) {
-				parties.getAll(FixTags.NOPARTYIDS_INT, buf);
+				int noPartyIDs;
+				noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(noPartyIDs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -574,8 +595,6 @@ public class QuotReqRjctGrp implements FixComponent
 		if (! ( o instanceof QuotReqRjctGrp)) return false;
 
 			QuotReqRjctGrp msg = (QuotReqRjctGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!instrument.equals(msg.instrument)) return false;
 

@@ -55,6 +55,17 @@ public class FixRgstDistInstGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixRgstDistInstGrp)) return false;
+
+		FixRgstDistInstGrp msg = (FixRgstDistInstGrp) o;
+
+		for (int i = 0; i<noDistribInsts; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noDistribInsts; i++)
@@ -238,8 +249,6 @@ public class RgstDistInstGrp implements FixComponent
 		if (! ( o instanceof RgstDistInstGrp)) return false;
 
 			RgstDistInstGrp msg = (RgstDistInstGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( distribPaymentMethod==msg.distribPaymentMethod)) return false;
 

@@ -56,6 +56,17 @@ public class FixDlvyInstGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixDlvyInstGrp)) return false;
+
+		FixDlvyInstGrp msg = (FixDlvyInstGrp) o;
+
+		for (int i = 0; i<noDlvyInst; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noDlvyInst; i++)
@@ -117,7 +128,9 @@ public class DlvyInstGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOSETTLPARTYIDS_INT) {
-				settlParties.getAll(FixTags.NOSETTLPARTYIDS_INT, buf);
+				int noSettlPartyIDs;
+				noSettlPartyIDs = FixUtils.getTagIntValue( value );
+				settlParties.getAll(noSettlPartyIDs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -175,8 +188,6 @@ public class DlvyInstGrp implements FixComponent
 		if (! ( o instanceof DlvyInstGrp)) return false;
 
 			DlvyInstGrp msg = (DlvyInstGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( settlInstSource==msg.settlInstSource)) return false;
 

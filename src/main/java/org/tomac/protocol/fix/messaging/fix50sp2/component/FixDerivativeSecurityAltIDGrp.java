@@ -55,6 +55,17 @@ public class FixDerivativeSecurityAltIDGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixDerivativeSecurityAltIDGrp)) return false;
+
+		FixDerivativeSecurityAltIDGrp msg = (FixDerivativeSecurityAltIDGrp) o;
+
+		for (int i = 0; i<noDerivativeSecurityAltID; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noDerivativeSecurityAltID; i++)
@@ -161,8 +172,6 @@ public class DerivativeSecurityAltIDGrp implements FixComponent
 		if (! ( o instanceof DerivativeSecurityAltIDGrp)) return false;
 
 			DerivativeSecurityAltIDGrp msg = (DerivativeSecurityAltIDGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( derivativeSecurityAltID, msg.derivativeSecurityAltID)) return false;
 

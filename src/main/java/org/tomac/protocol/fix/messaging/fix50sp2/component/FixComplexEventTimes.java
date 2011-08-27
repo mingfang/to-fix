@@ -55,6 +55,17 @@ public class FixComplexEventTimes
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixComplexEventTimes)) return false;
+
+		FixComplexEventTimes msg = (FixComplexEventTimes) o;
+
+		for (int i = 0; i<noComplexEventTimes; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noComplexEventTimes; i++)
@@ -161,8 +172,6 @@ public class ComplexEventTimes implements FixComponent
 		if (! ( o instanceof ComplexEventTimes)) return false;
 
 			ComplexEventTimes msg = (ComplexEventTimes) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		return true;
 	}

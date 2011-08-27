@@ -213,8 +213,6 @@ public class FixPegInstructions implements FixComponent
 
 			FixPegInstructions msg = (FixPegInstructions) o;
 
-		if ( ! super.equals(msg) ) return false;
-
 		if (!( pegOffsetValue==msg.pegOffsetValue)) return false;
 
 		if (!( pegPriceType==msg.pegPriceType)) return false;

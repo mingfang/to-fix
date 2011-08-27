@@ -193,8 +193,6 @@ public class FixFinancingDetails implements FixComponent
 
 			FixFinancingDetails msg = (FixFinancingDetails) o;
 
-		if ( ! super.equals(msg) ) return false;
-
 		if (!Utils.equals( agreementDesc, msg.agreementDesc)) return false;
 
 		if (!Utils.equals( agreementID, msg.agreementID)) return false;

@@ -55,6 +55,17 @@ public class FixNstdPtys3SubGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixNstdPtys3SubGrp)) return false;
+
+		FixNstdPtys3SubGrp msg = (FixNstdPtys3SubGrp) o;
+
+		for (int i = 0; i<noNested3PartySubIDs; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noNested3PartySubIDs; i++)
@@ -160,8 +171,6 @@ public class NstdPtys3SubGrp implements FixComponent
 		if (! ( o instanceof NstdPtys3SubGrp)) return false;
 
 			NstdPtys3SubGrp msg = (NstdPtys3SubGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( nested3PartySubID, msg.nested3PartySubID)) return false;
 

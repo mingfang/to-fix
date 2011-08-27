@@ -56,6 +56,17 @@ public class FixNestedParties3
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixNestedParties3)) return false;
+
+		FixNestedParties3 msg = (FixNestedParties3) o;
+
+		for (int i = 0; i<noNested3PartyIDs; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noNested3PartyIDs; i++)
@@ -125,7 +136,9 @@ public class NestedParties3 implements FixComponent
 			}
 
 			if(id == FixTags.NONESTED3PARTYSUBIDS_INT) {
-				nstdPtys3SubGrp.getAll(FixTags.NONESTED3PARTYSUBIDS_INT, buf);
+				int noNested3PartySubIDs;
+				noNested3PartySubIDs = FixUtils.getTagIntValue( value );
+				nstdPtys3SubGrp.getAll(noNested3PartySubIDs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -186,8 +199,6 @@ public class NestedParties3 implements FixComponent
 		if (! ( o instanceof NestedParties3)) return false;
 
 			NestedParties3 msg = (NestedParties3) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( nested3PartyID, msg.nested3PartyID)) return false;
 

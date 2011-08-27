@@ -139,8 +139,6 @@ public class FixSecurityTradingRules implements FixComponent
 
 			FixSecurityTradingRules msg = (FixSecurityTradingRules) o;
 
-		if ( ! super.equals(msg) ) return false;
-
 		if (!baseTradingRules.equals(msg.baseTradingRules)) return false;
 
 		if (!tradingSessionRulesGrp.equals(msg.tradingSessionRulesGrp)) return false;

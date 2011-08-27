@@ -180,8 +180,6 @@ public class FixRelatedPartyDetail implements FixComponent
 
 			FixRelatedPartyDetail msg = (FixRelatedPartyDetail) o;
 
-		if ( ! super.equals(msg) ) return false;
-
 		if (!Utils.equals( relatedPartyID, msg.relatedPartyID)) return false;
 
 		if (!( relatedPartyIDSource==msg.relatedPartyIDSource)) return false;

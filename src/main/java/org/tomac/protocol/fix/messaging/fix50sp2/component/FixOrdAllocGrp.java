@@ -56,6 +56,17 @@ public class FixOrdAllocGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixOrdAllocGrp)) return false;
+
+		FixOrdAllocGrp msg = (FixOrdAllocGrp) o;
+
+		for (int i = 0; i<noOrders; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noOrders; i++)
@@ -153,7 +164,9 @@ public class OrdAllocGrp implements FixComponent
 			}
 
 			if(id == FixTags.NONESTED2PARTYIDS_INT) {
-				nestedParties2.getAll(FixTags.NONESTED2PARTYIDS_INT, buf);
+				int noNested2PartyIDs;
+				noNested2PartyIDs = FixUtils.getTagIntValue( value );
+				nestedParties2.getAll(noNested2PartyIDs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -250,8 +263,6 @@ public class OrdAllocGrp implements FixComponent
 		if (! ( o instanceof OrdAllocGrp)) return false;
 
 			OrdAllocGrp msg = (OrdAllocGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( clOrdID, msg.clOrdID)) return false;
 

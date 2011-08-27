@@ -55,6 +55,17 @@ public class FixPartyListResponseTypeGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixPartyListResponseTypeGrp)) return false;
+
+		FixPartyListResponseTypeGrp msg = (FixPartyListResponseTypeGrp) o;
+
+		for (int i = 0; i<noPartyListResponseTypes; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noPartyListResponseTypes; i++)
@@ -148,8 +159,6 @@ public class PartyListResponseTypeGrp implements FixComponent
 		if (! ( o instanceof PartyListResponseTypeGrp)) return false;
 
 			PartyListResponseTypeGrp msg = (PartyListResponseTypeGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( partyListResponseType==msg.partyListResponseType)) return false;
 

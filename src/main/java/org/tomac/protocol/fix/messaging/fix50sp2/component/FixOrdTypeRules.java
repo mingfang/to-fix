@@ -55,6 +55,17 @@ public class FixOrdTypeRules
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixOrdTypeRules)) return false;
+
+		FixOrdTypeRules msg = (FixOrdTypeRules) o;
+
+		for (int i = 0; i<noOrdTypeRules; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noOrdTypeRules; i++)
@@ -148,8 +159,6 @@ public class OrdTypeRules implements FixComponent
 		if (! ( o instanceof OrdTypeRules)) return false;
 
 			OrdTypeRules msg = (OrdTypeRules) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( ordType==msg.ordType)) return false;
 

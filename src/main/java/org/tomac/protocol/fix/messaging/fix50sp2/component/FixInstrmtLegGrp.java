@@ -56,6 +56,17 @@ public class FixInstrmtLegGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixInstrmtLegGrp)) return false;
+
+		FixInstrmtLegGrp msg = (FixInstrmtLegGrp) o;
+
+		for (int i = 0; i<noLegs; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noLegs; i++)
@@ -149,8 +160,6 @@ public class InstrmtLegGrp implements FixComponent
 		if (! ( o instanceof InstrmtLegGrp)) return false;
 
 			InstrmtLegGrp msg = (InstrmtLegGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!instrumentLeg.equals(msg.instrumentLeg)) return false;
 

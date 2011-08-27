@@ -55,6 +55,17 @@ public class FixLotTypeRules
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixLotTypeRules)) return false;
+
+		FixLotTypeRules msg = (FixLotTypeRules) o;
+
+		for (int i = 0; i<noLotTypeRules; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noLotTypeRules; i++)
@@ -160,8 +171,6 @@ public class LotTypeRules implements FixComponent
 		if (! ( o instanceof LotTypeRules)) return false;
 
 			LotTypeRules msg = (LotTypeRules) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( lotType==msg.lotType)) return false;
 

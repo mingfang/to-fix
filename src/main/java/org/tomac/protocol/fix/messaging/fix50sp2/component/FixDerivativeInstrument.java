@@ -686,8 +686,6 @@ public class FixDerivativeInstrument implements FixComponent
 
 			FixDerivativeInstrument msg = (FixDerivativeInstrument) o;
 
-		if ( ! super.equals(msg) ) return false;
-
 		if (!Utils.equals( derivativeSymbol, msg.derivativeSymbol)) return false;
 
 		if (!Utils.equals( derivativeSymbolSfx, msg.derivativeSymbolSfx)) return false;

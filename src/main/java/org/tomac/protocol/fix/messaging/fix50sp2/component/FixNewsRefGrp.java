@@ -55,6 +55,17 @@ public class FixNewsRefGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixNewsRefGrp)) return false;
+
+		FixNewsRefGrp msg = (FixNewsRefGrp) o;
+
+		for (int i = 0; i<noNewsRefIDs; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noNewsRefIDs; i++)
@@ -161,8 +172,6 @@ public class NewsRefGrp implements FixComponent
 		if (! ( o instanceof NewsRefGrp)) return false;
 
 			NewsRefGrp msg = (NewsRefGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( newsRefID, msg.newsRefID)) return false;
 

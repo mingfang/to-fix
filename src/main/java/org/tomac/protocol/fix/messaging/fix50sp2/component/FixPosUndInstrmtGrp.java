@@ -57,6 +57,17 @@ public class FixPosUndInstrmtGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixPosUndInstrmtGrp)) return false;
+
+		FixPosUndInstrmtGrp msg = (FixPosUndInstrmtGrp) o;
+
+		for (int i = 0; i<noUnderlyings; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noUnderlyings; i++)
@@ -135,7 +146,9 @@ public class PosUndInstrmtGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOUNDERLYINGAMOUNTS_INT) {
-				underlyingAmount.getAll(FixTags.NOUNDERLYINGAMOUNTS_INT, buf);
+				int noUnderlyingAmounts;
+				noUnderlyingAmounts = FixUtils.getTagIntValue( value );
+				underlyingAmount.getAll(noUnderlyingAmounts, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -199,8 +212,6 @@ public class PosUndInstrmtGrp implements FixComponent
 		if (! ( o instanceof PosUndInstrmtGrp)) return false;
 
 			PosUndInstrmtGrp msg = (PosUndInstrmtGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!underlyingInstrument.equals(msg.underlyingInstrument)) return false;
 

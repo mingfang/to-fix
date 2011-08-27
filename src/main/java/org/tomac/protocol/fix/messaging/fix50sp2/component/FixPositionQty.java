@@ -56,6 +56,17 @@ public class FixPositionQty
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixPositionQty)) return false;
+
+		FixPositionQty msg = (FixPositionQty) o;
+
+		for (int i = 0; i<noPositions; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noPositions; i++)
@@ -146,7 +157,9 @@ public class PositionQty implements FixComponent
 			}
 
 			if(id == FixTags.NONESTEDPARTYIDS_INT) {
-				nestedParties.getAll(FixTags.NONESTEDPARTYIDS_INT, buf);
+				int noNestedPartyIDs;
+				noNestedPartyIDs = FixUtils.getTagIntValue( value );
+				nestedParties.getAll(noNestedPartyIDs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -213,8 +226,6 @@ public class PositionQty implements FixComponent
 		if (! ( o instanceof PositionQty)) return false;
 
 			PositionQty msg = (PositionQty) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( posType, msg.posType)) return false;
 

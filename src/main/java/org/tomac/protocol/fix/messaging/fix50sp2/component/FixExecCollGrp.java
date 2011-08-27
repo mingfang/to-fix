@@ -55,6 +55,17 @@ public class FixExecCollGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixExecCollGrp)) return false;
+
+		FixExecCollGrp msg = (FixExecCollGrp) o;
+
+		for (int i = 0; i<noExecs; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noExecs; i++)
@@ -148,8 +159,6 @@ public class ExecCollGrp implements FixComponent
 		if (! ( o instanceof ExecCollGrp)) return false;
 
 			ExecCollGrp msg = (ExecCollGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( execID, msg.execID)) return false;
 

@@ -55,6 +55,17 @@ public class FixContAmtGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixContAmtGrp)) return false;
+
+		FixContAmtGrp msg = (FixContAmtGrp) o;
+
+		for (int i = 0; i<noContAmts; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noContAmts; i++)
@@ -173,8 +184,6 @@ public class ContAmtGrp implements FixComponent
 		if (! ( o instanceof ContAmtGrp)) return false;
 
 			ContAmtGrp msg = (ContAmtGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( contAmtType==msg.contAmtType)) return false;
 

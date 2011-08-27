@@ -55,6 +55,17 @@ public class FixTimeInForceRules
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixTimeInForceRules)) return false;
+
+		FixTimeInForceRules msg = (FixTimeInForceRules) o;
+
+		for (int i = 0; i<noTimeInForceRules; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noTimeInForceRules; i++)
@@ -148,8 +159,6 @@ public class TimeInForceRules implements FixComponent
 		if (! ( o instanceof TimeInForceRules)) return false;
 
 			TimeInForceRules msg = (TimeInForceRules) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( timeInForce==msg.timeInForce)) return false;
 

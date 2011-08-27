@@ -70,6 +70,17 @@ public class FixListOrdGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixListOrdGrp)) return false;
+
+		FixListOrdGrp msg = (FixListOrdGrp) o;
+
+		for (int i = 0; i<noOrders; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noOrders; i++)
@@ -357,7 +368,9 @@ public class ListOrdGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOPARTYIDS_INT) {
-				parties.getAll(FixTags.NOPARTYIDS_INT, buf);
+				int noPartyIDs;
+				noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(noPartyIDs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -432,7 +445,9 @@ public class ListOrdGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOALLOCS_INT) {
-				preAllocGrp.getAll(FixTags.NOALLOCS_INT, buf);
+				int noAllocs;
+				noAllocs = FixUtils.getTagIntValue( value );
+				preAllocGrp.getAll(noAllocs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -536,7 +551,9 @@ public class ListOrdGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOTRADINGSESSIONS_INT) {
-				trdgSesGrp.getAll(FixTags.NOTRADINGSESSIONS_INT, buf);
+				int noTradingSessions;
+				noTradingSessions = FixUtils.getTagIntValue( value );
+				trdgSesGrp.getAll(noTradingSessions, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -558,7 +575,9 @@ public class ListOrdGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOUNDERLYINGS_INT) {
-				undInstrmtGrp.getAll(FixTags.NOUNDERLYINGS_INT, buf);
+				int noUnderlyings;
+				noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.getAll(noUnderlyings, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -603,7 +622,9 @@ public class ListOrdGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOSTIPULATIONS_INT) {
-				stipulations.getAll(FixTags.NOSTIPULATIONS_INT, buf);
+				int noStipulations;
+				noStipulations = FixUtils.getTagIntValue( value );
+				stipulations.getAll(noStipulations, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -920,7 +941,9 @@ public class ListOrdGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOSTRATEGYPARAMETERS_INT) {
-				strategyParametersGrp.getAll(FixTags.NOSTRATEGYPARAMETERS_INT, buf);
+				int noStrategyParameters;
+				noStrategyParameters = FixUtils.getTagIntValue( value );
+				strategyParametersGrp.getAll(noStrategyParameters, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -1247,8 +1270,6 @@ public class ListOrdGrp implements FixComponent
 		if (! ( o instanceof ListOrdGrp)) return false;
 
 			ListOrdGrp msg = (ListOrdGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( clOrdID, msg.clOrdID)) return false;
 

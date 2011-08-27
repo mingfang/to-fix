@@ -56,6 +56,17 @@ public class FixRgstDtlsGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixRgstDtlsGrp)) return false;
+
+		FixRgstDtlsGrp msg = (FixRgstDtlsGrp) o;
+
+		for (int i = 0; i<noRegistDtls; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noRegistDtls; i++)
@@ -145,7 +156,9 @@ public class RgstDtlsGrp implements FixComponent
 			}
 
 			if(id == FixTags.NONESTEDPARTYIDS_INT) {
-				nestedParties.getAll(FixTags.NONESTEDPARTYIDS_INT, buf);
+				int noNestedPartyIDs;
+				noNestedPartyIDs = FixUtils.getTagIntValue( value );
+				nestedParties.getAll(noNestedPartyIDs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -240,8 +253,6 @@ public class RgstDtlsGrp implements FixComponent
 		if (! ( o instanceof RgstDtlsGrp)) return false;
 
 			RgstDtlsGrp msg = (RgstDtlsGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( registDtls, msg.registDtls)) return false;
 

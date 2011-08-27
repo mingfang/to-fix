@@ -141,8 +141,6 @@ public class FixPriceLimits implements FixComponent
 
 			FixPriceLimits msg = (FixPriceLimits) o;
 
-		if ( ! super.equals(msg) ) return false;
-
 		if (!( priceLimitType==msg.priceLimitType)) return false;
 
 		if (!( lowLimitPrice==msg.lowLimitPrice)) return false;

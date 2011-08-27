@@ -56,6 +56,17 @@ public class FixApplIDRequestAckGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixApplIDRequestAckGrp)) return false;
+
+		FixApplIDRequestAckGrp msg = (FixApplIDRequestAckGrp) o;
+
+		for (int i = 0; i<noApplIDs; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noApplIDs; i++)
@@ -154,7 +165,9 @@ public class ApplIDRequestAckGrp implements FixComponent
 			}
 
 			if(id == FixTags.NONESTEDPARTYIDS_INT) {
-				nestedParties.getAll(FixTags.NONESTEDPARTYIDS_INT, buf);
+				int noNestedPartyIDs;
+				noNestedPartyIDs = FixUtils.getTagIntValue( value );
+				nestedParties.getAll(noNestedPartyIDs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -224,8 +237,6 @@ public class ApplIDRequestAckGrp implements FixComponent
 		if (! ( o instanceof ApplIDRequestAckGrp)) return false;
 
 			ApplIDRequestAckGrp msg = (ApplIDRequestAckGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( refApplID, msg.refApplID)) return false;
 

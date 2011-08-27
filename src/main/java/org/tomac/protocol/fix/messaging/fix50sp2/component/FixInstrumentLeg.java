@@ -625,8 +625,6 @@ public class FixInstrumentLeg implements FixComponent
 
 			FixInstrumentLeg msg = (FixInstrumentLeg) o;
 
-		if ( ! super.equals(msg) ) return false;
-
 		if (!Utils.equals( legSymbol, msg.legSymbol)) return false;
 
 		if (!Utils.equals( legSymbolSfx, msg.legSymbolSfx)) return false;

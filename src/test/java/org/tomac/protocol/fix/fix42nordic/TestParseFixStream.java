@@ -1,5 +1,6 @@
 package org.tomac.protocol.fix.fix42nordic;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 

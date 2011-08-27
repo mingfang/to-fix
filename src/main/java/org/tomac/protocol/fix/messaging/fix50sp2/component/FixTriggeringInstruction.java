@@ -251,8 +251,6 @@ public class FixTriggeringInstruction implements FixComponent
 
 			FixTriggeringInstruction msg = (FixTriggeringInstruction) o;
 
-		if ( ! super.equals(msg) ) return false;
-
 		if (!( triggerType==msg.triggerType)) return false;
 
 		if (!( triggerAction==msg.triggerAction)) return false;

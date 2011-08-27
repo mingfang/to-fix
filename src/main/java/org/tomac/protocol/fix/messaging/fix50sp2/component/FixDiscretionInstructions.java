@@ -173,8 +173,6 @@ public class FixDiscretionInstructions implements FixComponent
 
 			FixDiscretionInstructions msg = (FixDiscretionInstructions) o;
 
-		if ( ! super.equals(msg) ) return false;
-
 		if (!( discretionInst==msg.discretionInst)) return false;
 
 		if (!( discretionOffsetValue==msg.discretionOffsetValue)) return false;

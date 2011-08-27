@@ -55,6 +55,17 @@ public class FixDerivativeInstrumentPartySubIDsGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixDerivativeInstrumentPartySubIDsGrp)) return false;
+
+		FixDerivativeInstrumentPartySubIDsGrp msg = (FixDerivativeInstrumentPartySubIDsGrp) o;
+
+		for (int i = 0; i<noDerivativeInstrumentPartySubIDs; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noDerivativeInstrumentPartySubIDs; i++)
@@ -160,8 +171,6 @@ public class DerivativeInstrumentPartySubIDsGrp implements FixComponent
 		if (! ( o instanceof DerivativeInstrumentPartySubIDsGrp)) return false;
 
 			DerivativeInstrumentPartySubIDsGrp msg = (DerivativeInstrumentPartySubIDsGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( derivativeInstrumentPartySubID, msg.derivativeInstrumentPartySubID)) return false;
 

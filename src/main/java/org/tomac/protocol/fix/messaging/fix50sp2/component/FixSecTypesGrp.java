@@ -55,6 +55,17 @@ public class FixSecTypesGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixSecTypesGrp)) return false;
+
+		FixSecTypesGrp msg = (FixSecTypesGrp) o;
+
+		for (int i = 0; i<noSecurityTypes; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noSecurityTypes; i++)
@@ -201,8 +212,6 @@ public class SecTypesGrp implements FixComponent
 		if (! ( o instanceof SecTypesGrp)) return false;
 
 			SecTypesGrp msg = (SecTypesGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( securityType, msg.securityType)) return false;
 

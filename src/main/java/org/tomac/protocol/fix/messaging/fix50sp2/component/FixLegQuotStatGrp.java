@@ -58,6 +58,17 @@ public class FixLegQuotStatGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixLegQuotStatGrp)) return false;
+
+		FixLegQuotStatGrp msg = (FixLegQuotStatGrp) o;
+
+		for (int i = 0; i<noLegs; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noLegs; i++)
@@ -159,14 +170,18 @@ public class LegQuotStatGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOLEGSTIPULATIONS_INT) {
-				legStipulations.getAll(FixTags.NOLEGSTIPULATIONS_INT, buf);
+				int noLegStipulations;
+				noLegStipulations = FixUtils.getTagIntValue( value );
+				legStipulations.getAll(noLegStipulations, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.NONESTEDPARTYIDS_INT) {
-				nestedParties.getAll(FixTags.NONESTEDPARTYIDS_INT, buf);
+				int noNestedPartyIDs;
+				noNestedPartyIDs = FixUtils.getTagIntValue( value );
+				nestedParties.getAll(noNestedPartyIDs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -239,8 +254,6 @@ public class LegQuotStatGrp implements FixComponent
 		if (! ( o instanceof LegQuotStatGrp)) return false;
 
 			LegQuotStatGrp msg = (LegQuotStatGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!instrumentLeg.equals(msg.instrumentLeg)) return false;
 

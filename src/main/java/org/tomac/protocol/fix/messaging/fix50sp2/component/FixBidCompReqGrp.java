@@ -55,6 +55,17 @@ public class FixBidCompReqGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixBidCompReqGrp)) return false;
+
+		FixBidCompReqGrp msg = (FixBidCompReqGrp) o;
+
+		for (int i = 0; i<noBidComponents; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noBidComponents; i++)
@@ -255,8 +266,6 @@ public class BidCompReqGrp implements FixComponent
 		if (! ( o instanceof BidCompReqGrp)) return false;
 
 			BidCompReqGrp msg = (BidCompReqGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( listID, msg.listID)) return false;
 

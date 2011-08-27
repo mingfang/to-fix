@@ -65,6 +65,17 @@ public class FixTrdCapRptAckSideGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixTrdCapRptAckSideGrp)) return false;
+
+		FixTrdCapRptAckSideGrp msg = (FixTrdCapRptAckSideGrp) o;
+
+		for (int i = 0; i<noSides; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noSides; i++)
@@ -277,7 +288,9 @@ public class TrdCapRptAckSideGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOPARTYIDS_INT) {
-				parties.getAll(FixTags.NOPARTYIDS_INT, buf);
+				int noPartyIDs;
+				noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(noPartyIDs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -323,7 +336,9 @@ public class TrdCapRptAckSideGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOCLEARINGINSTRUCTIONS_INT) {
-				clrInstGrp.getAll(FixTags.NOCLEARINGINSTRUCTIONS_INT, buf);
+				int noClearingInstructions;
+				noClearingInstructions = FixUtils.getTagIntValue( value );
+				clrInstGrp.getAll(noClearingInstructions, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -534,21 +549,27 @@ public class TrdCapRptAckSideGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOCONTAMTS_INT) {
-				contAmtGrp.getAll(FixTags.NOCONTAMTS_INT, buf);
+				int noContAmts;
+				noContAmts = FixUtils.getTagIntValue( value );
+				contAmtGrp.getAll(noContAmts, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.NOSTIPULATIONS_INT) {
-				stipulations.getAll(FixTags.NOSTIPULATIONS_INT, buf);
+				int noStipulations;
+				noStipulations = FixUtils.getTagIntValue( value );
+				stipulations.getAll(noStipulations, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.NOMISCFEES_INT) {
-				miscFeesGrp.getAll(FixTags.NOMISCFEES_INT, buf);
+				int noMiscFees;
+				noMiscFees = FixUtils.getTagIntValue( value );
+				miscFeesGrp.getAll(noMiscFees, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -562,7 +583,9 @@ public class TrdCapRptAckSideGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOSETTLDETAILS_INT) {
-				settlDetails.getAll(FixTags.NOSETTLDETAILS_INT, buf);
+				int noSettlDetails;
+				noSettlDetails = FixUtils.getTagIntValue( value );
+				settlDetails.getAll(noSettlDetails, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -642,7 +665,9 @@ public class TrdCapRptAckSideGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOALLOCS_INT) {
-				trdAllocGrp.getAll(FixTags.NOALLOCS_INT, buf);
+				int noAllocs;
+				noAllocs = FixUtils.getTagIntValue( value );
+				trdAllocGrp.getAll(noAllocs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -664,7 +689,9 @@ public class TrdCapRptAckSideGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOSIDETRDREGTS_INT) {
-				sideTrdRegTS.getAll(FixTags.NOSIDETRDREGTS_INT, buf);
+				int noSideTrdRegTS;
+				noSideTrdRegTS = FixUtils.getTagIntValue( value );
+				sideTrdRegTS.getAll(noSideTrdRegTS, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -897,8 +924,6 @@ public class TrdCapRptAckSideGrp implements FixComponent
 		if (! ( o instanceof TrdCapRptAckSideGrp)) return false;
 
 			TrdCapRptAckSideGrp msg = (TrdCapRptAckSideGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( side==msg.side)) return false;
 

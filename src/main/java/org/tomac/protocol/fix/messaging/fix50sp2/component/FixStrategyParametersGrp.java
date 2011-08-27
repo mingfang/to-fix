@@ -55,6 +55,17 @@ public class FixStrategyParametersGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixStrategyParametersGrp)) return false;
+
+		FixStrategyParametersGrp msg = (FixStrategyParametersGrp) o;
+
+		for (int i = 0; i<noStrategyParameters; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noStrategyParameters; i++)
@@ -174,8 +185,6 @@ public class StrategyParametersGrp implements FixComponent
 		if (! ( o instanceof StrategyParametersGrp)) return false;
 
 			StrategyParametersGrp msg = (StrategyParametersGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( strategyParameterName, msg.strategyParameterName)) return false;
 

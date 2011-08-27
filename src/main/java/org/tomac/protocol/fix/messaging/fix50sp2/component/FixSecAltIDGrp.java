@@ -55,6 +55,17 @@ public class FixSecAltIDGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixSecAltIDGrp)) return false;
+
+		FixSecAltIDGrp msg = (FixSecAltIDGrp) o;
+
+		for (int i = 0; i<noSecurityAltID; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noSecurityAltID; i++)
@@ -161,8 +172,6 @@ public class SecAltIDGrp implements FixComponent
 		if (! ( o instanceof SecAltIDGrp)) return false;
 
 			SecAltIDGrp msg = (SecAltIDGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( securityAltID, msg.securityAltID)) return false;
 

@@ -55,6 +55,17 @@ public class FixPositionAmountData
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixPositionAmountData)) return false;
+
+		FixPositionAmountData msg = (FixPositionAmountData) o;
+
+		for (int i = 0; i<noPosAmt; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noPosAmt; i++)
@@ -174,8 +185,6 @@ public class PositionAmountData implements FixComponent
 		if (! ( o instanceof PositionAmountData)) return false;
 
 			PositionAmountData msg = (PositionAmountData) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( posAmtType, msg.posAmtType)) return false;
 

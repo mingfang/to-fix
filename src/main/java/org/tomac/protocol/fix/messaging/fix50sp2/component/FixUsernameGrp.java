@@ -55,6 +55,17 @@ public class FixUsernameGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixUsernameGrp)) return false;
+
+		FixUsernameGrp msg = (FixUsernameGrp) o;
+
+		for (int i = 0; i<noUsernames; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noUsernames; i++)
@@ -148,8 +159,6 @@ public class UsernameGrp implements FixComponent
 		if (! ( o instanceof UsernameGrp)) return false;
 
 			UsernameGrp msg = (UsernameGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( username, msg.username)) return false;
 

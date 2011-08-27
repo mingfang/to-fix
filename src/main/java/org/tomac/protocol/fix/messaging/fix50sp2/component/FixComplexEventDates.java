@@ -56,6 +56,17 @@ public class FixComplexEventDates
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixComplexEventDates)) return false;
+
+		FixComplexEventDates msg = (FixComplexEventDates) o;
+
+		for (int i = 0; i<noComplexEventDates; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noComplexEventDates; i++)
@@ -117,7 +128,9 @@ public class ComplexEventDates implements FixComponent
 			}
 
 			if(id == FixTags.NOCOMPLEXEVENTTIMES_INT) {
-				complexEventTimes.getAll(FixTags.NOCOMPLEXEVENTTIMES_INT, buf);
+				int noComplexEventTimes;
+				noComplexEventTimes = FixUtils.getTagIntValue( value );
+				complexEventTimes.getAll(noComplexEventTimes, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -175,8 +188,6 @@ public class ComplexEventDates implements FixComponent
 		if (! ( o instanceof ComplexEventDates)) return false;
 
 			ComplexEventDates msg = (ComplexEventDates) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!complexEventTimes.equals(msg.complexEventTimes)) return false;
 

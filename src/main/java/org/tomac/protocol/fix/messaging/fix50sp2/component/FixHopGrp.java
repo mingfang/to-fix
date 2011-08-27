@@ -55,6 +55,17 @@ public class FixHopGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixHopGrp)) return false;
+
+		FixHopGrp msg = (FixHopGrp) o;
+
+		for (int i = 0; i<noHops; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noHops; i++)
@@ -173,8 +184,6 @@ public class HopGrp implements FixComponent
 		if (! ( o instanceof HopGrp)) return false;
 
 			HopGrp msg = (HopGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( hopCompID, msg.hopCompID)) return false;
 

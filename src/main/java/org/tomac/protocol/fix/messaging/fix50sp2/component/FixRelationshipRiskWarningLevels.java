@@ -55,6 +55,17 @@ public class FixRelationshipRiskWarningLevels
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixRelationshipRiskWarningLevels)) return false;
+
+		FixRelationshipRiskWarningLevels msg = (FixRelationshipRiskWarningLevels) o;
+
+		for (int i = 0; i<noRelationshipRiskWarningLevels; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noRelationshipRiskWarningLevels; i++)
@@ -160,8 +171,6 @@ public class RelationshipRiskWarningLevels implements FixComponent
 		if (! ( o instanceof RelationshipRiskWarningLevels)) return false;
 
 			RelationshipRiskWarningLevels msg = (RelationshipRiskWarningLevels) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( relationshipRiskWarningLevelPercent==msg.relationshipRiskWarningLevelPercent)) return false;
 

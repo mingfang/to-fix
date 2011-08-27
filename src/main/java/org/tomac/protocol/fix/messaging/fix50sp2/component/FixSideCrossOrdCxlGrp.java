@@ -57,6 +57,17 @@ public class FixSideCrossOrdCxlGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixSideCrossOrdCxlGrp)) return false;
+
+		FixSideCrossOrdCxlGrp msg = (FixSideCrossOrdCxlGrp) o;
+
+		for (int i = 0; i<noSides; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noSides; i++)
@@ -178,7 +189,9 @@ public class SideCrossOrdCxlGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOPARTYIDS_INT) {
-				parties.getAll(FixTags.NOPARTYIDS_INT, buf);
+				int noPartyIDs;
+				noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(noPartyIDs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -319,8 +332,6 @@ public class SideCrossOrdCxlGrp implements FixComponent
 		if (! ( o instanceof SideCrossOrdCxlGrp)) return false;
 
 			SideCrossOrdCxlGrp msg = (SideCrossOrdCxlGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( side==msg.side)) return false;
 

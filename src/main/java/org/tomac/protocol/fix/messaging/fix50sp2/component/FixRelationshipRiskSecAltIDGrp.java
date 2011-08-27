@@ -55,6 +55,17 @@ public class FixRelationshipRiskSecAltIDGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixRelationshipRiskSecAltIDGrp)) return false;
+
+		FixRelationshipRiskSecAltIDGrp msg = (FixRelationshipRiskSecAltIDGrp) o;
+
+		for (int i = 0; i<noRelationshipRiskSecurityAltID; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noRelationshipRiskSecurityAltID; i++)
@@ -173,8 +184,6 @@ public class RelationshipRiskSecAltIDGrp implements FixComponent
 		if (! ( o instanceof RelationshipRiskSecAltIDGrp)) return false;
 
 			RelationshipRiskSecAltIDGrp msg = (RelationshipRiskSecAltIDGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( noRelationshipRiskSecurityAltID==msg.noRelationshipRiskSecurityAltID)) return false;
 

@@ -55,6 +55,17 @@ public class FixAttrbGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixAttrbGrp)) return false;
+
+		FixAttrbGrp msg = (FixAttrbGrp) o;
+
+		for (int i = 0; i<noInstrAttrib; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noInstrAttrib; i++)
@@ -161,8 +172,6 @@ public class AttrbGrp implements FixComponent
 		if (! ( o instanceof AttrbGrp)) return false;
 
 			AttrbGrp msg = (AttrbGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( instrAttribType==msg.instrAttribType)) return false;
 

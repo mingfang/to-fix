@@ -56,6 +56,17 @@ public class FixNestedParties4
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixNestedParties4)) return false;
+
+		FixNestedParties4 msg = (FixNestedParties4) o;
+
+		for (int i = 0; i<noNested4PartyIDs; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noNested4PartyIDs; i++)
@@ -125,7 +136,9 @@ public class NestedParties4 implements FixComponent
 			}
 
 			if(id == FixTags.NONESTED4PARTYSUBIDS_INT) {
-				nstdPtys4SubGrp.getAll(FixTags.NONESTED4PARTYSUBIDS_INT, buf);
+				int noNested4PartySubIDs;
+				noNested4PartySubIDs = FixUtils.getTagIntValue( value );
+				nstdPtys4SubGrp.getAll(noNested4PartySubIDs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -186,8 +199,6 @@ public class NestedParties4 implements FixComponent
 		if (! ( o instanceof NestedParties4)) return false;
 
 			NestedParties4 msg = (NestedParties4) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( nested4PartyID, msg.nested4PartyID)) return false;
 

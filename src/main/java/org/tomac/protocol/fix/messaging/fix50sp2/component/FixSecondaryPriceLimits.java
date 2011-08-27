@@ -140,8 +140,6 @@ public class FixSecondaryPriceLimits implements FixComponent
 
 			FixSecondaryPriceLimits msg = (FixSecondaryPriceLimits) o;
 
-		if ( ! super.equals(msg) ) return false;
-
 		if (!( secondaryPriceLimitType==msg.secondaryPriceLimitType)) return false;
 
 		if (!( secondaryLowLimitPrice==msg.secondaryLowLimitPrice)) return false;

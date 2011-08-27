@@ -55,6 +55,17 @@ public class FixPartyRelationships
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixPartyRelationships)) return false;
+
+		FixPartyRelationships msg = (FixPartyRelationships) o;
+
+		for (int i = 0; i<noPartyRelationships; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noPartyRelationships; i++)
@@ -148,8 +159,6 @@ public class PartyRelationships implements FixComponent
 		if (! ( o instanceof PartyRelationships)) return false;
 
 			PartyRelationships msg = (PartyRelationships) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( partyRelationship==msg.partyRelationship)) return false;
 

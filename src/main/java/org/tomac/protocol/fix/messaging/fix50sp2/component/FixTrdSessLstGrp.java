@@ -56,6 +56,17 @@ public class FixTrdSessLstGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixTrdSessLstGrp)) return false;
+
+		FixTrdSessLstGrp msg = (FixTrdSessLstGrp) o;
+
+		for (int i = 0; i<noTradingSessions; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noTradingSessions; i++)
@@ -434,8 +445,6 @@ public class TrdSessLstGrp implements FixComponent
 		if (! ( o instanceof TrdSessLstGrp)) return false;
 
 			TrdSessLstGrp msg = (TrdSessLstGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( tradingSessionID, msg.tradingSessionID)) return false;
 

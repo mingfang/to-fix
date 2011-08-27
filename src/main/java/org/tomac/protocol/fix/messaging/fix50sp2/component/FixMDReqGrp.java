@@ -55,6 +55,17 @@ public class FixMDReqGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixMDReqGrp)) return false;
+
+		FixMDReqGrp msg = (FixMDReqGrp) o;
+
+		for (int i = 0; i<noMDEntryTypes; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noMDEntryTypes; i++)
@@ -148,8 +159,6 @@ public class MDReqGrp implements FixComponent
 		if (! ( o instanceof MDReqGrp)) return false;
 
 			MDReqGrp msg = (MDReqGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( mDEntryType==msg.mDEntryType)) return false;
 

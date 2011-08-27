@@ -55,6 +55,17 @@ public class FixUndlyInstrumentPtysSubGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixUndlyInstrumentPtysSubGrp)) return false;
+
+		FixUndlyInstrumentPtysSubGrp msg = (FixUndlyInstrumentPtysSubGrp) o;
+
+		for (int i = 0; i<noUndlyInstrumentPartySubIDs; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noUndlyInstrumentPartySubIDs; i++)
@@ -160,8 +171,6 @@ public class UndlyInstrumentPtysSubGrp implements FixComponent
 		if (! ( o instanceof UndlyInstrumentPtysSubGrp)) return false;
 
 			UndlyInstrumentPtysSubGrp msg = (UndlyInstrumentPtysSubGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( underlyingInstrumentPartySubID, msg.underlyingInstrumentPartySubID)) return false;
 

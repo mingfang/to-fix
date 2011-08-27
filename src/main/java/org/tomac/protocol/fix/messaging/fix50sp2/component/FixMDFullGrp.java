@@ -60,6 +60,17 @@ public class FixMDFullGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixMDFullGrp)) return false;
+
+		FixMDFullGrp msg = (FixMDFullGrp) o;
+
+		for (int i = 0; i<noMDEntries; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noMDEntries; i++)
@@ -320,7 +331,9 @@ public class MDFullGrp implements FixComponent
 			}
 
 			if(id == FixTags.NORATESOURCES_INT) {
-				rateSource.getAll(FixTags.NORATESOURCES_INT, buf);
+				int noRateSources;
+				noRateSources = FixUtils.getTagIntValue( value );
+				rateSource.getAll(noRateSources, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -342,7 +355,9 @@ public class MDFullGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOOFSECSIZES_INT) {
-				secSizesGrp.getAll(FixTags.NOOFSECSIZES_INT, buf);
+				int noOfSecSizes;
+				noOfSecSizes = FixUtils.getTagIntValue( value );
+				secSizesGrp.getAll(noOfSecSizes, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -702,7 +717,9 @@ public class MDFullGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOPARTYIDS_INT) {
-				parties.getAll(FixTags.NOPARTYIDS_INT, buf);
+				int noPartyIDs;
+				noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(noPartyIDs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -937,8 +954,6 @@ public class MDFullGrp implements FixComponent
 		if (! ( o instanceof MDFullGrp)) return false;
 
 			MDFullGrp msg = (MDFullGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( mDEntryType==msg.mDEntryType)) return false;
 

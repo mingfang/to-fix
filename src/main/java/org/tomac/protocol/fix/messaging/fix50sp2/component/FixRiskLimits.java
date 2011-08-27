@@ -57,6 +57,17 @@ public class FixRiskLimits
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixRiskLimits)) return false;
+
+		FixRiskLimits msg = (FixRiskLimits) o;
+
+		for (int i = 0; i<noRiskLimits; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noRiskLimits; i++)
@@ -140,14 +151,18 @@ public class RiskLimits implements FixComponent
 			}
 
 			if(id == FixTags.NORISKINSTRUMENTS_INT) {
-				riskInstrumentScope.getAll(FixTags.NORISKINSTRUMENTS_INT, buf);
+				int noRiskInstruments;
+				noRiskInstruments = FixUtils.getTagIntValue( value );
+				riskInstrumentScope.getAll(noRiskInstruments, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.NORISKWARNINGLEVELS_INT) {
-				riskWarningLevels.getAll(FixTags.NORISKWARNINGLEVELS_INT, buf);
+				int noRiskWarningLevels;
+				noRiskWarningLevels = FixUtils.getTagIntValue( value );
+				riskWarningLevels.getAll(noRiskWarningLevels, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -214,8 +229,6 @@ public class RiskLimits implements FixComponent
 		if (! ( o instanceof RiskLimits)) return false;
 
 			RiskLimits msg = (RiskLimits) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( riskLimitType==msg.riskLimitType)) return false;
 

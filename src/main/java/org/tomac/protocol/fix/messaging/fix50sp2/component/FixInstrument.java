@@ -954,8 +954,6 @@ public class FixInstrument implements FixComponent
 
 			FixInstrument msg = (FixInstrument) o;
 
-		if ( ! super.equals(msg) ) return false;
-
 		if (!Utils.equals( symbol, msg.symbol)) return false;
 
 		if (!Utils.equals( symbolSfx, msg.symbolSfx)) return false;

@@ -56,6 +56,17 @@ public class FixRiskInstrumentScope
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixRiskInstrumentScope)) return false;
+
+		FixRiskInstrumentScope msg = (FixRiskInstrumentScope) o;
+
+		for (int i = 0; i<noRiskInstruments; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noRiskInstruments; i++)
@@ -198,7 +209,9 @@ public class RiskInstrumentScope implements FixComponent
 			}
 
 			if(id == FixTags.NORISKSECURITYALTID_INT) {
-				riskSecAltIDGrp.getAll(FixTags.NORISKSECURITYALTID_INT, buf);
+				int noRiskSecurityAltID;
+				noRiskSecurityAltID = FixUtils.getTagIntValue( value );
+				riskSecAltIDGrp.getAll(noRiskSecurityAltID, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -455,8 +468,6 @@ public class RiskInstrumentScope implements FixComponent
 		if (! ( o instanceof RiskInstrumentScope)) return false;
 
 			RiskInstrumentScope msg = (RiskInstrumentScope) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( riskInstrumentOperator==msg.riskInstrumentOperator)) return false;
 

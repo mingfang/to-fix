@@ -55,6 +55,17 @@ public class FixRelatedContextPtysSubGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixRelatedContextPtysSubGrp)) return false;
+
+		FixRelatedContextPtysSubGrp msg = (FixRelatedContextPtysSubGrp) o;
+
+		for (int i = 0; i<noRelatedContextPartySubIDs; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noRelatedContextPartySubIDs; i++)
@@ -160,8 +171,6 @@ public class RelatedContextPtysSubGrp implements FixComponent
 		if (! ( o instanceof RelatedContextPtysSubGrp)) return false;
 
 			RelatedContextPtysSubGrp msg = (RelatedContextPtysSubGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( relatedContextPartySubID, msg.relatedContextPartySubID)) return false;
 

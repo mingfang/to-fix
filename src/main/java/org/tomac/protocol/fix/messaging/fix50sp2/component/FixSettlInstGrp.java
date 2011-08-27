@@ -57,6 +57,17 @@ public class FixSettlInstGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixSettlInstGrp)) return false;
+
+		FixSettlInstGrp msg = (FixSettlInstGrp) o;
+
+		for (int i = 0; i<noSettlInst; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noSettlInst; i++)
@@ -179,7 +190,9 @@ public class SettlInstGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOPARTYIDS_INT) {
-				parties.getAll(FixTags.NOPARTYIDS_INT, buf);
+				int noPartyIDs;
+				noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(noPartyIDs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -424,8 +437,6 @@ public class SettlInstGrp implements FixComponent
 		if (! ( o instanceof SettlInstGrp)) return false;
 
 			SettlInstGrp msg = (SettlInstGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( settlInstID, msg.settlInstID)) return false;
 

@@ -55,6 +55,17 @@ public class FixLinesOfTextGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixLinesOfTextGrp)) return false;
+
+		FixLinesOfTextGrp msg = (FixLinesOfTextGrp) o;
+
+		for (int i = 0; i<noLinesOfText; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noLinesOfText; i++)
@@ -173,8 +184,6 @@ public class LinesOfTextGrp implements FixComponent
 		if (! ( o instanceof LinesOfTextGrp)) return false;
 
 			LinesOfTextGrp msg = (LinesOfTextGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( text, msg.text)) return false;
 

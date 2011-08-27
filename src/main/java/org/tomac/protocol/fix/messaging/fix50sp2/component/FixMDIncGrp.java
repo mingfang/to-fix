@@ -64,6 +64,17 @@ public class FixMDIncGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixMDIncGrp)) return false;
+
+		FixMDIncGrp msg = (FixMDIncGrp) o;
+
+		for (int i = 0; i<noMDEntries; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noMDEntries; i++)
@@ -370,14 +381,18 @@ public class MDIncGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOUNDERLYINGS_INT) {
-				undInstrmtGrp.getAll(FixTags.NOUNDERLYINGS_INT, buf);
+				int noUnderlyings;
+				noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.getAll(noUnderlyings, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.NOLEGS_INT) {
-				instrmtLegGrp.getAll(FixTags.NOLEGS_INT, buf);
+				int noLegs;
+				noLegs = FixUtils.getTagIntValue( value );
+				instrmtLegGrp.getAll(noLegs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -451,7 +466,9 @@ public class MDIncGrp implements FixComponent
 			}
 
 			if(id == FixTags.NORATESOURCES_INT) {
-				rateSource.getAll(FixTags.NORATESOURCES_INT, buf);
+				int noRateSources;
+				noRateSources = FixUtils.getTagIntValue( value );
+				rateSource.getAll(noRateSources, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -473,7 +490,9 @@ public class MDIncGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOOFSECSIZES_INT) {
-				secSizesGrp.getAll(FixTags.NOOFSECSIZES_INT, buf);
+				int noOfSecSizes;
+				noOfSecSizes = FixUtils.getTagIntValue( value );
+				secSizesGrp.getAll(noOfSecSizes, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -869,14 +888,18 @@ public class MDIncGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOPARTYIDS_INT) {
-				parties.getAll(FixTags.NOPARTYIDS_INT, buf);
+				int noPartyIDs;
+				noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(noPartyIDs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.NOSTATSINDICATORS_INT) {
-				statsIndGrp.getAll(FixTags.NOSTATSINDICATORS_INT, buf);
+				int noStatsIndicators;
+				noStatsIndicators = FixUtils.getTagIntValue( value );
+				statsIndGrp.getAll(noStatsIndicators, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -1162,8 +1185,6 @@ public class MDIncGrp implements FixComponent
 		if (! ( o instanceof MDIncGrp)) return false;
 
 			MDIncGrp msg = (MDIncGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( mDUpdateAction==msg.mDUpdateAction)) return false;
 

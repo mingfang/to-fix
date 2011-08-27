@@ -235,8 +235,6 @@ public class FixBaseTradingRules implements FixComponent
 
 			FixBaseTradingRules msg = (FixBaseTradingRules) o;
 
-		if ( ! super.equals(msg) ) return false;
-
 		if (!( expirationCycle==msg.expirationCycle)) return false;
 
 		if (!( minTradeVol==msg.minTradeVol)) return false;

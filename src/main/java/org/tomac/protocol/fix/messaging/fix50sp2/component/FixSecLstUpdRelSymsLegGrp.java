@@ -58,6 +58,17 @@ public class FixSecLstUpdRelSymsLegGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixSecLstUpdRelSymsLegGrp)) return false;
+
+		FixSecLstUpdRelSymsLegGrp msg = (FixSecLstUpdRelSymsLegGrp) o;
+
+		for (int i = 0; i<noLegs; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noLegs; i++)
@@ -131,7 +142,9 @@ public class SecLstUpdRelSymsLegGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOLEGSTIPULATIONS_INT) {
-				legStipulations.getAll(FixTags.NOLEGSTIPULATIONS_INT, buf);
+				int noLegStipulations;
+				noLegStipulations = FixUtils.getTagIntValue( value );
+				legStipulations.getAll(noLegStipulations, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -202,8 +215,6 @@ public class SecLstUpdRelSymsLegGrp implements FixComponent
 		if (! ( o instanceof SecLstUpdRelSymsLegGrp)) return false;
 
 			SecLstUpdRelSymsLegGrp msg = (SecLstUpdRelSymsLegGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( legSwapType==msg.legSwapType)) return false;
 

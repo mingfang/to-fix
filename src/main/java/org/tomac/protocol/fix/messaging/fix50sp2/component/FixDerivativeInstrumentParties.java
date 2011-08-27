@@ -56,6 +56,17 @@ public class FixDerivativeInstrumentParties
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixDerivativeInstrumentParties)) return false;
+
+		FixDerivativeInstrumentParties msg = (FixDerivativeInstrumentParties) o;
+
+		for (int i = 0; i<noDerivativeInstrumentParties; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noDerivativeInstrumentParties; i++)
@@ -126,7 +137,9 @@ public class DerivativeInstrumentParties implements FixComponent
 			}
 
 			if(id == FixTags.NODERIVATIVEINSTRUMENTPARTYSUBIDS_INT) {
-				derivativeInstrumentPartySubIDsGrp.getAll(FixTags.NODERIVATIVEINSTRUMENTPARTYSUBIDS_INT, buf);
+				int noDerivativeInstrumentPartySubIDs;
+				noDerivativeInstrumentPartySubIDs = FixUtils.getTagIntValue( value );
+				derivativeInstrumentPartySubIDsGrp.getAll(noDerivativeInstrumentPartySubIDs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -187,8 +200,6 @@ public class DerivativeInstrumentParties implements FixComponent
 		if (! ( o instanceof DerivativeInstrumentParties)) return false;
 
 			DerivativeInstrumentParties msg = (DerivativeInstrumentParties) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( derivativeInstrumentPartyID, msg.derivativeInstrumentPartyID)) return false;
 

@@ -56,6 +56,17 @@ public class FixUndInstrmtCollGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixUndInstrmtCollGrp)) return false;
+
+		FixUndInstrmtCollGrp msg = (FixUndInstrmtCollGrp) o;
+
+		for (int i = 0; i<noUnderlyings; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noUnderlyings; i++)
@@ -162,8 +173,6 @@ public class UndInstrmtCollGrp implements FixComponent
 		if (! ( o instanceof UndInstrmtCollGrp)) return false;
 
 			UndInstrmtCollGrp msg = (UndInstrmtCollGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!underlyingInstrument.equals(msg.underlyingInstrument)) return false;
 

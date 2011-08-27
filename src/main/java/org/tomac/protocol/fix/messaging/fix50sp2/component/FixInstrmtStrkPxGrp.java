@@ -57,6 +57,17 @@ public class FixInstrmtStrkPxGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixInstrmtStrkPxGrp)) return false;
+
+		FixInstrmtStrkPxGrp msg = (FixInstrmtStrkPxGrp) o;
+
+		for (int i = 0; i<noStrikes; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noStrikes; i++)
@@ -188,7 +199,9 @@ public class InstrmtStrkPxGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOUNDERLYINGS_INT) {
-				undInstrmtGrp.getAll(FixTags.NOUNDERLYINGS_INT, buf);
+				int noUnderlyings;
+				noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.getAll(noUnderlyings, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -278,8 +291,6 @@ public class InstrmtStrkPxGrp implements FixComponent
 		if (! ( o instanceof InstrmtStrkPxGrp)) return false;
 
 			InstrmtStrkPxGrp msg = (InstrmtStrkPxGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( prevClosePx==msg.prevClosePx)) return false;
 

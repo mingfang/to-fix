@@ -78,10 +78,8 @@ public class TestFixContainers {
 		ByteBuffer buf = ByteBuffer.wrap(ss.getBytes());
 
 		while(buf.hasRemaining()) {
-			ByteBuffer msg = buf.slice();
 			try {
-				parser.parse(msg, listener);
-				buf.position(buf.position() + msg.limit());
+				parser.parse(buf, listener);
 			} catch (FixSessionException e) {
 				fail(e.getMessage());
 			} catch (FixGarbledException e) {

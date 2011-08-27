@@ -55,6 +55,17 @@ public class FixExecAllocGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixExecAllocGrp)) return false;
+
+		FixExecAllocGrp msg = (FixExecAllocGrp) o;
+
+		for (int i = 0; i<noExecs; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noExecs; i++)
@@ -236,8 +247,6 @@ public class ExecAllocGrp implements FixComponent
 		if (! ( o instanceof ExecAllocGrp)) return false;
 
 			ExecAllocGrp msg = (ExecAllocGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( lastQty==msg.lastQty)) return false;
 

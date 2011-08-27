@@ -56,6 +56,17 @@ public class FixAllocAckGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixAllocAckGrp)) return false;
+
+		FixAllocAckGrp msg = (FixAllocAckGrp) o;
+
+		for (int i = 0; i<noAllocs; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noAllocs; i++)
@@ -172,7 +183,9 @@ public class AllocAckGrp implements FixComponent
 			}
 
 			if(id == FixTags.NONESTEDPARTYIDS_INT) {
-				nestedParties.getAll(FixTags.NONESTEDPARTYIDS_INT, buf);
+				int noNestedPartyIDs;
+				noNestedPartyIDs = FixUtils.getTagIntValue( value );
+				nestedParties.getAll(noNestedPartyIDs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -313,8 +326,6 @@ public class AllocAckGrp implements FixComponent
 		if (! ( o instanceof AllocAckGrp)) return false;
 
 			AllocAckGrp msg = (AllocAckGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( allocAccount, msg.allocAccount)) return false;
 

@@ -182,8 +182,6 @@ public class FixSpreadOrBenchmarkCurveData implements FixComponent
 
 			FixSpreadOrBenchmarkCurveData msg = (FixSpreadOrBenchmarkCurveData) o;
 
-		if ( ! super.equals(msg) ) return false;
-
 		if (!( spread==msg.spread)) return false;
 
 		if (!Utils.equals( benchmarkCurveCurrency, msg.benchmarkCurveCurrency)) return false;

@@ -133,8 +133,6 @@ public class FixSecurityXML implements FixComponent
 
 			FixSecurityXML msg = (FixSecurityXML) o;
 
-		if ( ! super.equals(msg) ) return false;
-
 		if (!( securityXMLLen==msg.securityXMLLen)) return false;
 
 		if (!Utils.equals( securityXML, msg.securityXML)) return false;

@@ -55,6 +55,17 @@ public class FixQuotQualGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixQuotQualGrp)) return false;
+
+		FixQuotQualGrp msg = (FixQuotQualGrp) o;
+
+		for (int i = 0; i<noQuoteQualifiers; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noQuoteQualifiers; i++)
@@ -147,8 +158,6 @@ public class QuotQualGrp implements FixComponent
 		if (! ( o instanceof QuotQualGrp)) return false;
 
 			QuotQualGrp msg = (QuotQualGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( quoteQualifier==msg.quoteQualifier)) return false;
 

@@ -55,6 +55,17 @@ public class FixCollInqQualGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixCollInqQualGrp)) return false;
+
+		FixCollInqQualGrp msg = (FixCollInqQualGrp) o;
+
+		for (int i = 0; i<noCollInquiryQualifier; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noCollInquiryQualifier; i++)
@@ -148,8 +159,6 @@ public class CollInqQualGrp implements FixComponent
 		if (! ( o instanceof CollInqQualGrp)) return false;
 
 			CollInqQualGrp msg = (CollInqQualGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( collInquiryQualifier==msg.collInquiryQualifier)) return false;
 

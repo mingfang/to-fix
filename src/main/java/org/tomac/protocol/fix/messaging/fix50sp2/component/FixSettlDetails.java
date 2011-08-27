@@ -56,6 +56,17 @@ public class FixSettlDetails
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixSettlDetails)) return false;
+
+		FixSettlDetails msg = (FixSettlDetails) o;
+
+		for (int i = 0; i<noSettlDetails; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noSettlDetails; i++)
@@ -107,7 +118,9 @@ public class SettlDetails implements FixComponent
 			}
 
 			if(id == FixTags.NOSETTLPARTYIDS_INT) {
-				settlParties.getAll(FixTags.NOSETTLPARTYIDS_INT, buf);
+				int noSettlPartyIDs;
+				noSettlPartyIDs = FixUtils.getTagIntValue( value );
+				settlParties.getAll(noSettlPartyIDs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -162,8 +175,6 @@ public class SettlDetails implements FixComponent
 		if (! ( o instanceof SettlDetails)) return false;
 
 			SettlDetails msg = (SettlDetails) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( settlObligSource==msg.settlObligSource)) return false;
 

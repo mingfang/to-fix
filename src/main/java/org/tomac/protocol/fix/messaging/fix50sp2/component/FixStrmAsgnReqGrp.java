@@ -57,6 +57,17 @@ public class FixStrmAsgnReqGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixStrmAsgnReqGrp)) return false;
+
+		FixStrmAsgnReqGrp msg = (FixStrmAsgnReqGrp) o;
+
+		for (int i = 0; i<noAsgnReqs; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noAsgnReqs; i++)
@@ -101,14 +112,18 @@ public class StrmAsgnReqGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.NOPARTYIDS_INT) {
-				parties.getAll(FixTags.NOPARTYIDS_INT, buf);
+				int noPartyIDs;
+				noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.getAll(noPartyIDs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.NORELATEDSYM_INT) {
-				strmAsgnReqInstrmtGrp.getAll(FixTags.NORELATEDSYM_INT, buf);
+				int noRelatedSym;
+				noRelatedSym = FixUtils.getTagIntValue( value );
+				strmAsgnReqInstrmtGrp.getAll(noRelatedSym, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -163,8 +178,6 @@ public class StrmAsgnReqGrp implements FixComponent
 		if (! ( o instanceof StrmAsgnReqGrp)) return false;
 
 			StrmAsgnReqGrp msg = (StrmAsgnReqGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!parties.equals(msg.parties)) return false;
 

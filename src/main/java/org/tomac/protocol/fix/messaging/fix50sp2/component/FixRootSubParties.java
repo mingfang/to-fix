@@ -55,6 +55,17 @@ public class FixRootSubParties
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixRootSubParties)) return false;
+
+		FixRootSubParties msg = (FixRootSubParties) o;
+
+		for (int i = 0; i<noRootPartySubIDs; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noRootPartySubIDs; i++)
@@ -160,8 +171,6 @@ public class RootSubParties implements FixComponent
 		if (! ( o instanceof RootSubParties)) return false;
 
 			RootSubParties msg = (RootSubParties) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( rootPartySubID, msg.rootPartySubID)) return false;
 

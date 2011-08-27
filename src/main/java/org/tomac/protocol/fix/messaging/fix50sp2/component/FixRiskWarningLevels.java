@@ -55,6 +55,17 @@ public class FixRiskWarningLevels
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixRiskWarningLevels)) return false;
+
+		FixRiskWarningLevels msg = (FixRiskWarningLevels) o;
+
+		for (int i = 0; i<noRiskWarningLevels; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noRiskWarningLevels; i++)
@@ -160,8 +171,6 @@ public class RiskWarningLevels implements FixComponent
 		if (! ( o instanceof RiskWarningLevels)) return false;
 
 			RiskWarningLevels msg = (RiskWarningLevels) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( riskWarningLevelPercent==msg.riskWarningLevelPercent)) return false;
 

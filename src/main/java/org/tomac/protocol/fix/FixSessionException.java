@@ -23,7 +23,9 @@ public class FixSessionException extends Exception {
 
 	@Override
 	public String getMessage() {
-		return sessionRejectReason + ": " + "text=" + new String(text) + " refTagID=" + refTagID + " refMsgType=" + new String(refMsgType);
+		String txt = text==null?"null":new String(text);
+		String ref = refMsgType==null?"null":new String(refMsgType);
+		return sessionRejectReason + ": " + "text=" + txt + " refTagID=" + refTagID + " refMsgType=" + ref;
 	}
 
 

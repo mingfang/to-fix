@@ -56,6 +56,17 @@ public class FixNestedParties2
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixNestedParties2)) return false;
+
+		FixNestedParties2 msg = (FixNestedParties2) o;
+
+		for (int i = 0; i<noNested2PartyIDs; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noNested2PartyIDs; i++)
@@ -125,7 +136,9 @@ public class NestedParties2 implements FixComponent
 			}
 
 			if(id == FixTags.NONESTED2PARTYSUBIDS_INT) {
-				nstdPtys2SubGrp.getAll(FixTags.NONESTED2PARTYSUBIDS_INT, buf);
+				int noNested2PartySubIDs;
+				noNested2PartySubIDs = FixUtils.getTagIntValue( value );
+				nstdPtys2SubGrp.getAll(noNested2PartySubIDs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -186,8 +199,6 @@ public class NestedParties2 implements FixComponent
 		if (! ( o instanceof NestedParties2)) return false;
 
 			NestedParties2 msg = (NestedParties2) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( nested2PartyID, msg.nested2PartyID)) return false;
 

@@ -55,6 +55,17 @@ public class FixRateSource
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixRateSource)) return false;
+
+		FixRateSource msg = (FixRateSource) o;
+
+		for (int i = 0; i<noRateSources; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noRateSources; i++)
@@ -174,8 +185,6 @@ public class RateSource implements FixComponent
 		if (! ( o instanceof RateSource)) return false;
 
 			RateSource msg = (RateSource) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( rateSource==msg.rateSource)) return false;
 

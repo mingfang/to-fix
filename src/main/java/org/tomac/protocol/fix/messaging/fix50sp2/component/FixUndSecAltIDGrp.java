@@ -55,6 +55,17 @@ public class FixUndSecAltIDGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixUndSecAltIDGrp)) return false;
+
+		FixUndSecAltIDGrp msg = (FixUndSecAltIDGrp) o;
+
+		for (int i = 0; i<noUnderlyingSecurityAltID; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noUnderlyingSecurityAltID; i++)
@@ -161,8 +172,6 @@ public class UndSecAltIDGrp implements FixComponent
 		if (! ( o instanceof UndSecAltIDGrp)) return false;
 
 			UndSecAltIDGrp msg = (UndSecAltIDGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!Utils.equals( underlyingSecurityAltID, msg.underlyingSecurityAltID)) return false;
 

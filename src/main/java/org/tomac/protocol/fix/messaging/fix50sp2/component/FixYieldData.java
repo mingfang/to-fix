@@ -162,8 +162,6 @@ public class FixYieldData implements FixComponent
 
 			FixYieldData msg = (FixYieldData) o;
 
-		if ( ! super.equals(msg) ) return false;
-
 		if (!Utils.equals( yieldType, msg.yieldType)) return false;
 
 		if (!( yield==msg.yield)) return false;

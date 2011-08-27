@@ -156,8 +156,6 @@ public class FixSettlInstructionsData implements FixComponent
 
 			FixSettlInstructionsData msg = (FixSettlInstructionsData) o;
 
-		if ( ! super.equals(msg) ) return false;
-
 		if (!( settlDeliveryType==msg.settlDeliveryType)) return false;
 
 		if (!( standInstDbType==msg.standInstDbType)) return false;

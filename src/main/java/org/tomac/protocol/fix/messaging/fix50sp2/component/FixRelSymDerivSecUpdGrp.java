@@ -59,6 +59,17 @@ public class FixRelSymDerivSecUpdGrp
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (! ( o instanceof FixRelSymDerivSecUpdGrp)) return false;
+
+		FixRelSymDerivSecUpdGrp msg = (FixRelSymDerivSecUpdGrp) o;
+
+		for (int i = 0; i<noRelatedSym; i++)
+			if (!group[i].equals(msg.group[i])) return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<noRelatedSym; i++)
@@ -199,7 +210,9 @@ public class RelSymDerivSecUpdGrp implements FixComponent
 			}
 
 			if(id == FixTags.NOLEGS_INT) {
-				instrmtLegGrp.getAll(FixTags.NOLEGS_INT, buf);
+				int noLegs;
+				noLegs = FixUtils.getTagIntValue( value );
+				instrmtLegGrp.getAll(noLegs, buf);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -281,8 +294,6 @@ public class RelSymDerivSecUpdGrp implements FixComponent
 		if (! ( o instanceof RelSymDerivSecUpdGrp)) return false;
 
 			RelSymDerivSecUpdGrp msg = (RelSymDerivSecUpdGrp) o;
-
-		if ( ! super.equals(msg) ) return false;
 
 		if (!( listUpdateAction==msg.listUpdateAction)) return false;
 
