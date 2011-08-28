@@ -112,28 +112,28 @@ public class TickRules implements FixComponent
 			value = buf;
 
 			if(id == FixTags.STARTTICKPRICERANGE_INT) {
-				startTickPriceRange = FixUtils.getTagFloatValue(value);
+				startTickPriceRange = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ENDTICKPRICERANGE_INT) {
-				endTickPriceRange = FixUtils.getTagFloatValue(value);
+				endTickPriceRange = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.TICKINCREMENT_INT) {
-				tickIncrement = FixUtils.getTagFloatValue(value);
+				tickIncrement = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.TICKRULETYPE_INT) {
-				tickRuleType = FixUtils.getTagIntValue( value );
+				tickRuleType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.TickRuleType.isValid(tickRuleType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + tickRuleType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 

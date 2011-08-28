@@ -59,16 +59,16 @@ public class FixInstrumentExtension implements FixComponent
 			switch( id ) {
 
 			case FixTags.DELIVERYFORM_INT:
-				deliveryForm = FixUtils.getTagIntValue( value );
+				deliveryForm = FixUtils.getTagIntValue(null ,id ,value );
 				if (!DeliveryForm.isValid(deliveryForm) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + deliveryForm + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.PCTATRISK_INT:
-				pctAtRisk = FixUtils.getTagFloatValue(value);
+				pctAtRisk = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.NOINSTRATTRIB_INT:
-				attrbGrp.noInstrAttrib = FixUtils.getTagIntValue( value );
+				attrbGrp.noInstrAttrib = FixUtils.getTagIntValue(null, FixTags.NOINSTRATTRIB_INT, value );
 				attrbGrp.getAll(attrbGrp.noInstrAttrib, value );
 				break;
 
@@ -84,7 +84,7 @@ public class FixInstrumentExtension implements FixComponent
 
 			lastTagPosition = buf.position();
 
-		} while ( ( id = FixUtils.getTagId( buf ) ) > 0 );
+		} while ( ( id = FixUtils.getTagId( buf ) ) >= 0 );
 
 		buf.position(startTagPosition);
 

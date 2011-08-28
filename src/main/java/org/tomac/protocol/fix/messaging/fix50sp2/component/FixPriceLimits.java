@@ -59,20 +59,20 @@ public class FixPriceLimits implements FixComponent
 			switch( id ) {
 
 			case FixTags.PRICELIMITTYPE_INT:
-				priceLimitType = FixUtils.getTagIntValue( value );
+				priceLimitType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!PriceLimitType.isValid(priceLimitType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + priceLimitType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.LOWLIMITPRICE_INT:
-				lowLimitPrice = FixUtils.getTagFloatValue(value);
+				lowLimitPrice = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.HIGHLIMITPRICE_INT:
-				highLimitPrice = FixUtils.getTagFloatValue(value);
+				highLimitPrice = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.TRADINGREFERENCEPRICE_INT:
-				tradingReferencePrice = FixUtils.getTagFloatValue(value);
+				tradingReferencePrice = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			// we will always endup with unknown tag, unread and return to upper layer in hierarchy
@@ -87,7 +87,7 @@ public class FixPriceLimits implements FixComponent
 
 			lastTagPosition = buf.position();
 
-		} while ( ( id = FixUtils.getTagId( buf ) ) > 0 );
+		} while ( ( id = FixUtils.getTagId( buf ) ) >= 0 );
 
 		buf.position(startTagPosition);
 

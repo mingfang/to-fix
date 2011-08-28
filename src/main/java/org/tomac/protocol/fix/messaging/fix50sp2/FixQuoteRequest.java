@@ -88,7 +88,7 @@ public class FixQuoteRequest extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -97,70 +97,70 @@ public class FixQuoteRequest extends FixMessage
 			switch( id ) {
 
 			case FixTags.QUOTEREQID_INT:
-				quoteReqID = FixUtils.getTagStringValue(value, quoteReqID);
+				quoteReqID = FixUtils.getTagStringValue(MsgTypes.QUOTEREQUEST ,id ,value, quoteReqID);
 				break;
 
 			case FixTags.RFQREQID_INT:
-				rFQReqID = FixUtils.getTagStringValue(value, rFQReqID);
+				rFQReqID = FixUtils.getTagStringValue(MsgTypes.QUOTEREQUEST ,id ,value, rFQReqID);
 				break;
 
 			case FixTags.CLORDID_INT:
-				clOrdID = FixUtils.getTagStringValue(value, clOrdID);
+				clOrdID = FixUtils.getTagStringValue(MsgTypes.QUOTEREQUEST ,id ,value, clOrdID);
 				break;
 
 			case FixTags.BOOKINGTYPE_INT:
-				bookingType = FixUtils.getTagIntValue( value );
+				bookingType = FixUtils.getTagIntValue(MsgTypes.QUOTEREQUEST ,id ,value );
 				if (!BookingType.isValid(bookingType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + bookingType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.ORDERCAPACITY_INT:
-				orderCapacity = FixUtils.getTagCharValue( value );
+				orderCapacity = FixUtils.getTagCharValue(MsgTypes.QUOTEREQUEST ,id ,value );
 				if (!OrderCapacity.isValid(orderCapacity) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + orderCapacity + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.PRIVATEQUOTE_INT:
-				privateQuote = FixUtils.getTagBooleanValue( value );
+				privateQuote = FixUtils.getTagBooleanValue(MsgTypes.QUOTEREQUEST ,id ,value );
 				break;
 
 			case FixTags.RESPONDENTTYPE_INT:
-				respondentType = FixUtils.getTagIntValue( value );
+				respondentType = FixUtils.getTagIntValue(MsgTypes.QUOTEREQUEST ,id ,value );
 				if (!RespondentType.isValid(respondentType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + respondentType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.PRETRADEANONYMITY_INT:
-				preTradeAnonymity = FixUtils.getTagBooleanValue( value );
+				preTradeAnonymity = FixUtils.getTagBooleanValue(MsgTypes.QUOTEREQUEST ,id ,value );
 				break;
 
 			case FixTags.ORDERRESTRICTIONS_INT:
-				orderRestrictions = FixUtils.getTagStringValue(value, orderRestrictions);
+				orderRestrictions = FixUtils.getTagStringValue(MsgTypes.QUOTEREQUEST ,id ,value, orderRestrictions);
 				if (!OrderRestrictions.isValid(orderRestrictions) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + orderRestrictions + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NOROOTPARTYIDS_INT:
-				rootParties.noRootPartyIDs = FixUtils.getTagIntValue( value );
+				rootParties.noRootPartyIDs = FixUtils.getTagIntValue( MsgTypes.QUOTEREQUEST ,FixTags.NOROOTPARTYIDS_INT ,value );
 				rootParties.getAll(rootParties.noRootPartyIDs, value );
 				break;
 
 			case FixTags.NORELATEDSYM_INT:
-				quotReqGrp.noRelatedSym = FixUtils.getTagIntValue( value );
+				quotReqGrp.noRelatedSym = FixUtils.getTagIntValue( MsgTypes.QUOTEREQUEST ,FixTags.NORELATEDSYM_INT ,value );
 				quotReqGrp.getAll(quotReqGrp.noRelatedSym, value );
 				break;
 
 			case FixTags.TEXT_INT:
-				text = FixUtils.getTagStringValue(value, text);
+				text = FixUtils.getTagStringValue(MsgTypes.QUOTEREQUEST ,id ,value, text);
 				break;
 
 			case FixTags.ENCODEDTEXTLEN_INT:
-				encodedTextLen = FixUtils.getTagIntValue( value );
+				encodedTextLen = FixUtils.getTagIntValue(MsgTypes.QUOTEREQUEST ,id ,value );
 				break;
 
 			case FixTags.ENCODEDTEXT_INT:
-				encodedText = FixUtils.getTagStringValue(value, encodedText);
+				encodedText = FixUtils.getTagStringValue(MsgTypes.QUOTEREQUEST ,id ,value, encodedText);
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.QUOTEREQUEST ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

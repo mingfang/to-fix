@@ -118,28 +118,28 @@ public class ApplIDRequestGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.REFAPPLID_INT) {
-				refApplID = FixUtils.getTagStringValue(value, refApplID);
+				refApplID = FixUtils.getTagStringValue(null ,id ,value, refApplID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.REFAPPLREQID_INT) {
-				refApplReqID = FixUtils.getTagStringValue(value, refApplReqID);
+				refApplReqID = FixUtils.getTagStringValue(null ,id ,value, refApplReqID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.APPLBEGSEQNUM_INT) {
-				applBegSeqNum = FixUtils.getTagIntValue( value );
+				applBegSeqNum = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.APPLENDSEQNUM_INT) {
-				applEndSeqNum = FixUtils.getTagIntValue( value );
+				applEndSeqNum = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -147,7 +147,7 @@ public class ApplIDRequestGrp implements FixComponent
 
 			if(id == FixTags.NONESTEDPARTYIDS_INT) {
 				int noNestedPartyIDs;
-				noNestedPartyIDs = FixUtils.getTagIntValue( value );
+				noNestedPartyIDs = FixUtils.getTagIntValue(null ,id ,value );
 				nestedParties.getAll(noNestedPartyIDs, buf);
 				lastTagPosition = buf.position();
 

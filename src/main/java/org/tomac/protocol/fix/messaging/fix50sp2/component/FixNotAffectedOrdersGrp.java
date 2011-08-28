@@ -110,14 +110,14 @@ public class NotAffectedOrdersGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.NOTAFFORIGCLORDID_INT) {
-				notAffOrigClOrdID = FixUtils.getTagStringValue(value, notAffOrigClOrdID);
+				notAffOrigClOrdID = FixUtils.getTagStringValue(null ,id ,value, notAffOrigClOrdID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.NOTAFFECTEDORDERID_INT) {
-				notAffectedOrderID = FixUtils.getTagStringValue(value, notAffectedOrderID);
+				notAffectedOrderID = FixUtils.getTagStringValue(null ,id ,value, notAffectedOrderID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

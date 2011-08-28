@@ -59,7 +59,7 @@ public class FixStreamAssignmentRequest extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -68,22 +68,22 @@ public class FixStreamAssignmentRequest extends FixMessage
 			switch( id ) {
 
 			case FixTags.STREAMASGNREQID_INT:
-				streamAsgnReqID = FixUtils.getTagStringValue(value, streamAsgnReqID);
+				streamAsgnReqID = FixUtils.getTagStringValue(MsgTypes.STREAMASSIGNMENTREQUEST ,id ,value, streamAsgnReqID);
 				break;
 
 			case FixTags.STREAMASGNREQTYPE_INT:
-				streamAsgnReqType = FixUtils.getTagIntValue( value );
+				streamAsgnReqType = FixUtils.getTagIntValue(MsgTypes.STREAMASSIGNMENTREQUEST ,id ,value );
 				if (!StreamAsgnReqType.isValid(streamAsgnReqType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + streamAsgnReqType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NOASGNREQS_INT:
-				strmAsgnReqGrp.noAsgnReqs = FixUtils.getTagIntValue( value );
+				strmAsgnReqGrp.noAsgnReqs = FixUtils.getTagIntValue( MsgTypes.STREAMASSIGNMENTREQUEST ,FixTags.NOASGNREQS_INT ,value );
 				strmAsgnReqGrp.getAll(strmAsgnReqGrp.noAsgnReqs, value );
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.STREAMASSIGNMENTREQUEST ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

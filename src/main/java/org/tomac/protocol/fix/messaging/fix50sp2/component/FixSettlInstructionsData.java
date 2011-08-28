@@ -65,25 +65,25 @@ public class FixSettlInstructionsData implements FixComponent
 			switch( id ) {
 
 			case FixTags.SETTLDELIVERYTYPE_INT:
-				settlDeliveryType = FixUtils.getTagIntValue( value );
+				settlDeliveryType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!SettlDeliveryType.isValid(settlDeliveryType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + settlDeliveryType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.STANDINSTDBTYPE_INT:
-				standInstDbType = FixUtils.getTagIntValue( value );
+				standInstDbType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!StandInstDbType.isValid(standInstDbType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + standInstDbType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.STANDINSTDBNAME_INT:
-				standInstDbName = FixUtils.getTagStringValue(value, standInstDbName);
+				standInstDbName = FixUtils.getTagStringValue(null ,id ,value, standInstDbName);
 				break;
 
 			case FixTags.STANDINSTDBID_INT:
-				standInstDbID = FixUtils.getTagStringValue(value, standInstDbID);
+				standInstDbID = FixUtils.getTagStringValue(null ,id ,value, standInstDbID);
 				break;
 
 			case FixTags.NODLVYINST_INT:
-				dlvyInstGrp.noDlvyInst = FixUtils.getTagIntValue( value );
+				dlvyInstGrp.noDlvyInst = FixUtils.getTagIntValue(null, FixTags.NODLVYINST_INT, value );
 				dlvyInstGrp.getAll(dlvyInstGrp.noDlvyInst, value );
 				break;
 
@@ -99,7 +99,7 @@ public class FixSettlInstructionsData implements FixComponent
 
 			lastTagPosition = buf.position();
 
-		} while ( ( id = FixUtils.getTagId( buf ) ) > 0 );
+		} while ( ( id = FixUtils.getTagId( buf ) ) >= 0 );
 
 		buf.position(startTagPosition);
 

@@ -117,28 +117,28 @@ public class FillsGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.FILLEXECID_INT) {
-				fillExecID = FixUtils.getTagStringValue(value, fillExecID);
+				fillExecID = FixUtils.getTagStringValue(null ,id ,value, fillExecID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.FILLPX_INT) {
-				fillPx = FixUtils.getTagFloatValue(value);
+				fillPx = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.FILLQTY_INT) {
-				fillQty = FixUtils.getTagFloatValue(value);
+				fillQty = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.FILLLIQUIDITYIND_INT) {
-				fillLiquidityInd = FixUtils.getTagIntValue( value );
+				fillLiquidityInd = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -146,7 +146,7 @@ public class FillsGrp implements FixComponent
 
 			if(id == FixTags.NONESTED4PARTYIDS_INT) {
 				int noNested4PartyIDs;
-				noNested4PartyIDs = FixUtils.getTagIntValue( value );
+				noNested4PartyIDs = FixUtils.getTagIntValue(null ,id ,value );
 				nestedParties4.getAll(noNested4PartyIDs, buf);
 				lastTagPosition = buf.position();
 

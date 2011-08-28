@@ -110,14 +110,14 @@ public class UnderlyingStipulations implements FixComponent
 			value = buf;
 
 			if(id == FixTags.UNDERLYINGSTIPTYPE_INT) {
-				underlyingStipType = FixUtils.getTagStringValue(value, underlyingStipType);
+				underlyingStipType = FixUtils.getTagStringValue(null ,id ,value, underlyingStipType);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.UNDERLYINGSTIPVALUE_INT) {
-				underlyingStipValue = FixUtils.getTagStringValue(value, underlyingStipValue);
+				underlyingStipValue = FixUtils.getTagStringValue(null ,id ,value, underlyingStipValue);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

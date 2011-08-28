@@ -170,14 +170,14 @@ public class TrdInstrmtLegGrp implements FixComponent
 			}
 
 			if(id == FixTags.LEGQTY_INT) {
-				legQty = FixUtils.getTagFloatValue(value);
+				legQty = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LEGSWAPTYPE_INT) {
-				legSwapType = FixUtils.getTagIntValue( value );
+				legSwapType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.LegSwapType.isValid(legSwapType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + legSwapType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -185,14 +185,14 @@ public class TrdInstrmtLegGrp implements FixComponent
 			}
 
 			if(id == FixTags.LEGREPORTID_INT) {
-				legReportID = FixUtils.getTagStringValue(value, legReportID);
+				legReportID = FixUtils.getTagStringValue(null ,id ,value, legReportID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LEGNUMBER_INT) {
-				legNumber = FixUtils.getTagIntValue( value );
+				legNumber = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -200,7 +200,7 @@ public class TrdInstrmtLegGrp implements FixComponent
 
 			if(id == FixTags.NOLEGSTIPULATIONS_INT) {
 				int noLegStipulations;
-				noLegStipulations = FixUtils.getTagIntValue( value );
+				noLegStipulations = FixUtils.getTagIntValue(null ,id ,value );
 				legStipulations.getAll(noLegStipulations, buf);
 				lastTagPosition = buf.position();
 
@@ -208,14 +208,14 @@ public class TrdInstrmtLegGrp implements FixComponent
 			}
 
 			if(id == FixTags.LEGPOSITIONEFFECT_INT) {
-				legPositionEffect = FixUtils.getTagCharValue( value );
+				legPositionEffect = FixUtils.getTagCharValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LEGCOVEREDORUNCOVERED_INT) {
-				legCoveredOrUncovered = FixUtils.getTagIntValue( value );
+				legCoveredOrUncovered = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -223,7 +223,7 @@ public class TrdInstrmtLegGrp implements FixComponent
 
 			if(id == FixTags.NONESTEDPARTYIDS_INT) {
 				int noNestedPartyIDs;
-				noNestedPartyIDs = FixUtils.getTagIntValue( value );
+				noNestedPartyIDs = FixUtils.getTagIntValue(null ,id ,value );
 				nestedParties.getAll(noNestedPartyIDs, buf);
 				lastTagPosition = buf.position();
 
@@ -231,91 +231,91 @@ public class TrdInstrmtLegGrp implements FixComponent
 			}
 
 			if(id == FixTags.LEGREFID_INT) {
-				legRefID = FixUtils.getTagStringValue(value, legRefID);
+				legRefID = FixUtils.getTagStringValue(null ,id ,value, legRefID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LEGSETTLTYPE_INT) {
-				legSettlType = FixUtils.getTagCharValue( value );
+				legSettlType = FixUtils.getTagCharValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LEGSETTLDATE_INT) {
-				legSettlDate = FixUtils.getTagStringValue(value, legSettlDate);
+				legSettlDate = FixUtils.getTagStringValue(null ,id ,value, legSettlDate);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LEGLASTPX_INT) {
-				legLastPx = FixUtils.getTagFloatValue(value);
+				legLastPx = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LEGSETTLCURRENCY_INT) {
-				legSettlCurrency = FixUtils.getTagStringValue(value, legSettlCurrency);
+				legSettlCurrency = FixUtils.getTagStringValue(null ,id ,value, legSettlCurrency);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LEGLASTFORWARDPOINTS_INT) {
-				legLastForwardPoints = FixUtils.getTagFloatValue(value);
+				legLastForwardPoints = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LEGCALCULATEDCCYLASTQTY_INT) {
-				legCalculatedCcyLastQty = FixUtils.getTagFloatValue(value);
+				legCalculatedCcyLastQty = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LEGGROSSTRADEAMT_INT) {
-				legGrossTradeAmt = FixUtils.getTagFloatValue(value);
+				legGrossTradeAmt = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LEGVOLATILITY_INT) {
-				legVolatility = FixUtils.getTagFloatValue(value);
+				legVolatility = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LEGDIVIDENDYIELD_INT) {
-				legDividendYield = FixUtils.getTagFloatValue(value);
+				legDividendYield = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LEGCURRENCYRATIO_INT) {
-				legCurrencyRatio = FixUtils.getTagFloatValue(value);
+				legCurrencyRatio = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LEGEXECINST_INT) {
-				legExecInst = FixUtils.getTagStringValue(value, legExecInst);
+				legExecInst = FixUtils.getTagStringValue(null ,id ,value, legExecInst);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LEGLASTQTY_INT) {
-				legLastQty = FixUtils.getTagFloatValue(value);
+				legLastQty = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -323,7 +323,7 @@ public class TrdInstrmtLegGrp implements FixComponent
 
 			if(id == FixTags.NOOFLEGUNDERLYINGS_INT) {
 				int noOfLegUnderlyings;
-				noOfLegUnderlyings = FixUtils.getTagIntValue( value );
+				noOfLegUnderlyings = FixUtils.getTagIntValue(null ,id ,value );
 				tradeCapLegUnderlyingsGrp.getAll(noOfLegUnderlyings, buf);
 				lastTagPosition = buf.position();
 

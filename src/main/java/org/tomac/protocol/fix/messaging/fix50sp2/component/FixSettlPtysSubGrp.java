@@ -109,14 +109,14 @@ public class SettlPtysSubGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.SETTLPARTYSUBID_INT) {
-				settlPartySubID = FixUtils.getTagStringValue(value, settlPartySubID);
+				settlPartySubID = FixUtils.getTagStringValue(null ,id ,value, settlPartySubID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.SETTLPARTYSUBIDTYPE_INT) {
-				settlPartySubIDType = FixUtils.getTagIntValue( value );
+				settlPartySubIDType = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

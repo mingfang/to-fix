@@ -61,24 +61,24 @@ public class FixOrderQtyData implements FixComponent
 			switch( id ) {
 
 			case FixTags.ORDERQTY_INT:
-				orderQty = FixUtils.getTagFloatValue(value);
+				orderQty = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.CASHORDERQTY_INT:
-				cashOrderQty = FixUtils.getTagFloatValue(value);
+				cashOrderQty = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.ORDERPERCENT_INT:
-				orderPercent = FixUtils.getTagFloatValue(value);
+				orderPercent = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.ROUNDINGDIRECTION_INT:
-				roundingDirection = FixUtils.getTagCharValue( value );
+				roundingDirection = FixUtils.getTagCharValue(null ,id ,value );
 				if (!RoundingDirection.isValid(roundingDirection) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + roundingDirection + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.ROUNDINGMODULUS_INT:
-				roundingModulus = FixUtils.getTagFloatValue(value);
+				roundingModulus = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			// we will always endup with unknown tag, unread and return to upper layer in hierarchy
@@ -93,7 +93,7 @@ public class FixOrderQtyData implements FixComponent
 
 			lastTagPosition = buf.position();
 
-		} while ( ( id = FixUtils.getTagId( buf ) ) > 0 );
+		} while ( ( id = FixUtils.getTagId( buf ) ) >= 0 );
 
 		buf.position(startTagPosition);
 

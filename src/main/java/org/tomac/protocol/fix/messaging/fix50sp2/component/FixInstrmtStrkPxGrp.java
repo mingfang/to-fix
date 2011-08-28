@@ -135,28 +135,28 @@ public class InstrmtStrkPxGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.PREVCLOSEPX_INT) {
-				prevClosePx = FixUtils.getTagFloatValue(value);
+				prevClosePx = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.CLORDID_INT) {
-				clOrdID = FixUtils.getTagStringValue(value, clOrdID);
+				clOrdID = FixUtils.getTagStringValue(null ,id ,value, clOrdID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.SECONDARYCLORDID_INT) {
-				secondaryClOrdID = FixUtils.getTagStringValue(value, secondaryClOrdID);
+				secondaryClOrdID = FixUtils.getTagStringValue(null ,id ,value, secondaryClOrdID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.SIDE_INT) {
-				side = FixUtils.getTagCharValue( value );
+				side = FixUtils.getTagCharValue(null ,id ,value );
 				if (!FixMessageInfo.Side.isValid(side) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + side + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -164,28 +164,28 @@ public class InstrmtStrkPxGrp implements FixComponent
 			}
 
 			if(id == FixTags.PRICE_INT) {
-				price = FixUtils.getTagFloatValue(value);
+				price = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.CURRENCY_INT) {
-				currency = FixUtils.getTagStringValue(value, currency);
+				currency = FixUtils.getTagStringValue(null ,id ,value, currency);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.TEXT_INT) {
-				text = FixUtils.getTagStringValue(value, text);
+				text = FixUtils.getTagStringValue(null ,id ,value, text);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ENCODEDTEXTLEN_INT) {
-				encodedTextLen = FixUtils.getTagIntValue( value );
+				encodedTextLen = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -200,7 +200,7 @@ public class InstrmtStrkPxGrp implements FixComponent
 
 			if(id == FixTags.NOUNDERLYINGS_INT) {
 				int noUnderlyings;
-				noUnderlyings = FixUtils.getTagIntValue( value );
+				noUnderlyings = FixUtils.getTagIntValue(null ,id ,value );
 				undInstrmtGrp.getAll(noUnderlyings, buf);
 				lastTagPosition = buf.position();
 
@@ -208,7 +208,7 @@ public class InstrmtStrkPxGrp implements FixComponent
 			}
 
 			if(id == FixTags.ENCODEDTEXT_INT) {
-				encodedText = FixUtils.getTagStringValue(value, encodedText);
+				encodedText = FixUtils.getTagStringValue(null ,id ,value, encodedText);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

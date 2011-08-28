@@ -108,7 +108,7 @@ public class ExpirationQty implements FixComponent
 			value = buf;
 
 			if(id == FixTags.EXPIRATIONQTYTYPE_INT) {
-				expirationQtyType = FixUtils.getTagIntValue( value );
+				expirationQtyType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.ExpirationQtyType.isValid(expirationQtyType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + expirationQtyType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -116,7 +116,7 @@ public class ExpirationQty implements FixComponent
 			}
 
 			if(id == FixTags.EXPQTY_INT) {
-				expQty = FixUtils.getTagFloatValue(value);
+				expQty = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

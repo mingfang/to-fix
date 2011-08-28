@@ -115,14 +115,14 @@ public class Parties implements FixComponent
 			value = buf;
 
 			if(id == FixTags.PARTYID_INT) {
-				partyID = FixUtils.getTagStringValue(value, partyID);
+				partyID = FixUtils.getTagStringValue(null ,id ,value, partyID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.PARTYIDSOURCE_INT) {
-				partyIDSource = FixUtils.getTagCharValue( value );
+				partyIDSource = FixUtils.getTagCharValue(null ,id ,value );
 				if (!FixMessageInfo.PartyIDSource.isValid(partyIDSource) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + partyIDSource + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -130,7 +130,7 @@ public class Parties implements FixComponent
 			}
 
 			if(id == FixTags.PARTYROLE_INT) {
-				partyRole = FixUtils.getTagIntValue( value );
+				partyRole = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.PartyRole.isValid(partyRole) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + partyRole + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -139,7 +139,7 @@ public class Parties implements FixComponent
 
 			if(id == FixTags.NOPARTYSUBIDS_INT) {
 				int noPartySubIDs;
-				noPartySubIDs = FixUtils.getTagIntValue( value );
+				noPartySubIDs = FixUtils.getTagIntValue(null ,id ,value );
 				ptysSubGrp.getAll(noPartySubIDs, buf);
 				lastTagPosition = buf.position();
 

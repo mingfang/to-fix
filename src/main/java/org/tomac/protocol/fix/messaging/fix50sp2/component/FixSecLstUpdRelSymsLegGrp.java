@@ -120,7 +120,7 @@ public class SecLstUpdRelSymsLegGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.LEGSWAPTYPE_INT) {
-				legSwapType = FixUtils.getTagIntValue( value );
+				legSwapType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.LegSwapType.isValid(legSwapType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + legSwapType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -128,7 +128,7 @@ public class SecLstUpdRelSymsLegGrp implements FixComponent
 			}
 
 			if(id == FixTags.LEGSETTLTYPE_INT) {
-				legSettlType = FixUtils.getTagCharValue( value );
+				legSettlType = FixUtils.getTagCharValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -143,7 +143,7 @@ public class SecLstUpdRelSymsLegGrp implements FixComponent
 
 			if(id == FixTags.NOLEGSTIPULATIONS_INT) {
 				int noLegStipulations;
-				noLegStipulations = FixUtils.getTagIntValue( value );
+				noLegStipulations = FixUtils.getTagIntValue(null ,id ,value );
 				legStipulations.getAll(noLegStipulations, buf);
 				lastTagPosition = buf.position();
 

@@ -108,7 +108,7 @@ public class SecSizesGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.MDSECSIZETYPE_INT) {
-				mDSecSizeType = FixUtils.getTagIntValue( value );
+				mDSecSizeType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.MDSecSizeType.isValid(mDSecSizeType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + mDSecSizeType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -116,7 +116,7 @@ public class SecSizesGrp implements FixComponent
 			}
 
 			if(id == FixTags.MDSECSIZE_INT) {
-				mDSecSize = FixUtils.getTagFloatValue(value);
+				mDSecSize = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

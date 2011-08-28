@@ -115,21 +115,21 @@ public class NestedParties4 implements FixComponent
 			value = buf;
 
 			if(id == FixTags.NESTED4PARTYID_INT) {
-				nested4PartyID = FixUtils.getTagStringValue(value, nested4PartyID);
+				nested4PartyID = FixUtils.getTagStringValue(null ,id ,value, nested4PartyID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.NESTED4PARTYIDSOURCE_INT) {
-				nested4PartyIDSource = FixUtils.getTagCharValue( value );
+				nested4PartyIDSource = FixUtils.getTagCharValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.NESTED4PARTYROLE_INT) {
-				nested4PartyRole = FixUtils.getTagIntValue( value );
+				nested4PartyRole = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -137,7 +137,7 @@ public class NestedParties4 implements FixComponent
 
 			if(id == FixTags.NONESTED4PARTYSUBIDS_INT) {
 				int noNested4PartySubIDs;
-				noNested4PartySubIDs = FixUtils.getTagIntValue( value );
+				noNested4PartySubIDs = FixUtils.getTagIntValue(null ,id ,value );
 				nstdPtys4SubGrp.getAll(noNested4PartySubIDs, buf);
 				lastTagPosition = buf.position();
 

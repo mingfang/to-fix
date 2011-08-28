@@ -109,14 +109,14 @@ public class NstdPtys3SubGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.NESTED3PARTYSUBID_INT) {
-				nested3PartySubID = FixUtils.getTagStringValue(value, nested3PartySubID);
+				nested3PartySubID = FixUtils.getTagStringValue(null ,id ,value, nested3PartySubID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.NESTED3PARTYSUBIDTYPE_INT) {
-				nested3PartySubIDType = FixUtils.getTagIntValue( value );
+				nested3PartySubIDType = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

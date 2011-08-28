@@ -97,7 +97,7 @@ public class FixEmail extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -106,74 +106,74 @@ public class FixEmail extends FixMessage
 			switch( id ) {
 
 			case FixTags.EMAILTHREADID_INT:
-				emailThreadID = FixUtils.getTagStringValue(value, emailThreadID);
+				emailThreadID = FixUtils.getTagStringValue(MsgTypes.EMAIL ,id ,value, emailThreadID);
 				break;
 
 			case FixTags.EMAILTYPE_INT:
-				emailType = FixUtils.getTagCharValue( value );
+				emailType = FixUtils.getTagCharValue(MsgTypes.EMAIL ,id ,value );
 				if (!EmailType.isValid(emailType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + emailType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.ORIGTIME_INT:
-				origTime = FixUtils.getTagStringValue(value, origTime);
+				origTime = FixUtils.getTagStringValue(MsgTypes.EMAIL ,id ,value, origTime);
 				break;
 
 			case FixTags.SUBJECT_INT:
-				subject = FixUtils.getTagStringValue(value, subject);
+				subject = FixUtils.getTagStringValue(MsgTypes.EMAIL ,id ,value, subject);
 				break;
 
 			case FixTags.ENCODEDSUBJECTLEN_INT:
-				encodedSubjectLen = FixUtils.getTagIntValue( value );
+				encodedSubjectLen = FixUtils.getTagIntValue(MsgTypes.EMAIL ,id ,value );
 				break;
 
 			case FixTags.ENCODEDSUBJECT_INT:
-				encodedSubject = FixUtils.getTagStringValue(value, encodedSubject);
+				encodedSubject = FixUtils.getTagStringValue(MsgTypes.EMAIL ,id ,value, encodedSubject);
 				break;
 
 			case FixTags.NOROUTINGIDS_INT:
-				routingGrp.noRoutingIDs = FixUtils.getTagIntValue( value );
+				routingGrp.noRoutingIDs = FixUtils.getTagIntValue( MsgTypes.EMAIL ,FixTags.NOROUTINGIDS_INT ,value );
 				routingGrp.getAll(routingGrp.noRoutingIDs, value );
 				break;
 
 			case FixTags.NORELATEDSYM_INT:
-				instrmtGrp.noRelatedSym = FixUtils.getTagIntValue( value );
+				instrmtGrp.noRelatedSym = FixUtils.getTagIntValue( MsgTypes.EMAIL ,FixTags.NORELATEDSYM_INT ,value );
 				instrmtGrp.getAll(instrmtGrp.noRelatedSym, value );
 				break;
 
 			case FixTags.NOUNDERLYINGS_INT:
-				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( MsgTypes.EMAIL ,FixTags.NOUNDERLYINGS_INT ,value );
 				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
 				break;
 
 			case FixTags.NOLEGS_INT:
-				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( value );
+				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( MsgTypes.EMAIL ,FixTags.NOLEGS_INT ,value );
 				instrmtLegGrp.getAll(instrmtLegGrp.noLegs, value );
 				break;
 
 			case FixTags.ORDERID_INT:
-				orderID = FixUtils.getTagStringValue(value, orderID);
+				orderID = FixUtils.getTagStringValue(MsgTypes.EMAIL ,id ,value, orderID);
 				break;
 
 			case FixTags.CLORDID_INT:
-				clOrdID = FixUtils.getTagStringValue(value, clOrdID);
+				clOrdID = FixUtils.getTagStringValue(MsgTypes.EMAIL ,id ,value, clOrdID);
 				break;
 
 			case FixTags.NOLINESOFTEXT_INT:
-				linesOfTextGrp.noLinesOfText = FixUtils.getTagIntValue( value );
+				linesOfTextGrp.noLinesOfText = FixUtils.getTagIntValue( MsgTypes.EMAIL ,FixTags.NOLINESOFTEXT_INT ,value );
 				linesOfTextGrp.getAll(linesOfTextGrp.noLinesOfText, value );
 				break;
 
 			case FixTags.RAWDATALENGTH_INT:
-				rawDataLength = FixUtils.getTagIntValue( value );
+				rawDataLength = FixUtils.getTagIntValue(MsgTypes.EMAIL ,id ,value );
 				break;
 
 			case FixTags.RAWDATA_INT:
-				rawData = FixUtils.getTagStringValue(value, rawData);
+				rawData = FixUtils.getTagStringValue(MsgTypes.EMAIL ,id ,value, rawData);
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.EMAIL ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

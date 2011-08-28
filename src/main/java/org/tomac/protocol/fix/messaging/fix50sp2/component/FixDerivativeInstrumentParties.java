@@ -116,21 +116,21 @@ public class DerivativeInstrumentParties implements FixComponent
 			value = buf;
 
 			if(id == FixTags.DERIVATIVEINSTRUMENTPARTYID_INT) {
-				derivativeInstrumentPartyID = FixUtils.getTagStringValue(value, derivativeInstrumentPartyID);
+				derivativeInstrumentPartyID = FixUtils.getTagStringValue(null ,id ,value, derivativeInstrumentPartyID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.DERIVATIVEINSTRUMENTPARTYIDSOURCE_INT) {
-				derivativeInstrumentPartyIDSource = FixUtils.getTagStringValue(value, derivativeInstrumentPartyIDSource);
+				derivativeInstrumentPartyIDSource = FixUtils.getTagStringValue(null ,id ,value, derivativeInstrumentPartyIDSource);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.DERIVATIVEINSTRUMENTPARTYROLE_INT) {
-				derivativeInstrumentPartyRole = FixUtils.getTagIntValue( value );
+				derivativeInstrumentPartyRole = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -138,7 +138,7 @@ public class DerivativeInstrumentParties implements FixComponent
 
 			if(id == FixTags.NODERIVATIVEINSTRUMENTPARTYSUBIDS_INT) {
 				int noDerivativeInstrumentPartySubIDs;
-				noDerivativeInstrumentPartySubIDs = FixUtils.getTagIntValue( value );
+				noDerivativeInstrumentPartySubIDs = FixUtils.getTagIntValue(null ,id ,value );
 				derivativeInstrumentPartySubIDsGrp.getAll(noDerivativeInstrumentPartySubIDs, buf);
 				lastTagPosition = buf.position();
 

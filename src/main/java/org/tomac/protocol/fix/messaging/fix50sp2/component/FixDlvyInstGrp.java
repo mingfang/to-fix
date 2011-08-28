@@ -112,7 +112,7 @@ public class DlvyInstGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.SETTLINSTSOURCE_INT) {
-				settlInstSource = FixUtils.getTagCharValue( value );
+				settlInstSource = FixUtils.getTagCharValue(null ,id ,value );
 				if (!FixMessageInfo.SettlInstSource.isValid(settlInstSource) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + settlInstSource + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -120,7 +120,7 @@ public class DlvyInstGrp implements FixComponent
 			}
 
 			if(id == FixTags.DLVYINSTTYPE_INT) {
-				dlvyInstType = FixUtils.getTagCharValue( value );
+				dlvyInstType = FixUtils.getTagCharValue(null ,id ,value );
 				if (!FixMessageInfo.DlvyInstType.isValid(dlvyInstType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + dlvyInstType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -129,7 +129,7 @@ public class DlvyInstGrp implements FixComponent
 
 			if(id == FixTags.NOSETTLPARTYIDS_INT) {
 				int noSettlPartyIDs;
-				noSettlPartyIDs = FixUtils.getTagIntValue( value );
+				noSettlPartyIDs = FixUtils.getTagIntValue(null ,id ,value );
 				settlParties.getAll(noSettlPartyIDs, buf);
 				lastTagPosition = buf.position();
 

@@ -59,15 +59,15 @@ public class FixDerivativeSecurityXML implements FixComponent
 			switch( id ) {
 
 			case FixTags.DERIVATIVESECURITYXMLLEN_INT:
-				derivativeSecurityXMLLen = FixUtils.getTagIntValue( value );
+				derivativeSecurityXMLLen = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.DERIVATIVESECURITYXML_INT:
-				derivativeSecurityXML = FixUtils.getTagStringValue(value, derivativeSecurityXML);
+				derivativeSecurityXML = FixUtils.getTagStringValue(null ,id ,value, derivativeSecurityXML);
 				break;
 
 			case FixTags.DERIVATIVESECURITYXMLSCHEMA_INT:
-				derivativeSecurityXMLSchema = FixUtils.getTagStringValue(value, derivativeSecurityXMLSchema);
+				derivativeSecurityXMLSchema = FixUtils.getTagStringValue(null ,id ,value, derivativeSecurityXMLSchema);
 				break;
 
 			// we will always endup with unknown tag, unread and return to upper layer in hierarchy
@@ -82,7 +82,7 @@ public class FixDerivativeSecurityXML implements FixComponent
 
 			lastTagPosition = buf.position();
 
-		} while ( ( id = FixUtils.getTagId( buf ) ) > 0 );
+		} while ( ( id = FixUtils.getTagId( buf ) ) >= 0 );
 
 		buf.position(startTagPosition);
 

@@ -122,7 +122,7 @@ public class RiskLimits implements FixComponent
 			value = buf;
 
 			if(id == FixTags.RISKLIMITTYPE_INT) {
-				riskLimitType = FixUtils.getTagIntValue( value );
+				riskLimitType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.RiskLimitType.isValid(riskLimitType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + riskLimitType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -130,21 +130,21 @@ public class RiskLimits implements FixComponent
 			}
 
 			if(id == FixTags.RISKLIMITAMOUNT_INT) {
-				riskLimitAmount = FixUtils.getTagFloatValue(value);
+				riskLimitAmount = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RISKLIMITCURRENCY_INT) {
-				riskLimitCurrency = FixUtils.getTagStringValue(value, riskLimitCurrency);
+				riskLimitCurrency = FixUtils.getTagStringValue(null ,id ,value, riskLimitCurrency);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RISKLIMITPLATFORM_INT) {
-				riskLimitPlatform = FixUtils.getTagStringValue(value, riskLimitPlatform);
+				riskLimitPlatform = FixUtils.getTagStringValue(null ,id ,value, riskLimitPlatform);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -152,7 +152,7 @@ public class RiskLimits implements FixComponent
 
 			if(id == FixTags.NORISKINSTRUMENTS_INT) {
 				int noRiskInstruments;
-				noRiskInstruments = FixUtils.getTagIntValue( value );
+				noRiskInstruments = FixUtils.getTagIntValue(null ,id ,value );
 				riskInstrumentScope.getAll(noRiskInstruments, buf);
 				lastTagPosition = buf.position();
 
@@ -161,7 +161,7 @@ public class RiskLimits implements FixComponent
 
 			if(id == FixTags.NORISKWARNINGLEVELS_INT) {
 				int noRiskWarningLevels;
-				noRiskWarningLevels = FixUtils.getTagIntValue( value );
+				noRiskWarningLevels = FixUtils.getTagIntValue(null ,id ,value );
 				riskWarningLevels.getAll(noRiskWarningLevels, buf);
 				lastTagPosition = buf.position();
 

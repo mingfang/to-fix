@@ -151,14 +151,14 @@ public class RelSymDerivSecGrp implements FixComponent
 			}
 
 			if(id == FixTags.CURRENCY_INT) {
-				currency = FixUtils.getTagStringValue(value, currency);
+				currency = FixUtils.getTagStringValue(null ,id ,value, currency);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.CORPORATEACTION_INT) {
-				corporateAction = FixUtils.getTagStringValue(value, corporateAction);
+				corporateAction = FixUtils.getTagStringValue(null ,id ,value, corporateAction);
 				if (!FixMessageInfo.CorporateAction.isValid(corporateAction) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + corporateAction + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -174,7 +174,7 @@ public class RelSymDerivSecGrp implements FixComponent
 
 			if(id == FixTags.NOLEGS_INT) {
 				int noLegs;
-				noLegs = FixUtils.getTagIntValue( value );
+				noLegs = FixUtils.getTagIntValue(null ,id ,value );
 				instrmtLegGrp.getAll(noLegs, buf);
 				lastTagPosition = buf.position();
 
@@ -182,28 +182,28 @@ public class RelSymDerivSecGrp implements FixComponent
 			}
 
 			if(id == FixTags.RELSYMTRANSACTTIME_INT) {
-				relSymTransactTime = FixUtils.getTagStringValue(value, relSymTransactTime);
+				relSymTransactTime = FixUtils.getTagStringValue(null ,id ,value, relSymTransactTime);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.TEXT_INT) {
-				text = FixUtils.getTagStringValue(value, text);
+				text = FixUtils.getTagStringValue(null ,id ,value, text);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ENCODEDTEXTLEN_INT) {
-				encodedTextLen = FixUtils.getTagIntValue( value );
+				encodedTextLen = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ENCODEDTEXT_INT) {
-				encodedText = FixUtils.getTagStringValue(value, encodedText);
+				encodedText = FixUtils.getTagStringValue(null ,id ,value, encodedText);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

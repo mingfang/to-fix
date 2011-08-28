@@ -114,28 +114,28 @@ public class UnderlyingAmount implements FixComponent
 			value = buf;
 
 			if(id == FixTags.UNDERLYINGPAYAMOUNT_INT) {
-				underlyingPayAmount = FixUtils.getTagFloatValue(value);
+				underlyingPayAmount = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.UNDERLYINGCOLLECTAMOUNT_INT) {
-				underlyingCollectAmount = FixUtils.getTagFloatValue(value);
+				underlyingCollectAmount = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.UNDERLYINGSETTLEMENTDATE_INT) {
-				underlyingSettlementDate = FixUtils.getTagStringValue(value, underlyingSettlementDate);
+				underlyingSettlementDate = FixUtils.getTagStringValue(null ,id ,value, underlyingSettlementDate);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.UNDERLYINGSETTLEMENTSTATUS_INT) {
-				underlyingSettlementStatus = FixUtils.getTagStringValue(value, underlyingSettlementStatus);
+				underlyingSettlementStatus = FixUtils.getTagStringValue(null ,id ,value, underlyingSettlementStatus);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

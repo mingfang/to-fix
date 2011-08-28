@@ -112,7 +112,7 @@ public class PositionAmountData implements FixComponent
 			value = buf;
 
 			if(id == FixTags.POSAMTTYPE_INT) {
-				posAmtType = FixUtils.getTagStringValue(value, posAmtType);
+				posAmtType = FixUtils.getTagStringValue(null ,id ,value, posAmtType);
 				if (!FixMessageInfo.PosAmtType.isValid(posAmtType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + posAmtType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -120,14 +120,14 @@ public class PositionAmountData implements FixComponent
 			}
 
 			if(id == FixTags.POSAMT_INT) {
-				posAmt = FixUtils.getTagFloatValue(value);
+				posAmt = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.POSITIONCURRENCY_INT) {
-				positionCurrency = FixUtils.getTagStringValue(value, positionCurrency);
+				positionCurrency = FixUtils.getTagStringValue(null ,id ,value, positionCurrency);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

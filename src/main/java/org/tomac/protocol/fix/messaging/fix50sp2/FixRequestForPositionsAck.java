@@ -121,7 +121,7 @@ public class FixRequestForPositionsAck extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -130,80 +130,80 @@ public class FixRequestForPositionsAck extends FixMessage
 			switch( id ) {
 
 			case FixTags.POSMAINTRPTID_INT:
-				posMaintRptID = FixUtils.getTagStringValue(value, posMaintRptID);
+				posMaintRptID = FixUtils.getTagStringValue(MsgTypes.REQUESTFORPOSITIONSACK ,id ,value, posMaintRptID);
 				break;
 
 			case FixTags.POSREQID_INT:
-				posReqID = FixUtils.getTagStringValue(value, posReqID);
+				posReqID = FixUtils.getTagStringValue(MsgTypes.REQUESTFORPOSITIONSACK ,id ,value, posReqID);
 				break;
 
 			case FixTags.TOTALNUMPOSREPORTS_INT:
-				totalNumPosReports = FixUtils.getTagIntValue( value );
+				totalNumPosReports = FixUtils.getTagIntValue(MsgTypes.REQUESTFORPOSITIONSACK ,id ,value );
 				break;
 
 			case FixTags.UNSOLICITEDINDICATOR_INT:
-				unsolicitedIndicator = FixUtils.getTagBooleanValue( value );
+				unsolicitedIndicator = FixUtils.getTagBooleanValue(MsgTypes.REQUESTFORPOSITIONSACK ,id ,value );
 				if (!UnsolicitedIndicator.isValid(unsolicitedIndicator) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + unsolicitedIndicator + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.POSREQRESULT_INT:
-				posReqResult = FixUtils.getTagIntValue( value );
+				posReqResult = FixUtils.getTagIntValue(MsgTypes.REQUESTFORPOSITIONSACK ,id ,value );
 				if (!PosReqResult.isValid(posReqResult) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + posReqResult + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.POSREQSTATUS_INT:
-				posReqStatus = FixUtils.getTagIntValue( value );
+				posReqStatus = FixUtils.getTagIntValue(MsgTypes.REQUESTFORPOSITIONSACK ,id ,value );
 				if (!PosReqStatus.isValid(posReqStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + posReqStatus + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.POSREQTYPE_INT:
-				posReqType = FixUtils.getTagIntValue( value );
+				posReqType = FixUtils.getTagIntValue(MsgTypes.REQUESTFORPOSITIONSACK ,id ,value );
 				if (!PosReqType.isValid(posReqType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + posReqType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.MATCHSTATUS_INT:
-				matchStatus = FixUtils.getTagCharValue( value );
+				matchStatus = FixUtils.getTagCharValue(MsgTypes.REQUESTFORPOSITIONSACK ,id ,value );
 				if (!MatchStatus.isValid(matchStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + matchStatus + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.CLEARINGBUSINESSDATE_INT:
-				clearingBusinessDate = FixUtils.getTagStringValue(value, clearingBusinessDate);
+				clearingBusinessDate = FixUtils.getTagStringValue(MsgTypes.REQUESTFORPOSITIONSACK ,id ,value, clearingBusinessDate);
 				break;
 
 			case FixTags.SUBSCRIPTIONREQUESTTYPE_INT:
-				subscriptionRequestType = FixUtils.getTagCharValue( value );
+				subscriptionRequestType = FixUtils.getTagCharValue(MsgTypes.REQUESTFORPOSITIONSACK ,id ,value );
 				if (!SubscriptionRequestType.isValid(subscriptionRequestType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + subscriptionRequestType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.SETTLSESSID_INT:
-				settlSessID = FixUtils.getTagStringValue(value, settlSessID);
+				settlSessID = FixUtils.getTagStringValue(MsgTypes.REQUESTFORPOSITIONSACK ,id ,value, settlSessID);
 				if (!SettlSessID.isValid(settlSessID) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + settlSessID + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.SETTLSESSSUBID_INT:
-				settlSessSubID = FixUtils.getTagStringValue(value, settlSessSubID);
+				settlSessSubID = FixUtils.getTagStringValue(MsgTypes.REQUESTFORPOSITIONSACK ,id ,value, settlSessSubID);
 				break;
 
 			case FixTags.SETTLCURRENCY_INT:
-				settlCurrency = FixUtils.getTagStringValue(value, settlCurrency);
+				settlCurrency = FixUtils.getTagStringValue(MsgTypes.REQUESTFORPOSITIONSACK ,id ,value, settlCurrency);
 				break;
 
 			case FixTags.NOPARTYIDS_INT:
-				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.noPartyIDs = FixUtils.getTagIntValue( MsgTypes.REQUESTFORPOSITIONSACK ,FixTags.NOPARTYIDS_INT ,value );
 				parties.getAll(parties.noPartyIDs, value );
 				break;
 
 			case FixTags.ACCOUNT_INT:
-				account = FixUtils.getTagStringValue(value, account);
+				account = FixUtils.getTagStringValue(MsgTypes.REQUESTFORPOSITIONSACK ,id ,value, account);
 				break;
 
 			case FixTags.ACCTIDSOURCE_INT:
-				acctIDSource = FixUtils.getTagIntValue( value );
+				acctIDSource = FixUtils.getTagIntValue(MsgTypes.REQUESTFORPOSITIONSACK ,id ,value );
 				if (!AcctIDSource.isValid(acctIDSource) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + acctIDSource + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.ACCOUNTTYPE_INT:
-				accountType = FixUtils.getTagIntValue( value );
+				accountType = FixUtils.getTagIntValue(MsgTypes.REQUESTFORPOSITIONSACK ,id ,value );
 				if (!AccountType.isValid(accountType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + accountType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
@@ -212,43 +212,43 @@ public class FixRequestForPositionsAck extends FixMessage
 				break;
 
 			case FixTags.CURRENCY_INT:
-				currency = FixUtils.getTagStringValue(value, currency);
+				currency = FixUtils.getTagStringValue(MsgTypes.REQUESTFORPOSITIONSACK ,id ,value, currency);
 				break;
 
 			case FixTags.NOLEGS_INT:
-				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( value );
+				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( MsgTypes.REQUESTFORPOSITIONSACK ,FixTags.NOLEGS_INT ,value );
 				instrmtLegGrp.getAll(instrmtLegGrp.noLegs, value );
 				break;
 
 			case FixTags.NOUNDERLYINGS_INT:
-				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( MsgTypes.REQUESTFORPOSITIONSACK ,FixTags.NOUNDERLYINGS_INT ,value );
 				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
 				break;
 
 			case FixTags.RESPONSETRANSPORTTYPE_INT:
-				responseTransportType = FixUtils.getTagIntValue( value );
+				responseTransportType = FixUtils.getTagIntValue(MsgTypes.REQUESTFORPOSITIONSACK ,id ,value );
 				if (!ResponseTransportType.isValid(responseTransportType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + responseTransportType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.RESPONSEDESTINATION_INT:
-				responseDestination = FixUtils.getTagStringValue(value, responseDestination);
+				responseDestination = FixUtils.getTagStringValue(MsgTypes.REQUESTFORPOSITIONSACK ,id ,value, responseDestination);
 				break;
 
 			case FixTags.TEXT_INT:
-				text = FixUtils.getTagStringValue(value, text);
+				text = FixUtils.getTagStringValue(MsgTypes.REQUESTFORPOSITIONSACK ,id ,value, text);
 				break;
 
 			case FixTags.ENCODEDTEXTLEN_INT:
-				encodedTextLen = FixUtils.getTagIntValue( value );
+				encodedTextLen = FixUtils.getTagIntValue(MsgTypes.REQUESTFORPOSITIONSACK ,id ,value );
 				break;
 
 			case FixTags.ENCODEDTEXT_INT:
-				encodedText = FixUtils.getTagStringValue(value, encodedText);
+				encodedText = FixUtils.getTagStringValue(MsgTypes.REQUESTFORPOSITIONSACK ,id ,value, encodedText);
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.REQUESTFORPOSITIONSACK ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

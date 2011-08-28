@@ -86,7 +86,7 @@ public class FixConfirmationRequest extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -95,63 +95,63 @@ public class FixConfirmationRequest extends FixMessage
 			switch( id ) {
 
 			case FixTags.CONFIRMREQID_INT:
-				confirmReqID = FixUtils.getTagStringValue(value, confirmReqID);
+				confirmReqID = FixUtils.getTagStringValue(MsgTypes.CONFIRMATIONREQUEST ,id ,value, confirmReqID);
 				break;
 
 			case FixTags.CONFIRMTYPE_INT:
-				confirmType = FixUtils.getTagIntValue( value );
+				confirmType = FixUtils.getTagIntValue(MsgTypes.CONFIRMATIONREQUEST ,id ,value );
 				if (!ConfirmType.isValid(confirmType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + confirmType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NOORDERS_INT:
-				ordAllocGrp.noOrders = FixUtils.getTagIntValue( value );
+				ordAllocGrp.noOrders = FixUtils.getTagIntValue( MsgTypes.CONFIRMATIONREQUEST ,FixTags.NOORDERS_INT ,value );
 				ordAllocGrp.getAll(ordAllocGrp.noOrders, value );
 				break;
 
 			case FixTags.ALLOCID_INT:
-				allocID = FixUtils.getTagStringValue(value, allocID);
+				allocID = FixUtils.getTagStringValue(MsgTypes.CONFIRMATIONREQUEST ,id ,value, allocID);
 				break;
 
 			case FixTags.SECONDARYALLOCID_INT:
-				secondaryAllocID = FixUtils.getTagStringValue(value, secondaryAllocID);
+				secondaryAllocID = FixUtils.getTagStringValue(MsgTypes.CONFIRMATIONREQUEST ,id ,value, secondaryAllocID);
 				break;
 
 			case FixTags.INDIVIDUALALLOCID_INT:
-				individualAllocID = FixUtils.getTagStringValue(value, individualAllocID);
+				individualAllocID = FixUtils.getTagStringValue(MsgTypes.CONFIRMATIONREQUEST ,id ,value, individualAllocID);
 				break;
 
 			case FixTags.TRANSACTTIME_INT:
-				transactTime = FixUtils.getTagStringValue(value, transactTime);
+				transactTime = FixUtils.getTagStringValue(MsgTypes.CONFIRMATIONREQUEST ,id ,value, transactTime);
 				break;
 
 			case FixTags.ALLOCACCOUNT_INT:
-				allocAccount = FixUtils.getTagStringValue(value, allocAccount);
+				allocAccount = FixUtils.getTagStringValue(MsgTypes.CONFIRMATIONREQUEST ,id ,value, allocAccount);
 				break;
 
 			case FixTags.ALLOCACCTIDSOURCE_INT:
-				allocAcctIDSource = FixUtils.getTagIntValue( value );
+				allocAcctIDSource = FixUtils.getTagIntValue(MsgTypes.CONFIRMATIONREQUEST ,id ,value );
 				break;
 
 			case FixTags.ALLOCACCOUNTTYPE_INT:
-				allocAccountType = FixUtils.getTagIntValue( value );
+				allocAccountType = FixUtils.getTagIntValue(MsgTypes.CONFIRMATIONREQUEST ,id ,value );
 				if (!AllocAccountType.isValid(allocAccountType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + allocAccountType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TEXT_INT:
-				text = FixUtils.getTagStringValue(value, text);
+				text = FixUtils.getTagStringValue(MsgTypes.CONFIRMATIONREQUEST ,id ,value, text);
 				break;
 
 			case FixTags.ENCODEDTEXTLEN_INT:
-				encodedTextLen = FixUtils.getTagIntValue( value );
+				encodedTextLen = FixUtils.getTagIntValue(MsgTypes.CONFIRMATIONREQUEST ,id ,value );
 				break;
 
 			case FixTags.ENCODEDTEXT_INT:
-				encodedText = FixUtils.getTagStringValue(value, encodedText);
+				encodedText = FixUtils.getTagStringValue(MsgTypes.CONFIRMATIONREQUEST ,id ,value, encodedText);
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.CONFIRMATIONREQUEST ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

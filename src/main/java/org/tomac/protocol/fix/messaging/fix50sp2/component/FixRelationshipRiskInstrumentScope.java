@@ -173,35 +173,35 @@ public class RelationshipRiskInstrumentScope implements FixComponent
 			value = buf;
 
 			if(id == FixTags.RELATIONSHIPRISKINSTRUMENTOPERATOR_INT) {
-				relationshipRiskInstrumentOperator = FixUtils.getTagIntValue( value );
+				relationshipRiskInstrumentOperator = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RELATIONSHIPRISKSYMBOL_INT) {
-				relationshipRiskSymbol = FixUtils.getTagStringValue(value, relationshipRiskSymbol);
+				relationshipRiskSymbol = FixUtils.getTagStringValue(null ,id ,value, relationshipRiskSymbol);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RELATIONSHIPRISKSYMBOLSFX_INT) {
-				relationshipRiskSymbolSfx = FixUtils.getTagStringValue(value, relationshipRiskSymbolSfx);
+				relationshipRiskSymbolSfx = FixUtils.getTagStringValue(null ,id ,value, relationshipRiskSymbolSfx);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RELATIONSHIPRISKSECURITYID_INT) {
-				relationshipRiskSecurityID = FixUtils.getTagStringValue(value, relationshipRiskSecurityID);
+				relationshipRiskSecurityID = FixUtils.getTagStringValue(null ,id ,value, relationshipRiskSecurityID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RELATIONSHIPRISKSECURITYIDSOURCE_INT) {
-				relationshipRiskSecurityIDSource = FixUtils.getTagStringValue(value, relationshipRiskSecurityIDSource);
+				relationshipRiskSecurityIDSource = FixUtils.getTagStringValue(null ,id ,value, relationshipRiskSecurityIDSource);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -209,7 +209,7 @@ public class RelationshipRiskInstrumentScope implements FixComponent
 
 			if(id == FixTags.NORELATIONSHIPRISKSECURITYALTID_INT) {
 				int noRelationshipRiskSecurityAltID;
-				noRelationshipRiskSecurityAltID = FixUtils.getTagIntValue( value );
+				noRelationshipRiskSecurityAltID = FixUtils.getTagIntValue(null ,id ,value );
 				relationshipRiskSecAltIDGrp.getAll(noRelationshipRiskSecurityAltID, buf);
 				lastTagPosition = buf.position();
 
@@ -217,133 +217,133 @@ public class RelationshipRiskInstrumentScope implements FixComponent
 			}
 
 			if(id == FixTags.RELATIONSHIPRISKPRODUCT_INT) {
-				relationshipRiskProduct = FixUtils.getTagIntValue( value );
+				relationshipRiskProduct = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RELATIONSHIPRISKPRODUCTCOMPLEX_INT) {
-				relationshipRiskProductComplex = FixUtils.getTagStringValue(value, relationshipRiskProductComplex);
+				relationshipRiskProductComplex = FixUtils.getTagStringValue(null ,id ,value, relationshipRiskProductComplex);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RELATIONSHIPRISKSECURITYGROUP_INT) {
-				relationshipRiskSecurityGroup = FixUtils.getTagStringValue(value, relationshipRiskSecurityGroup);
+				relationshipRiskSecurityGroup = FixUtils.getTagStringValue(null ,id ,value, relationshipRiskSecurityGroup);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RELATIONSHIPRISKCFICODE_INT) {
-				relationshipRiskCFICode = FixUtils.getTagStringValue(value, relationshipRiskCFICode);
+				relationshipRiskCFICode = FixUtils.getTagStringValue(null ,id ,value, relationshipRiskCFICode);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RELATIONSHIPRISKSECURITYTYPE_INT) {
-				relationshipRiskSecurityType = FixUtils.getTagStringValue(value, relationshipRiskSecurityType);
+				relationshipRiskSecurityType = FixUtils.getTagStringValue(null ,id ,value, relationshipRiskSecurityType);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RELATIONSHIPRISKSECURITYSUBTYPE_INT) {
-				relationshipRiskSecuritySubType = FixUtils.getTagStringValue(value, relationshipRiskSecuritySubType);
+				relationshipRiskSecuritySubType = FixUtils.getTagStringValue(null ,id ,value, relationshipRiskSecuritySubType);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RELATIONSHIPRISKMATURITYMONTHYEAR_INT) {
-				relationshipRiskMaturityMonthYear = FixUtils.getTagStringValue(value, relationshipRiskMaturityMonthYear);
+				relationshipRiskMaturityMonthYear = FixUtils.getTagStringValue(null ,id ,value, relationshipRiskMaturityMonthYear);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RELATIONSHIPRISKMATURITYTIME_INT) {
-				relationshipRiskMaturityTime = FixUtils.getTagStringValue(value, relationshipRiskMaturityTime);
+				relationshipRiskMaturityTime = FixUtils.getTagStringValue(null ,id ,value, relationshipRiskMaturityTime);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RELATIONSHIPRISKRESTRUCTURINGTYPE_INT) {
-				relationshipRiskRestructuringType = FixUtils.getTagStringValue(value, relationshipRiskRestructuringType);
+				relationshipRiskRestructuringType = FixUtils.getTagStringValue(null ,id ,value, relationshipRiskRestructuringType);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RELATIONSHIPRISKSENIORITY_INT) {
-				relationshipRiskSeniority = FixUtils.getTagStringValue(value, relationshipRiskSeniority);
+				relationshipRiskSeniority = FixUtils.getTagStringValue(null ,id ,value, relationshipRiskSeniority);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RELATIONSHIPRISKPUTORCALL_INT) {
-				relationshipRiskPutOrCall = FixUtils.getTagIntValue( value );
+				relationshipRiskPutOrCall = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RELATIONSHIPRISKFLEXIBLEINDICATOR_INT) {
-				relationshipRiskFlexibleIndicator = FixUtils.getTagBooleanValue( value );
+				relationshipRiskFlexibleIndicator = FixUtils.getTagBooleanValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RELATIONSHIPRISKCOUPONRATE_INT) {
-				relationshipRiskCouponRate = FixUtils.getTagFloatValue(value);
+				relationshipRiskCouponRate = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RELATIONSHIPRISKSECURITYEXCHANGE_INT) {
-				relationshipRiskSecurityExchange = FixUtils.getTagStringValue(value, relationshipRiskSecurityExchange);
+				relationshipRiskSecurityExchange = FixUtils.getTagStringValue(null ,id ,value, relationshipRiskSecurityExchange);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RELATIONSHIPRISKSECURITYDESC_INT) {
-				relationshipRiskSecurityDesc = FixUtils.getTagStringValue(value, relationshipRiskSecurityDesc);
+				relationshipRiskSecurityDesc = FixUtils.getTagStringValue(null ,id ,value, relationshipRiskSecurityDesc);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RELATIONSHIPRISKENCODEDSECURITYDESCLEN_INT) {
-				relationshipRiskEncodedSecurityDescLen = FixUtils.getTagIntValue( value );
+				relationshipRiskEncodedSecurityDescLen = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RELATIONSHIPRISKENCODEDSECURITYDESC_INT) {
-				relationshipRiskEncodedSecurityDesc = FixUtils.getTagStringValue(value, relationshipRiskEncodedSecurityDesc);
+				relationshipRiskEncodedSecurityDesc = FixUtils.getTagStringValue(null ,id ,value, relationshipRiskEncodedSecurityDesc);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RELATIONSHIPRISKINSTRUMENTSETTLTYPE_INT) {
-				relationshipRiskInstrumentSettlType = FixUtils.getTagStringValue(value, relationshipRiskInstrumentSettlType);
+				relationshipRiskInstrumentSettlType = FixUtils.getTagStringValue(null ,id ,value, relationshipRiskInstrumentSettlType);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RELATIONSHIPRISKINSTRUMENTMULTIPLIER_INT) {
-				relationshipRiskInstrumentMultiplier = FixUtils.getTagFloatValue(value);
+				relationshipRiskInstrumentMultiplier = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

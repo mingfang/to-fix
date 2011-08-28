@@ -139,7 +139,7 @@ public class FixPositionMaintenanceReport extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -148,71 +148,71 @@ public class FixPositionMaintenanceReport extends FixMessage
 			switch( id ) {
 
 			case FixTags.POSMAINTRPTID_INT:
-				posMaintRptID = FixUtils.getTagStringValue(value, posMaintRptID);
+				posMaintRptID = FixUtils.getTagStringValue(MsgTypes.POSITIONMAINTENANCEREPORT ,id ,value, posMaintRptID);
 				break;
 
 			case FixTags.POSTRANSTYPE_INT:
-				posTransType = FixUtils.getTagIntValue( value );
+				posTransType = FixUtils.getTagIntValue(MsgTypes.POSITIONMAINTENANCEREPORT ,id ,value );
 				if (!PosTransType.isValid(posTransType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + posTransType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.POSREQID_INT:
-				posReqID = FixUtils.getTagStringValue(value, posReqID);
+				posReqID = FixUtils.getTagStringValue(MsgTypes.POSITIONMAINTENANCEREPORT ,id ,value, posReqID);
 				break;
 
 			case FixTags.POSMAINTACTION_INT:
-				posMaintAction = FixUtils.getTagIntValue( value );
+				posMaintAction = FixUtils.getTagIntValue(MsgTypes.POSITIONMAINTENANCEREPORT ,id ,value );
 				if (!PosMaintAction.isValid(posMaintAction) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + posMaintAction + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.ORIGPOSREQREFID_INT:
-				origPosReqRefID = FixUtils.getTagStringValue(value, origPosReqRefID);
+				origPosReqRefID = FixUtils.getTagStringValue(MsgTypes.POSITIONMAINTENANCEREPORT ,id ,value, origPosReqRefID);
 				break;
 
 			case FixTags.POSMAINTSTATUS_INT:
-				posMaintStatus = FixUtils.getTagIntValue( value );
+				posMaintStatus = FixUtils.getTagIntValue(MsgTypes.POSITIONMAINTENANCEREPORT ,id ,value );
 				if (!PosMaintStatus.isValid(posMaintStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + posMaintStatus + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.POSMAINTRESULT_INT:
-				posMaintResult = FixUtils.getTagIntValue( value );
+				posMaintResult = FixUtils.getTagIntValue(MsgTypes.POSITIONMAINTENANCEREPORT ,id ,value );
 				if (!PosMaintResult.isValid(posMaintResult) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + posMaintResult + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.CLEARINGBUSINESSDATE_INT:
-				clearingBusinessDate = FixUtils.getTagStringValue(value, clearingBusinessDate);
+				clearingBusinessDate = FixUtils.getTagStringValue(MsgTypes.POSITIONMAINTENANCEREPORT ,id ,value, clearingBusinessDate);
 				break;
 
 			case FixTags.SETTLSESSID_INT:
-				settlSessID = FixUtils.getTagStringValue(value, settlSessID);
+				settlSessID = FixUtils.getTagStringValue(MsgTypes.POSITIONMAINTENANCEREPORT ,id ,value, settlSessID);
 				if (!SettlSessID.isValid(settlSessID) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + settlSessID + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.SETTLSESSSUBID_INT:
-				settlSessSubID = FixUtils.getTagStringValue(value, settlSessSubID);
+				settlSessSubID = FixUtils.getTagStringValue(MsgTypes.POSITIONMAINTENANCEREPORT ,id ,value, settlSessSubID);
 				break;
 
 			case FixTags.NOPARTYIDS_INT:
-				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.noPartyIDs = FixUtils.getTagIntValue( MsgTypes.POSITIONMAINTENANCEREPORT ,FixTags.NOPARTYIDS_INT ,value );
 				parties.getAll(parties.noPartyIDs, value );
 				break;
 
 			case FixTags.ACCOUNT_INT:
-				account = FixUtils.getTagStringValue(value, account);
+				account = FixUtils.getTagStringValue(MsgTypes.POSITIONMAINTENANCEREPORT ,id ,value, account);
 				break;
 
 			case FixTags.ACCTIDSOURCE_INT:
-				acctIDSource = FixUtils.getTagIntValue( value );
+				acctIDSource = FixUtils.getTagIntValue(MsgTypes.POSITIONMAINTENANCEREPORT ,id ,value );
 				if (!AcctIDSource.isValid(acctIDSource) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + acctIDSource + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.ACCOUNTTYPE_INT:
-				accountType = FixUtils.getTagIntValue( value );
+				accountType = FixUtils.getTagIntValue(MsgTypes.POSITIONMAINTENANCEREPORT ,id ,value );
 				if (!AccountType.isValid(accountType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + accountType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.POSMAINTRPTREFID_INT:
-				posMaintRptRefID = FixUtils.getTagStringValue(value, posMaintRptRefID);
+				posMaintRptRefID = FixUtils.getTagStringValue(MsgTypes.POSITIONMAINTENANCEREPORT ,id ,value, posMaintRptRefID);
 				break;
 
 			case FixTags.SYMBOL_INT:
@@ -220,74 +220,74 @@ public class FixPositionMaintenanceReport extends FixMessage
 				break;
 
 			case FixTags.CURRENCY_INT:
-				currency = FixUtils.getTagStringValue(value, currency);
+				currency = FixUtils.getTagStringValue(MsgTypes.POSITIONMAINTENANCEREPORT ,id ,value, currency);
 				break;
 
 			case FixTags.SETTLCURRENCY_INT:
-				settlCurrency = FixUtils.getTagStringValue(value, settlCurrency);
+				settlCurrency = FixUtils.getTagStringValue(MsgTypes.POSITIONMAINTENANCEREPORT ,id ,value, settlCurrency);
 				break;
 
 			case FixTags.CONTRARYINSTRUCTIONINDICATOR_INT:
-				contraryInstructionIndicator = FixUtils.getTagBooleanValue( value );
+				contraryInstructionIndicator = FixUtils.getTagBooleanValue(MsgTypes.POSITIONMAINTENANCEREPORT ,id ,value );
 				break;
 
 			case FixTags.PRIORSPREADINDICATOR_INT:
-				priorSpreadIndicator = FixUtils.getTagBooleanValue( value );
+				priorSpreadIndicator = FixUtils.getTagBooleanValue(MsgTypes.POSITIONMAINTENANCEREPORT ,id ,value );
 				break;
 
 			case FixTags.NOLEGS_INT:
-				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( value );
+				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( MsgTypes.POSITIONMAINTENANCEREPORT ,FixTags.NOLEGS_INT ,value );
 				instrmtLegGrp.getAll(instrmtLegGrp.noLegs, value );
 				break;
 
 			case FixTags.NOUNDERLYINGS_INT:
-				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( MsgTypes.POSITIONMAINTENANCEREPORT ,FixTags.NOUNDERLYINGS_INT ,value );
 				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
 				break;
 
 			case FixTags.NOTRADINGSESSIONS_INT:
-				trdgSesGrp.noTradingSessions = FixUtils.getTagIntValue( value );
+				trdgSesGrp.noTradingSessions = FixUtils.getTagIntValue( MsgTypes.POSITIONMAINTENANCEREPORT ,FixTags.NOTRADINGSESSIONS_INT ,value );
 				trdgSesGrp.getAll(trdgSesGrp.noTradingSessions, value );
 				break;
 
 			case FixTags.TRANSACTTIME_INT:
-				transactTime = FixUtils.getTagStringValue(value, transactTime);
+				transactTime = FixUtils.getTagStringValue(MsgTypes.POSITIONMAINTENANCEREPORT ,id ,value, transactTime);
 				break;
 
 			case FixTags.NOPOSITIONS_INT:
-				positionQty.noPositions = FixUtils.getTagIntValue( value );
+				positionQty.noPositions = FixUtils.getTagIntValue( MsgTypes.POSITIONMAINTENANCEREPORT ,FixTags.NOPOSITIONS_INT ,value );
 				positionQty.getAll(positionQty.noPositions, value );
 				break;
 
 			case FixTags.NOPOSAMT_INT:
-				positionAmountData.noPosAmt = FixUtils.getTagIntValue( value );
+				positionAmountData.noPosAmt = FixUtils.getTagIntValue( MsgTypes.POSITIONMAINTENANCEREPORT ,FixTags.NOPOSAMT_INT ,value );
 				positionAmountData.getAll(positionAmountData.noPosAmt, value );
 				break;
 
 			case FixTags.ADJUSTMENTTYPE_INT:
-				adjustmentType = FixUtils.getTagIntValue( value );
+				adjustmentType = FixUtils.getTagIntValue(MsgTypes.POSITIONMAINTENANCEREPORT ,id ,value );
 				if (!AdjustmentType.isValid(adjustmentType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + adjustmentType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.THRESHOLDAMOUNT_INT:
-				thresholdAmount = FixUtils.getTagFloatValue(value);
+				thresholdAmount = FixUtils.getTagFloatValue(MsgTypes.POSITIONMAINTENANCEREPORT ,id ,value);
 				break;
 
 			case FixTags.TEXT_INT:
-				text = FixUtils.getTagStringValue(value, text);
+				text = FixUtils.getTagStringValue(MsgTypes.POSITIONMAINTENANCEREPORT ,id ,value, text);
 				break;
 
 			case FixTags.ENCODEDTEXTLEN_INT:
-				encodedTextLen = FixUtils.getTagIntValue( value );
+				encodedTextLen = FixUtils.getTagIntValue(MsgTypes.POSITIONMAINTENANCEREPORT ,id ,value );
 				break;
 
 			case FixTags.ENCODEDTEXT_INT:
-				encodedText = FixUtils.getTagStringValue(value, encodedText);
+				encodedText = FixUtils.getTagStringValue(MsgTypes.POSITIONMAINTENANCEREPORT ,id ,value, encodedText);
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.POSITIONMAINTENANCEREPORT ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

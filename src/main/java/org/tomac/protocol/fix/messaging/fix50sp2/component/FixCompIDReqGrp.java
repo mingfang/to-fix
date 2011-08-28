@@ -116,28 +116,28 @@ public class CompIDReqGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.REFCOMPID_INT) {
-				refCompID = FixUtils.getTagStringValue(value, refCompID);
+				refCompID = FixUtils.getTagStringValue(null ,id ,value, refCompID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.REFSUBID_INT) {
-				refSubID = FixUtils.getTagStringValue(value, refSubID);
+				refSubID = FixUtils.getTagStringValue(null ,id ,value, refSubID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LOCATIONID_INT) {
-				locationID = FixUtils.getTagStringValue(value, locationID);
+				locationID = FixUtils.getTagStringValue(null ,id ,value, locationID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.DESKID_INT) {
-				deskID = FixUtils.getTagStringValue(value, deskID);
+				deskID = FixUtils.getTagStringValue(null ,id ,value, deskID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

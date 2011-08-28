@@ -65,7 +65,7 @@ public class FixStreamAssignmentReportACK extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -74,34 +74,34 @@ public class FixStreamAssignmentReportACK extends FixMessage
 			switch( id ) {
 
 			case FixTags.STREAMASGNACKTYPE_INT:
-				streamAsgnAckType = FixUtils.getTagIntValue( value );
+				streamAsgnAckType = FixUtils.getTagIntValue(MsgTypes.STREAMASSIGNMENTREPORTACK ,id ,value );
 				if (!StreamAsgnAckType.isValid(streamAsgnAckType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + streamAsgnAckType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.STREAMASGNRPTID_INT:
-				streamAsgnRptID = FixUtils.getTagStringValue(value, streamAsgnRptID);
+				streamAsgnRptID = FixUtils.getTagStringValue(MsgTypes.STREAMASSIGNMENTREPORTACK ,id ,value, streamAsgnRptID);
 				break;
 
 			case FixTags.STREAMASGNREJREASON_INT:
-				streamAsgnRejReason = FixUtils.getTagIntValue( value );
+				streamAsgnRejReason = FixUtils.getTagIntValue(MsgTypes.STREAMASSIGNMENTREPORTACK ,id ,value );
 				if (!StreamAsgnRejReason.isValid(streamAsgnRejReason) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + streamAsgnRejReason + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TEXT_INT:
-				text = FixUtils.getTagStringValue(value, text);
+				text = FixUtils.getTagStringValue(MsgTypes.STREAMASSIGNMENTREPORTACK ,id ,value, text);
 				break;
 
 			case FixTags.ENCODEDTEXTLEN_INT:
-				encodedTextLen = FixUtils.getTagIntValue( value );
+				encodedTextLen = FixUtils.getTagIntValue(MsgTypes.STREAMASSIGNMENTREPORTACK ,id ,value );
 				break;
 
 			case FixTags.ENCODEDTEXT_INT:
-				encodedText = FixUtils.getTagStringValue(value, encodedText);
+				encodedText = FixUtils.getTagStringValue(MsgTypes.STREAMASSIGNMENTREPORTACK ,id ,value, encodedText);
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.STREAMASSIGNMENTREPORTACK ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

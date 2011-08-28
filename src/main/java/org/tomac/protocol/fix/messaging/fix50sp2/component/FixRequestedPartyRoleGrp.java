@@ -106,7 +106,7 @@ public class RequestedPartyRoleGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.REQUESTEDPARTYROLE_INT) {
-				requestedPartyRole = FixUtils.getTagIntValue( value );
+				requestedPartyRole = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

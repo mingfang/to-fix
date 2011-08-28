@@ -64,23 +64,23 @@ public class FixLegBenchmarkCurveData implements FixComponent
 			switch( id ) {
 
 			case FixTags.LEGBENCHMARKCURVECURRENCY_INT:
-				legBenchmarkCurveCurrency = FixUtils.getTagStringValue(value, legBenchmarkCurveCurrency);
+				legBenchmarkCurveCurrency = FixUtils.getTagStringValue(null ,id ,value, legBenchmarkCurveCurrency);
 				break;
 
 			case FixTags.LEGBENCHMARKCURVENAME_INT:
-				legBenchmarkCurveName = FixUtils.getTagStringValue(value, legBenchmarkCurveName);
+				legBenchmarkCurveName = FixUtils.getTagStringValue(null ,id ,value, legBenchmarkCurveName);
 				break;
 
 			case FixTags.LEGBENCHMARKCURVEPOINT_INT:
-				legBenchmarkCurvePoint = FixUtils.getTagStringValue(value, legBenchmarkCurvePoint);
+				legBenchmarkCurvePoint = FixUtils.getTagStringValue(null ,id ,value, legBenchmarkCurvePoint);
 				break;
 
 			case FixTags.LEGBENCHMARKPRICE_INT:
-				legBenchmarkPrice = FixUtils.getTagFloatValue(value);
+				legBenchmarkPrice = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.LEGBENCHMARKPRICETYPE_INT:
-				legBenchmarkPriceType = FixUtils.getTagIntValue( value );
+				legBenchmarkPriceType = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			// we will always endup with unknown tag, unread and return to upper layer in hierarchy
@@ -95,7 +95,7 @@ public class FixLegBenchmarkCurveData implements FixComponent
 
 			lastTagPosition = buf.position();
 
-		} while ( ( id = FixUtils.getTagId( buf ) ) > 0 );
+		} while ( ( id = FixUtils.getTagId( buf ) ) >= 0 );
 
 		buf.position(startTagPosition);
 

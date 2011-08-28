@@ -110,14 +110,14 @@ public class UnderlyingLegSecurityAltIDGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.UNDERLYINGLEGSECURITYALTID_INT) {
-				underlyingLegSecurityAltID = FixUtils.getTagStringValue(value, underlyingLegSecurityAltID);
+				underlyingLegSecurityAltID = FixUtils.getTagStringValue(null ,id ,value, underlyingLegSecurityAltID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.UNDERLYINGLEGSECURITYALTIDSOURCE_INT) {
-				underlyingLegSecurityAltIDSource = FixUtils.getTagStringValue(value, underlyingLegSecurityAltIDSource);
+				underlyingLegSecurityAltIDSource = FixUtils.getTagStringValue(null ,id ,value, underlyingLegSecurityAltIDSource);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

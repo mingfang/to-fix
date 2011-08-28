@@ -106,7 +106,7 @@ public class ExecInstRules implements FixComponent
 			value = buf;
 
 			if(id == FixTags.EXECINSTVALUE_INT) {
-				execInstValue = FixUtils.getTagCharValue( value );
+				execInstValue = FixUtils.getTagCharValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

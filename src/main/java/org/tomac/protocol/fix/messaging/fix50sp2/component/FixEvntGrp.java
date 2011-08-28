@@ -117,7 +117,7 @@ public class EvntGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.EVENTTYPE_INT) {
-				eventType = FixUtils.getTagIntValue( value );
+				eventType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.EventType.isValid(eventType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + eventType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -125,28 +125,28 @@ public class EvntGrp implements FixComponent
 			}
 
 			if(id == FixTags.EVENTDATE_INT) {
-				eventDate = FixUtils.getTagStringValue(value, eventDate);
+				eventDate = FixUtils.getTagStringValue(null ,id ,value, eventDate);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.EVENTTIME_INT) {
-				eventTime = FixUtils.getTagStringValue(value, eventTime);
+				eventTime = FixUtils.getTagStringValue(null ,id ,value, eventTime);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.EVENTPX_INT) {
-				eventPx = FixUtils.getTagFloatValue(value);
+				eventPx = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.EVENTTEXT_INT) {
-				eventText = FixUtils.getTagStringValue(value, eventText);
+				eventText = FixUtils.getTagStringValue(null ,id ,value, eventText);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

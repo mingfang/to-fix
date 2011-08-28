@@ -106,7 +106,7 @@ public class CollInqQualGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.COLLINQUIRYQUALIFIER_INT) {
-				collInquiryQualifier = FixUtils.getTagIntValue( value );
+				collInquiryQualifier = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.CollInquiryQualifier.isValid(collInquiryQualifier) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + collInquiryQualifier + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 

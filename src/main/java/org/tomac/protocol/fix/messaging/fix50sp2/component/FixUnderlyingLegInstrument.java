@@ -97,68 +97,68 @@ public class FixUnderlyingLegInstrument implements FixComponent
 			switch( id ) {
 
 			case FixTags.UNDERLYINGLEGSYMBOL_INT:
-				underlyingLegSymbol = FixUtils.getTagStringValue(value, underlyingLegSymbol);
+				underlyingLegSymbol = FixUtils.getTagStringValue(null ,id ,value, underlyingLegSymbol);
 				break;
 
 			case FixTags.UNDERLYINGLEGSYMBOLSFX_INT:
-				underlyingLegSymbolSfx = FixUtils.getTagStringValue(value, underlyingLegSymbolSfx);
+				underlyingLegSymbolSfx = FixUtils.getTagStringValue(null ,id ,value, underlyingLegSymbolSfx);
 				break;
 
 			case FixTags.UNDERLYINGLEGSECURITYID_INT:
-				underlyingLegSecurityID = FixUtils.getTagStringValue(value, underlyingLegSecurityID);
+				underlyingLegSecurityID = FixUtils.getTagStringValue(null ,id ,value, underlyingLegSecurityID);
 				break;
 
 			case FixTags.UNDERLYINGLEGSECURITYIDSOURCE_INT:
-				underlyingLegSecurityIDSource = FixUtils.getTagStringValue(value, underlyingLegSecurityIDSource);
+				underlyingLegSecurityIDSource = FixUtils.getTagStringValue(null ,id ,value, underlyingLegSecurityIDSource);
 				break;
 
 			case FixTags.NOUNDERLYINGLEGSECURITYALTID_INT:
-				underlyingLegSecurityAltIDGrp.noUnderlyingLegSecurityAltID = FixUtils.getTagIntValue( value );
+				underlyingLegSecurityAltIDGrp.noUnderlyingLegSecurityAltID = FixUtils.getTagIntValue(null, FixTags.NOUNDERLYINGLEGSECURITYALTID_INT, value );
 				underlyingLegSecurityAltIDGrp.getAll(underlyingLegSecurityAltIDGrp.noUnderlyingLegSecurityAltID, value );
 				break;
 
 			case FixTags.UNDERLYINGLEGCFICODE_INT:
-				underlyingLegCFICode = FixUtils.getTagStringValue(value, underlyingLegCFICode);
+				underlyingLegCFICode = FixUtils.getTagStringValue(null ,id ,value, underlyingLegCFICode);
 				break;
 
 			case FixTags.UNDERLYINGLEGSECURITYTYPE_INT:
-				underlyingLegSecurityType = FixUtils.getTagStringValue(value, underlyingLegSecurityType);
+				underlyingLegSecurityType = FixUtils.getTagStringValue(null ,id ,value, underlyingLegSecurityType);
 				break;
 
 			case FixTags.UNDERLYINGLEGSECURITYSUBTYPE_INT:
-				underlyingLegSecuritySubType = FixUtils.getTagStringValue(value, underlyingLegSecuritySubType);
+				underlyingLegSecuritySubType = FixUtils.getTagStringValue(null ,id ,value, underlyingLegSecuritySubType);
 				break;
 
 			case FixTags.UNDERLYINGLEGMATURITYMONTHYEAR_INT:
-				underlyingLegMaturityMonthYear = FixUtils.getTagStringValue(value, underlyingLegMaturityMonthYear);
+				underlyingLegMaturityMonthYear = FixUtils.getTagStringValue(null ,id ,value, underlyingLegMaturityMonthYear);
 				break;
 
 			case FixTags.UNDERLYINGLEGMATURITYDATE_INT:
-				underlyingLegMaturityDate = FixUtils.getTagStringValue(value, underlyingLegMaturityDate);
+				underlyingLegMaturityDate = FixUtils.getTagStringValue(null ,id ,value, underlyingLegMaturityDate);
 				break;
 
 			case FixTags.UNDERLYINGLEGMATURITYTIME_INT:
-				underlyingLegMaturityTime = FixUtils.getTagStringValue(value, underlyingLegMaturityTime);
+				underlyingLegMaturityTime = FixUtils.getTagStringValue(null ,id ,value, underlyingLegMaturityTime);
 				break;
 
 			case FixTags.UNDERLYINGLEGSTRIKEPRICE_INT:
-				underlyingLegStrikePrice = FixUtils.getTagFloatValue(value);
+				underlyingLegStrikePrice = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.UNDERLYINGLEGOPTATTRIBUTE_INT:
-				underlyingLegOptAttribute = FixUtils.getTagCharValue( value );
+				underlyingLegOptAttribute = FixUtils.getTagCharValue(null ,id ,value );
 				break;
 
 			case FixTags.UNDERLYINGLEGPUTORCALL_INT:
-				underlyingLegPutOrCall = FixUtils.getTagIntValue( value );
+				underlyingLegPutOrCall = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.UNDERLYINGLEGSECURITYEXCHANGE_INT:
-				underlyingLegSecurityExchange = FixUtils.getTagStringValue(value, underlyingLegSecurityExchange);
+				underlyingLegSecurityExchange = FixUtils.getTagStringValue(null ,id ,value, underlyingLegSecurityExchange);
 				break;
 
 			case FixTags.UNDERLYINGLEGSECURITYDESC_INT:
-				underlyingLegSecurityDesc = FixUtils.getTagStringValue(value, underlyingLegSecurityDesc);
+				underlyingLegSecurityDesc = FixUtils.getTagStringValue(null ,id ,value, underlyingLegSecurityDesc);
 				break;
 
 			// we will always endup with unknown tag, unread and return to upper layer in hierarchy
@@ -173,7 +173,7 @@ public class FixUnderlyingLegInstrument implements FixComponent
 
 			lastTagPosition = buf.position();
 
-		} while ( ( id = FixUtils.getTagId( buf ) ) > 0 );
+		} while ( ( id = FixUtils.getTagId( buf ) ) >= 0 );
 
 		buf.position(startTagPosition);
 

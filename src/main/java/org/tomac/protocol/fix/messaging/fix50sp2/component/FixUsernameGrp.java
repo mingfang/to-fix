@@ -107,7 +107,7 @@ public class UsernameGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.USERNAME_INT) {
-				username = FixUtils.getTagStringValue(value, username);
+				username = FixUtils.getTagStringValue(null ,id ,value, username);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

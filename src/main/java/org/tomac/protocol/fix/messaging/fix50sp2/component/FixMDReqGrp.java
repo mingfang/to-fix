@@ -106,7 +106,7 @@ public class MDReqGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.MDENTRYTYPE_INT) {
-				mDEntryType = FixUtils.getTagCharValue( value );
+				mDEntryType = FixUtils.getTagCharValue(null ,id ,value );
 				if (!FixMessageInfo.MDEntryType.isValid(mDEntryType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + mDEntryType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 

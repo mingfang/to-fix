@@ -87,69 +87,69 @@ public class FixTriggeringInstruction implements FixComponent
 			switch( id ) {
 
 			case FixTags.TRIGGERTYPE_INT:
-				triggerType = FixUtils.getTagCharValue( value );
+				triggerType = FixUtils.getTagCharValue(null ,id ,value );
 				if (!TriggerType.isValid(triggerType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + triggerType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.TRIGGERACTION_INT:
-				triggerAction = FixUtils.getTagCharValue( value );
+				triggerAction = FixUtils.getTagCharValue(null ,id ,value );
 				if (!TriggerAction.isValid(triggerAction) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + triggerAction + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.TRIGGERPRICE_INT:
-				triggerPrice = FixUtils.getTagFloatValue(value);
+				triggerPrice = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.TRIGGERSYMBOL_INT:
-				triggerSymbol = FixUtils.getTagStringValue(value, triggerSymbol);
+				triggerSymbol = FixUtils.getTagStringValue(null ,id ,value, triggerSymbol);
 				break;
 
 			case FixTags.TRIGGERSECURITYID_INT:
-				triggerSecurityID = FixUtils.getTagStringValue(value, triggerSecurityID);
+				triggerSecurityID = FixUtils.getTagStringValue(null ,id ,value, triggerSecurityID);
 				break;
 
 			case FixTags.TRIGGERSECURITYIDSOURCE_INT:
-				triggerSecurityIDSource = FixUtils.getTagStringValue(value, triggerSecurityIDSource);
+				triggerSecurityIDSource = FixUtils.getTagStringValue(null ,id ,value, triggerSecurityIDSource);
 				break;
 
 			case FixTags.TRIGGERSECURITYDESC_INT:
-				triggerSecurityDesc = FixUtils.getTagStringValue(value, triggerSecurityDesc);
+				triggerSecurityDesc = FixUtils.getTagStringValue(null ,id ,value, triggerSecurityDesc);
 				break;
 
 			case FixTags.TRIGGERPRICETYPE_INT:
-				triggerPriceType = FixUtils.getTagCharValue( value );
+				triggerPriceType = FixUtils.getTagCharValue(null ,id ,value );
 				if (!TriggerPriceType.isValid(triggerPriceType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + triggerPriceType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.TRIGGERPRICETYPESCOPE_INT:
-				triggerPriceTypeScope = FixUtils.getTagCharValue( value );
+				triggerPriceTypeScope = FixUtils.getTagCharValue(null ,id ,value );
 				if (!TriggerPriceTypeScope.isValid(triggerPriceTypeScope) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + triggerPriceTypeScope + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.TRIGGERPRICEDIRECTION_INT:
-				triggerPriceDirection = FixUtils.getTagCharValue( value );
+				triggerPriceDirection = FixUtils.getTagCharValue(null ,id ,value );
 				if (!TriggerPriceDirection.isValid(triggerPriceDirection) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + triggerPriceDirection + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.TRIGGERNEWPRICE_INT:
-				triggerNewPrice = FixUtils.getTagFloatValue(value);
+				triggerNewPrice = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.TRIGGERORDERTYPE_INT:
-				triggerOrderType = FixUtils.getTagCharValue( value );
+				triggerOrderType = FixUtils.getTagCharValue(null ,id ,value );
 				if (!TriggerOrderType.isValid(triggerOrderType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + triggerOrderType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.TRIGGERNEWQTY_INT:
-				triggerNewQty = FixUtils.getTagFloatValue(value);
+				triggerNewQty = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.TRIGGERTRADINGSESSIONID_INT:
-				triggerTradingSessionID = FixUtils.getTagStringValue(value, triggerTradingSessionID);
+				triggerTradingSessionID = FixUtils.getTagStringValue(null ,id ,value, triggerTradingSessionID);
 				break;
 
 			case FixTags.TRIGGERTRADINGSESSIONSUBID_INT:
-				triggerTradingSessionSubID = FixUtils.getTagStringValue(value, triggerTradingSessionSubID);
+				triggerTradingSessionSubID = FixUtils.getTagStringValue(null ,id ,value, triggerTradingSessionSubID);
 				break;
 
 			// we will always endup with unknown tag, unread and return to upper layer in hierarchy
@@ -164,7 +164,7 @@ public class FixTriggeringInstruction implements FixComponent
 
 			lastTagPosition = buf.position();
 
-		} while ( ( id = FixUtils.getTagId( buf ) ) > 0 );
+		} while ( ( id = FixUtils.getTagId( buf ) ) >= 0 );
 
 		buf.position(startTagPosition);
 

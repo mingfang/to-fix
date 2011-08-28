@@ -119,7 +119,7 @@ public class MsgTypeGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.MSGDIRECTION_INT) {
-				msgDirection = FixUtils.getTagCharValue( value );
+				msgDirection = FixUtils.getTagCharValue(null ,id ,value );
 				if (!FixMessageInfo.MsgDirection.isValid(msgDirection) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + msgDirection + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -127,28 +127,28 @@ public class MsgTypeGrp implements FixComponent
 			}
 
 			if(id == FixTags.REFAPPLVERID_INT) {
-				refApplVerID = FixUtils.getTagStringValue(value, refApplVerID);
+				refApplVerID = FixUtils.getTagStringValue(null ,id ,value, refApplVerID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.REFCSTMAPPLVERID_INT) {
-				refCstmApplVerID = FixUtils.getTagStringValue(value, refCstmApplVerID);
+				refCstmApplVerID = FixUtils.getTagStringValue(null ,id ,value, refCstmApplVerID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.REFAPPLEXTID_INT) {
-				refApplExtID = FixUtils.getTagIntValue( value );
+				refApplExtID = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.DEFAULTVERINDICATOR_INT) {
-				defaultVerIndicator = FixUtils.getTagBooleanValue( value );
+				defaultVerIndicator = FixUtils.getTagBooleanValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

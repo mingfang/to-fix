@@ -122,7 +122,7 @@ public class FixOrderMassCancelReport extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -131,71 +131,71 @@ public class FixOrderMassCancelReport extends FixMessage
 			switch( id ) {
 
 			case FixTags.CLORDID_INT:
-				clOrdID = FixUtils.getTagStringValue(value, clOrdID);
+				clOrdID = FixUtils.getTagStringValue(MsgTypes.ORDERMASSCANCELREPORT ,id ,value, clOrdID);
 				break;
 
 			case FixTags.SECONDARYCLORDID_INT:
-				secondaryClOrdID = FixUtils.getTagStringValue(value, secondaryClOrdID);
+				secondaryClOrdID = FixUtils.getTagStringValue(MsgTypes.ORDERMASSCANCELREPORT ,id ,value, secondaryClOrdID);
 				break;
 
 			case FixTags.ORDERID_INT:
-				orderID = FixUtils.getTagStringValue(value, orderID);
+				orderID = FixUtils.getTagStringValue(MsgTypes.ORDERMASSCANCELREPORT ,id ,value, orderID);
 				break;
 
 			case FixTags.MASSACTIONREPORTID_INT:
-				massActionReportID = FixUtils.getTagStringValue(value, massActionReportID);
+				massActionReportID = FixUtils.getTagStringValue(MsgTypes.ORDERMASSCANCELREPORT ,id ,value, massActionReportID);
 				break;
 
 			case FixTags.SECONDARYORDERID_INT:
-				secondaryOrderID = FixUtils.getTagStringValue(value, secondaryOrderID);
+				secondaryOrderID = FixUtils.getTagStringValue(MsgTypes.ORDERMASSCANCELREPORT ,id ,value, secondaryOrderID);
 				break;
 
 			case FixTags.MASSCANCELREQUESTTYPE_INT:
-				massCancelRequestType = FixUtils.getTagCharValue( value );
+				massCancelRequestType = FixUtils.getTagCharValue(MsgTypes.ORDERMASSCANCELREPORT ,id ,value );
 				if (!MassCancelRequestType.isValid(massCancelRequestType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + massCancelRequestType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.MASSCANCELRESPONSE_INT:
-				massCancelResponse = FixUtils.getTagCharValue( value );
+				massCancelResponse = FixUtils.getTagCharValue(MsgTypes.ORDERMASSCANCELREPORT ,id ,value );
 				if (!MassCancelResponse.isValid(massCancelResponse) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + massCancelResponse + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.MASSCANCELREJECTREASON_INT:
-				massCancelRejectReason = FixUtils.getTagIntValue( value );
+				massCancelRejectReason = FixUtils.getTagIntValue(MsgTypes.ORDERMASSCANCELREPORT ,id ,value );
 				if (!MassCancelRejectReason.isValid(massCancelRejectReason) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + massCancelRejectReason + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TOTALAFFECTEDORDERS_INT:
-				totalAffectedOrders = FixUtils.getTagIntValue( value );
+				totalAffectedOrders = FixUtils.getTagIntValue(MsgTypes.ORDERMASSCANCELREPORT ,id ,value );
 				break;
 
 			case FixTags.NOAFFECTEDORDERS_INT:
-				affectedOrdGrp.noAffectedOrders = FixUtils.getTagIntValue( value );
+				affectedOrdGrp.noAffectedOrders = FixUtils.getTagIntValue( MsgTypes.ORDERMASSCANCELREPORT ,FixTags.NOAFFECTEDORDERS_INT ,value );
 				affectedOrdGrp.getAll(affectedOrdGrp.noAffectedOrders, value );
 				break;
 
 			case FixTags.NONOTAFFECTEDORDERS_INT:
-				notAffectedOrdersGrp.noNotAffectedOrders = FixUtils.getTagIntValue( value );
+				notAffectedOrdersGrp.noNotAffectedOrders = FixUtils.getTagIntValue( MsgTypes.ORDERMASSCANCELREPORT ,FixTags.NONOTAFFECTEDORDERS_INT ,value );
 				notAffectedOrdersGrp.getAll(notAffectedOrdersGrp.noNotAffectedOrders, value );
 				break;
 
 			case FixTags.TRADINGSESSIONID_INT:
-				tradingSessionID = FixUtils.getTagStringValue(value, tradingSessionID);
+				tradingSessionID = FixUtils.getTagStringValue(MsgTypes.ORDERMASSCANCELREPORT ,id ,value, tradingSessionID);
 				if (!TradingSessionID.isValid(tradingSessionID) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + tradingSessionID + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TRADINGSESSIONSUBID_INT:
-				tradingSessionSubID = FixUtils.getTagStringValue(value, tradingSessionSubID);
+				tradingSessionSubID = FixUtils.getTagStringValue(MsgTypes.ORDERMASSCANCELREPORT ,id ,value, tradingSessionSubID);
 				if (!TradingSessionSubID.isValid(tradingSessionSubID) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + tradingSessionSubID + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NOPARTYIDS_INT:
-				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.noPartyIDs = FixUtils.getTagIntValue( MsgTypes.ORDERMASSCANCELREPORT ,FixTags.NOPARTYIDS_INT ,value );
 				parties.getAll(parties.noPartyIDs, value );
 				break;
 
 			case FixTags.NOTARGETPARTYIDS_INT:
-				targetParties.noTargetPartyIDs = FixUtils.getTagIntValue( value );
+				targetParties.noTargetPartyIDs = FixUtils.getTagIntValue( MsgTypes.ORDERMASSCANCELREPORT ,FixTags.NOTARGETPARTYIDS_INT ,value );
 				targetParties.getAll(targetParties.noTargetPartyIDs, value );
 				break;
 
@@ -204,11 +204,11 @@ public class FixOrderMassCancelReport extends FixMessage
 				break;
 
 			case FixTags.MARKETID_INT:
-				marketID = FixUtils.getTagStringValue(value, marketID);
+				marketID = FixUtils.getTagStringValue(MsgTypes.ORDERMASSCANCELREPORT ,id ,value, marketID);
 				break;
 
 			case FixTags.MARKETSEGMENTID_INT:
-				marketSegmentID = FixUtils.getTagStringValue(value, marketSegmentID);
+				marketSegmentID = FixUtils.getTagStringValue(MsgTypes.ORDERMASSCANCELREPORT ,id ,value, marketSegmentID);
 				break;
 
 			case FixTags.UNDERLYINGSYMBOL_INT:
@@ -216,29 +216,29 @@ public class FixOrderMassCancelReport extends FixMessage
 				break;
 
 			case FixTags.SIDE_INT:
-				side = FixUtils.getTagCharValue( value );
+				side = FixUtils.getTagCharValue(MsgTypes.ORDERMASSCANCELREPORT ,id ,value );
 				if (!Side.isValid(side) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + side + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TRANSACTTIME_INT:
-				transactTime = FixUtils.getTagStringValue(value, transactTime);
+				transactTime = FixUtils.getTagStringValue(MsgTypes.ORDERMASSCANCELREPORT ,id ,value, transactTime);
 				break;
 
 			case FixTags.TEXT_INT:
-				text = FixUtils.getTagStringValue(value, text);
+				text = FixUtils.getTagStringValue(MsgTypes.ORDERMASSCANCELREPORT ,id ,value, text);
 				break;
 
 			case FixTags.ENCODEDTEXTLEN_INT:
-				encodedTextLen = FixUtils.getTagIntValue( value );
+				encodedTextLen = FixUtils.getTagIntValue(MsgTypes.ORDERMASSCANCELREPORT ,id ,value );
 				break;
 
 			case FixTags.ENCODEDTEXT_INT:
-				encodedText = FixUtils.getTagStringValue(value, encodedText);
+				encodedText = FixUtils.getTagStringValue(MsgTypes.ORDERMASSCANCELREPORT ,id ,value, encodedText);
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.ORDERMASSCANCELREPORT ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

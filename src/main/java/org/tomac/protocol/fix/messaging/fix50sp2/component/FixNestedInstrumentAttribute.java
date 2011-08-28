@@ -109,14 +109,14 @@ public class NestedInstrumentAttribute implements FixComponent
 			value = buf;
 
 			if(id == FixTags.NESTEDINSTRATTRIBTYPE_INT) {
-				nestedInstrAttribType = FixUtils.getTagIntValue( value );
+				nestedInstrAttribType = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.NESTEDINSTRATTRIBVALUE_INT) {
-				nestedInstrAttribValue = FixUtils.getTagStringValue(value, nestedInstrAttribValue);
+				nestedInstrAttribValue = FixUtils.getTagStringValue(null ,id ,value, nestedInstrAttribValue);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

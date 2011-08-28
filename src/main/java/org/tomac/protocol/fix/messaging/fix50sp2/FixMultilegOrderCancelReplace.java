@@ -278,7 +278,7 @@ public class FixMultilegOrderCancelReplace extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -287,119 +287,119 @@ public class FixMultilegOrderCancelReplace extends FixMessage
 			switch( id ) {
 
 			case FixTags.ORDERID_INT:
-				orderID = FixUtils.getTagStringValue(value, orderID);
+				orderID = FixUtils.getTagStringValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value, orderID);
 				break;
 
 			case FixTags.ORIGCLORDID_INT:
-				origClOrdID = FixUtils.getTagStringValue(value, origClOrdID);
+				origClOrdID = FixUtils.getTagStringValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value, origClOrdID);
 				break;
 
 			case FixTags.CLORDID_INT:
-				clOrdID = FixUtils.getTagStringValue(value, clOrdID);
+				clOrdID = FixUtils.getTagStringValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value, clOrdID);
 				break;
 
 			case FixTags.SECONDARYCLORDID_INT:
-				secondaryClOrdID = FixUtils.getTagStringValue(value, secondaryClOrdID);
+				secondaryClOrdID = FixUtils.getTagStringValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value, secondaryClOrdID);
 				break;
 
 			case FixTags.CLORDLINKID_INT:
-				clOrdLinkID = FixUtils.getTagStringValue(value, clOrdLinkID);
+				clOrdLinkID = FixUtils.getTagStringValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value, clOrdLinkID);
 				break;
 
 			case FixTags.ORIGORDMODTIME_INT:
-				origOrdModTime = FixUtils.getTagStringValue(value, origOrdModTime);
+				origOrdModTime = FixUtils.getTagStringValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value, origOrdModTime);
 				break;
 
 			case FixTags.NOPARTYIDS_INT:
-				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.noPartyIDs = FixUtils.getTagIntValue( MsgTypes.MULTILEGORDERCANCELREPLACE ,FixTags.NOPARTYIDS_INT ,value );
 				parties.getAll(parties.noPartyIDs, value );
 				break;
 
 			case FixTags.TRADEORIGINATIONDATE_INT:
-				tradeOriginationDate = FixUtils.getTagStringValue(value, tradeOriginationDate);
+				tradeOriginationDate = FixUtils.getTagStringValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value, tradeOriginationDate);
 				break;
 
 			case FixTags.TRADEDATE_INT:
-				tradeDate = FixUtils.getTagStringValue(value, tradeDate);
+				tradeDate = FixUtils.getTagStringValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value, tradeDate);
 				break;
 
 			case FixTags.ACCOUNT_INT:
-				account = FixUtils.getTagStringValue(value, account);
+				account = FixUtils.getTagStringValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value, account);
 				break;
 
 			case FixTags.ACCTIDSOURCE_INT:
-				acctIDSource = FixUtils.getTagIntValue( value );
+				acctIDSource = FixUtils.getTagIntValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				if (!AcctIDSource.isValid(acctIDSource) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + acctIDSource + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.ACCOUNTTYPE_INT:
-				accountType = FixUtils.getTagIntValue( value );
+				accountType = FixUtils.getTagIntValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				if (!AccountType.isValid(accountType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + accountType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.DAYBOOKINGINST_INT:
-				dayBookingInst = FixUtils.getTagCharValue( value );
+				dayBookingInst = FixUtils.getTagCharValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				if (!DayBookingInst.isValid(dayBookingInst) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + dayBookingInst + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.BOOKINGUNIT_INT:
-				bookingUnit = FixUtils.getTagCharValue( value );
+				bookingUnit = FixUtils.getTagCharValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				if (!BookingUnit.isValid(bookingUnit) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + bookingUnit + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.PREALLOCMETHOD_INT:
-				preallocMethod = FixUtils.getTagCharValue( value );
+				preallocMethod = FixUtils.getTagCharValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				if (!PreallocMethod.isValid(preallocMethod) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + preallocMethod + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.ALLOCID_INT:
-				allocID = FixUtils.getTagStringValue(value, allocID);
+				allocID = FixUtils.getTagStringValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value, allocID);
 				break;
 
 			case FixTags.NOALLOCS_INT:
-				preAllocMlegGrp.noAllocs = FixUtils.getTagIntValue( value );
+				preAllocMlegGrp.noAllocs = FixUtils.getTagIntValue( MsgTypes.MULTILEGORDERCANCELREPLACE ,FixTags.NOALLOCS_INT ,value );
 				preAllocMlegGrp.getAll(preAllocMlegGrp.noAllocs, value );
 				break;
 
 			case FixTags.SETTLTYPE_INT:
-				settlType = FixUtils.getTagStringValue(value, settlType);
+				settlType = FixUtils.getTagStringValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value, settlType);
 				if (!SettlType.isValid(settlType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + settlType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.SETTLDATE_INT:
-				settlDate = FixUtils.getTagStringValue(value, settlDate);
+				settlDate = FixUtils.getTagStringValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value, settlDate);
 				break;
 
 			case FixTags.CASHMARGIN_INT:
-				cashMargin = FixUtils.getTagCharValue( value );
+				cashMargin = FixUtils.getTagCharValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				if (!CashMargin.isValid(cashMargin) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + cashMargin + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.CLEARINGFEEINDICATOR_INT:
-				clearingFeeIndicator = FixUtils.getTagStringValue(value, clearingFeeIndicator);
+				clearingFeeIndicator = FixUtils.getTagStringValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value, clearingFeeIndicator);
 				if (!ClearingFeeIndicator.isValid(clearingFeeIndicator) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + clearingFeeIndicator + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.HANDLINST_INT:
-				handlInst = FixUtils.getTagCharValue( value );
+				handlInst = FixUtils.getTagCharValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				if (!HandlInst.isValid(handlInst) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + handlInst + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.EXECINST_INT:
-				execInst = FixUtils.getTagStringValue(value, execInst);
+				execInst = FixUtils.getTagStringValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value, execInst);
 				if (!ExecInst.isValid(execInst) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + execInst + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.MINQTY_INT:
-				minQty = FixUtils.getTagFloatValue(value);
+				minQty = FixUtils.getTagFloatValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value);
 				break;
 
 			case FixTags.MATCHINCREMENT_INT:
-				matchIncrement = FixUtils.getTagFloatValue(value);
+				matchIncrement = FixUtils.getTagFloatValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value);
 				break;
 
 			case FixTags.MAXPRICELEVELS_INT:
-				maxPriceLevels = FixUtils.getTagIntValue( value );
+				maxPriceLevels = FixUtils.getTagIntValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				break;
 
 			case FixTags.DISPLAYQTY_INT:
@@ -407,30 +407,30 @@ public class FixMultilegOrderCancelReplace extends FixMessage
 				break;
 
 			case FixTags.MAXFLOOR_INT:
-				maxFloor = FixUtils.getTagFloatValue(value);
+				maxFloor = FixUtils.getTagFloatValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value);
 				break;
 
 			case FixTags.EXDESTINATION_INT:
-				exDestination = FixUtils.getTagStringValue(value, exDestination);
+				exDestination = FixUtils.getTagStringValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value, exDestination);
 				break;
 
 			case FixTags.EXDESTINATIONIDSOURCE_INT:
-				exDestinationIDSource = FixUtils.getTagCharValue( value );
+				exDestinationIDSource = FixUtils.getTagCharValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				if (!ExDestinationIDSource.isValid(exDestinationIDSource) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + exDestinationIDSource + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NOTRADINGSESSIONS_INT:
-				trdgSesGrp.noTradingSessions = FixUtils.getTagIntValue( value );
+				trdgSesGrp.noTradingSessions = FixUtils.getTagIntValue( MsgTypes.MULTILEGORDERCANCELREPLACE ,FixTags.NOTRADINGSESSIONS_INT ,value );
 				trdgSesGrp.getAll(trdgSesGrp.noTradingSessions, value );
 				break;
 
 			case FixTags.PROCESSCODE_INT:
-				processCode = FixUtils.getTagCharValue( value );
+				processCode = FixUtils.getTagCharValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				if (!ProcessCode.isValid(processCode) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + processCode + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.SIDE_INT:
-				side = FixUtils.getTagCharValue( value );
+				side = FixUtils.getTagCharValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				if (!Side.isValid(side) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + side + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
@@ -439,34 +439,34 @@ public class FixMultilegOrderCancelReplace extends FixMessage
 				break;
 
 			case FixTags.NOUNDERLYINGS_INT:
-				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( MsgTypes.MULTILEGORDERCANCELREPLACE ,FixTags.NOUNDERLYINGS_INT ,value );
 				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
 				break;
 
 			case FixTags.PREVCLOSEPX_INT:
-				prevClosePx = FixUtils.getTagFloatValue(value);
+				prevClosePx = FixUtils.getTagFloatValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value);
 				break;
 
 			case FixTags.SWAPPOINTS_INT:
-				swapPoints = FixUtils.getTagFloatValue(value);
+				swapPoints = FixUtils.getTagFloatValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value);
 				break;
 
 			case FixTags.NOLEGS_INT:
-				legOrdGrp.noLegs = FixUtils.getTagIntValue( value );
+				legOrdGrp.noLegs = FixUtils.getTagIntValue( MsgTypes.MULTILEGORDERCANCELREPLACE ,FixTags.NOLEGS_INT ,value );
 				legOrdGrp.getAll(legOrdGrp.noLegs, value );
 				break;
 
 			case FixTags.LOCATEREQD_INT:
-				locateReqd = FixUtils.getTagBooleanValue( value );
+				locateReqd = FixUtils.getTagBooleanValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				if (!LocateReqd.isValid(locateReqd) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + locateReqd + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TRANSACTTIME_INT:
-				transactTime = FixUtils.getTagStringValue(value, transactTime);
+				transactTime = FixUtils.getTagStringValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value, transactTime);
 				break;
 
 			case FixTags.QTYTYPE_INT:
-				qtyType = FixUtils.getTagIntValue( value );
+				qtyType = FixUtils.getTagIntValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				if (!QtyType.isValid(qtyType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + qtyType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
@@ -475,36 +475,36 @@ public class FixMultilegOrderCancelReplace extends FixMessage
 				break;
 
 			case FixTags.ORDTYPE_INT:
-				ordType = FixUtils.getTagCharValue( value );
+				ordType = FixUtils.getTagCharValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				if (!OrdType.isValid(ordType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + ordType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.MULTILEGMODEL_INT:
-				multilegModel = FixUtils.getTagIntValue( value );
+				multilegModel = FixUtils.getTagIntValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				if (!MultilegModel.isValid(multilegModel) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + multilegModel + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.MULTILEGPRICEMETHOD_INT:
-				multilegPriceMethod = FixUtils.getTagIntValue( value );
+				multilegPriceMethod = FixUtils.getTagIntValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				if (!MultilegPriceMethod.isValid(multilegPriceMethod) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + multilegPriceMethod + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.PRICETYPE_INT:
-				priceType = FixUtils.getTagIntValue( value );
+				priceType = FixUtils.getTagIntValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				if (!PriceType.isValid(priceType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + priceType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.PRICE_INT:
-				price = FixUtils.getTagFloatValue(value);
+				price = FixUtils.getTagFloatValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value);
 				break;
 
 			case FixTags.PRICEPROTECTIONSCOPE_INT:
-				priceProtectionScope = FixUtils.getTagCharValue( value );
+				priceProtectionScope = FixUtils.getTagCharValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				if (!PriceProtectionScope.isValid(priceProtectionScope) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + priceProtectionScope + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.STOPPX_INT:
-				stopPx = FixUtils.getTagFloatValue(value);
+				stopPx = FixUtils.getTagFloatValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value);
 				break;
 
 			case FixTags.TRIGGERTYPE_INT:
@@ -512,45 +512,45 @@ public class FixMultilegOrderCancelReplace extends FixMessage
 				break;
 
 			case FixTags.CURRENCY_INT:
-				currency = FixUtils.getTagStringValue(value, currency);
+				currency = FixUtils.getTagStringValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value, currency);
 				break;
 
 			case FixTags.COMPLIANCEID_INT:
-				complianceID = FixUtils.getTagStringValue(value, complianceID);
+				complianceID = FixUtils.getTagStringValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value, complianceID);
 				break;
 
 			case FixTags.SOLICITEDFLAG_INT:
-				solicitedFlag = FixUtils.getTagBooleanValue( value );
+				solicitedFlag = FixUtils.getTagBooleanValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				if (!SolicitedFlag.isValid(solicitedFlag) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + solicitedFlag + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.IOIID_INT:
-				iOIID = FixUtils.getTagStringValue(value, iOIID);
+				iOIID = FixUtils.getTagStringValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value, iOIID);
 				break;
 
 			case FixTags.QUOTEID_INT:
-				quoteID = FixUtils.getTagStringValue(value, quoteID);
+				quoteID = FixUtils.getTagStringValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value, quoteID);
 				break;
 
 			case FixTags.TIMEINFORCE_INT:
-				timeInForce = FixUtils.getTagCharValue( value );
+				timeInForce = FixUtils.getTagCharValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				if (!TimeInForce.isValid(timeInForce) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + timeInForce + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.EFFECTIVETIME_INT:
-				effectiveTime = FixUtils.getTagStringValue(value, effectiveTime);
+				effectiveTime = FixUtils.getTagStringValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value, effectiveTime);
 				break;
 
 			case FixTags.EXPIREDATE_INT:
-				expireDate = FixUtils.getTagStringValue(value, expireDate);
+				expireDate = FixUtils.getTagStringValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value, expireDate);
 				break;
 
 			case FixTags.EXPIRETIME_INT:
-				expireTime = FixUtils.getTagStringValue(value, expireTime);
+				expireTime = FixUtils.getTagStringValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value, expireTime);
 				break;
 
 			case FixTags.GTBOOKINGINST_INT:
-				gTBookingInst = FixUtils.getTagIntValue( value );
+				gTBookingInst = FixUtils.getTagIntValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				if (!GTBookingInst.isValid(gTBookingInst) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + gTBookingInst + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
@@ -559,62 +559,62 @@ public class FixMultilegOrderCancelReplace extends FixMessage
 				break;
 
 			case FixTags.ORDERCAPACITY_INT:
-				orderCapacity = FixUtils.getTagCharValue( value );
+				orderCapacity = FixUtils.getTagCharValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				if (!OrderCapacity.isValid(orderCapacity) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + orderCapacity + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.ORDERRESTRICTIONS_INT:
-				orderRestrictions = FixUtils.getTagStringValue(value, orderRestrictions);
+				orderRestrictions = FixUtils.getTagStringValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value, orderRestrictions);
 				if (!OrderRestrictions.isValid(orderRestrictions) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + orderRestrictions + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.PRETRADEANONYMITY_INT:
-				preTradeAnonymity = FixUtils.getTagBooleanValue( value );
+				preTradeAnonymity = FixUtils.getTagBooleanValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				break;
 
 			case FixTags.CUSTORDERCAPACITY_INT:
-				custOrderCapacity = FixUtils.getTagIntValue( value );
+				custOrderCapacity = FixUtils.getTagIntValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				if (!CustOrderCapacity.isValid(custOrderCapacity) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + custOrderCapacity + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.FOREXREQ_INT:
-				forexReq = FixUtils.getTagBooleanValue( value );
+				forexReq = FixUtils.getTagBooleanValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				if (!ForexReq.isValid(forexReq) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + forexReq + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.SETTLCURRENCY_INT:
-				settlCurrency = FixUtils.getTagStringValue(value, settlCurrency);
+				settlCurrency = FixUtils.getTagStringValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value, settlCurrency);
 				break;
 
 			case FixTags.BOOKINGTYPE_INT:
-				bookingType = FixUtils.getTagIntValue( value );
+				bookingType = FixUtils.getTagIntValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				if (!BookingType.isValid(bookingType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + bookingType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TEXT_INT:
-				text = FixUtils.getTagStringValue(value, text);
+				text = FixUtils.getTagStringValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value, text);
 				break;
 
 			case FixTags.ENCODEDTEXTLEN_INT:
-				encodedTextLen = FixUtils.getTagIntValue( value );
+				encodedTextLen = FixUtils.getTagIntValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				break;
 
 			case FixTags.ENCODEDTEXT_INT:
-				encodedText = FixUtils.getTagStringValue(value, encodedText);
+				encodedText = FixUtils.getTagStringValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value, encodedText);
 				break;
 
 			case FixTags.POSITIONEFFECT_INT:
-				positionEffect = FixUtils.getTagCharValue( value );
+				positionEffect = FixUtils.getTagCharValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				if (!PositionEffect.isValid(positionEffect) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + positionEffect + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.COVEREDORUNCOVERED_INT:
-				coveredOrUncovered = FixUtils.getTagIntValue( value );
+				coveredOrUncovered = FixUtils.getTagIntValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				if (!CoveredOrUncovered.isValid(coveredOrUncovered) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + coveredOrUncovered + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.MAXSHOW_INT:
-				maxShow = FixUtils.getTagFloatValue(value);
+				maxShow = FixUtils.getTagFloatValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value);
 				break;
 
 			case FixTags.PEGOFFSETVALUE_INT:
@@ -626,53 +626,53 @@ public class FixMultilegOrderCancelReplace extends FixMessage
 				break;
 
 			case FixTags.TARGETSTRATEGY_INT:
-				targetStrategy = FixUtils.getTagIntValue( value );
+				targetStrategy = FixUtils.getTagIntValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				if (!TargetStrategy.isValid(targetStrategy) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + targetStrategy + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NOSTRATEGYPARAMETERS_INT:
-				strategyParametersGrp.noStrategyParameters = FixUtils.getTagIntValue( value );
+				strategyParametersGrp.noStrategyParameters = FixUtils.getTagIntValue( MsgTypes.MULTILEGORDERCANCELREPLACE ,FixTags.NOSTRATEGYPARAMETERS_INT ,value );
 				strategyParametersGrp.getAll(strategyParametersGrp.noStrategyParameters, value );
 				break;
 
 			case FixTags.TARGETSTRATEGYPARAMETERS_INT:
-				targetStrategyParameters = FixUtils.getTagStringValue(value, targetStrategyParameters);
+				targetStrategyParameters = FixUtils.getTagStringValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value, targetStrategyParameters);
 				break;
 
 			case FixTags.RISKFREERATE_INT:
-				riskFreeRate = FixUtils.getTagFloatValue(value);
+				riskFreeRate = FixUtils.getTagFloatValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value);
 				break;
 
 			case FixTags.PARTICIPATIONRATE_INT:
-				participationRate = FixUtils.getTagFloatValue(value);
+				participationRate = FixUtils.getTagFloatValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value);
 				break;
 
 			case FixTags.CANCELLATIONRIGHTS_INT:
-				cancellationRights = FixUtils.getTagCharValue( value );
+				cancellationRights = FixUtils.getTagCharValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				if (!CancellationRights.isValid(cancellationRights) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + cancellationRights + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.MONEYLAUNDERINGSTATUS_INT:
-				moneyLaunderingStatus = FixUtils.getTagCharValue( value );
+				moneyLaunderingStatus = FixUtils.getTagCharValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				if (!MoneyLaunderingStatus.isValid(moneyLaunderingStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + moneyLaunderingStatus + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.REGISTID_INT:
-				registID = FixUtils.getTagStringValue(value, registID);
+				registID = FixUtils.getTagStringValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value, registID);
 				break;
 
 			case FixTags.DESIGNATION_INT:
-				designation = FixUtils.getTagStringValue(value, designation);
+				designation = FixUtils.getTagStringValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value, designation);
 				break;
 
 			case FixTags.MULTILEGRPTTYPEREQ_INT:
-				multiLegRptTypeReq = FixUtils.getTagIntValue( value );
+				multiLegRptTypeReq = FixUtils.getTagIntValue(MsgTypes.MULTILEGORDERCANCELREPLACE ,id ,value );
 				if (!MultiLegRptTypeReq.isValid(multiLegRptTypeReq) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + multiLegRptTypeReq + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.MULTILEGORDERCANCELREPLACE ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

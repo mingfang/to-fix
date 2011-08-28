@@ -79,7 +79,7 @@ public class FixPartyDetailsListRequest extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -88,49 +88,49 @@ public class FixPartyDetailsListRequest extends FixMessage
 			switch( id ) {
 
 			case FixTags.PARTYDETAILSLISTREQUESTID_INT:
-				partyDetailsListRequestID = FixUtils.getTagStringValue(value, partyDetailsListRequestID);
+				partyDetailsListRequestID = FixUtils.getTagStringValue(MsgTypes.PARTYDETAILSLISTREQUEST ,id ,value, partyDetailsListRequestID);
 				break;
 
 			case FixTags.NOPARTYLISTRESPONSETYPES_INT:
-				partyListResponseTypeGrp.noPartyListResponseTypes = FixUtils.getTagIntValue( value );
+				partyListResponseTypeGrp.noPartyListResponseTypes = FixUtils.getTagIntValue( MsgTypes.PARTYDETAILSLISTREQUEST ,FixTags.NOPARTYLISTRESPONSETYPES_INT ,value );
 				partyListResponseTypeGrp.getAll(partyListResponseTypeGrp.noPartyListResponseTypes, value );
 				break;
 
 			case FixTags.NOPARTYIDS_INT:
-				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.noPartyIDs = FixUtils.getTagIntValue( MsgTypes.PARTYDETAILSLISTREQUEST ,FixTags.NOPARTYIDS_INT ,value );
 				parties.getAll(parties.noPartyIDs, value );
 				break;
 
 			case FixTags.NOREQUESTEDPARTYROLES_INT:
-				requestedPartyRoleGrp.noRequestedPartyRoles = FixUtils.getTagIntValue( value );
+				requestedPartyRoleGrp.noRequestedPartyRoles = FixUtils.getTagIntValue( MsgTypes.PARTYDETAILSLISTREQUEST ,FixTags.NOREQUESTEDPARTYROLES_INT ,value );
 				requestedPartyRoleGrp.getAll(requestedPartyRoleGrp.noRequestedPartyRoles, value );
 				break;
 
 			case FixTags.NOPARTYRELATIONSHIPS_INT:
-				partyRelationships.noPartyRelationships = FixUtils.getTagIntValue( value );
+				partyRelationships.noPartyRelationships = FixUtils.getTagIntValue( MsgTypes.PARTYDETAILSLISTREQUEST ,FixTags.NOPARTYRELATIONSHIPS_INT ,value );
 				partyRelationships.getAll(partyRelationships.noPartyRelationships, value );
 				break;
 
 			case FixTags.SUBSCRIPTIONREQUESTTYPE_INT:
-				subscriptionRequestType = FixUtils.getTagCharValue( value );
+				subscriptionRequestType = FixUtils.getTagCharValue(MsgTypes.PARTYDETAILSLISTREQUEST ,id ,value );
 				if (!SubscriptionRequestType.isValid(subscriptionRequestType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + subscriptionRequestType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TEXT_INT:
-				text = FixUtils.getTagStringValue(value, text);
+				text = FixUtils.getTagStringValue(MsgTypes.PARTYDETAILSLISTREQUEST ,id ,value, text);
 				break;
 
 			case FixTags.ENCODEDTEXTLEN_INT:
-				encodedTextLen = FixUtils.getTagIntValue( value );
+				encodedTextLen = FixUtils.getTagIntValue(MsgTypes.PARTYDETAILSLISTREQUEST ,id ,value );
 				break;
 
 			case FixTags.ENCODEDTEXT_INT:
-				encodedText = FixUtils.getTagStringValue(value, encodedText);
+				encodedText = FixUtils.getTagStringValue(MsgTypes.PARTYDETAILSLISTREQUEST ,id ,value, encodedText);
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.PARTYDETAILSLISTREQUEST ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

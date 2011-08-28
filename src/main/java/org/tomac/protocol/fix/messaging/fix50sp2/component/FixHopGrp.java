@@ -112,21 +112,21 @@ public class HopGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.HOPCOMPID_INT) {
-				hopCompID = FixUtils.getTagStringValue(value, hopCompID);
+				hopCompID = FixUtils.getTagStringValue(null ,id ,value, hopCompID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.HOPSENDINGTIME_INT) {
-				hopSendingTime = FixUtils.getTagStringValue(value, hopSendingTime);
+				hopSendingTime = FixUtils.getTagStringValue(null ,id ,value, hopSendingTime);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.HOPREFID_INT) {
-				hopRefID = FixUtils.getTagIntValue( value );
+				hopRefID = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

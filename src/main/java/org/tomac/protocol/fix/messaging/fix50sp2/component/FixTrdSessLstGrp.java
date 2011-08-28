@@ -166,7 +166,7 @@ public class TrdSessLstGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.TRADINGSESSIONID_INT) {
-				tradingSessionID = FixUtils.getTagStringValue(value, tradingSessionID);
+				tradingSessionID = FixUtils.getTagStringValue(null ,id ,value, tradingSessionID);
 				if (!FixMessageInfo.TradingSessionID.isValid(tradingSessionID) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + tradingSessionID + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -174,7 +174,7 @@ public class TrdSessLstGrp implements FixComponent
 			}
 
 			if(id == FixTags.TRADINGSESSIONSUBID_INT) {
-				tradingSessionSubID = FixUtils.getTagStringValue(value, tradingSessionSubID);
+				tradingSessionSubID = FixUtils.getTagStringValue(null ,id ,value, tradingSessionSubID);
 				if (!FixMessageInfo.TradingSessionSubID.isValid(tradingSessionSubID) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + tradingSessionSubID + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -182,14 +182,14 @@ public class TrdSessLstGrp implements FixComponent
 			}
 
 			if(id == FixTags.SECURITYEXCHANGE_INT) {
-				securityExchange = FixUtils.getTagStringValue(value, securityExchange);
+				securityExchange = FixUtils.getTagStringValue(null ,id ,value, securityExchange);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.TRADSESMETHOD_INT) {
-				tradSesMethod = FixUtils.getTagIntValue( value );
+				tradSesMethod = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.TradSesMethod.isValid(tradSesMethod) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + tradSesMethod + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -197,7 +197,7 @@ public class TrdSessLstGrp implements FixComponent
 			}
 
 			if(id == FixTags.TRADSESMODE_INT) {
-				tradSesMode = FixUtils.getTagIntValue( value );
+				tradSesMode = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.TradSesMode.isValid(tradSesMode) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + tradSesMode + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -205,7 +205,7 @@ public class TrdSessLstGrp implements FixComponent
 			}
 
 			if(id == FixTags.UNSOLICITEDINDICATOR_INT) {
-				unsolicitedIndicator = FixUtils.getTagBooleanValue( value );
+				unsolicitedIndicator = FixUtils.getTagBooleanValue(null ,id ,value );
 				if (!FixMessageInfo.UnsolicitedIndicator.isValid(unsolicitedIndicator) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + unsolicitedIndicator + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -213,7 +213,7 @@ public class TrdSessLstGrp implements FixComponent
 			}
 
 			if(id == FixTags.TRADSESSTATUS_INT) {
-				tradSesStatus = FixUtils.getTagIntValue( value );
+				tradSesStatus = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.TradSesStatus.isValid(tradSesStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + tradSesStatus + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -221,7 +221,7 @@ public class TrdSessLstGrp implements FixComponent
 			}
 
 			if(id == FixTags.TRADSESSTATUSREJREASON_INT) {
-				tradSesStatusRejReason = FixUtils.getTagIntValue( value );
+				tradSesStatusRejReason = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.TradSesStatusRejReason.isValid(tradSesStatusRejReason) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + tradSesStatusRejReason + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -229,98 +229,98 @@ public class TrdSessLstGrp implements FixComponent
 			}
 
 			if(id == FixTags.TRADSESSTARTTIME_INT) {
-				tradSesStartTime = FixUtils.getTagStringValue(value, tradSesStartTime);
+				tradSesStartTime = FixUtils.getTagStringValue(null ,id ,value, tradSesStartTime);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.MARKETID_INT) {
-				marketID = FixUtils.getTagStringValue(value, marketID);
+				marketID = FixUtils.getTagStringValue(null ,id ,value, marketID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.MARKETSEGMENTID_INT) {
-				marketSegmentID = FixUtils.getTagStringValue(value, marketSegmentID);
+				marketSegmentID = FixUtils.getTagStringValue(null ,id ,value, marketSegmentID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.TRADINGSESSIONDESC_INT) {
-				tradingSessionDesc = FixUtils.getTagStringValue(value, tradingSessionDesc);
+				tradingSessionDesc = FixUtils.getTagStringValue(null ,id ,value, tradingSessionDesc);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.TRADSESUPDATEACTION_INT) {
-				tradSesUpdateAction = FixUtils.getTagCharValue( value );
+				tradSesUpdateAction = FixUtils.getTagCharValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.TRADSESOPENTIME_INT) {
-				tradSesOpenTime = FixUtils.getTagStringValue(value, tradSesOpenTime);
+				tradSesOpenTime = FixUtils.getTagStringValue(null ,id ,value, tradSesOpenTime);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.TRADSESPRECLOSETIME_INT) {
-				tradSesPreCloseTime = FixUtils.getTagStringValue(value, tradSesPreCloseTime);
+				tradSesPreCloseTime = FixUtils.getTagStringValue(null ,id ,value, tradSesPreCloseTime);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.TRADSESCLOSETIME_INT) {
-				tradSesCloseTime = FixUtils.getTagStringValue(value, tradSesCloseTime);
+				tradSesCloseTime = FixUtils.getTagStringValue(null ,id ,value, tradSesCloseTime);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.TRADSESENDTIME_INT) {
-				tradSesEndTime = FixUtils.getTagStringValue(value, tradSesEndTime);
+				tradSesEndTime = FixUtils.getTagStringValue(null ,id ,value, tradSesEndTime);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.TOTALVOLUMETRADED_INT) {
-				totalVolumeTraded = FixUtils.getTagFloatValue(value);
+				totalVolumeTraded = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.TEXT_INT) {
-				text = FixUtils.getTagStringValue(value, text);
+				text = FixUtils.getTagStringValue(null ,id ,value, text);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ENCODEDTEXTLEN_INT) {
-				encodedTextLen = FixUtils.getTagIntValue( value );
+				encodedTextLen = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ENCODEDTEXT_INT) {
-				encodedText = FixUtils.getTagStringValue(value, encodedText);
+				encodedText = FixUtils.getTagStringValue(null ,id ,value, encodedText);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.TRANSACTTIME_INT) {
-				transactTime = FixUtils.getTagStringValue(value, transactTime);
+				transactTime = FixUtils.getTagStringValue(null ,id ,value, transactTime);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

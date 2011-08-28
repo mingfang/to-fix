@@ -111,7 +111,7 @@ public class ContAmtGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.CONTAMTTYPE_INT) {
-				contAmtType = FixUtils.getTagIntValue( value );
+				contAmtType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.ContAmtType.isValid(contAmtType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + contAmtType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -119,14 +119,14 @@ public class ContAmtGrp implements FixComponent
 			}
 
 			if(id == FixTags.CONTAMTVALUE_INT) {
-				contAmtValue = FixUtils.getTagFloatValue(value);
+				contAmtValue = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.CONTAMTCURR_INT) {
-				contAmtCurr = FixUtils.getTagStringValue(value, contAmtCurr);
+				contAmtCurr = FixUtils.getTagStringValue(null ,id ,value, contAmtCurr);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

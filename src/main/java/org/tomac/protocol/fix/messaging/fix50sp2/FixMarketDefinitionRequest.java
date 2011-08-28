@@ -64,7 +64,7 @@ public class FixMarketDefinitionRequest extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -73,29 +73,29 @@ public class FixMarketDefinitionRequest extends FixMessage
 			switch( id ) {
 
 			case FixTags.MARKETREQID_INT:
-				marketReqID = FixUtils.getTagStringValue(value, marketReqID);
+				marketReqID = FixUtils.getTagStringValue(MsgTypes.MARKETDEFINITIONREQUEST ,id ,value, marketReqID);
 				break;
 
 			case FixTags.SUBSCRIPTIONREQUESTTYPE_INT:
-				subscriptionRequestType = FixUtils.getTagCharValue( value );
+				subscriptionRequestType = FixUtils.getTagCharValue(MsgTypes.MARKETDEFINITIONREQUEST ,id ,value );
 				if (!SubscriptionRequestType.isValid(subscriptionRequestType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + subscriptionRequestType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.MARKETID_INT:
-				marketID = FixUtils.getTagStringValue(value, marketID);
+				marketID = FixUtils.getTagStringValue(MsgTypes.MARKETDEFINITIONREQUEST ,id ,value, marketID);
 				break;
 
 			case FixTags.MARKETSEGMENTID_INT:
-				marketSegmentID = FixUtils.getTagStringValue(value, marketSegmentID);
+				marketSegmentID = FixUtils.getTagStringValue(MsgTypes.MARKETDEFINITIONREQUEST ,id ,value, marketSegmentID);
 				break;
 
 			case FixTags.PARENTMKTSEGMID_INT:
-				parentMktSegmID = FixUtils.getTagStringValue(value, parentMktSegmID);
+				parentMktSegmID = FixUtils.getTagStringValue(MsgTypes.MARKETDEFINITIONREQUEST ,id ,value, parentMktSegmID);
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.MARKETDEFINITIONREQUEST ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

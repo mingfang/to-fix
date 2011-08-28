@@ -109,14 +109,14 @@ public class InstrumentPtysSubGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.INSTRUMENTPARTYSUBID_INT) {
-				instrumentPartySubID = FixUtils.getTagStringValue(value, instrumentPartySubID);
+				instrumentPartySubID = FixUtils.getTagStringValue(null ,id ,value, instrumentPartySubID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.INSTRUMENTPARTYSUBIDTYPE_INT) {
-				instrumentPartySubIDType = FixUtils.getTagIntValue( value );
+				instrumentPartySubIDType = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

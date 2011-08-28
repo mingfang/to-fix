@@ -71,27 +71,27 @@ public class FixTradingSessionRules implements FixComponent
 			switch( id ) {
 
 			case FixTags.NOORDTYPERULES_INT:
-				ordTypeRules.noOrdTypeRules = FixUtils.getTagIntValue( value );
+				ordTypeRules.noOrdTypeRules = FixUtils.getTagIntValue(null, FixTags.NOORDTYPERULES_INT, value );
 				ordTypeRules.getAll(ordTypeRules.noOrdTypeRules, value );
 				break;
 
 			case FixTags.NOTIMEINFORCERULES_INT:
-				timeInForceRules.noTimeInForceRules = FixUtils.getTagIntValue( value );
+				timeInForceRules.noTimeInForceRules = FixUtils.getTagIntValue(null, FixTags.NOTIMEINFORCERULES_INT, value );
 				timeInForceRules.getAll(timeInForceRules.noTimeInForceRules, value );
 				break;
 
 			case FixTags.NOEXECINSTRULES_INT:
-				execInstRules.noExecInstRules = FixUtils.getTagIntValue( value );
+				execInstRules.noExecInstRules = FixUtils.getTagIntValue(null, FixTags.NOEXECINSTRULES_INT, value );
 				execInstRules.getAll(execInstRules.noExecInstRules, value );
 				break;
 
 			case FixTags.NOMATCHRULES_INT:
-				matchRules.noMatchRules = FixUtils.getTagIntValue( value );
+				matchRules.noMatchRules = FixUtils.getTagIntValue(null, FixTags.NOMATCHRULES_INT, value );
 				matchRules.getAll(matchRules.noMatchRules, value );
 				break;
 
 			case FixTags.NOMDFEEDTYPES_INT:
-				marketDataFeedTypes.noMDFeedTypes = FixUtils.getTagIntValue( value );
+				marketDataFeedTypes.noMDFeedTypes = FixUtils.getTagIntValue(null, FixTags.NOMDFEEDTYPES_INT, value );
 				marketDataFeedTypes.getAll(marketDataFeedTypes.noMDFeedTypes, value );
 				break;
 
@@ -107,7 +107,7 @@ public class FixTradingSessionRules implements FixComponent
 
 			lastTagPosition = buf.position();
 
-		} while ( ( id = FixUtils.getTagId( buf ) ) > 0 );
+		} while ( ( id = FixUtils.getTagId( buf ) ) >= 0 );
 
 		buf.position(startTagPosition);
 

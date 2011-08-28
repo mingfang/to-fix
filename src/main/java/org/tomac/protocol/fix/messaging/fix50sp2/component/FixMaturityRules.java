@@ -119,14 +119,14 @@ public class MaturityRules implements FixComponent
 			value = buf;
 
 			if(id == FixTags.MATURITYRULEID_INT) {
-				maturityRuleID = FixUtils.getTagStringValue(value, maturityRuleID);
+				maturityRuleID = FixUtils.getTagStringValue(null ,id ,value, maturityRuleID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.MATURITYMONTHYEARFORMAT_INT) {
-				maturityMonthYearFormat = FixUtils.getTagIntValue( value );
+				maturityMonthYearFormat = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.MaturityMonthYearFormat.isValid(maturityMonthYearFormat) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + maturityMonthYearFormat + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -134,7 +134,7 @@ public class MaturityRules implements FixComponent
 			}
 
 			if(id == FixTags.MATURITYMONTHYEARINCREMENTUNITS_INT) {
-				maturityMonthYearIncrementUnits = FixUtils.getTagIntValue( value );
+				maturityMonthYearIncrementUnits = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.MaturityMonthYearIncrementUnits.isValid(maturityMonthYearIncrementUnits) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + maturityMonthYearIncrementUnits + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -142,21 +142,21 @@ public class MaturityRules implements FixComponent
 			}
 
 			if(id == FixTags.STARTMATURITYMONTHYEAR_INT) {
-				startMaturityMonthYear = FixUtils.getTagStringValue(value, startMaturityMonthYear);
+				startMaturityMonthYear = FixUtils.getTagStringValue(null ,id ,value, startMaturityMonthYear);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ENDMATURITYMONTHYEAR_INT) {
-				endMaturityMonthYear = FixUtils.getTagStringValue(value, endMaturityMonthYear);
+				endMaturityMonthYear = FixUtils.getTagStringValue(null ,id ,value, endMaturityMonthYear);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.MATURITYMONTHYEARINCREMENT_INT) {
-				maturityMonthYearIncrement = FixUtils.getTagIntValue( value );
+				maturityMonthYearIncrement = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

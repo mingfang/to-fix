@@ -227,7 +227,7 @@ public class FixConfirmation extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -236,73 +236,73 @@ public class FixConfirmation extends FixMessage
 			switch( id ) {
 
 			case FixTags.CONFIRMID_INT:
-				confirmID = FixUtils.getTagStringValue(value, confirmID);
+				confirmID = FixUtils.getTagStringValue(MsgTypes.CONFIRMATION ,id ,value, confirmID);
 				break;
 
 			case FixTags.CONFIRMREFID_INT:
-				confirmRefID = FixUtils.getTagStringValue(value, confirmRefID);
+				confirmRefID = FixUtils.getTagStringValue(MsgTypes.CONFIRMATION ,id ,value, confirmRefID);
 				break;
 
 			case FixTags.CONFIRMREQID_INT:
-				confirmReqID = FixUtils.getTagStringValue(value, confirmReqID);
+				confirmReqID = FixUtils.getTagStringValue(MsgTypes.CONFIRMATION ,id ,value, confirmReqID);
 				break;
 
 			case FixTags.CONFIRMTRANSTYPE_INT:
-				confirmTransType = FixUtils.getTagIntValue( value );
+				confirmTransType = FixUtils.getTagIntValue(MsgTypes.CONFIRMATION ,id ,value );
 				if (!ConfirmTransType.isValid(confirmTransType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + confirmTransType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.CONFIRMTYPE_INT:
-				confirmType = FixUtils.getTagIntValue( value );
+				confirmType = FixUtils.getTagIntValue(MsgTypes.CONFIRMATION ,id ,value );
 				if (!ConfirmType.isValid(confirmType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + confirmType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.COPYMSGINDICATOR_INT:
-				copyMsgIndicator = FixUtils.getTagBooleanValue( value );
+				copyMsgIndicator = FixUtils.getTagBooleanValue(MsgTypes.CONFIRMATION ,id ,value );
 				break;
 
 			case FixTags.LEGALCONFIRM_INT:
-				legalConfirm = FixUtils.getTagBooleanValue( value );
+				legalConfirm = FixUtils.getTagBooleanValue(MsgTypes.CONFIRMATION ,id ,value );
 				if (!LegalConfirm.isValid(legalConfirm) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + legalConfirm + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.CONFIRMSTATUS_INT:
-				confirmStatus = FixUtils.getTagIntValue( value );
+				confirmStatus = FixUtils.getTagIntValue(MsgTypes.CONFIRMATION ,id ,value );
 				if (!ConfirmStatus.isValid(confirmStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + confirmStatus + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NOPARTYIDS_INT:
-				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.noPartyIDs = FixUtils.getTagIntValue( MsgTypes.CONFIRMATION ,FixTags.NOPARTYIDS_INT ,value );
 				parties.getAll(parties.noPartyIDs, value );
 				break;
 
 			case FixTags.NOORDERS_INT:
-				ordAllocGrp.noOrders = FixUtils.getTagIntValue( value );
+				ordAllocGrp.noOrders = FixUtils.getTagIntValue( MsgTypes.CONFIRMATION ,FixTags.NOORDERS_INT ,value );
 				ordAllocGrp.getAll(ordAllocGrp.noOrders, value );
 				break;
 
 			case FixTags.ALLOCID_INT:
-				allocID = FixUtils.getTagStringValue(value, allocID);
+				allocID = FixUtils.getTagStringValue(MsgTypes.CONFIRMATION ,id ,value, allocID);
 				break;
 
 			case FixTags.SECONDARYALLOCID_INT:
-				secondaryAllocID = FixUtils.getTagStringValue(value, secondaryAllocID);
+				secondaryAllocID = FixUtils.getTagStringValue(MsgTypes.CONFIRMATION ,id ,value, secondaryAllocID);
 				break;
 
 			case FixTags.INDIVIDUALALLOCID_INT:
-				individualAllocID = FixUtils.getTagStringValue(value, individualAllocID);
+				individualAllocID = FixUtils.getTagStringValue(MsgTypes.CONFIRMATION ,id ,value, individualAllocID);
 				break;
 
 			case FixTags.TRANSACTTIME_INT:
-				transactTime = FixUtils.getTagStringValue(value, transactTime);
+				transactTime = FixUtils.getTagStringValue(MsgTypes.CONFIRMATION ,id ,value, transactTime);
 				break;
 
 			case FixTags.TRADEDATE_INT:
-				tradeDate = FixUtils.getTagStringValue(value, tradeDate);
+				tradeDate = FixUtils.getTagStringValue(MsgTypes.CONFIRMATION ,id ,value, tradeDate);
 				break;
 
 			case FixTags.NOTRDREGTIMESTAMPS_INT:
-				trdRegTimestamps.noTrdRegTimestamps = FixUtils.getTagIntValue( value );
+				trdRegTimestamps.noTrdRegTimestamps = FixUtils.getTagIntValue( MsgTypes.CONFIRMATION ,FixTags.NOTRDREGTIMESTAMPS_INT ,value );
 				trdRegTimestamps.getAll(trdRegTimestamps.noTrdRegTimestamps, value );
 				break;
 
@@ -319,12 +319,12 @@ public class FixConfirmation extends FixMessage
 				break;
 
 			case FixTags.NOUNDERLYINGS_INT:
-				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( MsgTypes.CONFIRMATION ,FixTags.NOUNDERLYINGS_INT ,value );
 				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
 				break;
 
 			case FixTags.NOLEGS_INT:
-				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( value );
+				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( MsgTypes.CONFIRMATION ,FixTags.NOLEGS_INT ,value );
 				instrmtLegGrp.getAll(instrmtLegGrp.noLegs, value );
 				break;
 
@@ -333,60 +333,60 @@ public class FixConfirmation extends FixMessage
 				break;
 
 			case FixTags.ALLOCQTY_INT:
-				allocQty = FixUtils.getTagFloatValue(value);
+				allocQty = FixUtils.getTagFloatValue(MsgTypes.CONFIRMATION ,id ,value);
 				break;
 
 			case FixTags.QTYTYPE_INT:
-				qtyType = FixUtils.getTagIntValue( value );
+				qtyType = FixUtils.getTagIntValue(MsgTypes.CONFIRMATION ,id ,value );
 				if (!QtyType.isValid(qtyType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + qtyType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.SIDE_INT:
-				side = FixUtils.getTagCharValue( value );
+				side = FixUtils.getTagCharValue(MsgTypes.CONFIRMATION ,id ,value );
 				if (!Side.isValid(side) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + side + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.CURRENCY_INT:
-				currency = FixUtils.getTagStringValue(value, currency);
+				currency = FixUtils.getTagStringValue(MsgTypes.CONFIRMATION ,id ,value, currency);
 				break;
 
 			case FixTags.LASTMKT_INT:
-				lastMkt = FixUtils.getTagStringValue(value, lastMkt);
+				lastMkt = FixUtils.getTagStringValue(MsgTypes.CONFIRMATION ,id ,value, lastMkt);
 				break;
 
 			case FixTags.NOCAPACITIES_INT:
-				cpctyConfGrp.noCapacities = FixUtils.getTagIntValue( value );
+				cpctyConfGrp.noCapacities = FixUtils.getTagIntValue( MsgTypes.CONFIRMATION ,FixTags.NOCAPACITIES_INT ,value );
 				cpctyConfGrp.getAll(cpctyConfGrp.noCapacities, value );
 				break;
 
 			case FixTags.ALLOCACCOUNT_INT:
-				allocAccount = FixUtils.getTagStringValue(value, allocAccount);
+				allocAccount = FixUtils.getTagStringValue(MsgTypes.CONFIRMATION ,id ,value, allocAccount);
 				break;
 
 			case FixTags.ALLOCACCTIDSOURCE_INT:
-				allocAcctIDSource = FixUtils.getTagIntValue( value );
+				allocAcctIDSource = FixUtils.getTagIntValue(MsgTypes.CONFIRMATION ,id ,value );
 				break;
 
 			case FixTags.ALLOCACCOUNTTYPE_INT:
-				allocAccountType = FixUtils.getTagIntValue( value );
+				allocAccountType = FixUtils.getTagIntValue(MsgTypes.CONFIRMATION ,id ,value );
 				if (!AllocAccountType.isValid(allocAccountType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + allocAccountType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.AVGPX_INT:
-				avgPx = FixUtils.getTagFloatValue(value);
+				avgPx = FixUtils.getTagFloatValue(MsgTypes.CONFIRMATION ,id ,value);
 				break;
 
 			case FixTags.AVGPXPRECISION_INT:
-				avgPxPrecision = FixUtils.getTagIntValue( value );
+				avgPxPrecision = FixUtils.getTagIntValue(MsgTypes.CONFIRMATION ,id ,value );
 				break;
 
 			case FixTags.PRICETYPE_INT:
-				priceType = FixUtils.getTagIntValue( value );
+				priceType = FixUtils.getTagIntValue(MsgTypes.CONFIRMATION ,id ,value );
 				if (!PriceType.isValid(priceType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + priceType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.AVGPARPX_INT:
-				avgParPx = FixUtils.getTagFloatValue(value);
+				avgParPx = FixUtils.getTagFloatValue(MsgTypes.CONFIRMATION ,id ,value);
 				break;
 
 			case FixTags.SPREAD_INT:
@@ -394,102 +394,102 @@ public class FixConfirmation extends FixMessage
 				break;
 
 			case FixTags.REPORTEDPX_INT:
-				reportedPx = FixUtils.getTagFloatValue(value);
+				reportedPx = FixUtils.getTagFloatValue(MsgTypes.CONFIRMATION ,id ,value);
 				break;
 
 			case FixTags.TEXT_INT:
-				text = FixUtils.getTagStringValue(value, text);
+				text = FixUtils.getTagStringValue(MsgTypes.CONFIRMATION ,id ,value, text);
 				break;
 
 			case FixTags.ENCODEDTEXTLEN_INT:
-				encodedTextLen = FixUtils.getTagIntValue( value );
+				encodedTextLen = FixUtils.getTagIntValue(MsgTypes.CONFIRMATION ,id ,value );
 				break;
 
 			case FixTags.ENCODEDTEXT_INT:
-				encodedText = FixUtils.getTagStringValue(value, encodedText);
+				encodedText = FixUtils.getTagStringValue(MsgTypes.CONFIRMATION ,id ,value, encodedText);
 				break;
 
 			case FixTags.PROCESSCODE_INT:
-				processCode = FixUtils.getTagCharValue( value );
+				processCode = FixUtils.getTagCharValue(MsgTypes.CONFIRMATION ,id ,value );
 				if (!ProcessCode.isValid(processCode) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + processCode + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.GROSSTRADEAMT_INT:
-				grossTradeAmt = FixUtils.getTagFloatValue(value);
+				grossTradeAmt = FixUtils.getTagFloatValue(MsgTypes.CONFIRMATION ,id ,value);
 				break;
 
 			case FixTags.NUMDAYSINTEREST_INT:
-				numDaysInterest = FixUtils.getTagIntValue( value );
+				numDaysInterest = FixUtils.getTagIntValue(MsgTypes.CONFIRMATION ,id ,value );
 				break;
 
 			case FixTags.EXDATE_INT:
-				exDate = FixUtils.getTagStringValue(value, exDate);
+				exDate = FixUtils.getTagStringValue(MsgTypes.CONFIRMATION ,id ,value, exDate);
 				break;
 
 			case FixTags.ACCRUEDINTERESTRATE_INT:
-				accruedInterestRate = FixUtils.getTagFloatValue(value);
+				accruedInterestRate = FixUtils.getTagFloatValue(MsgTypes.CONFIRMATION ,id ,value);
 				break;
 
 			case FixTags.ACCRUEDINTERESTAMT_INT:
-				accruedInterestAmt = FixUtils.getTagFloatValue(value);
+				accruedInterestAmt = FixUtils.getTagFloatValue(MsgTypes.CONFIRMATION ,id ,value);
 				break;
 
 			case FixTags.INTERESTATMATURITY_INT:
-				interestAtMaturity = FixUtils.getTagFloatValue(value);
+				interestAtMaturity = FixUtils.getTagFloatValue(MsgTypes.CONFIRMATION ,id ,value);
 				break;
 
 			case FixTags.ENDACCRUEDINTERESTAMT_INT:
-				endAccruedInterestAmt = FixUtils.getTagFloatValue(value);
+				endAccruedInterestAmt = FixUtils.getTagFloatValue(MsgTypes.CONFIRMATION ,id ,value);
 				break;
 
 			case FixTags.STARTCASH_INT:
-				startCash = FixUtils.getTagFloatValue(value);
+				startCash = FixUtils.getTagFloatValue(MsgTypes.CONFIRMATION ,id ,value);
 				break;
 
 			case FixTags.ENDCASH_INT:
-				endCash = FixUtils.getTagFloatValue(value);
+				endCash = FixUtils.getTagFloatValue(MsgTypes.CONFIRMATION ,id ,value);
 				break;
 
 			case FixTags.CONCESSION_INT:
-				concession = FixUtils.getTagFloatValue(value);
+				concession = FixUtils.getTagFloatValue(MsgTypes.CONFIRMATION ,id ,value);
 				break;
 
 			case FixTags.TOTALTAKEDOWN_INT:
-				totalTakedown = FixUtils.getTagFloatValue(value);
+				totalTakedown = FixUtils.getTagFloatValue(MsgTypes.CONFIRMATION ,id ,value);
 				break;
 
 			case FixTags.NETMONEY_INT:
-				netMoney = FixUtils.getTagFloatValue(value);
+				netMoney = FixUtils.getTagFloatValue(MsgTypes.CONFIRMATION ,id ,value);
 				break;
 
 			case FixTags.MATURITYNETMONEY_INT:
-				maturityNetMoney = FixUtils.getTagFloatValue(value);
+				maturityNetMoney = FixUtils.getTagFloatValue(MsgTypes.CONFIRMATION ,id ,value);
 				break;
 
 			case FixTags.SETTLCURRAMT_INT:
-				settlCurrAmt = FixUtils.getTagFloatValue(value);
+				settlCurrAmt = FixUtils.getTagFloatValue(MsgTypes.CONFIRMATION ,id ,value);
 				break;
 
 			case FixTags.SETTLCURRENCY_INT:
-				settlCurrency = FixUtils.getTagStringValue(value, settlCurrency);
+				settlCurrency = FixUtils.getTagStringValue(MsgTypes.CONFIRMATION ,id ,value, settlCurrency);
 				break;
 
 			case FixTags.SETTLCURRFXRATE_INT:
-				settlCurrFxRate = FixUtils.getTagFloatValue(value);
+				settlCurrFxRate = FixUtils.getTagFloatValue(MsgTypes.CONFIRMATION ,id ,value);
 				break;
 
 			case FixTags.SETTLCURRFXRATECALC_INT:
-				settlCurrFxRateCalc = FixUtils.getTagCharValue( value );
+				settlCurrFxRateCalc = FixUtils.getTagCharValue(MsgTypes.CONFIRMATION ,id ,value );
 				if (!SettlCurrFxRateCalc.isValid(settlCurrFxRateCalc) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + settlCurrFxRateCalc + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.SETTLTYPE_INT:
-				settlType = FixUtils.getTagStringValue(value, settlType);
+				settlType = FixUtils.getTagStringValue(MsgTypes.CONFIRMATION ,id ,value, settlType);
 				if (!SettlType.isValid(settlType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + settlType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.SETTLDATE_INT:
-				settlDate = FixUtils.getTagStringValue(value, settlDate);
+				settlDate = FixUtils.getTagStringValue(MsgTypes.CONFIRMATION ,id ,value, settlDate);
 				break;
 
 			case FixTags.SETTLDELIVERYTYPE_INT:
@@ -501,22 +501,22 @@ public class FixConfirmation extends FixMessage
 				break;
 
 			case FixTags.SHAREDCOMMISSION_INT:
-				sharedCommission = FixUtils.getTagFloatValue(value);
+				sharedCommission = FixUtils.getTagFloatValue(MsgTypes.CONFIRMATION ,id ,value);
 				break;
 
 			case FixTags.NOSTIPULATIONS_INT:
-				stipulations.noStipulations = FixUtils.getTagIntValue( value );
+				stipulations.noStipulations = FixUtils.getTagIntValue( MsgTypes.CONFIRMATION ,FixTags.NOSTIPULATIONS_INT ,value );
 				stipulations.getAll(stipulations.noStipulations, value );
 				break;
 
 			case FixTags.NOMISCFEES_INT:
-				miscFeesGrp.noMiscFees = FixUtils.getTagIntValue( value );
+				miscFeesGrp.noMiscFees = FixUtils.getTagIntValue( MsgTypes.CONFIRMATION ,FixTags.NOMISCFEES_INT ,value );
 				miscFeesGrp.getAll(miscFeesGrp.noMiscFees, value );
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.CONFIRMATION ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

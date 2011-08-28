@@ -123,7 +123,7 @@ public class StrmAsgnReqInstrmtGrp implements FixComponent
 			}
 
 			if(id == FixTags.SETTLTYPE_INT) {
-				settlType = FixUtils.getTagStringValue(value, settlType);
+				settlType = FixUtils.getTagStringValue(null ,id ,value, settlType);
 				if (!FixMessageInfo.SettlType.isValid(settlType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + settlType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -131,14 +131,14 @@ public class StrmAsgnReqInstrmtGrp implements FixComponent
 			}
 
 			if(id == FixTags.MDENTRYSIZE_INT) {
-				mDEntrySize = FixUtils.getTagFloatValue(value);
+				mDEntrySize = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.MDSTREAMID_INT) {
-				mDStreamID = FixUtils.getTagStringValue(value, mDStreamID);
+				mDStreamID = FixUtils.getTagStringValue(null ,id ,value, mDStreamID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

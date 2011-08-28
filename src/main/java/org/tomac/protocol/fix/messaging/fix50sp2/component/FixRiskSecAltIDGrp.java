@@ -112,21 +112,21 @@ public class RiskSecAltIDGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.NORISKSECURITYALTID_INT) {
-				noRiskSecurityAltID = FixUtils.getTagIntValue( value );
+				noRiskSecurityAltID = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RISKSECURITYALTID_INT) {
-				riskSecurityAltID = FixUtils.getTagStringValue(value, riskSecurityAltID);
+				riskSecurityAltID = FixUtils.getTagStringValue(null ,id ,value, riskSecurityAltID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RISKSECURITYALTIDSOURCE_INT) {
-				riskSecurityAltIDSource = FixUtils.getTagStringValue(value, riskSecurityAltIDSource);
+				riskSecurityAltIDSource = FixUtils.getTagStringValue(null ,id ,value, riskSecurityAltIDSource);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

@@ -53,7 +53,7 @@ public class FixSequenceReset extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -62,17 +62,17 @@ public class FixSequenceReset extends FixMessage
 			switch( id ) {
 
 			case FixTags.NEWSEQNO_INT:
-				newSeqNo = FixUtils.getTagIntValue( value );
+				newSeqNo = FixUtils.getTagIntValue(MsgTypes.SEQUENCERESET ,id ,value );
 				break;
 
 			case FixTags.GAPFILLFLAG_INT:
-				gapFillFlag = FixUtils.getTagBooleanValue( value );
+				gapFillFlag = FixUtils.getTagBooleanValue(MsgTypes.SEQUENCERESET ,id ,value );
 				if (!GapFillFlag.isValid(gapFillFlag) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + gapFillFlag + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.SEQUENCERESET ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

@@ -722,11 +722,11 @@ public class TestFixContainerSession {
 			
 			fail("In msg is invalid: " + new String(msgByteArray));
 		} catch( FixSessionException e )  {
-			fail(e.getMessage());
+			assertTrue(true);
 		} catch ( FixGarbledException e ) {
 			fail(e.getMessage());
 		} catch( NumberFormatException e ) {
-			assertTrue(true);
+			fail(e.getMessage());
 		}					
 	}
 

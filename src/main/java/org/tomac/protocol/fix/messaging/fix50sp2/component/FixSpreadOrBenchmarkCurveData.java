@@ -72,36 +72,36 @@ public class FixSpreadOrBenchmarkCurveData implements FixComponent
 			switch( id ) {
 
 			case FixTags.SPREAD_INT:
-				spread = FixUtils.getTagFloatValue(value);
+				spread = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.BENCHMARKCURVECURRENCY_INT:
-				benchmarkCurveCurrency = FixUtils.getTagStringValue(value, benchmarkCurveCurrency);
+				benchmarkCurveCurrency = FixUtils.getTagStringValue(null ,id ,value, benchmarkCurveCurrency);
 				break;
 
 			case FixTags.BENCHMARKCURVENAME_INT:
-				benchmarkCurveName = FixUtils.getTagStringValue(value, benchmarkCurveName);
+				benchmarkCurveName = FixUtils.getTagStringValue(null ,id ,value, benchmarkCurveName);
 				if (!BenchmarkCurveName.isValid(benchmarkCurveName) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + benchmarkCurveName + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.BENCHMARKCURVEPOINT_INT:
-				benchmarkCurvePoint = FixUtils.getTagStringValue(value, benchmarkCurvePoint);
+				benchmarkCurvePoint = FixUtils.getTagStringValue(null ,id ,value, benchmarkCurvePoint);
 				break;
 
 			case FixTags.BENCHMARKPRICE_INT:
-				benchmarkPrice = FixUtils.getTagFloatValue(value);
+				benchmarkPrice = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.BENCHMARKPRICETYPE_INT:
-				benchmarkPriceType = FixUtils.getTagIntValue( value );
+				benchmarkPriceType = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.BENCHMARKSECURITYID_INT:
-				benchmarkSecurityID = FixUtils.getTagStringValue(value, benchmarkSecurityID);
+				benchmarkSecurityID = FixUtils.getTagStringValue(null ,id ,value, benchmarkSecurityID);
 				break;
 
 			case FixTags.BENCHMARKSECURITYIDSOURCE_INT:
-				benchmarkSecurityIDSource = FixUtils.getTagStringValue(value, benchmarkSecurityIDSource);
+				benchmarkSecurityIDSource = FixUtils.getTagStringValue(null ,id ,value, benchmarkSecurityIDSource);
 				break;
 
 			// we will always endup with unknown tag, unread and return to upper layer in hierarchy
@@ -116,7 +116,7 @@ public class FixSpreadOrBenchmarkCurveData implements FixComponent
 
 			lastTagPosition = buf.position();
 
-		} while ( ( id = FixUtils.getTagId( buf ) ) > 0 );
+		} while ( ( id = FixUtils.getTagId( buf ) ) >= 0 );
 
 		buf.position(startTagPosition);
 

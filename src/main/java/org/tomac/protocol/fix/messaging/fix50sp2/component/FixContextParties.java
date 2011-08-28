@@ -115,21 +115,21 @@ public class ContextParties implements FixComponent
 			value = buf;
 
 			if(id == FixTags.CONTEXTPARTYID_INT) {
-				contextPartyID = FixUtils.getTagStringValue(value, contextPartyID);
+				contextPartyID = FixUtils.getTagStringValue(null ,id ,value, contextPartyID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.CONTEXTPARTYIDSOURCE_INT) {
-				contextPartyIDSource = FixUtils.getTagCharValue( value );
+				contextPartyIDSource = FixUtils.getTagCharValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.CONTEXTPARTYROLE_INT) {
-				contextPartyRole = FixUtils.getTagIntValue( value );
+				contextPartyRole = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -137,7 +137,7 @@ public class ContextParties implements FixComponent
 
 			if(id == FixTags.NOCONTEXTPARTYSUBIDS_INT) {
 				int noContextPartySubIDs;
-				noContextPartySubIDs = FixUtils.getTagIntValue( value );
+				noContextPartySubIDs = FixUtils.getTagIntValue(null ,id ,value );
 				contextPtysSubGrp.getAll(noContextPartySubIDs, buf);
 				lastTagPosition = buf.position();
 

@@ -113,7 +113,7 @@ public class FixNews extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -122,16 +122,16 @@ public class FixNews extends FixMessage
 			switch( id ) {
 
 			case FixTags.NEWSID_INT:
-				newsID = FixUtils.getTagStringValue(value, newsID);
+				newsID = FixUtils.getTagStringValue(MsgTypes.NEWS ,id ,value, newsID);
 				break;
 
 			case FixTags.NEWSCATEGORY_INT:
-				newsCategory = FixUtils.getTagIntValue( value );
+				newsCategory = FixUtils.getTagIntValue(MsgTypes.NEWS ,id ,value );
 				if (!NewsCategory.isValid(newsCategory) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + newsCategory + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.LANGUAGECODE_INT:
-				languageCode = FixUtils.getTagStringValue(value, languageCode);
+				languageCode = FixUtils.getTagStringValue(MsgTypes.NEWS ,id ,value, languageCode);
 				break;
 
 			case FixTags.APPLID_INT:
@@ -139,79 +139,79 @@ public class FixNews extends FixMessage
 				break;
 
 			case FixTags.NONEWSREFIDS_INT:
-				newsRefGrp.noNewsRefIDs = FixUtils.getTagIntValue( value );
+				newsRefGrp.noNewsRefIDs = FixUtils.getTagIntValue( MsgTypes.NEWS ,FixTags.NONEWSREFIDS_INT ,value );
 				newsRefGrp.getAll(newsRefGrp.noNewsRefIDs, value );
 				break;
 
 			case FixTags.ORIGTIME_INT:
-				origTime = FixUtils.getTagStringValue(value, origTime);
+				origTime = FixUtils.getTagStringValue(MsgTypes.NEWS ,id ,value, origTime);
 				break;
 
 			case FixTags.URGENCY_INT:
-				urgency = FixUtils.getTagCharValue( value );
+				urgency = FixUtils.getTagCharValue(MsgTypes.NEWS ,id ,value );
 				if (!Urgency.isValid(urgency) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + urgency + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.HEADLINE_INT:
-				headline = FixUtils.getTagStringValue(value, headline);
+				headline = FixUtils.getTagStringValue(MsgTypes.NEWS ,id ,value, headline);
 				break;
 
 			case FixTags.ENCODEDHEADLINELEN_INT:
-				encodedHeadlineLen = FixUtils.getTagIntValue( value );
+				encodedHeadlineLen = FixUtils.getTagIntValue(MsgTypes.NEWS ,id ,value );
 				break;
 
 			case FixTags.ENCODEDHEADLINE_INT:
-				encodedHeadline = FixUtils.getTagStringValue(value, encodedHeadline);
+				encodedHeadline = FixUtils.getTagStringValue(MsgTypes.NEWS ,id ,value, encodedHeadline);
 				break;
 
 			case FixTags.NOROUTINGIDS_INT:
-				routingGrp.noRoutingIDs = FixUtils.getTagIntValue( value );
+				routingGrp.noRoutingIDs = FixUtils.getTagIntValue( MsgTypes.NEWS ,FixTags.NOROUTINGIDS_INT ,value );
 				routingGrp.getAll(routingGrp.noRoutingIDs, value );
 				break;
 
 			case FixTags.MARKETID_INT:
-				marketID = FixUtils.getTagStringValue(value, marketID);
+				marketID = FixUtils.getTagStringValue(MsgTypes.NEWS ,id ,value, marketID);
 				break;
 
 			case FixTags.MARKETSEGMENTID_INT:
-				marketSegmentID = FixUtils.getTagStringValue(value, marketSegmentID);
+				marketSegmentID = FixUtils.getTagStringValue(MsgTypes.NEWS ,id ,value, marketSegmentID);
 				break;
 
 			case FixTags.NORELATEDSYM_INT:
-				instrmtGrp.noRelatedSym = FixUtils.getTagIntValue( value );
+				instrmtGrp.noRelatedSym = FixUtils.getTagIntValue( MsgTypes.NEWS ,FixTags.NORELATEDSYM_INT ,value );
 				instrmtGrp.getAll(instrmtGrp.noRelatedSym, value );
 				break;
 
 			case FixTags.NOLEGS_INT:
-				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( value );
+				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( MsgTypes.NEWS ,FixTags.NOLEGS_INT ,value );
 				instrmtLegGrp.getAll(instrmtLegGrp.noLegs, value );
 				break;
 
 			case FixTags.NOUNDERLYINGS_INT:
-				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( MsgTypes.NEWS ,FixTags.NOUNDERLYINGS_INT ,value );
 				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
 				break;
 
 			case FixTags.NOLINESOFTEXT_INT:
-				linesOfTextGrp.noLinesOfText = FixUtils.getTagIntValue( value );
+				linesOfTextGrp.noLinesOfText = FixUtils.getTagIntValue( MsgTypes.NEWS ,FixTags.NOLINESOFTEXT_INT ,value );
 				linesOfTextGrp.getAll(linesOfTextGrp.noLinesOfText, value );
 				break;
 
 			case FixTags.URLLINK_INT:
-				uRLLink = FixUtils.getTagStringValue(value, uRLLink);
+				uRLLink = FixUtils.getTagStringValue(MsgTypes.NEWS ,id ,value, uRLLink);
 				break;
 
 			case FixTags.RAWDATALENGTH_INT:
-				rawDataLength = FixUtils.getTagIntValue( value );
+				rawDataLength = FixUtils.getTagIntValue(MsgTypes.NEWS ,id ,value );
 				break;
 
 			case FixTags.RAWDATA_INT:
-				rawData = FixUtils.getTagStringValue(value, rawData);
+				rawData = FixUtils.getTagStringValue(MsgTypes.NEWS ,id ,value, rawData);
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.NEWS ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

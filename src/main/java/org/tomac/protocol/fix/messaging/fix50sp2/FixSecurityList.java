@@ -102,7 +102,7 @@ public class FixSecurityList extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -111,40 +111,40 @@ public class FixSecurityList extends FixMessage
 			switch( id ) {
 
 			case FixTags.SECURITYREPORTID_INT:
-				securityReportID = FixUtils.getTagIntValue( value );
+				securityReportID = FixUtils.getTagIntValue(MsgTypes.SECURITYLIST ,id ,value );
 				break;
 
 			case FixTags.CLEARINGBUSINESSDATE_INT:
-				clearingBusinessDate = FixUtils.getTagStringValue(value, clearingBusinessDate);
+				clearingBusinessDate = FixUtils.getTagStringValue(MsgTypes.SECURITYLIST ,id ,value, clearingBusinessDate);
 				break;
 
 			case FixTags.SECURITYLISTID_INT:
-				securityListID = FixUtils.getTagStringValue(value, securityListID);
+				securityListID = FixUtils.getTagStringValue(MsgTypes.SECURITYLIST ,id ,value, securityListID);
 				break;
 
 			case FixTags.SECURITYLISTREFID_INT:
-				securityListRefID = FixUtils.getTagStringValue(value, securityListRefID);
+				securityListRefID = FixUtils.getTagStringValue(MsgTypes.SECURITYLIST ,id ,value, securityListRefID);
 				break;
 
 			case FixTags.SECURITYLISTDESC_INT:
-				securityListDesc = FixUtils.getTagStringValue(value, securityListDesc);
+				securityListDesc = FixUtils.getTagStringValue(MsgTypes.SECURITYLIST ,id ,value, securityListDesc);
 				break;
 
 			case FixTags.ENCODEDSECURITYLISTDESCLEN_INT:
-				encodedSecurityListDescLen = FixUtils.getTagIntValue( value );
+				encodedSecurityListDescLen = FixUtils.getTagIntValue(MsgTypes.SECURITYLIST ,id ,value );
 				break;
 
 			case FixTags.ENCODEDSECURITYLISTDESC_INT:
-				encodedSecurityListDesc = FixUtils.getTagStringValue(value, encodedSecurityListDesc);
+				encodedSecurityListDesc = FixUtils.getTagStringValue(MsgTypes.SECURITYLIST ,id ,value, encodedSecurityListDesc);
 				break;
 
 			case FixTags.SECURITYLISTTYPE_INT:
-				securityListType = FixUtils.getTagIntValue( value );
+				securityListType = FixUtils.getTagIntValue(MsgTypes.SECURITYLIST ,id ,value );
 				if (!SecurityListType.isValid(securityListType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + securityListType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.SECURITYLISTTYPESOURCE_INT:
-				securityListTypeSource = FixUtils.getTagIntValue( value );
+				securityListTypeSource = FixUtils.getTagIntValue(MsgTypes.SECURITYLIST ,id ,value );
 				if (!SecurityListTypeSource.isValid(securityListTypeSource) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + securityListTypeSource + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
@@ -153,47 +153,47 @@ public class FixSecurityList extends FixMessage
 				break;
 
 			case FixTags.SECURITYREQID_INT:
-				securityReqID = FixUtils.getTagStringValue(value, securityReqID);
+				securityReqID = FixUtils.getTagStringValue(MsgTypes.SECURITYLIST ,id ,value, securityReqID);
 				break;
 
 			case FixTags.SECURITYRESPONSEID_INT:
-				securityResponseID = FixUtils.getTagStringValue(value, securityResponseID);
+				securityResponseID = FixUtils.getTagStringValue(MsgTypes.SECURITYLIST ,id ,value, securityResponseID);
 				break;
 
 			case FixTags.SECURITYREQUESTRESULT_INT:
-				securityRequestResult = FixUtils.getTagIntValue( value );
+				securityRequestResult = FixUtils.getTagIntValue(MsgTypes.SECURITYLIST ,id ,value );
 				if (!SecurityRequestResult.isValid(securityRequestResult) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + securityRequestResult + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TRANSACTTIME_INT:
-				transactTime = FixUtils.getTagStringValue(value, transactTime);
+				transactTime = FixUtils.getTagStringValue(MsgTypes.SECURITYLIST ,id ,value, transactTime);
 				break;
 
 			case FixTags.TOTNORELATEDSYM_INT:
-				totNoRelatedSym = FixUtils.getTagIntValue( value );
+				totNoRelatedSym = FixUtils.getTagIntValue(MsgTypes.SECURITYLIST ,id ,value );
 				break;
 
 			case FixTags.MARKETID_INT:
-				marketID = FixUtils.getTagStringValue(value, marketID);
+				marketID = FixUtils.getTagStringValue(MsgTypes.SECURITYLIST ,id ,value, marketID);
 				break;
 
 			case FixTags.MARKETSEGMENTID_INT:
-				marketSegmentID = FixUtils.getTagStringValue(value, marketSegmentID);
+				marketSegmentID = FixUtils.getTagStringValue(MsgTypes.SECURITYLIST ,id ,value, marketSegmentID);
 				break;
 
 			case FixTags.LASTFRAGMENT_INT:
-				lastFragment = FixUtils.getTagBooleanValue( value );
+				lastFragment = FixUtils.getTagBooleanValue(MsgTypes.SECURITYLIST ,id ,value );
 				if (!LastFragment.isValid(lastFragment) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + lastFragment + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NORELATEDSYM_INT:
-				secListGrp.noRelatedSym = FixUtils.getTagIntValue( value );
+				secListGrp.noRelatedSym = FixUtils.getTagIntValue( MsgTypes.SECURITYLIST ,FixTags.NORELATEDSYM_INT ,value );
 				secListGrp.getAll(secListGrp.noRelatedSym, value );
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.SECURITYLIST ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

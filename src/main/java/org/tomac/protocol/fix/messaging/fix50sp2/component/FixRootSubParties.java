@@ -109,14 +109,14 @@ public class RootSubParties implements FixComponent
 			value = buf;
 
 			if(id == FixTags.ROOTPARTYSUBID_INT) {
-				rootPartySubID = FixUtils.getTagStringValue(value, rootPartySubID);
+				rootPartySubID = FixUtils.getTagStringValue(null ,id ,value, rootPartySubID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ROOTPARTYSUBIDTYPE_INT) {
-				rootPartySubIDType = FixUtils.getTagIntValue( value );
+				rootPartySubIDType = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

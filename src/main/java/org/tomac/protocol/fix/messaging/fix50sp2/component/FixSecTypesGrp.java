@@ -118,7 +118,7 @@ public class SecTypesGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.SECURITYTYPE_INT) {
-				securityType = FixUtils.getTagStringValue(value, securityType);
+				securityType = FixUtils.getTagStringValue(null ,id ,value, securityType);
 				if (!FixMessageInfo.SecurityType.isValid(securityType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + securityType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -126,14 +126,14 @@ public class SecTypesGrp implements FixComponent
 			}
 
 			if(id == FixTags.SECURITYSUBTYPE_INT) {
-				securitySubType = FixUtils.getTagStringValue(value, securitySubType);
+				securitySubType = FixUtils.getTagStringValue(null ,id ,value, securitySubType);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.PRODUCT_INT) {
-				product = FixUtils.getTagIntValue( value );
+				product = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.Product.isValid(product) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + product + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -141,14 +141,14 @@ public class SecTypesGrp implements FixComponent
 			}
 
 			if(id == FixTags.CFICODE_INT) {
-				cFICode = FixUtils.getTagStringValue(value, cFICode);
+				cFICode = FixUtils.getTagStringValue(null ,id ,value, cFICode);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.TRANSACTTIME_INT) {
-				transactTime = FixUtils.getTagStringValue(value, transactTime);
+				transactTime = FixUtils.getTagStringValue(null ,id ,value, transactTime);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

@@ -109,14 +109,14 @@ public class RelatedPtysSubGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.RELATEDPARTYSUBID_INT) {
-				relatedPartySubID = FixUtils.getTagStringValue(value, relatedPartySubID);
+				relatedPartySubID = FixUtils.getTagStringValue(null ,id ,value, relatedPartySubID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RELATEDPARTYSUBIDTYPE_INT) {
-				relatedPartySubIDType = FixUtils.getTagIntValue( value );
+				relatedPartySubIDType = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

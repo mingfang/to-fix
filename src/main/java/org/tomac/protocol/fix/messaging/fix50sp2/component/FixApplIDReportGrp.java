@@ -111,21 +111,21 @@ public class ApplIDReportGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.REFAPPLID_INT) {
-				refApplID = FixUtils.getTagStringValue(value, refApplID);
+				refApplID = FixUtils.getTagStringValue(null ,id ,value, refApplID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.APPLNEWSEQNUM_INT) {
-				applNewSeqNum = FixUtils.getTagIntValue( value );
+				applNewSeqNum = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.REFAPPLLASTSEQNUM_INT) {
-				refApplLastSeqNum = FixUtils.getTagIntValue( value );
+				refApplLastSeqNum = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

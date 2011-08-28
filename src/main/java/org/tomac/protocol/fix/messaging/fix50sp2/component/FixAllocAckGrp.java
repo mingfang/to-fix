@@ -140,28 +140,28 @@ public class AllocAckGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.ALLOCACCOUNT_INT) {
-				allocAccount = FixUtils.getTagStringValue(value, allocAccount);
+				allocAccount = FixUtils.getTagStringValue(null ,id ,value, allocAccount);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ALLOCACCTIDSOURCE_INT) {
-				allocAcctIDSource = FixUtils.getTagIntValue( value );
+				allocAcctIDSource = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ALLOCPRICE_INT) {
-				allocPrice = FixUtils.getTagFloatValue(value);
+				allocPrice = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ALLOCPOSITIONEFFECT_INT) {
-				allocPositionEffect = FixUtils.getTagCharValue( value );
+				allocPositionEffect = FixUtils.getTagCharValue(null ,id ,value );
 				if (!FixMessageInfo.AllocPositionEffect.isValid(allocPositionEffect) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + allocPositionEffect + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -169,14 +169,14 @@ public class AllocAckGrp implements FixComponent
 			}
 
 			if(id == FixTags.INDIVIDUALALLOCID_INT) {
-				individualAllocID = FixUtils.getTagStringValue(value, individualAllocID);
+				individualAllocID = FixUtils.getTagStringValue(null ,id ,value, individualAllocID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.INDIVIDUALALLOCREJCODE_INT) {
-				individualAllocRejCode = FixUtils.getTagIntValue( value );
+				individualAllocRejCode = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -184,7 +184,7 @@ public class AllocAckGrp implements FixComponent
 
 			if(id == FixTags.NONESTEDPARTYIDS_INT) {
 				int noNestedPartyIDs;
-				noNestedPartyIDs = FixUtils.getTagIntValue( value );
+				noNestedPartyIDs = FixUtils.getTagIntValue(null ,id ,value );
 				nestedParties.getAll(noNestedPartyIDs, buf);
 				lastTagPosition = buf.position();
 
@@ -192,42 +192,42 @@ public class AllocAckGrp implements FixComponent
 			}
 
 			if(id == FixTags.ALLOCTEXT_INT) {
-				allocText = FixUtils.getTagStringValue(value, allocText);
+				allocText = FixUtils.getTagStringValue(null ,id ,value, allocText);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ENCODEDALLOCTEXTLEN_INT) {
-				encodedAllocTextLen = FixUtils.getTagIntValue( value );
+				encodedAllocTextLen = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ENCODEDALLOCTEXT_INT) {
-				encodedAllocText = FixUtils.getTagStringValue(value, encodedAllocText);
+				encodedAllocText = FixUtils.getTagStringValue(null ,id ,value, encodedAllocText);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.SECONDARYINDIVIDUALALLOCID_INT) {
-				secondaryIndividualAllocID = FixUtils.getTagStringValue(value, secondaryIndividualAllocID);
+				secondaryIndividualAllocID = FixUtils.getTagStringValue(null ,id ,value, secondaryIndividualAllocID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ALLOCCUSTOMERCAPACITY_INT) {
-				allocCustomerCapacity = FixUtils.getTagStringValue(value, allocCustomerCapacity);
+				allocCustomerCapacity = FixUtils.getTagStringValue(null ,id ,value, allocCustomerCapacity);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.INDIVIDUALALLOCTYPE_INT) {
-				individualAllocType = FixUtils.getTagIntValue( value );
+				individualAllocType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.IndividualAllocType.isValid(individualAllocType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + individualAllocType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -235,7 +235,7 @@ public class AllocAckGrp implements FixComponent
 			}
 
 			if(id == FixTags.ALLOCQTY_INT) {
-				allocQty = FixUtils.getTagFloatValue(value);
+				allocQty = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

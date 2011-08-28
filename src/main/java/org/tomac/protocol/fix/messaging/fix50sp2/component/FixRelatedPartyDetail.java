@@ -74,34 +74,34 @@ public class FixRelatedPartyDetail implements FixComponent
 			switch( id ) {
 
 			case FixTags.RELATEDPARTYID_INT:
-				relatedPartyID = FixUtils.getTagStringValue(value, relatedPartyID);
+				relatedPartyID = FixUtils.getTagStringValue(null ,id ,value, relatedPartyID);
 				break;
 
 			case FixTags.RELATEDPARTYIDSOURCE_INT:
-				relatedPartyIDSource = FixUtils.getTagCharValue( value );
+				relatedPartyIDSource = FixUtils.getTagCharValue(null ,id ,value );
 				break;
 
 			case FixTags.RELATEDPARTYROLE_INT:
-				relatedPartyRole = FixUtils.getTagIntValue( value );
+				relatedPartyRole = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.NORELATEDPARTYSUBIDS_INT:
-				relatedPtysSubGrp.noRelatedPartySubIDs = FixUtils.getTagIntValue( value );
+				relatedPtysSubGrp.noRelatedPartySubIDs = FixUtils.getTagIntValue(null, FixTags.NORELATEDPARTYSUBIDS_INT, value );
 				relatedPtysSubGrp.getAll(relatedPtysSubGrp.noRelatedPartySubIDs, value );
 				break;
 
 			case FixTags.NORELATEDPARTYALTIDS_INT:
-				relatedPartyAltIDs.noRelatedPartyAltIDs = FixUtils.getTagIntValue( value );
+				relatedPartyAltIDs.noRelatedPartyAltIDs = FixUtils.getTagIntValue(null, FixTags.NORELATEDPARTYALTIDS_INT, value );
 				relatedPartyAltIDs.getAll(relatedPartyAltIDs.noRelatedPartyAltIDs, value );
 				break;
 
 			case FixTags.NORELATEDCONTEXTPARTYIDS_INT:
-				relatedContextParties.noRelatedContextPartyIDs = FixUtils.getTagIntValue( value );
+				relatedContextParties.noRelatedContextPartyIDs = FixUtils.getTagIntValue(null, FixTags.NORELATEDCONTEXTPARTYIDS_INT, value );
 				relatedContextParties.getAll(relatedContextParties.noRelatedContextPartyIDs, value );
 				break;
 
 			case FixTags.NORELATIONSHIPRISKLIMITS_INT:
-				relationshipRiskLimits.noRelationshipRiskLimits = FixUtils.getTagIntValue( value );
+				relationshipRiskLimits.noRelationshipRiskLimits = FixUtils.getTagIntValue(null, FixTags.NORELATIONSHIPRISKLIMITS_INT, value );
 				relationshipRiskLimits.getAll(relationshipRiskLimits.noRelationshipRiskLimits, value );
 				break;
 
@@ -117,7 +117,7 @@ public class FixRelatedPartyDetail implements FixComponent
 
 			lastTagPosition = buf.position();
 
-		} while ( ( id = FixUtils.getTagId( buf ) ) > 0 );
+		} while ( ( id = FixUtils.getTagId( buf ) ) >= 0 );
 
 		buf.position(startTagPosition);
 

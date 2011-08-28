@@ -122,7 +122,7 @@ public class InstrmtLegIOIGrp implements FixComponent
 			}
 
 			if(id == FixTags.LEGIOIQTY_INT) {
-				legIOIQty = FixUtils.getTagStringValue(value, legIOIQty);
+				legIOIQty = FixUtils.getTagStringValue(null ,id ,value, legIOIQty);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -130,7 +130,7 @@ public class InstrmtLegIOIGrp implements FixComponent
 
 			if(id == FixTags.NOLEGSTIPULATIONS_INT) {
 				int noLegStipulations;
-				noLegStipulations = FixUtils.getTagIntValue( value );
+				noLegStipulations = FixUtils.getTagIntValue(null ,id ,value );
 				legStipulations.getAll(noLegStipulations, buf);
 				lastTagPosition = buf.position();
 

@@ -59,7 +59,7 @@ public class FixNetworkCounterpartySystemStatusRequest extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -68,22 +68,22 @@ public class FixNetworkCounterpartySystemStatusRequest extends FixMessage
 			switch( id ) {
 
 			case FixTags.NETWORKREQUESTTYPE_INT:
-				networkRequestType = FixUtils.getTagIntValue( value );
+				networkRequestType = FixUtils.getTagIntValue(MsgTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSREQUEST ,id ,value );
 				if (!NetworkRequestType.isValid(networkRequestType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + networkRequestType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NETWORKREQUESTID_INT:
-				networkRequestID = FixUtils.getTagStringValue(value, networkRequestID);
+				networkRequestID = FixUtils.getTagStringValue(MsgTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSREQUEST ,id ,value, networkRequestID);
 				break;
 
 			case FixTags.NOCOMPIDS_INT:
-				compIDReqGrp.noCompIDs = FixUtils.getTagIntValue( value );
+				compIDReqGrp.noCompIDs = FixUtils.getTagIntValue( MsgTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSREQUEST ,FixTags.NOCOMPIDS_INT ,value );
 				compIDReqGrp.getAll(compIDReqGrp.noCompIDs, value );
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.NETWORKCOUNTERPARTYSYSTEMSTATUSREQUEST ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

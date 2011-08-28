@@ -106,7 +106,7 @@ public class PartyListResponseTypeGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.PARTYLISTRESPONSETYPE_INT) {
-				partyListResponseType = FixUtils.getTagIntValue( value );
+				partyListResponseType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.PartyListResponseType.isValid(partyListResponseType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + partyListResponseType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 

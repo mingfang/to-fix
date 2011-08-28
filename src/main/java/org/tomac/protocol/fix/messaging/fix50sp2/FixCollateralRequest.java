@@ -175,7 +175,7 @@ public class FixCollateralRequest extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -184,59 +184,59 @@ public class FixCollateralRequest extends FixMessage
 			switch( id ) {
 
 			case FixTags.COLLREQID_INT:
-				collReqID = FixUtils.getTagStringValue(value, collReqID);
+				collReqID = FixUtils.getTagStringValue(MsgTypes.COLLATERALREQUEST ,id ,value, collReqID);
 				break;
 
 			case FixTags.COLLASGNREASON_INT:
-				collAsgnReason = FixUtils.getTagIntValue( value );
+				collAsgnReason = FixUtils.getTagIntValue(MsgTypes.COLLATERALREQUEST ,id ,value );
 				if (!CollAsgnReason.isValid(collAsgnReason) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + collAsgnReason + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TRANSACTTIME_INT:
-				transactTime = FixUtils.getTagStringValue(value, transactTime);
+				transactTime = FixUtils.getTagStringValue(MsgTypes.COLLATERALREQUEST ,id ,value, transactTime);
 				break;
 
 			case FixTags.EXPIRETIME_INT:
-				expireTime = FixUtils.getTagStringValue(value, expireTime);
+				expireTime = FixUtils.getTagStringValue(MsgTypes.COLLATERALREQUEST ,id ,value, expireTime);
 				break;
 
 			case FixTags.NOPARTYIDS_INT:
-				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.noPartyIDs = FixUtils.getTagIntValue( MsgTypes.COLLATERALREQUEST ,FixTags.NOPARTYIDS_INT ,value );
 				parties.getAll(parties.noPartyIDs, value );
 				break;
 
 			case FixTags.ACCOUNT_INT:
-				account = FixUtils.getTagStringValue(value, account);
+				account = FixUtils.getTagStringValue(MsgTypes.COLLATERALREQUEST ,id ,value, account);
 				break;
 
 			case FixTags.ACCOUNTTYPE_INT:
-				accountType = FixUtils.getTagIntValue( value );
+				accountType = FixUtils.getTagIntValue(MsgTypes.COLLATERALREQUEST ,id ,value );
 				if (!AccountType.isValid(accountType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + accountType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.CLORDID_INT:
-				clOrdID = FixUtils.getTagStringValue(value, clOrdID);
+				clOrdID = FixUtils.getTagStringValue(MsgTypes.COLLATERALREQUEST ,id ,value, clOrdID);
 				break;
 
 			case FixTags.ORDERID_INT:
-				orderID = FixUtils.getTagStringValue(value, orderID);
+				orderID = FixUtils.getTagStringValue(MsgTypes.COLLATERALREQUEST ,id ,value, orderID);
 				break;
 
 			case FixTags.SECONDARYORDERID_INT:
-				secondaryOrderID = FixUtils.getTagStringValue(value, secondaryOrderID);
+				secondaryOrderID = FixUtils.getTagStringValue(MsgTypes.COLLATERALREQUEST ,id ,value, secondaryOrderID);
 				break;
 
 			case FixTags.SECONDARYCLORDID_INT:
-				secondaryClOrdID = FixUtils.getTagStringValue(value, secondaryClOrdID);
+				secondaryClOrdID = FixUtils.getTagStringValue(MsgTypes.COLLATERALREQUEST ,id ,value, secondaryClOrdID);
 				break;
 
 			case FixTags.NOEXECS_INT:
-				execCollGrp.noExecs = FixUtils.getTagIntValue( value );
+				execCollGrp.noExecs = FixUtils.getTagIntValue( MsgTypes.COLLATERALREQUEST ,FixTags.NOEXECS_INT ,value );
 				execCollGrp.getAll(execCollGrp.noExecs, value );
 				break;
 
 			case FixTags.NOTRADES_INT:
-				trdCollGrp.noTrades = FixUtils.getTagIntValue( value );
+				trdCollGrp.noTrades = FixUtils.getTagIntValue( MsgTypes.COLLATERALREQUEST ,FixTags.NOTRADES_INT ,value );
 				trdCollGrp.getAll(trdCollGrp.noTrades, value );
 				break;
 
@@ -249,82 +249,82 @@ public class FixCollateralRequest extends FixMessage
 				break;
 
 			case FixTags.SETTLDATE_INT:
-				settlDate = FixUtils.getTagStringValue(value, settlDate);
+				settlDate = FixUtils.getTagStringValue(MsgTypes.COLLATERALREQUEST ,id ,value, settlDate);
 				break;
 
 			case FixTags.QUANTITY_INT:
-				quantity = FixUtils.getTagFloatValue(value);
+				quantity = FixUtils.getTagFloatValue(MsgTypes.COLLATERALREQUEST ,id ,value);
 				break;
 
 			case FixTags.QTYTYPE_INT:
-				qtyType = FixUtils.getTagIntValue( value );
+				qtyType = FixUtils.getTagIntValue(MsgTypes.COLLATERALREQUEST ,id ,value );
 				if (!QtyType.isValid(qtyType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + qtyType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.CURRENCY_INT:
-				currency = FixUtils.getTagStringValue(value, currency);
+				currency = FixUtils.getTagStringValue(MsgTypes.COLLATERALREQUEST ,id ,value, currency);
 				break;
 
 			case FixTags.NOLEGS_INT:
-				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( value );
+				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( MsgTypes.COLLATERALREQUEST ,FixTags.NOLEGS_INT ,value );
 				instrmtLegGrp.getAll(instrmtLegGrp.noLegs, value );
 				break;
 
 			case FixTags.NOUNDERLYINGS_INT:
-				undInstrmtCollGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtCollGrp.noUnderlyings = FixUtils.getTagIntValue( MsgTypes.COLLATERALREQUEST ,FixTags.NOUNDERLYINGS_INT ,value );
 				undInstrmtCollGrp.getAll(undInstrmtCollGrp.noUnderlyings, value );
 				break;
 
 			case FixTags.MARGINEXCESS_INT:
-				marginExcess = FixUtils.getTagFloatValue(value);
+				marginExcess = FixUtils.getTagFloatValue(MsgTypes.COLLATERALREQUEST ,id ,value);
 				break;
 
 			case FixTags.TOTALNETVALUE_INT:
-				totalNetValue = FixUtils.getTagFloatValue(value);
+				totalNetValue = FixUtils.getTagFloatValue(MsgTypes.COLLATERALREQUEST ,id ,value);
 				break;
 
 			case FixTags.CASHOUTSTANDING_INT:
-				cashOutstanding = FixUtils.getTagFloatValue(value);
+				cashOutstanding = FixUtils.getTagFloatValue(MsgTypes.COLLATERALREQUEST ,id ,value);
 				break;
 
 			case FixTags.NOTRDREGTIMESTAMPS_INT:
-				trdRegTimestamps.noTrdRegTimestamps = FixUtils.getTagIntValue( value );
+				trdRegTimestamps.noTrdRegTimestamps = FixUtils.getTagIntValue( MsgTypes.COLLATERALREQUEST ,FixTags.NOTRDREGTIMESTAMPS_INT ,value );
 				trdRegTimestamps.getAll(trdRegTimestamps.noTrdRegTimestamps, value );
 				break;
 
 			case FixTags.SIDE_INT:
-				side = FixUtils.getTagCharValue( value );
+				side = FixUtils.getTagCharValue(MsgTypes.COLLATERALREQUEST ,id ,value );
 				if (!Side.isValid(side) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + side + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NOMISCFEES_INT:
-				miscFeesGrp.noMiscFees = FixUtils.getTagIntValue( value );
+				miscFeesGrp.noMiscFees = FixUtils.getTagIntValue( MsgTypes.COLLATERALREQUEST ,FixTags.NOMISCFEES_INT ,value );
 				miscFeesGrp.getAll(miscFeesGrp.noMiscFees, value );
 				break;
 
 			case FixTags.PRICE_INT:
-				price = FixUtils.getTagFloatValue(value);
+				price = FixUtils.getTagFloatValue(MsgTypes.COLLATERALREQUEST ,id ,value);
 				break;
 
 			case FixTags.PRICETYPE_INT:
-				priceType = FixUtils.getTagIntValue( value );
+				priceType = FixUtils.getTagIntValue(MsgTypes.COLLATERALREQUEST ,id ,value );
 				if (!PriceType.isValid(priceType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + priceType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.ACCRUEDINTERESTAMT_INT:
-				accruedInterestAmt = FixUtils.getTagFloatValue(value);
+				accruedInterestAmt = FixUtils.getTagFloatValue(MsgTypes.COLLATERALREQUEST ,id ,value);
 				break;
 
 			case FixTags.ENDACCRUEDINTERESTAMT_INT:
-				endAccruedInterestAmt = FixUtils.getTagFloatValue(value);
+				endAccruedInterestAmt = FixUtils.getTagFloatValue(MsgTypes.COLLATERALREQUEST ,id ,value);
 				break;
 
 			case FixTags.STARTCASH_INT:
-				startCash = FixUtils.getTagFloatValue(value);
+				startCash = FixUtils.getTagFloatValue(MsgTypes.COLLATERALREQUEST ,id ,value);
 				break;
 
 			case FixTags.ENDCASH_INT:
-				endCash = FixUtils.getTagFloatValue(value);
+				endCash = FixUtils.getTagFloatValue(MsgTypes.COLLATERALREQUEST ,id ,value);
 				break;
 
 			case FixTags.SPREAD_INT:
@@ -332,48 +332,48 @@ public class FixCollateralRequest extends FixMessage
 				break;
 
 			case FixTags.NOSTIPULATIONS_INT:
-				stipulations.noStipulations = FixUtils.getTagIntValue( value );
+				stipulations.noStipulations = FixUtils.getTagIntValue( MsgTypes.COLLATERALREQUEST ,FixTags.NOSTIPULATIONS_INT ,value );
 				stipulations.getAll(stipulations.noStipulations, value );
 				break;
 
 			case FixTags.TRADINGSESSIONID_INT:
-				tradingSessionID = FixUtils.getTagStringValue(value, tradingSessionID);
+				tradingSessionID = FixUtils.getTagStringValue(MsgTypes.COLLATERALREQUEST ,id ,value, tradingSessionID);
 				if (!TradingSessionID.isValid(tradingSessionID) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + tradingSessionID + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TRADINGSESSIONSUBID_INT:
-				tradingSessionSubID = FixUtils.getTagStringValue(value, tradingSessionSubID);
+				tradingSessionSubID = FixUtils.getTagStringValue(MsgTypes.COLLATERALREQUEST ,id ,value, tradingSessionSubID);
 				if (!TradingSessionSubID.isValid(tradingSessionSubID) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + tradingSessionSubID + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.SETTLSESSID_INT:
-				settlSessID = FixUtils.getTagStringValue(value, settlSessID);
+				settlSessID = FixUtils.getTagStringValue(MsgTypes.COLLATERALREQUEST ,id ,value, settlSessID);
 				if (!SettlSessID.isValid(settlSessID) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + settlSessID + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.SETTLSESSSUBID_INT:
-				settlSessSubID = FixUtils.getTagStringValue(value, settlSessSubID);
+				settlSessSubID = FixUtils.getTagStringValue(MsgTypes.COLLATERALREQUEST ,id ,value, settlSessSubID);
 				break;
 
 			case FixTags.CLEARINGBUSINESSDATE_INT:
-				clearingBusinessDate = FixUtils.getTagStringValue(value, clearingBusinessDate);
+				clearingBusinessDate = FixUtils.getTagStringValue(MsgTypes.COLLATERALREQUEST ,id ,value, clearingBusinessDate);
 				break;
 
 			case FixTags.TEXT_INT:
-				text = FixUtils.getTagStringValue(value, text);
+				text = FixUtils.getTagStringValue(MsgTypes.COLLATERALREQUEST ,id ,value, text);
 				break;
 
 			case FixTags.ENCODEDTEXTLEN_INT:
-				encodedTextLen = FixUtils.getTagIntValue( value );
+				encodedTextLen = FixUtils.getTagIntValue(MsgTypes.COLLATERALREQUEST ,id ,value );
 				break;
 
 			case FixTags.ENCODEDTEXT_INT:
-				encodedText = FixUtils.getTagStringValue(value, encodedText);
+				encodedText = FixUtils.getTagStringValue(MsgTypes.COLLATERALREQUEST ,id ,value, encodedText);
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.COLLATERALREQUEST ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

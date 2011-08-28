@@ -115,21 +115,21 @@ public class SettlParties implements FixComponent
 			value = buf;
 
 			if(id == FixTags.SETTLPARTYID_INT) {
-				settlPartyID = FixUtils.getTagStringValue(value, settlPartyID);
+				settlPartyID = FixUtils.getTagStringValue(null ,id ,value, settlPartyID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.SETTLPARTYIDSOURCE_INT) {
-				settlPartyIDSource = FixUtils.getTagCharValue( value );
+				settlPartyIDSource = FixUtils.getTagCharValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.SETTLPARTYROLE_INT) {
-				settlPartyRole = FixUtils.getTagIntValue( value );
+				settlPartyRole = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -137,7 +137,7 @@ public class SettlParties implements FixComponent
 
 			if(id == FixTags.NOSETTLPARTYSUBIDS_INT) {
 				int noSettlPartySubIDs;
-				noSettlPartySubIDs = FixUtils.getTagIntValue( value );
+				noSettlPartySubIDs = FixUtils.getTagIntValue(null ,id ,value );
 				settlPtysSubGrp.getAll(noSettlPartySubIDs, buf);
 				lastTagPosition = buf.position();
 

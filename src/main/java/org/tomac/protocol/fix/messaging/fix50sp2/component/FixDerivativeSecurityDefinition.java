@@ -67,12 +67,12 @@ public class FixDerivativeSecurityDefinition implements FixComponent
 				break;
 
 			case FixTags.NODERIVATIVEINSTRATTRIB_INT:
-				derivativeInstrumentAttribute.noDerivativeInstrAttrib = FixUtils.getTagIntValue( value );
+				derivativeInstrumentAttribute.noDerivativeInstrAttrib = FixUtils.getTagIntValue(null, FixTags.NODERIVATIVEINSTRATTRIB_INT, value );
 				derivativeInstrumentAttribute.getAll(derivativeInstrumentAttribute.noDerivativeInstrAttrib, value );
 				break;
 
 			case FixTags.NOMARKETSEGMENTS_INT:
-				marketSegmentGrp.noMarketSegments = FixUtils.getTagIntValue( value );
+				marketSegmentGrp.noMarketSegments = FixUtils.getTagIntValue(null, FixTags.NOMARKETSEGMENTS_INT, value );
 				marketSegmentGrp.getAll(marketSegmentGrp.noMarketSegments, value );
 				break;
 
@@ -88,7 +88,7 @@ public class FixDerivativeSecurityDefinition implements FixComponent
 
 			lastTagPosition = buf.position();
 
-		} while ( ( id = FixUtils.getTagId( buf ) ) > 0 );
+		} while ( ( id = FixUtils.getTagId( buf ) ) >= 0 );
 
 		buf.position(startTagPosition);
 

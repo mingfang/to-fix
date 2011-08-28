@@ -110,14 +110,14 @@ public class UndSecAltIDGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.UNDERLYINGSECURITYALTID_INT) {
-				underlyingSecurityAltID = FixUtils.getTagStringValue(value, underlyingSecurityAltID);
+				underlyingSecurityAltID = FixUtils.getTagStringValue(null ,id ,value, underlyingSecurityAltID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.UNDERLYINGSECURITYALTIDSOURCE_INT) {
-				underlyingSecurityAltIDSource = FixUtils.getTagStringValue(value, underlyingSecurityAltIDSource);
+				underlyingSecurityAltIDSource = FixUtils.getTagStringValue(null ,id ,value, underlyingSecurityAltIDSource);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

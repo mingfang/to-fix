@@ -148,7 +148,7 @@ public class FixExecutionReportFill extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -157,175 +157,175 @@ public class FixExecutionReportFill extends FixMessage
 			switch( id ) {
 
 			case FixTags.AVGPX_INT:
-				avgPx = FixUtils.getTagFloatValue(value);
+				avgPx = FixUtils.getTagFloatValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value);
 				break;
 
 			case FixTags.CLORDID_INT:
-				clOrdID = FixUtils.getTagStringValue(value, clOrdID);
+				clOrdID = FixUtils.getTagStringValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value, clOrdID);
 				break;
 
 			case FixTags.CUMQTY_INT:
-				cumQty = FixUtils.getTagFloatValue(value);
+				cumQty = FixUtils.getTagFloatValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value);
 				break;
 
 			case FixTags.CURRENCY_INT:
-				currency = FixUtils.getTagStringValue(value, currency);
+				currency = FixUtils.getTagStringValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value, currency);
 				break;
 
 			case FixTags.EXECID_INT:
-				execID = FixUtils.getTagStringValue(value, execID);
+				execID = FixUtils.getTagStringValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value, execID);
 				break;
 
 			case FixTags.EXECINST_INT:
-				execInst = FixUtils.getTagStringValue(value, execInst);
+				execInst = FixUtils.getTagStringValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value, execInst);
 				if (!ExecInst.isValid(execInst) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + execInst + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.EXECTRANSTYPE_INT:
-				execTransType = FixUtils.getTagCharValue( value );
+				execTransType = FixUtils.getTagCharValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value );
 				if (!ExecTransType.isValid(execTransType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + execTransType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.LASTPX_INT:
-				lastPx = FixUtils.getTagFloatValue(value);
+				lastPx = FixUtils.getTagFloatValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value);
 				break;
 
 			case FixTags.LASTSHARES_INT:
-				lastShares = FixUtils.getTagFloatValue(value);
+				lastShares = FixUtils.getTagFloatValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value);
 				break;
 
 			case FixTags.ORDERID_INT:
-				orderID = FixUtils.getTagStringValue(value, orderID);
+				orderID = FixUtils.getTagStringValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value, orderID);
 				break;
 
 			case FixTags.ORDERQTY_INT:
-				orderQty = FixUtils.getTagFloatValue(value);
+				orderQty = FixUtils.getTagFloatValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value);
 				break;
 
 			case FixTags.ORDSTATUS_INT:
-				ordStatus = FixUtils.getTagCharValue( value );
+				ordStatus = FixUtils.getTagCharValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value );
 				if (!OrdStatus.isValid(ordStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + ordStatus + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.ORDTYPE_INT:
-				ordType = FixUtils.getTagCharValue( value );
+				ordType = FixUtils.getTagCharValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value );
 				if (!OrdType.isValid(ordType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + ordType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.ORIGCLORDID_INT:
-				origClOrdID = FixUtils.getTagStringValue(value, origClOrdID);
+				origClOrdID = FixUtils.getTagStringValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value, origClOrdID);
 				break;
 
 			case FixTags.PRICE_INT:
-				price = FixUtils.getTagFloatValue(value);
+				price = FixUtils.getTagFloatValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value);
 				break;
 
 			case FixTags.SECURITYID_INT:
-				securityID = FixUtils.getTagStringValue(value, securityID);
+				securityID = FixUtils.getTagStringValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value, securityID);
 				break;
 
 			case FixTags.SIDE_INT:
-				side = FixUtils.getTagCharValue( value );
+				side = FixUtils.getTagCharValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value );
 				if (!Side.isValid(side) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + side + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.SYMBOL_INT:
-				symbol = FixUtils.getTagStringValue(value, symbol);
+				symbol = FixUtils.getTagStringValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value, symbol);
 				break;
 
 			case FixTags.TEXT_INT:
-				text = FixUtils.getTagStringValue(value, text);
+				text = FixUtils.getTagStringValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value, text);
 				break;
 
 			case FixTags.TIMEINFORCE_INT:
-				timeInForce = FixUtils.getTagCharValue( value );
+				timeInForce = FixUtils.getTagCharValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value );
 				if (!TimeInForce.isValid(timeInForce) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + timeInForce + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TRANSACTTIME_INT:
-				transactTime = FixUtils.getTagStringValue(value, transactTime);
+				transactTime = FixUtils.getTagStringValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value, transactTime);
 				break;
 
 			case FixTags.TRADEDATE_INT:
-				tradeDate = FixUtils.getTagStringValue(value, tradeDate);
+				tradeDate = FixUtils.getTagStringValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value, tradeDate);
 				break;
 
 			case FixTags.CLIENTID_INT:
-				clientID = FixUtils.getTagStringValue(value, clientID);
+				clientID = FixUtils.getTagStringValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value, clientID);
 				break;
 
 			case FixTags.MINQTY_INT:
-				minQty = FixUtils.getTagFloatValue(value);
+				minQty = FixUtils.getTagFloatValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value);
 				break;
 
 			case FixTags.MAXFLOOR_INT:
-				maxFloor = FixUtils.getTagFloatValue(value);
+				maxFloor = FixUtils.getTagFloatValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value);
 				break;
 
 			case FixTags.EXECTYPE_INT:
-				execType = FixUtils.getTagCharValue( value );
+				execType = FixUtils.getTagCharValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value );
 				if (!ExecType.isValid(execType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + execType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.LEAVESQTY_INT:
-				leavesQty = FixUtils.getTagFloatValue(value);
+				leavesQty = FixUtils.getTagFloatValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value);
 				break;
 
 			case FixTags.NOCONTRABROKERS_INT:
-				noContraBrokers = FixUtils.getTagIntValue( value );
+				noContraBrokers = FixUtils.getTagIntValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value );
 				break;
 
 			case FixTags.CONTRABROKER_INT:
-				contraBroker = FixUtils.getTagStringValue(value, contraBroker);
+				contraBroker = FixUtils.getTagStringValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value, contraBroker);
 				break;
 
 			case FixTags.CLEARINGFIRM_INT:
-				clearingFirm = FixUtils.getTagStringValue(value, clearingFirm);
+				clearingFirm = FixUtils.getTagStringValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value, clearingFirm);
 				break;
 
 			case FixTags.CLEARINGACCOUNT_INT:
-				clearingAccount = FixUtils.getTagStringValue(value, clearingAccount);
+				clearingAccount = FixUtils.getTagStringValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value, clearingAccount);
 				break;
 
 			case FixTags.ORDERCAPACITY_INT:
-				orderCapacity = FixUtils.getTagStringValue(value, orderCapacity);
+				orderCapacity = FixUtils.getTagStringValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value, orderCapacity);
 				if (!OrderCapacity.isValid(orderCapacity) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + orderCapacity + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.ORDERRESTRICTIONS_INT:
-				orderRestrictions = FixUtils.getTagStringValue(value, orderRestrictions);
+				orderRestrictions = FixUtils.getTagStringValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value, orderRestrictions);
 				if (!OrderRestrictions.isValid(orderRestrictions) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + orderRestrictions + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TRADEID_INT:
-				tradeID = FixUtils.getTagStringValue(value, tradeID);
+				tradeID = FixUtils.getTagStringValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value, tradeID);
 				break;
 
 			case FixTags.SUBMKTID_INT:
-				subMktID = FixUtils.getTagStringValue(value, subMktID);
+				subMktID = FixUtils.getTagStringValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value, subMktID);
 				break;
 
 			case FixTags.CLREFID_INT:
-				clRefID = FixUtils.getTagStringValue(value, clRefID);
+				clRefID = FixUtils.getTagStringValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value, clRefID);
 				break;
 
 			case FixTags.DISPLAYINST_INT:
-				displayInst = FixUtils.getTagCharValue( value );
+				displayInst = FixUtils.getTagCharValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value );
 				if (!DisplayInst.isValid(displayInst) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + displayInst + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.BRSEQNBR_INT:
-				brSeqNbr = FixUtils.getTagStringValue(value, brSeqNbr);
+				brSeqNbr = FixUtils.getTagStringValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value, brSeqNbr);
 				break;
 
 			case FixTags.LIQUIDITYFLAG_INT:
-				liquidityFlag = FixUtils.getTagCharValue( value );
+				liquidityFlag = FixUtils.getTagCharValue(MsgTypes.EXECUTIONREPORTFILL ,id ,value );
 				if (!LiquidityFlag.isValid(liquidityFlag) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + liquidityFlag + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.EXECUTIONREPORTFILL ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

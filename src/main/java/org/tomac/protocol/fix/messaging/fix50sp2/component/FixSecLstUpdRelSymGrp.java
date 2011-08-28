@@ -160,14 +160,14 @@ public class SecLstUpdRelSymGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.CURRENCY_INT) {
-				currency = FixUtils.getTagStringValue(value, currency);
+				currency = FixUtils.getTagStringValue(null ,id ,value, currency);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LISTUPDATEACTION_INT) {
-				listUpdateAction = FixUtils.getTagCharValue( value );
+				listUpdateAction = FixUtils.getTagCharValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -196,7 +196,7 @@ public class SecLstUpdRelSymGrp implements FixComponent
 
 			if(id == FixTags.NOLEGS_INT) {
 				int noLegs;
-				noLegs = FixUtils.getTagIntValue( value );
+				noLegs = FixUtils.getTagIntValue(null ,id ,value );
 				secLstUpdRelSymsLegGrp.getAll(noLegs, buf);
 				lastTagPosition = buf.position();
 
@@ -212,7 +212,7 @@ public class SecLstUpdRelSymGrp implements FixComponent
 
 			if(id == FixTags.NOUNDERLYINGS_INT) {
 				int noUnderlyings;
-				noUnderlyings = FixUtils.getTagIntValue( value );
+				noUnderlyings = FixUtils.getTagIntValue(null ,id ,value );
 				undInstrmtGrp.getAll(noUnderlyings, buf);
 				lastTagPosition = buf.position();
 
@@ -221,7 +221,7 @@ public class SecLstUpdRelSymGrp implements FixComponent
 
 			if(id == FixTags.NOSTIPULATIONS_INT) {
 				int noStipulations;
-				noStipulations = FixUtils.getTagIntValue( value );
+				noStipulations = FixUtils.getTagIntValue(null ,id ,value );
 				stipulations.getAll(noStipulations, buf);
 				lastTagPosition = buf.position();
 
@@ -237,7 +237,7 @@ public class SecLstUpdRelSymGrp implements FixComponent
 
 			if(id == FixTags.NOSTRIKERULES_INT) {
 				int noStrikeRules;
-				noStrikeRules = FixUtils.getTagIntValue( value );
+				noStrikeRules = FixUtils.getTagIntValue(null ,id ,value );
 				strikeRules.getAll(noStrikeRules, buf);
 				lastTagPosition = buf.position();
 
@@ -245,28 +245,28 @@ public class SecLstUpdRelSymGrp implements FixComponent
 			}
 
 			if(id == FixTags.TEXT_INT) {
-				text = FixUtils.getTagStringValue(value, text);
+				text = FixUtils.getTagStringValue(null ,id ,value, text);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ENCODEDTEXTLEN_INT) {
-				encodedTextLen = FixUtils.getTagIntValue( value );
+				encodedTextLen = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ENCODEDTEXT_INT) {
-				encodedText = FixUtils.getTagStringValue(value, encodedText);
+				encodedText = FixUtils.getTagStringValue(null ,id ,value, encodedText);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RELSYMTRANSACTTIME_INT) {
-				relSymTransactTime = FixUtils.getTagStringValue(value, relSymTransactTime);
+				relSymTransactTime = FixUtils.getTagStringValue(null ,id ,value, relSymTransactTime);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

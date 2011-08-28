@@ -132,28 +132,28 @@ public class TrdAllocGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.ALLOCACCOUNT_INT) {
-				allocAccount = FixUtils.getTagStringValue(value, allocAccount);
+				allocAccount = FixUtils.getTagStringValue(null ,id ,value, allocAccount);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ALLOCACCTIDSOURCE_INT) {
-				allocAcctIDSource = FixUtils.getTagIntValue( value );
+				allocAcctIDSource = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ALLOCSETTLCURRENCY_INT) {
-				allocSettlCurrency = FixUtils.getTagStringValue(value, allocSettlCurrency);
+				allocSettlCurrency = FixUtils.getTagStringValue(null ,id ,value, allocSettlCurrency);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.INDIVIDUALALLOCID_INT) {
-				individualAllocID = FixUtils.getTagStringValue(value, individualAllocID);
+				individualAllocID = FixUtils.getTagStringValue(null ,id ,value, individualAllocID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -161,7 +161,7 @@ public class TrdAllocGrp implements FixComponent
 
 			if(id == FixTags.NONESTED2PARTYIDS_INT) {
 				int noNested2PartyIDs;
-				noNested2PartyIDs = FixUtils.getTagIntValue( value );
+				noNested2PartyIDs = FixUtils.getTagIntValue(null ,id ,value );
 				nestedParties2.getAll(noNested2PartyIDs, buf);
 				lastTagPosition = buf.position();
 
@@ -169,21 +169,21 @@ public class TrdAllocGrp implements FixComponent
 			}
 
 			if(id == FixTags.ALLOCQTY_INT) {
-				allocQty = FixUtils.getTagFloatValue(value);
+				allocQty = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ALLOCCUSTOMERCAPACITY_INT) {
-				allocCustomerCapacity = FixUtils.getTagStringValue(value, allocCustomerCapacity);
+				allocCustomerCapacity = FixUtils.getTagStringValue(null ,id ,value, allocCustomerCapacity);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ALLOCMETHOD_INT) {
-				allocMethod = FixUtils.getTagIntValue( value );
+				allocMethod = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.AllocMethod.isValid(allocMethod) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + allocMethod + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -191,14 +191,14 @@ public class TrdAllocGrp implements FixComponent
 			}
 
 			if(id == FixTags.SECONDARYINDIVIDUALALLOCID_INT) {
-				secondaryIndividualAllocID = FixUtils.getTagStringValue(value, secondaryIndividualAllocID);
+				secondaryIndividualAllocID = FixUtils.getTagStringValue(null ,id ,value, secondaryIndividualAllocID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ALLOCCLEARINGFEEINDICATOR_INT) {
-				allocClearingFeeIndicator = FixUtils.getTagStringValue(value, allocClearingFeeIndicator);
+				allocClearingFeeIndicator = FixUtils.getTagStringValue(null ,id ,value, allocClearingFeeIndicator);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

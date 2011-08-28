@@ -235,296 +235,296 @@ public class FixUnderlyingInstrument implements FixComponent
 			switch( id ) {
 
 			case FixTags.UNDERLYINGSYMBOL_INT:
-				underlyingSymbol = FixUtils.getTagStringValue(value, underlyingSymbol);
+				underlyingSymbol = FixUtils.getTagStringValue(null ,id ,value, underlyingSymbol);
 				break;
 
 			case FixTags.UNDERLYINGSYMBOLSFX_INT:
-				underlyingSymbolSfx = FixUtils.getTagStringValue(value, underlyingSymbolSfx);
+				underlyingSymbolSfx = FixUtils.getTagStringValue(null ,id ,value, underlyingSymbolSfx);
 				break;
 
 			case FixTags.UNDERLYINGSECURITYID_INT:
-				underlyingSecurityID = FixUtils.getTagStringValue(value, underlyingSecurityID);
+				underlyingSecurityID = FixUtils.getTagStringValue(null ,id ,value, underlyingSecurityID);
 				break;
 
 			case FixTags.UNDERLYINGSECURITYIDSOURCE_INT:
-				underlyingSecurityIDSource = FixUtils.getTagStringValue(value, underlyingSecurityIDSource);
+				underlyingSecurityIDSource = FixUtils.getTagStringValue(null ,id ,value, underlyingSecurityIDSource);
 				break;
 
 			case FixTags.NOUNDERLYINGSECURITYALTID_INT:
-				undSecAltIDGrp.noUnderlyingSecurityAltID = FixUtils.getTagIntValue( value );
+				undSecAltIDGrp.noUnderlyingSecurityAltID = FixUtils.getTagIntValue(null, FixTags.NOUNDERLYINGSECURITYALTID_INT, value );
 				undSecAltIDGrp.getAll(undSecAltIDGrp.noUnderlyingSecurityAltID, value );
 				break;
 
 			case FixTags.UNDERLYINGPRODUCT_INT:
-				underlyingProduct = FixUtils.getTagIntValue( value );
+				underlyingProduct = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.UNDERLYINGCFICODE_INT:
-				underlyingCFICode = FixUtils.getTagStringValue(value, underlyingCFICode);
+				underlyingCFICode = FixUtils.getTagStringValue(null ,id ,value, underlyingCFICode);
 				break;
 
 			case FixTags.UNDERLYINGSECURITYTYPE_INT:
-				underlyingSecurityType = FixUtils.getTagStringValue(value, underlyingSecurityType);
+				underlyingSecurityType = FixUtils.getTagStringValue(null ,id ,value, underlyingSecurityType);
 				break;
 
 			case FixTags.UNDERLYINGSECURITYSUBTYPE_INT:
-				underlyingSecuritySubType = FixUtils.getTagStringValue(value, underlyingSecuritySubType);
+				underlyingSecuritySubType = FixUtils.getTagStringValue(null ,id ,value, underlyingSecuritySubType);
 				break;
 
 			case FixTags.UNDERLYINGMATURITYMONTHYEAR_INT:
-				underlyingMaturityMonthYear = FixUtils.getTagStringValue(value, underlyingMaturityMonthYear);
+				underlyingMaturityMonthYear = FixUtils.getTagStringValue(null ,id ,value, underlyingMaturityMonthYear);
 				break;
 
 			case FixTags.UNDERLYINGMATURITYDATE_INT:
-				underlyingMaturityDate = FixUtils.getTagStringValue(value, underlyingMaturityDate);
+				underlyingMaturityDate = FixUtils.getTagStringValue(null ,id ,value, underlyingMaturityDate);
 				break;
 
 			case FixTags.UNDERLYINGMATURITYTIME_INT:
-				underlyingMaturityTime = FixUtils.getTagStringValue(value, underlyingMaturityTime);
+				underlyingMaturityTime = FixUtils.getTagStringValue(null ,id ,value, underlyingMaturityTime);
 				break;
 
 			case FixTags.UNDERLYINGCOUPONPAYMENTDATE_INT:
-				underlyingCouponPaymentDate = FixUtils.getTagStringValue(value, underlyingCouponPaymentDate);
+				underlyingCouponPaymentDate = FixUtils.getTagStringValue(null ,id ,value, underlyingCouponPaymentDate);
 				break;
 
 			case FixTags.UNDERLYINGRESTRUCTURINGTYPE_INT:
-				underlyingRestructuringType = FixUtils.getTagStringValue(value, underlyingRestructuringType);
+				underlyingRestructuringType = FixUtils.getTagStringValue(null ,id ,value, underlyingRestructuringType);
 				break;
 
 			case FixTags.UNDERLYINGSENIORITY_INT:
-				underlyingSeniority = FixUtils.getTagStringValue(value, underlyingSeniority);
+				underlyingSeniority = FixUtils.getTagStringValue(null ,id ,value, underlyingSeniority);
 				break;
 
 			case FixTags.UNDERLYINGNOTIONALPERCENTAGEOUTSTANDING_INT:
-				underlyingNotionalPercentageOutstanding = FixUtils.getTagFloatValue(value);
+				underlyingNotionalPercentageOutstanding = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.UNDERLYINGORIGINALNOTIONALPERCENTAGEOUTSTANDING_INT:
-				underlyingOriginalNotionalPercentageOutstanding = FixUtils.getTagFloatValue(value);
+				underlyingOriginalNotionalPercentageOutstanding = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.UNDERLYINGATTACHMENTPOINT_INT:
-				underlyingAttachmentPoint = FixUtils.getTagFloatValue(value);
+				underlyingAttachmentPoint = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.UNDERLYINGDETACHMENTPOINT_INT:
-				underlyingDetachmentPoint = FixUtils.getTagFloatValue(value);
+				underlyingDetachmentPoint = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.UNDERLYINGISSUEDATE_INT:
-				underlyingIssueDate = FixUtils.getTagStringValue(value, underlyingIssueDate);
+				underlyingIssueDate = FixUtils.getTagStringValue(null ,id ,value, underlyingIssueDate);
 				break;
 
 			case FixTags.UNDERLYINGREPOCOLLATERALSECURITYTYPE_INT:
-				underlyingRepoCollateralSecurityType = FixUtils.getTagIntValue( value );
+				underlyingRepoCollateralSecurityType = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.UNDERLYINGREPURCHASETERM_INT:
-				underlyingRepurchaseTerm = FixUtils.getTagIntValue( value );
+				underlyingRepurchaseTerm = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.UNDERLYINGREPURCHASERATE_INT:
-				underlyingRepurchaseRate = FixUtils.getTagFloatValue(value);
+				underlyingRepurchaseRate = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.UNDERLYINGFACTOR_INT:
-				underlyingFactor = FixUtils.getTagFloatValue(value);
+				underlyingFactor = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.UNDERLYINGCREDITRATING_INT:
-				underlyingCreditRating = FixUtils.getTagStringValue(value, underlyingCreditRating);
+				underlyingCreditRating = FixUtils.getTagStringValue(null ,id ,value, underlyingCreditRating);
 				break;
 
 			case FixTags.UNDERLYINGINSTRREGISTRY_INT:
-				underlyingInstrRegistry = FixUtils.getTagStringValue(value, underlyingInstrRegistry);
+				underlyingInstrRegistry = FixUtils.getTagStringValue(null ,id ,value, underlyingInstrRegistry);
 				break;
 
 			case FixTags.UNDERLYINGCOUNTRYOFISSUE_INT:
-				underlyingCountryOfIssue = FixUtils.getTagStringValue(value, underlyingCountryOfIssue);
+				underlyingCountryOfIssue = FixUtils.getTagStringValue(null ,id ,value, underlyingCountryOfIssue);
 				break;
 
 			case FixTags.UNDERLYINGSTATEORPROVINCEOFISSUE_INT:
-				underlyingStateOrProvinceOfIssue = FixUtils.getTagStringValue(value, underlyingStateOrProvinceOfIssue);
+				underlyingStateOrProvinceOfIssue = FixUtils.getTagStringValue(null ,id ,value, underlyingStateOrProvinceOfIssue);
 				break;
 
 			case FixTags.UNDERLYINGLOCALEOFISSUE_INT:
-				underlyingLocaleOfIssue = FixUtils.getTagStringValue(value, underlyingLocaleOfIssue);
+				underlyingLocaleOfIssue = FixUtils.getTagStringValue(null ,id ,value, underlyingLocaleOfIssue);
 				break;
 
 			case FixTags.UNDERLYINGREDEMPTIONDATE_INT:
-				underlyingRedemptionDate = FixUtils.getTagStringValue(value, underlyingRedemptionDate);
+				underlyingRedemptionDate = FixUtils.getTagStringValue(null ,id ,value, underlyingRedemptionDate);
 				break;
 
 			case FixTags.UNDERLYINGSTRIKEPRICE_INT:
-				underlyingStrikePrice = FixUtils.getTagFloatValue(value);
+				underlyingStrikePrice = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.UNDERLYINGSTRIKECURRENCY_INT:
-				underlyingStrikeCurrency = FixUtils.getTagStringValue(value, underlyingStrikeCurrency);
+				underlyingStrikeCurrency = FixUtils.getTagStringValue(null ,id ,value, underlyingStrikeCurrency);
 				break;
 
 			case FixTags.UNDERLYINGOPTATTRIBUTE_INT:
-				underlyingOptAttribute = FixUtils.getTagCharValue( value );
+				underlyingOptAttribute = FixUtils.getTagCharValue(null ,id ,value );
 				break;
 
 			case FixTags.UNDERLYINGCONTRACTMULTIPLIER_INT:
-				underlyingContractMultiplier = FixUtils.getTagFloatValue(value);
+				underlyingContractMultiplier = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.UNDERLYINGUNITOFMEASURE_INT:
-				underlyingUnitOfMeasure = FixUtils.getTagStringValue(value, underlyingUnitOfMeasure);
+				underlyingUnitOfMeasure = FixUtils.getTagStringValue(null ,id ,value, underlyingUnitOfMeasure);
 				break;
 
 			case FixTags.UNDERLYINGTIMEUNIT_INT:
-				underlyingTimeUnit = FixUtils.getTagStringValue(value, underlyingTimeUnit);
+				underlyingTimeUnit = FixUtils.getTagStringValue(null ,id ,value, underlyingTimeUnit);
 				break;
 
 			case FixTags.UNDERLYINGEXERCISESTYLE_INT:
-				underlyingExerciseStyle = FixUtils.getTagIntValue( value );
+				underlyingExerciseStyle = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.UNDERLYINGUNITOFMEASUREQTY_INT:
-				underlyingUnitOfMeasureQty = FixUtils.getTagFloatValue(value);
+				underlyingUnitOfMeasureQty = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.UNDERLYINGPRICEUNITOFMEASURE_INT:
-				underlyingPriceUnitOfMeasure = FixUtils.getTagStringValue(value, underlyingPriceUnitOfMeasure);
+				underlyingPriceUnitOfMeasure = FixUtils.getTagStringValue(null ,id ,value, underlyingPriceUnitOfMeasure);
 				break;
 
 			case FixTags.UNDERLYINGPRICEUNITOFMEASUREQTY_INT:
-				underlyingPriceUnitOfMeasureQty = FixUtils.getTagFloatValue(value);
+				underlyingPriceUnitOfMeasureQty = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.UNDERLYINGCONTRACTMULTIPLIERUNIT_INT:
-				underlyingContractMultiplierUnit = FixUtils.getTagIntValue( value );
+				underlyingContractMultiplierUnit = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.UNDERLYINGFLOWSCHEDULETYPE_INT:
-				underlyingFlowScheduleType = FixUtils.getTagIntValue( value );
+				underlyingFlowScheduleType = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.UNDERLYINGCOUPONRATE_INT:
-				underlyingCouponRate = FixUtils.getTagFloatValue(value);
+				underlyingCouponRate = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.UNDERLYINGSECURITYEXCHANGE_INT:
-				underlyingSecurityExchange = FixUtils.getTagStringValue(value, underlyingSecurityExchange);
+				underlyingSecurityExchange = FixUtils.getTagStringValue(null ,id ,value, underlyingSecurityExchange);
 				break;
 
 			case FixTags.UNDERLYINGISSUER_INT:
-				underlyingIssuer = FixUtils.getTagStringValue(value, underlyingIssuer);
+				underlyingIssuer = FixUtils.getTagStringValue(null ,id ,value, underlyingIssuer);
 				break;
 
 			case FixTags.ENCODEDUNDERLYINGISSUERLEN_INT:
-				encodedUnderlyingIssuerLen = FixUtils.getTagIntValue( value );
+				encodedUnderlyingIssuerLen = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.ENCODEDUNDERLYINGISSUER_INT:
-				encodedUnderlyingIssuer = FixUtils.getTagStringValue(value, encodedUnderlyingIssuer);
+				encodedUnderlyingIssuer = FixUtils.getTagStringValue(null ,id ,value, encodedUnderlyingIssuer);
 				break;
 
 			case FixTags.UNDERLYINGSECURITYDESC_INT:
-				underlyingSecurityDesc = FixUtils.getTagStringValue(value, underlyingSecurityDesc);
+				underlyingSecurityDesc = FixUtils.getTagStringValue(null ,id ,value, underlyingSecurityDesc);
 				break;
 
 			case FixTags.ENCODEDUNDERLYINGSECURITYDESCLEN_INT:
-				encodedUnderlyingSecurityDescLen = FixUtils.getTagIntValue( value );
+				encodedUnderlyingSecurityDescLen = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.ENCODEDUNDERLYINGSECURITYDESC_INT:
-				encodedUnderlyingSecurityDesc = FixUtils.getTagStringValue(value, encodedUnderlyingSecurityDesc);
+				encodedUnderlyingSecurityDesc = FixUtils.getTagStringValue(null ,id ,value, encodedUnderlyingSecurityDesc);
 				break;
 
 			case FixTags.UNDERLYINGCPPROGRAM_INT:
-				underlyingCPProgram = FixUtils.getTagStringValue(value, underlyingCPProgram);
+				underlyingCPProgram = FixUtils.getTagStringValue(null ,id ,value, underlyingCPProgram);
 				break;
 
 			case FixTags.UNDERLYINGCPREGTYPE_INT:
-				underlyingCPRegType = FixUtils.getTagStringValue(value, underlyingCPRegType);
+				underlyingCPRegType = FixUtils.getTagStringValue(null ,id ,value, underlyingCPRegType);
 				break;
 
 			case FixTags.UNDERLYINGALLOCATIONPERCENT_INT:
-				underlyingAllocationPercent = FixUtils.getTagFloatValue(value);
+				underlyingAllocationPercent = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.UNDERLYINGCURRENCY_INT:
-				underlyingCurrency = FixUtils.getTagStringValue(value, underlyingCurrency);
+				underlyingCurrency = FixUtils.getTagStringValue(null ,id ,value, underlyingCurrency);
 				break;
 
 			case FixTags.UNDERLYINGQTY_INT:
-				underlyingQty = FixUtils.getTagFloatValue(value);
+				underlyingQty = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.UNDERLYINGSETTLEMENTTYPE_INT:
-				underlyingSettlementType = FixUtils.getTagIntValue( value );
+				underlyingSettlementType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!UnderlyingSettlementType.isValid(underlyingSettlementType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + underlyingSettlementType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.UNDERLYINGCASHAMOUNT_INT:
-				underlyingCashAmount = FixUtils.getTagFloatValue(value);
+				underlyingCashAmount = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.UNDERLYINGCASHTYPE_INT:
-				underlyingCashType = FixUtils.getTagStringValue(value, underlyingCashType);
+				underlyingCashType = FixUtils.getTagStringValue(null ,id ,value, underlyingCashType);
 				if (!UnderlyingCashType.isValid(underlyingCashType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + underlyingCashType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.UNDERLYINGPX_INT:
-				underlyingPx = FixUtils.getTagFloatValue(value);
+				underlyingPx = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.UNDERLYINGDIRTYPRICE_INT:
-				underlyingDirtyPrice = FixUtils.getTagFloatValue(value);
+				underlyingDirtyPrice = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.UNDERLYINGENDPRICE_INT:
-				underlyingEndPrice = FixUtils.getTagFloatValue(value);
+				underlyingEndPrice = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.UNDERLYINGSTARTVALUE_INT:
-				underlyingStartValue = FixUtils.getTagFloatValue(value);
+				underlyingStartValue = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.UNDERLYINGCURRENTVALUE_INT:
-				underlyingCurrentValue = FixUtils.getTagFloatValue(value);
+				underlyingCurrentValue = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.UNDERLYINGENDVALUE_INT:
-				underlyingEndValue = FixUtils.getTagFloatValue(value);
+				underlyingEndValue = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.UNDERLYINGADJUSTEDQUANTITY_INT:
-				underlyingAdjustedQuantity = FixUtils.getTagFloatValue(value);
+				underlyingAdjustedQuantity = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.UNDERLYINGFXRATE_INT:
-				underlyingFXRate = FixUtils.getTagFloatValue(value);
+				underlyingFXRate = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.UNDERLYINGFXRATECALC_INT:
-				underlyingFXRateCalc = FixUtils.getTagCharValue( value );
+				underlyingFXRateCalc = FixUtils.getTagCharValue(null ,id ,value );
 				if (!UnderlyingFXRateCalc.isValid(underlyingFXRateCalc) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + underlyingFXRateCalc + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.NOUNDERLYINGSTIPS_INT:
-				underlyingStipulations.noUnderlyingStips = FixUtils.getTagIntValue( value );
+				underlyingStipulations.noUnderlyingStips = FixUtils.getTagIntValue(null, FixTags.NOUNDERLYINGSTIPS_INT, value );
 				underlyingStipulations.getAll(underlyingStipulations.noUnderlyingStips, value );
 				break;
 
 			case FixTags.UNDERLYINGCAPVALUE_INT:
-				underlyingCapValue = FixUtils.getTagFloatValue(value);
+				underlyingCapValue = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.UNDERLYINGSETTLMETHOD_INT:
-				underlyingSettlMethod = FixUtils.getTagStringValue(value, underlyingSettlMethod);
+				underlyingSettlMethod = FixUtils.getTagStringValue(null ,id ,value, underlyingSettlMethod);
 				break;
 
 			case FixTags.UNDERLYINGPUTORCALL_INT:
-				underlyingPutOrCall = FixUtils.getTagIntValue( value );
+				underlyingPutOrCall = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.NOUNDLYINSTRUMENTPARTIES_INT:
-				undlyInstrumentParties.noUndlyInstrumentParties = FixUtils.getTagIntValue( value );
+				undlyInstrumentParties.noUndlyInstrumentParties = FixUtils.getTagIntValue(null, FixTags.NOUNDLYINSTRUMENTPARTIES_INT, value );
 				undlyInstrumentParties.getAll(undlyInstrumentParties.noUndlyInstrumentParties, value );
 				break;
 
@@ -540,7 +540,7 @@ public class FixUnderlyingInstrument implements FixComponent
 
 			lastTagPosition = buf.position();
 
-		} while ( ( id = FixUtils.getTagId( buf ) ) > 0 );
+		} while ( ( id = FixUtils.getTagId( buf ) ) >= 0 );
 
 		buf.position(startTagPosition);
 

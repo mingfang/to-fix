@@ -77,53 +77,53 @@ public class FixPegInstructions implements FixComponent
 			switch( id ) {
 
 			case FixTags.PEGOFFSETVALUE_INT:
-				pegOffsetValue = FixUtils.getTagFloatValue(value);
+				pegOffsetValue = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.PEGPRICETYPE_INT:
-				pegPriceType = FixUtils.getTagIntValue( value );
+				pegPriceType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!PegPriceType.isValid(pegPriceType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + pegPriceType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.PEGMOVETYPE_INT:
-				pegMoveType = FixUtils.getTagIntValue( value );
+				pegMoveType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!PegMoveType.isValid(pegMoveType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + pegMoveType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.PEGOFFSETTYPE_INT:
-				pegOffsetType = FixUtils.getTagIntValue( value );
+				pegOffsetType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!PegOffsetType.isValid(pegOffsetType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + pegOffsetType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.PEGLIMITTYPE_INT:
-				pegLimitType = FixUtils.getTagIntValue( value );
+				pegLimitType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!PegLimitType.isValid(pegLimitType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + pegLimitType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.PEGROUNDDIRECTION_INT:
-				pegRoundDirection = FixUtils.getTagIntValue( value );
+				pegRoundDirection = FixUtils.getTagIntValue(null ,id ,value );
 				if (!PegRoundDirection.isValid(pegRoundDirection) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + pegRoundDirection + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.PEGSCOPE_INT:
-				pegScope = FixUtils.getTagIntValue( value );
+				pegScope = FixUtils.getTagIntValue(null ,id ,value );
 				if (!PegScope.isValid(pegScope) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + pegScope + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.PEGSECURITYIDSOURCE_INT:
-				pegSecurityIDSource = FixUtils.getTagStringValue(value, pegSecurityIDSource);
+				pegSecurityIDSource = FixUtils.getTagStringValue(null ,id ,value, pegSecurityIDSource);
 				break;
 
 			case FixTags.PEGSECURITYID_INT:
-				pegSecurityID = FixUtils.getTagStringValue(value, pegSecurityID);
+				pegSecurityID = FixUtils.getTagStringValue(null ,id ,value, pegSecurityID);
 				break;
 
 			case FixTags.PEGSYMBOL_INT:
-				pegSymbol = FixUtils.getTagStringValue(value, pegSymbol);
+				pegSymbol = FixUtils.getTagStringValue(null ,id ,value, pegSymbol);
 				break;
 
 			case FixTags.PEGSECURITYDESC_INT:
-				pegSecurityDesc = FixUtils.getTagStringValue(value, pegSecurityDesc);
+				pegSecurityDesc = FixUtils.getTagStringValue(null ,id ,value, pegSecurityDesc);
 				break;
 
 			// we will always endup with unknown tag, unread and return to upper layer in hierarchy
@@ -138,7 +138,7 @@ public class FixPegInstructions implements FixComponent
 
 			lastTagPosition = buf.position();
 
-		} while ( ( id = FixUtils.getTagId( buf ) ) > 0 );
+		} while ( ( id = FixUtils.getTagId( buf ) ) >= 0 );
 
 		buf.position(startTagPosition);
 

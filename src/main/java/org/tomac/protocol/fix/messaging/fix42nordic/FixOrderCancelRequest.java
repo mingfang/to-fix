@@ -77,7 +77,7 @@ public class FixOrderCancelRequest extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -86,49 +86,49 @@ public class FixOrderCancelRequest extends FixMessage
 			switch( id ) {
 
 			case FixTags.CLORDID_INT:
-				clOrdID = FixUtils.getTagStringValue(value, clOrdID);
+				clOrdID = FixUtils.getTagStringValue(MsgTypes.ORDERCANCELREQUEST ,id ,value, clOrdID);
 				break;
 
 			case FixTags.CURRENCY_INT:
-				currency = FixUtils.getTagStringValue(value, currency);
+				currency = FixUtils.getTagStringValue(MsgTypes.ORDERCANCELREQUEST ,id ,value, currency);
 				break;
 
 			case FixTags.ORDERID_INT:
-				orderID = FixUtils.getTagStringValue(value, orderID);
+				orderID = FixUtils.getTagStringValue(MsgTypes.ORDERCANCELREQUEST ,id ,value, orderID);
 				break;
 
 			case FixTags.ORDERQTY_INT:
-				orderQty = FixUtils.getTagFloatValue(value);
+				orderQty = FixUtils.getTagFloatValue(MsgTypes.ORDERCANCELREQUEST ,id ,value);
 				break;
 
 			case FixTags.ORIGCLORDID_INT:
-				origClOrdID = FixUtils.getTagStringValue(value, origClOrdID);
+				origClOrdID = FixUtils.getTagStringValue(MsgTypes.ORDERCANCELREQUEST ,id ,value, origClOrdID);
 				break;
 
 			case FixTags.SECURITYID_INT:
-				securityID = FixUtils.getTagStringValue(value, securityID);
+				securityID = FixUtils.getTagStringValue(MsgTypes.ORDERCANCELREQUEST ,id ,value, securityID);
 				break;
 
 			case FixTags.SIDE_INT:
-				side = FixUtils.getTagCharValue( value );
+				side = FixUtils.getTagCharValue(MsgTypes.ORDERCANCELREQUEST ,id ,value );
 				if (!Side.isValid(side) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + side + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.SYMBOL_INT:
-				symbol = FixUtils.getTagStringValue(value, symbol);
+				symbol = FixUtils.getTagStringValue(MsgTypes.ORDERCANCELREQUEST ,id ,value, symbol);
 				break;
 
 			case FixTags.TRANSACTTIME_INT:
-				transactTime = FixUtils.getTagStringValue(value, transactTime);
+				transactTime = FixUtils.getTagStringValue(MsgTypes.ORDERCANCELREQUEST ,id ,value, transactTime);
 				break;
 
 			case FixTags.SUBMKTID_INT:
-				subMktID = FixUtils.getTagStringValue(value, subMktID);
+				subMktID = FixUtils.getTagStringValue(MsgTypes.ORDERCANCELREQUEST ,id ,value, subMktID);
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.ORDERCANCELREQUEST ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

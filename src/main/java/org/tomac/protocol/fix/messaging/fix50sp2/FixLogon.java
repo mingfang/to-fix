@@ -110,7 +110,7 @@ public class FixLogon extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -119,109 +119,109 @@ public class FixLogon extends FixMessage
 			switch( id ) {
 
 			case FixTags.ENCRYPTMETHOD_INT:
-				encryptMethod = FixUtils.getTagIntValue( value );
+				encryptMethod = FixUtils.getTagIntValue(MsgTypes.LOGON ,id ,value );
 				if (!EncryptMethod.isValid(encryptMethod) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + encryptMethod + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.HEARTBTINT_INT:
-				heartBtInt = FixUtils.getTagIntValue( value );
+				heartBtInt = FixUtils.getTagIntValue(MsgTypes.LOGON ,id ,value );
 				break;
 
 			case FixTags.RAWDATALENGTH_INT:
-				rawDataLength = FixUtils.getTagIntValue( value );
+				rawDataLength = FixUtils.getTagIntValue(MsgTypes.LOGON ,id ,value );
 				break;
 
 			case FixTags.RAWDATA_INT:
-				rawData = FixUtils.getTagStringValue(value, rawData);
+				rawData = FixUtils.getTagStringValue(MsgTypes.LOGON ,id ,value, rawData);
 				break;
 
 			case FixTags.RESETSEQNUMFLAG_INT:
-				resetSeqNumFlag = FixUtils.getTagBooleanValue( value );
+				resetSeqNumFlag = FixUtils.getTagBooleanValue(MsgTypes.LOGON ,id ,value );
 				if (!ResetSeqNumFlag.isValid(resetSeqNumFlag) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + resetSeqNumFlag + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NEXTEXPECTEDMSGSEQNUM_INT:
-				nextExpectedMsgSeqNum = FixUtils.getTagIntValue( value );
+				nextExpectedMsgSeqNum = FixUtils.getTagIntValue(MsgTypes.LOGON ,id ,value );
 				break;
 
 			case FixTags.MAXMESSAGESIZE_INT:
-				maxMessageSize = FixUtils.getTagIntValue( value );
+				maxMessageSize = FixUtils.getTagIntValue(MsgTypes.LOGON ,id ,value );
 				break;
 
 			case FixTags.NOMSGTYPES_INT:
-				msgTypeGrp.noMsgTypes = FixUtils.getTagIntValue( value );
+				msgTypeGrp.noMsgTypes = FixUtils.getTagIntValue( MsgTypes.LOGON ,FixTags.NOMSGTYPES_INT ,value );
 				msgTypeGrp.getAll(msgTypeGrp.noMsgTypes, value );
 				break;
 
 			case FixTags.TESTMESSAGEINDICATOR_INT:
-				testMessageIndicator = FixUtils.getTagBooleanValue( value );
+				testMessageIndicator = FixUtils.getTagBooleanValue(MsgTypes.LOGON ,id ,value );
 				if (!TestMessageIndicator.isValid(testMessageIndicator) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + testMessageIndicator + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.USERNAME_INT:
-				username = FixUtils.getTagStringValue(value, username);
+				username = FixUtils.getTagStringValue(MsgTypes.LOGON ,id ,value, username);
 				break;
 
 			case FixTags.PASSWORD_INT:
-				password = FixUtils.getTagStringValue(value, password);
+				password = FixUtils.getTagStringValue(MsgTypes.LOGON ,id ,value, password);
 				break;
 
 			case FixTags.NEWPASSWORD_INT:
-				newPassword = FixUtils.getTagStringValue(value, newPassword);
+				newPassword = FixUtils.getTagStringValue(MsgTypes.LOGON ,id ,value, newPassword);
 				break;
 
 			case FixTags.ENCRYPTEDPASSWORDMETHOD_INT:
-				encryptedPasswordMethod = FixUtils.getTagIntValue( value );
+				encryptedPasswordMethod = FixUtils.getTagIntValue(MsgTypes.LOGON ,id ,value );
 				break;
 
 			case FixTags.ENCRYPTEDPASSWORDLEN_INT:
-				encryptedPasswordLen = FixUtils.getTagIntValue( value );
+				encryptedPasswordLen = FixUtils.getTagIntValue(MsgTypes.LOGON ,id ,value );
 				break;
 
 			case FixTags.ENCRYPTEDPASSWORD_INT:
-				encryptedPassword = FixUtils.getTagStringValue(value, encryptedPassword);
+				encryptedPassword = FixUtils.getTagStringValue(MsgTypes.LOGON ,id ,value, encryptedPassword);
 				break;
 
 			case FixTags.ENCRYPTEDNEWPASSWORDLEN_INT:
-				encryptedNewPasswordLen = FixUtils.getTagIntValue( value );
+				encryptedNewPasswordLen = FixUtils.getTagIntValue(MsgTypes.LOGON ,id ,value );
 				break;
 
 			case FixTags.ENCRYPTEDNEWPASSWORD_INT:
-				encryptedNewPassword = FixUtils.getTagStringValue(value, encryptedNewPassword);
+				encryptedNewPassword = FixUtils.getTagStringValue(MsgTypes.LOGON ,id ,value, encryptedNewPassword);
 				break;
 
 			case FixTags.SESSIONSTATUS_INT:
-				sessionStatus = FixUtils.getTagIntValue( value );
+				sessionStatus = FixUtils.getTagIntValue(MsgTypes.LOGON ,id ,value );
 				if (!SessionStatus.isValid(sessionStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + sessionStatus + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.DEFAULTAPPLVERID_INT:
-				defaultApplVerID = FixUtils.getTagStringValue(value, defaultApplVerID);
+				defaultApplVerID = FixUtils.getTagStringValue(MsgTypes.LOGON ,id ,value, defaultApplVerID);
 				break;
 
 			case FixTags.DEFAULTAPPLEXTID_INT:
-				defaultApplExtID = FixUtils.getTagIntValue( value );
+				defaultApplExtID = FixUtils.getTagIntValue(MsgTypes.LOGON ,id ,value );
 				break;
 
 			case FixTags.DEFAULTCSTMAPPLVERID_INT:
-				defaultCstmApplVerID = FixUtils.getTagStringValue(value, defaultCstmApplVerID);
+				defaultCstmApplVerID = FixUtils.getTagStringValue(MsgTypes.LOGON ,id ,value, defaultCstmApplVerID);
 				break;
 
 			case FixTags.TEXT_INT:
-				text = FixUtils.getTagStringValue(value, text);
+				text = FixUtils.getTagStringValue(MsgTypes.LOGON ,id ,value, text);
 				break;
 
 			case FixTags.ENCODEDTEXTLEN_INT:
-				encodedTextLen = FixUtils.getTagIntValue( value );
+				encodedTextLen = FixUtils.getTagIntValue(MsgTypes.LOGON ,id ,value );
 				break;
 
 			case FixTags.ENCODEDTEXT_INT:
-				encodedText = FixUtils.getTagStringValue(value, encodedText);
+				encodedText = FixUtils.getTagStringValue(MsgTypes.LOGON ,id ,value, encodedText);
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.LOGON ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

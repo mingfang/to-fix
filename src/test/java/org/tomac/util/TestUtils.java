@@ -163,5 +163,35 @@ public class TestUtils {
 			i++;
 		}
 	}
+	
+	@Test
+	public void testTagValue() {
+		// valid
+		ByteBuffer buf = ByteBuffer.wrap("10".getBytes());
+		int val =  Utils.intTagValueOf(buf, "10".length());
+		assertEquals(10, val);
+		
+		// invalid signed
+		buf = ByteBuffer.wrap("+10".getBytes());
+		val =  Utils.intTagValueOf(buf, "+10".length());
+		assertEquals(0, val);
+		
+		// invalid empty
+		buf = ByteBuffer.wrap("".getBytes());
+		val =  Utils.intTagValueOf(buf, "".length());
+		assertEquals(0, val);
+
+		// valid 0
+		buf = ByteBuffer.wrap("0".getBytes());
+		val =  Utils.intTagValueOf(buf, "0".length());
+		assertEquals(0, val);
+
+		// valid 0 paeede
+		buf = ByteBuffer.wrap("010".getBytes());
+		val =  Utils.intTagValueOf(buf, "010".length());
+		assertEquals(10, val);
+		
+		
+	}
 
 }

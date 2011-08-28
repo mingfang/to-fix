@@ -75,41 +75,41 @@ public class FixFinancingDetails implements FixComponent
 			switch( id ) {
 
 			case FixTags.AGREEMENTDESC_INT:
-				agreementDesc = FixUtils.getTagStringValue(value, agreementDesc);
+				agreementDesc = FixUtils.getTagStringValue(null ,id ,value, agreementDesc);
 				break;
 
 			case FixTags.AGREEMENTID_INT:
-				agreementID = FixUtils.getTagStringValue(value, agreementID);
+				agreementID = FixUtils.getTagStringValue(null ,id ,value, agreementID);
 				break;
 
 			case FixTags.AGREEMENTDATE_INT:
-				agreementDate = FixUtils.getTagStringValue(value, agreementDate);
+				agreementDate = FixUtils.getTagStringValue(null ,id ,value, agreementDate);
 				break;
 
 			case FixTags.AGREEMENTCURRENCY_INT:
-				agreementCurrency = FixUtils.getTagStringValue(value, agreementCurrency);
+				agreementCurrency = FixUtils.getTagStringValue(null ,id ,value, agreementCurrency);
 				break;
 
 			case FixTags.TERMINATIONTYPE_INT:
-				terminationType = FixUtils.getTagIntValue( value );
+				terminationType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!TerminationType.isValid(terminationType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + terminationType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.STARTDATE_INT:
-				startDate = FixUtils.getTagStringValue(value, startDate);
+				startDate = FixUtils.getTagStringValue(null ,id ,value, startDate);
 				break;
 
 			case FixTags.ENDDATE_INT:
-				endDate = FixUtils.getTagStringValue(value, endDate);
+				endDate = FixUtils.getTagStringValue(null ,id ,value, endDate);
 				break;
 
 			case FixTags.DELIVERYTYPE_INT:
-				deliveryType = FixUtils.getTagIntValue( value );
+				deliveryType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!DeliveryType.isValid(deliveryType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + deliveryType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.MARGINRATIO_INT:
-				marginRatio = FixUtils.getTagFloatValue(value);
+				marginRatio = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			// we will always endup with unknown tag, unread and return to upper layer in hierarchy
@@ -124,7 +124,7 @@ public class FixFinancingDetails implements FixComponent
 
 			lastTagPosition = buf.position();
 
-		} while ( ( id = FixUtils.getTagId( buf ) ) > 0 );
+		} while ( ( id = FixUtils.getTagId( buf ) ) >= 0 );
 
 		buf.position(startTagPosition);
 

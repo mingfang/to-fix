@@ -106,7 +106,7 @@ public class IOIQualGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.IOIQUALIFIER_INT) {
-				iOIQualifier = FixUtils.getTagCharValue( value );
+				iOIQualifier = FixUtils.getTagCharValue(null ,id ,value );
 				if (!FixMessageInfo.IOIQualifier.isValid(iOIQualifier) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + iOIQualifier + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 

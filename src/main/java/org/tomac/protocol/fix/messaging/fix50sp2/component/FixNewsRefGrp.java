@@ -109,14 +109,14 @@ public class NewsRefGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.NEWSREFID_INT) {
-				newsRefID = FixUtils.getTagStringValue(value, newsRefID);
+				newsRefID = FixUtils.getTagStringValue(null ,id ,value, newsRefID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.NEWSREFTYPE_INT) {
-				newsRefType = FixUtils.getTagIntValue( value );
+				newsRefType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.NewsRefType.isValid(newsRefType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + newsRefType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 

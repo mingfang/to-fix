@@ -78,7 +78,7 @@ public class FixSettlementInstructions extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -87,51 +87,51 @@ public class FixSettlementInstructions extends FixMessage
 			switch( id ) {
 
 			case FixTags.SETTLINSTMSGID_INT:
-				settlInstMsgID = FixUtils.getTagStringValue(value, settlInstMsgID);
+				settlInstMsgID = FixUtils.getTagStringValue(MsgTypes.SETTLEMENTINSTRUCTIONS ,id ,value, settlInstMsgID);
 				break;
 
 			case FixTags.SETTLINSTREQID_INT:
-				settlInstReqID = FixUtils.getTagStringValue(value, settlInstReqID);
+				settlInstReqID = FixUtils.getTagStringValue(MsgTypes.SETTLEMENTINSTRUCTIONS ,id ,value, settlInstReqID);
 				break;
 
 			case FixTags.SETTLINSTMODE_INT:
-				settlInstMode = FixUtils.getTagCharValue( value );
+				settlInstMode = FixUtils.getTagCharValue(MsgTypes.SETTLEMENTINSTRUCTIONS ,id ,value );
 				if (!SettlInstMode.isValid(settlInstMode) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + settlInstMode + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.SETTLINSTREQREJCODE_INT:
-				settlInstReqRejCode = FixUtils.getTagIntValue( value );
+				settlInstReqRejCode = FixUtils.getTagIntValue(MsgTypes.SETTLEMENTINSTRUCTIONS ,id ,value );
 				if (!SettlInstReqRejCode.isValid(settlInstReqRejCode) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + settlInstReqRejCode + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TEXT_INT:
-				text = FixUtils.getTagStringValue(value, text);
+				text = FixUtils.getTagStringValue(MsgTypes.SETTLEMENTINSTRUCTIONS ,id ,value, text);
 				break;
 
 			case FixTags.ENCODEDTEXTLEN_INT:
-				encodedTextLen = FixUtils.getTagIntValue( value );
+				encodedTextLen = FixUtils.getTagIntValue(MsgTypes.SETTLEMENTINSTRUCTIONS ,id ,value );
 				break;
 
 			case FixTags.ENCODEDTEXT_INT:
-				encodedText = FixUtils.getTagStringValue(value, encodedText);
+				encodedText = FixUtils.getTagStringValue(MsgTypes.SETTLEMENTINSTRUCTIONS ,id ,value, encodedText);
 				break;
 
 			case FixTags.CLORDID_INT:
-				clOrdID = FixUtils.getTagStringValue(value, clOrdID);
+				clOrdID = FixUtils.getTagStringValue(MsgTypes.SETTLEMENTINSTRUCTIONS ,id ,value, clOrdID);
 				break;
 
 			case FixTags.TRANSACTTIME_INT:
-				transactTime = FixUtils.getTagStringValue(value, transactTime);
+				transactTime = FixUtils.getTagStringValue(MsgTypes.SETTLEMENTINSTRUCTIONS ,id ,value, transactTime);
 				break;
 
 			case FixTags.NOSETTLINST_INT:
-				settlInstGrp.noSettlInst = FixUtils.getTagIntValue( value );
+				settlInstGrp.noSettlInst = FixUtils.getTagIntValue( MsgTypes.SETTLEMENTINSTRUCTIONS ,FixTags.NOSETTLINST_INT ,value );
 				settlInstGrp.getAll(settlInstGrp.noSettlInst, value );
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.SETTLEMENTINSTRUCTIONS ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

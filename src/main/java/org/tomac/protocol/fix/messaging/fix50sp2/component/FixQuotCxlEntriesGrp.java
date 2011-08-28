@@ -135,7 +135,7 @@ public class QuotCxlEntriesGrp implements FixComponent
 
 			if(id == FixTags.NOUNDERLYINGS_INT) {
 				int noUnderlyings;
-				noUnderlyings = FixUtils.getTagIntValue( value );
+				noUnderlyings = FixUtils.getTagIntValue(null ,id ,value );
 				undInstrmtGrp.getAll(noUnderlyings, buf);
 				lastTagPosition = buf.position();
 
@@ -144,7 +144,7 @@ public class QuotCxlEntriesGrp implements FixComponent
 
 			if(id == FixTags.NOLEGS_INT) {
 				int noLegs;
-				noLegs = FixUtils.getTagIntValue( value );
+				noLegs = FixUtils.getTagIntValue(null ,id ,value );
 				instrmtLegGrp.getAll(noLegs, buf);
 				lastTagPosition = buf.position();
 

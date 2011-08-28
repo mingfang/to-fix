@@ -117,7 +117,7 @@ public class UndInstrmtCollGrp implements FixComponent
 			}
 
 			if(id == FixTags.COLLACTION_INT) {
-				collAction = FixUtils.getTagIntValue( value );
+				collAction = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.CollAction.isValid(collAction) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + collAction + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 

@@ -65,13 +65,13 @@ public abstract class FixMessage extends FixGeneratedBaseMessage
 		if(tagId != FixTags.BEGINSTRING_INT)
 			throw new FixGarbledException(buf, "First tag in FIX message is not BEGINSTRING (8)");
 
-		FixUtils.getTagStringValue(buf, tmpBeginString);
+		FixUtils.getTagStringValue(null, FixTags.BEGINSTRING_INT, buf, tmpBeginString);
 		//now look to get bodyLength field
 		tagId = FixUtils.getTagId(buf);
 		if(tagId != FixTags.BODYLENGTH_INT)
 			throw new FixGarbledException(buf, "Second tag in FIX message is not BODYLENGTH (9)");
 
-		int bodyLength = FixUtils.getTagIntValue(buf);
+		int bodyLength = FixUtils.getTagIntValue(null, FixTags.BODYLENGTH_INT, buf);
 		if(bodyLength < 0)
 
 			throw new FixGarbledException(buf, "Invalid BODYLENGTH (9) value: " + bodyLength);
@@ -86,7 +86,7 @@ public abstract class FixMessage extends FixGeneratedBaseMessage
 		if(tagId != FixTags.MSGTYPE_INT)
 			throw new FixGarbledException(buf, "Third tag in FIX message is not MSGTYPE (35)");
 
-		FixUtils.getTagStringValue(buf, tmpMsgType);
+		FixUtils.getTagStringValue(null, FixTags.MSGTYPE_INT, buf, tmpMsgType);
 
 		//we should verify that the final tag IS checksum here if we want to
 		buf.position(checkSumBegin);
@@ -94,7 +94,7 @@ public abstract class FixMessage extends FixGeneratedBaseMessage
 		if(tagId != FixTags.CHECKSUM_INT)
 			throw new FixGarbledException(buf, "Final tag in FIX message is not CHECKSUM (10)");
 
-		checkSum = FixUtils.getTagIntValue(buf);
+		checkSum = FixUtils.getTagIntValue(tmpMsgType, FixTags.CHECKSUM_INT, buf);
 		int calculatedCheckSum = FixUtils.computeChecksum(buf, begin, checkSumBegin);
 		if(checkSum != calculatedCheckSum && !IGNORE_CHECKSUM)
 			throw new FixGarbledException(buf, String.format("Checksum mismatch; calculated: %s is not equal message checksum: %s", calculatedCheckSum, checkSum));
@@ -173,14 +173,14 @@ public abstract class FixMessage extends FixGeneratedBaseMessage
 		if(tagId != FixTags.BEGINSTRING_INT)
 			throw new FixGarbledException(buf, "First tag in FIX message is not BEGINSTRING (8)");
 
-		FixUtils.getTagStringValue(buf, tmpBeginString);
+		FixUtils.getTagStringValue(null, FixTags.BEGINSTRING_INT, buf, tmpBeginString);
 		if(!Utils.equals(FixMessageInfo.BEGINSTRING_VALUE, tmpBeginString))
 			throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("BeginString not equal to: " + new String(FixMessageInfo.BEGINSTRING_VALUE)).getBytes(), FixTags.BEGINSTRING_INT, new byte[0]);		//now look to get bodyLength field
 		tagId = FixUtils.getTagId(buf);
 		if(tagId != FixTags.BODYLENGTH_INT)
 			throw new FixGarbledException(buf, "Second tag in FIX message is not BODYLENGTH (9)");
 
-		int bodyLength = FixUtils.getTagIntValue(buf);
+		int bodyLength = FixUtils.getTagIntValue(null, FixTags.BODYLENGTH_INT, buf);
 		if(bodyLength < 0)
 
 			throw new FixGarbledException(buf, "Invalid BODYLENGTH (9) value: " + bodyLength);
@@ -195,7 +195,7 @@ public abstract class FixMessage extends FixGeneratedBaseMessage
 		if(tagId != FixTags.MSGTYPE_INT)
 			throw new FixGarbledException(buf, "Third tag in FIX message is not MSGTYPE (35)");
 
-		FixUtils.getTagStringValue(buf, tmpMsgType);
+		FixUtils.getTagStringValue(null, FixTags.MSGTYPE_INT, buf, tmpMsgType);
 
 		msgTypeEnd = buf.position();
 
@@ -205,7 +205,7 @@ public abstract class FixMessage extends FixGeneratedBaseMessage
 		if(tagId != FixTags.CHECKSUM_INT)
 			throw new FixGarbledException(buf, "Final tag in FIX message is not CHECKSUM (10)");
 
-		checkSum = FixUtils.getTagIntValue(buf);
+		checkSum = FixUtils.getTagIntValue(tmpMsgType, FixTags.CHECKSUM_INT, buf);
 		int calculatedCheckSum = FixUtils.computeChecksum(buf, begin, checkSumBegin);
 		if(checkSum != calculatedCheckSum && !IGNORE_CHECKSUM)
 			throw new FixGarbledException(buf, String.format("Checksum mismatch; calculated: %s is not equal message checksum: %s", calculatedCheckSum, checkSum));
@@ -223,7 +223,7 @@ public abstract class FixMessage extends FixGeneratedBaseMessage
 		int id;
 		buf.position(msgTypeEnd);
 		int lastTagPosition = msgTypeEnd;
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -232,55 +232,55 @@ public abstract class FixMessage extends FixGeneratedBaseMessage
 			switch( id ) {
 
 			case FixTags.MSGSEQNUM_INT:
-				msgSeqNum = FixUtils.getTagIntValue( value );
+				msgSeqNum = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.POSSDUPFLAG_INT:
-				possDupFlag = FixUtils.getTagBooleanValue( value );
+				possDupFlag = FixUtils.getTagBooleanValue(null ,id ,value );
 				break;
 
 			case FixTags.SENDERCOMPID_INT:
-				senderCompID = FixUtils.getTagStringValue(value, senderCompID);
+				senderCompID = FixUtils.getTagStringValue(null ,id ,value, senderCompID);
 				break;
 
 			case FixTags.SENDERSUBID_INT:
-				senderSubID = FixUtils.getTagStringValue(value, senderSubID);
+				senderSubID = FixUtils.getTagStringValue(null ,id ,value, senderSubID);
 				break;
 
 			case FixTags.SENDINGTIME_INT:
-				sendingTime = FixUtils.getTagStringValue(value, sendingTime);
+				sendingTime = FixUtils.getTagStringValue(null ,id ,value, sendingTime);
 				break;
 
 			case FixTags.TARGETCOMPID_INT:
-				targetCompID = FixUtils.getTagStringValue(value, targetCompID);
+				targetCompID = FixUtils.getTagStringValue(null ,id ,value, targetCompID);
 				break;
 
 			case FixTags.TARGETSUBID_INT:
-				targetSubID = FixUtils.getTagStringValue(value, targetSubID);
+				targetSubID = FixUtils.getTagStringValue(null ,id ,value, targetSubID);
 				break;
 
 			case FixTags.POSSRESEND_INT:
-				possResend = FixUtils.getTagBooleanValue( value );
+				possResend = FixUtils.getTagBooleanValue(null ,id ,value );
 				break;
 
 			case FixTags.ONBEHALFOFCOMPID_INT:
-				onBehalfOfCompID = FixUtils.getTagStringValue(value, onBehalfOfCompID);
+				onBehalfOfCompID = FixUtils.getTagStringValue(null ,id ,value, onBehalfOfCompID);
 				break;
 
 			case FixTags.ONBEHALFOFSUBID_INT:
-				onBehalfOfSubID = FixUtils.getTagStringValue(value, onBehalfOfSubID);
+				onBehalfOfSubID = FixUtils.getTagStringValue(null ,id ,value, onBehalfOfSubID);
 				break;
 
 			case FixTags.ORIGSENDINGTIME_INT:
-				origSendingTime = FixUtils.getTagStringValue(value, origSendingTime);
+				origSendingTime = FixUtils.getTagStringValue(null ,id ,value, origSendingTime);
 				break;
 
 			case FixTags.DELIVERTOCOMPID_INT:
-				deliverToCompID = FixUtils.getTagStringValue(value, deliverToCompID);
+				deliverToCompID = FixUtils.getTagStringValue(null ,id ,value, deliverToCompID);
 				break;
 
 			case FixTags.DELIVERTOSUBID_INT:
-				deliverToSubID = FixUtils.getTagStringValue(value, deliverToSubID);
+				deliverToSubID = FixUtils.getTagStringValue(null ,id ,value, deliverToSubID);
 				break;
 
 			default:

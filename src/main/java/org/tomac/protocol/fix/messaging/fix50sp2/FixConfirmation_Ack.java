@@ -73,7 +73,7 @@ public class FixConfirmation_Ack extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -82,47 +82,47 @@ public class FixConfirmation_Ack extends FixMessage
 			switch( id ) {
 
 			case FixTags.CONFIRMID_INT:
-				confirmID = FixUtils.getTagStringValue(value, confirmID);
+				confirmID = FixUtils.getTagStringValue(MsgTypes.CONFIRMATION_ACK ,id ,value, confirmID);
 				break;
 
 			case FixTags.TRADEDATE_INT:
-				tradeDate = FixUtils.getTagStringValue(value, tradeDate);
+				tradeDate = FixUtils.getTagStringValue(MsgTypes.CONFIRMATION_ACK ,id ,value, tradeDate);
 				break;
 
 			case FixTags.TRANSACTTIME_INT:
-				transactTime = FixUtils.getTagStringValue(value, transactTime);
+				transactTime = FixUtils.getTagStringValue(MsgTypes.CONFIRMATION_ACK ,id ,value, transactTime);
 				break;
 
 			case FixTags.AFFIRMSTATUS_INT:
-				affirmStatus = FixUtils.getTagIntValue( value );
+				affirmStatus = FixUtils.getTagIntValue(MsgTypes.CONFIRMATION_ACK ,id ,value );
 				if (!AffirmStatus.isValid(affirmStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + affirmStatus + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.CONFIRMREJREASON_INT:
-				confirmRejReason = FixUtils.getTagIntValue( value );
+				confirmRejReason = FixUtils.getTagIntValue(MsgTypes.CONFIRMATION_ACK ,id ,value );
 				if (!ConfirmRejReason.isValid(confirmRejReason) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + confirmRejReason + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.MATCHSTATUS_INT:
-				matchStatus = FixUtils.getTagCharValue( value );
+				matchStatus = FixUtils.getTagCharValue(MsgTypes.CONFIRMATION_ACK ,id ,value );
 				if (!MatchStatus.isValid(matchStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + matchStatus + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TEXT_INT:
-				text = FixUtils.getTagStringValue(value, text);
+				text = FixUtils.getTagStringValue(MsgTypes.CONFIRMATION_ACK ,id ,value, text);
 				break;
 
 			case FixTags.ENCODEDTEXTLEN_INT:
-				encodedTextLen = FixUtils.getTagIntValue( value );
+				encodedTextLen = FixUtils.getTagIntValue(MsgTypes.CONFIRMATION_ACK ,id ,value );
 				break;
 
 			case FixTags.ENCODEDTEXT_INT:
-				encodedText = FixUtils.getTagStringValue(value, encodedText);
+				encodedText = FixUtils.getTagStringValue(MsgTypes.CONFIRMATION_ACK ,id ,value, encodedText);
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.CONFIRMATION_ACK ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

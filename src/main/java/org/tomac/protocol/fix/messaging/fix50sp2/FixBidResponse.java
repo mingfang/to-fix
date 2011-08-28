@@ -60,7 +60,7 @@ public class FixBidResponse extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -69,21 +69,21 @@ public class FixBidResponse extends FixMessage
 			switch( id ) {
 
 			case FixTags.BIDID_INT:
-				bidID = FixUtils.getTagStringValue(value, bidID);
+				bidID = FixUtils.getTagStringValue(MsgTypes.BIDRESPONSE ,id ,value, bidID);
 				break;
 
 			case FixTags.CLIENTBIDID_INT:
-				clientBidID = FixUtils.getTagStringValue(value, clientBidID);
+				clientBidID = FixUtils.getTagStringValue(MsgTypes.BIDRESPONSE ,id ,value, clientBidID);
 				break;
 
 			case FixTags.NOBIDCOMPONENTS_INT:
-				bidCompRspGrp.noBidComponents = FixUtils.getTagIntValue( value );
+				bidCompRspGrp.noBidComponents = FixUtils.getTagIntValue( MsgTypes.BIDRESPONSE ,FixTags.NOBIDCOMPONENTS_INT ,value );
 				bidCompRspGrp.getAll(bidCompRspGrp.noBidComponents, value );
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.BIDRESPONSE ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

@@ -115,21 +115,21 @@ public class UndlyInstrumentParties implements FixComponent
 			value = buf;
 
 			if(id == FixTags.UNDERLYINGINSTRUMENTPARTYID_INT) {
-				underlyingInstrumentPartyID = FixUtils.getTagStringValue(value, underlyingInstrumentPartyID);
+				underlyingInstrumentPartyID = FixUtils.getTagStringValue(null ,id ,value, underlyingInstrumentPartyID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.UNDERLYINGINSTRUMENTPARTYIDSOURCE_INT) {
-				underlyingInstrumentPartyIDSource = FixUtils.getTagCharValue( value );
+				underlyingInstrumentPartyIDSource = FixUtils.getTagCharValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.UNDERLYINGINSTRUMENTPARTYROLE_INT) {
-				underlyingInstrumentPartyRole = FixUtils.getTagIntValue( value );
+				underlyingInstrumentPartyRole = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -137,7 +137,7 @@ public class UndlyInstrumentParties implements FixComponent
 
 			if(id == FixTags.NOUNDLYINSTRUMENTPARTYSUBIDS_INT) {
 				int noUndlyInstrumentPartySubIDs;
-				noUndlyInstrumentPartySubIDs = FixUtils.getTagIntValue( value );
+				noUndlyInstrumentPartySubIDs = FixUtils.getTagIntValue(null ,id ,value );
 				undlyInstrumentPtysSubGrp.getAll(noUndlyInstrumentPartySubIDs, buf);
 				lastTagPosition = buf.position();
 

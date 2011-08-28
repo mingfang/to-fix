@@ -128,28 +128,28 @@ public class RgstDtlsGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.REGISTDTLS_INT) {
-				registDtls = FixUtils.getTagStringValue(value, registDtls);
+				registDtls = FixUtils.getTagStringValue(null ,id ,value, registDtls);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.REGISTEMAIL_INT) {
-				registEmail = FixUtils.getTagStringValue(value, registEmail);
+				registEmail = FixUtils.getTagStringValue(null ,id ,value, registEmail);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.MAILINGDTLS_INT) {
-				mailingDtls = FixUtils.getTagStringValue(value, mailingDtls);
+				mailingDtls = FixUtils.getTagStringValue(null ,id ,value, mailingDtls);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.MAILINGINST_INT) {
-				mailingInst = FixUtils.getTagStringValue(value, mailingInst);
+				mailingInst = FixUtils.getTagStringValue(null ,id ,value, mailingInst);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -157,7 +157,7 @@ public class RgstDtlsGrp implements FixComponent
 
 			if(id == FixTags.NONESTEDPARTYIDS_INT) {
 				int noNestedPartyIDs;
-				noNestedPartyIDs = FixUtils.getTagIntValue( value );
+				noNestedPartyIDs = FixUtils.getTagIntValue(null ,id ,value );
 				nestedParties.getAll(noNestedPartyIDs, buf);
 				lastTagPosition = buf.position();
 
@@ -165,7 +165,7 @@ public class RgstDtlsGrp implements FixComponent
 			}
 
 			if(id == FixTags.OWNERTYPE_INT) {
-				ownerType = FixUtils.getTagIntValue( value );
+				ownerType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.OwnerType.isValid(ownerType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + ownerType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -173,14 +173,14 @@ public class RgstDtlsGrp implements FixComponent
 			}
 
 			if(id == FixTags.DATEOFBIRTH_INT) {
-				dateOfBirth = FixUtils.getTagStringValue(value, dateOfBirth);
+				dateOfBirth = FixUtils.getTagStringValue(null ,id ,value, dateOfBirth);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.INVESTORCOUNTRYOFRESIDENCE_INT) {
-				investorCountryOfResidence = FixUtils.getTagStringValue(value, investorCountryOfResidence);
+				investorCountryOfResidence = FixUtils.getTagStringValue(null ,id ,value, investorCountryOfResidence);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

@@ -120,14 +120,14 @@ public class TrdRegTimestamps implements FixComponent
 			value = buf;
 
 			if(id == FixTags.TRDREGTIMESTAMP_INT) {
-				trdRegTimestamp = FixUtils.getTagStringValue(value, trdRegTimestamp);
+				trdRegTimestamp = FixUtils.getTagStringValue(null ,id ,value, trdRegTimestamp);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.TRDREGTIMESTAMPTYPE_INT) {
-				trdRegTimestampType = FixUtils.getTagIntValue( value );
+				trdRegTimestampType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.TrdRegTimestampType.isValid(trdRegTimestampType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + trdRegTimestampType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -135,14 +135,14 @@ public class TrdRegTimestamps implements FixComponent
 			}
 
 			if(id == FixTags.TRDREGTIMESTAMPORIGIN_INT) {
-				trdRegTimestampOrigin = FixUtils.getTagStringValue(value, trdRegTimestampOrigin);
+				trdRegTimestampOrigin = FixUtils.getTagStringValue(null ,id ,value, trdRegTimestampOrigin);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.DESKTYPE_INT) {
-				deskType = FixUtils.getTagStringValue(value, deskType);
+				deskType = FixUtils.getTagStringValue(null ,id ,value, deskType);
 				if (!FixMessageInfo.DeskType.isValid(deskType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + deskType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -150,7 +150,7 @@ public class TrdRegTimestamps implements FixComponent
 			}
 
 			if(id == FixTags.DESKTYPESOURCE_INT) {
-				deskTypeSource = FixUtils.getTagIntValue( value );
+				deskTypeSource = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.DeskTypeSource.isValid(deskTypeSource) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + deskTypeSource + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -158,7 +158,7 @@ public class TrdRegTimestamps implements FixComponent
 			}
 
 			if(id == FixTags.DESKORDERHANDLINGINST_INT) {
-				deskOrderHandlingInst = FixUtils.getTagStringValue(value, deskOrderHandlingInst);
+				deskOrderHandlingInst = FixUtils.getTagStringValue(null ,id ,value, deskOrderHandlingInst);
 				if (!FixMessageInfo.DeskOrderHandlingInst.isValid(deskOrderHandlingInst) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + deskOrderHandlingInst + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 

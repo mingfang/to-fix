@@ -109,14 +109,14 @@ public class RelationshipRiskWarningLevels implements FixComponent
 			value = buf;
 
 			if(id == FixTags.RELATIONSHIPRISKWARNINGLEVELPERCENT_INT) {
-				relationshipRiskWarningLevelPercent = FixUtils.getTagFloatValue(value);
+				relationshipRiskWarningLevelPercent = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RELATIONSHIPRISKWARNINGLEVELNAME_INT) {
-				relationshipRiskWarningLevelName = FixUtils.getTagStringValue(value, relationshipRiskWarningLevelName);
+				relationshipRiskWarningLevelName = FixUtils.getTagStringValue(null ,id ,value, relationshipRiskWarningLevelName);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

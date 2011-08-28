@@ -53,7 +53,7 @@ public class FixHeartbeat extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -62,12 +62,12 @@ public class FixHeartbeat extends FixMessage
 			switch( id ) {
 
 			case FixTags.TESTREQID_INT:
-				testReqID = FixUtils.getTagStringValue(value, testReqID);
+				testReqID = FixUtils.getTagStringValue(MsgTypes.HEARTBEAT ,id ,value, testReqID);
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.HEARTBEAT ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

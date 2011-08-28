@@ -112,14 +112,14 @@ public class StrategyParametersGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.STRATEGYPARAMETERNAME_INT) {
-				strategyParameterName = FixUtils.getTagStringValue(value, strategyParameterName);
+				strategyParameterName = FixUtils.getTagStringValue(null ,id ,value, strategyParameterName);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.STRATEGYPARAMETERTYPE_INT) {
-				strategyParameterType = FixUtils.getTagIntValue( value );
+				strategyParameterType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.StrategyParameterType.isValid(strategyParameterType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + strategyParameterType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -127,7 +127,7 @@ public class StrategyParametersGrp implements FixComponent
 			}
 
 			if(id == FixTags.STRATEGYPARAMETERVALUE_INT) {
-				strategyParameterValue = FixUtils.getTagStringValue(value, strategyParameterValue);
+				strategyParameterValue = FixUtils.getTagStringValue(null ,id ,value, strategyParameterValue);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

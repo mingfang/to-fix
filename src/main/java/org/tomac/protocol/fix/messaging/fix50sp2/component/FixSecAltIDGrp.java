@@ -110,14 +110,14 @@ public class SecAltIDGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.SECURITYALTID_INT) {
-				securityAltID = FixUtils.getTagStringValue(value, securityAltID);
+				securityAltID = FixUtils.getTagStringValue(null ,id ,value, securityAltID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.SECURITYALTIDSOURCE_INT) {
-				securityAltIDSource = FixUtils.getTagStringValue(value, securityAltIDSource);
+				securityAltIDSource = FixUtils.getTagStringValue(null ,id ,value, securityAltIDSource);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

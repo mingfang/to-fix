@@ -113,7 +113,7 @@ public class FixMarketDataSnapshotFullRefresh extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -122,40 +122,40 @@ public class FixMarketDataSnapshotFullRefresh extends FixMessage
 			switch( id ) {
 
 			case FixTags.MDREPORTID_INT:
-				mDReportID = FixUtils.getTagIntValue( value );
+				mDReportID = FixUtils.getTagIntValue(MsgTypes.MARKETDATASNAPSHOTFULLREFRESH ,id ,value );
 				break;
 
 			case FixTags.CLEARINGBUSINESSDATE_INT:
-				clearingBusinessDate = FixUtils.getTagStringValue(value, clearingBusinessDate);
+				clearingBusinessDate = FixUtils.getTagStringValue(MsgTypes.MARKETDATASNAPSHOTFULLREFRESH ,id ,value, clearingBusinessDate);
 				break;
 
 			case FixTags.MDBOOKTYPE_INT:
-				mDBookType = FixUtils.getTagIntValue( value );
+				mDBookType = FixUtils.getTagIntValue(MsgTypes.MARKETDATASNAPSHOTFULLREFRESH ,id ,value );
 				if (!MDBookType.isValid(mDBookType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + mDBookType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.MDFEEDTYPE_INT:
-				mDFeedType = FixUtils.getTagStringValue(value, mDFeedType);
+				mDFeedType = FixUtils.getTagStringValue(MsgTypes.MARKETDATASNAPSHOTFULLREFRESH ,id ,value, mDFeedType);
 				break;
 
 			case FixTags.TRADEDATE_INT:
-				tradeDate = FixUtils.getTagStringValue(value, tradeDate);
+				tradeDate = FixUtils.getTagStringValue(MsgTypes.MARKETDATASNAPSHOTFULLREFRESH ,id ,value, tradeDate);
 				break;
 
 			case FixTags.MDSUBBOOKTYPE_INT:
-				mDSubBookType = FixUtils.getTagIntValue( value );
+				mDSubBookType = FixUtils.getTagIntValue(MsgTypes.MARKETDATASNAPSHOTFULLREFRESH ,id ,value );
 				break;
 
 			case FixTags.MARKETDEPTH_INT:
-				marketDepth = FixUtils.getTagIntValue( value );
+				marketDepth = FixUtils.getTagIntValue(MsgTypes.MARKETDATASNAPSHOTFULLREFRESH ,id ,value );
 				break;
 
 			case FixTags.TOTNUMREPORTS_INT:
-				totNumReports = FixUtils.getTagIntValue( value );
+				totNumReports = FixUtils.getTagIntValue(MsgTypes.MARKETDATASNAPSHOTFULLREFRESH ,id ,value );
 				break;
 
 			case FixTags.REFRESHINDICATOR_INT:
-				refreshIndicator = FixUtils.getTagBooleanValue( value );
+				refreshIndicator = FixUtils.getTagBooleanValue(MsgTypes.MARKETDATASNAPSHOTFULLREFRESH ,id ,value );
 				break;
 
 			case FixTags.APPLID_INT:
@@ -163,11 +163,11 @@ public class FixMarketDataSnapshotFullRefresh extends FixMessage
 				break;
 
 			case FixTags.MDREQID_INT:
-				mDReqID = FixUtils.getTagStringValue(value, mDReqID);
+				mDReqID = FixUtils.getTagStringValue(MsgTypes.MARKETDATASNAPSHOTFULLREFRESH ,id ,value, mDReqID);
 				break;
 
 			case FixTags.MDSTREAMID_INT:
-				mDStreamID = FixUtils.getTagStringValue(value, mDStreamID);
+				mDStreamID = FixUtils.getTagStringValue(MsgTypes.MARKETDATASNAPSHOTFULLREFRESH ,id ,value, mDStreamID);
 				break;
 
 			case FixTags.SYMBOL_INT:
@@ -175,51 +175,51 @@ public class FixMarketDataSnapshotFullRefresh extends FixMessage
 				break;
 
 			case FixTags.NOUNDERLYINGS_INT:
-				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( MsgTypes.MARKETDATASNAPSHOTFULLREFRESH ,FixTags.NOUNDERLYINGS_INT ,value );
 				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
 				break;
 
 			case FixTags.NOLEGS_INT:
-				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( value );
+				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( MsgTypes.MARKETDATASNAPSHOTFULLREFRESH ,FixTags.NOLEGS_INT ,value );
 				instrmtLegGrp.getAll(instrmtLegGrp.noLegs, value );
 				break;
 
 			case FixTags.FINANCIALSTATUS_INT:
-				financialStatus = FixUtils.getTagStringValue(value, financialStatus);
+				financialStatus = FixUtils.getTagStringValue(MsgTypes.MARKETDATASNAPSHOTFULLREFRESH ,id ,value, financialStatus);
 				if (!FinancialStatus.isValid(financialStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + financialStatus + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.CORPORATEACTION_INT:
-				corporateAction = FixUtils.getTagStringValue(value, corporateAction);
+				corporateAction = FixUtils.getTagStringValue(MsgTypes.MARKETDATASNAPSHOTFULLREFRESH ,id ,value, corporateAction);
 				if (!CorporateAction.isValid(corporateAction) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + corporateAction + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NETCHGPREVDAY_INT:
-				netChgPrevDay = FixUtils.getTagFloatValue(value);
+				netChgPrevDay = FixUtils.getTagFloatValue(MsgTypes.MARKETDATASNAPSHOTFULLREFRESH ,id ,value);
 				break;
 
 			case FixTags.NOMDENTRIES_INT:
-				mDFullGrp.noMDEntries = FixUtils.getTagIntValue( value );
+				mDFullGrp.noMDEntries = FixUtils.getTagIntValue( MsgTypes.MARKETDATASNAPSHOTFULLREFRESH ,FixTags.NOMDENTRIES_INT ,value );
 				mDFullGrp.getAll(mDFullGrp.noMDEntries, value );
 				break;
 
 			case FixTags.APPLQUEUEDEPTH_INT:
-				applQueueDepth = FixUtils.getTagIntValue( value );
+				applQueueDepth = FixUtils.getTagIntValue(MsgTypes.MARKETDATASNAPSHOTFULLREFRESH ,id ,value );
 				break;
 
 			case FixTags.APPLQUEUERESOLUTION_INT:
-				applQueueResolution = FixUtils.getTagIntValue( value );
+				applQueueResolution = FixUtils.getTagIntValue(MsgTypes.MARKETDATASNAPSHOTFULLREFRESH ,id ,value );
 				if (!ApplQueueResolution.isValid(applQueueResolution) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + applQueueResolution + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NOROUTINGIDS_INT:
-				routingGrp.noRoutingIDs = FixUtils.getTagIntValue( value );
+				routingGrp.noRoutingIDs = FixUtils.getTagIntValue( MsgTypes.MARKETDATASNAPSHOTFULLREFRESH ,FixTags.NOROUTINGIDS_INT ,value );
 				routingGrp.getAll(routingGrp.noRoutingIDs, value );
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.MARKETDATASNAPSHOTFULLREFRESH ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

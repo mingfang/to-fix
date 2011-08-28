@@ -315,7 +315,7 @@ public class MDIncGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.MDUPDATEACTION_INT) {
-				mDUpdateAction = FixUtils.getTagCharValue( value );
+				mDUpdateAction = FixUtils.getTagCharValue(null ,id ,value );
 				if (!FixMessageInfo.MDUpdateAction.isValid(mDUpdateAction) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + mDUpdateAction + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -323,7 +323,7 @@ public class MDIncGrp implements FixComponent
 			}
 
 			if(id == FixTags.DELETEREASON_INT) {
-				deleteReason = FixUtils.getTagCharValue( value );
+				deleteReason = FixUtils.getTagCharValue(null ,id ,value );
 				if (!FixMessageInfo.DeleteReason.isValid(deleteReason) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + deleteReason + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -331,21 +331,21 @@ public class MDIncGrp implements FixComponent
 			}
 
 			if(id == FixTags.MDSUBBOOKTYPE_INT) {
-				mDSubBookType = FixUtils.getTagIntValue( value );
+				mDSubBookType = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.MARKETDEPTH_INT) {
-				marketDepth = FixUtils.getTagIntValue( value );
+				marketDepth = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.MDENTRYTYPE_INT) {
-				mDEntryType = FixUtils.getTagCharValue( value );
+				mDEntryType = FixUtils.getTagCharValue(null ,id ,value );
 				if (!FixMessageInfo.MDEntryType.isValid(mDEntryType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + mDEntryType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -353,21 +353,21 @@ public class MDIncGrp implements FixComponent
 			}
 
 			if(id == FixTags.MDENTRYID_INT) {
-				mDEntryID = FixUtils.getTagStringValue(value, mDEntryID);
+				mDEntryID = FixUtils.getTagStringValue(null ,id ,value, mDEntryID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.MDENTRYREFID_INT) {
-				mDEntryRefID = FixUtils.getTagStringValue(value, mDEntryRefID);
+				mDEntryRefID = FixUtils.getTagStringValue(null ,id ,value, mDEntryRefID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.MDSTREAMID_INT) {
-				mDStreamID = FixUtils.getTagStringValue(value, mDStreamID);
+				mDStreamID = FixUtils.getTagStringValue(null ,id ,value, mDStreamID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -382,7 +382,7 @@ public class MDIncGrp implements FixComponent
 
 			if(id == FixTags.NOUNDERLYINGS_INT) {
 				int noUnderlyings;
-				noUnderlyings = FixUtils.getTagIntValue( value );
+				noUnderlyings = FixUtils.getTagIntValue(null ,id ,value );
 				undInstrmtGrp.getAll(noUnderlyings, buf);
 				lastTagPosition = buf.position();
 
@@ -391,7 +391,7 @@ public class MDIncGrp implements FixComponent
 
 			if(id == FixTags.NOLEGS_INT) {
 				int noLegs;
-				noLegs = FixUtils.getTagIntValue( value );
+				noLegs = FixUtils.getTagIntValue(null ,id ,value );
 				instrmtLegGrp.getAll(noLegs, buf);
 				lastTagPosition = buf.position();
 
@@ -399,7 +399,7 @@ public class MDIncGrp implements FixComponent
 			}
 
 			if(id == FixTags.FINANCIALSTATUS_INT) {
-				financialStatus = FixUtils.getTagStringValue(value, financialStatus);
+				financialStatus = FixUtils.getTagStringValue(null ,id ,value, financialStatus);
 				if (!FixMessageInfo.FinancialStatus.isValid(financialStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + financialStatus + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -407,7 +407,7 @@ public class MDIncGrp implements FixComponent
 			}
 
 			if(id == FixTags.CORPORATEACTION_INT) {
-				corporateAction = FixUtils.getTagStringValue(value, corporateAction);
+				corporateAction = FixUtils.getTagStringValue(null ,id ,value, corporateAction);
 				if (!FixMessageInfo.CorporateAction.isValid(corporateAction) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + corporateAction + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -415,14 +415,14 @@ public class MDIncGrp implements FixComponent
 			}
 
 			if(id == FixTags.MDENTRYPX_INT) {
-				mDEntryPx = FixUtils.getTagFloatValue(value);
+				mDEntryPx = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ORDTYPE_INT) {
-				ordType = FixUtils.getTagCharValue( value );
+				ordType = FixUtils.getTagCharValue(null ,id ,value );
 				if (!FixMessageInfo.OrdType.isValid(ordType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + ordType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -430,7 +430,7 @@ public class MDIncGrp implements FixComponent
 			}
 
 			if(id == FixTags.PRICETYPE_INT) {
-				priceType = FixUtils.getTagIntValue( value );
+				priceType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.PriceType.isValid(priceType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + priceType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -452,14 +452,14 @@ public class MDIncGrp implements FixComponent
 			}
 
 			if(id == FixTags.CURRENCY_INT) {
-				currency = FixUtils.getTagStringValue(value, currency);
+				currency = FixUtils.getTagStringValue(null ,id ,value, currency);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.SETTLCURRENCY_INT) {
-				settlCurrency = FixUtils.getTagStringValue(value, settlCurrency);
+				settlCurrency = FixUtils.getTagStringValue(null ,id ,value, settlCurrency);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -467,7 +467,7 @@ public class MDIncGrp implements FixComponent
 
 			if(id == FixTags.NORATESOURCES_INT) {
 				int noRateSources;
-				noRateSources = FixUtils.getTagIntValue( value );
+				noRateSources = FixUtils.getTagIntValue(null ,id ,value );
 				rateSource.getAll(noRateSources, buf);
 				lastTagPosition = buf.position();
 
@@ -475,14 +475,14 @@ public class MDIncGrp implements FixComponent
 			}
 
 			if(id == FixTags.MDENTRYSIZE_INT) {
-				mDEntrySize = FixUtils.getTagFloatValue(value);
+				mDEntrySize = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LOTTYPE_INT) {
-				lotType = FixUtils.getTagCharValue( value );
+				lotType = FixUtils.getTagCharValue(null ,id ,value );
 				if (!FixMessageInfo.LotType.isValid(lotType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + lotType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -491,7 +491,7 @@ public class MDIncGrp implements FixComponent
 
 			if(id == FixTags.NOOFSECSIZES_INT) {
 				int noOfSecSizes;
-				noOfSecSizes = FixUtils.getTagIntValue( value );
+				noOfSecSizes = FixUtils.getTagIntValue(null ,id ,value );
 				secSizesGrp.getAll(noOfSecSizes, buf);
 				lastTagPosition = buf.position();
 
@@ -499,21 +499,21 @@ public class MDIncGrp implements FixComponent
 			}
 
 			if(id == FixTags.MDENTRYDATE_INT) {
-				mDEntryDate = FixUtils.getTagStringValue(value, mDEntryDate);
+				mDEntryDate = FixUtils.getTagStringValue(null ,id ,value, mDEntryDate);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.MDENTRYTIME_INT) {
-				mDEntryTime = FixUtils.getTagStringValue(value, mDEntryTime);
+				mDEntryTime = FixUtils.getTagStringValue(null ,id ,value, mDEntryTime);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.TICKDIRECTION_INT) {
-				tickDirection = FixUtils.getTagCharValue( value );
+				tickDirection = FixUtils.getTagCharValue(null ,id ,value );
 				if (!FixMessageInfo.TickDirection.isValid(tickDirection) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + tickDirection + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -521,14 +521,14 @@ public class MDIncGrp implements FixComponent
 			}
 
 			if(id == FixTags.MDMKT_INT) {
-				mDMkt = FixUtils.getTagStringValue(value, mDMkt);
+				mDMkt = FixUtils.getTagStringValue(null ,id ,value, mDMkt);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.TRADINGSESSIONID_INT) {
-				tradingSessionID = FixUtils.getTagStringValue(value, tradingSessionID);
+				tradingSessionID = FixUtils.getTagStringValue(null ,id ,value, tradingSessionID);
 				if (!FixMessageInfo.TradingSessionID.isValid(tradingSessionID) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + tradingSessionID + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -536,7 +536,7 @@ public class MDIncGrp implements FixComponent
 			}
 
 			if(id == FixTags.TRADINGSESSIONSUBID_INT) {
-				tradingSessionSubID = FixUtils.getTagStringValue(value, tradingSessionSubID);
+				tradingSessionSubID = FixUtils.getTagStringValue(null ,id ,value, tradingSessionSubID);
 				if (!FixMessageInfo.TradingSessionSubID.isValid(tradingSessionSubID) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + tradingSessionSubID + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -544,7 +544,7 @@ public class MDIncGrp implements FixComponent
 			}
 
 			if(id == FixTags.SECURITYTRADINGSTATUS_INT) {
-				securityTradingStatus = FixUtils.getTagIntValue( value );
+				securityTradingStatus = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.SecurityTradingStatus.isValid(securityTradingStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + securityTradingStatus + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -552,7 +552,7 @@ public class MDIncGrp implements FixComponent
 			}
 
 			if(id == FixTags.HALTREASON_INT) {
-				haltReason = FixUtils.getTagIntValue( value );
+				haltReason = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.HaltReason.isValid(haltReason) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + haltReason + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -560,7 +560,7 @@ public class MDIncGrp implements FixComponent
 			}
 
 			if(id == FixTags.QUOTECONDITION_INT) {
-				quoteCondition = FixUtils.getTagStringValue(value, quoteCondition);
+				quoteCondition = FixUtils.getTagStringValue(null ,id ,value, quoteCondition);
 				if (!FixMessageInfo.QuoteCondition.isValid(quoteCondition) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + quoteCondition + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -568,7 +568,7 @@ public class MDIncGrp implements FixComponent
 			}
 
 			if(id == FixTags.TRADECONDITION_INT) {
-				tradeCondition = FixUtils.getTagStringValue(value, tradeCondition);
+				tradeCondition = FixUtils.getTagStringValue(null ,id ,value, tradeCondition);
 				if (!FixMessageInfo.TradeCondition.isValid(tradeCondition) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + tradeCondition + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -576,7 +576,7 @@ public class MDIncGrp implements FixComponent
 			}
 
 			if(id == FixTags.TRDTYPE_INT) {
-				trdType = FixUtils.getTagIntValue( value );
+				trdType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.TrdType.isValid(trdType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + trdType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -584,7 +584,7 @@ public class MDIncGrp implements FixComponent
 			}
 
 			if(id == FixTags.MATCHTYPE_INT) {
-				matchType = FixUtils.getTagStringValue(value, matchType);
+				matchType = FixUtils.getTagStringValue(null ,id ,value, matchType);
 				if (!FixMessageInfo.MatchType.isValid(matchType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + matchType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -592,28 +592,28 @@ public class MDIncGrp implements FixComponent
 			}
 
 			if(id == FixTags.MDENTRYORIGINATOR_INT) {
-				mDEntryOriginator = FixUtils.getTagStringValue(value, mDEntryOriginator);
+				mDEntryOriginator = FixUtils.getTagStringValue(null ,id ,value, mDEntryOriginator);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LOCATIONID_INT) {
-				locationID = FixUtils.getTagStringValue(value, locationID);
+				locationID = FixUtils.getTagStringValue(null ,id ,value, locationID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.DESKID_INT) {
-				deskID = FixUtils.getTagStringValue(value, deskID);
+				deskID = FixUtils.getTagStringValue(null ,id ,value, deskID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.OPENCLOSESETTLFLAG_INT) {
-				openCloseSettlFlag = FixUtils.getTagStringValue(value, openCloseSettlFlag);
+				openCloseSettlFlag = FixUtils.getTagStringValue(null ,id ,value, openCloseSettlFlag);
 				if (!FixMessageInfo.OpenCloseSettlFlag.isValid(openCloseSettlFlag) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + openCloseSettlFlag + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -621,7 +621,7 @@ public class MDIncGrp implements FixComponent
 			}
 
 			if(id == FixTags.TIMEINFORCE_INT) {
-				timeInForce = FixUtils.getTagCharValue( value );
+				timeInForce = FixUtils.getTagCharValue(null ,id ,value );
 				if (!FixMessageInfo.TimeInForce.isValid(timeInForce) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + timeInForce + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -629,28 +629,28 @@ public class MDIncGrp implements FixComponent
 			}
 
 			if(id == FixTags.EXPIREDATE_INT) {
-				expireDate = FixUtils.getTagStringValue(value, expireDate);
+				expireDate = FixUtils.getTagStringValue(null ,id ,value, expireDate);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.EXPIRETIME_INT) {
-				expireTime = FixUtils.getTagStringValue(value, expireTime);
+				expireTime = FixUtils.getTagStringValue(null ,id ,value, expireTime);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.MINQTY_INT) {
-				minQty = FixUtils.getTagFloatValue(value);
+				minQty = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.EXECINST_INT) {
-				execInst = FixUtils.getTagStringValue(value, execInst);
+				execInst = FixUtils.getTagStringValue(null ,id ,value, execInst);
 				if (!FixMessageInfo.ExecInst.isValid(execInst) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + execInst + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -658,70 +658,70 @@ public class MDIncGrp implements FixComponent
 			}
 
 			if(id == FixTags.SELLERDAYS_INT) {
-				sellerDays = FixUtils.getTagIntValue( value );
+				sellerDays = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ORDERID_INT) {
-				orderID = FixUtils.getTagStringValue(value, orderID);
+				orderID = FixUtils.getTagStringValue(null ,id ,value, orderID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.SECONDARYORDERID_INT) {
-				secondaryOrderID = FixUtils.getTagStringValue(value, secondaryOrderID);
+				secondaryOrderID = FixUtils.getTagStringValue(null ,id ,value, secondaryOrderID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.QUOTEENTRYID_INT) {
-				quoteEntryID = FixUtils.getTagStringValue(value, quoteEntryID);
+				quoteEntryID = FixUtils.getTagStringValue(null ,id ,value, quoteEntryID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.TRADEID_INT) {
-				tradeID = FixUtils.getTagStringValue(value, tradeID);
+				tradeID = FixUtils.getTagStringValue(null ,id ,value, tradeID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.MDENTRYBUYER_INT) {
-				mDEntryBuyer = FixUtils.getTagStringValue(value, mDEntryBuyer);
+				mDEntryBuyer = FixUtils.getTagStringValue(null ,id ,value, mDEntryBuyer);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.MDENTRYSELLER_INT) {
-				mDEntrySeller = FixUtils.getTagStringValue(value, mDEntrySeller);
+				mDEntrySeller = FixUtils.getTagStringValue(null ,id ,value, mDEntrySeller);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.NUMBEROFORDERS_INT) {
-				numberOfOrders = FixUtils.getTagIntValue( value );
+				numberOfOrders = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.MDENTRYPOSITIONNO_INT) {
-				mDEntryPositionNo = FixUtils.getTagIntValue( value );
+				mDEntryPositionNo = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.SCOPE_INT) {
-				scope = FixUtils.getTagStringValue(value, scope);
+				scope = FixUtils.getTagStringValue(null ,id ,value, scope);
 				if (!FixMessageInfo.Scope.isValid(scope) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + scope + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -729,42 +729,42 @@ public class MDIncGrp implements FixComponent
 			}
 
 			if(id == FixTags.PRICEDELTA_INT) {
-				priceDelta = FixUtils.getTagFloatValue(value);
+				priceDelta = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.NETCHGPREVDAY_INT) {
-				netChgPrevDay = FixUtils.getTagFloatValue(value);
+				netChgPrevDay = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.TEXT_INT) {
-				text = FixUtils.getTagStringValue(value, text);
+				text = FixUtils.getTagStringValue(null ,id ,value, text);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ENCODEDTEXTLEN_INT) {
-				encodedTextLen = FixUtils.getTagIntValue( value );
+				encodedTextLen = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ENCODEDTEXT_INT) {
-				encodedText = FixUtils.getTagStringValue(value, encodedText);
+				encodedText = FixUtils.getTagStringValue(null ,id ,value, encodedText);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ORDERCAPACITY_INT) {
-				orderCapacity = FixUtils.getTagCharValue( value );
+				orderCapacity = FixUtils.getTagCharValue(null ,id ,value );
 				if (!FixMessageInfo.OrderCapacity.isValid(orderCapacity) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + orderCapacity + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -772,7 +772,7 @@ public class MDIncGrp implements FixComponent
 			}
 
 			if(id == FixTags.MDORIGINTYPE_INT) {
-				mDOriginType = FixUtils.getTagIntValue( value );
+				mDOriginType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.MDOriginType.isValid(mDOriginType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + mDOriginType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -780,28 +780,28 @@ public class MDIncGrp implements FixComponent
 			}
 
 			if(id == FixTags.HIGHPX_INT) {
-				highPx = FixUtils.getTagFloatValue(value);
+				highPx = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LOWPX_INT) {
-				lowPx = FixUtils.getTagFloatValue(value);
+				lowPx = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.TRADEVOLUME_INT) {
-				tradeVolume = FixUtils.getTagFloatValue(value);
+				tradeVolume = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.SETTLTYPE_INT) {
-				settlType = FixUtils.getTagStringValue(value, settlType);
+				settlType = FixUtils.getTagStringValue(null ,id ,value, settlType);
 				if (!FixMessageInfo.SettlType.isValid(settlType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + settlType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -809,14 +809,14 @@ public class MDIncGrp implements FixComponent
 			}
 
 			if(id == FixTags.SETTLDATE_INT) {
-				settlDate = FixUtils.getTagStringValue(value, settlDate);
+				settlDate = FixUtils.getTagStringValue(null ,id ,value, settlDate);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.MDQUOTETYPE_INT) {
-				mDQuoteType = FixUtils.getTagIntValue( value );
+				mDQuoteType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.MDQuoteType.isValid(mDQuoteType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + mDQuoteType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -824,49 +824,49 @@ public class MDIncGrp implements FixComponent
 			}
 
 			if(id == FixTags.RPTSEQ_INT) {
-				rptSeq = FixUtils.getTagIntValue( value );
+				rptSeq = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.MDPRICELEVEL_INT) {
-				mDPriceLevel = FixUtils.getTagIntValue( value );
+				mDPriceLevel = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.TRANSBKDTIME_INT) {
-				transBkdTime = FixUtils.getTagStringValue(value, transBkdTime);
+				transBkdTime = FixUtils.getTagStringValue(null ,id ,value, transBkdTime);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.TRANSACTTIME_INT) {
-				transactTime = FixUtils.getTagStringValue(value, transactTime);
+				transactTime = FixUtils.getTagStringValue(null ,id ,value, transactTime);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.FIRSTPX_INT) {
-				firstPx = FixUtils.getTagFloatValue(value);
+				firstPx = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LASTPX_INT) {
-				lastPx = FixUtils.getTagFloatValue(value);
+				lastPx = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.DEALINGCAPACITY_INT) {
-				dealingCapacity = FixUtils.getTagCharValue( value );
+				dealingCapacity = FixUtils.getTagCharValue(null ,id ,value );
 				if (!FixMessageInfo.DealingCapacity.isValid(dealingCapacity) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + dealingCapacity + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -874,14 +874,14 @@ public class MDIncGrp implements FixComponent
 			}
 
 			if(id == FixTags.MDENTRYSPOTRATE_INT) {
-				mDEntrySpotRate = FixUtils.getTagFloatValue(value);
+				mDEntrySpotRate = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.MDENTRYFORWARDPOINTS_INT) {
-				mDEntryForwardPoints = FixUtils.getTagFloatValue(value);
+				mDEntryForwardPoints = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -889,7 +889,7 @@ public class MDIncGrp implements FixComponent
 
 			if(id == FixTags.NOPARTYIDS_INT) {
 				int noPartyIDs;
-				noPartyIDs = FixUtils.getTagIntValue( value );
+				noPartyIDs = FixUtils.getTagIntValue(null ,id ,value );
 				parties.getAll(noPartyIDs, buf);
 				lastTagPosition = buf.position();
 
@@ -898,7 +898,7 @@ public class MDIncGrp implements FixComponent
 
 			if(id == FixTags.NOSTATSINDICATORS_INT) {
 				int noStatsIndicators;
-				noStatsIndicators = FixUtils.getTagIntValue( value );
+				noStatsIndicators = FixUtils.getTagIntValue(null ,id ,value );
 				statsIndGrp.getAll(noStatsIndicators, buf);
 				lastTagPosition = buf.position();
 

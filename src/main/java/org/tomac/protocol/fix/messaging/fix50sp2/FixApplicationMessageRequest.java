@@ -71,7 +71,7 @@ public class FixApplicationMessageRequest extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -80,39 +80,39 @@ public class FixApplicationMessageRequest extends FixMessage
 			switch( id ) {
 
 			case FixTags.APPLREQID_INT:
-				applReqID = FixUtils.getTagStringValue(value, applReqID);
+				applReqID = FixUtils.getTagStringValue(MsgTypes.APPLICATIONMESSAGEREQUEST ,id ,value, applReqID);
 				break;
 
 			case FixTags.APPLREQTYPE_INT:
-				applReqType = FixUtils.getTagIntValue( value );
+				applReqType = FixUtils.getTagIntValue(MsgTypes.APPLICATIONMESSAGEREQUEST ,id ,value );
 				if (!ApplReqType.isValid(applReqType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + applReqType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NOAPPLIDS_INT:
-				applIDRequestGrp.noApplIDs = FixUtils.getTagIntValue( value );
+				applIDRequestGrp.noApplIDs = FixUtils.getTagIntValue( MsgTypes.APPLICATIONMESSAGEREQUEST ,FixTags.NOAPPLIDS_INT ,value );
 				applIDRequestGrp.getAll(applIDRequestGrp.noApplIDs, value );
 				break;
 
 			case FixTags.NOPARTYIDS_INT:
-				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.noPartyIDs = FixUtils.getTagIntValue( MsgTypes.APPLICATIONMESSAGEREQUEST ,FixTags.NOPARTYIDS_INT ,value );
 				parties.getAll(parties.noPartyIDs, value );
 				break;
 
 			case FixTags.TEXT_INT:
-				text = FixUtils.getTagStringValue(value, text);
+				text = FixUtils.getTagStringValue(MsgTypes.APPLICATIONMESSAGEREQUEST ,id ,value, text);
 				break;
 
 			case FixTags.ENCODEDTEXTLEN_INT:
-				encodedTextLen = FixUtils.getTagIntValue( value );
+				encodedTextLen = FixUtils.getTagIntValue(MsgTypes.APPLICATIONMESSAGEREQUEST ,id ,value );
 				break;
 
 			case FixTags.ENCODEDTEXT_INT:
-				encodedText = FixUtils.getTagStringValue(value, encodedText);
+				encodedText = FixUtils.getTagStringValue(MsgTypes.APPLICATIONMESSAGEREQUEST ,id ,value, encodedText);
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.APPLICATIONMESSAGEREQUEST ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

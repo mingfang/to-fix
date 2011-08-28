@@ -128,14 +128,14 @@ public class QuotSetAckGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.QUOTESETID_INT) {
-				quoteSetID = FixUtils.getTagStringValue(value, quoteSetID);
+				quoteSetID = FixUtils.getTagStringValue(null ,id ,value, quoteSetID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.QUOTESETVALIDUNTILTIME_INT) {
-				quoteSetValidUntilTime = FixUtils.getTagStringValue(value, quoteSetValidUntilTime);
+				quoteSetValidUntilTime = FixUtils.getTagStringValue(null ,id ,value, quoteSetValidUntilTime);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -149,35 +149,35 @@ public class QuotSetAckGrp implements FixComponent
 			}
 
 			if(id == FixTags.TOTNOQUOTEENTRIES_INT) {
-				totNoQuoteEntries = FixUtils.getTagIntValue( value );
+				totNoQuoteEntries = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.TOTNOCXLDQUOTES_INT) {
-				totNoCxldQuotes = FixUtils.getTagIntValue( value );
+				totNoCxldQuotes = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.TOTNOACCQUOTES_INT) {
-				totNoAccQuotes = FixUtils.getTagIntValue( value );
+				totNoAccQuotes = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.TOTNOREJQUOTES_INT) {
-				totNoRejQuotes = FixUtils.getTagIntValue( value );
+				totNoRejQuotes = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LASTFRAGMENT_INT) {
-				lastFragment = FixUtils.getTagBooleanValue( value );
+				lastFragment = FixUtils.getTagBooleanValue(null ,id ,value );
 				if (!FixMessageInfo.LastFragment.isValid(lastFragment) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + lastFragment + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -186,7 +186,7 @@ public class QuotSetAckGrp implements FixComponent
 
 			if(id == FixTags.NOQUOTEENTRIES_INT) {
 				int noQuoteEntries;
-				noQuoteEntries = FixUtils.getTagIntValue( value );
+				noQuoteEntries = FixUtils.getTagIntValue(null ,id ,value );
 				quotEntryAckGrp.getAll(noQuoteEntries, buf);
 				lastTagPosition = buf.position();
 

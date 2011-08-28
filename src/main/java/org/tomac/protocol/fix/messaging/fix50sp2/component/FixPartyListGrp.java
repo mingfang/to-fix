@@ -120,7 +120,7 @@ public class PartyListGrp implements FixComponent
 
 			if(id == FixTags.NORELATEDPARTYIDS_INT) {
 				int noRelatedPartyIDs;
-				noRelatedPartyIDs = FixUtils.getTagIntValue( value );
+				noRelatedPartyIDs = FixUtils.getTagIntValue(null ,id ,value );
 				relatedPartyGrp.getAll(noRelatedPartyIDs, buf);
 				lastTagPosition = buf.position();
 

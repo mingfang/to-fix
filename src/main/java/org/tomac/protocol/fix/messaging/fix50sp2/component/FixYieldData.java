@@ -66,28 +66,28 @@ public class FixYieldData implements FixComponent
 			switch( id ) {
 
 			case FixTags.YIELDTYPE_INT:
-				yieldType = FixUtils.getTagStringValue(value, yieldType);
+				yieldType = FixUtils.getTagStringValue(null ,id ,value, yieldType);
 				if (!YieldType.isValid(yieldType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + yieldType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.YIELD_INT:
-				yield = FixUtils.getTagFloatValue(value);
+				yield = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.YIELDCALCDATE_INT:
-				yieldCalcDate = FixUtils.getTagStringValue(value, yieldCalcDate);
+				yieldCalcDate = FixUtils.getTagStringValue(null ,id ,value, yieldCalcDate);
 				break;
 
 			case FixTags.YIELDREDEMPTIONDATE_INT:
-				yieldRedemptionDate = FixUtils.getTagStringValue(value, yieldRedemptionDate);
+				yieldRedemptionDate = FixUtils.getTagStringValue(null ,id ,value, yieldRedemptionDate);
 				break;
 
 			case FixTags.YIELDREDEMPTIONPRICE_INT:
-				yieldRedemptionPrice = FixUtils.getTagFloatValue(value);
+				yieldRedemptionPrice = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.YIELDREDEMPTIONPRICETYPE_INT:
-				yieldRedemptionPriceType = FixUtils.getTagIntValue( value );
+				yieldRedemptionPriceType = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			// we will always endup with unknown tag, unread and return to upper layer in hierarchy
@@ -102,7 +102,7 @@ public class FixYieldData implements FixComponent
 
 			lastTagPosition = buf.position();
 
-		} while ( ( id = FixUtils.getTagId( buf ) ) > 0 );
+		} while ( ( id = FixUtils.getTagId( buf ) ) >= 0 );
 
 		buf.position(startTagPosition);
 

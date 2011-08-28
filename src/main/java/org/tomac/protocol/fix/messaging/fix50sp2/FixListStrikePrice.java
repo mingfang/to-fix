@@ -61,7 +61,7 @@ public class FixListStrikePrice extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -70,26 +70,26 @@ public class FixListStrikePrice extends FixMessage
 			switch( id ) {
 
 			case FixTags.LISTID_INT:
-				listID = FixUtils.getTagStringValue(value, listID);
+				listID = FixUtils.getTagStringValue(MsgTypes.LISTSTRIKEPRICE ,id ,value, listID);
 				break;
 
 			case FixTags.TOTNOSTRIKES_INT:
-				totNoStrikes = FixUtils.getTagIntValue( value );
+				totNoStrikes = FixUtils.getTagIntValue(MsgTypes.LISTSTRIKEPRICE ,id ,value );
 				break;
 
 			case FixTags.LASTFRAGMENT_INT:
-				lastFragment = FixUtils.getTagBooleanValue( value );
+				lastFragment = FixUtils.getTagBooleanValue(MsgTypes.LISTSTRIKEPRICE ,id ,value );
 				if (!LastFragment.isValid(lastFragment) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + lastFragment + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NOSTRIKES_INT:
-				instrmtStrkPxGrp.noStrikes = FixUtils.getTagIntValue( value );
+				instrmtStrkPxGrp.noStrikes = FixUtils.getTagIntValue( MsgTypes.LISTSTRIKEPRICE ,FixTags.NOSTRIKES_INT ,value );
 				instrmtStrkPxGrp.getAll(instrmtStrkPxGrp.noStrikes, value );
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.LISTSTRIKEPRICE ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

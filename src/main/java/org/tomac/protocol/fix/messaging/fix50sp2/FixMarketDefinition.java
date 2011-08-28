@@ -107,7 +107,7 @@ public class FixMarketDefinition extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -120,39 +120,39 @@ public class FixMarketDefinition extends FixMessage
 				break;
 
 			case FixTags.MARKETREPORTID_INT:
-				marketReportID = FixUtils.getTagStringValue(value, marketReportID);
+				marketReportID = FixUtils.getTagStringValue(MsgTypes.MARKETDEFINITION ,id ,value, marketReportID);
 				break;
 
 			case FixTags.MARKETREQID_INT:
-				marketReqID = FixUtils.getTagStringValue(value, marketReqID);
+				marketReqID = FixUtils.getTagStringValue(MsgTypes.MARKETDEFINITION ,id ,value, marketReqID);
 				break;
 
 			case FixTags.MARKETID_INT:
-				marketID = FixUtils.getTagStringValue(value, marketID);
+				marketID = FixUtils.getTagStringValue(MsgTypes.MARKETDEFINITION ,id ,value, marketID);
 				break;
 
 			case FixTags.MARKETSEGMENTID_INT:
-				marketSegmentID = FixUtils.getTagStringValue(value, marketSegmentID);
+				marketSegmentID = FixUtils.getTagStringValue(MsgTypes.MARKETDEFINITION ,id ,value, marketSegmentID);
 				break;
 
 			case FixTags.MARKETSEGMENTDESC_INT:
-				marketSegmentDesc = FixUtils.getTagStringValue(value, marketSegmentDesc);
+				marketSegmentDesc = FixUtils.getTagStringValue(MsgTypes.MARKETDEFINITION ,id ,value, marketSegmentDesc);
 				break;
 
 			case FixTags.ENCODEDMKTSEGMDESCLEN_INT:
-				encodedMktSegmDescLen = FixUtils.getTagIntValue( value );
+				encodedMktSegmDescLen = FixUtils.getTagIntValue(MsgTypes.MARKETDEFINITION ,id ,value );
 				break;
 
 			case FixTags.ENCODEDMKTSEGMDESC_INT:
-				encodedMktSegmDesc = FixUtils.getTagStringValue(value, encodedMktSegmDesc);
+				encodedMktSegmDesc = FixUtils.getTagStringValue(MsgTypes.MARKETDEFINITION ,id ,value, encodedMktSegmDesc);
 				break;
 
 			case FixTags.PARENTMKTSEGMID_INT:
-				parentMktSegmID = FixUtils.getTagStringValue(value, parentMktSegmID);
+				parentMktSegmID = FixUtils.getTagStringValue(MsgTypes.MARKETDEFINITION ,id ,value, parentMktSegmID);
 				break;
 
 			case FixTags.CURRENCY_INT:
-				currency = FixUtils.getTagStringValue(value, currency);
+				currency = FixUtils.getTagStringValue(MsgTypes.MARKETDEFINITION ,id ,value, currency);
 				break;
 
 			case FixTags.EXPIRATIONCYCLE_INT:
@@ -160,39 +160,39 @@ public class FixMarketDefinition extends FixMessage
 				break;
 
 			case FixTags.NOORDTYPERULES_INT:
-				ordTypeRules.noOrdTypeRules = FixUtils.getTagIntValue( value );
+				ordTypeRules.noOrdTypeRules = FixUtils.getTagIntValue( MsgTypes.MARKETDEFINITION ,FixTags.NOORDTYPERULES_INT ,value );
 				ordTypeRules.getAll(ordTypeRules.noOrdTypeRules, value );
 				break;
 
 			case FixTags.NOTIMEINFORCERULES_INT:
-				timeInForceRules.noTimeInForceRules = FixUtils.getTagIntValue( value );
+				timeInForceRules.noTimeInForceRules = FixUtils.getTagIntValue( MsgTypes.MARKETDEFINITION ,FixTags.NOTIMEINFORCERULES_INT ,value );
 				timeInForceRules.getAll(timeInForceRules.noTimeInForceRules, value );
 				break;
 
 			case FixTags.NOEXECINSTRULES_INT:
-				execInstRules.noExecInstRules = FixUtils.getTagIntValue( value );
+				execInstRules.noExecInstRules = FixUtils.getTagIntValue( MsgTypes.MARKETDEFINITION ,FixTags.NOEXECINSTRULES_INT ,value );
 				execInstRules.getAll(execInstRules.noExecInstRules, value );
 				break;
 
 			case FixTags.TRANSACTTIME_INT:
-				transactTime = FixUtils.getTagStringValue(value, transactTime);
+				transactTime = FixUtils.getTagStringValue(MsgTypes.MARKETDEFINITION ,id ,value, transactTime);
 				break;
 
 			case FixTags.TEXT_INT:
-				text = FixUtils.getTagStringValue(value, text);
+				text = FixUtils.getTagStringValue(MsgTypes.MARKETDEFINITION ,id ,value, text);
 				break;
 
 			case FixTags.ENCODEDTEXTLEN_INT:
-				encodedTextLen = FixUtils.getTagIntValue( value );
+				encodedTextLen = FixUtils.getTagIntValue(MsgTypes.MARKETDEFINITION ,id ,value );
 				break;
 
 			case FixTags.ENCODEDTEXT_INT:
-				encodedText = FixUtils.getTagStringValue(value, encodedText);
+				encodedText = FixUtils.getTagStringValue(MsgTypes.MARKETDEFINITION ,id ,value, encodedText);
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.MARKETDEFINITION ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

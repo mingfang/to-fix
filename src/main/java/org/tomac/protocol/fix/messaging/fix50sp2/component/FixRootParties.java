@@ -115,21 +115,21 @@ public class RootParties implements FixComponent
 			value = buf;
 
 			if(id == FixTags.ROOTPARTYID_INT) {
-				rootPartyID = FixUtils.getTagStringValue(value, rootPartyID);
+				rootPartyID = FixUtils.getTagStringValue(null ,id ,value, rootPartyID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ROOTPARTYIDSOURCE_INT) {
-				rootPartyIDSource = FixUtils.getTagCharValue( value );
+				rootPartyIDSource = FixUtils.getTagCharValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ROOTPARTYROLE_INT) {
-				rootPartyRole = FixUtils.getTagIntValue( value );
+				rootPartyRole = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -137,7 +137,7 @@ public class RootParties implements FixComponent
 
 			if(id == FixTags.NOROOTPARTYSUBIDS_INT) {
 				int noRootPartySubIDs;
-				noRootPartySubIDs = FixUtils.getTagIntValue( value );
+				noRootPartySubIDs = FixUtils.getTagIntValue(null ,id ,value );
 				rootSubParties.getAll(noRootPartySubIDs, buf);
 				lastTagPosition = buf.position();
 

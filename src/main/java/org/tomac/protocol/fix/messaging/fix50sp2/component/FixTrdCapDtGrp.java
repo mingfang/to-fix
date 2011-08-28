@@ -115,28 +115,28 @@ public class TrdCapDtGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.NODATES_INT) {
-				noDates = FixUtils.getTagIntValue( value );
+				noDates = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.TRADEDATE_INT) {
-				tradeDate = FixUtils.getTagStringValue(value, tradeDate);
+				tradeDate = FixUtils.getTagStringValue(null ,id ,value, tradeDate);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LASTUPDATETIME_INT) {
-				lastUpdateTime = FixUtils.getTagStringValue(value, lastUpdateTime);
+				lastUpdateTime = FixUtils.getTagStringValue(null ,id ,value, lastUpdateTime);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.TRANSACTTIME_INT) {
-				transactTime = FixUtils.getTagStringValue(value, transactTime);
+				transactTime = FixUtils.getTagStringValue(null ,id ,value, transactTime);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

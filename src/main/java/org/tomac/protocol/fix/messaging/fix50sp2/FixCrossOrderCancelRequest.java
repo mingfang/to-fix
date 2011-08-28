@@ -89,7 +89,7 @@ public class FixCrossOrderCancelRequest extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -98,38 +98,38 @@ public class FixCrossOrderCancelRequest extends FixMessage
 			switch( id ) {
 
 			case FixTags.ORDERID_INT:
-				orderID = FixUtils.getTagStringValue(value, orderID);
+				orderID = FixUtils.getTagStringValue(MsgTypes.CROSSORDERCANCELREQUEST ,id ,value, orderID);
 				break;
 
 			case FixTags.CROSSID_INT:
-				crossID = FixUtils.getTagStringValue(value, crossID);
+				crossID = FixUtils.getTagStringValue(MsgTypes.CROSSORDERCANCELREQUEST ,id ,value, crossID);
 				break;
 
 			case FixTags.ORIGCROSSID_INT:
-				origCrossID = FixUtils.getTagStringValue(value, origCrossID);
+				origCrossID = FixUtils.getTagStringValue(MsgTypes.CROSSORDERCANCELREQUEST ,id ,value, origCrossID);
 				break;
 
 			case FixTags.HOSTCROSSID_INT:
-				hostCrossID = FixUtils.getTagStringValue(value, hostCrossID);
+				hostCrossID = FixUtils.getTagStringValue(MsgTypes.CROSSORDERCANCELREQUEST ,id ,value, hostCrossID);
 				break;
 
 			case FixTags.CROSSTYPE_INT:
-				crossType = FixUtils.getTagIntValue( value );
+				crossType = FixUtils.getTagIntValue(MsgTypes.CROSSORDERCANCELREQUEST ,id ,value );
 				if (!CrossType.isValid(crossType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + crossType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.CROSSPRIORITIZATION_INT:
-				crossPrioritization = FixUtils.getTagIntValue( value );
+				crossPrioritization = FixUtils.getTagIntValue(MsgTypes.CROSSORDERCANCELREQUEST ,id ,value );
 				if (!CrossPrioritization.isValid(crossPrioritization) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + crossPrioritization + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NOROOTPARTYIDS_INT:
-				rootParties.noRootPartyIDs = FixUtils.getTagIntValue( value );
+				rootParties.noRootPartyIDs = FixUtils.getTagIntValue( MsgTypes.CROSSORDERCANCELREQUEST ,FixTags.NOROOTPARTYIDS_INT ,value );
 				rootParties.getAll(rootParties.noRootPartyIDs, value );
 				break;
 
 			case FixTags.NOSIDES_INT:
-				sideCrossOrdCxlGrp.noSides = FixUtils.getTagIntValue( value );
+				sideCrossOrdCxlGrp.noSides = FixUtils.getTagIntValue( MsgTypes.CROSSORDERCANCELREQUEST ,FixTags.NOSIDES_INT ,value );
 				sideCrossOrdCxlGrp.getAll(sideCrossOrdCxlGrp.noSides, value );
 				break;
 
@@ -138,22 +138,22 @@ public class FixCrossOrderCancelRequest extends FixMessage
 				break;
 
 			case FixTags.NOUNDERLYINGS_INT:
-				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( MsgTypes.CROSSORDERCANCELREQUEST ,FixTags.NOUNDERLYINGS_INT ,value );
 				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
 				break;
 
 			case FixTags.NOLEGS_INT:
-				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( value );
+				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( MsgTypes.CROSSORDERCANCELREQUEST ,FixTags.NOLEGS_INT ,value );
 				instrmtLegGrp.getAll(instrmtLegGrp.noLegs, value );
 				break;
 
 			case FixTags.TRANSACTTIME_INT:
-				transactTime = FixUtils.getTagStringValue(value, transactTime);
+				transactTime = FixUtils.getTagStringValue(MsgTypes.CROSSORDERCANCELREQUEST ,id ,value, transactTime);
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.CROSSORDERCANCELREQUEST ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

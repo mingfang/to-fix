@@ -59,19 +59,19 @@ public class FixSecondaryPriceLimits implements FixComponent
 			switch( id ) {
 
 			case FixTags.SECONDARYPRICELIMITTYPE_INT:
-				secondaryPriceLimitType = FixUtils.getTagIntValue( value );
+				secondaryPriceLimitType = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.SECONDARYLOWLIMITPRICE_INT:
-				secondaryLowLimitPrice = FixUtils.getTagFloatValue(value);
+				secondaryLowLimitPrice = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.SECONDARYHIGHLIMITPRICE_INT:
-				secondaryHighLimitPrice = FixUtils.getTagFloatValue(value);
+				secondaryHighLimitPrice = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.SECONDARYTRADINGREFERENCEPRICE_INT:
-				secondaryTradingReferencePrice = FixUtils.getTagFloatValue(value);
+				secondaryTradingReferencePrice = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			// we will always endup with unknown tag, unread and return to upper layer in hierarchy
@@ -86,7 +86,7 @@ public class FixSecondaryPriceLimits implements FixComponent
 
 			lastTagPosition = buf.position();
 
-		} while ( ( id = FixUtils.getTagId( buf ) ) > 0 );
+		} while ( ( id = FixUtils.getTagId( buf ) ) >= 0 );
 
 		buf.position(startTagPosition);
 

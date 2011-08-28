@@ -110,7 +110,7 @@ public class SettlDetails implements FixComponent
 			value = buf;
 
 			if(id == FixTags.SETTLOBLIGSOURCE_INT) {
-				settlObligSource = FixUtils.getTagCharValue( value );
+				settlObligSource = FixUtils.getTagCharValue(null ,id ,value );
 				if (!FixMessageInfo.SettlObligSource.isValid(settlObligSource) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + settlObligSource + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -119,7 +119,7 @@ public class SettlDetails implements FixComponent
 
 			if(id == FixTags.NOSETTLPARTYIDS_INT) {
 				int noSettlPartyIDs;
-				noSettlPartyIDs = FixUtils.getTagIntValue( value );
+				noSettlPartyIDs = FixUtils.getTagIntValue(null ,id ,value );
 				settlParties.getAll(noSettlPartyIDs, buf);
 				lastTagPosition = buf.position();
 

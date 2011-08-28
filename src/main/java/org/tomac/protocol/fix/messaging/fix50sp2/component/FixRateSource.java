@@ -111,7 +111,7 @@ public class RateSource implements FixComponent
 			value = buf;
 
 			if(id == FixTags.RATESOURCE_INT) {
-				rateSource = FixUtils.getTagIntValue( value );
+				rateSource = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.RateSource.isValid(rateSource) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + rateSource + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -119,7 +119,7 @@ public class RateSource implements FixComponent
 			}
 
 			if(id == FixTags.RATESOURCETYPE_INT) {
-				rateSourceType = FixUtils.getTagIntValue( value );
+				rateSourceType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.RateSourceType.isValid(rateSourceType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + rateSourceType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -127,7 +127,7 @@ public class RateSource implements FixComponent
 			}
 
 			if(id == FixTags.REFERENCEPAGE_INT) {
-				referencePage = FixUtils.getTagStringValue(value, referencePage);
+				referencePage = FixUtils.getTagStringValue(null ,id ,value, referencePage);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

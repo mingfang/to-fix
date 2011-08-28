@@ -122,14 +122,14 @@ public class LegPreAllocGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.LEGALLOCACCOUNT_INT) {
-				legAllocAccount = FixUtils.getTagStringValue(value, legAllocAccount);
+				legAllocAccount = FixUtils.getTagStringValue(null ,id ,value, legAllocAccount);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LEGINDIVIDUALALLOCID_INT) {
-				legIndividualAllocID = FixUtils.getTagStringValue(value, legIndividualAllocID);
+				legIndividualAllocID = FixUtils.getTagStringValue(null ,id ,value, legIndividualAllocID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -137,7 +137,7 @@ public class LegPreAllocGrp implements FixComponent
 
 			if(id == FixTags.NONESTED2PARTYIDS_INT) {
 				int noNested2PartyIDs;
-				noNested2PartyIDs = FixUtils.getTagIntValue( value );
+				noNested2PartyIDs = FixUtils.getTagIntValue(null ,id ,value );
 				nestedParties2.getAll(noNested2PartyIDs, buf);
 				lastTagPosition = buf.position();
 
@@ -145,21 +145,21 @@ public class LegPreAllocGrp implements FixComponent
 			}
 
 			if(id == FixTags.LEGALLOCQTY_INT) {
-				legAllocQty = FixUtils.getTagFloatValue(value);
+				legAllocQty = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LEGALLOCACCTIDSOURCE_INT) {
-				legAllocAcctIDSource = FixUtils.getTagStringValue(value, legAllocAcctIDSource);
+				legAllocAcctIDSource = FixUtils.getTagStringValue(null ,id ,value, legAllocAcctIDSource);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LEGALLOCSETTLCURRENCY_INT) {
-				legAllocSettlCurrency = FixUtils.getTagStringValue(value, legAllocSettlCurrency);
+				legAllocSettlCurrency = FixUtils.getTagStringValue(null ,id ,value, legAllocSettlCurrency);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

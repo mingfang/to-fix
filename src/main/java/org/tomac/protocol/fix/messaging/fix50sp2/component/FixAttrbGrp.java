@@ -109,7 +109,7 @@ public class AttrbGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.INSTRATTRIBTYPE_INT) {
-				instrAttribType = FixUtils.getTagIntValue( value );
+				instrAttribType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.InstrAttribType.isValid(instrAttribType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + instrAttribType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -117,7 +117,7 @@ public class AttrbGrp implements FixComponent
 			}
 
 			if(id == FixTags.INSTRATTRIBVALUE_INT) {
-				instrAttribValue = FixUtils.getTagStringValue(value, instrAttribValue);
+				instrAttribValue = FixUtils.getTagStringValue(null ,id ,value, instrAttribValue);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

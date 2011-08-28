@@ -124,42 +124,42 @@ public class ExecAllocGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.LASTQTY_INT) {
-				lastQty = FixUtils.getTagFloatValue(value);
+				lastQty = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.EXECID_INT) {
-				execID = FixUtils.getTagStringValue(value, execID);
+				execID = FixUtils.getTagStringValue(null ,id ,value, execID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.SECONDARYEXECID_INT) {
-				secondaryExecID = FixUtils.getTagStringValue(value, secondaryExecID);
+				secondaryExecID = FixUtils.getTagStringValue(null ,id ,value, secondaryExecID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LASTPX_INT) {
-				lastPx = FixUtils.getTagFloatValue(value);
+				lastPx = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LASTPARPX_INT) {
-				lastParPx = FixUtils.getTagFloatValue(value);
+				lastParPx = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LASTCAPACITY_INT) {
-				lastCapacity = FixUtils.getTagCharValue( value );
+				lastCapacity = FixUtils.getTagCharValue(null ,id ,value );
 				if (!FixMessageInfo.LastCapacity.isValid(lastCapacity) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + lastCapacity + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -167,14 +167,14 @@ public class ExecAllocGrp implements FixComponent
 			}
 
 			if(id == FixTags.TRADEID_INT) {
-				tradeID = FixUtils.getTagStringValue(value, tradeID);
+				tradeID = FixUtils.getTagStringValue(null ,id ,value, tradeID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.FIRMTRADEID_INT) {
-				firmTradeID = FixUtils.getTagStringValue(value, firmTradeID);
+				firmTradeID = FixUtils.getTagStringValue(null ,id ,value, firmTradeID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

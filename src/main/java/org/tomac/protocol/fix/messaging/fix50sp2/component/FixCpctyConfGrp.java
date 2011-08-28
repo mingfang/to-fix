@@ -111,7 +111,7 @@ public class CpctyConfGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.ORDERCAPACITY_INT) {
-				orderCapacity = FixUtils.getTagCharValue( value );
+				orderCapacity = FixUtils.getTagCharValue(null ,id ,value );
 				if (!FixMessageInfo.OrderCapacity.isValid(orderCapacity) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + orderCapacity + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -119,7 +119,7 @@ public class CpctyConfGrp implements FixComponent
 			}
 
 			if(id == FixTags.ORDERRESTRICTIONS_INT) {
-				orderRestrictions = FixUtils.getTagStringValue(value, orderRestrictions);
+				orderRestrictions = FixUtils.getTagStringValue(null ,id ,value, orderRestrictions);
 				if (!FixMessageInfo.OrderRestrictions.isValid(orderRestrictions) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + orderRestrictions + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -127,7 +127,7 @@ public class CpctyConfGrp implements FixComponent
 			}
 
 			if(id == FixTags.ORDERCAPACITYQTY_INT) {
-				orderCapacityQty = FixUtils.getTagFloatValue(value);
+				orderCapacityQty = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

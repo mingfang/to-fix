@@ -113,21 +113,21 @@ public class LegSecAltIDGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.NOLEGSECURITYALTID_INT) {
-				noLegSecurityAltID = FixUtils.getTagStringValue(value, noLegSecurityAltID);
+				noLegSecurityAltID = FixUtils.getTagStringValue(null ,id ,value, noLegSecurityAltID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LEGSECURITYALTID_INT) {
-				legSecurityAltID = FixUtils.getTagStringValue(value, legSecurityAltID);
+				legSecurityAltID = FixUtils.getTagStringValue(null ,id ,value, legSecurityAltID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LEGSECURITYALTIDSOURCE_INT) {
-				legSecurityAltIDSource = FixUtils.getTagStringValue(value, legSecurityAltIDSource);
+				legSecurityAltIDSource = FixUtils.getTagStringValue(null ,id ,value, legSecurityAltIDSource);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

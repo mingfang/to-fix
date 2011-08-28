@@ -106,7 +106,7 @@ public class PartyRelationships implements FixComponent
 			value = buf;
 
 			if(id == FixTags.PARTYRELATIONSHIP_INT) {
-				partyRelationship = FixUtils.getTagIntValue( value );
+				partyRelationship = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.PartyRelationship.isValid(partyRelationship) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + partyRelationship + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 

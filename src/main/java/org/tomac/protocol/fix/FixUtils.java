@@ -22,6 +22,8 @@ public class FixUtils {
 	public static byte[] digitsBuf = new byte[FIX_MAX_DIGITS];
 	private static byte[] newMsgType = new byte[2];
 	
+	public final static byte[] EXECUTIONREPORT = "8".getBytes(); // ascii for '8'
+	public final static byte[] ORDERCANCELREJECT = "9".getBytes(); // ascii for '9'
 	public final static int EXECUTIONREPORT_INT = 56; // ascii for '8'
 	public final static int ORDERCANCELREJECT_INT = 57; // ascii for '9'
 	private static final byte[] EXECTYPE_SCAN = "\u0001150=".getBytes();
@@ -57,7 +59,7 @@ public class FixUtils {
 		
 		if ( data.remaining() < len ) return -1;
 
-		int id = Utils.intValueOf( data, len );
+		int id = Utils.intTagValueOf( data, len );
 
 		data.position( tagIdEq + 1 );
 
@@ -77,7 +79,7 @@ public class FixUtils {
 		return value;
 	}	
 
-	public static boolean getTagBooleanValue(final ByteBuffer buf ) throws FixSessionException {
+	public static boolean getTagBooleanValue(final byte[] msgType, final int tag, final ByteBuffer buf ) throws FixSessionException {
 		byte c = '0';
 
 		if (buf.hasRemaining()) {
@@ -85,18 +87,18 @@ public class FixUtils {
 			c = buf.get();
 
 			if (c == SOH) {
-				throw new FixSessionException(SessionRejectReason.TAG_SPECIFIED_WITHOUT_A_VALUE, "Premature end of buffer missing SOH".getBytes());
+				throw new FixSessionException(SessionRejectReason.TAG_SPECIFIED_WITHOUT_A_VALUE, "Premature end of buffer missing SOH".getBytes(), tag, msgType);
 			}
 		}
 
 		if (buf.get() != SOH) {
-			throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, "Integer value length exceeds one character".getBytes());
+			throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, "Integer value length exceeds one character".getBytes(), tag, msgType);
 		}
 
 		return c == (byte)'Y' ? true : false;
 	}
 	
-	public static byte getTagCharValue(final ByteBuffer buf ) throws FixSessionException {
+	public static byte getTagCharValue(final byte[] msgType, final int tag, final ByteBuffer buf ) throws FixSessionException {
 		byte c = '0';
 
 		if (buf.hasRemaining()) {
@@ -104,18 +106,18 @@ public class FixUtils {
 			c = buf.get();
 
 			if (c == SOH) {
-				throw new FixSessionException(SessionRejectReason.TAG_SPECIFIED_WITHOUT_A_VALUE, "Premature end of buffer missing SOH".getBytes());
+				throw new FixSessionException(SessionRejectReason.TAG_SPECIFIED_WITHOUT_A_VALUE, "Premature end of buffer missing SOH".getBytes(), tag, msgType);
 			}
 		}
 
 		if (buf.get() != SOH) {
-			throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Integer value length exceeds one character, read" + buf.get(buf.position()-1) ).getBytes());
+			throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Integer value length exceeds one character, read" + buf.get(buf.position()-1) ).getBytes(), tag, msgType);
 		}
 
 		return c;
 	}
 
-	public static long getTagFloatValue(final ByteBuffer buf) throws FixSessionException {
+	public static long getTagFloatValue(final byte[] msgType, final int tag, final ByteBuffer buf) throws FixSessionException {
 		byte c;
 		int start = 0;
 		final int end = FIX_MAX_DIGITS - 2;
@@ -131,18 +133,18 @@ public class FixUtils {
 
 			if (start == end) {
 				throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
-						("Value is incorrect or out of range for this tag " + FIX_MAX_DIGITS).getBytes() );
+						("Value is incorrect or out of range for this tag " + FIX_MAX_DIGITS).getBytes() , tag, msgType);
 			}
 		}
 		try {
 			long val = fixFloatValueOf(digitsBuf, start);
 			return val;
 		} catch (NumberFormatException n) {
-			throw new FixSessionException(SessionRejectReason.INCORRECT_DATA_FORMAT_FOR_VALUE, "Incorrect data format for value".getBytes());
+			throw new FixSessionException(SessionRejectReason.INCORRECT_DATA_FORMAT_FOR_VALUE, "Incorrect data format for value".getBytes(), tag, msgType);
 		}
 	}
 
-	public static int getTagIntValue(final ByteBuffer buf) throws FixSessionException {
+	public static int getTagIntValue(final byte[] msgType, final int tag, final ByteBuffer buf) throws FixSessionException {
 		byte c = SOH;
 		int start = 0;
 		final int end = FIX_MAX_DIGITS;
@@ -156,20 +158,20 @@ public class FixUtils {
 
 			if (start == end) {
 				throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG,
-						("Value length exceeds maximum number of digits " + FIX_MAX_DIGITS).getBytes());
+						("Value length exceeds maximum number of digits " + FIX_MAX_DIGITS).getBytes(), tag, msgType);
 			}
 		}
 
 		if (start == 0)
-			throw new FixSessionException(SessionRejectReason.TAG_SPECIFIED_WITHOUT_A_VALUE, "Tag specified without a value".getBytes());
+			throw new FixSessionException(SessionRejectReason.TAG_SPECIFIED_WITHOUT_A_VALUE, "Tag specified without a value".getBytes(), tag, msgType);
 
 		if (c != SOH)
-			throw new FixSessionException(SessionRejectReason.TAG_SPECIFIED_WITHOUT_A_VALUE, "Message not terminated by SOH".getBytes());
+			throw new FixSessionException(SessionRejectReason.TAG_SPECIFIED_WITHOUT_A_VALUE, "Message not terminated by SOH".getBytes(), tag, msgType);
 		
 		return Utils.intValueOf(digitsBuf, 0, start);
 	}
 
-	public static byte[] getTagStringValue(final ByteBuffer src, final byte[] dst) throws FixSessionException {
+	public static byte[] getTagStringValue(final byte[] msgType, final int tag, final ByteBuffer src, final byte[] dst) throws FixSessionException {
 		int start = 0;
 		final int end = dst.length;
 		byte c;
@@ -183,7 +185,7 @@ public class FixUtils {
 				break;
 
 			if (start >= end) {
-				throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Value length exceeds maximum of " + end).getBytes());
+				throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Value length exceeds maximum of " + end).getBytes(), tag, msgType);
 			} else {
 				dst[start] = c;
 				start++;
@@ -191,7 +193,7 @@ public class FixUtils {
 		}
 		
 		if (start == 0)
-			throw new FixSessionException(SessionRejectReason.TAG_SPECIFIED_WITHOUT_A_VALUE, "Tag specified without a value".getBytes());
+			throw new FixSessionException(SessionRejectReason.TAG_SPECIFIED_WITHOUT_A_VALUE, "Tag specified without a value".getBytes(), tag, msgType);
 			
 		return dst;
 	}
@@ -453,7 +455,7 @@ public class FixUtils {
 			// get tag ExecType (150)
 			if (Utils.contains(buf,EXECTYPE_SCAN)) {
 
-				final byte c = getTagCharValue(buf);
+				final byte c = getTagCharValue(EXECUTIONREPORT, 150, buf);
 
 				newMsgType[0] = (byte) '8';
 
@@ -468,7 +470,7 @@ public class FixUtils {
 			// 434 CxlRejResponseTo
 			if (Utils.contains(buf, CXLREJRESPONSETO_SCAN)) {
 
-				final byte c = getTagCharValue(buf);
+				final byte c = getTagCharValue(ORDERCANCELREJECT, 434, buf);
 
 				newMsgType[0] = (byte) '9';
 				newMsgType[1] = c;

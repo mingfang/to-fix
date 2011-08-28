@@ -104,7 +104,7 @@ public class FixExecutionAcknowledgement extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -113,28 +113,28 @@ public class FixExecutionAcknowledgement extends FixMessage
 			switch( id ) {
 
 			case FixTags.ORDERID_INT:
-				orderID = FixUtils.getTagStringValue(value, orderID);
+				orderID = FixUtils.getTagStringValue(MsgTypes.EXECUTIONACKNOWLEDGEMENT ,id ,value, orderID);
 				break;
 
 			case FixTags.SECONDARYORDERID_INT:
-				secondaryOrderID = FixUtils.getTagStringValue(value, secondaryOrderID);
+				secondaryOrderID = FixUtils.getTagStringValue(MsgTypes.EXECUTIONACKNOWLEDGEMENT ,id ,value, secondaryOrderID);
 				break;
 
 			case FixTags.CLORDID_INT:
-				clOrdID = FixUtils.getTagStringValue(value, clOrdID);
+				clOrdID = FixUtils.getTagStringValue(MsgTypes.EXECUTIONACKNOWLEDGEMENT ,id ,value, clOrdID);
 				break;
 
 			case FixTags.EXECACKSTATUS_INT:
-				execAckStatus = FixUtils.getTagCharValue( value );
+				execAckStatus = FixUtils.getTagCharValue(MsgTypes.EXECUTIONACKNOWLEDGEMENT ,id ,value );
 				if (!ExecAckStatus.isValid(execAckStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + execAckStatus + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.EXECID_INT:
-				execID = FixUtils.getTagStringValue(value, execID);
+				execID = FixUtils.getTagStringValue(MsgTypes.EXECUTIONACKNOWLEDGEMENT ,id ,value, execID);
 				break;
 
 			case FixTags.DKREASON_INT:
-				dKReason = FixUtils.getTagCharValue( value );
+				dKReason = FixUtils.getTagCharValue(MsgTypes.EXECUTIONACKNOWLEDGEMENT ,id ,value );
 				if (!DKReason.isValid(dKReason) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + dKReason + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
@@ -143,17 +143,17 @@ public class FixExecutionAcknowledgement extends FixMessage
 				break;
 
 			case FixTags.NOUNDERLYINGS_INT:
-				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( MsgTypes.EXECUTIONACKNOWLEDGEMENT ,FixTags.NOUNDERLYINGS_INT ,value );
 				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
 				break;
 
 			case FixTags.NOLEGS_INT:
-				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( value );
+				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( MsgTypes.EXECUTIONACKNOWLEDGEMENT ,FixTags.NOLEGS_INT ,value );
 				instrmtLegGrp.getAll(instrmtLegGrp.noLegs, value );
 				break;
 
 			case FixTags.SIDE_INT:
-				side = FixUtils.getTagCharValue( value );
+				side = FixUtils.getTagCharValue(MsgTypes.EXECUTIONACKNOWLEDGEMENT ,id ,value );
 				if (!Side.isValid(side) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + side + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
@@ -162,45 +162,45 @@ public class FixExecutionAcknowledgement extends FixMessage
 				break;
 
 			case FixTags.LASTQTY_INT:
-				lastQty = FixUtils.getTagFloatValue(value);
+				lastQty = FixUtils.getTagFloatValue(MsgTypes.EXECUTIONACKNOWLEDGEMENT ,id ,value);
 				break;
 
 			case FixTags.LASTPX_INT:
-				lastPx = FixUtils.getTagFloatValue(value);
+				lastPx = FixUtils.getTagFloatValue(MsgTypes.EXECUTIONACKNOWLEDGEMENT ,id ,value);
 				break;
 
 			case FixTags.PRICETYPE_INT:
-				priceType = FixUtils.getTagIntValue( value );
+				priceType = FixUtils.getTagIntValue(MsgTypes.EXECUTIONACKNOWLEDGEMENT ,id ,value );
 				if (!PriceType.isValid(priceType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + priceType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.LASTPARPX_INT:
-				lastParPx = FixUtils.getTagFloatValue(value);
+				lastParPx = FixUtils.getTagFloatValue(MsgTypes.EXECUTIONACKNOWLEDGEMENT ,id ,value);
 				break;
 
 			case FixTags.CUMQTY_INT:
-				cumQty = FixUtils.getTagFloatValue(value);
+				cumQty = FixUtils.getTagFloatValue(MsgTypes.EXECUTIONACKNOWLEDGEMENT ,id ,value);
 				break;
 
 			case FixTags.AVGPX_INT:
-				avgPx = FixUtils.getTagFloatValue(value);
+				avgPx = FixUtils.getTagFloatValue(MsgTypes.EXECUTIONACKNOWLEDGEMENT ,id ,value);
 				break;
 
 			case FixTags.TEXT_INT:
-				text = FixUtils.getTagStringValue(value, text);
+				text = FixUtils.getTagStringValue(MsgTypes.EXECUTIONACKNOWLEDGEMENT ,id ,value, text);
 				break;
 
 			case FixTags.ENCODEDTEXTLEN_INT:
-				encodedTextLen = FixUtils.getTagIntValue( value );
+				encodedTextLen = FixUtils.getTagIntValue(MsgTypes.EXECUTIONACKNOWLEDGEMENT ,id ,value );
 				break;
 
 			case FixTags.ENCODEDTEXT_INT:
-				encodedText = FixUtils.getTagStringValue(value, encodedText);
+				encodedText = FixUtils.getTagStringValue(MsgTypes.EXECUTIONACKNOWLEDGEMENT ,id ,value, encodedText);
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.EXECUTIONACKNOWLEDGEMENT ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

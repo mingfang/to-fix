@@ -77,7 +77,7 @@ public class FixMarketDataIncrementalRefresh extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -86,16 +86,16 @@ public class FixMarketDataIncrementalRefresh extends FixMessage
 			switch( id ) {
 
 			case FixTags.MDBOOKTYPE_INT:
-				mDBookType = FixUtils.getTagIntValue( value );
+				mDBookType = FixUtils.getTagIntValue(MsgTypes.MARKETDATAINCREMENTALREFRESH ,id ,value );
 				if (!MDBookType.isValid(mDBookType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + mDBookType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.MDFEEDTYPE_INT:
-				mDFeedType = FixUtils.getTagStringValue(value, mDFeedType);
+				mDFeedType = FixUtils.getTagStringValue(MsgTypes.MARKETDATAINCREMENTALREFRESH ,id ,value, mDFeedType);
 				break;
 
 			case FixTags.TRADEDATE_INT:
-				tradeDate = FixUtils.getTagStringValue(value, tradeDate);
+				tradeDate = FixUtils.getTagStringValue(MsgTypes.MARKETDATAINCREMENTALREFRESH ,id ,value, tradeDate);
 				break;
 
 			case FixTags.APPLID_INT:
@@ -103,31 +103,31 @@ public class FixMarketDataIncrementalRefresh extends FixMessage
 				break;
 
 			case FixTags.MDREQID_INT:
-				mDReqID = FixUtils.getTagStringValue(value, mDReqID);
+				mDReqID = FixUtils.getTagStringValue(MsgTypes.MARKETDATAINCREMENTALREFRESH ,id ,value, mDReqID);
 				break;
 
 			case FixTags.NOMDENTRIES_INT:
-				mDIncGrp.noMDEntries = FixUtils.getTagIntValue( value );
+				mDIncGrp.noMDEntries = FixUtils.getTagIntValue( MsgTypes.MARKETDATAINCREMENTALREFRESH ,FixTags.NOMDENTRIES_INT ,value );
 				mDIncGrp.getAll(mDIncGrp.noMDEntries, value );
 				break;
 
 			case FixTags.APPLQUEUEDEPTH_INT:
-				applQueueDepth = FixUtils.getTagIntValue( value );
+				applQueueDepth = FixUtils.getTagIntValue(MsgTypes.MARKETDATAINCREMENTALREFRESH ,id ,value );
 				break;
 
 			case FixTags.APPLQUEUERESOLUTION_INT:
-				applQueueResolution = FixUtils.getTagIntValue( value );
+				applQueueResolution = FixUtils.getTagIntValue(MsgTypes.MARKETDATAINCREMENTALREFRESH ,id ,value );
 				if (!ApplQueueResolution.isValid(applQueueResolution) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + applQueueResolution + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NOROUTINGIDS_INT:
-				routingGrp.noRoutingIDs = FixUtils.getTagIntValue( value );
+				routingGrp.noRoutingIDs = FixUtils.getTagIntValue( MsgTypes.MARKETDATAINCREMENTALREFRESH ,FixTags.NOROUTINGIDS_INT ,value );
 				routingGrp.getAll(routingGrp.noRoutingIDs, value );
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.MARKETDATAINCREMENTALREFRESH ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

@@ -61,7 +61,7 @@ public class FixReject extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -70,29 +70,29 @@ public class FixReject extends FixMessage
 			switch( id ) {
 
 			case FixTags.REFSEQNUM_INT:
-				refSeqNum = FixUtils.getTagIntValue( value );
+				refSeqNum = FixUtils.getTagIntValue(MsgTypes.REJECT ,id ,value );
 				break;
 
 			case FixTags.TEXT_INT:
-				text = FixUtils.getTagStringValue(value, text);
+				text = FixUtils.getTagStringValue(MsgTypes.REJECT ,id ,value, text);
 				break;
 
 			case FixTags.REFTAGID_INT:
-				refTagID = FixUtils.getTagIntValue( value );
+				refTagID = FixUtils.getTagIntValue(MsgTypes.REJECT ,id ,value );
 				break;
 
 			case FixTags.REFMSGTYPE_INT:
-				refMsgType = FixUtils.getTagStringValue(value, refMsgType);
+				refMsgType = FixUtils.getTagStringValue(MsgTypes.REJECT ,id ,value, refMsgType);
 				break;
 
 			case FixTags.SESSIONREJECTREASON_INT:
-				sessionRejectReason = FixUtils.getTagIntValue( value );
+				sessionRejectReason = FixUtils.getTagIntValue(MsgTypes.REJECT ,id ,value );
 				if (!SessionRejectReason.isValid(sessionRejectReason) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + sessionRejectReason + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.REJECT ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

@@ -113,7 +113,7 @@ public class StrmAsgnReqGrp implements FixComponent
 
 			if(id == FixTags.NOPARTYIDS_INT) {
 				int noPartyIDs;
-				noPartyIDs = FixUtils.getTagIntValue( value );
+				noPartyIDs = FixUtils.getTagIntValue(null ,id ,value );
 				parties.getAll(noPartyIDs, buf);
 				lastTagPosition = buf.position();
 
@@ -122,7 +122,7 @@ public class StrmAsgnReqGrp implements FixComponent
 
 			if(id == FixTags.NORELATEDSYM_INT) {
 				int noRelatedSym;
-				noRelatedSym = FixUtils.getTagIntValue( value );
+				noRelatedSym = FixUtils.getTagIntValue(null ,id ,value );
 				strmAsgnReqInstrmtGrp.getAll(noRelatedSym, buf);
 				lastTagPosition = buf.position();
 

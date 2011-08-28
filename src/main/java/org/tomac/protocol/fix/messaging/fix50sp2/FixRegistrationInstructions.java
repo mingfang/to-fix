@@ -85,7 +85,7 @@ public class FixRegistrationInstructions extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -94,63 +94,63 @@ public class FixRegistrationInstructions extends FixMessage
 			switch( id ) {
 
 			case FixTags.REGISTID_INT:
-				registID = FixUtils.getTagStringValue(value, registID);
+				registID = FixUtils.getTagStringValue(MsgTypes.REGISTRATIONINSTRUCTIONS ,id ,value, registID);
 				break;
 
 			case FixTags.REGISTTRANSTYPE_INT:
-				registTransType = FixUtils.getTagCharValue( value );
+				registTransType = FixUtils.getTagCharValue(MsgTypes.REGISTRATIONINSTRUCTIONS ,id ,value );
 				if (!RegistTransType.isValid(registTransType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + registTransType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.REGISTREFID_INT:
-				registRefID = FixUtils.getTagStringValue(value, registRefID);
+				registRefID = FixUtils.getTagStringValue(MsgTypes.REGISTRATIONINSTRUCTIONS ,id ,value, registRefID);
 				break;
 
 			case FixTags.CLORDID_INT:
-				clOrdID = FixUtils.getTagStringValue(value, clOrdID);
+				clOrdID = FixUtils.getTagStringValue(MsgTypes.REGISTRATIONINSTRUCTIONS ,id ,value, clOrdID);
 				break;
 
 			case FixTags.NOPARTYIDS_INT:
-				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.noPartyIDs = FixUtils.getTagIntValue( MsgTypes.REGISTRATIONINSTRUCTIONS ,FixTags.NOPARTYIDS_INT ,value );
 				parties.getAll(parties.noPartyIDs, value );
 				break;
 
 			case FixTags.ACCOUNT_INT:
-				account = FixUtils.getTagStringValue(value, account);
+				account = FixUtils.getTagStringValue(MsgTypes.REGISTRATIONINSTRUCTIONS ,id ,value, account);
 				break;
 
 			case FixTags.ACCTIDSOURCE_INT:
-				acctIDSource = FixUtils.getTagIntValue( value );
+				acctIDSource = FixUtils.getTagIntValue(MsgTypes.REGISTRATIONINSTRUCTIONS ,id ,value );
 				if (!AcctIDSource.isValid(acctIDSource) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + acctIDSource + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.REGISTACCTTYPE_INT:
-				registAcctType = FixUtils.getTagStringValue(value, registAcctType);
+				registAcctType = FixUtils.getTagStringValue(MsgTypes.REGISTRATIONINSTRUCTIONS ,id ,value, registAcctType);
 				break;
 
 			case FixTags.TAXADVANTAGETYPE_INT:
-				taxAdvantageType = FixUtils.getTagIntValue( value );
+				taxAdvantageType = FixUtils.getTagIntValue(MsgTypes.REGISTRATIONINSTRUCTIONS ,id ,value );
 				if (!TaxAdvantageType.isValid(taxAdvantageType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + taxAdvantageType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.OWNERSHIPTYPE_INT:
-				ownershipType = FixUtils.getTagCharValue( value );
+				ownershipType = FixUtils.getTagCharValue(MsgTypes.REGISTRATIONINSTRUCTIONS ,id ,value );
 				if (!OwnershipType.isValid(ownershipType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + ownershipType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NOREGISTDTLS_INT:
-				rgstDtlsGrp.noRegistDtls = FixUtils.getTagIntValue( value );
+				rgstDtlsGrp.noRegistDtls = FixUtils.getTagIntValue( MsgTypes.REGISTRATIONINSTRUCTIONS ,FixTags.NOREGISTDTLS_INT ,value );
 				rgstDtlsGrp.getAll(rgstDtlsGrp.noRegistDtls, value );
 				break;
 
 			case FixTags.NODISTRIBINSTS_INT:
-				rgstDistInstGrp.noDistribInsts = FixUtils.getTagIntValue( value );
+				rgstDistInstGrp.noDistribInsts = FixUtils.getTagIntValue( MsgTypes.REGISTRATIONINSTRUCTIONS ,FixTags.NODISTRIBINSTS_INT ,value );
 				rgstDistInstGrp.getAll(rgstDistInstGrp.noDistribInsts, value );
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.REGISTRATIONINSTRUCTIONS ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

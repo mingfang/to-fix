@@ -117,35 +117,35 @@ public class DerivativeEventsGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.DERIVATIVEEVENTTYPE_INT) {
-				derivativeEventType = FixUtils.getTagIntValue( value );
+				derivativeEventType = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.DERIVATIVEEVENTDATE_INT) {
-				derivativeEventDate = FixUtils.getTagStringValue(value, derivativeEventDate);
+				derivativeEventDate = FixUtils.getTagStringValue(null ,id ,value, derivativeEventDate);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.DERIVATIVEEVENTTIME_INT) {
-				derivativeEventTime = FixUtils.getTagStringValue(value, derivativeEventTime);
+				derivativeEventTime = FixUtils.getTagStringValue(null ,id ,value, derivativeEventTime);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.DERIVATIVEEVENTPX_INT) {
-				derivativeEventPx = FixUtils.getTagFloatValue(value);
+				derivativeEventPx = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.DERIVATIVEEVENTTEXT_INT) {
-				derivativeEventText = FixUtils.getTagStringValue(value, derivativeEventText);
+				derivativeEventText = FixUtils.getTagStringValue(null ,id ,value, derivativeEventText);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

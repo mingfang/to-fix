@@ -110,14 +110,14 @@ public class DerivativeSecurityAltIDGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.DERIVATIVESECURITYALTID_INT) {
-				derivativeSecurityAltID = FixUtils.getTagStringValue(value, derivativeSecurityAltID);
+				derivativeSecurityAltID = FixUtils.getTagStringValue(null ,id ,value, derivativeSecurityAltID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.DERIVATIVESECURITYALTIDSOURCE_INT) {
-				derivativeSecurityAltIDSource = FixUtils.getTagStringValue(value, derivativeSecurityAltIDSource);
+				derivativeSecurityAltIDSource = FixUtils.getTagStringValue(null ,id ,value, derivativeSecurityAltIDSource);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

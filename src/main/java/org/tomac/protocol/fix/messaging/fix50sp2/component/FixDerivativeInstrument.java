@@ -210,232 +210,232 @@ public class FixDerivativeInstrument implements FixComponent
 			switch( id ) {
 
 			case FixTags.DERIVATIVESYMBOL_INT:
-				derivativeSymbol = FixUtils.getTagStringValue(value, derivativeSymbol);
+				derivativeSymbol = FixUtils.getTagStringValue(null ,id ,value, derivativeSymbol);
 				break;
 
 			case FixTags.DERIVATIVESYMBOLSFX_INT:
-				derivativeSymbolSfx = FixUtils.getTagStringValue(value, derivativeSymbolSfx);
+				derivativeSymbolSfx = FixUtils.getTagStringValue(null ,id ,value, derivativeSymbolSfx);
 				break;
 
 			case FixTags.DERIVATIVESECURITYID_INT:
-				derivativeSecurityID = FixUtils.getTagStringValue(value, derivativeSecurityID);
+				derivativeSecurityID = FixUtils.getTagStringValue(null ,id ,value, derivativeSecurityID);
 				break;
 
 			case FixTags.DERIVATIVESECURITYIDSOURCE_INT:
-				derivativeSecurityIDSource = FixUtils.getTagStringValue(value, derivativeSecurityIDSource);
+				derivativeSecurityIDSource = FixUtils.getTagStringValue(null ,id ,value, derivativeSecurityIDSource);
 				break;
 
 			case FixTags.DERIVATIVEPRODUCT_INT:
-				derivativeProduct = FixUtils.getTagIntValue( value );
+				derivativeProduct = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.DERIVATIVEPRODUCTCOMPLEX_INT:
-				derivativeProductComplex = FixUtils.getTagStringValue(value, derivativeProductComplex);
+				derivativeProductComplex = FixUtils.getTagStringValue(null ,id ,value, derivativeProductComplex);
 				break;
 
 			case FixTags.DERIVFLEXPRODUCTELIGIBILITYINDICATOR_INT:
-				derivFlexProductEligibilityIndicator = FixUtils.getTagBooleanValue( value );
+				derivFlexProductEligibilityIndicator = FixUtils.getTagBooleanValue(null ,id ,value );
 				break;
 
 			case FixTags.DERIVATIVESECURITYGROUP_INT:
-				derivativeSecurityGroup = FixUtils.getTagStringValue(value, derivativeSecurityGroup);
+				derivativeSecurityGroup = FixUtils.getTagStringValue(null ,id ,value, derivativeSecurityGroup);
 				break;
 
 			case FixTags.DERIVATIVECFICODE_INT:
-				derivativeCFICode = FixUtils.getTagStringValue(value, derivativeCFICode);
+				derivativeCFICode = FixUtils.getTagStringValue(null ,id ,value, derivativeCFICode);
 				break;
 
 			case FixTags.NODERIVATIVESECURITYALTID_INT:
-				derivativeSecurityAltIDGrp.noDerivativeSecurityAltID = FixUtils.getTagIntValue( value );
+				derivativeSecurityAltIDGrp.noDerivativeSecurityAltID = FixUtils.getTagIntValue(null, FixTags.NODERIVATIVESECURITYALTID_INT, value );
 				derivativeSecurityAltIDGrp.getAll(derivativeSecurityAltIDGrp.noDerivativeSecurityAltID, value );
 				break;
 
 			case FixTags.DERIVATIVESECURITYTYPE_INT:
-				derivativeSecurityType = FixUtils.getTagStringValue(value, derivativeSecurityType);
+				derivativeSecurityType = FixUtils.getTagStringValue(null ,id ,value, derivativeSecurityType);
 				break;
 
 			case FixTags.DERIVATIVESECURITYSUBTYPE_INT:
-				derivativeSecuritySubType = FixUtils.getTagStringValue(value, derivativeSecuritySubType);
+				derivativeSecuritySubType = FixUtils.getTagStringValue(null ,id ,value, derivativeSecuritySubType);
 				break;
 
 			case FixTags.DERIVATIVEMATURITYMONTHYEAR_INT:
-				derivativeMaturityMonthYear = FixUtils.getTagStringValue(value, derivativeMaturityMonthYear);
+				derivativeMaturityMonthYear = FixUtils.getTagStringValue(null ,id ,value, derivativeMaturityMonthYear);
 				break;
 
 			case FixTags.DERIVATIVEMATURITYDATE_INT:
-				derivativeMaturityDate = FixUtils.getTagStringValue(value, derivativeMaturityDate);
+				derivativeMaturityDate = FixUtils.getTagStringValue(null ,id ,value, derivativeMaturityDate);
 				break;
 
 			case FixTags.DERIVATIVEMATURITYTIME_INT:
-				derivativeMaturityTime = FixUtils.getTagStringValue(value, derivativeMaturityTime);
+				derivativeMaturityTime = FixUtils.getTagStringValue(null ,id ,value, derivativeMaturityTime);
 				break;
 
 			case FixTags.DERIVATIVESETTLEONOPENFLAG_INT:
-				derivativeSettleOnOpenFlag = FixUtils.getTagStringValue(value, derivativeSettleOnOpenFlag);
+				derivativeSettleOnOpenFlag = FixUtils.getTagStringValue(null ,id ,value, derivativeSettleOnOpenFlag);
 				break;
 
 			case FixTags.DERIVATIVEINSTRMTASSIGNMENTMETHOD_INT:
-				derivativeInstrmtAssignmentMethod = FixUtils.getTagCharValue( value );
+				derivativeInstrmtAssignmentMethod = FixUtils.getTagCharValue(null ,id ,value );
 				break;
 
 			case FixTags.DERIVATIVESECURITYSTATUS_INT:
-				derivativeSecurityStatus = FixUtils.getTagStringValue(value, derivativeSecurityStatus);
+				derivativeSecurityStatus = FixUtils.getTagStringValue(null ,id ,value, derivativeSecurityStatus);
 				break;
 
 			case FixTags.DERIVATIVEISSUEDATE_INT:
-				derivativeIssueDate = FixUtils.getTagStringValue(value, derivativeIssueDate);
+				derivativeIssueDate = FixUtils.getTagStringValue(null ,id ,value, derivativeIssueDate);
 				break;
 
 			case FixTags.DERIVATIVEINSTRREGISTRY_INT:
-				derivativeInstrRegistry = FixUtils.getTagStringValue(value, derivativeInstrRegistry);
+				derivativeInstrRegistry = FixUtils.getTagStringValue(null ,id ,value, derivativeInstrRegistry);
 				break;
 
 			case FixTags.DERIVATIVECOUNTRYOFISSUE_INT:
-				derivativeCountryOfIssue = FixUtils.getTagStringValue(value, derivativeCountryOfIssue);
+				derivativeCountryOfIssue = FixUtils.getTagStringValue(null ,id ,value, derivativeCountryOfIssue);
 				break;
 
 			case FixTags.DERIVATIVESTATEORPROVINCEOFISSUE_INT:
-				derivativeStateOrProvinceOfIssue = FixUtils.getTagStringValue(value, derivativeStateOrProvinceOfIssue);
+				derivativeStateOrProvinceOfIssue = FixUtils.getTagStringValue(null ,id ,value, derivativeStateOrProvinceOfIssue);
 				break;
 
 			case FixTags.DERIVATIVESTRIKEPRICE_INT:
-				derivativeStrikePrice = FixUtils.getTagFloatValue(value);
+				derivativeStrikePrice = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.DERIVATIVELOCALEOFISSUE_INT:
-				derivativeLocaleOfIssue = FixUtils.getTagStringValue(value, derivativeLocaleOfIssue);
+				derivativeLocaleOfIssue = FixUtils.getTagStringValue(null ,id ,value, derivativeLocaleOfIssue);
 				break;
 
 			case FixTags.DERIVATIVESTRIKECURRENCY_INT:
-				derivativeStrikeCurrency = FixUtils.getTagStringValue(value, derivativeStrikeCurrency);
+				derivativeStrikeCurrency = FixUtils.getTagStringValue(null ,id ,value, derivativeStrikeCurrency);
 				break;
 
 			case FixTags.DERIVATIVESTRIKEMULTIPLIER_INT:
-				derivativeStrikeMultiplier = FixUtils.getTagFloatValue(value);
+				derivativeStrikeMultiplier = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.DERIVATIVESTRIKEVALUE_INT:
-				derivativeStrikeValue = FixUtils.getTagFloatValue(value);
+				derivativeStrikeValue = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.DERIVATIVEOPTATTRIBUTE_INT:
-				derivativeOptAttribute = FixUtils.getTagCharValue( value );
+				derivativeOptAttribute = FixUtils.getTagCharValue(null ,id ,value );
 				break;
 
 			case FixTags.DERIVATIVECONTRACTMULTIPLIER_INT:
-				derivativeContractMultiplier = FixUtils.getTagFloatValue(value);
+				derivativeContractMultiplier = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.DERIVATIVEMINPRICEINCREMENT_INT:
-				derivativeMinPriceIncrement = FixUtils.getTagFloatValue(value);
+				derivativeMinPriceIncrement = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.DERIVATIVEMINPRICEINCREMENTAMOUNT_INT:
-				derivativeMinPriceIncrementAmount = FixUtils.getTagFloatValue(value);
+				derivativeMinPriceIncrementAmount = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.DERIVATIVECONTRACTMULTIPLIERUNIT_INT:
-				derivativeContractMultiplierUnit = FixUtils.getTagIntValue( value );
+				derivativeContractMultiplierUnit = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.DERIVATIVEFLOWSCHEDULETYPE_INT:
-				derivativeFlowScheduleType = FixUtils.getTagIntValue( value );
+				derivativeFlowScheduleType = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.DERIVATIVEUNITOFMEASURE_INT:
-				derivativeUnitOfMeasure = FixUtils.getTagStringValue(value, derivativeUnitOfMeasure);
+				derivativeUnitOfMeasure = FixUtils.getTagStringValue(null ,id ,value, derivativeUnitOfMeasure);
 				break;
 
 			case FixTags.DERIVATIVEUNITOFMEASUREQTY_INT:
-				derivativeUnitOfMeasureQty = FixUtils.getTagFloatValue(value);
+				derivativeUnitOfMeasureQty = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.DERIVATIVEPRICEUNITOFMEASURE_INT:
-				derivativePriceUnitOfMeasure = FixUtils.getTagStringValue(value, derivativePriceUnitOfMeasure);
+				derivativePriceUnitOfMeasure = FixUtils.getTagStringValue(null ,id ,value, derivativePriceUnitOfMeasure);
 				break;
 
 			case FixTags.DERIVATIVEPRICEUNITOFMEASUREQTY_INT:
-				derivativePriceUnitOfMeasureQty = FixUtils.getTagFloatValue(value);
+				derivativePriceUnitOfMeasureQty = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.DERIVATIVEEXERCISESTYLE_INT:
-				derivativeExerciseStyle = FixUtils.getTagCharValue( value );
+				derivativeExerciseStyle = FixUtils.getTagCharValue(null ,id ,value );
 				break;
 
 			case FixTags.DERIVATIVEOPTPAYAMOUNT_INT:
-				derivativeOptPayAmount = FixUtils.getTagFloatValue(value);
+				derivativeOptPayAmount = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.DERIVATIVETIMEUNIT_INT:
-				derivativeTimeUnit = FixUtils.getTagStringValue(value, derivativeTimeUnit);
+				derivativeTimeUnit = FixUtils.getTagStringValue(null ,id ,value, derivativeTimeUnit);
 				break;
 
 			case FixTags.DERIVATIVESECURITYEXCHANGE_INT:
-				derivativeSecurityExchange = FixUtils.getTagStringValue(value, derivativeSecurityExchange);
+				derivativeSecurityExchange = FixUtils.getTagStringValue(null ,id ,value, derivativeSecurityExchange);
 				break;
 
 			case FixTags.DERIVATIVEPOSITIONLIMIT_INT:
-				derivativePositionLimit = FixUtils.getTagIntValue( value );
+				derivativePositionLimit = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.DERIVATIVENTPOSITIONLIMIT_INT:
-				derivativeNTPositionLimit = FixUtils.getTagIntValue( value );
+				derivativeNTPositionLimit = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.DERIVATIVESETTLMETHOD_INT:
-				derivativeSettlMethod = FixUtils.getTagCharValue( value );
+				derivativeSettlMethod = FixUtils.getTagCharValue(null ,id ,value );
 				break;
 
 			case FixTags.DERIVATIVEPRICEQUOTEMETHOD_INT:
-				derivativePriceQuoteMethod = FixUtils.getTagStringValue(value, derivativePriceQuoteMethod);
+				derivativePriceQuoteMethod = FixUtils.getTagStringValue(null ,id ,value, derivativePriceQuoteMethod);
 				break;
 
 			case FixTags.DERIVATIVEVALUATIONMETHOD_INT:
-				derivativeValuationMethod = FixUtils.getTagStringValue(value, derivativeValuationMethod);
+				derivativeValuationMethod = FixUtils.getTagStringValue(null ,id ,value, derivativeValuationMethod);
 				break;
 
 			case FixTags.DERIVATIVELISTMETHOD_INT:
-				derivativeListMethod = FixUtils.getTagIntValue( value );
+				derivativeListMethod = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.DERIVATIVECAPPRICE_INT:
-				derivativeCapPrice = FixUtils.getTagFloatValue(value);
+				derivativeCapPrice = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.DERIVATIVEFLOORPRICE_INT:
-				derivativeFloorPrice = FixUtils.getTagFloatValue(value);
+				derivativeFloorPrice = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.DERIVATIVEPUTORCALL_INT:
-				derivativePutOrCall = FixUtils.getTagIntValue( value );
+				derivativePutOrCall = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.DERIVATIVEISSUER_INT:
-				derivativeIssuer = FixUtils.getTagStringValue(value, derivativeIssuer);
+				derivativeIssuer = FixUtils.getTagStringValue(null ,id ,value, derivativeIssuer);
 				break;
 
 			case FixTags.DERIVATIVEENCODEDISSUERLEN_INT:
-				derivativeEncodedIssuerLen = FixUtils.getTagIntValue( value );
+				derivativeEncodedIssuerLen = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.DERIVATIVEENCODEDISSUER_INT:
-				derivativeEncodedIssuer = FixUtils.getTagStringValue(value, derivativeEncodedIssuer);
+				derivativeEncodedIssuer = FixUtils.getTagStringValue(null ,id ,value, derivativeEncodedIssuer);
 				break;
 
 			case FixTags.DERIVATIVESECURITYDESC_INT:
-				derivativeSecurityDesc = FixUtils.getTagStringValue(value, derivativeSecurityDesc);
+				derivativeSecurityDesc = FixUtils.getTagStringValue(null ,id ,value, derivativeSecurityDesc);
 				break;
 
 			case FixTags.DERIVATIVEENCODEDSECURITYDESCLEN_INT:
-				derivativeEncodedSecurityDescLen = FixUtils.getTagIntValue( value );
+				derivativeEncodedSecurityDescLen = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.DERIVATIVEENCODEDSECURITYDESC_INT:
-				derivativeEncodedSecurityDesc = FixUtils.getTagStringValue(value, derivativeEncodedSecurityDesc);
+				derivativeEncodedSecurityDesc = FixUtils.getTagStringValue(null ,id ,value, derivativeEncodedSecurityDesc);
 				break;
 
 			case FixTags.DERIVATIVECONTRACTSETTLMONTH_INT:
-				derivativeContractSettlMonth = FixUtils.getTagStringValue(value, derivativeContractSettlMonth);
+				derivativeContractSettlMonth = FixUtils.getTagStringValue(null ,id ,value, derivativeContractSettlMonth);
 				break;
 
 			case FixTags.DERIVATIVESECURITYXMLLEN_INT:
@@ -443,12 +443,12 @@ public class FixDerivativeInstrument implements FixComponent
 				break;
 
 			case FixTags.NODERIVATIVEEVENTS_INT:
-				derivativeEventsGrp.noDerivativeEvents = FixUtils.getTagIntValue( value );
+				derivativeEventsGrp.noDerivativeEvents = FixUtils.getTagIntValue(null, FixTags.NODERIVATIVEEVENTS_INT, value );
 				derivativeEventsGrp.getAll(derivativeEventsGrp.noDerivativeEvents, value );
 				break;
 
 			case FixTags.NODERIVATIVEINSTRUMENTPARTIES_INT:
-				derivativeInstrumentParties.noDerivativeInstrumentParties = FixUtils.getTagIntValue( value );
+				derivativeInstrumentParties.noDerivativeInstrumentParties = FixUtils.getTagIntValue(null, FixTags.NODERIVATIVEINSTRUMENTPARTIES_INT, value );
 				derivativeInstrumentParties.getAll(derivativeInstrumentParties.noDerivativeInstrumentParties, value );
 				break;
 
@@ -464,7 +464,7 @@ public class FixDerivativeInstrument implements FixComponent
 
 			lastTagPosition = buf.position();
 
-		} while ( ( id = FixUtils.getTagId( buf ) ) > 0 );
+		} while ( ( id = FixUtils.getTagId( buf ) ) >= 0 );
 
 		buf.position(startTagPosition);
 

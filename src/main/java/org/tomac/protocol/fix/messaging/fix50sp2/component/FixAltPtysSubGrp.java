@@ -109,14 +109,14 @@ public class AltPtysSubGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.PARTYALTSUBID_INT) {
-				partyAltSubID = FixUtils.getTagStringValue(value, partyAltSubID);
+				partyAltSubID = FixUtils.getTagStringValue(null ,id ,value, partyAltSubID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.PARTYALTSUBIDTYPE_INT) {
-				partyAltSubIDType = FixUtils.getTagIntValue( value );
+				partyAltSubIDType = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

@@ -106,7 +106,7 @@ public class ClrInstGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.CLEARINGINSTRUCTION_INT) {
-				clearingInstruction = FixUtils.getTagIntValue( value );
+				clearingInstruction = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.ClearingInstruction.isValid(clearingInstruction) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + clearingInstruction + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 

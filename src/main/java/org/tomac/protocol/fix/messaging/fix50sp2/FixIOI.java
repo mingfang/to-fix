@@ -141,7 +141,7 @@ public class FixIOI extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -154,16 +154,16 @@ public class FixIOI extends FixMessage
 				break;
 
 			case FixTags.IOIID_INT:
-				iOIID = FixUtils.getTagStringValue(value, iOIID);
+				iOIID = FixUtils.getTagStringValue(MsgTypes.IOI ,id ,value, iOIID);
 				break;
 
 			case FixTags.IOITRANSTYPE_INT:
-				iOITransType = FixUtils.getTagCharValue( value );
+				iOITransType = FixUtils.getTagCharValue(MsgTypes.IOI ,id ,value );
 				if (!IOITransType.isValid(iOITransType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + iOITransType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.IOIREFID_INT:
-				iOIRefID = FixUtils.getTagStringValue(value, iOIRefID);
+				iOIRefID = FixUtils.getTagStringValue(MsgTypes.IOI ,id ,value, iOIRefID);
 				break;
 
 			case FixTags.SYMBOL_INT:
@@ -171,7 +171,7 @@ public class FixIOI extends FixMessage
 				break;
 
 			case FixTags.NOPARTYIDS_INT:
-				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.noPartyIDs = FixUtils.getTagIntValue( MsgTypes.IOI ,FixTags.NOPARTYIDS_INT ,value );
 				parties.getAll(parties.noPartyIDs, value );
 				break;
 
@@ -180,17 +180,17 @@ public class FixIOI extends FixMessage
 				break;
 
 			case FixTags.NOUNDERLYINGS_INT:
-				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( MsgTypes.IOI ,FixTags.NOUNDERLYINGS_INT ,value );
 				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
 				break;
 
 			case FixTags.SIDE_INT:
-				side = FixUtils.getTagCharValue( value );
+				side = FixUtils.getTagCharValue(MsgTypes.IOI ,id ,value );
 				if (!Side.isValid(side) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + side + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.QTYTYPE_INT:
-				qtyType = FixUtils.getTagIntValue( value );
+				qtyType = FixUtils.getTagIntValue(MsgTypes.IOI ,id ,value );
 				if (!QtyType.isValid(qtyType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + qtyType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
@@ -199,74 +199,74 @@ public class FixIOI extends FixMessage
 				break;
 
 			case FixTags.IOIQTY_INT:
-				iOIQty = FixUtils.getTagStringValue(value, iOIQty);
+				iOIQty = FixUtils.getTagStringValue(MsgTypes.IOI ,id ,value, iOIQty);
 				if (!IOIQty.isValid(iOIQty) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + iOIQty + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.CURRENCY_INT:
-				currency = FixUtils.getTagStringValue(value, currency);
+				currency = FixUtils.getTagStringValue(MsgTypes.IOI ,id ,value, currency);
 				break;
 
 			case FixTags.NOSTIPULATIONS_INT:
-				stipulations.noStipulations = FixUtils.getTagIntValue( value );
+				stipulations.noStipulations = FixUtils.getTagIntValue( MsgTypes.IOI ,FixTags.NOSTIPULATIONS_INT ,value );
 				stipulations.getAll(stipulations.noStipulations, value );
 				break;
 
 			case FixTags.NOLEGS_INT:
-				instrmtLegIOIGrp.noLegs = FixUtils.getTagIntValue( value );
+				instrmtLegIOIGrp.noLegs = FixUtils.getTagIntValue( MsgTypes.IOI ,FixTags.NOLEGS_INT ,value );
 				instrmtLegIOIGrp.getAll(instrmtLegIOIGrp.noLegs, value );
 				break;
 
 			case FixTags.PRICETYPE_INT:
-				priceType = FixUtils.getTagIntValue( value );
+				priceType = FixUtils.getTagIntValue(MsgTypes.IOI ,id ,value );
 				if (!PriceType.isValid(priceType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + priceType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.PRICE_INT:
-				price = FixUtils.getTagFloatValue(value);
+				price = FixUtils.getTagFloatValue(MsgTypes.IOI ,id ,value);
 				break;
 
 			case FixTags.VALIDUNTILTIME_INT:
-				validUntilTime = FixUtils.getTagStringValue(value, validUntilTime);
+				validUntilTime = FixUtils.getTagStringValue(MsgTypes.IOI ,id ,value, validUntilTime);
 				break;
 
 			case FixTags.IOIQLTYIND_INT:
-				iOIQltyInd = FixUtils.getTagCharValue( value );
+				iOIQltyInd = FixUtils.getTagCharValue(MsgTypes.IOI ,id ,value );
 				if (!IOIQltyInd.isValid(iOIQltyInd) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + iOIQltyInd + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.IOINATURALFLAG_INT:
-				iOINaturalFlag = FixUtils.getTagBooleanValue( value );
+				iOINaturalFlag = FixUtils.getTagBooleanValue(MsgTypes.IOI ,id ,value );
 				if (!IOINaturalFlag.isValid(iOINaturalFlag) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + iOINaturalFlag + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NOIOIQUALIFIERS_INT:
-				iOIQualGrp.noIOIQualifiers = FixUtils.getTagIntValue( value );
+				iOIQualGrp.noIOIQualifiers = FixUtils.getTagIntValue( MsgTypes.IOI ,FixTags.NOIOIQUALIFIERS_INT ,value );
 				iOIQualGrp.getAll(iOIQualGrp.noIOIQualifiers, value );
 				break;
 
 			case FixTags.TEXT_INT:
-				text = FixUtils.getTagStringValue(value, text);
+				text = FixUtils.getTagStringValue(MsgTypes.IOI ,id ,value, text);
 				break;
 
 			case FixTags.ENCODEDTEXTLEN_INT:
-				encodedTextLen = FixUtils.getTagIntValue( value );
+				encodedTextLen = FixUtils.getTagIntValue(MsgTypes.IOI ,id ,value );
 				break;
 
 			case FixTags.ENCODEDTEXT_INT:
-				encodedText = FixUtils.getTagStringValue(value, encodedText);
+				encodedText = FixUtils.getTagStringValue(MsgTypes.IOI ,id ,value, encodedText);
 				break;
 
 			case FixTags.TRANSACTTIME_INT:
-				transactTime = FixUtils.getTagStringValue(value, transactTime);
+				transactTime = FixUtils.getTagStringValue(MsgTypes.IOI ,id ,value, transactTime);
 				break;
 
 			case FixTags.URLLINK_INT:
-				uRLLink = FixUtils.getTagStringValue(value, uRLLink);
+				uRLLink = FixUtils.getTagStringValue(MsgTypes.IOI ,id ,value, uRLLink);
 				break;
 
 			case FixTags.NOROUTINGIDS_INT:
-				routingGrp.noRoutingIDs = FixUtils.getTagIntValue( value );
+				routingGrp.noRoutingIDs = FixUtils.getTagIntValue( MsgTypes.IOI ,FixTags.NOROUTINGIDS_INT ,value );
 				routingGrp.getAll(routingGrp.noRoutingIDs, value );
 				break;
 
@@ -280,7 +280,7 @@ public class FixIOI extends FixMessage
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.IOI ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

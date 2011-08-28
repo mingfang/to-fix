@@ -119,35 +119,35 @@ public class StrikeRules implements FixComponent
 			value = buf;
 
 			if(id == FixTags.STRIKERULEID_INT) {
-				strikeRuleID = FixUtils.getTagStringValue(value, strikeRuleID);
+				strikeRuleID = FixUtils.getTagStringValue(null ,id ,value, strikeRuleID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.STARTSTRIKEPXRANGE_INT) {
-				startStrikePxRange = FixUtils.getTagFloatValue(value);
+				startStrikePxRange = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ENDSTRIKEPXRANGE_INT) {
-				endStrikePxRange = FixUtils.getTagFloatValue(value);
+				endStrikePxRange = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.STRIKEINCREMENT_INT) {
-				strikeIncrement = FixUtils.getTagFloatValue(value);
+				strikeIncrement = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.STRIKEEXERCISESTYLE_INT) {
-				strikeExerciseStyle = FixUtils.getTagIntValue( value );
+				strikeExerciseStyle = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -155,7 +155,7 @@ public class StrikeRules implements FixComponent
 
 			if(id == FixTags.NOMATURITYRULES_INT) {
 				int noMaturityRules;
-				noMaturityRules = FixUtils.getTagIntValue( value );
+				noMaturityRules = FixUtils.getTagIntValue(null ,id ,value );
 				maturityRules.getAll(noMaturityRules, buf);
 				lastTagPosition = buf.position();
 

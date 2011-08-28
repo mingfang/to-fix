@@ -113,21 +113,21 @@ public class AffectedOrdGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.ORIGCLORDID_INT) {
-				origClOrdID = FixUtils.getTagStringValue(value, origClOrdID);
+				origClOrdID = FixUtils.getTagStringValue(null ,id ,value, origClOrdID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.AFFECTEDORDERID_INT) {
-				affectedOrderID = FixUtils.getTagStringValue(value, affectedOrderID);
+				affectedOrderID = FixUtils.getTagStringValue(null ,id ,value, affectedOrderID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.AFFECTEDSECONDARYORDERID_INT) {
-				affectedSecondaryOrderID = FixUtils.getTagStringValue(value, affectedSecondaryOrderID);
+				affectedSecondaryOrderID = FixUtils.getTagStringValue(null ,id ,value, affectedSecondaryOrderID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

@@ -112,21 +112,21 @@ public class SideTrdRegTS implements FixComponent
 			value = buf;
 
 			if(id == FixTags.SIDETRDREGTIMESTAMP_INT) {
-				sideTrdRegTimestamp = FixUtils.getTagStringValue(value, sideTrdRegTimestamp);
+				sideTrdRegTimestamp = FixUtils.getTagStringValue(null ,id ,value, sideTrdRegTimestamp);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.SIDETRDREGTIMESTAMPTYPE_INT) {
-				sideTrdRegTimestampType = FixUtils.getTagIntValue( value );
+				sideTrdRegTimestampType = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.SIDETRDREGTIMESTAMPSRC_INT) {
-				sideTrdRegTimestampSrc = FixUtils.getTagStringValue(value, sideTrdRegTimestampSrc);
+				sideTrdRegTimestampSrc = FixUtils.getTagStringValue(null ,id ,value, sideTrdRegTimestampSrc);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

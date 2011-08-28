@@ -79,7 +79,7 @@ public class FixMassQuote extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -88,58 +88,58 @@ public class FixMassQuote extends FixMessage
 			switch( id ) {
 
 			case FixTags.QUOTEREQID_INT:
-				quoteReqID = FixUtils.getTagStringValue(value, quoteReqID);
+				quoteReqID = FixUtils.getTagStringValue(MsgTypes.MASSQUOTE ,id ,value, quoteReqID);
 				break;
 
 			case FixTags.QUOTEID_INT:
-				quoteID = FixUtils.getTagStringValue(value, quoteID);
+				quoteID = FixUtils.getTagStringValue(MsgTypes.MASSQUOTE ,id ,value, quoteID);
 				break;
 
 			case FixTags.QUOTETYPE_INT:
-				quoteType = FixUtils.getTagIntValue( value );
+				quoteType = FixUtils.getTagIntValue(MsgTypes.MASSQUOTE ,id ,value );
 				if (!QuoteType.isValid(quoteType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + quoteType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.QUOTERESPONSELEVEL_INT:
-				quoteResponseLevel = FixUtils.getTagIntValue( value );
+				quoteResponseLevel = FixUtils.getTagIntValue(MsgTypes.MASSQUOTE ,id ,value );
 				if (!QuoteResponseLevel.isValid(quoteResponseLevel) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + quoteResponseLevel + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NOPARTYIDS_INT:
-				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.noPartyIDs = FixUtils.getTagIntValue( MsgTypes.MASSQUOTE ,FixTags.NOPARTYIDS_INT ,value );
 				parties.getAll(parties.noPartyIDs, value );
 				break;
 
 			case FixTags.ACCOUNT_INT:
-				account = FixUtils.getTagStringValue(value, account);
+				account = FixUtils.getTagStringValue(MsgTypes.MASSQUOTE ,id ,value, account);
 				break;
 
 			case FixTags.ACCTIDSOURCE_INT:
-				acctIDSource = FixUtils.getTagIntValue( value );
+				acctIDSource = FixUtils.getTagIntValue(MsgTypes.MASSQUOTE ,id ,value );
 				if (!AcctIDSource.isValid(acctIDSource) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + acctIDSource + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.ACCOUNTTYPE_INT:
-				accountType = FixUtils.getTagIntValue( value );
+				accountType = FixUtils.getTagIntValue(MsgTypes.MASSQUOTE ,id ,value );
 				if (!AccountType.isValid(accountType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + accountType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.DEFBIDSIZE_INT:
-				defBidSize = FixUtils.getTagFloatValue(value);
+				defBidSize = FixUtils.getTagFloatValue(MsgTypes.MASSQUOTE ,id ,value);
 				break;
 
 			case FixTags.DEFOFFERSIZE_INT:
-				defOfferSize = FixUtils.getTagFloatValue(value);
+				defOfferSize = FixUtils.getTagFloatValue(MsgTypes.MASSQUOTE ,id ,value);
 				break;
 
 			case FixTags.NOQUOTESETS_INT:
-				quotSetGrp.noQuoteSets = FixUtils.getTagIntValue( value );
+				quotSetGrp.noQuoteSets = FixUtils.getTagIntValue( MsgTypes.MASSQUOTE ,FixTags.NOQUOTESETS_INT ,value );
 				quotSetGrp.getAll(quotSetGrp.noQuoteSets, value );
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.MASSQUOTE ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

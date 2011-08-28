@@ -122,7 +122,7 @@ public class ComplexEvents implements FixComponent
 			value = buf;
 
 			if(id == FixTags.COMPLEXEVENTTYPE_INT) {
-				complexEventType = FixUtils.getTagIntValue( value );
+				complexEventType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.ComplexEventType.isValid(complexEventType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + complexEventType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -130,21 +130,21 @@ public class ComplexEvents implements FixComponent
 			}
 
 			if(id == FixTags.COMPLEXOPTPAYOUTAMOUNT_INT) {
-				complexOptPayoutAmount = FixUtils.getTagFloatValue(value);
+				complexOptPayoutAmount = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.COMPLEXEVENTPRICE_INT) {
-				complexEventPrice = FixUtils.getTagFloatValue(value);
+				complexEventPrice = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.COMPLEXEVENTPRICEBOUNDARYMETHOD_INT) {
-				complexEventPriceBoundaryMethod = FixUtils.getTagIntValue( value );
+				complexEventPriceBoundaryMethod = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.ComplexEventPriceBoundaryMethod.isValid(complexEventPriceBoundaryMethod) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + complexEventPriceBoundaryMethod + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -152,14 +152,14 @@ public class ComplexEvents implements FixComponent
 			}
 
 			if(id == FixTags.COMPLEXEVENTPRICEBOUNDARYPRECISION_INT) {
-				complexEventPriceBoundaryPrecision = FixUtils.getTagFloatValue(value);
+				complexEventPriceBoundaryPrecision = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.COMPLEXEVENTPRICETIMETYPE_INT) {
-				complexEventPriceTimeType = FixUtils.getTagIntValue( value );
+				complexEventPriceTimeType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.ComplexEventPriceTimeType.isValid(complexEventPriceTimeType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + complexEventPriceTimeType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -167,7 +167,7 @@ public class ComplexEvents implements FixComponent
 			}
 
 			if(id == FixTags.COMPLEXEVENTCONDITION_INT) {
-				complexEventCondition = FixUtils.getTagIntValue( value );
+				complexEventCondition = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.ComplexEventCondition.isValid(complexEventCondition) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + complexEventCondition + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -176,7 +176,7 @@ public class ComplexEvents implements FixComponent
 
 			if(id == FixTags.NOCOMPLEXEVENTDATES_INT) {
 				int noComplexEventDates;
-				noComplexEventDates = FixUtils.getTagIntValue( value );
+				noComplexEventDates = FixUtils.getTagIntValue(null ,id ,value );
 				complexEventDates.getAll(noComplexEventDates, buf);
 				lastTagPosition = buf.position();
 

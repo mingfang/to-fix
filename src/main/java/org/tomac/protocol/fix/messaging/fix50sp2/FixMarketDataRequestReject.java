@@ -71,7 +71,7 @@ public class FixMarketDataRequestReject extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -80,39 +80,39 @@ public class FixMarketDataRequestReject extends FixMessage
 			switch( id ) {
 
 			case FixTags.MDREQID_INT:
-				mDReqID = FixUtils.getTagStringValue(value, mDReqID);
+				mDReqID = FixUtils.getTagStringValue(MsgTypes.MARKETDATAREQUESTREJECT ,id ,value, mDReqID);
 				break;
 
 			case FixTags.NOPARTYIDS_INT:
-				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.noPartyIDs = FixUtils.getTagIntValue( MsgTypes.MARKETDATAREQUESTREJECT ,FixTags.NOPARTYIDS_INT ,value );
 				parties.getAll(parties.noPartyIDs, value );
 				break;
 
 			case FixTags.MDREQREJREASON_INT:
-				mDReqRejReason = FixUtils.getTagCharValue( value );
+				mDReqRejReason = FixUtils.getTagCharValue(MsgTypes.MARKETDATAREQUESTREJECT ,id ,value );
 				if (!MDReqRejReason.isValid(mDReqRejReason) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + mDReqRejReason + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NOALTMDSOURCE_INT:
-				mDRjctGrp.noAltMDSource = FixUtils.getTagIntValue( value );
+				mDRjctGrp.noAltMDSource = FixUtils.getTagIntValue( MsgTypes.MARKETDATAREQUESTREJECT ,FixTags.NOALTMDSOURCE_INT ,value );
 				mDRjctGrp.getAll(mDRjctGrp.noAltMDSource, value );
 				break;
 
 			case FixTags.TEXT_INT:
-				text = FixUtils.getTagStringValue(value, text);
+				text = FixUtils.getTagStringValue(MsgTypes.MARKETDATAREQUESTREJECT ,id ,value, text);
 				break;
 
 			case FixTags.ENCODEDTEXTLEN_INT:
-				encodedTextLen = FixUtils.getTagIntValue( value );
+				encodedTextLen = FixUtils.getTagIntValue(MsgTypes.MARKETDATAREQUESTREJECT ,id ,value );
 				break;
 
 			case FixTags.ENCODEDTEXT_INT:
-				encodedText = FixUtils.getTagStringValue(value, encodedText);
+				encodedText = FixUtils.getTagStringValue(MsgTypes.MARKETDATAREQUESTREJECT ,id ,value, encodedText);
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.MARKETDATAREQUESTREJECT ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

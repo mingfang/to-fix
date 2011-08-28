@@ -173,7 +173,7 @@ public class RiskInstrumentScope implements FixComponent
 			value = buf;
 
 			if(id == FixTags.RISKINSTRUMENTOPERATOR_INT) {
-				riskInstrumentOperator = FixUtils.getTagIntValue( value );
+				riskInstrumentOperator = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.RiskInstrumentOperator.isValid(riskInstrumentOperator) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + riskInstrumentOperator + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -181,28 +181,28 @@ public class RiskInstrumentScope implements FixComponent
 			}
 
 			if(id == FixTags.RISKSYMBOL_INT) {
-				riskSymbol = FixUtils.getTagStringValue(value, riskSymbol);
+				riskSymbol = FixUtils.getTagStringValue(null ,id ,value, riskSymbol);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RISKSYMBOLSFX_INT) {
-				riskSymbolSfx = FixUtils.getTagStringValue(value, riskSymbolSfx);
+				riskSymbolSfx = FixUtils.getTagStringValue(null ,id ,value, riskSymbolSfx);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RISKSECURITYID_INT) {
-				riskSecurityID = FixUtils.getTagStringValue(value, riskSecurityID);
+				riskSecurityID = FixUtils.getTagStringValue(null ,id ,value, riskSecurityID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RISKSECURITYIDSOURCE_INT) {
-				riskSecurityIDSource = FixUtils.getTagStringValue(value, riskSecurityIDSource);
+				riskSecurityIDSource = FixUtils.getTagStringValue(null ,id ,value, riskSecurityIDSource);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -210,7 +210,7 @@ public class RiskInstrumentScope implements FixComponent
 
 			if(id == FixTags.NORISKSECURITYALTID_INT) {
 				int noRiskSecurityAltID;
-				noRiskSecurityAltID = FixUtils.getTagIntValue( value );
+				noRiskSecurityAltID = FixUtils.getTagIntValue(null ,id ,value );
 				riskSecAltIDGrp.getAll(noRiskSecurityAltID, buf);
 				lastTagPosition = buf.position();
 
@@ -218,133 +218,133 @@ public class RiskInstrumentScope implements FixComponent
 			}
 
 			if(id == FixTags.RISKPRODUCT_INT) {
-				riskProduct = FixUtils.getTagIntValue( value );
+				riskProduct = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RISKPRODUCTCOMPLEX_INT) {
-				riskProductComplex = FixUtils.getTagStringValue(value, riskProductComplex);
+				riskProductComplex = FixUtils.getTagStringValue(null ,id ,value, riskProductComplex);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RISKSECURITYGROUP_INT) {
-				riskSecurityGroup = FixUtils.getTagStringValue(value, riskSecurityGroup);
+				riskSecurityGroup = FixUtils.getTagStringValue(null ,id ,value, riskSecurityGroup);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RISKCFICODE_INT) {
-				riskCFICode = FixUtils.getTagStringValue(value, riskCFICode);
+				riskCFICode = FixUtils.getTagStringValue(null ,id ,value, riskCFICode);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RISKSECURITYTYPE_INT) {
-				riskSecurityType = FixUtils.getTagStringValue(value, riskSecurityType);
+				riskSecurityType = FixUtils.getTagStringValue(null ,id ,value, riskSecurityType);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RISKSECURITYSUBTYPE_INT) {
-				riskSecuritySubType = FixUtils.getTagStringValue(value, riskSecuritySubType);
+				riskSecuritySubType = FixUtils.getTagStringValue(null ,id ,value, riskSecuritySubType);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RISKMATURITYMONTHYEAR_INT) {
-				riskMaturityMonthYear = FixUtils.getTagStringValue(value, riskMaturityMonthYear);
+				riskMaturityMonthYear = FixUtils.getTagStringValue(null ,id ,value, riskMaturityMonthYear);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RISKMATURITYTIME_INT) {
-				riskMaturityTime = FixUtils.getTagStringValue(value, riskMaturityTime);
+				riskMaturityTime = FixUtils.getTagStringValue(null ,id ,value, riskMaturityTime);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RISKRESTRUCTURINGTYPE_INT) {
-				riskRestructuringType = FixUtils.getTagStringValue(value, riskRestructuringType);
+				riskRestructuringType = FixUtils.getTagStringValue(null ,id ,value, riskRestructuringType);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RISKSENIORITY_INT) {
-				riskSeniority = FixUtils.getTagStringValue(value, riskSeniority);
+				riskSeniority = FixUtils.getTagStringValue(null ,id ,value, riskSeniority);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RISKPUTORCALL_INT) {
-				riskPutOrCall = FixUtils.getTagIntValue( value );
+				riskPutOrCall = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RISKFLEXIBLEINDICATOR_INT) {
-				riskFlexibleIndicator = FixUtils.getTagBooleanValue( value );
+				riskFlexibleIndicator = FixUtils.getTagBooleanValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RISKCOUPONRATE_INT) {
-				riskCouponRate = FixUtils.getTagFloatValue(value);
+				riskCouponRate = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RISKSECURITYEXCHANGE_INT) {
-				riskSecurityExchange = FixUtils.getTagStringValue(value, riskSecurityExchange);
+				riskSecurityExchange = FixUtils.getTagStringValue(null ,id ,value, riskSecurityExchange);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RISKSECURITYDESC_INT) {
-				riskSecurityDesc = FixUtils.getTagStringValue(value, riskSecurityDesc);
+				riskSecurityDesc = FixUtils.getTagStringValue(null ,id ,value, riskSecurityDesc);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RISKENCODEDSECURITYDESCLEN_INT) {
-				riskEncodedSecurityDescLen = FixUtils.getTagIntValue( value );
+				riskEncodedSecurityDescLen = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RISKENCODEDSECURITYDESC_INT) {
-				riskEncodedSecurityDesc = FixUtils.getTagStringValue(value, riskEncodedSecurityDesc);
+				riskEncodedSecurityDesc = FixUtils.getTagStringValue(null ,id ,value, riskEncodedSecurityDesc);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RISKINSTRUMENTSETTLTYPE_INT) {
-				riskInstrumentSettlType = FixUtils.getTagStringValue(value, riskInstrumentSettlType);
+				riskInstrumentSettlType = FixUtils.getTagStringValue(null ,id ,value, riskInstrumentSettlType);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RISKINSTRUMENTMULTIPLIER_INT) {
-				riskInstrumentMultiplier = FixUtils.getTagFloatValue(value);
+				riskInstrumentMultiplier = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

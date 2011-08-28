@@ -110,14 +110,14 @@ public class MatchRules implements FixComponent
 			value = buf;
 
 			if(id == FixTags.MATCHALGORITHM_INT) {
-				matchAlgorithm = FixUtils.getTagStringValue(value, matchAlgorithm);
+				matchAlgorithm = FixUtils.getTagStringValue(null ,id ,value, matchAlgorithm);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.MATCHTYPE_INT) {
-				matchType = FixUtils.getTagStringValue(value, matchType);
+				matchType = FixUtils.getTagStringValue(null ,id ,value, matchType);
 				if (!FixMessageInfo.MatchType.isValid(matchType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + matchType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 

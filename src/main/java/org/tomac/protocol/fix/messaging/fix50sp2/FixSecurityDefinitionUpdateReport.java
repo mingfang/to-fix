@@ -118,7 +118,7 @@ public class FixSecurityDefinitionUpdateReport extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -127,38 +127,38 @@ public class FixSecurityDefinitionUpdateReport extends FixMessage
 			switch( id ) {
 
 			case FixTags.SECURITYREPORTID_INT:
-				securityReportID = FixUtils.getTagIntValue( value );
+				securityReportID = FixUtils.getTagIntValue(MsgTypes.SECURITYDEFINITIONUPDATEREPORT ,id ,value );
 				break;
 
 			case FixTags.SECURITYREQID_INT:
-				securityReqID = FixUtils.getTagStringValue(value, securityReqID);
+				securityReqID = FixUtils.getTagStringValue(MsgTypes.SECURITYDEFINITIONUPDATEREPORT ,id ,value, securityReqID);
 				break;
 
 			case FixTags.SECURITYRESPONSEID_INT:
-				securityResponseID = FixUtils.getTagStringValue(value, securityResponseID);
+				securityResponseID = FixUtils.getTagStringValue(MsgTypes.SECURITYDEFINITIONUPDATEREPORT ,id ,value, securityResponseID);
 				break;
 
 			case FixTags.SECURITYRESPONSETYPE_INT:
-				securityResponseType = FixUtils.getTagIntValue( value );
+				securityResponseType = FixUtils.getTagIntValue(MsgTypes.SECURITYDEFINITIONUPDATEREPORT ,id ,value );
 				if (!SecurityResponseType.isValid(securityResponseType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + securityResponseType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.CLEARINGBUSINESSDATE_INT:
-				clearingBusinessDate = FixUtils.getTagStringValue(value, clearingBusinessDate);
+				clearingBusinessDate = FixUtils.getTagStringValue(MsgTypes.SECURITYDEFINITIONUPDATEREPORT ,id ,value, clearingBusinessDate);
 				break;
 
 			case FixTags.SECURITYUPDATEACTION_INT:
-				securityUpdateAction = FixUtils.getTagCharValue( value );
+				securityUpdateAction = FixUtils.getTagCharValue(MsgTypes.SECURITYDEFINITIONUPDATEREPORT ,id ,value );
 				if (!SecurityUpdateAction.isValid(securityUpdateAction) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + securityUpdateAction + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.CORPORATEACTION_INT:
-				corporateAction = FixUtils.getTagStringValue(value, corporateAction);
+				corporateAction = FixUtils.getTagStringValue(MsgTypes.SECURITYDEFINITIONUPDATEREPORT ,id ,value, corporateAction);
 				if (!CorporateAction.isValid(corporateAction) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + corporateAction + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.CURRENCY_INT:
-				currency = FixUtils.getTagStringValue(value, currency);
+				currency = FixUtils.getTagStringValue(MsgTypes.SECURITYDEFINITIONUPDATEREPORT ,id ,value, currency);
 				break;
 
 			case FixTags.SYMBOL_INT:
@@ -166,7 +166,7 @@ public class FixSecurityDefinitionUpdateReport extends FixMessage
 				break;
 
 			case FixTags.NOUNDERLYINGS_INT:
-				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( MsgTypes.SECURITYDEFINITIONUPDATEREPORT ,FixTags.NOUNDERLYINGS_INT ,value );
 				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
 				break;
 
@@ -179,24 +179,24 @@ public class FixSecurityDefinitionUpdateReport extends FixMessage
 				break;
 
 			case FixTags.TEXT_INT:
-				text = FixUtils.getTagStringValue(value, text);
+				text = FixUtils.getTagStringValue(MsgTypes.SECURITYDEFINITIONUPDATEREPORT ,id ,value, text);
 				break;
 
 			case FixTags.ENCODEDTEXTLEN_INT:
-				encodedTextLen = FixUtils.getTagIntValue( value );
+				encodedTextLen = FixUtils.getTagIntValue(MsgTypes.SECURITYDEFINITIONUPDATEREPORT ,id ,value );
 				break;
 
 			case FixTags.ENCODEDTEXT_INT:
-				encodedText = FixUtils.getTagStringValue(value, encodedText);
+				encodedText = FixUtils.getTagStringValue(MsgTypes.SECURITYDEFINITIONUPDATEREPORT ,id ,value, encodedText);
 				break;
 
 			case FixTags.NOLEGS_INT:
-				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( value );
+				instrmtLegGrp.noLegs = FixUtils.getTagIntValue( MsgTypes.SECURITYDEFINITIONUPDATEREPORT ,FixTags.NOLEGS_INT ,value );
 				instrmtLegGrp.getAll(instrmtLegGrp.noLegs, value );
 				break;
 
 			case FixTags.NOSTIPULATIONS_INT:
-				stipulations.noStipulations = FixUtils.getTagIntValue( value );
+				stipulations.noStipulations = FixUtils.getTagIntValue( MsgTypes.SECURITYDEFINITIONUPDATEREPORT ,FixTags.NOSTIPULATIONS_INT ,value );
 				stipulations.getAll(stipulations.noStipulations, value );
 				break;
 
@@ -209,17 +209,17 @@ public class FixSecurityDefinitionUpdateReport extends FixMessage
 				break;
 
 			case FixTags.NOMARKETSEGMENTS_INT:
-				marketSegmentGrp.noMarketSegments = FixUtils.getTagIntValue( value );
+				marketSegmentGrp.noMarketSegments = FixUtils.getTagIntValue( MsgTypes.SECURITYDEFINITIONUPDATEREPORT ,FixTags.NOMARKETSEGMENTS_INT ,value );
 				marketSegmentGrp.getAll(marketSegmentGrp.noMarketSegments, value );
 				break;
 
 			case FixTags.TRANSACTTIME_INT:
-				transactTime = FixUtils.getTagStringValue(value, transactTime);
+				transactTime = FixUtils.getTagStringValue(MsgTypes.SECURITYDEFINITIONUPDATEREPORT ,id ,value, transactTime);
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.SECURITYDEFINITIONUPDATEREPORT ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

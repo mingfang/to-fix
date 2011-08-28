@@ -110,7 +110,7 @@ public class Stipulations implements FixComponent
 			value = buf;
 
 			if(id == FixTags.STIPULATIONTYPE_INT) {
-				stipulationType = FixUtils.getTagStringValue(value, stipulationType);
+				stipulationType = FixUtils.getTagStringValue(null ,id ,value, stipulationType);
 				if (!FixMessageInfo.StipulationType.isValid(stipulationType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + stipulationType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -118,7 +118,7 @@ public class Stipulations implements FixComponent
 			}
 
 			if(id == FixTags.STIPULATIONVALUE_INT) {
-				stipulationValue = FixUtils.getTagStringValue(value, stipulationValue);
+				stipulationValue = FixUtils.getTagStringValue(null ,id ,value, stipulationValue);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

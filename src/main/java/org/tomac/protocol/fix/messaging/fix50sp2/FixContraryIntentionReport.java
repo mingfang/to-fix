@@ -92,7 +92,7 @@ public class FixContraryIntentionReport extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -101,32 +101,32 @@ public class FixContraryIntentionReport extends FixMessage
 			switch( id ) {
 
 			case FixTags.CONTINTRPTID_INT:
-				contIntRptID = FixUtils.getTagStringValue(value, contIntRptID);
+				contIntRptID = FixUtils.getTagStringValue(MsgTypes.CONTRARYINTENTIONREPORT ,id ,value, contIntRptID);
 				break;
 
 			case FixTags.TRANSACTTIME_INT:
-				transactTime = FixUtils.getTagStringValue(value, transactTime);
+				transactTime = FixUtils.getTagStringValue(MsgTypes.CONTRARYINTENTIONREPORT ,id ,value, transactTime);
 				break;
 
 			case FixTags.LATEINDICATOR_INT:
-				lateIndicator = FixUtils.getTagBooleanValue( value );
+				lateIndicator = FixUtils.getTagBooleanValue(MsgTypes.CONTRARYINTENTIONREPORT ,id ,value );
 				break;
 
 			case FixTags.INPUTSOURCE_INT:
-				inputSource = FixUtils.getTagStringValue(value, inputSource);
+				inputSource = FixUtils.getTagStringValue(MsgTypes.CONTRARYINTENTIONREPORT ,id ,value, inputSource);
 				break;
 
 			case FixTags.CLEARINGBUSINESSDATE_INT:
-				clearingBusinessDate = FixUtils.getTagStringValue(value, clearingBusinessDate);
+				clearingBusinessDate = FixUtils.getTagStringValue(MsgTypes.CONTRARYINTENTIONREPORT ,id ,value, clearingBusinessDate);
 				break;
 
 			case FixTags.NOPARTYIDS_INT:
-				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.noPartyIDs = FixUtils.getTagIntValue( MsgTypes.CONTRARYINTENTIONREPORT ,FixTags.NOPARTYIDS_INT ,value );
 				parties.getAll(parties.noPartyIDs, value );
 				break;
 
 			case FixTags.NOEXPIRATION_INT:
-				expirationQty.noExpiration = FixUtils.getTagIntValue( value );
+				expirationQty.noExpiration = FixUtils.getTagIntValue( MsgTypes.CONTRARYINTENTIONREPORT ,FixTags.NOEXPIRATION_INT ,value );
 				expirationQty.getAll(expirationQty.noExpiration, value );
 				break;
 
@@ -135,7 +135,7 @@ public class FixContraryIntentionReport extends FixMessage
 				break;
 
 			case FixTags.NOUNDERLYINGS_INT:
-				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( value );
+				undInstrmtGrp.noUnderlyings = FixUtils.getTagIntValue( MsgTypes.CONTRARYINTENTIONREPORT ,FixTags.NOUNDERLYINGS_INT ,value );
 				undInstrmtGrp.getAll(undInstrmtGrp.noUnderlyings, value );
 				break;
 
@@ -144,20 +144,20 @@ public class FixContraryIntentionReport extends FixMessage
 				break;
 
 			case FixTags.TEXT_INT:
-				text = FixUtils.getTagStringValue(value, text);
+				text = FixUtils.getTagStringValue(MsgTypes.CONTRARYINTENTIONREPORT ,id ,value, text);
 				break;
 
 			case FixTags.ENCODEDTEXTLEN_INT:
-				encodedTextLen = FixUtils.getTagIntValue( value );
+				encodedTextLen = FixUtils.getTagIntValue(MsgTypes.CONTRARYINTENTIONREPORT ,id ,value );
 				break;
 
 			case FixTags.ENCODEDTEXT_INT:
-				encodedText = FixUtils.getTagStringValue(value, encodedText);
+				encodedText = FixUtils.getTagStringValue(MsgTypes.CONTRARYINTENTIONREPORT ,id ,value, encodedText);
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.CONTRARYINTENTIONREPORT ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

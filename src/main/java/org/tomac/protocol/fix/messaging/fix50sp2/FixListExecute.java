@@ -70,7 +70,7 @@ public class FixListExecute extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -79,36 +79,36 @@ public class FixListExecute extends FixMessage
 			switch( id ) {
 
 			case FixTags.LISTID_INT:
-				listID = FixUtils.getTagStringValue(value, listID);
+				listID = FixUtils.getTagStringValue(MsgTypes.LISTEXECUTE ,id ,value, listID);
 				break;
 
 			case FixTags.CLIENTBIDID_INT:
-				clientBidID = FixUtils.getTagStringValue(value, clientBidID);
+				clientBidID = FixUtils.getTagStringValue(MsgTypes.LISTEXECUTE ,id ,value, clientBidID);
 				break;
 
 			case FixTags.BIDID_INT:
-				bidID = FixUtils.getTagStringValue(value, bidID);
+				bidID = FixUtils.getTagStringValue(MsgTypes.LISTEXECUTE ,id ,value, bidID);
 				break;
 
 			case FixTags.TRANSACTTIME_INT:
-				transactTime = FixUtils.getTagStringValue(value, transactTime);
+				transactTime = FixUtils.getTagStringValue(MsgTypes.LISTEXECUTE ,id ,value, transactTime);
 				break;
 
 			case FixTags.TEXT_INT:
-				text = FixUtils.getTagStringValue(value, text);
+				text = FixUtils.getTagStringValue(MsgTypes.LISTEXECUTE ,id ,value, text);
 				break;
 
 			case FixTags.ENCODEDTEXTLEN_INT:
-				encodedTextLen = FixUtils.getTagIntValue( value );
+				encodedTextLen = FixUtils.getTagIntValue(MsgTypes.LISTEXECUTE ,id ,value );
 				break;
 
 			case FixTags.ENCODEDTEXT_INT:
-				encodedText = FixUtils.getTagStringValue(value, encodedText);
+				encodedText = FixUtils.getTagStringValue(MsgTypes.LISTEXECUTE ,id ,value, encodedText);
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.LISTEXECUTE ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

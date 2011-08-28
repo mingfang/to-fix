@@ -106,7 +106,7 @@ public class TimeInForceRules implements FixComponent
 			value = buf;
 
 			if(id == FixTags.TIMEINFORCE_INT) {
-				timeInForce = FixUtils.getTagCharValue( value );
+				timeInForce = FixUtils.getTagCharValue(null ,id ,value );
 				if (!FixMessageInfo.TimeInForce.isValid(timeInForce) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + timeInForce + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 

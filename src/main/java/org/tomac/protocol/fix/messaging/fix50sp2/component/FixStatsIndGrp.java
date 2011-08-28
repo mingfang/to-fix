@@ -106,7 +106,7 @@ public class StatsIndGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.STATSTYPE_INT) {
-				statsType = FixUtils.getTagIntValue( value );
+				statsType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.StatsType.isValid(statsType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + statsType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 

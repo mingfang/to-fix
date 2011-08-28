@@ -54,7 +54,7 @@ public class FixResendRequest extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -63,16 +63,16 @@ public class FixResendRequest extends FixMessage
 			switch( id ) {
 
 			case FixTags.BEGINSEQNO_INT:
-				beginSeqNo = FixUtils.getTagIntValue( value );
+				beginSeqNo = FixUtils.getTagIntValue(MsgTypes.RESENDREQUEST ,id ,value );
 				break;
 
 			case FixTags.ENDSEQNO_INT:
-				endSeqNo = FixUtils.getTagIntValue( value );
+				endSeqNo = FixUtils.getTagIntValue(MsgTypes.RESENDREQUEST ,id ,value );
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.RESENDREQUEST ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

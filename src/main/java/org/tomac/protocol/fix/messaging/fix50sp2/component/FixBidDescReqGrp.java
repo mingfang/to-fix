@@ -127,7 +127,7 @@ public class BidDescReqGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.BIDDESCRIPTORTYPE_INT) {
-				bidDescriptorType = FixUtils.getTagIntValue( value );
+				bidDescriptorType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.BidDescriptorType.isValid(bidDescriptorType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + bidDescriptorType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -135,14 +135,14 @@ public class BidDescReqGrp implements FixComponent
 			}
 
 			if(id == FixTags.BIDDESCRIPTOR_INT) {
-				bidDescriptor = FixUtils.getTagStringValue(value, bidDescriptor);
+				bidDescriptor = FixUtils.getTagStringValue(null ,id ,value, bidDescriptor);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.SIDEVALUEIND_INT) {
-				sideValueInd = FixUtils.getTagIntValue( value );
+				sideValueInd = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.SideValueInd.isValid(sideValueInd) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + sideValueInd + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -150,56 +150,56 @@ public class BidDescReqGrp implements FixComponent
 			}
 
 			if(id == FixTags.LIQUIDITYVALUE_INT) {
-				liquidityValue = FixUtils.getTagFloatValue(value);
+				liquidityValue = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LIQUIDITYNUMSECURITIES_INT) {
-				liquidityNumSecurities = FixUtils.getTagIntValue( value );
+				liquidityNumSecurities = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LIQUIDITYPCTLOW_INT) {
-				liquidityPctLow = FixUtils.getTagFloatValue(value);
+				liquidityPctLow = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LIQUIDITYPCTHIGH_INT) {
-				liquidityPctHigh = FixUtils.getTagFloatValue(value);
+				liquidityPctHigh = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.EFPTRACKINGERROR_INT) {
-				eFPTrackingError = FixUtils.getTagFloatValue(value);
+				eFPTrackingError = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.FAIRVALUE_INT) {
-				fairValue = FixUtils.getTagFloatValue(value);
+				fairValue = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.OUTSIDEINDEXPCT_INT) {
-				outsideIndexPct = FixUtils.getTagFloatValue(value);
+				outsideIndexPct = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.VALUEOFFUTURES_INT) {
-				valueOfFutures = FixUtils.getTagFloatValue(value);
+				valueOfFutures = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

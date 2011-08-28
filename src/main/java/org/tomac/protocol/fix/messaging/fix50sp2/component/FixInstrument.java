@@ -273,329 +273,329 @@ public class FixInstrument implements FixComponent
 			switch( id ) {
 
 			case FixTags.SYMBOL_INT:
-				symbol = FixUtils.getTagStringValue(value, symbol);
+				symbol = FixUtils.getTagStringValue(null ,id ,value, symbol);
 				break;
 
 			case FixTags.SYMBOLSFX_INT:
-				symbolSfx = FixUtils.getTagStringValue(value, symbolSfx);
+				symbolSfx = FixUtils.getTagStringValue(null ,id ,value, symbolSfx);
 				if (!SymbolSfx.isValid(symbolSfx) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + symbolSfx + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.SECURITYID_INT:
-				securityID = FixUtils.getTagStringValue(value, securityID);
+				securityID = FixUtils.getTagStringValue(null ,id ,value, securityID);
 				break;
 
 			case FixTags.SECURITYIDSOURCE_INT:
-				securityIDSource = FixUtils.getTagStringValue(value, securityIDSource);
+				securityIDSource = FixUtils.getTagStringValue(null ,id ,value, securityIDSource);
 				if (!SecurityIDSource.isValid(securityIDSource) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + securityIDSource + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.NOSECURITYALTID_INT:
-				secAltIDGrp.noSecurityAltID = FixUtils.getTagIntValue( value );
+				secAltIDGrp.noSecurityAltID = FixUtils.getTagIntValue(null, FixTags.NOSECURITYALTID_INT, value );
 				secAltIDGrp.getAll(secAltIDGrp.noSecurityAltID, value );
 				break;
 
 			case FixTags.PRODUCT_INT:
-				product = FixUtils.getTagIntValue( value );
+				product = FixUtils.getTagIntValue(null ,id ,value );
 				if (!Product.isValid(product) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + product + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.SECURITYGROUP_INT:
-				securityGroup = FixUtils.getTagStringValue(value, securityGroup);
+				securityGroup = FixUtils.getTagStringValue(null ,id ,value, securityGroup);
 				break;
 
 			case FixTags.PRODUCTCOMPLEX_INT:
-				productComplex = FixUtils.getTagStringValue(value, productComplex);
+				productComplex = FixUtils.getTagStringValue(null ,id ,value, productComplex);
 				break;
 
 			case FixTags.CFICODE_INT:
-				cFICode = FixUtils.getTagStringValue(value, cFICode);
+				cFICode = FixUtils.getTagStringValue(null ,id ,value, cFICode);
 				break;
 
 			case FixTags.SECURITYTYPE_INT:
-				securityType = FixUtils.getTagStringValue(value, securityType);
+				securityType = FixUtils.getTagStringValue(null ,id ,value, securityType);
 				if (!SecurityType.isValid(securityType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + securityType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.SECURITYSUBTYPE_INT:
-				securitySubType = FixUtils.getTagStringValue(value, securitySubType);
+				securitySubType = FixUtils.getTagStringValue(null ,id ,value, securitySubType);
 				break;
 
 			case FixTags.MATURITYMONTHYEAR_INT:
-				maturityMonthYear = FixUtils.getTagStringValue(value, maturityMonthYear);
+				maturityMonthYear = FixUtils.getTagStringValue(null ,id ,value, maturityMonthYear);
 				break;
 
 			case FixTags.MATURITYDATE_INT:
-				maturityDate = FixUtils.getTagStringValue(value, maturityDate);
+				maturityDate = FixUtils.getTagStringValue(null ,id ,value, maturityDate);
 				break;
 
 			case FixTags.SECURITYSTATUS_INT:
-				securityStatus = FixUtils.getTagStringValue(value, securityStatus);
+				securityStatus = FixUtils.getTagStringValue(null ,id ,value, securityStatus);
 				if (!SecurityStatus.isValid(securityStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + securityStatus + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.SETTLEONOPENFLAG_INT:
-				settleOnOpenFlag = FixUtils.getTagStringValue(value, settleOnOpenFlag);
+				settleOnOpenFlag = FixUtils.getTagStringValue(null ,id ,value, settleOnOpenFlag);
 				break;
 
 			case FixTags.INSTRMTASSIGNMENTMETHOD_INT:
-				instrmtAssignmentMethod = FixUtils.getTagCharValue( value );
+				instrmtAssignmentMethod = FixUtils.getTagCharValue(null ,id ,value );
 				break;
 
 			case FixTags.MATURITYTIME_INT:
-				maturityTime = FixUtils.getTagStringValue(value, maturityTime);
+				maturityTime = FixUtils.getTagStringValue(null ,id ,value, maturityTime);
 				break;
 
 			case FixTags.COUPONPAYMENTDATE_INT:
-				couponPaymentDate = FixUtils.getTagStringValue(value, couponPaymentDate);
+				couponPaymentDate = FixUtils.getTagStringValue(null ,id ,value, couponPaymentDate);
 				break;
 
 			case FixTags.RESTRUCTURINGTYPE_INT:
-				restructuringType = FixUtils.getTagStringValue(value, restructuringType);
+				restructuringType = FixUtils.getTagStringValue(null ,id ,value, restructuringType);
 				if (!RestructuringType.isValid(restructuringType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + restructuringType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.SENIORITY_INT:
-				seniority = FixUtils.getTagStringValue(value, seniority);
+				seniority = FixUtils.getTagStringValue(null ,id ,value, seniority);
 				if (!Seniority.isValid(seniority) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + seniority + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.NOTIONALPERCENTAGEOUTSTANDING_INT:
-				notionalPercentageOutstanding = FixUtils.getTagFloatValue(value);
+				notionalPercentageOutstanding = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.ORIGINALNOTIONALPERCENTAGEOUTSTANDING_INT:
-				originalNotionalPercentageOutstanding = FixUtils.getTagFloatValue(value);
+				originalNotionalPercentageOutstanding = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.ATTACHMENTPOINT_INT:
-				attachmentPoint = FixUtils.getTagFloatValue(value);
+				attachmentPoint = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.DETACHMENTPOINT_INT:
-				detachmentPoint = FixUtils.getTagFloatValue(value);
+				detachmentPoint = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.ISSUEDATE_INT:
-				issueDate = FixUtils.getTagStringValue(value, issueDate);
+				issueDate = FixUtils.getTagStringValue(null ,id ,value, issueDate);
 				break;
 
 			case FixTags.REPOCOLLATERALSECURITYTYPE_INT:
-				repoCollateralSecurityType = FixUtils.getTagIntValue( value );
+				repoCollateralSecurityType = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.REPURCHASETERM_INT:
-				repurchaseTerm = FixUtils.getTagIntValue( value );
+				repurchaseTerm = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.REPURCHASERATE_INT:
-				repurchaseRate = FixUtils.getTagFloatValue(value);
+				repurchaseRate = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.FACTOR_INT:
-				factor = FixUtils.getTagFloatValue(value);
+				factor = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.CREDITRATING_INT:
-				creditRating = FixUtils.getTagStringValue(value, creditRating);
+				creditRating = FixUtils.getTagStringValue(null ,id ,value, creditRating);
 				break;
 
 			case FixTags.INSTRREGISTRY_INT:
-				instrRegistry = FixUtils.getTagStringValue(value, instrRegistry);
+				instrRegistry = FixUtils.getTagStringValue(null ,id ,value, instrRegistry);
 				break;
 
 			case FixTags.COUNTRYOFISSUE_INT:
-				countryOfIssue = FixUtils.getTagStringValue(value, countryOfIssue);
+				countryOfIssue = FixUtils.getTagStringValue(null ,id ,value, countryOfIssue);
 				break;
 
 			case FixTags.STATEORPROVINCEOFISSUE_INT:
-				stateOrProvinceOfIssue = FixUtils.getTagStringValue(value, stateOrProvinceOfIssue);
+				stateOrProvinceOfIssue = FixUtils.getTagStringValue(null ,id ,value, stateOrProvinceOfIssue);
 				break;
 
 			case FixTags.LOCALEOFISSUE_INT:
-				localeOfIssue = FixUtils.getTagStringValue(value, localeOfIssue);
+				localeOfIssue = FixUtils.getTagStringValue(null ,id ,value, localeOfIssue);
 				break;
 
 			case FixTags.REDEMPTIONDATE_INT:
-				redemptionDate = FixUtils.getTagStringValue(value, redemptionDate);
+				redemptionDate = FixUtils.getTagStringValue(null ,id ,value, redemptionDate);
 				break;
 
 			case FixTags.STRIKEPRICE_INT:
-				strikePrice = FixUtils.getTagFloatValue(value);
+				strikePrice = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.STRIKECURRENCY_INT:
-				strikeCurrency = FixUtils.getTagStringValue(value, strikeCurrency);
+				strikeCurrency = FixUtils.getTagStringValue(null ,id ,value, strikeCurrency);
 				break;
 
 			case FixTags.STRIKEMULTIPLIER_INT:
-				strikeMultiplier = FixUtils.getTagFloatValue(value);
+				strikeMultiplier = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.STRIKEVALUE_INT:
-				strikeValue = FixUtils.getTagFloatValue(value);
+				strikeValue = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.STRIKEPRICEDETERMINATIONMETHOD_INT:
-				strikePriceDeterminationMethod = FixUtils.getTagIntValue( value );
+				strikePriceDeterminationMethod = FixUtils.getTagIntValue(null ,id ,value );
 				if (!StrikePriceDeterminationMethod.isValid(strikePriceDeterminationMethod) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + strikePriceDeterminationMethod + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.STRIKEPRICEBOUNDARYMETHOD_INT:
-				strikePriceBoundaryMethod = FixUtils.getTagIntValue( value );
+				strikePriceBoundaryMethod = FixUtils.getTagIntValue(null ,id ,value );
 				if (!StrikePriceBoundaryMethod.isValid(strikePriceBoundaryMethod) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + strikePriceBoundaryMethod + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.STRIKEPRICEBOUNDARYPRECISION_INT:
-				strikePriceBoundaryPrecision = FixUtils.getTagFloatValue(value);
+				strikePriceBoundaryPrecision = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.UNDERLYINGPRICEDETERMINATIONMETHOD_INT:
-				underlyingPriceDeterminationMethod = FixUtils.getTagIntValue( value );
+				underlyingPriceDeterminationMethod = FixUtils.getTagIntValue(null ,id ,value );
 				if (!UnderlyingPriceDeterminationMethod.isValid(underlyingPriceDeterminationMethod) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + underlyingPriceDeterminationMethod + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.OPTATTRIBUTE_INT:
-				optAttribute = FixUtils.getTagCharValue( value );
+				optAttribute = FixUtils.getTagCharValue(null ,id ,value );
 				break;
 
 			case FixTags.CONTRACTMULTIPLIER_INT:
-				contractMultiplier = FixUtils.getTagFloatValue(value);
+				contractMultiplier = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.MINPRICEINCREMENT_INT:
-				minPriceIncrement = FixUtils.getTagFloatValue(value);
+				minPriceIncrement = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.UNITOFMEASURE_INT:
-				unitOfMeasure = FixUtils.getTagStringValue(value, unitOfMeasure);
+				unitOfMeasure = FixUtils.getTagStringValue(null ,id ,value, unitOfMeasure);
 				if (!UnitOfMeasure.isValid(unitOfMeasure) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + unitOfMeasure + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.TIMEUNIT_INT:
-				timeUnit = FixUtils.getTagStringValue(value, timeUnit);
+				timeUnit = FixUtils.getTagStringValue(null ,id ,value, timeUnit);
 				if (!TimeUnit.isValid(timeUnit) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + timeUnit + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.MINPRICEINCREMENTAMOUNT_INT:
-				minPriceIncrementAmount = FixUtils.getTagFloatValue(value);
+				minPriceIncrementAmount = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.UNITOFMEASUREQTY_INT:
-				unitOfMeasureQty = FixUtils.getTagFloatValue(value);
+				unitOfMeasureQty = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.PRICEUNITOFMEASURE_INT:
-				priceUnitOfMeasure = FixUtils.getTagStringValue(value, priceUnitOfMeasure);
+				priceUnitOfMeasure = FixUtils.getTagStringValue(null ,id ,value, priceUnitOfMeasure);
 				break;
 
 			case FixTags.PRICEUNITOFMEASUREQTY_INT:
-				priceUnitOfMeasureQty = FixUtils.getTagFloatValue(value);
+				priceUnitOfMeasureQty = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.SETTLMETHOD_INT:
-				settlMethod = FixUtils.getTagCharValue( value );
+				settlMethod = FixUtils.getTagCharValue(null ,id ,value );
 				if (!SettlMethod.isValid(settlMethod) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + settlMethod + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.EXERCISESTYLE_INT:
-				exerciseStyle = FixUtils.getTagIntValue( value );
+				exerciseStyle = FixUtils.getTagIntValue(null ,id ,value );
 				if (!ExerciseStyle.isValid(exerciseStyle) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + exerciseStyle + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.OPTPAYOUTAMOUNT_INT:
-				optPayoutAmount = FixUtils.getTagFloatValue(value);
+				optPayoutAmount = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.PRICEQUOTEMETHOD_INT:
-				priceQuoteMethod = FixUtils.getTagStringValue(value, priceQuoteMethod);
+				priceQuoteMethod = FixUtils.getTagStringValue(null ,id ,value, priceQuoteMethod);
 				if (!PriceQuoteMethod.isValid(priceQuoteMethod) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + priceQuoteMethod + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.LISTMETHOD_INT:
-				listMethod = FixUtils.getTagIntValue( value );
+				listMethod = FixUtils.getTagIntValue(null ,id ,value );
 				if (!ListMethod.isValid(listMethod) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + listMethod + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.CAPPRICE_INT:
-				capPrice = FixUtils.getTagFloatValue(value);
+				capPrice = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.FLOORPRICE_INT:
-				floorPrice = FixUtils.getTagFloatValue(value);
+				floorPrice = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.PUTORCALL_INT:
-				putOrCall = FixUtils.getTagIntValue( value );
+				putOrCall = FixUtils.getTagIntValue(null ,id ,value );
 				if (!PutOrCall.isValid(putOrCall) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + putOrCall + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.FLEXIBLEINDICATOR_INT:
-				flexibleIndicator = FixUtils.getTagBooleanValue( value );
+				flexibleIndicator = FixUtils.getTagBooleanValue(null ,id ,value );
 				break;
 
 			case FixTags.FLEXPRODUCTELIGIBILITYINDICATOR_INT:
-				flexProductEligibilityIndicator = FixUtils.getTagBooleanValue( value );
+				flexProductEligibilityIndicator = FixUtils.getTagBooleanValue(null ,id ,value );
 				break;
 
 			case FixTags.VALUATIONMETHOD_INT:
-				valuationMethod = FixUtils.getTagStringValue(value, valuationMethod);
+				valuationMethod = FixUtils.getTagStringValue(null ,id ,value, valuationMethod);
 				if (!ValuationMethod.isValid(valuationMethod) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + valuationMethod + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.CONTRACTMULTIPLIERUNIT_INT:
-				contractMultiplierUnit = FixUtils.getTagIntValue( value );
+				contractMultiplierUnit = FixUtils.getTagIntValue(null ,id ,value );
 				if (!ContractMultiplierUnit.isValid(contractMultiplierUnit) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + contractMultiplierUnit + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.FLOWSCHEDULETYPE_INT:
-				flowScheduleType = FixUtils.getTagIntValue( value );
+				flowScheduleType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FlowScheduleType.isValid(flowScheduleType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + flowScheduleType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.OPTPAYOUTTYPE_INT:
-				optPayoutType = FixUtils.getTagIntValue( value );
+				optPayoutType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!OptPayoutType.isValid(optPayoutType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + optPayoutType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.COUPONRATE_INT:
-				couponRate = FixUtils.getTagFloatValue(value);
+				couponRate = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.SECURITYEXCHANGE_INT:
-				securityExchange = FixUtils.getTagStringValue(value, securityExchange);
+				securityExchange = FixUtils.getTagStringValue(null ,id ,value, securityExchange);
 				break;
 
 			case FixTags.POSITIONLIMIT_INT:
-				positionLimit = FixUtils.getTagIntValue( value );
+				positionLimit = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.NTPOSITIONLIMIT_INT:
-				nTPositionLimit = FixUtils.getTagIntValue( value );
+				nTPositionLimit = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.ISSUER_INT:
-				issuer = FixUtils.getTagStringValue(value, issuer);
+				issuer = FixUtils.getTagStringValue(null ,id ,value, issuer);
 				break;
 
 			case FixTags.ENCODEDISSUERLEN_INT:
-				encodedIssuerLen = FixUtils.getTagIntValue( value );
+				encodedIssuerLen = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.ENCODEDISSUER_INT:
-				encodedIssuer = FixUtils.getTagStringValue(value, encodedIssuer);
+				encodedIssuer = FixUtils.getTagStringValue(null ,id ,value, encodedIssuer);
 				break;
 
 			case FixTags.SECURITYDESC_INT:
-				securityDesc = FixUtils.getTagStringValue(value, securityDesc);
+				securityDesc = FixUtils.getTagStringValue(null ,id ,value, securityDesc);
 				break;
 
 			case FixTags.ENCODEDSECURITYDESCLEN_INT:
-				encodedSecurityDescLen = FixUtils.getTagIntValue( value );
+				encodedSecurityDescLen = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.ENCODEDSECURITYDESC_INT:
-				encodedSecurityDesc = FixUtils.getTagStringValue(value, encodedSecurityDesc);
+				encodedSecurityDesc = FixUtils.getTagStringValue(null ,id ,value, encodedSecurityDesc);
 				break;
 
 			case FixTags.SECURITYXMLLEN_INT:
@@ -603,42 +603,42 @@ public class FixInstrument implements FixComponent
 				break;
 
 			case FixTags.POOL_INT:
-				pool = FixUtils.getTagStringValue(value, pool);
+				pool = FixUtils.getTagStringValue(null ,id ,value, pool);
 				break;
 
 			case FixTags.CONTRACTSETTLMONTH_INT:
-				contractSettlMonth = FixUtils.getTagStringValue(value, contractSettlMonth);
+				contractSettlMonth = FixUtils.getTagStringValue(null ,id ,value, contractSettlMonth);
 				break;
 
 			case FixTags.CPPROGRAM_INT:
-				cPProgram = FixUtils.getTagIntValue( value );
+				cPProgram = FixUtils.getTagIntValue(null ,id ,value );
 				if (!CPProgram.isValid(cPProgram) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + cPProgram + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.CPREGTYPE_INT:
-				cPRegType = FixUtils.getTagStringValue(value, cPRegType);
+				cPRegType = FixUtils.getTagStringValue(null ,id ,value, cPRegType);
 				break;
 
 			case FixTags.NOEVENTS_INT:
-				evntGrp.noEvents = FixUtils.getTagIntValue( value );
+				evntGrp.noEvents = FixUtils.getTagIntValue(null, FixTags.NOEVENTS_INT, value );
 				evntGrp.getAll(evntGrp.noEvents, value );
 				break;
 
 			case FixTags.DATEDDATE_INT:
-				datedDate = FixUtils.getTagStringValue(value, datedDate);
+				datedDate = FixUtils.getTagStringValue(null ,id ,value, datedDate);
 				break;
 
 			case FixTags.INTERESTACCRUALDATE_INT:
-				interestAccrualDate = FixUtils.getTagStringValue(value, interestAccrualDate);
+				interestAccrualDate = FixUtils.getTagStringValue(null ,id ,value, interestAccrualDate);
 				break;
 
 			case FixTags.NOINSTRUMENTPARTIES_INT:
-				instrumentParties.noInstrumentParties = FixUtils.getTagIntValue( value );
+				instrumentParties.noInstrumentParties = FixUtils.getTagIntValue(null, FixTags.NOINSTRUMENTPARTIES_INT, value );
 				instrumentParties.getAll(instrumentParties.noInstrumentParties, value );
 				break;
 
 			case FixTags.NOCOMPLEXEVENTS_INT:
-				complexEvents.noComplexEvents = FixUtils.getTagIntValue( value );
+				complexEvents.noComplexEvents = FixUtils.getTagIntValue(null, FixTags.NOCOMPLEXEVENTS_INT, value );
 				complexEvents.getAll(complexEvents.noComplexEvents, value );
 				break;
 
@@ -654,7 +654,7 @@ public class FixInstrument implements FixComponent
 
 			lastTagPosition = buf.position();
 
-		} while ( ( id = FixUtils.getTagId( buf ) ) > 0 );
+		} while ( ( id = FixUtils.getTagId( buf ) ) >= 0 );
 
 		buf.position(startTagPosition);
 

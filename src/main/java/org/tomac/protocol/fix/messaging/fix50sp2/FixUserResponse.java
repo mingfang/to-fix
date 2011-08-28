@@ -61,7 +61,7 @@ public class FixUserResponse extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -70,25 +70,25 @@ public class FixUserResponse extends FixMessage
 			switch( id ) {
 
 			case FixTags.USERREQUESTID_INT:
-				userRequestID = FixUtils.getTagStringValue(value, userRequestID);
+				userRequestID = FixUtils.getTagStringValue(MsgTypes.USERRESPONSE ,id ,value, userRequestID);
 				break;
 
 			case FixTags.USERNAME_INT:
-				username = FixUtils.getTagStringValue(value, username);
+				username = FixUtils.getTagStringValue(MsgTypes.USERRESPONSE ,id ,value, username);
 				break;
 
 			case FixTags.USERSTATUS_INT:
-				userStatus = FixUtils.getTagIntValue( value );
+				userStatus = FixUtils.getTagIntValue(MsgTypes.USERRESPONSE ,id ,value );
 				if (!UserStatus.isValid(userStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + userStatus + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.USERSTATUSTEXT_INT:
-				userStatusText = FixUtils.getTagStringValue(value, userStatusText);
+				userStatusText = FixUtils.getTagStringValue(MsgTypes.USERRESPONSE ,id ,value, userStatusText);
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.USERRESPONSE ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

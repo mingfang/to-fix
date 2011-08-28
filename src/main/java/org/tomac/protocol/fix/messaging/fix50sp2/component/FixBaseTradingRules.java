@@ -84,38 +84,38 @@ public class FixBaseTradingRules implements FixComponent
 			switch( id ) {
 
 			case FixTags.EXPIRATIONCYCLE_INT:
-				expirationCycle = FixUtils.getTagIntValue( value );
+				expirationCycle = FixUtils.getTagIntValue(null ,id ,value );
 				if (!ExpirationCycle.isValid(expirationCycle) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + expirationCycle + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.MINTRADEVOL_INT:
-				minTradeVol = FixUtils.getTagFloatValue(value);
+				minTradeVol = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.MAXTRADEVOL_INT:
-				maxTradeVol = FixUtils.getTagFloatValue(value);
+				maxTradeVol = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.MAXPRICEVARIATION_INT:
-				maxPriceVariation = FixUtils.getTagFloatValue(value);
+				maxPriceVariation = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.IMPLIEDMARKETINDICATOR_INT:
-				impliedMarketIndicator = FixUtils.getTagIntValue( value );
+				impliedMarketIndicator = FixUtils.getTagIntValue(null ,id ,value );
 				if (!ImpliedMarketIndicator.isValid(impliedMarketIndicator) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + impliedMarketIndicator + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.TRADINGCURRENCY_INT:
-				tradingCurrency = FixUtils.getTagStringValue(value, tradingCurrency);
+				tradingCurrency = FixUtils.getTagStringValue(null ,id ,value, tradingCurrency);
 				break;
 
 			case FixTags.NOTICKRULES_INT:
-				tickRules.noTickRules = FixUtils.getTagIntValue( value );
+				tickRules.noTickRules = FixUtils.getTagIntValue(null, FixTags.NOTICKRULES_INT, value );
 				tickRules.getAll(tickRules.noTickRules, value );
 				break;
 
 			case FixTags.NOLOTTYPERULES_INT:
-				lotTypeRules.noLotTypeRules = FixUtils.getTagIntValue( value );
+				lotTypeRules.noLotTypeRules = FixUtils.getTagIntValue(null, FixTags.NOLOTTYPERULES_INT, value );
 				lotTypeRules.getAll(lotTypeRules.noLotTypeRules, value );
 				break;
 
@@ -124,21 +124,21 @@ public class FixBaseTradingRules implements FixComponent
 				break;
 
 			case FixTags.ROUNDLOT_INT:
-				roundLot = FixUtils.getTagFloatValue(value);
+				roundLot = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.MULTILEGMODEL_INT:
-				multilegModel = FixUtils.getTagIntValue( value );
+				multilegModel = FixUtils.getTagIntValue(null ,id ,value );
 				if (!MultilegModel.isValid(multilegModel) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + multilegModel + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.MULTILEGPRICEMETHOD_INT:
-				multilegPriceMethod = FixUtils.getTagIntValue( value );
+				multilegPriceMethod = FixUtils.getTagIntValue(null ,id ,value );
 				if (!MultilegPriceMethod.isValid(multilegPriceMethod) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + multilegPriceMethod + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.PRICETYPE_INT:
-				priceType = FixUtils.getTagIntValue( value );
+				priceType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!PriceType.isValid(priceType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + priceType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
@@ -154,7 +154,7 @@ public class FixBaseTradingRules implements FixComponent
 
 			lastTagPosition = buf.position();
 
-		} while ( ( id = FixUtils.getTagId( buf ) ) > 0 );
+		} while ( ( id = FixUtils.getTagId( buf ) ) >= 0 );
 
 		buf.position(startTagPosition);
 

@@ -126,7 +126,7 @@ public class RgstDistInstGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.DISTRIBPAYMENTMETHOD_INT) {
-				distribPaymentMethod = FixUtils.getTagIntValue( value );
+				distribPaymentMethod = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.DistribPaymentMethod.isValid(distribPaymentMethod) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + distribPaymentMethod + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -134,49 +134,49 @@ public class RgstDistInstGrp implements FixComponent
 			}
 
 			if(id == FixTags.DISTRIBPERCENTAGE_INT) {
-				distribPercentage = FixUtils.getTagFloatValue(value);
+				distribPercentage = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.CASHDISTRIBCURR_INT) {
-				cashDistribCurr = FixUtils.getTagStringValue(value, cashDistribCurr);
+				cashDistribCurr = FixUtils.getTagStringValue(null ,id ,value, cashDistribCurr);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.CASHDISTRIBAGENTNAME_INT) {
-				cashDistribAgentName = FixUtils.getTagStringValue(value, cashDistribAgentName);
+				cashDistribAgentName = FixUtils.getTagStringValue(null ,id ,value, cashDistribAgentName);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.CASHDISTRIBAGENTCODE_INT) {
-				cashDistribAgentCode = FixUtils.getTagStringValue(value, cashDistribAgentCode);
+				cashDistribAgentCode = FixUtils.getTagStringValue(null ,id ,value, cashDistribAgentCode);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.CASHDISTRIBAGENTACCTNUMBER_INT) {
-				cashDistribAgentAcctNumber = FixUtils.getTagStringValue(value, cashDistribAgentAcctNumber);
+				cashDistribAgentAcctNumber = FixUtils.getTagStringValue(null ,id ,value, cashDistribAgentAcctNumber);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.CASHDISTRIBPAYREF_INT) {
-				cashDistribPayRef = FixUtils.getTagStringValue(value, cashDistribPayRef);
+				cashDistribPayRef = FixUtils.getTagStringValue(null ,id ,value, cashDistribPayRef);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.CASHDISTRIBAGENTACCTNAME_INT) {
-				cashDistribAgentAcctName = FixUtils.getTagStringValue(value, cashDistribAgentAcctName);
+				cashDistribAgentAcctName = FixUtils.getTagStringValue(null ,id ,value, cashDistribAgentAcctName);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

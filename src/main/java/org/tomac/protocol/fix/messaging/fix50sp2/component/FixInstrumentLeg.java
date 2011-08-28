@@ -193,220 +193,220 @@ public class FixInstrumentLeg implements FixComponent
 			switch( id ) {
 
 			case FixTags.LEGSYMBOL_INT:
-				legSymbol = FixUtils.getTagStringValue(value, legSymbol);
+				legSymbol = FixUtils.getTagStringValue(null ,id ,value, legSymbol);
 				break;
 
 			case FixTags.LEGSYMBOLSFX_INT:
-				legSymbolSfx = FixUtils.getTagStringValue(value, legSymbolSfx);
+				legSymbolSfx = FixUtils.getTagStringValue(null ,id ,value, legSymbolSfx);
 				break;
 
 			case FixTags.LEGSECURITYID_INT:
-				legSecurityID = FixUtils.getTagStringValue(value, legSecurityID);
+				legSecurityID = FixUtils.getTagStringValue(null ,id ,value, legSecurityID);
 				break;
 
 			case FixTags.LEGSECURITYIDSOURCE_INT:
-				legSecurityIDSource = FixUtils.getTagStringValue(value, legSecurityIDSource);
+				legSecurityIDSource = FixUtils.getTagStringValue(null ,id ,value, legSecurityIDSource);
 				break;
 
 			case FixTags.NOLEGSECURITYALTID_INT:
-				legSecAltIDGrp.noLegSecurityAltID = FixUtils.getTagIntValue( value );
+				legSecAltIDGrp.noLegSecurityAltID = FixUtils.getTagIntValue(null, FixTags.NOLEGSECURITYALTID_INT, value );
 				legSecAltIDGrp.getAll(legSecAltIDGrp.noLegSecurityAltID, value );
 				break;
 
 			case FixTags.LEGPRODUCT_INT:
-				legProduct = FixUtils.getTagIntValue( value );
+				legProduct = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.LEGCFICODE_INT:
-				legCFICode = FixUtils.getTagStringValue(value, legCFICode);
+				legCFICode = FixUtils.getTagStringValue(null ,id ,value, legCFICode);
 				break;
 
 			case FixTags.LEGSECURITYTYPE_INT:
-				legSecurityType = FixUtils.getTagStringValue(value, legSecurityType);
+				legSecurityType = FixUtils.getTagStringValue(null ,id ,value, legSecurityType);
 				break;
 
 			case FixTags.LEGSECURITYSUBTYPE_INT:
-				legSecuritySubType = FixUtils.getTagStringValue(value, legSecuritySubType);
+				legSecuritySubType = FixUtils.getTagStringValue(null ,id ,value, legSecuritySubType);
 				break;
 
 			case FixTags.LEGMATURITYMONTHYEAR_INT:
-				legMaturityMonthYear = FixUtils.getTagStringValue(value, legMaturityMonthYear);
+				legMaturityMonthYear = FixUtils.getTagStringValue(null ,id ,value, legMaturityMonthYear);
 				break;
 
 			case FixTags.LEGMATURITYDATE_INT:
-				legMaturityDate = FixUtils.getTagStringValue(value, legMaturityDate);
+				legMaturityDate = FixUtils.getTagStringValue(null ,id ,value, legMaturityDate);
 				break;
 
 			case FixTags.LEGMATURITYTIME_INT:
-				legMaturityTime = FixUtils.getTagStringValue(value, legMaturityTime);
+				legMaturityTime = FixUtils.getTagStringValue(null ,id ,value, legMaturityTime);
 				break;
 
 			case FixTags.LEGCOUPONPAYMENTDATE_INT:
-				legCouponPaymentDate = FixUtils.getTagStringValue(value, legCouponPaymentDate);
+				legCouponPaymentDate = FixUtils.getTagStringValue(null ,id ,value, legCouponPaymentDate);
 				break;
 
 			case FixTags.LEGISSUEDATE_INT:
-				legIssueDate = FixUtils.getTagStringValue(value, legIssueDate);
+				legIssueDate = FixUtils.getTagStringValue(null ,id ,value, legIssueDate);
 				break;
 
 			case FixTags.LEGREPOCOLLATERALSECURITYTYPE_INT:
-				legRepoCollateralSecurityType = FixUtils.getTagIntValue( value );
+				legRepoCollateralSecurityType = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.LEGREPURCHASETERM_INT:
-				legRepurchaseTerm = FixUtils.getTagIntValue( value );
+				legRepurchaseTerm = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.LEGREPURCHASERATE_INT:
-				legRepurchaseRate = FixUtils.getTagFloatValue(value);
+				legRepurchaseRate = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.LEGFACTOR_INT:
-				legFactor = FixUtils.getTagFloatValue(value);
+				legFactor = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.LEGCREDITRATING_INT:
-				legCreditRating = FixUtils.getTagStringValue(value, legCreditRating);
+				legCreditRating = FixUtils.getTagStringValue(null ,id ,value, legCreditRating);
 				break;
 
 			case FixTags.LEGINSTRREGISTRY_INT:
-				legInstrRegistry = FixUtils.getTagStringValue(value, legInstrRegistry);
+				legInstrRegistry = FixUtils.getTagStringValue(null ,id ,value, legInstrRegistry);
 				break;
 
 			case FixTags.LEGCOUNTRYOFISSUE_INT:
-				legCountryOfIssue = FixUtils.getTagStringValue(value, legCountryOfIssue);
+				legCountryOfIssue = FixUtils.getTagStringValue(null ,id ,value, legCountryOfIssue);
 				break;
 
 			case FixTags.LEGSTATEORPROVINCEOFISSUE_INT:
-				legStateOrProvinceOfIssue = FixUtils.getTagStringValue(value, legStateOrProvinceOfIssue);
+				legStateOrProvinceOfIssue = FixUtils.getTagStringValue(null ,id ,value, legStateOrProvinceOfIssue);
 				break;
 
 			case FixTags.LEGLOCALEOFISSUE_INT:
-				legLocaleOfIssue = FixUtils.getTagStringValue(value, legLocaleOfIssue);
+				legLocaleOfIssue = FixUtils.getTagStringValue(null ,id ,value, legLocaleOfIssue);
 				break;
 
 			case FixTags.LEGREDEMPTIONDATE_INT:
-				legRedemptionDate = FixUtils.getTagStringValue(value, legRedemptionDate);
+				legRedemptionDate = FixUtils.getTagStringValue(null ,id ,value, legRedemptionDate);
 				break;
 
 			case FixTags.LEGSTRIKEPRICE_INT:
-				legStrikePrice = FixUtils.getTagFloatValue(value);
+				legStrikePrice = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.LEGSTRIKECURRENCY_INT:
-				legStrikeCurrency = FixUtils.getTagStringValue(value, legStrikeCurrency);
+				legStrikeCurrency = FixUtils.getTagStringValue(null ,id ,value, legStrikeCurrency);
 				break;
 
 			case FixTags.LEGOPTATTRIBUTE_INT:
-				legOptAttribute = FixUtils.getTagCharValue( value );
+				legOptAttribute = FixUtils.getTagCharValue(null ,id ,value );
 				break;
 
 			case FixTags.LEGCONTRACTMULTIPLIER_INT:
-				legContractMultiplier = FixUtils.getTagFloatValue(value);
+				legContractMultiplier = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.LEGUNITOFMEASURE_INT:
-				legUnitOfMeasure = FixUtils.getTagStringValue(value, legUnitOfMeasure);
+				legUnitOfMeasure = FixUtils.getTagStringValue(null ,id ,value, legUnitOfMeasure);
 				break;
 
 			case FixTags.LEGTIMEUNIT_INT:
-				legTimeUnit = FixUtils.getTagStringValue(value, legTimeUnit);
+				legTimeUnit = FixUtils.getTagStringValue(null ,id ,value, legTimeUnit);
 				break;
 
 			case FixTags.LEGEXERCISESTYLE_INT:
-				legExerciseStyle = FixUtils.getTagIntValue( value );
+				legExerciseStyle = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.LEGUNITOFMEASUREQTY_INT:
-				legUnitOfMeasureQty = FixUtils.getTagFloatValue(value);
+				legUnitOfMeasureQty = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.LEGPRICEUNITOFMEASURE_INT:
-				legPriceUnitOfMeasure = FixUtils.getTagStringValue(value, legPriceUnitOfMeasure);
+				legPriceUnitOfMeasure = FixUtils.getTagStringValue(null ,id ,value, legPriceUnitOfMeasure);
 				break;
 
 			case FixTags.LEGPRICEUNITOFMEASUREQTY_INT:
-				legPriceUnitOfMeasureQty = FixUtils.getTagFloatValue(value);
+				legPriceUnitOfMeasureQty = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.LEGCONTRACTMULTIPLIERUNIT_INT:
-				legContractMultiplierUnit = FixUtils.getTagIntValue( value );
+				legContractMultiplierUnit = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.LEGFLOWSCHEDULETYPE_INT:
-				legFlowScheduleType = FixUtils.getTagIntValue( value );
+				legFlowScheduleType = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.LEGCOUPONRATE_INT:
-				legCouponRate = FixUtils.getTagFloatValue(value);
+				legCouponRate = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.LEGSECURITYEXCHANGE_INT:
-				legSecurityExchange = FixUtils.getTagStringValue(value, legSecurityExchange);
+				legSecurityExchange = FixUtils.getTagStringValue(null ,id ,value, legSecurityExchange);
 				break;
 
 			case FixTags.LEGISSUER_INT:
-				legIssuer = FixUtils.getTagStringValue(value, legIssuer);
+				legIssuer = FixUtils.getTagStringValue(null ,id ,value, legIssuer);
 				break;
 
 			case FixTags.ENCODEDLEGISSUERLEN_INT:
-				encodedLegIssuerLen = FixUtils.getTagIntValue( value );
+				encodedLegIssuerLen = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.ENCODEDLEGISSUER_INT:
-				encodedLegIssuer = FixUtils.getTagStringValue(value, encodedLegIssuer);
+				encodedLegIssuer = FixUtils.getTagStringValue(null ,id ,value, encodedLegIssuer);
 				break;
 
 			case FixTags.LEGSECURITYDESC_INT:
-				legSecurityDesc = FixUtils.getTagStringValue(value, legSecurityDesc);
+				legSecurityDesc = FixUtils.getTagStringValue(null ,id ,value, legSecurityDesc);
 				break;
 
 			case FixTags.ENCODEDLEGSECURITYDESCLEN_INT:
-				encodedLegSecurityDescLen = FixUtils.getTagIntValue( value );
+				encodedLegSecurityDescLen = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.ENCODEDLEGSECURITYDESC_INT:
-				encodedLegSecurityDesc = FixUtils.getTagStringValue(value, encodedLegSecurityDesc);
+				encodedLegSecurityDesc = FixUtils.getTagStringValue(null ,id ,value, encodedLegSecurityDesc);
 				break;
 
 			case FixTags.LEGRATIOQTY_INT:
-				legRatioQty = FixUtils.getTagFloatValue(value);
+				legRatioQty = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.LEGSIDE_INT:
-				legSide = FixUtils.getTagCharValue( value );
+				legSide = FixUtils.getTagCharValue(null ,id ,value );
 				break;
 
 			case FixTags.LEGCURRENCY_INT:
-				legCurrency = FixUtils.getTagStringValue(value, legCurrency);
+				legCurrency = FixUtils.getTagStringValue(null ,id ,value, legCurrency);
 				break;
 
 			case FixTags.LEGPOOL_INT:
-				legPool = FixUtils.getTagStringValue(value, legPool);
+				legPool = FixUtils.getTagStringValue(null ,id ,value, legPool);
 				break;
 
 			case FixTags.LEGDATEDDATE_INT:
-				legDatedDate = FixUtils.getTagStringValue(value, legDatedDate);
+				legDatedDate = FixUtils.getTagStringValue(null ,id ,value, legDatedDate);
 				break;
 
 			case FixTags.LEGCONTRACTSETTLMONTH_INT:
-				legContractSettlMonth = FixUtils.getTagStringValue(value, legContractSettlMonth);
+				legContractSettlMonth = FixUtils.getTagStringValue(null ,id ,value, legContractSettlMonth);
 				break;
 
 			case FixTags.LEGINTERESTACCRUALDATE_INT:
-				legInterestAccrualDate = FixUtils.getTagStringValue(value, legInterestAccrualDate);
+				legInterestAccrualDate = FixUtils.getTagStringValue(null ,id ,value, legInterestAccrualDate);
 				break;
 
 			case FixTags.LEGOPTIONRATIO_INT:
-				legOptionRatio = FixUtils.getTagFloatValue(value);
+				legOptionRatio = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.LEGPRICE_INT:
-				legPrice = FixUtils.getTagFloatValue(value);
+				legPrice = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.LEGPUTORCALL_INT:
-				legPutOrCall = FixUtils.getTagIntValue( value );
+				legPutOrCall = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			// we will always endup with unknown tag, unread and return to upper layer in hierarchy
@@ -421,7 +421,7 @@ public class FixInstrumentLeg implements FixComponent
 
 			lastTagPosition = buf.position();
 
-		} while ( ( id = FixUtils.getTagId( buf ) ) > 0 );
+		} while ( ( id = FixUtils.getTagId( buf ) ) >= 0 );
 
 		buf.position(startTagPosition);
 

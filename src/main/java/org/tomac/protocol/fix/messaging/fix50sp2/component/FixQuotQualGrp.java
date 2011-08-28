@@ -106,7 +106,7 @@ public class QuotQualGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.QUOTEQUALIFIER_INT) {
-				quoteQualifier = FixUtils.getTagCharValue( value );
+				quoteQualifier = FixUtils.getTagCharValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

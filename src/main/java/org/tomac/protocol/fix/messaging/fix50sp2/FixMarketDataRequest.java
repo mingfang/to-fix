@@ -91,7 +91,7 @@ public class FixMarketDataRequest extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -100,80 +100,80 @@ public class FixMarketDataRequest extends FixMessage
 			switch( id ) {
 
 			case FixTags.MDREQID_INT:
-				mDReqID = FixUtils.getTagStringValue(value, mDReqID);
+				mDReqID = FixUtils.getTagStringValue(MsgTypes.MARKETDATAREQUEST ,id ,value, mDReqID);
 				break;
 
 			case FixTags.SUBSCRIPTIONREQUESTTYPE_INT:
-				subscriptionRequestType = FixUtils.getTagCharValue( value );
+				subscriptionRequestType = FixUtils.getTagCharValue(MsgTypes.MARKETDATAREQUEST ,id ,value );
 				if (!SubscriptionRequestType.isValid(subscriptionRequestType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + subscriptionRequestType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NOPARTYIDS_INT:
-				parties.noPartyIDs = FixUtils.getTagIntValue( value );
+				parties.noPartyIDs = FixUtils.getTagIntValue( MsgTypes.MARKETDATAREQUEST ,FixTags.NOPARTYIDS_INT ,value );
 				parties.getAll(parties.noPartyIDs, value );
 				break;
 
 			case FixTags.MARKETDEPTH_INT:
-				marketDepth = FixUtils.getTagIntValue( value );
+				marketDepth = FixUtils.getTagIntValue(MsgTypes.MARKETDATAREQUEST ,id ,value );
 				break;
 
 			case FixTags.MDUPDATETYPE_INT:
-				mDUpdateType = FixUtils.getTagIntValue( value );
+				mDUpdateType = FixUtils.getTagIntValue(MsgTypes.MARKETDATAREQUEST ,id ,value );
 				if (!MDUpdateType.isValid(mDUpdateType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + mDUpdateType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.AGGREGATEDBOOK_INT:
-				aggregatedBook = FixUtils.getTagBooleanValue( value );
+				aggregatedBook = FixUtils.getTagBooleanValue(MsgTypes.MARKETDATAREQUEST ,id ,value );
 				if (!AggregatedBook.isValid(aggregatedBook) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + aggregatedBook + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.OPENCLOSESETTLFLAG_INT:
-				openCloseSettlFlag = FixUtils.getTagStringValue(value, openCloseSettlFlag);
+				openCloseSettlFlag = FixUtils.getTagStringValue(MsgTypes.MARKETDATAREQUEST ,id ,value, openCloseSettlFlag);
 				if (!OpenCloseSettlFlag.isValid(openCloseSettlFlag) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + openCloseSettlFlag + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.SCOPE_INT:
-				scope = FixUtils.getTagStringValue(value, scope);
+				scope = FixUtils.getTagStringValue(MsgTypes.MARKETDATAREQUEST ,id ,value, scope);
 				if (!Scope.isValid(scope) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + scope + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.MDIMPLICITDELETE_INT:
-				mDImplicitDelete = FixUtils.getTagBooleanValue( value );
+				mDImplicitDelete = FixUtils.getTagBooleanValue(MsgTypes.MARKETDATAREQUEST ,id ,value );
 				if (!MDImplicitDelete.isValid(mDImplicitDelete) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + mDImplicitDelete + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NOMDENTRYTYPES_INT:
-				mDReqGrp.noMDEntryTypes = FixUtils.getTagIntValue( value );
+				mDReqGrp.noMDEntryTypes = FixUtils.getTagIntValue( MsgTypes.MARKETDATAREQUEST ,FixTags.NOMDENTRYTYPES_INT ,value );
 				mDReqGrp.getAll(mDReqGrp.noMDEntryTypes, value );
 				break;
 
 			case FixTags.NORELATEDSYM_INT:
-				instrmtMDReqGrp.noRelatedSym = FixUtils.getTagIntValue( value );
+				instrmtMDReqGrp.noRelatedSym = FixUtils.getTagIntValue( MsgTypes.MARKETDATAREQUEST ,FixTags.NORELATEDSYM_INT ,value );
 				instrmtMDReqGrp.getAll(instrmtMDReqGrp.noRelatedSym, value );
 				break;
 
 			case FixTags.NOTRADINGSESSIONS_INT:
-				trdgSesGrp.noTradingSessions = FixUtils.getTagIntValue( value );
+				trdgSesGrp.noTradingSessions = FixUtils.getTagIntValue( MsgTypes.MARKETDATAREQUEST ,FixTags.NOTRADINGSESSIONS_INT ,value );
 				trdgSesGrp.getAll(trdgSesGrp.noTradingSessions, value );
 				break;
 
 			case FixTags.APPLQUEUEACTION_INT:
-				applQueueAction = FixUtils.getTagIntValue( value );
+				applQueueAction = FixUtils.getTagIntValue(MsgTypes.MARKETDATAREQUEST ,id ,value );
 				if (!ApplQueueAction.isValid(applQueueAction) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + applQueueAction + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.APPLQUEUEMAX_INT:
-				applQueueMax = FixUtils.getTagIntValue( value );
+				applQueueMax = FixUtils.getTagIntValue(MsgTypes.MARKETDATAREQUEST ,id ,value );
 				break;
 
 			case FixTags.MDQUOTETYPE_INT:
-				mDQuoteType = FixUtils.getTagIntValue( value );
+				mDQuoteType = FixUtils.getTagIntValue(MsgTypes.MARKETDATAREQUEST ,id ,value );
 				if (!MDQuoteType.isValid(mDQuoteType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + mDQuoteType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.MARKETDATAREQUEST ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

@@ -150,7 +150,7 @@ public class SettlObligationInstructions implements FixComponent
 			value = buf;
 
 			if(id == FixTags.NETGROSSIND_INT) {
-				netGrossInd = FixUtils.getTagIntValue( value );
+				netGrossInd = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.NetGrossInd.isValid(netGrossInd) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + netGrossInd + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -158,14 +158,14 @@ public class SettlObligationInstructions implements FixComponent
 			}
 
 			if(id == FixTags.SETTLOBLIGID_INT) {
-				settlObligID = FixUtils.getTagStringValue(value, settlObligID);
+				settlObligID = FixUtils.getTagStringValue(null ,id ,value, settlObligID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.SETTLOBLIGTRANSTYPE_INT) {
-				settlObligTransType = FixUtils.getTagCharValue( value );
+				settlObligTransType = FixUtils.getTagCharValue(null ,id ,value );
 				if (!FixMessageInfo.SettlObligTransType.isValid(settlObligTransType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + settlObligTransType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -173,70 +173,70 @@ public class SettlObligationInstructions implements FixComponent
 			}
 
 			if(id == FixTags.SETTLOBLIGREFID_INT) {
-				settlObligRefID = FixUtils.getTagStringValue(value, settlObligRefID);
+				settlObligRefID = FixUtils.getTagStringValue(null ,id ,value, settlObligRefID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.CCYAMT_INT) {
-				ccyAmt = FixUtils.getTagFloatValue(value);
+				ccyAmt = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.SETTLCURRAMT_INT) {
-				settlCurrAmt = FixUtils.getTagFloatValue(value);
+				settlCurrAmt = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.CURRENCY_INT) {
-				currency = FixUtils.getTagStringValue(value, currency);
+				currency = FixUtils.getTagStringValue(null ,id ,value, currency);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.SETTLCURRENCY_INT) {
-				settlCurrency = FixUtils.getTagStringValue(value, settlCurrency);
+				settlCurrency = FixUtils.getTagStringValue(null ,id ,value, settlCurrency);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.SETTLCURRFXRATE_INT) {
-				settlCurrFxRate = FixUtils.getTagFloatValue(value);
+				settlCurrFxRate = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.SETTLDATE_INT) {
-				settlDate = FixUtils.getTagStringValue(value, settlDate);
+				settlDate = FixUtils.getTagStringValue(null ,id ,value, settlDate);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.EFFECTIVETIME_INT) {
-				effectiveTime = FixUtils.getTagStringValue(value, effectiveTime);
+				effectiveTime = FixUtils.getTagStringValue(null ,id ,value, effectiveTime);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.EXPIRETIME_INT) {
-				expireTime = FixUtils.getTagStringValue(value, expireTime);
+				expireTime = FixUtils.getTagStringValue(null ,id ,value, expireTime);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LASTUPDATETIME_INT) {
-				lastUpdateTime = FixUtils.getTagStringValue(value, lastUpdateTime);
+				lastUpdateTime = FixUtils.getTagStringValue(null ,id ,value, lastUpdateTime);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -251,7 +251,7 @@ public class SettlObligationInstructions implements FixComponent
 
 			if(id == FixTags.NOPARTYIDS_INT) {
 				int noPartyIDs;
-				noPartyIDs = FixUtils.getTagIntValue( value );
+				noPartyIDs = FixUtils.getTagIntValue(null ,id ,value );
 				parties.getAll(noPartyIDs, buf);
 				lastTagPosition = buf.position();
 
@@ -260,7 +260,7 @@ public class SettlObligationInstructions implements FixComponent
 
 			if(id == FixTags.NOSETTLDETAILS_INT) {
 				int noSettlDetails;
-				noSettlDetails = FixUtils.getTagIntValue( value );
+				noSettlDetails = FixUtils.getTagIntValue(null ,id ,value );
 				settlDetails.getAll(noSettlDetails, buf);
 				lastTagPosition = buf.position();
 

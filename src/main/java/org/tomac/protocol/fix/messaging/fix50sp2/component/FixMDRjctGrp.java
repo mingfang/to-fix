@@ -107,7 +107,7 @@ public class MDRjctGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.ALTMDSOURCEID_INT) {
-				altMDSourceID = FixUtils.getTagStringValue(value, altMDSourceID);
+				altMDSourceID = FixUtils.getTagStringValue(null ,id ,value, altMDSourceID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

@@ -109,14 +109,14 @@ public class RiskWarningLevels implements FixComponent
 			value = buf;
 
 			if(id == FixTags.RISKWARNINGLEVELPERCENT_INT) {
-				riskWarningLevelPercent = FixUtils.getTagFloatValue(value);
+				riskWarningLevelPercent = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RISKWARNINGLEVELNAME_INT) {
-				riskWarningLevelName = FixUtils.getTagStringValue(value, riskWarningLevelName);
+				riskWarningLevelName = FixUtils.getTagStringValue(null ,id ,value, riskWarningLevelName);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

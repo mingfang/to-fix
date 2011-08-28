@@ -111,21 +111,21 @@ public class MarketDataFeedTypes implements FixComponent
 			value = buf;
 
 			if(id == FixTags.MDFEEDTYPE_INT) {
-				mDFeedType = FixUtils.getTagStringValue(value, mDFeedType);
+				mDFeedType = FixUtils.getTagStringValue(null ,id ,value, mDFeedType);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.MARKETDEPTH_INT) {
-				marketDepth = FixUtils.getTagIntValue( value );
+				marketDepth = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.MDBOOKTYPE_INT) {
-				mDBookType = FixUtils.getTagIntValue( value );
+				mDBookType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.MDBookType.isValid(mDBookType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + mDBookType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 

@@ -106,7 +106,7 @@ public class OrdTypeRules implements FixComponent
 			value = buf;
 
 			if(id == FixTags.ORDTYPE_INT) {
-				ordType = FixUtils.getTagCharValue( value );
+				ordType = FixUtils.getTagCharValue(null ,id ,value );
 				if (!FixMessageInfo.OrdType.isValid(ordType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + ordType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 

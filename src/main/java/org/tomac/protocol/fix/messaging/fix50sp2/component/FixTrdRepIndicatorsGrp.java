@@ -108,14 +108,14 @@ public class TrdRepIndicatorsGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.TRDREPPARTYROLE_INT) {
-				trdRepPartyRole = FixUtils.getTagIntValue( value );
+				trdRepPartyRole = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.TRDREPINDICATOR_INT) {
-				trdRepIndicator = FixUtils.getTagBooleanValue( value );
+				trdRepIndicator = FixUtils.getTagBooleanValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

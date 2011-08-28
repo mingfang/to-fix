@@ -67,12 +67,12 @@ public class FixSecurityTradingRules implements FixComponent
 				break;
 
 			case FixTags.NOTRADINGSESSIONRULES_INT:
-				tradingSessionRulesGrp.noTradingSessionRules = FixUtils.getTagIntValue( value );
+				tradingSessionRulesGrp.noTradingSessionRules = FixUtils.getTagIntValue(null, FixTags.NOTRADINGSESSIONRULES_INT, value );
 				tradingSessionRulesGrp.getAll(tradingSessionRulesGrp.noTradingSessionRules, value );
 				break;
 
 			case FixTags.NONESTEDINSTRATTRIB_INT:
-				nestedInstrumentAttribute.noNestedInstrAttrib = FixUtils.getTagIntValue( value );
+				nestedInstrumentAttribute.noNestedInstrAttrib = FixUtils.getTagIntValue(null, FixTags.NONESTEDINSTRATTRIB_INT, value );
 				nestedInstrumentAttribute.getAll(nestedInstrumentAttribute.noNestedInstrAttrib, value );
 				break;
 
@@ -88,7 +88,7 @@ public class FixSecurityTradingRules implements FixComponent
 
 			lastTagPosition = buf.position();
 
-		} while ( ( id = FixUtils.getTagId( buf ) ) > 0 );
+		} while ( ( id = FixUtils.getTagId( buf ) ) >= 0 );
 
 		buf.position(startTagPosition);
 

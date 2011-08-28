@@ -74,36 +74,36 @@ public class FixPartyDetail implements FixComponent
 			switch( id ) {
 
 			case FixTags.PARTYID_INT:
-				partyID = FixUtils.getTagStringValue(value, partyID);
+				partyID = FixUtils.getTagStringValue(null ,id ,value, partyID);
 				break;
 
 			case FixTags.PARTYIDSOURCE_INT:
-				partyIDSource = FixUtils.getTagCharValue( value );
+				partyIDSource = FixUtils.getTagCharValue(null ,id ,value );
 				if (!PartyIDSource.isValid(partyIDSource) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + partyIDSource + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.PARTYROLE_INT:
-				partyRole = FixUtils.getTagIntValue( value );
+				partyRole = FixUtils.getTagIntValue(null ,id ,value );
 				if (!PartyRole.isValid(partyRole) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + partyRole + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.NOPARTYSUBIDS_INT:
-				ptysSubGrp.noPartySubIDs = FixUtils.getTagIntValue( value );
+				ptysSubGrp.noPartySubIDs = FixUtils.getTagIntValue(null, FixTags.NOPARTYSUBIDS_INT, value );
 				ptysSubGrp.getAll(ptysSubGrp.noPartySubIDs, value );
 				break;
 
 			case FixTags.NOPARTYALTIDS_INT:
-				partyAltIDs.noPartyAltIDs = FixUtils.getTagIntValue( value );
+				partyAltIDs.noPartyAltIDs = FixUtils.getTagIntValue(null, FixTags.NOPARTYALTIDS_INT, value );
 				partyAltIDs.getAll(partyAltIDs.noPartyAltIDs, value );
 				break;
 
 			case FixTags.NOCONTEXTPARTYIDS_INT:
-				contextParties.noContextPartyIDs = FixUtils.getTagIntValue( value );
+				contextParties.noContextPartyIDs = FixUtils.getTagIntValue(null, FixTags.NOCONTEXTPARTYIDS_INT, value );
 				contextParties.getAll(contextParties.noContextPartyIDs, value );
 				break;
 
 			case FixTags.NORISKLIMITS_INT:
-				riskLimits.noRiskLimits = FixUtils.getTagIntValue( value );
+				riskLimits.noRiskLimits = FixUtils.getTagIntValue(null, FixTags.NORISKLIMITS_INT, value );
 				riskLimits.getAll(riskLimits.noRiskLimits, value );
 				break;
 
@@ -119,7 +119,7 @@ public class FixPartyDetail implements FixComponent
 
 			lastTagPosition = buf.position();
 
-		} while ( ( id = FixUtils.getTagId( buf ) ) > 0 );
+		} while ( ( id = FixUtils.getTagId( buf ) ) >= 0 );
 
 		buf.position(startTagPosition);
 

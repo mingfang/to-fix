@@ -168,14 +168,14 @@ public class SettlInstGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.SETTLINSTID_INT) {
-				settlInstID = FixUtils.getTagStringValue(value, settlInstID);
+				settlInstID = FixUtils.getTagStringValue(null ,id ,value, settlInstID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.SETTLINSTTRANSTYPE_INT) {
-				settlInstTransType = FixUtils.getTagCharValue( value );
+				settlInstTransType = FixUtils.getTagCharValue(null ,id ,value );
 				if (!FixMessageInfo.SettlInstTransType.isValid(settlInstTransType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + settlInstTransType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -183,7 +183,7 @@ public class SettlInstGrp implements FixComponent
 			}
 
 			if(id == FixTags.SETTLINSTREFID_INT) {
-				settlInstRefID = FixUtils.getTagStringValue(value, settlInstRefID);
+				settlInstRefID = FixUtils.getTagStringValue(null ,id ,value, settlInstRefID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -191,7 +191,7 @@ public class SettlInstGrp implements FixComponent
 
 			if(id == FixTags.NOPARTYIDS_INT) {
 				int noPartyIDs;
-				noPartyIDs = FixUtils.getTagIntValue( value );
+				noPartyIDs = FixUtils.getTagIntValue(null ,id ,value );
 				parties.getAll(noPartyIDs, buf);
 				lastTagPosition = buf.position();
 
@@ -199,7 +199,7 @@ public class SettlInstGrp implements FixComponent
 			}
 
 			if(id == FixTags.SIDE_INT) {
-				side = FixUtils.getTagCharValue( value );
+				side = FixUtils.getTagCharValue(null ,id ,value );
 				if (!FixMessageInfo.Side.isValid(side) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + side + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -207,7 +207,7 @@ public class SettlInstGrp implements FixComponent
 			}
 
 			if(id == FixTags.PRODUCT_INT) {
-				product = FixUtils.getTagIntValue( value );
+				product = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.Product.isValid(product) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + product + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -215,7 +215,7 @@ public class SettlInstGrp implements FixComponent
 			}
 
 			if(id == FixTags.SECURITYTYPE_INT) {
-				securityType = FixUtils.getTagStringValue(value, securityType);
+				securityType = FixUtils.getTagStringValue(null ,id ,value, securityType);
 				if (!FixMessageInfo.SecurityType.isValid(securityType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + securityType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -223,35 +223,35 @@ public class SettlInstGrp implements FixComponent
 			}
 
 			if(id == FixTags.CFICODE_INT) {
-				cFICode = FixUtils.getTagStringValue(value, cFICode);
+				cFICode = FixUtils.getTagStringValue(null ,id ,value, cFICode);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.SETTLCURRENCY_INT) {
-				settlCurrency = FixUtils.getTagStringValue(value, settlCurrency);
+				settlCurrency = FixUtils.getTagStringValue(null ,id ,value, settlCurrency);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.EFFECTIVETIME_INT) {
-				effectiveTime = FixUtils.getTagStringValue(value, effectiveTime);
+				effectiveTime = FixUtils.getTagStringValue(null ,id ,value, effectiveTime);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.EXPIRETIME_INT) {
-				expireTime = FixUtils.getTagStringValue(value, expireTime);
+				expireTime = FixUtils.getTagStringValue(null ,id ,value, expireTime);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LASTUPDATETIME_INT) {
-				lastUpdateTime = FixUtils.getTagStringValue(value, lastUpdateTime);
+				lastUpdateTime = FixUtils.getTagStringValue(null ,id ,value, lastUpdateTime);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -265,7 +265,7 @@ public class SettlInstGrp implements FixComponent
 			}
 
 			if(id == FixTags.PAYMENTMETHOD_INT) {
-				paymentMethod = FixUtils.getTagIntValue( value );
+				paymentMethod = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.PaymentMethod.isValid(paymentMethod) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + paymentMethod + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -273,56 +273,56 @@ public class SettlInstGrp implements FixComponent
 			}
 
 			if(id == FixTags.PAYMENTREF_INT) {
-				paymentRef = FixUtils.getTagStringValue(value, paymentRef);
+				paymentRef = FixUtils.getTagStringValue(null ,id ,value, paymentRef);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.CARDHOLDERNAME_INT) {
-				cardHolderName = FixUtils.getTagStringValue(value, cardHolderName);
+				cardHolderName = FixUtils.getTagStringValue(null ,id ,value, cardHolderName);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.CARDNUMBER_INT) {
-				cardNumber = FixUtils.getTagStringValue(value, cardNumber);
+				cardNumber = FixUtils.getTagStringValue(null ,id ,value, cardNumber);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.CARDSTARTDATE_INT) {
-				cardStartDate = FixUtils.getTagStringValue(value, cardStartDate);
+				cardStartDate = FixUtils.getTagStringValue(null ,id ,value, cardStartDate);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.CARDEXPDATE_INT) {
-				cardExpDate = FixUtils.getTagStringValue(value, cardExpDate);
+				cardExpDate = FixUtils.getTagStringValue(null ,id ,value, cardExpDate);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.CARDISSNUM_INT) {
-				cardIssNum = FixUtils.getTagStringValue(value, cardIssNum);
+				cardIssNum = FixUtils.getTagStringValue(null ,id ,value, cardIssNum);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.PAYMENTDATE_INT) {
-				paymentDate = FixUtils.getTagStringValue(value, paymentDate);
+				paymentDate = FixUtils.getTagStringValue(null ,id ,value, paymentDate);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.PAYMENTREMITTERID_INT) {
-				paymentRemitterID = FixUtils.getTagStringValue(value, paymentRemitterID);
+				paymentRemitterID = FixUtils.getTagStringValue(null ,id ,value, paymentRemitterID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

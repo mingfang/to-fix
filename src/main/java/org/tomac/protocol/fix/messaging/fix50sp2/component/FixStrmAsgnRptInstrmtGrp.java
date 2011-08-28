@@ -133,7 +133,7 @@ public class StrmAsgnRptInstrmtGrp implements FixComponent
 			}
 
 			if(id == FixTags.SETTLTYPE_INT) {
-				settlType = FixUtils.getTagStringValue(value, settlType);
+				settlType = FixUtils.getTagStringValue(null ,id ,value, settlType);
 				if (!FixMessageInfo.SettlType.isValid(settlType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + settlType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -141,7 +141,7 @@ public class StrmAsgnRptInstrmtGrp implements FixComponent
 			}
 
 			if(id == FixTags.STREAMASGNTYPE_INT) {
-				streamAsgnType = FixUtils.getTagIntValue( value );
+				streamAsgnType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.StreamAsgnType.isValid(streamAsgnType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + streamAsgnType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -149,14 +149,14 @@ public class StrmAsgnRptInstrmtGrp implements FixComponent
 			}
 
 			if(id == FixTags.MDSTREAMID_INT) {
-				mDStreamID = FixUtils.getTagStringValue(value, mDStreamID);
+				mDStreamID = FixUtils.getTagStringValue(null ,id ,value, mDStreamID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.STREAMASGNREJREASON_INT) {
-				streamAsgnRejReason = FixUtils.getTagIntValue( value );
+				streamAsgnRejReason = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.StreamAsgnRejReason.isValid(streamAsgnRejReason) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + streamAsgnRejReason + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -164,21 +164,21 @@ public class StrmAsgnRptInstrmtGrp implements FixComponent
 			}
 
 			if(id == FixTags.TEXT_INT) {
-				text = FixUtils.getTagStringValue(value, text);
+				text = FixUtils.getTagStringValue(null ,id ,value, text);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ENCODEDTEXTLEN_INT) {
-				encodedTextLen = FixUtils.getTagIntValue( value );
+				encodedTextLen = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ENCODEDTEXT_INT) {
-				encodedText = FixUtils.getTagStringValue(value, encodedText);
+				encodedText = FixUtils.getTagStringValue(null ,id ,value, encodedText);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

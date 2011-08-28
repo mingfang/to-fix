@@ -118,14 +118,14 @@ public class MarketSegmentGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.MARKETID_INT) {
-				marketID = FixUtils.getTagStringValue(value, marketID);
+				marketID = FixUtils.getTagStringValue(null ,id ,value, marketID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.MARKETSEGMENTID_INT) {
-				marketSegmentID = FixUtils.getTagStringValue(value, marketSegmentID);
+				marketSegmentID = FixUtils.getTagStringValue(null ,id ,value, marketSegmentID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -140,7 +140,7 @@ public class MarketSegmentGrp implements FixComponent
 
 			if(id == FixTags.NOSTRIKERULES_INT) {
 				int noStrikeRules;
-				noStrikeRules = FixUtils.getTagIntValue( value );
+				noStrikeRules = FixUtils.getTagIntValue(null ,id ,value );
 				strikeRules.getAll(noStrikeRules, buf);
 				lastTagPosition = buf.position();
 

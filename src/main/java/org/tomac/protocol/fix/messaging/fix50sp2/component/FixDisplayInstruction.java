@@ -67,37 +67,37 @@ public class FixDisplayInstruction implements FixComponent
 			switch( id ) {
 
 			case FixTags.DISPLAYQTY_INT:
-				displayQty = FixUtils.getTagFloatValue(value);
+				displayQty = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.SECONDARYDISPLAYQTY_INT:
-				secondaryDisplayQty = FixUtils.getTagFloatValue(value);
+				secondaryDisplayQty = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.DISPLAYWHEN_INT:
-				displayWhen = FixUtils.getTagCharValue( value );
+				displayWhen = FixUtils.getTagCharValue(null ,id ,value );
 				if (!DisplayWhen.isValid(displayWhen) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + displayWhen + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.DISPLAYMETHOD_INT:
-				displayMethod = FixUtils.getTagCharValue( value );
+				displayMethod = FixUtils.getTagCharValue(null ,id ,value );
 				if (!DisplayMethod.isValid(displayMethod) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + displayMethod + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.DISPLAYLOWQTY_INT:
-				displayLowQty = FixUtils.getTagFloatValue(value);
+				displayLowQty = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.DISPLAYHIGHQTY_INT:
-				displayHighQty = FixUtils.getTagFloatValue(value);
+				displayHighQty = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.DISPLAYMININCR_INT:
-				displayMinIncr = FixUtils.getTagFloatValue(value);
+				displayMinIncr = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.REFRESHQTY_INT:
-				refreshQty = FixUtils.getTagFloatValue(value);
+				refreshQty = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			// we will always endup with unknown tag, unread and return to upper layer in hierarchy
@@ -112,7 +112,7 @@ public class FixDisplayInstruction implements FixComponent
 
 			lastTagPosition = buf.position();
 
-		} while ( ( id = FixUtils.getTagId( buf ) ) > 0 );
+		} while ( ( id = FixUtils.getTagId( buf ) ) >= 0 );
 
 		buf.position(startTagPosition);
 

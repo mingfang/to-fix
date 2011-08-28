@@ -113,14 +113,14 @@ public class RelatedPartyAltIDs implements FixComponent
 			value = buf;
 
 			if(id == FixTags.RELATEDPARTYALTID_INT) {
-				relatedPartyAltID = FixUtils.getTagStringValue(value, relatedPartyAltID);
+				relatedPartyAltID = FixUtils.getTagStringValue(null ,id ,value, relatedPartyAltID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RELATEDPARTYALTIDSOURCE_INT) {
-				relatedPartyAltIDSource = FixUtils.getTagCharValue( value );
+				relatedPartyAltIDSource = FixUtils.getTagCharValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -128,7 +128,7 @@ public class RelatedPartyAltIDs implements FixComponent
 
 			if(id == FixTags.NORELATEDPARTYALTSUBIDS_INT) {
 				int noRelatedPartyAltSubIDs;
-				noRelatedPartyAltSubIDs = FixUtils.getTagIntValue( value );
+				noRelatedPartyAltSubIDs = FixUtils.getTagIntValue(null ,id ,value );
 				relatedAltPtysSubGrp.getAll(noRelatedPartyAltSubIDs, buf);
 				lastTagPosition = buf.position();
 

@@ -110,14 +110,14 @@ public class LegStipulations implements FixComponent
 			value = buf;
 
 			if(id == FixTags.LEGSTIPULATIONTYPE_INT) {
-				legStipulationType = FixUtils.getTagStringValue(value, legStipulationType);
+				legStipulationType = FixUtils.getTagStringValue(null ,id ,value, legStipulationType);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LEGSTIPULATIONVALUE_INT) {
-				legStipulationValue = FixUtils.getTagStringValue(value, legStipulationValue);
+				legStipulationValue = FixUtils.getTagStringValue(null ,id ,value, legStipulationValue);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

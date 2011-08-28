@@ -109,14 +109,14 @@ public class PtysSubGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.PARTYSUBID_INT) {
-				partySubID = FixUtils.getTagStringValue(value, partySubID);
+				partySubID = FixUtils.getTagStringValue(null ,id ,value, partySubID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.PARTYSUBIDTYPE_INT) {
-				partySubIDType = FixUtils.getTagIntValue( value );
+				partySubIDType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.PartySubIDType.isValid(partySubIDType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + partySubIDType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 

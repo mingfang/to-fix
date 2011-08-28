@@ -114,21 +114,21 @@ public class MiscFeesGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.MISCFEEAMT_INT) {
-				miscFeeAmt = FixUtils.getTagFloatValue(value);
+				miscFeeAmt = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.MISCFEECURR_INT) {
-				miscFeeCurr = FixUtils.getTagStringValue(value, miscFeeCurr);
+				miscFeeCurr = FixUtils.getTagStringValue(null ,id ,value, miscFeeCurr);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.MISCFEETYPE_INT) {
-				miscFeeType = FixUtils.getTagStringValue(value, miscFeeType);
+				miscFeeType = FixUtils.getTagStringValue(null ,id ,value, miscFeeType);
 				if (!FixMessageInfo.MiscFeeType.isValid(miscFeeType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + miscFeeType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -136,7 +136,7 @@ public class MiscFeesGrp implements FixComponent
 			}
 
 			if(id == FixTags.MISCFEEBASIS_INT) {
-				miscFeeBasis = FixUtils.getTagIntValue( value );
+				miscFeeBasis = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.MiscFeeBasis.isValid(miscFeeBasis) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + miscFeeBasis + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 

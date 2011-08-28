@@ -109,14 +109,14 @@ public class UndlyInstrumentPtysSubGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.UNDERLYINGINSTRUMENTPARTYSUBID_INT) {
-				underlyingInstrumentPartySubID = FixUtils.getTagStringValue(value, underlyingInstrumentPartySubID);
+				underlyingInstrumentPartySubID = FixUtils.getTagStringValue(null ,id ,value, underlyingInstrumentPartySubID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.UNDERLYINGINSTRUMENTPARTYSUBIDTYPE_INT) {
-				underlyingInstrumentPartySubIDType = FixUtils.getTagIntValue( value );
+				underlyingInstrumentPartySubIDType = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

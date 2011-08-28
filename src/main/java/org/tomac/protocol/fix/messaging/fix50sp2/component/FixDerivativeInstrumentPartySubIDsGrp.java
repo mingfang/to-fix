@@ -109,14 +109,14 @@ public class DerivativeInstrumentPartySubIDsGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.DERIVATIVEINSTRUMENTPARTYSUBID_INT) {
-				derivativeInstrumentPartySubID = FixUtils.getTagStringValue(value, derivativeInstrumentPartySubID);
+				derivativeInstrumentPartySubID = FixUtils.getTagStringValue(null ,id ,value, derivativeInstrumentPartySubID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.DERIVATIVEINSTRUMENTPARTYSUBIDTYPE_INT) {
-				derivativeInstrumentPartySubIDType = FixUtils.getTagIntValue( value );
+				derivativeInstrumentPartySubIDType = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

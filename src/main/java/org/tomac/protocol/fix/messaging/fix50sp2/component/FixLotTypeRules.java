@@ -108,7 +108,7 @@ public class LotTypeRules implements FixComponent
 			value = buf;
 
 			if(id == FixTags.LOTTYPE_INT) {
-				lotType = FixUtils.getTagCharValue( value );
+				lotType = FixUtils.getTagCharValue(null ,id ,value );
 				if (!FixMessageInfo.LotType.isValid(lotType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + lotType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -116,7 +116,7 @@ public class LotTypeRules implements FixComponent
 			}
 
 			if(id == FixTags.MINLOTSIZE_INT) {
-				minLotSize = FixUtils.getTagFloatValue(value);
+				minLotSize = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

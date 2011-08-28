@@ -125,21 +125,21 @@ public class PosUndInstrmtGrp implements FixComponent
 			}
 
 			if(id == FixTags.UNDERLYINGSETTLPRICE_INT) {
-				underlyingSettlPrice = FixUtils.getTagFloatValue(value);
+				underlyingSettlPrice = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.UNDERLYINGSETTLPRICETYPE_INT) {
-				underlyingSettlPriceType = FixUtils.getTagIntValue( value );
+				underlyingSettlPriceType = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.UNDERLYINGDELIVERYAMOUNT_INT) {
-				underlyingDeliveryAmount = FixUtils.getTagFloatValue(value);
+				underlyingDeliveryAmount = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -147,7 +147,7 @@ public class PosUndInstrmtGrp implements FixComponent
 
 			if(id == FixTags.NOUNDERLYINGAMOUNTS_INT) {
 				int noUnderlyingAmounts;
-				noUnderlyingAmounts = FixUtils.getTagIntValue( value );
+				noUnderlyingAmounts = FixUtils.getTagIntValue(null ,id ,value );
 				underlyingAmount.getAll(noUnderlyingAmounts, buf);
 				lastTagPosition = buf.position();
 

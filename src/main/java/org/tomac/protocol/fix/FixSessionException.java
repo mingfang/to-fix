@@ -6,20 +6,20 @@ public class FixSessionException extends Exception {
 	
 	public byte[] text;
 	public long refTagID = 0;
-	public byte[] refMsgType;
+	public byte[] refMsgType = new byte[0];
 	public long sessionRejectReason = 0;	
 	
 	public FixSessionException(long sessionRejectReason, byte[] text, long refTagID, byte[] refMsgType) {
 		this.sessionRejectReason = sessionRejectReason;
 		this.text = text;
 		this.refTagID = refTagID;
-		this.refMsgType = refMsgType;
+		if (refMsgType != null) this.refMsgType = refMsgType;
 	}
 	
-	public FixSessionException(long sessionRejectReason, byte[] text) {
+/*	public FixSessionException(long sessionRejectReason, byte[] text) {
 		this.sessionRejectReason = sessionRejectReason;
 		this.text = text;
-	}
+	}*/
 
 	@Override
 	public String getMessage() {

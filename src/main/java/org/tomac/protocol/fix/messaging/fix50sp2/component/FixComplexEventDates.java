@@ -114,14 +114,14 @@ public class ComplexEventDates implements FixComponent
 			value = buf;
 
 			if(id == FixTags.COMPLEXEVENTSTARTDATE_INT) {
-				complexEventStartDate = FixUtils.getTagStringValue(value, complexEventStartDate);
+				complexEventStartDate = FixUtils.getTagStringValue(null ,id ,value, complexEventStartDate);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.COMPLEXEVENTENDDATE_INT) {
-				complexEventEndDate = FixUtils.getTagStringValue(value, complexEventEndDate);
+				complexEventEndDate = FixUtils.getTagStringValue(null ,id ,value, complexEventEndDate);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -129,7 +129,7 @@ public class ComplexEventDates implements FixComponent
 
 			if(id == FixTags.NOCOMPLEXEVENTTIMES_INT) {
 				int noComplexEventTimes;
-				noComplexEventTimes = FixUtils.getTagIntValue( value );
+				noComplexEventTimes = FixUtils.getTagIntValue(null ,id ,value );
 				complexEventTimes.getAll(noComplexEventTimes, buf);
 				lastTagPosition = buf.position();
 

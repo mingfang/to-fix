@@ -120,7 +120,7 @@ public class FixBidRequest extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -129,135 +129,135 @@ public class FixBidRequest extends FixMessage
 			switch( id ) {
 
 			case FixTags.BIDID_INT:
-				bidID = FixUtils.getTagStringValue(value, bidID);
+				bidID = FixUtils.getTagStringValue(MsgTypes.BIDREQUEST ,id ,value, bidID);
 				break;
 
 			case FixTags.CLIENTBIDID_INT:
-				clientBidID = FixUtils.getTagStringValue(value, clientBidID);
+				clientBidID = FixUtils.getTagStringValue(MsgTypes.BIDREQUEST ,id ,value, clientBidID);
 				break;
 
 			case FixTags.BIDREQUESTTRANSTYPE_INT:
-				bidRequestTransType = FixUtils.getTagCharValue( value );
+				bidRequestTransType = FixUtils.getTagCharValue(MsgTypes.BIDREQUEST ,id ,value );
 				if (!BidRequestTransType.isValid(bidRequestTransType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + bidRequestTransType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.LISTNAME_INT:
-				listName = FixUtils.getTagStringValue(value, listName);
+				listName = FixUtils.getTagStringValue(MsgTypes.BIDREQUEST ,id ,value, listName);
 				break;
 
 			case FixTags.TOTNORELATEDSYM_INT:
-				totNoRelatedSym = FixUtils.getTagIntValue( value );
+				totNoRelatedSym = FixUtils.getTagIntValue(MsgTypes.BIDREQUEST ,id ,value );
 				break;
 
 			case FixTags.BIDTYPE_INT:
-				bidType = FixUtils.getTagIntValue( value );
+				bidType = FixUtils.getTagIntValue(MsgTypes.BIDREQUEST ,id ,value );
 				if (!BidType.isValid(bidType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + bidType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NUMTICKETS_INT:
-				numTickets = FixUtils.getTagIntValue( value );
+				numTickets = FixUtils.getTagIntValue(MsgTypes.BIDREQUEST ,id ,value );
 				break;
 
 			case FixTags.CURRENCY_INT:
-				currency = FixUtils.getTagStringValue(value, currency);
+				currency = FixUtils.getTagStringValue(MsgTypes.BIDREQUEST ,id ,value, currency);
 				break;
 
 			case FixTags.SIDEVALUE1_INT:
-				sideValue1 = FixUtils.getTagFloatValue(value);
+				sideValue1 = FixUtils.getTagFloatValue(MsgTypes.BIDREQUEST ,id ,value);
 				break;
 
 			case FixTags.SIDEVALUE2_INT:
-				sideValue2 = FixUtils.getTagFloatValue(value);
+				sideValue2 = FixUtils.getTagFloatValue(MsgTypes.BIDREQUEST ,id ,value);
 				break;
 
 			case FixTags.NOBIDDESCRIPTORS_INT:
-				bidDescReqGrp.noBidDescriptors = FixUtils.getTagIntValue( value );
+				bidDescReqGrp.noBidDescriptors = FixUtils.getTagIntValue( MsgTypes.BIDREQUEST ,FixTags.NOBIDDESCRIPTORS_INT ,value );
 				bidDescReqGrp.getAll(bidDescReqGrp.noBidDescriptors, value );
 				break;
 
 			case FixTags.NOBIDCOMPONENTS_INT:
-				bidCompReqGrp.noBidComponents = FixUtils.getTagIntValue( value );
+				bidCompReqGrp.noBidComponents = FixUtils.getTagIntValue( MsgTypes.BIDREQUEST ,FixTags.NOBIDCOMPONENTS_INT ,value );
 				bidCompReqGrp.getAll(bidCompReqGrp.noBidComponents, value );
 				break;
 
 			case FixTags.LIQUIDITYINDTYPE_INT:
-				liquidityIndType = FixUtils.getTagIntValue( value );
+				liquidityIndType = FixUtils.getTagIntValue(MsgTypes.BIDREQUEST ,id ,value );
 				if (!LiquidityIndType.isValid(liquidityIndType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + liquidityIndType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.WTAVERAGELIQUIDITY_INT:
-				wtAverageLiquidity = FixUtils.getTagFloatValue(value);
+				wtAverageLiquidity = FixUtils.getTagFloatValue(MsgTypes.BIDREQUEST ,id ,value);
 				break;
 
 			case FixTags.EXCHANGEFORPHYSICAL_INT:
-				exchangeForPhysical = FixUtils.getTagBooleanValue( value );
+				exchangeForPhysical = FixUtils.getTagBooleanValue(MsgTypes.BIDREQUEST ,id ,value );
 				if (!ExchangeForPhysical.isValid(exchangeForPhysical) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + exchangeForPhysical + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.OUTMAINCNTRYUINDEX_INT:
-				outMainCntryUIndex = FixUtils.getTagFloatValue(value);
+				outMainCntryUIndex = FixUtils.getTagFloatValue(MsgTypes.BIDREQUEST ,id ,value);
 				break;
 
 			case FixTags.CROSSPERCENT_INT:
-				crossPercent = FixUtils.getTagFloatValue(value);
+				crossPercent = FixUtils.getTagFloatValue(MsgTypes.BIDREQUEST ,id ,value);
 				break;
 
 			case FixTags.PROGRPTREQS_INT:
-				progRptReqs = FixUtils.getTagIntValue( value );
+				progRptReqs = FixUtils.getTagIntValue(MsgTypes.BIDREQUEST ,id ,value );
 				if (!ProgRptReqs.isValid(progRptReqs) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + progRptReqs + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.PROGPERIODINTERVAL_INT:
-				progPeriodInterval = FixUtils.getTagIntValue( value );
+				progPeriodInterval = FixUtils.getTagIntValue(MsgTypes.BIDREQUEST ,id ,value );
 				break;
 
 			case FixTags.INCTAXIND_INT:
-				incTaxInd = FixUtils.getTagIntValue( value );
+				incTaxInd = FixUtils.getTagIntValue(MsgTypes.BIDREQUEST ,id ,value );
 				if (!IncTaxInd.isValid(incTaxInd) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + incTaxInd + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.FOREXREQ_INT:
-				forexReq = FixUtils.getTagBooleanValue( value );
+				forexReq = FixUtils.getTagBooleanValue(MsgTypes.BIDREQUEST ,id ,value );
 				if (!ForexReq.isValid(forexReq) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + forexReq + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NUMBIDDERS_INT:
-				numBidders = FixUtils.getTagIntValue( value );
+				numBidders = FixUtils.getTagIntValue(MsgTypes.BIDREQUEST ,id ,value );
 				break;
 
 			case FixTags.TRADEDATE_INT:
-				tradeDate = FixUtils.getTagStringValue(value, tradeDate);
+				tradeDate = FixUtils.getTagStringValue(MsgTypes.BIDREQUEST ,id ,value, tradeDate);
 				break;
 
 			case FixTags.BIDTRADETYPE_INT:
-				bidTradeType = FixUtils.getTagCharValue( value );
+				bidTradeType = FixUtils.getTagCharValue(MsgTypes.BIDREQUEST ,id ,value );
 				if (!BidTradeType.isValid(bidTradeType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + bidTradeType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.BASISPXTYPE_INT:
-				basisPxType = FixUtils.getTagCharValue( value );
+				basisPxType = FixUtils.getTagCharValue(MsgTypes.BIDREQUEST ,id ,value );
 				if (!BasisPxType.isValid(basisPxType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + basisPxType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.STRIKETIME_INT:
-				strikeTime = FixUtils.getTagStringValue(value, strikeTime);
+				strikeTime = FixUtils.getTagStringValue(MsgTypes.BIDREQUEST ,id ,value, strikeTime);
 				break;
 
 			case FixTags.TEXT_INT:
-				text = FixUtils.getTagStringValue(value, text);
+				text = FixUtils.getTagStringValue(MsgTypes.BIDREQUEST ,id ,value, text);
 				break;
 
 			case FixTags.ENCODEDTEXTLEN_INT:
-				encodedTextLen = FixUtils.getTagIntValue( value );
+				encodedTextLen = FixUtils.getTagIntValue(MsgTypes.BIDREQUEST ,id ,value );
 				break;
 
 			case FixTags.ENCODEDTEXT_INT:
-				encodedText = FixUtils.getTagStringValue(value, encodedText);
+				encodedText = FixUtils.getTagStringValue(MsgTypes.BIDREQUEST ,id ,value, encodedText);
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.BIDREQUEST ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

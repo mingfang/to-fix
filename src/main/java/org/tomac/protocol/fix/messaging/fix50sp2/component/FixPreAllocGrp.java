@@ -121,28 +121,28 @@ public class PreAllocGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.ALLOCACCOUNT_INT) {
-				allocAccount = FixUtils.getTagStringValue(value, allocAccount);
+				allocAccount = FixUtils.getTagStringValue(null ,id ,value, allocAccount);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ALLOCACCTIDSOURCE_INT) {
-				allocAcctIDSource = FixUtils.getTagIntValue( value );
+				allocAcctIDSource = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ALLOCSETTLCURRENCY_INT) {
-				allocSettlCurrency = FixUtils.getTagStringValue(value, allocSettlCurrency);
+				allocSettlCurrency = FixUtils.getTagStringValue(null ,id ,value, allocSettlCurrency);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.INDIVIDUALALLOCID_INT) {
-				individualAllocID = FixUtils.getTagStringValue(value, individualAllocID);
+				individualAllocID = FixUtils.getTagStringValue(null ,id ,value, individualAllocID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -150,7 +150,7 @@ public class PreAllocGrp implements FixComponent
 
 			if(id == FixTags.NONESTEDPARTYIDS_INT) {
 				int noNestedPartyIDs;
-				noNestedPartyIDs = FixUtils.getTagIntValue( value );
+				noNestedPartyIDs = FixUtils.getTagIntValue(null ,id ,value );
 				nestedParties.getAll(noNestedPartyIDs, buf);
 				lastTagPosition = buf.position();
 
@@ -158,7 +158,7 @@ public class PreAllocGrp implements FixComponent
 			}
 
 			if(id == FixTags.ALLOCQTY_INT) {
-				allocQty = FixUtils.getTagFloatValue(value);
+				allocQty = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

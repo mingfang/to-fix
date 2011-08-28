@@ -60,20 +60,20 @@ public class FixCommissionData implements FixComponent
 			switch( id ) {
 
 			case FixTags.COMMISSION_INT:
-				commission = FixUtils.getTagFloatValue(value);
+				commission = FixUtils.getTagFloatValue(null ,id ,value);
 				break;
 
 			case FixTags.COMMTYPE_INT:
-				commType = FixUtils.getTagCharValue( value );
+				commType = FixUtils.getTagCharValue(null ,id ,value );
 				if (!CommType.isValid(commType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + commType + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
 			case FixTags.COMMCURRENCY_INT:
-				commCurrency = FixUtils.getTagStringValue(value, commCurrency);
+				commCurrency = FixUtils.getTagStringValue(null ,id ,value, commCurrency);
 				break;
 
 			case FixTags.FUNDRENEWWAIV_INT:
-				fundRenewWaiv = FixUtils.getTagCharValue( value );
+				fundRenewWaiv = FixUtils.getTagCharValue(null ,id ,value );
 				if (!FundRenewWaiv.isValid(fundRenewWaiv) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + fundRenewWaiv + ") for tag").getBytes(), id, new byte[0] );
 				break;
 
@@ -89,7 +89,7 @@ public class FixCommissionData implements FixComponent
 
 			lastTagPosition = buf.position();
 
-		} while ( ( id = FixUtils.getTagId( buf ) ) > 0 );
+		} while ( ( id = FixUtils.getTagId( buf ) ) >= 0 );
 
 		buf.position(startTagPosition);
 

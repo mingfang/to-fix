@@ -59,15 +59,15 @@ public class FixSecurityXML implements FixComponent
 			switch( id ) {
 
 			case FixTags.SECURITYXMLLEN_INT:
-				securityXMLLen = FixUtils.getTagIntValue( value );
+				securityXMLLen = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.SECURITYXML_INT:
-				securityXML = FixUtils.getTagStringValue(value, securityXML);
+				securityXML = FixUtils.getTagStringValue(null ,id ,value, securityXML);
 				break;
 
 			case FixTags.SECURITYXMLSCHEMA_INT:
-				securityXMLSchema = FixUtils.getTagStringValue(value, securityXMLSchema);
+				securityXMLSchema = FixUtils.getTagStringValue(null ,id ,value, securityXMLSchema);
 				break;
 
 			// we will always endup with unknown tag, unread and return to upper layer in hierarchy
@@ -82,7 +82,7 @@ public class FixSecurityXML implements FixComponent
 
 			lastTagPosition = buf.position();
 
-		} while ( ( id = FixUtils.getTagId( buf ) ) > 0 );
+		} while ( ( id = FixUtils.getTagId( buf ) ) >= 0 );
 
 		buf.position(startTagPosition);
 

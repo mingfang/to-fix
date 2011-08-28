@@ -141,21 +141,21 @@ public class QuotReqLegsGrp implements FixComponent
 			}
 
 			if(id == FixTags.LEGQTY_INT) {
-				legQty = FixUtils.getTagFloatValue(value);
+				legQty = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LEGORDERQTY_INT) {
-				legOrderQty = FixUtils.getTagFloatValue(value);
+				legOrderQty = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LEGSWAPTYPE_INT) {
-				legSwapType = FixUtils.getTagIntValue( value );
+				legSwapType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.LegSwapType.isValid(legSwapType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + legSwapType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -163,14 +163,14 @@ public class QuotReqLegsGrp implements FixComponent
 			}
 
 			if(id == FixTags.LEGSETTLTYPE_INT) {
-				legSettlType = FixUtils.getTagCharValue( value );
+				legSettlType = FixUtils.getTagCharValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LEGSETTLDATE_INT) {
-				legSettlDate = FixUtils.getTagStringValue(value, legSettlDate);
+				legSettlDate = FixUtils.getTagStringValue(null ,id ,value, legSettlDate);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -178,7 +178,7 @@ public class QuotReqLegsGrp implements FixComponent
 
 			if(id == FixTags.NOLEGSTIPULATIONS_INT) {
 				int noLegStipulations;
-				noLegStipulations = FixUtils.getTagIntValue( value );
+				noLegStipulations = FixUtils.getTagIntValue(null ,id ,value );
 				legStipulations.getAll(noLegStipulations, buf);
 				lastTagPosition = buf.position();
 
@@ -187,7 +187,7 @@ public class QuotReqLegsGrp implements FixComponent
 
 			if(id == FixTags.NONESTEDPARTYIDS_INT) {
 				int noNestedPartyIDs;
-				noNestedPartyIDs = FixUtils.getTagIntValue( value );
+				noNestedPartyIDs = FixUtils.getTagIntValue(null ,id ,value );
 				nestedParties.getAll(noNestedPartyIDs, buf);
 				lastTagPosition = buf.position();
 
@@ -195,7 +195,7 @@ public class QuotReqLegsGrp implements FixComponent
 			}
 
 			if(id == FixTags.LEGREFID_INT) {
-				legRefID = FixUtils.getTagStringValue(value, legRefID);
+				legRefID = FixUtils.getTagStringValue(null ,id ,value, legRefID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

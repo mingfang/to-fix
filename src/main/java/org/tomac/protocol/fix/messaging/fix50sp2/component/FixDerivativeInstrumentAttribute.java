@@ -109,14 +109,14 @@ public class DerivativeInstrumentAttribute implements FixComponent
 			value = buf;
 
 			if(id == FixTags.DERIVATIVEINSTRATTRIBTYPE_INT) {
-				derivativeInstrAttribType = FixUtils.getTagIntValue( value );
+				derivativeInstrAttribType = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.DERIVATIVEINSTRATTRIBVALUE_INT) {
-				derivativeInstrAttribValue = FixUtils.getTagStringValue(value, derivativeInstrAttribValue);
+				derivativeInstrAttribValue = FixUtils.getTagStringValue(null ,id ,value, derivativeInstrAttribValue);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

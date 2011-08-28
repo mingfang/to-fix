@@ -112,21 +112,21 @@ public class RelationshipRiskSecAltIDGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.NORELATIONSHIPRISKSECURITYALTID_INT) {
-				noRelationshipRiskSecurityAltID = FixUtils.getTagIntValue( value );
+				noRelationshipRiskSecurityAltID = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RELATIONSHIPRISKSECURITYALTID_INT) {
-				relationshipRiskSecurityAltID = FixUtils.getTagStringValue(value, relationshipRiskSecurityAltID);
+				relationshipRiskSecurityAltID = FixUtils.getTagStringValue(null ,id ,value, relationshipRiskSecurityAltID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RELATIONSHIPRISKSECURITYALTIDSOURCE_INT) {
-				relationshipRiskSecurityAltIDSource = FixUtils.getTagStringValue(value, relationshipRiskSecurityAltIDSource);
+				relationshipRiskSecurityAltIDSource = FixUtils.getTagStringValue(null ,id ,value, relationshipRiskSecurityAltIDSource);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

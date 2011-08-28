@@ -109,7 +109,7 @@ public class RoutingGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.ROUTINGTYPE_INT) {
-				routingType = FixUtils.getTagIntValue( value );
+				routingType = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.RoutingType.isValid(routingType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + routingType + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -117,7 +117,7 @@ public class RoutingGrp implements FixComponent
 			}
 
 			if(id == FixTags.ROUTINGID_INT) {
-				routingID = FixUtils.getTagStringValue(value, routingID);
+				routingID = FixUtils.getTagStringValue(null ,id ,value, routingID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

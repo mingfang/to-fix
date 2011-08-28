@@ -107,7 +107,7 @@ public class ExecCollGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.EXECID_INT) {
-				execID = FixUtils.getTagStringValue(value, execID);
+				execID = FixUtils.getTagStringValue(null ,id ,value, execID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

@@ -178,7 +178,7 @@ public class FixTradeEntryNotificationtoEnteringFirm extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -187,219 +187,219 @@ public class FixTradeEntryNotificationtoEnteringFirm extends FixMessage
 			switch( id ) {
 
 			case FixTags.AVGPX_INT:
-				avgPx = FixUtils.getTagFloatValue(value);
+				avgPx = FixUtils.getTagFloatValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value);
 				break;
 
 			case FixTags.CLORDID_INT:
-				clOrdID = FixUtils.getTagStringValue(value, clOrdID);
+				clOrdID = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, clOrdID);
 				break;
 
 			case FixTags.CUMQTY_INT:
-				cumQty = FixUtils.getTagFloatValue(value);
+				cumQty = FixUtils.getTagFloatValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value);
 				break;
 
 			case FixTags.CURRENCY_INT:
-				currency = FixUtils.getTagStringValue(value, currency);
+				currency = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, currency);
 				break;
 
 			case FixTags.EXECID_INT:
-				execID = FixUtils.getTagStringValue(value, execID);
+				execID = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, execID);
 				break;
 
 			case FixTags.EXECTRANSTYPE_INT:
-				execTransType = FixUtils.getTagCharValue( value );
+				execTransType = FixUtils.getTagCharValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value );
 				if (!ExecTransType.isValid(execTransType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + execTransType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.ORDERID_INT:
-				orderID = FixUtils.getTagStringValue(value, orderID);
+				orderID = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, orderID);
 				break;
 
 			case FixTags.ORDSTATUS_INT:
-				ordStatus = FixUtils.getTagCharValue( value );
+				ordStatus = FixUtils.getTagCharValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value );
 				if (!OrdStatus.isValid(ordStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + ordStatus + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.SECURITYID_INT:
-				securityID = FixUtils.getTagStringValue(value, securityID);
+				securityID = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, securityID);
 				break;
 
 			case FixTags.SIDE_INT:
-				side = FixUtils.getTagCharValue( value );
+				side = FixUtils.getTagCharValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value );
 				if (!Side.isValid(side) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + side + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.SYMBOL_INT:
-				symbol = FixUtils.getTagStringValue(value, symbol);
+				symbol = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, symbol);
 				break;
 
 			case FixTags.TEXT_INT:
-				text = FixUtils.getTagStringValue(value, text);
+				text = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, text);
 				break;
 
 			case FixTags.TRANSACTTIME_INT:
-				transactTime = FixUtils.getTagStringValue(value, transactTime);
+				transactTime = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, transactTime);
 				break;
 
 			case FixTags.FUTSETTDATE_INT:
-				futSettDate = FixUtils.getTagStringValue(value, futSettDate);
+				futSettDate = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, futSettDate);
 				break;
 
 			case FixTags.PROCESSCODE_INT:
-				processCode = FixUtils.getTagCharValue( value );
+				processCode = FixUtils.getTagCharValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value );
 				if (!ProcessCode.isValid(processCode) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + processCode + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.SECURITYDESC_INT:
-				securityDesc = FixUtils.getTagStringValue(value, securityDesc);
+				securityDesc = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, securityDesc);
 				if (!SecurityDesc.isValid(securityDesc) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + securityDesc + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.CLIENTID_INT:
-				clientID = FixUtils.getTagStringValue(value, clientID);
+				clientID = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, clientID);
 				break;
 
 			case FixTags.EXECTYPE_INT:
-				execType = FixUtils.getTagCharValue( value );
+				execType = FixUtils.getTagCharValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value );
 				if (!ExecType.isValid(execType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + execType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.LEAVESQTY_INT:
-				leavesQty = FixUtils.getTagFloatValue(value);
+				leavesQty = FixUtils.getTagFloatValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value);
 				break;
 
 			case FixTags.SETTLBRKRCODE_INT:
-				settlBrkrCode = FixUtils.getTagStringValue(value, settlBrkrCode);
+				settlBrkrCode = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, settlBrkrCode);
 				break;
 
 			case FixTags.NOCONTRABROKERS_INT:
-				noContraBrokers = FixUtils.getTagIntValue( value );
+				noContraBrokers = FixUtils.getTagIntValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value );
 				break;
 
 			case FixTags.CONTRABROKER_INT:
-				contraBroker = FixUtils.getTagStringValue(value, contraBroker);
+				contraBroker = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, contraBroker);
 				break;
 
 			case FixTags.PRICETYPE_INT:
-				priceType = FixUtils.getTagIntValue( value );
+				priceType = FixUtils.getTagIntValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value );
 				if (!PriceType.isValid(priceType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + priceType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.CLEARINGFIRM_INT:
-				clearingFirm = FixUtils.getTagStringValue(value, clearingFirm);
+				clearingFirm = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, clearingFirm);
 				break;
 
 			case FixTags.CLEARINGACCOUNT_INT:
-				clearingAccount = FixUtils.getTagStringValue(value, clearingAccount);
+				clearingAccount = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, clearingAccount);
 				break;
 
 			case FixTags.TRANSBKDTIME_INT:
-				transBkdTime = FixUtils.getTagStringValue(value, transBkdTime);
+				transBkdTime = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, transBkdTime);
 				break;
 
 			case FixTags.ORDERCAPACITY_INT:
-				orderCapacity = FixUtils.getTagStringValue(value, orderCapacity);
+				orderCapacity = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, orderCapacity);
 				if (!OrderCapacity.isValid(orderCapacity) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + orderCapacity + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.ORDERRESTRICTIONS_INT:
-				orderRestrictions = FixUtils.getTagStringValue(value, orderRestrictions);
+				orderRestrictions = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, orderRestrictions);
 				if (!OrderRestrictions.isValid(orderRestrictions) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + orderRestrictions + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TRADEREPORTID_INT:
-				tradeReportID = FixUtils.getTagStringValue(value, tradeReportID);
+				tradeReportID = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, tradeReportID);
 				break;
 
 			case FixTags.CLEARINGINSTRUCTION_INT:
-				clearingInstruction = FixUtils.getTagStringValue(value, clearingInstruction);
+				clearingInstruction = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, clearingInstruction);
 				if (!ClearingInstruction.isValid(clearingInstruction) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + clearingInstruction + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.REVERSALINDICATOR_INT:
-				reversalIndicator = FixUtils.getTagStringValue(value, reversalIndicator);
+				reversalIndicator = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, reversalIndicator);
 				if (!ReversalIndicator.isValid(reversalIndicator) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + reversalIndicator + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TRADETYPE_INT:
-				tradeType = FixUtils.getTagStringValue(value, tradeType);
+				tradeType = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, tradeType);
 				if (!TradeType.isValid(tradeType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + tradeType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.PUBLISHTRDINDICATOR_INT:
-				publishTrdIndicator = FixUtils.getTagStringValue(value, publishTrdIndicator);
+				publishTrdIndicator = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, publishTrdIndicator);
 				if (!PublishTrdIndicator.isValid(publishTrdIndicator) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + publishTrdIndicator + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TRADEREPORTTYPE_INT:
-				tradeReportType = FixUtils.getTagStringValue(value, tradeReportType);
+				tradeReportType = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, tradeReportType);
 				if (!TradeReportType.isValid(tradeReportType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + tradeReportType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TRDMATCHID_INT:
-				trdMatchID = FixUtils.getTagStringValue(value, trdMatchID);
+				trdMatchID = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, trdMatchID);
 				break;
 
 			case FixTags.TRDRPTSTATUS_INT:
-				trdRptStatus = FixUtils.getTagStringValue(value, trdRptStatus);
+				trdRptStatus = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, trdRptStatus);
 				if (!TrdRptStatus.isValid(trdRptStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + trdRptStatus + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.TRADEID_INT:
-				tradeID = FixUtils.getTagStringValue(value, tradeID);
+				tradeID = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, tradeID);
 				break;
 
 			case FixTags.MEMO_INT:
-				memo = FixUtils.getTagStringValue(value, memo);
+				memo = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, memo);
 				break;
 
 			case FixTags.SUBMKTID_INT:
-				subMktID = FixUtils.getTagStringValue(value, subMktID);
+				subMktID = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, subMktID);
 				break;
 
 			case FixTags.CONTRAORDERRESTRICTIONS_INT:
-				contraOrderRestrictions = FixUtils.getTagCharValue( value );
+				contraOrderRestrictions = FixUtils.getTagCharValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value );
 				if (!ContraOrderRestrictions.isValid(contraOrderRestrictions) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + contraOrderRestrictions + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.CLREFID_INT:
-				clRefID = FixUtils.getTagStringValue(value, clRefID);
+				clRefID = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, clRefID);
 				break;
 
 			case FixTags.MICCODE_INT:
-				mICCode = FixUtils.getTagStringValue(value, mICCode);
+				mICCode = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, mICCode);
 				break;
 
 			case FixTags.CLEARINGPRICE_INT:
-				clearingPrice = FixUtils.getTagFloatValue(value);
+				clearingPrice = FixUtils.getTagFloatValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value);
 				break;
 
 			case FixTags.OVERRIDEFLAG_INT:
-				overrideFlag = FixUtils.getTagCharValue( value );
+				overrideFlag = FixUtils.getTagCharValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value );
 				if (!OverrideFlag.isValid(overrideFlag) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + overrideFlag + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.DELAYEDDISSEMINATIONINST_INT:
-				delayedDisseminationInst = FixUtils.getTagCharValue( value );
+				delayedDisseminationInst = FixUtils.getTagCharValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value );
 				if (!DelayedDisseminationInst.isValid(delayedDisseminationInst) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + delayedDisseminationInst + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.BRSEQNBR_INT:
-				brSeqNbr = FixUtils.getTagStringValue(value, brSeqNbr);
+				brSeqNbr = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, brSeqNbr);
 				break;
 
 			case FixTags.CONTRATRADEPA_INT:
-				contraTradePA = FixUtils.getTagCharValue( value );
+				contraTradePA = FixUtils.getTagCharValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value );
 				if (!ContraTradePA.isValid(contraTradePA) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + contraTradePA + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.CONTRACLEARINGACCT_INT:
-				contraClearingAcct = FixUtils.getTagStringValue(value, contraClearingAcct);
+				contraClearingAcct = FixUtils.getTagStringValue(MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,id ,value, contraClearingAcct);
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.TRADEENTRYNOTIFICATIONTOENTERINGFIRM ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

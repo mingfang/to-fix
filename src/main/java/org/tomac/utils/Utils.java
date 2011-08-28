@@ -223,13 +223,33 @@ public class Utils {
 		buf.position(currPos);
 	}
 
-	public static int intValueOf(ByteBuffer out, int len) {
+	public static int intTagValueOf(ByteBuffer out, int len) {
+		int x = 0;
+
+		if (len == 0)
+			return 0;
+
+		int pos = 0;
 		
 		out.get(digitsBuf, 0, len);
 		
 		out.position(out.position() - len);
 		
-		return intValueOf(digitsBuf, 0, len);
+		while (len > 0 && digitsBuf[pos] >= '0' && digitsBuf[pos] <= '9') {
+
+			x *= 10;
+
+			x += digitsBuf[pos] - '0';
+
+			len--;
+
+			pos++;
+		}
+
+		if (len != 0) 
+			return 0;
+
+		return x;
 	}
 
 	public static int intValueOf(final byte[] b, int pos, int len) {

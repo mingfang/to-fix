@@ -122,28 +122,28 @@ public class RelationshipRiskLimits implements FixComponent
 			value = buf;
 
 			if(id == FixTags.RELATIONSHIPRISKLIMITTYPE_INT) {
-				relationshipRiskLimitType = FixUtils.getTagIntValue( value );
+				relationshipRiskLimitType = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RELATIONSHIPRISKLIMITAMOUNT_INT) {
-				relationshipRiskLimitAmount = FixUtils.getTagFloatValue(value);
+				relationshipRiskLimitAmount = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RELATIONSHIPRISKLIMITCURRENCY_INT) {
-				relationshipRiskLimitCurrency = FixUtils.getTagStringValue(value, relationshipRiskLimitCurrency);
+				relationshipRiskLimitCurrency = FixUtils.getTagStringValue(null ,id ,value, relationshipRiskLimitCurrency);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.RELATIONSHIPRISKLIMITPLATFORM_INT) {
-				relationshipRiskLimitPlatform = FixUtils.getTagStringValue(value, relationshipRiskLimitPlatform);
+				relationshipRiskLimitPlatform = FixUtils.getTagStringValue(null ,id ,value, relationshipRiskLimitPlatform);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -151,7 +151,7 @@ public class RelationshipRiskLimits implements FixComponent
 
 			if(id == FixTags.NORELATIONSHIPRISKINSTRUMENTS_INT) {
 				int noRelationshipRiskInstruments;
-				noRelationshipRiskInstruments = FixUtils.getTagIntValue( value );
+				noRelationshipRiskInstruments = FixUtils.getTagIntValue(null ,id ,value );
 				relationshipRiskInstrumentScope.getAll(noRelationshipRiskInstruments, buf);
 				lastTagPosition = buf.position();
 
@@ -160,7 +160,7 @@ public class RelationshipRiskLimits implements FixComponent
 
 			if(id == FixTags.NORELATIONSHIPRISKWARNINGLEVELS_INT) {
 				int noRelationshipRiskWarningLevels;
-				noRelationshipRiskWarningLevels = FixUtils.getTagIntValue( value );
+				noRelationshipRiskWarningLevels = FixUtils.getTagIntValue(null ,id ,value );
 				relationshipRiskWarningLevels.getAll(noRelationshipRiskWarningLevels, buf);
 				lastTagPosition = buf.position();
 

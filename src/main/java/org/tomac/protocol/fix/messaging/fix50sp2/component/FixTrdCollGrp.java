@@ -110,14 +110,14 @@ public class TrdCollGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.TRADEREPORTID_INT) {
-				tradeReportID = FixUtils.getTagStringValue(value, tradeReportID);
+				tradeReportID = FixUtils.getTagStringValue(null ,id ,value, tradeReportID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.SECONDARYTRADEREPORTID_INT) {
-				secondaryTradeReportID = FixUtils.getTagStringValue(value, secondaryTradeReportID);
+				secondaryTradeReportID = FixUtils.getTagStringValue(null ,id ,value, secondaryTradeReportID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

@@ -84,7 +84,7 @@ public class FixListStatus extends FixMessage
 		// so negative id means that we are at the end of the message
 		int id;
 		int lastTagPosition = buf.position();
-		while ( ( id = FixUtils.getTagId( buf ) ) > 0 )
+		while ( ( id = FixUtils.getTagId( buf ) ) >= 0 )
 		{
 			ByteBuffer value;
 
@@ -93,70 +93,70 @@ public class FixListStatus extends FixMessage
 			switch( id ) {
 
 			case FixTags.LISTID_INT:
-				listID = FixUtils.getTagStringValue(value, listID);
+				listID = FixUtils.getTagStringValue(MsgTypes.LISTSTATUS ,id ,value, listID);
 				break;
 
 			case FixTags.LISTSTATUSTYPE_INT:
-				listStatusType = FixUtils.getTagIntValue( value );
+				listStatusType = FixUtils.getTagIntValue(MsgTypes.LISTSTATUS ,id ,value );
 				if (!ListStatusType.isValid(listStatusType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + listStatusType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NORPTS_INT:
-				noRpts = FixUtils.getTagIntValue( value );
+				noRpts = FixUtils.getTagIntValue(MsgTypes.LISTSTATUS ,id ,value );
 				break;
 
 			case FixTags.LISTORDERSTATUS_INT:
-				listOrderStatus = FixUtils.getTagIntValue( value );
+				listOrderStatus = FixUtils.getTagIntValue(MsgTypes.LISTSTATUS ,id ,value );
 				if (!ListOrderStatus.isValid(listOrderStatus) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + listOrderStatus + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.CONTINGENCYTYPE_INT:
-				contingencyType = FixUtils.getTagIntValue( value );
+				contingencyType = FixUtils.getTagIntValue(MsgTypes.LISTSTATUS ,id ,value );
 				if (!ContingencyType.isValid(contingencyType) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + contingencyType + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.LISTREJECTREASON_INT:
-				listRejectReason = FixUtils.getTagIntValue( value );
+				listRejectReason = FixUtils.getTagIntValue(MsgTypes.LISTSTATUS ,id ,value );
 				if (!ListRejectReason.isValid(listRejectReason) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + listRejectReason + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.RPTSEQ_INT:
-				rptSeq = FixUtils.getTagIntValue( value );
+				rptSeq = FixUtils.getTagIntValue(MsgTypes.LISTSTATUS ,id ,value );
 				break;
 
 			case FixTags.LISTSTATUSTEXT_INT:
-				listStatusText = FixUtils.getTagStringValue(value, listStatusText);
+				listStatusText = FixUtils.getTagStringValue(MsgTypes.LISTSTATUS ,id ,value, listStatusText);
 				break;
 
 			case FixTags.ENCODEDLISTSTATUSTEXTLEN_INT:
-				encodedListStatusTextLen = FixUtils.getTagIntValue( value );
+				encodedListStatusTextLen = FixUtils.getTagIntValue(MsgTypes.LISTSTATUS ,id ,value );
 				break;
 
 			case FixTags.ENCODEDLISTSTATUSTEXT_INT:
-				encodedListStatusText = FixUtils.getTagStringValue(value, encodedListStatusText);
+				encodedListStatusText = FixUtils.getTagStringValue(MsgTypes.LISTSTATUS ,id ,value, encodedListStatusText);
 				break;
 
 			case FixTags.TRANSACTTIME_INT:
-				transactTime = FixUtils.getTagStringValue(value, transactTime);
+				transactTime = FixUtils.getTagStringValue(MsgTypes.LISTSTATUS ,id ,value, transactTime);
 				break;
 
 			case FixTags.TOTNOORDERS_INT:
-				totNoOrders = FixUtils.getTagIntValue( value );
+				totNoOrders = FixUtils.getTagIntValue(MsgTypes.LISTSTATUS ,id ,value );
 				break;
 
 			case FixTags.LASTFRAGMENT_INT:
-				lastFragment = FixUtils.getTagBooleanValue( value );
+				lastFragment = FixUtils.getTagBooleanValue(MsgTypes.LISTSTATUS ,id ,value );
 				if (!LastFragment.isValid(lastFragment) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + lastFragment + ") for tag").getBytes(), id, FixUtils.getMsgType(msgType) );
 				break;
 
 			case FixTags.NOORDERS_INT:
-				ordListStatGrp.noOrders = FixUtils.getTagIntValue( value );
+				ordListStatGrp.noOrders = FixUtils.getTagIntValue( MsgTypes.LISTSTATUS ,FixTags.NOORDERS_INT ,value );
 				ordListStatGrp.getAll(ordListStatGrp.noOrders, value );
 				break;
 
 			// for a message always get the checksum
 			case FixTags.CHECKSUM_INT:
-				checkSum = FixUtils.getTagIntValue( value );
+				checkSum = FixUtils.getTagIntValue( MsgTypes.LISTSTATUS ,FixTags.CHECKSUM_INT, value );
 
 				id = checkRequiredTags();
 				if (id > 0) throw new FixSessionException(SessionRejectReason.REQUIRED_TAG_MISSING, "Required tag missing".getBytes(), id, FixUtils.getMsgType(msgType) );

@@ -110,14 +110,14 @@ public class ComplexEventTimes implements FixComponent
 			value = buf;
 
 			if(id == FixTags.COMPLEXEVENTSTARTTIME_INT) {
-				complexEventStartTime = FixUtils.getTagStringValue(value, complexEventStartTime);
+				complexEventStartTime = FixUtils.getTagStringValue(null ,id ,value, complexEventStartTime);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.COMPLEXEVENTENDTIME_INT) {
-				complexEventEndTime = FixUtils.getTagStringValue(value, complexEventEndTime);
+				complexEventEndTime = FixUtils.getTagStringValue(null ,id ,value, complexEventEndTime);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

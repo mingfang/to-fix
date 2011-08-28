@@ -111,21 +111,21 @@ public class TargetParties implements FixComponent
 			value = buf;
 
 			if(id == FixTags.TARGETPARTYID_INT) {
-				targetPartyID = FixUtils.getTagStringValue(value, targetPartyID);
+				targetPartyID = FixUtils.getTagStringValue(null ,id ,value, targetPartyID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.TARGETPARTYIDSOURCE_INT) {
-				targetPartyIDSource = FixUtils.getTagCharValue( value );
+				targetPartyIDSource = FixUtils.getTagCharValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.TARGETPARTYROLE_INT) {
-				targetPartyRole = FixUtils.getTagIntValue( value );
+				targetPartyRole = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

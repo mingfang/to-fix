@@ -60,19 +60,19 @@ public class FixApplicationSequenceControl implements FixComponent
 			switch( id ) {
 
 			case FixTags.APPLID_INT:
-				applID = FixUtils.getTagStringValue(value, applID);
+				applID = FixUtils.getTagStringValue(null ,id ,value, applID);
 				break;
 
 			case FixTags.APPLSEQNUM_INT:
-				applSeqNum = FixUtils.getTagIntValue( value );
+				applSeqNum = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.APPLLASTSEQNUM_INT:
-				applLastSeqNum = FixUtils.getTagIntValue( value );
+				applLastSeqNum = FixUtils.getTagIntValue(null ,id ,value );
 				break;
 
 			case FixTags.APPLRESENDFLAG_INT:
-				applResendFlag = FixUtils.getTagBooleanValue( value );
+				applResendFlag = FixUtils.getTagBooleanValue(null ,id ,value );
 				break;
 
 			// we will always endup with unknown tag, unread and return to upper layer in hierarchy
@@ -87,7 +87,7 @@ public class FixApplicationSequenceControl implements FixComponent
 
 			lastTagPosition = buf.position();
 
-		} while ( ( id = FixUtils.getTagId( buf ) ) > 0 );
+		} while ( ( id = FixUtils.getTagId( buf ) ) >= 0 );
 
 		buf.position(startTagPosition);
 

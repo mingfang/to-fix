@@ -129,35 +129,35 @@ public class OrdAllocGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.CLORDID_INT) {
-				clOrdID = FixUtils.getTagStringValue(value, clOrdID);
+				clOrdID = FixUtils.getTagStringValue(null ,id ,value, clOrdID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ORDERID_INT) {
-				orderID = FixUtils.getTagStringValue(value, orderID);
+				orderID = FixUtils.getTagStringValue(null ,id ,value, orderID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.SECONDARYORDERID_INT) {
-				secondaryOrderID = FixUtils.getTagStringValue(value, secondaryOrderID);
+				secondaryOrderID = FixUtils.getTagStringValue(null ,id ,value, secondaryOrderID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.SECONDARYCLORDID_INT) {
-				secondaryClOrdID = FixUtils.getTagStringValue(value, secondaryClOrdID);
+				secondaryClOrdID = FixUtils.getTagStringValue(null ,id ,value, secondaryClOrdID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.LISTID_INT) {
-				listID = FixUtils.getTagStringValue(value, listID);
+				listID = FixUtils.getTagStringValue(null ,id ,value, listID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -165,7 +165,7 @@ public class OrdAllocGrp implements FixComponent
 
 			if(id == FixTags.NONESTED2PARTYIDS_INT) {
 				int noNested2PartyIDs;
-				noNested2PartyIDs = FixUtils.getTagIntValue( value );
+				noNested2PartyIDs = FixUtils.getTagIntValue(null ,id ,value );
 				nestedParties2.getAll(noNested2PartyIDs, buf);
 				lastTagPosition = buf.position();
 
@@ -173,21 +173,21 @@ public class OrdAllocGrp implements FixComponent
 			}
 
 			if(id == FixTags.ORDERQTY_INT) {
-				orderQty = FixUtils.getTagFloatValue(value);
+				orderQty = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ORDERAVGPX_INT) {
-				orderAvgPx = FixUtils.getTagFloatValue(value);
+				orderAvgPx = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.ORDERBOOKINGQTY_INT) {
-				orderBookingQty = FixUtils.getTagFloatValue(value);
+				orderBookingQty = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );

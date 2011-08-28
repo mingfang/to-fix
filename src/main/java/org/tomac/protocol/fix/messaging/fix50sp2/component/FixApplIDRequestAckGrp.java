@@ -122,42 +122,42 @@ public class ApplIDRequestAckGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.REFAPPLID_INT) {
-				refApplID = FixUtils.getTagStringValue(value, refApplID);
+				refApplID = FixUtils.getTagStringValue(null ,id ,value, refApplID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.REFAPPLREQID_INT) {
-				refApplReqID = FixUtils.getTagStringValue(value, refApplReqID);
+				refApplReqID = FixUtils.getTagStringValue(null ,id ,value, refApplReqID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.APPLBEGSEQNUM_INT) {
-				applBegSeqNum = FixUtils.getTagIntValue( value );
+				applBegSeqNum = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.APPLENDSEQNUM_INT) {
-				applEndSeqNum = FixUtils.getTagIntValue( value );
+				applEndSeqNum = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.REFAPPLLASTSEQNUM_INT) {
-				refApplLastSeqNum = FixUtils.getTagIntValue( value );
+				refApplLastSeqNum = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.APPLRESPONSEERROR_INT) {
-				applResponseError = FixUtils.getTagIntValue( value );
+				applResponseError = FixUtils.getTagIntValue(null ,id ,value );
 				if (!FixMessageInfo.ApplResponseError.isValid(applResponseError) ) throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Invalid enumerated value(" + applResponseError + ") for tag").getBytes(), id, new byte[0] );
 				lastTagPosition = buf.position();
 
@@ -166,7 +166,7 @@ public class ApplIDRequestAckGrp implements FixComponent
 
 			if(id == FixTags.NONESTEDPARTYIDS_INT) {
 				int noNestedPartyIDs;
-				noNestedPartyIDs = FixUtils.getTagIntValue( value );
+				noNestedPartyIDs = FixUtils.getTagIntValue(null ,id ,value );
 				nestedParties.getAll(noNestedPartyIDs, buf);
 				lastTagPosition = buf.position();
 

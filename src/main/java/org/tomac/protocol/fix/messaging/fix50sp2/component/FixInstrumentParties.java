@@ -115,21 +115,21 @@ public class InstrumentParties implements FixComponent
 			value = buf;
 
 			if(id == FixTags.INSTRUMENTPARTYID_INT) {
-				instrumentPartyID = FixUtils.getTagStringValue(value, instrumentPartyID);
+				instrumentPartyID = FixUtils.getTagStringValue(null ,id ,value, instrumentPartyID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.INSTRUMENTPARTYIDSOURCE_INT) {
-				instrumentPartyIDSource = FixUtils.getTagCharValue( value );
+				instrumentPartyIDSource = FixUtils.getTagCharValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.INSTRUMENTPARTYROLE_INT) {
-				instrumentPartyRole = FixUtils.getTagIntValue( value );
+				instrumentPartyRole = FixUtils.getTagIntValue(null ,id ,value );
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
@@ -137,7 +137,7 @@ public class InstrumentParties implements FixComponent
 
 			if(id == FixTags.NOINSTRUMENTPARTYSUBIDS_INT) {
 				int noInstrumentPartySubIDs;
-				noInstrumentPartySubIDs = FixUtils.getTagIntValue( value );
+				noInstrumentPartySubIDs = FixUtils.getTagIntValue(null ,id ,value );
 				instrumentPtysSubGrp.getAll(noInstrumentPartySubIDs, buf);
 				lastTagPosition = buf.position();
 

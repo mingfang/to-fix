@@ -118,35 +118,35 @@ public class ContraGrp implements FixComponent
 			value = buf;
 
 			if(id == FixTags.CONTRABROKER_INT) {
-				contraBroker = FixUtils.getTagStringValue(value, contraBroker);
+				contraBroker = FixUtils.getTagStringValue(null ,id ,value, contraBroker);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.CONTRATRADER_INT) {
-				contraTrader = FixUtils.getTagStringValue(value, contraTrader);
+				contraTrader = FixUtils.getTagStringValue(null ,id ,value, contraTrader);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.CONTRATRADEQTY_INT) {
-				contraTradeQty = FixUtils.getTagFloatValue(value);
+				contraTradeQty = FixUtils.getTagFloatValue(null ,id ,value);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.CONTRATRADETIME_INT) {
-				contraTradeTime = FixUtils.getTagStringValue(value, contraTradeTime);
+				contraTradeTime = FixUtils.getTagStringValue(null ,id ,value, contraTradeTime);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
 			}
 
 			if(id == FixTags.CONTRALEGREFID_INT) {
-				contraLegRefID = FixUtils.getTagStringValue(value, contraLegRefID);
+				contraLegRefID = FixUtils.getTagStringValue(null ,id ,value, contraLegRefID);
 				lastTagPosition = buf.position();
 
 				id = FixUtils.getTagId( buf );
