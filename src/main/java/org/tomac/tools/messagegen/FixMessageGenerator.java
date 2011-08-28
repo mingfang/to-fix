@@ -1830,7 +1830,7 @@ public class FixMessageGenerator {
 		out.write("\t	};\n");
 		out.write("\n");
 		
-		out.write("\tpublic void parse( " + strReadableByteBuffer + " buf, FixMessageListener l) throws FixSessionException, FixGarbledException {\n\n");
+		out.write("\tpublic FixMessage parse( " + strReadableByteBuffer + " buf, FixMessageListener l) throws FixSessionException, FixGarbledException {\n\n");
 
 		out.write("\t\tint msgTypeInt = FixMessage.crackMsgType(buf);\n\n");
 
@@ -1842,9 +1842,9 @@ public class FixMessageGenerator {
 			out.write("\t\t\tcase MsgTypes." + m.name.toUpperCase() + "_INT:\n");
 			out.write("\t\t\t\t" + name + ".setBuffer( buf );\n");
 			out.write("\t\t\t\t" + name + ".getAll();\n");
-			out.write("\t\t\t\tif (!validator.validate(" + name + ")) return;\n");
+			out.write("\t\t\t\tif (!validator.validate(" + name + ")) return "+ name + ";\n");
 			out.write("\t\t\t\tl.on" + capFirst(dom.type.toLowerCase()) + m.name + "(" + name + ");\n");
-			out.write("\t\t\t\tbreak;\n");
+			out.write("\t\t\t\treturn "+ name + ";\n");
 		}
 		out.write("\n");
 
@@ -1852,9 +1852,9 @@ public class FixMessageGenerator {
 		out.write("\t\t\t\tfixMessage.setBuffer(buf);\n");
 		out.write("\t\t\t\tfixMessage.getAll();\n");
 		out.write("\t\t\t\tFixUtils.findEndOfMessage(buf);\n");
-		out.write("\t\t\t\tif (!validator.validate(fixMessage)) return;\n");
+		out.write("\t\t\t\tif (!validator.validate(fixMessage)) return fixMessage;\n");
 		out.write("\t\t\t\tl.onUnknownMessageType( fixMessage );\n");
-		out.write("\t\t\t\tbreak;\n\n");
+		out.write("\t\t\t\treturn fixMessage;\n\n");
 		out.write("\t\t}\n\n");
 		out.write("\t}\n\n");
 
