@@ -25,7 +25,7 @@ public class Utils {
 		System.arraycopy(src, 0, dst, 0, length);
 	}
 
-	public static void copyTrimEnds(final byte dst[], final byte src[]) {
+	public static void copyTrim(final byte dst[], final byte src[]) {
 		int length = src.length > dst.length ? dst.length : src.length;
 
 		int begin = 0;
@@ -33,12 +33,7 @@ public class Utils {
 			if (src[begin] != (byte)' ' && src[begin] != (byte)0 && src[begin] != (byte)1 ) break;
 		}
 
-		int end = 0;
-		for (end = length - 1; end >= 0; end--) {
-			if (src[end] != (byte)' ' && src[end] != (byte)0 && src[end] != (byte)1 ) break;
-		}
-
-		System.arraycopy(src, begin, dst, 0, end);
+		System.arraycopy(src, begin, dst, 0, length - begin);
 	}
 	
 	public static void copy(final byte src[], int srcOffset, final byte dst[], int dstOffset, int length ) {
