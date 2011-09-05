@@ -9,7 +9,7 @@ import java.nio.ByteBuffer;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.tomac.protocol.fix.messaging.fix50sp2.*;
+import org.tomac.protocol.fix.messaging.*;
 
 
 /**

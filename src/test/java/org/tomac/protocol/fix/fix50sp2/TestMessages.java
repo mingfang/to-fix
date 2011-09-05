@@ -14,14 +14,14 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.tomac.protocol.fix.FixSessionException;
 import org.tomac.protocol.fix.FixUtils;
-import org.tomac.protocol.fix.messaging.fix50sp2.FixExecutionReport;
-import org.tomac.protocol.fix.messaging.fix50sp2.FixLogon;
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMarketDataSnapshotFullRefresh;
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessage;
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageParser;
-import org.tomac.protocol.fix.messaging.fix50sp2.FixNewOrderSingle;
-import org.tomac.protocol.fix.messaging.fix50sp2.FixNews;
+import org.tomac.protocol.fix.messaging.FixExecutionReport;
+import org.tomac.protocol.fix.messaging.FixLogon;
+import org.tomac.protocol.fix.messaging.FixMarketDataSnapshotFullRefresh;
+import org.tomac.protocol.fix.messaging.FixMessage;
+import org.tomac.protocol.fix.messaging.FixMessageInfo;
+import org.tomac.protocol.fix.messaging.FixMessageParser;
+import org.tomac.protocol.fix.messaging.FixNewOrderSingle;
+import org.tomac.protocol.fix.messaging.FixNews;
 import org.tomac.utils.Utils;
 
 public class TestMessages {

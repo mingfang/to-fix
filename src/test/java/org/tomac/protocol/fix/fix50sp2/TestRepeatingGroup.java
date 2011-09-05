@@ -11,9 +11,9 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.tomac.protocol.fix.FixSessionException;
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageParser;
-import org.tomac.protocol.fix.messaging.fix50sp2.FixQuote;
-import org.tomac.protocol.fix.messaging.fix50sp2.component.FixLegQuotGrp.LegQuotGrp;
+import org.tomac.protocol.fix.messaging.FixMessageParser;
+import org.tomac.protocol.fix.messaging.FixQuote;
+import org.tomac.protocol.fix.messaging.component.FixLegQuotGrp.LegQuotGrp;
 
 public class TestRepeatingGroup {
 	FixMessageParser parser;

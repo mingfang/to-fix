@@ -2,7 +2,7 @@ package org.tomac.protocol.fix.fix50sp2;
 
 import java.nio.ByteBuffer;
 
-import org.tomac.protocol.fix.messaging.fix50sp2.*;
+import org.tomac.protocol.fix.messaging.*;
 
 public class FixMessageListenerTest implements FixMessageListener {
 	FixMessage outMsg;

@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 import org.junit.Test;
 import org.tomac.protocol.fix.FixUtils;
-import org.tomac.protocol.fix.messaging.fix42nordic.FixOrderSingle;
+import org.tomac.protocol.fix.messaging.FixOrderSingle;
 
 public class TestBigDecimalField {
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<fix major="4" minor="2" servicepack="0" type="FIX" package="org.tomac.protocol.fix.messaging.fix42nordic" flavour="Nordic INET">
+<fix major="4" minor="2" servicepack="0" type="FIX" package="org.tomac.protocol.fix.messaging" flavour="Nordic INET">
   <header>
     <field name="BeginString" required="Y"/>
     <field name="BodyLength" required="Y"/>
@@ -594,6 +594,8 @@
       <field name="EncryptMethod" required="Y"/>
       <field name="HeartBtInt" required="Y"/>
       <field name="ResetSeqNumFlag" required="N"/>
+      <field name="RawDatalength" required="N"/>
+      <field name="RawData" required="N"/>
     </message>
     <message name="Logout" msgcat="admin" msgtype="5">
       <field name="Text" required="N"/>
@@ -844,6 +846,8 @@
     </field>
     <field name="ClearingAccount" number="440" type="STRING" length="12"/>
     <field name="HeartBtInt" number="108" type="INT"/>
+    <field name="RawDatalength" number="95" type="INT"/>
+    <field name="RawData" number="96" type="DATA"/>
     <field name="ClientID" number="109" type="STRING"/>
     <field name="LockedInStatus" number="9847" type="CHAR">
       <value enum="B" description="THE_LOCKEDIN_TRADE_IS_EFFECTIVELY_BROKEN_BECAUSE_BOTH_TRADING_PA"/>

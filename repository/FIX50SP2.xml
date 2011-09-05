@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<fix major="5" minor="0" servicepack="2" type="FIX" package="org.tomac.protocol.fix.messaging.fix50sp2" flavour=" fixprotocol.org FIX.5.0SP2">
+<fix major="5" minor="0" servicepack="2" type="FIX" package="org.tomac.protocol.fix.messaging" flavour=" fixprotocol.org FIX.5.0SP2">
   <header>
     <field name="BeginString" required="Y"/>
     <field name="BodyLength" required="Y"/>

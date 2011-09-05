@@ -12,14 +12,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.protocol.fix.FixSessionException;
-import org.tomac.protocol.fix.messaging.fix50sp2.FixExecutionReport;
-import org.tomac.protocol.fix.messaging.fix50sp2.FixLogon;
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessage;
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageInfo;
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessageParser;
-import org.tomac.protocol.fix.messaging.fix50sp2.FixNewOrderSingle;
-import org.tomac.protocol.fix.messaging.fix50sp2.FixTestRequest;
-import org.tomac.protocol.fix.messaging.fix50sp2.FixTradeCaptureReport;
+import org.tomac.protocol.fix.messaging.FixExecutionReport;
+import org.tomac.protocol.fix.messaging.FixLogon;
+import org.tomac.protocol.fix.messaging.FixMessage;
+import org.tomac.protocol.fix.messaging.FixMessageInfo;
+import org.tomac.protocol.fix.messaging.FixMessageParser;
+import org.tomac.protocol.fix.messaging.FixNewOrderSingle;
+import org.tomac.protocol.fix.messaging.FixTestRequest;
+import org.tomac.protocol.fix.messaging.FixTradeCaptureReport;
 
 public class TestFixContainers {
 	FixMessageListenerTest listener;

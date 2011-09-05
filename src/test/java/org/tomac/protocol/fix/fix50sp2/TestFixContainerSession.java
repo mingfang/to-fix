@@ -14,9 +14,9 @@ import org.junit.Test;
 import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.protocol.fix.FixSessionException;
 import org.tomac.protocol.fix.FixUtils;
-import org.tomac.protocol.fix.messaging.fix42nordic.FixMessageInfo.SessionRejectReason;
-import org.tomac.protocol.fix.messaging.fix50sp2.FixMessage;
-import org.tomac.protocol.fix.messaging.fix50sp2.FixExecutionReport;
+import org.tomac.protocol.fix.messaging.FixMessageInfo.SessionRejectReason;
+import org.tomac.protocol.fix.messaging.FixMessage;
+import org.tomac.protocol.fix.messaging.FixExecutionReport;
 
 public class TestFixContainerSession {
 

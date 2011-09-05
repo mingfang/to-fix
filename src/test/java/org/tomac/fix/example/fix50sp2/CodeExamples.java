@@ -3,7 +3,7 @@
  * Licensed under LGPL licenses.
  * You may obtain a copy of the License at http://www.gnu.org/copyleft/lgpl.html
  **/
-package org.tomac.fix.example;
+package org.tomac.fix.example.fix50sp2;
 
 
 import static org.junit.Assert.fail;
@@ -13,7 +13,7 @@ import java.nio.ByteBuffer;
 import org.junit.Test;
 import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.protocol.fix.FixSessionException;
-import org.tomac.protocol.fix.messaging.fix50sp2.*;
+import org.tomac.protocol.fix.messaging.*;
 
 /**
  * @author seto
