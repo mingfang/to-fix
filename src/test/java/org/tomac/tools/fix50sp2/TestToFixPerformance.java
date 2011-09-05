@@ -664,8 +664,7 @@ public class TestToFixPerformance {
 				
 			}
 			@Override
-			public void onUnknownMessageType(
-					org.tomac.protocol.fix.messaging.fix50sp2.FixMessage msg) {
+			public void onUnknownMessageType(FixMessage msg) {
 				// TODO Auto-generated method stub
 				
 			}

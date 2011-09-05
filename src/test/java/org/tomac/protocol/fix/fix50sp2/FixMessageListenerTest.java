@@ -1,7 +1,5 @@
 package org.tomac.protocol.fix.fix50sp2;
 
-import java.nio.ByteBuffer;
-
 import org.tomac.protocol.fix.messaging.*;
 
 public class FixMessageListenerTest implements FixMessageListener {
@@ -19,8 +17,7 @@ public class FixMessageListenerTest implements FixMessageListener {
 	}
 
 	@Override
-	public void onFixTestRequest(
-			org.tomac.protocol.fix.messaging.fix50sp2.FixTestRequest msg) {
+	public void onFixTestRequest(FixTestRequest msg) {
 		outMsg = msg;
 		
 	}
@@ -74,8 +71,7 @@ public class FixMessageListenerTest implements FixMessageListener {
 	}
 
 	@Override
-	public void onFixLogon(
-			org.tomac.protocol.fix.messaging.fix50sp2.FixLogon msg) {
+	public void onFixLogon(FixLogon msg) {
 		outMsg = msg;
 		
 	}
