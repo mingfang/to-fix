@@ -1,5 +1,6 @@
 package org.tomac.protocol.fix;
 
+import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 
 import org.tomac.utils.Utils;
@@ -51,26 +52,29 @@ public class FixUtils {
 	 * @param data
 	 * @return
 	 */
-	public static int getTagId( ByteBuffer data ) throws FixGarbledException
+	public static int getTagId( ByteBuffer out ) throws FixGarbledException
 	{
-		int pos     = data.position();
-		int tagIdEq = Utils.scan( data, EQL );	
-		int len = tagIdEq - pos;
+		out.mark();
 		
-		if (tagIdEq < 0 || FIX_MAX_TAG_DIGITS < len ) throw new FixGarbledException(data, "Tag not terminated by \'=\' or exceding " + FIX_MAX_DIGITS);
-		
-		if ( data.remaining() < len ) return -1;
+		int x = 0;
+		byte b = 0;
 
-		int id = Utils.intTagValueOf( data, len );
+		try {
+			while ((b = out.get() ) != EQL) {
 
-		data.position( tagIdEq + 1 );
+				x *= 10;
 
-		return id;
+				x += b - '0';
+
+			}
+			return x;
+		} catch (BufferUnderflowException e) {
+			throw new FixGarbledException(out, "Tag not terminated by \'=\' or exceding " + FIX_MAX_DIGITS);
+		}
 	}
 
 	public static ByteBuffer getTagValue( ByteBuffer data )
 	{
-		int pos     = data.position();
 		int tagSOH  = Utils.scan( data, SOH ); if ( tagSOH < 0 ) return null;
 
 		ByteBuffer value = data.slice(); 
@@ -84,13 +88,10 @@ public class FixUtils {
 	public static boolean getTagBooleanValue(final byte[] msgType, final int tag, final ByteBuffer buf ) throws FixSessionException {
 		byte c = '0';
 
-		if (buf.hasRemaining()) {
+		c = buf.get();
 
-			c = buf.get();
-
-			if (c == SOH) {
-				throw new FixSessionException(SessionRejectReason.TAG_SPECIFIED_WITHOUT_A_VALUE, "Premature end of buffer missing SOH".getBytes(), tag, msgType);
-			}
+		if (c == SOH) {
+			throw new FixSessionException(SessionRejectReason.TAG_SPECIFIED_WITHOUT_A_VALUE, "Premature end of buffer missing SOH".getBytes(), tag, msgType);
 		}
 
 		if (buf.get() != SOH) {
@@ -103,13 +104,10 @@ public class FixUtils {
 	public static byte getTagCharValue(final byte[] msgType, final int tag, final ByteBuffer buf ) throws FixSessionException {
 		byte c = '0';
 
-		if (buf.hasRemaining()) {
+		c = buf.get();
 
-			c = buf.get();
-
-			if (c == SOH) {
-				throw new FixSessionException(SessionRejectReason.TAG_SPECIFIED_WITHOUT_A_VALUE, "Premature end of buffer missing SOH".getBytes(), tag, msgType);
-			}
+		if (c == SOH) {
+			throw new FixSessionException(SessionRejectReason.TAG_SPECIFIED_WITHOUT_A_VALUE, "Premature end of buffer missing SOH".getBytes(), tag, msgType);
 		}
 
 		if (buf.get() != SOH) {
@@ -126,10 +124,7 @@ public class FixUtils {
 
 		Utils.fillNul(digitsBuf);
 
-		while (buf.hasRemaining()) {
-
-			if ((c = buf.get()) == SOH)
-				break;
+		while ((c = buf.get()) != SOH) {
 
 			digitsBuf[start++] = c;
 
@@ -151,10 +146,7 @@ public class FixUtils {
 		int start = 0;
 		final int end = FIX_MAX_DIGITS;
 
-		while (buf.hasRemaining()) {
-
-			if ((c = buf.get()) == SOH)
-				break;
+		while ((c = buf.get()) != SOH) {
 
 			digitsBuf[start++] = c;
 
@@ -176,15 +168,11 @@ public class FixUtils {
 	public static byte[] getTagStringValue(final byte[] msgType, final int tag, final ByteBuffer src, final byte[] dst) throws FixSessionException {
 		int start = 0;
 		final int end = dst.length;
-		byte c;
-		final int oldPos = src.position();
+		byte c = SOH;
 
 		Utils.fillNul(dst);
 
-		while (src.hasRemaining()) {
-
-			if ((c = src.get()) == SOH)
-				break;
+		while ((c = src.get()) != SOH) {
 
 			if (start >= end) {
 				throw new FixSessionException(SessionRejectReason.VALUE_IS_INCORRECT_OUT_OF_RANGE_FOR_THIS_TAG, ("Value length exceeds maximum of " + end).getBytes(), tag, msgType);
@@ -216,15 +204,19 @@ public class FixUtils {
 		return val;
 	}
 
-	public static int computeChecksum( ByteBuffer buffer, int start, int end )
+	public static int computeChecksum( ByteBuffer buf, int start, int end )
 	{
 		int cks = 0;
+		int i = end - start;
 		
-		for (int i = start; i < end; i++)
+		buf.position(start);
+		
+		while (i > 0)
 		{
-			cks += buffer.get(i);
+			i--;
+			cks += buf.get();
 		}
-                                                                                                                   
+		
         return ( cks % 256 );
 	}
 	

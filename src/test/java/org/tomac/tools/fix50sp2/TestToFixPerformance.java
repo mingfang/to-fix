@@ -17,7 +17,7 @@ import org.tomac.protocol.fix.messaging.*;
  *
  */
 public class TestToFixPerformance {
-	final int ITERATIONS = 100000;
+	final int ITERATIONS = 1000000;
 	final int DO_SAMPLE_DATA = 100;
 	// discard data > 7000 due to grabage collection distortions and jvm warmup
 	final long DISCARD_LEVEL = 7000L;
@@ -750,11 +750,11 @@ public class TestToFixPerformance {
     	
     	try {
 
-    		perf.setUp();
-    		perf.testInBoundLatency();
-
     		//perf.setUp();
-    		//perf.testOutBoundLatency();
+    		//perf.testInBoundLatency();
+
+    		perf.setUp();
+    		perf.testOutBoundLatency();
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -906,10 +906,11 @@ public class FixMessageGenerator {
 		out.write("\t\t	throw new FixGarbledException(buf, \"Final tag in FIX message is not CHECKSUM (10)\");\n\n");
 
 		out.write("\t\tcheckSum = FixUtils.getTagIntValue(tmpMsgType, FixTags.CHECKSUM_INT, buf);\n");
-		out.write("\t\tint calculatedCheckSum = FixUtils.computeChecksum(buf, begin, checkSumBegin);\n");
-		out.write("\t\tif(checkSum != calculatedCheckSum && !IGNORE_CHECKSUM)\n");
-		out.write("\t\t	throw new FixGarbledException(buf, String.format(\"Checksum mismatch; calculated: %s is not equal message checksum: %s\", calculatedCheckSum, checkSum));\n\n");
-
+		if (isCrackMsgType) {
+			out.write("\t\tint calculatedCheckSum = FixUtils.computeChecksum(buf, begin, checkSumBegin);\n");
+			out.write("\t\tif(checkSum != calculatedCheckSum && !IGNORE_CHECKSUM)\n");
+			out.write("\t\t	throw new FixGarbledException(buf, String.format(\"Checksum mismatch; calculated: %s is not equal message checksum: %s\", calculatedCheckSum, checkSum));\n\n");
+		}
 		out.write("\t\t// finish-up\n");
 		//if (isCrackMsgType) 
 		//	out.write("\t\tbuf.flip();\n\n");
