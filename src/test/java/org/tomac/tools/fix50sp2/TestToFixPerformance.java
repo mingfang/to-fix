@@ -699,6 +699,7 @@ public class TestToFixPerformance {
         	}
         	buf.flip();
         }
+        if (sampleCount == 0) return;
 		System.out.println("ns/msg\t#count\ttotns/msg\t#totCount");
 		System.out.println(sampleTime / sampleCount + "\t" + 
 				sampleCount * DO_SAMPLE_DATA + "\t" + cumTime / ITERATIONS + "\t" + ITERATIONS);
@@ -740,6 +741,26 @@ public class TestToFixPerformance {
 		System.out.println("ns/msg\t#count\ttotns/msg\t#totCount");
 		System.out.println(sampleTime / sampleCount + "\t" + 
 				sampleCount * DO_SAMPLE_DATA + "\t" + cumTime / ITERATIONS + "\t" + ITERATIONS);
+    }
+    
+    
+    public static void main (String[] args) {
+    	
+    	TestToFixPerformance perf = new TestToFixPerformance();
+    	
+    	try {
+
+    		perf.setUp();
+    		perf.testInBoundLatency();
+
+    		//perf.setUp();
+    		//perf.testOutBoundLatency();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	
+
     }
 	
 	

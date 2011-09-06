@@ -6,6 +6,8 @@ import org.tomac.utils.Utils;
 
 public class FixUtils {
 	
+	private final static boolean useNasdaqOmx = Boolean.getBoolean("useNasdaq");
+	
 	public final static int UTCTIMESTAMP_LENGTH = 21; // yyyyMMdd-HH:mm:ss.SSS
 	public final static int CURRENCY_LENGTH = 3;
 	public final static int FIX_MAX_STRING_LENGTH = 32;
@@ -52,7 +54,7 @@ public class FixUtils {
 	public static int getTagId( ByteBuffer data ) throws FixGarbledException
 	{
 		int pos     = data.position();
-		int tagIdEq = Utils.scan( data, pos, EQL );	
+		int tagIdEq = Utils.scan( data, EQL );	
 		int len = tagIdEq - pos;
 		
 		if (tagIdEq < 0 || FIX_MAX_TAG_DIGITS < len ) throw new FixGarbledException(data, "Tag not terminated by \'=\' or exceding " + FIX_MAX_DIGITS);
@@ -69,7 +71,7 @@ public class FixUtils {
 	public static ByteBuffer getTagValue( ByteBuffer data )
 	{
 		int pos     = data.position();
-		int tagSOH  = Utils.scan( data, pos, SOH ); if ( tagSOH < 0 ) return null;
+		int tagSOH  = Utils.scan( data, SOH ); if ( tagSOH < 0 ) return null;
 
 		ByteBuffer value = data.slice(); 
 		value.limit( tagSOH );
@@ -446,7 +448,7 @@ public class FixUtils {
 	
 	public static int crackNasdaqMsgType(int msgType, final ByteBuffer buf) throws FixSessionException {
 
-		if (! Boolean.getBoolean("useNasdaq")) return msgType;
+		if (! useNasdaqOmx) return msgType;
 		
 		final int pos = buf.position();
 
@@ -496,12 +498,12 @@ public class FixUtils {
 	public static void findEndOfMessage(ByteBuffer buf) {
 		while(buf.hasRemaining()) {
 			int pos; 
-			if ( ( pos = Utils.scan(buf, buf.position(), SOH) ) < 0 ) return;
+			if ( ( pos = Utils.scan(buf, SOH) ) < 0 ) return;
 			buf.position(pos + 1);
 			if (buf.get() != (byte)'1') continue;
 			if (buf.get() != (byte)'0') continue;
 			if (buf.get() != EQL) continue;
-			if ( ( pos = Utils.scan(buf, buf.position(), SOH) ) < 0 ) return;
+			if ( ( pos = Utils.scan(buf, SOH) ) < 0 ) return;
 			buf.position(pos + 1);
 			return;
 		}

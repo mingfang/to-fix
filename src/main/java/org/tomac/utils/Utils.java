@@ -1,5 +1,6 @@
 package org.tomac.utils;
 
+import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -40,26 +41,27 @@ public class Utils {
 		System.arraycopy(src, srcOffset, dst, dstOffset, length);
 	}
 	
-	public static int scan(ByteBuffer buf, int offset, byte b) {
-		int pos = buf.position();
+	public static int scan(ByteBuffer buf, byte b) {
+		buf.mark();
 		
-		buf.position(offset);
-		
-		while (buf.hasRemaining()) {
-			if (buf.get() == b) {
-				int outPos = buf.position() - 1;
-				buf.position(pos);
-				return outPos;
-			}
+		try {
+			while ( buf.get() != b) {};
+			int pos = buf.position() - 1;
+			buf.reset();
+			return pos;
+		} catch (BufferUnderflowException e) {
+			
+			
 		}
 
+		buf.reset();
 		return -1;
 	}
 	
 	public static boolean contains(ByteBuffer buf, byte[] target) {
 		int pos = buf.position();
 		//find the first character
-		int from = scan(buf, buf.position(), target[0]);
+		int from = scan(buf, target[0]);
 		
 		while(from >= 0) 
 		{
@@ -69,8 +71,8 @@ public class Utils {
 				buf.position(from + target.length);
 				return true;
 			}
-				
-			from = scan(buf, from+1, target[0]);
+			buf.position(from+1);
+			from = scan(buf, target[0]);
 		}
 
 		buf.position(pos);
