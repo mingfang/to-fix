@@ -142,7 +142,7 @@ public class FixMessageGenerator {
 		case FixMessageDom.DATA:
 		case FixMessageDom.XMLDATA:
 		case FixMessageDom.LANGUAGE:
-			out.write("\t\t" + strUtil + ".fill( " + uncapFirst(f.name) + ", (byte)0 );\n");
+			out.write("\t\t" + strUtil + ".clear( " + uncapFirst(f.name) + " );\n");
 			break;
 
 		case FixMessageDom.CHAR:

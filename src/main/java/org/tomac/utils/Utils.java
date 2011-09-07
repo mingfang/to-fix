@@ -181,6 +181,10 @@ public class Utils {
 			buf[i] = b;
 	}
 
+	public static void clear(final byte[] buf) {
+		buf[0] = (byte)0;
+	}
+	
 	public static void fill(final byte[] buf, int offset, int len, byte b) {
 		for (int i = offset; i < len; i++)
 			buf[i] = b;

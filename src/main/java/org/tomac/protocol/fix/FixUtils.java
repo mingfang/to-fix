@@ -52,7 +52,7 @@ public class FixUtils {
 	 * @param data
 	 * @return
 	 */
-	public static int getTagId( ByteBuffer out ) throws FixGarbledException
+	public static int getTagId( final ByteBuffer out ) throws FixGarbledException
 	{
 		out.mark();
 		
@@ -68,16 +68,16 @@ public class FixUtils {
 
 			}
 			return x;
-		} catch (BufferUnderflowException e) {
+		} catch (final BufferUnderflowException e) {
 			throw new FixGarbledException(out, "Tag not terminated by \'=\' or exceding " + FIX_MAX_DIGITS);
 		}
 	}
 
-	public static ByteBuffer getTagValue( ByteBuffer data )
+	public static ByteBuffer getTagValue( final ByteBuffer data )
 	{
-		int tagSOH  = Utils.scan( data, SOH ); if ( tagSOH < 0 ) return null;
+		final int tagSOH  = Utils.scan( data, SOH ); if ( tagSOH < 0 ) return null;
 
-		ByteBuffer value = data.slice(); 
+		final ByteBuffer value = data.slice(); 
 		value.limit( tagSOH );
 
 		data.position( tagSOH + 1 );
@@ -134,9 +134,9 @@ public class FixUtils {
 			}
 		}
 		try {
-			long val = fixFloatValueOf(digitsBuf, start);
+			final long val = fixFloatValueOf(digitsBuf, start);
 			return val;
-		} catch (NumberFormatException n) {
+		} catch (final NumberFormatException n) {
 			throw new FixSessionException(SessionRejectReason.INCORRECT_DATA_FORMAT_FOR_VALUE, "Incorrect data format for value".getBytes(), tag, msgType);
 		}
 	}
@@ -188,23 +188,23 @@ public class FixUtils {
 		return dst;
 	}
 	
-	public static boolean isSet(byte[] val) {
-		return Utils.lastIndexTrim(val, (byte)0) > 0;
+	public static boolean isSet(final byte[] val) {
+		return val[0] != (byte)0;
 	}	
 
-	public static boolean isSet(byte val) {
+	public static boolean isSet(final byte val) {
 		return val != Byte.MAX_VALUE;
 	}	
 
-	public static boolean isSet(long val) {
+	public static boolean isSet(final long val) {
 		return val != Long.MAX_VALUE;
 	}
 
-	public static boolean isSet(boolean val) {
+	public static boolean isSet(final boolean val) {
 		return val;
 	}
 
-	public static int computeChecksum( ByteBuffer buf, int start, int end )
+	public static int computeChecksum( final ByteBuffer buf, final int start, final int end )
 	{
 		int cks = 0;
 		int i = end - start;
@@ -238,7 +238,7 @@ public class FixUtils {
 			j = -l;
 		}
 		count++; // the decimal
-		int decimalPos = length - offset - FIX_FLOAT_NUMBER_OF_DECIMALS_DIGITS + 1;
+		final int decimalPos = length - offset - FIX_FLOAT_NUMBER_OF_DECIMALS_DIGITS + 1;
 
 		while ((l /= radix) != 0 && count < length - offset)
 			count++;
@@ -284,7 +284,7 @@ public class FixUtils {
 
 		if (decimal > -1) {
 			value = Utils.longValueOf(s, 0, decimal) * FIX_FLOAT_NUMBER_OF_DECIMALS;
-			int dec = FIX_FLOAT_NUMBER_OF_DECIMALS_DIGITS < decimals ? FIX_FLOAT_NUMBER_OF_DECIMALS_DIGITS : decimals;
+			final int dec = FIX_FLOAT_NUMBER_OF_DECIMALS_DIGITS < decimals ? FIX_FLOAT_NUMBER_OF_DECIMALS_DIGITS : decimals;
 			value += Utils.intValueOf(s, decimal + 1 < length ? decimal + 1 : length - 1, dec) * Utils.multiplier(FIX_FLOAT_NUMBER_OF_DECIMALS_DIGITS - dec);
 		} else
 			value = Utils.longValueOf(s, 0, decimals) * FIX_FLOAT_NUMBER_OF_DECIMALS;
@@ -295,8 +295,8 @@ public class FixUtils {
 
 	}
 
-	public static void putFixFloatTag(ByteBuffer buf, int tag, long value) {
-		int length = Utils.digits(value) + 1; // 1 for decimal point
+	public static void putFixFloatTag(final ByteBuffer buf, final int tag, final long value) {
+		final int length = Utils.digits(value) + 1; // 1 for decimal point
 		
 		longToFixFloat(digitsBuf, 0, value, length);
 		
@@ -310,7 +310,7 @@ public class FixUtils {
 		
 	}
 
-	public static void putFixTag(ByteBuffer buf, int tag, byte value) {
+	public static void putFixTag(final ByteBuffer buf, final int tag, final byte value) {
 
 		put(buf, tag);
 		
@@ -322,11 +322,11 @@ public class FixUtils {
 		
 	}
 
-	public static void putFixTag(ByteBuffer buf, int tag, int value) {
+	public static void putFixTag(final ByteBuffer buf, final int tag, final int value) {
 		putFixTag(buf, tag, (long)value);
 	}
 
-	public static void putFixTag(ByteBuffer buf, int tag, byte[] value) {
+	public static void putFixTag(final ByteBuffer buf, final int tag, final byte[] value) {
 
 		put(buf, tag);
 		
@@ -338,7 +338,7 @@ public class FixUtils {
 		
 	}
 
-	public static void putFixTag(ByteBuffer buf, int tag, long value) {
+	public static void putFixTag(final ByteBuffer buf, final int tag, long value) {
 
 		put(buf, tag);
 		
@@ -357,7 +357,7 @@ public class FixUtils {
 		
 	}
 
-	public static void putFixTag(ByteBuffer buf, int tag, byte[] value, int offset, int end) {
+	public static void putFixTag(final ByteBuffer buf, final int tag, final byte[] value, final int offset, final int end) {
 
 		put(buf, tag);
 		
@@ -479,7 +479,7 @@ public class FixUtils {
 		return msgType;
 	}
 
-	public static byte[] getMsgType(int msgType) {
+	public static byte[] getMsgType(final int msgType) {
         return new byte[] {
                 //(byte)(msgType >>> 24),
                 //(byte)(msgType >>> 16),
@@ -487,7 +487,7 @@ public class FixUtils {
                 (byte)msgType};
 	}
 
-	public static void findEndOfMessage(ByteBuffer buf) {
+	public static void findEndOfMessage(final ByteBuffer buf) {
 		while(buf.hasRemaining()) {
 			int pos; 
 			if ( ( pos = Utils.scan(buf, SOH) ) < 0 ) return;
