@@ -383,10 +383,10 @@ public class FixUtils {
 		}
 	}
 
-	private static byte[] MIN_VALUE = "-9223372036854775808".getBytes();
+	private static final byte[] MIN_VALUE = "-9223372036854775808".getBytes();
+	private static final byte[] buf = new byte[FIX_MAX_DIGITS];
 
 	static void put(final ByteBuffer out, long i) {
-		final byte[] buf = new byte[FIX_MAX_DIGITS];
 
 		if (i == 0) {
 			out.put((byte) '0');
