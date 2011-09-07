@@ -13,6 +13,7 @@ import java.nio.ByteBuffer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.tomac.utils.Utils;
 
 /**
  * @author seto
@@ -74,6 +75,29 @@ public class TestFixUtils {
 		out.get(b);
 		assertTrue("-1234567890".equals(new String(b)));
 
+	}
+	
+	@Test
+	public void testLongToByteArray() {
+		
+		long l = 182000;
+		ByteBuffer buf = ByteBuffer.wrap(new byte[6]);
+		
+		FixUtils.put(buf, l);
+		
+		assertEquals("182000", new String(buf.array()));
+	}
+	
+	@Test
+	public void testLongToFixFloat() {
+		
+		long l = 182000;
+		byte[] out = new byte[FixUtils.FIX_MAX_DIGITS];
+		
+		FixUtils.longToFixFloat(out, 0, l, Utils.digits(l) + 1);
+		
+		assertEquals("18.2000", new String(out).trim());
+		
 	}
 	
 }
