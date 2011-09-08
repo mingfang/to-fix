@@ -502,7 +502,10 @@ public class FixUtils {
 	}
 
 	public static byte[] getMsgType(final int msgType) {
-        return new byte[] {
+		if (msgType<255) 
+			return new byte[] { (byte)msgType};
+		else 
+			return new byte[] {
                 //(byte)(msgType >>> 24),
                 //(byte)(msgType >>> 16),
                 (byte)(msgType >>> 8),

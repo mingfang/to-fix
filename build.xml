@@ -1,16 +1,132 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project default="create_run_jar" name="Create Runnable Jar for Project to-fix">
-    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
-    <!--ANT 1.7 is required                                        -->
-    <target name="create_run_jar">
-        <jar destfile="C:/Users/seto/Desktop/src/to-fix/target/to-fix-FixMessageGenerator-1.0.jar" filesetmanifest="mergewithoutmain">
-            <manifest>
-                <attribute name="Main-Class" value="org.tomac.tools.messagegen.FixMessageGenerator"/>
-                <attribute name="Class-Path" value="."/>
-            </manifest>
-            <fileset dir="C:/Users/seto/Desktop/src/to-fix/bin"/>
-            <zipfileset excludes="META-INF/*.SF" src="lib/dom4j-1.6.1.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="lib/fix-repository-to-quickfix-xml-1.0.jar"/>
-        </jar>
+<!-- fix.version determinse which version to build. Current alternatives: 
+* fix50sp2 (default)
+* fix42nordic
+Build by;
+ant clean
+ant -Dfix.version=whatever_version_you_want
+ant -Dfix.version=whatever_version_you_want jar
+-->
+<project basedir="." default="build" name="to-fix">
+    <property name="fix.version" value="fix50sp2"/>
+    <property environment="env"/>
+    <property name="ECLIPSE_HOME" value="/Applications/eclipse"/>
+    <property name="junit.output.dir" value="junit"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+    <path id="JUnit 4.libraryclasspath">
+        <pathelement location="${ECLIPSE_HOME}/plugins/org.junit_4.8.1.v4_8_1_v20100427-1100/junit.jar"/>
+        <pathelement location="${ECLIPSE_HOME}/plugins/org.hamcrest.core_1.1.0.v20090501071000.jar"/>
+    </path>
+    <path id="to-fix.classpath">
+        <pathelement location="bin"/>
+        <path refid="JUnit 4.libraryclasspath"/>
+        <pathelement location="lib/dom4j-1.6.1.jar"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src/main/java">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src/test/java">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            	<!-- TODO this should be configurable -->
+                <exclude name="org/tomac/protocol/fix/fix42nordic/"/>
+            </fileset>
+        </copy>
+        <mkdir dir="release"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src/main/java">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            	<exclude name="**/tools" />
+            </fileset>
+        </copy>
     </target>
+    <target depends="init" name="gen">
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}"  includeantruntime="false">
+            <src path="src/main/java"/>
+        	<include name="org/tomac/tools/messagegen/"/>
+            <classpath refid="to-fix.classpath"/>
+        </javac>
+    	<antcall target="gen-${fix.version}"/>
+	</target>
+    <target name="clean">
+        <delete dir="bin"/>
+        <delete dir="release"/>
+        <delete dir="src/main/java/org/tomac/protocol/fix/messaging"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-project" name="build"/>
+    <target depends="gen" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}" includeantruntime="false">
+            <src path="src/main/java"/>
+        </javac>
+    </target>
+    <target name="gen-fix42nordic">
+        <java classname="org.tomac.tools.messagegen.FixMessageGenerator" failonerror="true" fork="yes">
+            <arg line="${basedir}/repository/FIX42Nordic.xml ${basedir}/src/main/java/"/>
+            <classpath refid="to-fix.classpath"/>
+        </java>
+    </target>
+    <target name="gen-fix50sp2">
+        <java classname="org.tomac.tools.messagegen.FixMessageGenerator" failonerror="true" fork="yes">
+            <jvmarg line="-Xmx1024m -Xss4096k"/>
+            <arg line="${basedir}/repository/FIX50SP2.xml ${basedir}/src/main/java/"/>
+            <classpath refid="to-fix.classpath"/>
+        </java>
+    </target>
+	<target depends="build" name="test">
+		<antcall target="test-${fix.version}"/>
+	</target>
+    <target name="test-fix50sp2">
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}" includeantruntime="false">
+            <src path="src/test/java"/>
+            <exclude name="org/tomac/protocol/fix/fix42nordic/"/>
+            <classpath refid="to-fix.classpath"/>
+        </javac>
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="org.tomac.protocol.fix.TestFixUtils" todir="${junit.output.dir}"/>
+            <test name="org.tomac.protocol.fix.fix50sp2.TestFixContainerSession" todir="${junit.output.dir}"/>
+            <test name="org.tomac.protocol.fix.fix50sp2.TestFixContainers" todir="${junit.output.dir}"/>
+            <test name="org.tomac.protocol.fix.fix50sp2.TestMessages" todir="${junit.output.dir}"/>
+            <test name="org.tomac.protocol.fix.fix50sp2.TestRepeatingGroup" todir="${junit.output.dir}"/>
+            <test name="org.tomac.tools.fix50sp2.TestToFixPerformance" todir="${junit.output.dir}"/>
+            <test name="org.tomac.util.TestFieldConverters" todir="${junit.output.dir}"/>
+            <test name="org.tomac.util.TestFieldMap" todir="${junit.output.dir}"/>
+            <test name="org.tomac.util.TestUtils" todir="${junit.output.dir}"/>
+            <test name="org.tomac.fx.example.fix50sp2.CodeExamples" todir="${junit.output.dir}"/>
+            <classpath refid="to-fix.classpath"/>
+        </junit>
+    </target>
+    <target name="junitreport">
+        <junitreport todir="${junit.output.dir}">
+            <fileset dir="${junit.output.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${junit.output.dir}"/>
+        </junitreport>
+    </target>
+    <target depends="build" name="release">
+        <javac debug="true" debuglevel="${debuglevel}" destdir="release" source="${source}" target="${target}"  includeantruntime="false">
+            <src path="src/main/java"/>
+        	<exclude name="org/tomac/tools/messagegen/" />
+        </javac>
+	</target>
+	<target name="jar" depends="release">
+		<jar destfile="${fix.version}.jar">
+			<manifest>
+				<attribute name="version" value="${fix.version}" />
+			</manifest>
+		</jar>
+	</target>
 </project>

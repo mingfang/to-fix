@@ -23,6 +23,7 @@ public class TestToFixPerformance {
 	final long DISCARD_LEVEL = 7000L;
 	FixMessageParser parser;
 	FixMessageListener listener;
+	FixNewOrderSingle order;
 	FixMarketDataSnapshotFullRefresh message;
 	ByteBuffer out;
 	ByteBuffer buf;
@@ -37,6 +38,7 @@ public class TestToFixPerformance {
 		listener = new FixMessageListener() {
     		@Override
     		public void onFixNewOrderSingle(FixNewOrderSingle msg) {
+    			order = msg;
     		}
     		@Override
     		public void onFixMarketDataSnapshotFullRefresh(FixMarketDataSnapshotFullRefresh msg) {
@@ -672,7 +674,7 @@ public class TestToFixPerformance {
 	}
 	
 	@Test
-	public void testInBoundLatency() throws Exception {
+	public void testInBoundLatencyOrderEntry() throws Exception {
 		ByteBuffer buf = ByteBuffer.wrap("8=FIXT.1.1\u00019=241\u000135=D\u000149=SenderCompId\u000156=TargetCompId\u000134=37\u000152=20070223-22:28:33\u000111=1833\u000138=1\u000140=2\u000144=12\u000154=2\u000155=BHP\u000148=BHP\u000159=1\u000160=20060223-22:38:33\u0001526=3620\u000178=2\u000179=AllocACC180=1010.1\u000179=AllocACC2\u000180=2020.2\u0001453=2\u0001448=8\u0001447=D\u0001452=4\u0001448=AAA35354\u0001447=D\u0001452=3\u000110=089\u0001".getBytes());
 
         int count = 0;
@@ -705,9 +707,79 @@ public class TestToFixPerformance {
 				sampleCount * DO_SAMPLE_DATA + "\t" + cumTime / ITERATIONS + "\t" + ITERATIONS);
 	}
 
+	@Test
+	public void testInBoundLatencyMD() throws Exception {
+    	ByteBuffer buf = ByteBuffer.wrap("8=FIXT.1.1\u00019=155\u000135=W\u000134=2\u000149=ABFX\u000152=20080722-16:37:11.234\u000156=X2RV1\u00155=EUR/USD\u0001262=CAP00000112\u0001268=2\u0001269=1\u0001270=1.5786\u0001271=500000\u0001272=20080724\u0001269=1\u0001271=500000\u0001272=20080724\u000110=218\u0001".getBytes());
+
+        int count = 0;
+        long cumTime = 0L;
+        long cumTimeIntervall = 0L;
+        int sampleCount = 0;
+        long sampleTime = 0L;
+
+        System.out.println("toFIX testInBoundLatency");
+        while (count < ITERATIONS) {
+        	long t0 = System.nanoTime();
+        	parser.parse(buf, listener);
+        	long t1 = System.nanoTime();
+        	cumTime += t1 - t0;
+        	cumTimeIntervall += t1 - t0;
+        	++count;
+        	if (count % DO_SAMPLE_DATA == 0) {
+        		if (cumTimeIntervall / DO_SAMPLE_DATA < DISCARD_LEVEL) {
+        			sampleCount++;
+        			sampleTime += cumTimeIntervall / DO_SAMPLE_DATA;
+        		}
+        		//System.out.println(cumTime / count + " " + cumTimeIntervall / DO_SAMPLE_DATA);
+        		cumTimeIntervall = 0L;
+        	}
+        	buf.flip();
+        }
+        if (sampleCount == 0) return;
+		System.out.println("ns/msg\t#count\ttotns/msg\t#totCount");
+		System.out.println(sampleTime / sampleCount + "\t" + 
+				sampleCount * DO_SAMPLE_DATA + "\t" + cumTime / ITERATIONS + "\t" + ITERATIONS);
+	}	
 	
     @Test
-    public void testOutBoundLatency() throws Exception {
+    public void testOutBoundLatencyOrderEntry() throws Exception {
+		ByteBuffer buf = ByteBuffer.wrap("8=FIXT.1.1\u00019=241\u000135=D\u000149=SenderCompId\u000156=TargetCompId\u000134=37\u000152=20070223-22:28:33\u000111=1833\u000138=1\u000140=2\u000144=12\u000154=2\u000155=BHP\u000148=BHP\u000159=1\u000160=20060223-22:38:33\u0001526=3620\u000178=2\u000179=AllocACC180=1010.1\u000179=AllocACC2\u000180=2020.2\u0001453=2\u0001448=8\u0001447=D\u0001452=4\u0001448=AAA35354\u0001447=D\u0001452=3\u000110=089\u0001".getBytes());
+        
+    	parser.parse(buf, listener);
+        ByteBuffer out = ByteBuffer.allocate(1024);
+
+        int count = 0;
+        long cumTime = 0L;
+        long cumTimeIntervall = 0L;
+        int sampleCount = 0;
+        long sampleTime = 0L;
+        
+        System.out.println("toFIX testOutBoundLatency");
+        while (count < ITERATIONS) {
+        	long t0 = System.nanoTime();
+        	order.encode(out);
+        	long t1 = System.nanoTime();
+        	out.clear();
+        	cumTime += t1 -t0;
+        	cumTimeIntervall += t1 -t0;
+        	order.clear();
+        	++count;
+        	if (count % DO_SAMPLE_DATA == 0) {
+        		if (cumTimeIntervall / DO_SAMPLE_DATA < DISCARD_LEVEL) {
+        			sampleCount++;
+        			sampleTime += cumTimeIntervall / DO_SAMPLE_DATA;
+        		}
+        		//System.out.println(cumTime / count + " " + cumTimeIntervall / DO_SAMPLE_DATA);
+        		cumTimeIntervall = 0L;
+        	}
+        }
+		System.out.println("ns/msg\t#count\ttotns/msg\t#totCount");
+		System.out.println(sampleTime / sampleCount + "\t" + 
+				sampleCount * DO_SAMPLE_DATA + "\t" + cumTime / ITERATIONS + "\t" + ITERATIONS);
+    }
+
+    @Test
+    public void testOutBoundLatencyMD() throws Exception {
     	ByteBuffer buf = ByteBuffer.wrap("8=FIXT.1.1\u00019=155\u000135=W\u000134=2\u000149=ABFX\u000152=20080722-16:37:11.234\u000156=X2RV1\u00155=EUR/USD\u0001262=CAP00000112\u0001268=2\u0001269=1\u0001270=1.5786\u0001271=500000\u0001272=20080724\u0001269=1\u0001271=500000\u0001272=20080724\u000110=218\u0001".getBytes());
         
     	parser.parse(buf, listener);
@@ -754,7 +826,7 @@ public class TestToFixPerformance {
     		//perf.testInBoundLatency();
 
     		perf.setUp();
-    		perf.testOutBoundLatency();
+    		perf.testOutBoundLatencyMD();
 
 		} catch (Exception e) {
 			e.printStackTrace();

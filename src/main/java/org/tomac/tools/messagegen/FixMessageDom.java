@@ -224,7 +224,7 @@ public class FixMessageDom {
 					// we may commabout a sub commponent  before the main is found, then it will already be in the named list
 					if (domFixNamedComponents.get(name) != null) {
 						c = domFixNamedComponents.get(name);
-						System.out.println("Create, non existing component.. " + name);
+						//System.out.println("Create, non existing component.. " + name);
 					} else {
 						c = new DomFixComponent();
 					}
@@ -255,7 +255,7 @@ public class FixMessageDom {
 				// we may commabout a sub commponent  before the main is found, then it will already be in the named list
 				if (domFixNamedComponents.get(name) != null) {
 					c = domFixNamedComponents.get(name);
-					System.out.println("Create, non existing component.. " + name);
+					//System.out.println("Create, non existing component.. " + name);
 				} else 
 					c = new DomFixComponent();
 
@@ -315,7 +315,7 @@ public class FixMessageDom {
 				}
 
 				if (domFixNamedComponents.get(name) == null) {
-					System.out.println("What, non existing component.. " + name);
+					//System.out.println("What, non existing component.. " + name);
 				} 
 
 				
