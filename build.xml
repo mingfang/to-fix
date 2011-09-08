@@ -59,8 +59,10 @@ ant -Dfix.version=whatever_version_you_want jar
 	</target>
     <target name="clean">
         <delete dir="bin"/>
+        <delete dir="junit"/>
         <delete dir="release"/>
         <delete dir="src/main/java/org/tomac/protocol/fix/messaging"/>
+        <delete file="*.jar"/>
     </target>
     <target depends="clean" name="cleanall"/>
     <target depends="build-project" name="build"/>
