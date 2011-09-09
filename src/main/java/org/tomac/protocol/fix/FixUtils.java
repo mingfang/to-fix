@@ -220,10 +220,19 @@ public class FixUtils {
         return ( cks % 256 );
 	}
 	
-	public static void longToFixFloat(final byte out[], final int offset, long l, final int length) {
+	public static void longToFixFloat(final byte out[], final int offset, long l, int length) {
+		final boolean negative = l < 0;
 		final int radix = 10;
+		int pos = offset + length;
+		final int missingDigits = -1 * (length - FIX_FLOAT_NUMBER_OF_DECIMALS_DIGITS);
+		int decimal;
 		
-		Utils.fillNul(out);
+		if ( missingDigits > 0 ) decimal = offset + 2;
+		else if ( missingDigits < 0 ) decimal = pos - FIX_FLOAT_NUMBER_OF_DECIMALS_DIGITS + 1;
+		else decimal = offset + 2;
+		pos += length <= FIX_FLOAT_NUMBER_OF_DECIMALS_DIGITS ? decimal + missingDigits : 1;
+
+		Utils.fill(out, offset, pos - offset, (byte)'0');
 
 		if (l == 0) {
 			out[offset] = (byte) '0';
@@ -232,15 +241,14 @@ public class FixUtils {
 
 		int count = 2;
 		long j = l;
-		final boolean negative = l < 0;
 		if (!negative) {
 			count = 1;
 			j = -l;
+		} else {
+			pos++;
+			decimal++;
 		}
-		count++; // the decimal
-		final int decimalPos = length - offset - FIX_FLOAT_NUMBER_OF_DECIMALS_DIGITS + 1;
-
-		while ((l /= radix) != 0 && count < length - offset)
+		while ((l /= radix) != 0)
 			count++;
 
 		do {
@@ -249,15 +257,17 @@ public class FixUtils {
 				ch = ch - 10 + (byte) 'a';
 			else
 				ch += (byte) '0';
-			if (count == decimalPos - 1)
-				out[--count] = (byte) '.';
-			out[--count] = (byte) ch;
+			out[--pos] = (byte) ch;
+			if (pos==decimal) --pos;
 
 		} while ((j /= radix) != 0);
+		
+		out[decimal-1] = (byte)'.';
+		
 		if (negative)
 			out[0] = (byte) '-';
 
-	}	
+	}
 
 	public static long fixFloatValueOf(final byte[] s, int length) {
 		int start = 0;
@@ -296,7 +306,7 @@ public class FixUtils {
 	}
 
 	public static void putFixFloatTag(final ByteBuffer buf, final int tag, final long value) {
-		final int length = Utils.digits(value) + 1; // 1 for decimal point
+		final int length = Utils.digits(value);
 		
 		longToFixFloat(digitsBuf, 0, value, length);
 		

@@ -91,12 +91,69 @@ public class TestFixUtils {
 	@Test
 	public void testLongToFixFloat() {
 		
-		long l = 182000;
+		long l;
 		byte[] out = new byte[FixUtils.FIX_MAX_DIGITS];
 		
-		FixUtils.longToFixFloat(out, 0, l, Utils.digits(l) + 1);
-		
+		l = 182000;
+		Utils.fillNul(out);
+		FixUtils.longToFixFloat(out, 0, l, Utils.digits(l));
 		assertEquals("18.2000", new String(out).trim());
+
+		l = 18200;
+		Utils.fillNul(out);
+		FixUtils.longToFixFloat(out, 0, l, Utils.digits(l));
+		assertEquals("1.8200", new String(out).trim());
+
+		l = 1820;
+		Utils.fillNul(out);
+		FixUtils.longToFixFloat(out, 0, l, Utils.digits(l));
+		assertEquals("0.1820", new String(out).trim());
+
+		l = 182;
+		Utils.fillNul(out);
+		FixUtils.longToFixFloat(out, 0, l, Utils.digits(l));
+		assertEquals("0.0182", new String(out).trim());
+
+		l = 18;
+		Utils.fillNul(out);
+		FixUtils.longToFixFloat(out, 0, l, Utils.digits(l));
+		assertEquals("0.0018", new String(out).trim());
+
+		l = 1;
+		Utils.fillNul(out);
+		FixUtils.longToFixFloat(out, 0, l, Utils.digits(l));
+		assertEquals("0.0001", new String(out).trim());
+
+		l = -182000;
+		Utils.fillNul(out);
+		FixUtils.longToFixFloat(out, 0, l, Utils.digits(l));
+		assertEquals("-18.2000", new String(out).trim());
+
+		l = -18200;
+		Utils.fillNul(out);
+		FixUtils.longToFixFloat(out, 0, l, Utils.digits(l));
+		assertEquals("-1.8200", new String(out).trim());
+
+		l = -1820;
+		Utils.fillNul(out);
+		FixUtils.longToFixFloat(out, 0, l, Utils.digits(l));
+		assertEquals("-0.1820", new String(out).trim());
+
+		l = -182;
+		Utils.fillNul(out);
+		FixUtils.longToFixFloat(out, 0, l, Utils.digits(l));
+		assertEquals("-0.0182", new String(out).trim());
+
+		l = -18;
+		Utils.fillNul(out);
+		FixUtils.longToFixFloat(out, 0, l, Utils.digits(l));
+		assertEquals("-0.0018", new String(out).trim());
+
+		l = -1;
+		Utils.fillNul(out);
+		FixUtils.longToFixFloat(out, 0, l, Utils.digits(l));
+		assertEquals("-0.0001", new String(out).trim());
+
 		
 	}
 	

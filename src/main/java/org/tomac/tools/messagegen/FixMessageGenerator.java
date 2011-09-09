@@ -9,6 +9,8 @@ import java.util.SortedSet;
 
 import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
+import org.tomac.protocol.fix.FixGarbledException;
+import org.tomac.protocol.fix.FixSessionException;
 import org.tomac.tools.messagegen.FixMessageDom.DomBase;
 import org.tomac.tools.messagegen.FixMessageDom.DomFixComponent;
 import org.tomac.tools.messagegen.FixMessageDom.DomFixComponentRef;
@@ -888,7 +890,10 @@ public class FixMessageGenerator {
 		out.write("\t\tint checkSumBegin = buf.position() + bodyLength; \n");
 
 		out.write("\t\tif(checkSumBegin > buf.limit()) \n\n");
-		out.write("\t\t\tthrow new FixGarbledException(buf, \"Message too short to contain mandatory checksum\");\n\n");
+		if (isCrackMsgType) 
+			out.write("\t\t\treturn -1; // signal that buffer is to short.\n");
+		else
+			out.write("\t\t\tthrow new FixGarbledException(buf, \"Message too short to contain mandatory checksum\");\n\n");
 
 		out.write("\t\t//FIRST, validate that we got a msgType field\n");
 		out.write("\t\ttagId = FixUtils.getTagId(buf);\n");
@@ -1821,9 +1826,20 @@ public class FixMessageGenerator {
 		out.write("\t	};\n");
 		out.write("\n");
 		
+		out.write("\t/**");
+		out.write("\t * Returns parsed FixMessage. Buffer is flipped containing the message. If the buffer is to small to contains a fix Message null is returned and the buffer is untouched.\n");
+		out.write("\t * If an exception is thrown, the buffer position is set to its limit, indicating that it should be discarded.\n");
+		out.write("\t * @param buf\n");
+		out.write("\t * @param l\n");
+		out.write("\t * @return\n");
+		out.write("\t * @throws FixSessionException\n");
+		out.write("\t * @throws FixGarbledException\n");
+		out.write("\t */\n");
 		out.write("\tpublic FixMessage parse( " + strReadableByteBuffer + " buf, FixMessageListener l) throws FixSessionException, FixGarbledException {\n\n");
 
 		out.write("\t\tint msgTypeInt = FixMessage.crackMsgType(buf);\n\n");
+
+		out.write("\t\tif (msgTypeInt < 0 ) return null;\n\n");
 
 		out.write("\t\tswitch (msgTypeInt) {\n\n");
 
