@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src/main/java"/>
+	<!-- classpathentry excluding="org/tomac/fix/example/fix50sp2/|org/tomac/protocol/fix/fix50sp2/|org/tomac/tools/fix50sp2/" kind="src" path="src/test/java"/-->
 	<classpathentry excluding="org/tomac/protocol/fix/fix42nordic/" kind="src" path="src/test/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
