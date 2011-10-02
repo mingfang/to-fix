@@ -37,7 +37,7 @@ import org.tomac.protocol.fix.messaging.FixOrderCancelReject;
 import org.tomac.protocol.fix.messaging.FixOrderCancelReplaceRequest;
 import org.tomac.protocol.fix.messaging.FixOrderCancelRequest;
 import org.tomac.protocol.fix.messaging.FixOrderReject;
-import org.tomac.protocol.fix.messaging.FixOrderSingle;
+import org.tomac.protocol.fix.messaging.FixNewOrderSingle;
 import org.tomac.protocol.fix.messaging.FixPendingCancel;
 import org.tomac.protocol.fix.messaging.FixReject;
 import org.tomac.protocol.fix.messaging.FixRejectedCancelReplace;
@@ -298,7 +298,7 @@ public class TestParseFixStream {
 		}
 
 		@Override
-		public void onFixOrderSingle(FixOrderSingle msg) {
+		public void onFixNewOrderSingle(FixNewOrderSingle msg) {
 			printIt(msg);
 
 		}
