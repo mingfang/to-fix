@@ -10,6 +10,7 @@ optional set your junit path -Djunit.path=wherever_it_is
 -->
 <project basedir="." default="build" name="to-fix">
     <property name="fix.version" value="fix50sp2"/>
+    <property name="to-fix.version" value="1.0"/>
 
 	<property environment="env"/>
     <property name="junit.path" value="/Applications/eclipse/plugins/org.junit_4.8.1.v4_8_1_v20100427-1100/junit.jar"/>
@@ -38,8 +39,11 @@ optional set your junit path -Djunit.path=wherever_it_is
     </path>
     <path id="to-fix-gen.classpath">
         <pathelement location="bin"/>
-        <path refid="JUnit 4.libraryclasspath"/>
         <pathelement location="lib/dom4j-1.6.1.jar"/>
+    </path>
+    <path id="to-fix-test.classpath">
+        <pathelement location="bin"/>
+        <path refid="JUnit 4.libraryclasspath"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
@@ -106,7 +110,7 @@ optional set your junit path -Djunit.path=wherever_it_is
             <include name="org/tomac/protocol/fix/TestFixUtils.java"/>
             <include name="org/tomac/protocol/fix/${fix.version}/"/>
             <include name="org/tomac/util/"/>
-            <classpath refid="to-fix-gen.classpath"/>
+            <classpath refid="to-fix-test.classpath"/>
         </javac>
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
@@ -116,7 +120,7 @@ optional set your junit path -Djunit.path=wherever_it_is
             <test name="org.tomac.protocol.fix.${fix.version}.TestFixContainerSession" todir="${junit.output.dir}"/>
             <test name="org.tomac.util.TestFieldConverters" todir="${junit.output.dir}"/>
             <test name="org.tomac.protocol.fix.TestFixUtils" todir="${junit.output.dir}"/>
-            <classpath refid="to-fix-gen.classpath"/>
+            <classpath refid="to-fix-test.classpath"/>
         </junit>
 		<antcall target="test-${fix.version}"/>
 	</target>
@@ -125,7 +129,7 @@ optional set your junit path -Djunit.path=wherever_it_is
             <src path="src/test/java"/>
             <include name="org/tomac/fix/example/${fix.version}/"/>
             <include name="org/tomac/tools/${fix.version}/"/>
-            <classpath refid="to-fix-gen.classpath"/>
+            <classpath refid="to-fix-test.classpath"/>
         </javac>
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
@@ -135,7 +139,7 @@ optional set your junit path -Djunit.path=wherever_it_is
             <test name="org.tomac.tools.${fix.version}.TestToFixPerformance" todir="${junit.output.dir}"/>
             <test name="org.tomac.fix.example.${fix.version}.CodeExamples" todir="${junit.output.dir}"/>
             <test name="org.tomac.protocol.fix.${fix.version}.TestFixContainers" todir="${junit.output.dir}"/>
-            <classpath refid="to-fix-gen.classpath"/>
+            <classpath refid="to-fix-test.classpath"/>
         </junit>
     </target>
     <target name="test-fix42nordic" >
@@ -143,14 +147,14 @@ optional set your junit path -Djunit.path=wherever_it_is
             <src path="src/test/java"/>
             <include name="org/tomac/fix/example/${fix.version}/"/>
             <include name="org/tomac/tools/${fix.version}/"/>
-            <classpath refid="to-fix-gen.classpath"/>
+            <classpath refid="to-fix-test.classpath"/>
         </javac>
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
             <formatter type="xml"/>
             <test name="org.tomac.protocol.fix.${fix.version}.TestBigDecimalField" todir="${junit.output.dir}"/>
             <test name="org.tomac.protocol.fix.TestFixUtils" todir="${junit.output.dir}"/>
-            <classpath refid="to-fix-gen.classpath"/>
+            <classpath refid="to-fix-test.classpath"/>
         </junit>
     </target>
     <target depends="build" name="release">
@@ -160,7 +164,7 @@ optional set your junit path -Djunit.path=wherever_it_is
         </javac>
 	</target>
 	<target name="jar" depends="release">
-        <property name="version.num" value="1.0"/>
+        <property name="version.num" value="${to-fix.version}"/>
 		<property name="build.num" value="${build.current.revision}" />
 		<tstamp>
     	  <format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
@@ -168,7 +172,6 @@ optional set your junit path -Djunit.path=wherever_it_is
     	
         <jar destfile="target/${fix.version}.jar" filesetmanifest="mergewithoutmain">
             <manifest>
-                <attribute name="Main-Class" value="org.tomac.tools.converter.FixRepositoryToQuickFixXml"/>
                 <attribute name="Class-Path" value="."/>
 
                 <attribute name="Implementation-Title" value="Fix Message Containters to-fix"/>   
@@ -178,6 +181,27 @@ optional set your junit path -Djunit.path=wherever_it_is
                 <attribute name="Built-Date" value="${TODAY}"/> 
             </manifest>
             <fileset dir="release"/>
+        </jar>
+	</target>
+	<target name="messagegenerator-jar" depends="gen">
+        <property name="version.num" value="${to-fix.version}"/>
+		<property name="build.num" value="${build.current.revision}" />
+		<tstamp>
+    	  <format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
+    	</tstamp>
+    	
+        <jar destfile="target/to-fix-MessageGenerator.jar">
+            <manifest>
+                <attribute name="Main-Class" value="org.tomac.tools.messagegen.FixMessageGenerator"/>
+                <attribute name="Class-Path" value="."/>
+
+                <attribute name="Implementation-Title" value="Fix Message Containters Generator to-fix"/>   
+                <attribute name="Implementation-Version" value="${version.num}-r${build.num}"/>   
+                <attribute name="Implementation-Vendor" value="Sebastian Tomac tomac.org"/>   
+            	<attribute name="Created-By" value="Sebastian Tomac"/>
+                <attribute name="Built-Date" value="${TODAY}"/> 
+            </manifest>
+            <fileset dir="bin"/>
         </jar>
 	</target>
 </project>
