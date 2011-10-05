@@ -68,9 +68,13 @@ public class FixMessageGenerator {
 	}
 
 	public static void main(final String[] args) {
+		boolean prettyformat = false;
+		
 		if (args.length < 1) {
 			System.out.println("Usage: FixMessageGenerator [spec file] [output directory]");
 			return;
+		} else if (args[0].equals("-prettyformat") && args.length > 1) {
+			prettyformat = true;
 		}
 
 		final File specFile = new File(args[0]);
@@ -100,6 +104,11 @@ public class FixMessageGenerator {
 
 			e.printStackTrace();
 
+			return;
+		}
+		
+		if (prettyformat) {
+			new FixMessageGenerator().prettyformat(fixDom);
 			return;
 		}
 
@@ -2198,4 +2207,10 @@ public class FixMessageGenerator {
 		out.write("// will be deleted upon the next run of the FixMessageGenerator!\n\n");
 	}
 
+	public void prettyformat(FixMessageDom fixDom) {
+		
+			// TODO Auto-generated method stub
+			
+	}
+	
 }

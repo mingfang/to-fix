@@ -298,7 +298,9 @@ public class FixMessageDom {
 					if (attribute.getName().equals("required"))
 						required = attribute.getValue();
 				}
-				final DomFixField f = new DomFixField(domFixNamedFields.get(name), required, component.indexOf(field));
+				DomFixField qf = domFixNamedFields.get(name);
+				if (qf == null) { System.out.println(name); continue; }
+				final DomFixField f = new DomFixField(qf, required, component.indexOf(field));
 				c.fields.add(f);
 				c.fieldsAndComponents.add(f);
 			} else if (field.getName().equals("component")) {
