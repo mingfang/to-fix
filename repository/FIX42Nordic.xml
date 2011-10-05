@@ -594,8 +594,6 @@
       <field name="EncryptMethod" required="Y"/>
       <field name="HeartBtInt" required="Y"/>
       <field name="ResetSeqNumFlag" required="N"/>
-      <field name="RawDatalength" required="N"/>
-      <field name="RawData" required="N"/>
     </message>
     <message name="Logout" msgcat="admin" msgtype="5">
       <field name="Text" required="N"/>
