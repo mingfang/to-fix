@@ -15,13 +15,13 @@ import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.protocol.fix.FixSessionException;
 import org.tomac.protocol.fix.FixUtils;
 import org.tomac.protocol.fix.messaging.FixMessage;
-import org.tomac.protocol.fix.messaging.FixOrderAcknowledgement;
+import org.tomac.protocol.fix.messaging.FixExecutionReport;
 import org.tomac.protocol.fix.messaging.FixMessageInfo.SessionRejectReason;
 
 public class TestFixContainerSession {
 
-	FixOrderAcknowledgement msg;
-	FixOrderAcknowledgement msg2;
+	FixExecutionReport msg;
+	FixExecutionReport msg2;
 	ByteBuffer buf;
 	ByteBuffer out;
 	String testHeader;
@@ -35,8 +35,8 @@ public class TestFixContainerSession {
 		buf = ByteBuffer.allocate(1024);
 		out = ByteBuffer.allocate(1024);
 		
-		msg = new FixOrderAcknowledgement();
-		msg2 = new FixOrderAcknowledgement();
+		msg = new FixExecutionReport();
+		msg2 = new FixExecutionReport();
 
 		testHeader = "8=FIX.4.2\u0001" + "9=0257\u0001" + "35=8\u0001" + "34=8337\u0001" + "49=INORD\u0001" + 
 		"56=TOM\u0001" + "52=20110505-11:23:18.445\u0001" + "50=S\u0001" + "57=TOMA01\u0001";

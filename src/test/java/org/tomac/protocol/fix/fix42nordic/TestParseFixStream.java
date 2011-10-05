@@ -11,42 +11,27 @@ import java.nio.ByteBuffer;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.protocol.fix.FixSessionException;
 import org.tomac.protocol.fix.FixUtils;
-import org.tomac.protocol.fix.messaging.FixAcceptedCancel;
-import org.tomac.protocol.fix.messaging.FixAcceptedCancelReplace;
-import org.tomac.protocol.fix.messaging.FixApplicationReject;
-import org.tomac.protocol.fix.messaging.FixBreakNotification;
-import org.tomac.protocol.fix.messaging.FixBusinessReject;
-import org.tomac.protocol.fix.messaging.FixCancelNotification;
-import org.tomac.protocol.fix.messaging.FixEntryNotificationtoAllegedFirm;
-import org.tomac.protocol.fix.messaging.FixExecutionReportFill;
-import org.tomac.protocol.fix.messaging.FixExecutionRestatement;
+import org.tomac.protocol.fix.messaging.FixExecutionReport;
 import org.tomac.protocol.fix.messaging.FixHeartbeat;
-import org.tomac.protocol.fix.messaging.FixLockedinNotification;
-import org.tomac.protocol.fix.messaging.FixLockedinTradeBreak;
 import org.tomac.protocol.fix.messaging.FixLogon;
 import org.tomac.protocol.fix.messaging.FixLogout;
 import org.tomac.protocol.fix.messaging.FixMessage;
 import org.tomac.protocol.fix.messaging.FixMessageListener;
 import org.tomac.protocol.fix.messaging.FixMessageParser;
-import org.tomac.protocol.fix.messaging.FixOrderAcknowledgement;
+import org.tomac.protocol.fix.messaging.FixNewOrderSingle;
 import org.tomac.protocol.fix.messaging.FixOrderCancelReject;
 import org.tomac.protocol.fix.messaging.FixOrderCancelReplaceRequest;
 import org.tomac.protocol.fix.messaging.FixOrderCancelRequest;
-import org.tomac.protocol.fix.messaging.FixOrderReject;
-import org.tomac.protocol.fix.messaging.FixNewOrderSingle;
-import org.tomac.protocol.fix.messaging.FixPendingCancel;
 import org.tomac.protocol.fix.messaging.FixReject;
 import org.tomac.protocol.fix.messaging.FixRejectedCancelReplace;
 import org.tomac.protocol.fix.messaging.FixResendRequest;
 import org.tomac.protocol.fix.messaging.FixSequenceReset;
 import org.tomac.protocol.fix.messaging.FixTestRequest;
-import org.tomac.protocol.fix.messaging.FixTradeEntryNotificationtoEnteringFirm;
-import org.tomac.protocol.fix.messaging.FixTradeReportCancel;
-import org.tomac.protocol.fix.messaging.FixTradeReportEntry;
 
 public class TestParseFixStream {
 	/**
@@ -76,10 +61,10 @@ public class TestParseFixStream {
 	public void tearDown() throws Exception {
 	}
 
-	//@Ignore
+	@Ignore
 	@Test
 	public void testParesFixStream() {
-		System.setProperty("useNasdaq", "true");
+		System.setProperty("useNasdaq", "false");
 		
 		boolean b = Boolean.getBoolean("useNasdaq");
 		
@@ -180,103 +165,8 @@ public class TestParseFixStream {
 		}
 
 		@Override
-		public void onFixAcceptedCancelReplace(FixAcceptedCancelReplace msg) {
+		public void onFixExecutionReport(FixExecutionReport msg) {
 			printIt(msg);
-		}
-
-		@Override
-		public void onFixAcceptedCancel(FixAcceptedCancel msg) {
-			printIt(msg);
-		}
-
-		@Override
-		public void onFixApplicationReject(FixApplicationReject msg) {
-			printIt(msg);
-
-		}
-
-		@Override
-		public void onFixBreakNotification(FixBreakNotification msg) {
-			printIt(msg);
-
-		}
-
-		@Override
-		public void onFixBusinessReject(FixBusinessReject msg) {
-			printIt(msg);
-
-		}
-
-		@Override
-		public void onFixCancelNotification(FixCancelNotification msg) {
-			printIt(msg);
-
-		}
-
-		@Override
-		public void onFixEntryNotificationtoAllegedFirm(FixEntryNotificationtoAllegedFirm msg) {
-			printIt(msg);
-
-		}
-
-		@Override
-		public void onFixExecutionReportFill(FixExecutionReportFill msg) {
-			printIt(msg);
-
-		}
-
-		@Override
-		public void onFixExecutionRestatement(FixExecutionRestatement msg) {
-			printIt(msg);
-
-		}
-
-		@Override
-		public void onFixLockedinNotification(FixLockedinNotification msg) {
-			printIt(msg);
-
-		}
-
-		@Override
-		public void onFixLockedinTradeBreak(FixLockedinTradeBreak msg) {
-			printIt(msg);
-
-		}
-
-		@Override
-		public void onFixOrderAcknowledgement(FixOrderAcknowledgement msg) {
-			printIt(msg);
-
-		}
-
-		@Override
-		public void onFixOrderReject(FixOrderReject msg) {
-			printIt(msg);
-
-		}
-
-		@Override
-		public void onFixPendingCancel(FixPendingCancel msg) {
-			printIt(msg);
-
-		}
-
-		@Override
-		public void onFixTradeEntryNotificationtoEnteringFirm(FixTradeEntryNotificationtoEnteringFirm msg) {
-			printIt(msg);
-
-		}
-
-		@Override
-		public void onFixTradeReportCancel(FixTradeReportCancel msg) {
-			printIt(msg);
-
-		}
-
-		@Override
-		public void onFixTradeReportEntry(FixTradeReportEntry msg) {
-			printIt(msg);
-
 		}
 
 		@Override
