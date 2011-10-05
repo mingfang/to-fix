@@ -18,8 +18,14 @@ optional set your junit path -Djunit.path=wherever_it_is
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.6"/>
     <property name="source" value="1.6"/>
+    <condition property="svnversion" value="C:\\Program Files\\SlikSvn\\bin\\svnversion.exe">
+            <os family="windows" />
+    </condition>	
+    <condition property="svnversion" value="svnversion">
+            <os family="unix" />
+    </condition>	
 
-	<exec outputproperty="build.current.revision" executable="svnversion">
+	<exec outputproperty="build.current.revision" executable="${svnversion}">
 	         <arg line="-n -c" />
 	         <redirector>
 	           <outputfilterchain>
