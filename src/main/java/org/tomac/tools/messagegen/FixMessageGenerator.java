@@ -649,12 +649,6 @@ public class FixMessageGenerator {
 
 		genListenerInterfaceImpl(dom, new BufferedWriter(new FileWriter(f)));
 		
-		// generate a listener interface proxy
-		f = new File(packageDir, dom.type + "MessageListenerProxy.java");
-
-		genListenerInterfaceProxy(dom, new BufferedWriter(new FileWriter(f)));
-		
-
 		// generate a parser
 		f = new File(packageDir, dom.type + "MessageParser.java");
 
@@ -1065,50 +1059,7 @@ public class FixMessageGenerator {
 		// done. close out the file
 		out.close();
 	}
-	
-	private void genListenerInterfaceProxy(final FixMessageDom dom, final BufferedWriter out) throws Exception {
 
-		// write package line
-		out.write("package " + dom.packageName + ";\n\n");
-
-		writeGeneratedFileHeader(out);
-
-		out.write(strInByteBuffer + "\n");
-
-		// write out the open to the interface
-		out.write("public class " + dom.type + "MessageListenerProxy implements " + dom.type + "MessageListener\n{\n\n");
-
-		// write out a handler for unknown message types 	
-		out.write("\tFixMessageListener sessionLayer;\n");
-		out.write("\tFixMessageListener applicationLayer;\n\n");
-
-		out.write("\tpublic FixMessageListenerProxy(FixMessageListener l1, FixMessageListener l2) {\n");
-		out.write("\t\tthis.sessionLayer = l1;\n");
-		out.write("\t\tthis.applicationLayer = l2;\n");
-		out.write("\t}\n\n");
-
-		out.write("\t@Override\n");
-		out.write("\tpublic void onUnknownMessageType(FixMessage msg) {\n");
-		out.write("\t\tsessionLayer.onUnknownMessageType(msg);\n");
-		out.write("\t\tapplicationLayer.onUnknownMessageType(msg);\n");
-		out.write("\t}\n\n");
-						
-		// write out each callback
-		for (final DomFixMessage m : dom.domFixMessages) {
-			out.write("\t@Override\n");
-			out.write("\tpublic void on" + dom.type + m.name + "( " + dom.type + m.name + " msg ) {\n");
-			out.write("\t\tsessionLayer.on" + dom.type + m.name + "( msg );\n");
-			out.write("\t\tapplicationLayer.on" + dom.type + m.name + "( msg );\n");
-			out.write("\t}\n\n");
-		}
-		
-		// write out the close to the class
-		out.write("}\n");
-
-		// done. close out the file
-		out.close();
-	}
-	
 	private void genMessage(final DomFixMessage m, final FixMessageDom dom, final BufferedWriter out) throws Exception {
 
 		String name = dom.type + m.name;
