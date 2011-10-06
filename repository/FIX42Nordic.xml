@@ -93,6 +93,7 @@
 		<message name="Logon" msgcat="admin" msgtype="A">
 			<field name="EncryptMethod" required="Y" />
 			<field name="HeartBtInt" required="Y" />
+			<field name="ResetSeqNumFlag" rerequired="N" />
 		</message>
 		<message name="Logout" msgcat="admin" msgtype="5">
 			<field name="Text" required="N" />
@@ -361,6 +362,10 @@
 		<field name="RefMsgType" number="372" type="STRING" />
 		<field name="RefSeqNum" number="45" type="INT" />
 		<field name="RefTagID" number="371" type="INT" />
+    	<field name="ResetSeqNumFlag" number="141" type="BOOLEAN">
+      		<value enum="N" description="NO"/>
+    		<value enum="Y" description="YES"/>
+	    </field>
 		<field name="SecurityID" number="48" type="STRING" length="16" />
 		<field name="SecondaryExecID" number="527" type="STRING" length="16"/>
 		<field name="SecondaryOrderID" number="198" type="STRING" />
