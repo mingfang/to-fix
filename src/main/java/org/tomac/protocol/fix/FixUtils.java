@@ -290,14 +290,14 @@ public class FixUtils {
 			if (s[decimal] == (byte) '.')
 				break;
 
-		final int decimals = length - 1 - decimal;
+		final int decimals = start + length - 1 - decimal;
 
 		if (decimal > -1) {
-			value = Utils.longValueOf(s, 0, decimal) * FIX_FLOAT_NUMBER_OF_DECIMALS;
+			value = Utils.longValueOf(s, start, decimal - start) * FIX_FLOAT_NUMBER_OF_DECIMALS;
 			final int dec = FIX_FLOAT_NUMBER_OF_DECIMALS_DIGITS < decimals ? FIX_FLOAT_NUMBER_OF_DECIMALS_DIGITS : decimals;
 			value += Utils.intValueOf(s, decimal + 1 < length ? decimal + 1 : length - 1, dec) * Utils.multiplier(FIX_FLOAT_NUMBER_OF_DECIMALS_DIGITS - dec);
 		} else
-			value = Utils.longValueOf(s, 0, decimals) * FIX_FLOAT_NUMBER_OF_DECIMALS;
+			value = Utils.longValueOf(s, start, decimals) * FIX_FLOAT_NUMBER_OF_DECIMALS;
 
 		if (negative)
 			return -1 * value;

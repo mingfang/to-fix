@@ -89,6 +89,17 @@ public class TestFixUtils {
 	}
 	
 	@Test
+	public void testFixFloatToLong() {
+		
+		byte[] b = "-12345.1234".getBytes();
+		
+		long l = FixUtils.fixFloatValueOf(b,b.length);
+		assertEquals(-123451234,l);
+	}
+
+	
+	
+	@Test
 	public void testLongToFixFloat() {
 		
 		long l;

@@ -33,6 +33,8 @@
 			<field name="IDSource" required="N" />
 			<field name="Side" required="Y" />
 			<field name="Symbol" required="Y" />
+			<field name="ClientID" required="N" />
+			<field name="SecurityExchange" required="N" />
 			<field name="TimeInForce" required="N" />
 			<field name="TransactTime" required="Y" />
 			<field name="ExecBroker" required="N" />
@@ -203,7 +205,7 @@
 		<field name="ClearingAccount" number="440" type="STRING" length="12" />
 		<field name="ClearingFirm" number="439" type="STRING" length="4" />
 		<field name="ClientID" number="109" type="STRING" />
-		<field name="ClOrdID" number="11" type="STRING" length="20" /> 
+		<field name="ClOrdID" number="11" type="STRING" length="64" /> 
 		<field name="ClRefID" number="6209" type="STRING" length="15" />
 		<field name="ContraBroker" number="375" type="STRING" length="4" />
 		<field name="CrossTradeFlag" number="9355" type="CHAR">
@@ -369,6 +371,7 @@
 		<field name="SecurityID" number="48" type="STRING" length="16" />
 		<field name="SecondaryExecID" number="527" type="STRING" length="16"/>
 		<field name="SecondaryOrderID" number="198" type="STRING" />
+		<field name="SecurityExchange" number="207" type="STRING" />
 		<field name="SenderCompID" number="49" type="STRING" length="12" />
 		<field name="SendingTime" number="52" type="UTCTIMESTAMP" />
 		<field name="SenderSubID" number="50" type="STRING" length="32" />
