@@ -11,12 +11,14 @@ import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
 import org.tomac.protocol.fix.FixGarbledException;
 import org.tomac.protocol.fix.FixSessionException;
+import org.tomac.protocol.fix.messaging.FixMessage;
 import org.tomac.tools.messagegen.FixMessageDom.DomBase;
 import org.tomac.tools.messagegen.FixMessageDom.DomFixComponent;
 import org.tomac.tools.messagegen.FixMessageDom.DomFixComponentRef;
 import org.tomac.tools.messagegen.FixMessageDom.DomFixField;
 import org.tomac.tools.messagegen.FixMessageDom.DomFixField.DomFixValue;
 import org.tomac.tools.messagegen.FixMessageDom.DomFixMessage;
+import org.tomac.utils.Utils;
 
 
 public class FixMessageGenerator {
@@ -409,7 +411,7 @@ public class FixMessageGenerator {
 		String chk = "";
 		
 		if (printIsSetCheck(c) != null) chk = "if (" + printIsSetCheck(c) + ")";
-		out.write("\t\t\t" + chk + " s += " + uncapFirst(c.name) + ".toString();\n");
+		out.write("\t\t\t" + chk + " s += " + uncapFirst(c.name) + ".toString().trim();\n");
 	}	
 	
 	private void printTagField(final DomFixField f, final BufferedWriter out) throws IOException {
@@ -434,12 +436,12 @@ public class FixMessageGenerator {
 		case FixMessageDom.XMLDATA:
 		case FixMessageDom.LANGUAGE:
 			if (printIsSetCheck(f) != null) chk = "if (" + printIsSetCheck(f) + ")";
-			out.write("\t\t\t" + chk + " s += \"" + f.name + "(" + f.number + ")=\" + new String(" + uncapFirst(f.name) + ") + sep;\n");
+			out.write("\t\t\t" + chk + " s += \"" + f.name + "(" + f.number + ")=\" + (new String(" + uncapFirst(f.name) + ")).trim() + sep;\n");
 			break;
 			
 		case FixMessageDom.CHAR:
 			if (printIsSetCheck(f) != null) chk = "if (" + printIsSetCheck(f) + ")";
-			out.write("\t\t\t" + chk + " s += \"" + f.name + "(" + f.number + ")=\" + String.valueOf(" + uncapFirst(f.name) + ") + sep;\n");
+			out.write("\t\t\t" + chk + " s += \"" + f.name + "(" + f.number + ")=\" + String.valueOf(" + uncapFirst(f.name) + ").trim() + sep;\n");
 			break;
 
 		case FixMessageDom.INT:
@@ -455,12 +457,12 @@ public class FixMessageGenerator {
 		case FixMessageDom.AMT:
 		case FixMessageDom.PERCENTAGE:
 			if (printIsSetCheck(f) != null) chk = "if (" + printIsSetCheck(f) + ")";
-			out.write("\t\t\t" + chk + " s += \"" + f.name + "(" + f.number + ")=\" + String.valueOf(" + uncapFirst(f.name) + ") + sep;\n");
+			out.write("\t\t\t" + chk + " s += \"" + f.name + "(" + f.number + ")=\" + String.valueOf(" + uncapFirst(f.name) + ").trim() + sep;\n");
 			break;
 
 		case FixMessageDom.BOOLEAN:
 			if (printIsSetCheck(f) != null) chk = "if (" + printIsSetCheck(f) + ")";
-			out.write("\t\t\t" + chk + " s += \"" + f.name + "(" + f.number + ")=\" + String.valueOf(" + uncapFirst(f.name) + ") + sep;\n");
+			out.write("\t\t\t" + chk + " s += \"" + f.name + "(" + f.number + ")=\" + String.valueOf(" + uncapFirst(f.name) + ").trim() + sep;\n");
 			break;
 
 		default:
@@ -710,7 +712,10 @@ public class FixMessageGenerator {
 		// write out the open to the interface
 		out.write("public abstract class FixMessage extends FixGeneratedBaseMessage\n{\n\n");
 		
-		out.write("\tpublic static boolean IGNORE_CHECKSUM = false;\n\n");
+		out.write("\tpublic static boolean IGNORE_CHECKSUM = false;\n");
+		out.write("\tpublic static boolean STDOUT_EQ_DIFFERANCE = false;\n");
+		out.write("\tpublic static boolean IGNORE_EQ_TIME = false;\n\n");
+
 		out.write("\tprivate int msgTypeEnd;\n");
 		out.write("\tint msgEnd = 0;\n\n");
 		
@@ -843,8 +848,9 @@ public class FixMessageGenerator {
 		// equals
 		out.write("\t@Override\n");
 		out.write("\tpublic boolean equals(Object o) {\n");
-		out.write("\t\tif (! ( o instanceof FixMessage)) return false;\n\n");
-		out.write("\t\t\tFixMessage msg = (FixMessage) o;\n\n");
+		out.write("\t\tboolean ret = true;\n\n");
+		out.write("\t\tif (! ( o instanceof FixMessage)) { print(\"class\", o.getClass().getSimpleName(), \"not instance of FixMessage\"); return false; }\n\n");
+		out.write("\t\tFixMessage msg = (FixMessage) o;\n\n");
 		printEquals(out, dom.domFixHeader.fieldsAndComponents);
 
 		out.write("\n");
@@ -853,6 +859,18 @@ public class FixMessageGenerator {
 		out.write("\t@Override\n");
 		out.write("\tpublic abstract String toString();\n");
 		
+		out.write("\tprotected void print(final String type, final Object msg, final Object compare) {\n");
+		out.write("\t\tif (FixMessage.STDOUT_EQ_DIFFERANCE) { \n");
+		out.write("\t\t\tbyte[] pad1 = new byte[24 - type.length() > 0 ? 24 - type.length() : 1];\n");
+		out.write("\t\t\tUtils.fill(pad1, (byte)' ');\n");
+		out.write("\t\t\tString msgString = msg instanceof byte[] ? new String((byte[])msg) : String.valueOf(msg);\n");
+		out.write("\t\t\tbyte[] pad2 = new byte[32 - msgString.length() > 0 ? 32 - msgString.length() : 1];\n");
+		out.write("\t\t\tUtils.fill(pad2, (byte)' ');\n");
+		out.write("\t\t\tString compareString = compare instanceof byte[] ? new String((byte[])compare) : String.valueOf(compare);\n");
+		out.write("\t\t\tSystem.out.println(type + new String(pad1) + msgString + new String(pad2) + compareString);\n");
+		out.write("\t\t}\n");
+		out.write("\t}\n\n");
+
 		// write out the close to the class
 		out.write("}\n");
 
@@ -1319,7 +1337,8 @@ public class FixMessageGenerator {
 		out.write("\t\tchar sep = '\\n';\n");
 		out.write("\t\tif (Boolean.getBoolean(\"fix.useOneLiner\")) sep = SOH;\n\n");
 		
-		out.write("\t\tString s = \"BeginString(8)=\" + new String(BEGINSTRING_VALUE) + sep;\n");
+		out.write("\t\tString s = \"" + m.name + "\" + sep;\n");
+		out.write("\t\ts += \"BeginString(8)=\" + new String(BEGINSTRING_VALUE) + sep;\n");
 		out.write("\t\ts += \"BodyLength(9)=\" + bodyLength + sep;\n");
 		out.write("\t\ts += \"MsgType(35)=\" + new String(MsgTypes." + m.name.toUpperCase() + ") + sep;\n\n");
 
@@ -1356,9 +1375,10 @@ public class FixMessageGenerator {
 		name = capFirst(dom.type) + capFirst(m.name);
 		out.write("\t@Override\n");
 		out.write("\tpublic boolean equals(Object o) {\n");
-		out.write("\t\tif (! ( o instanceof " + name + ")) return false;\n\n");
+		out.write("\t\tboolean ret = true;\n\n");
+		out.write("\t\tif (! ( o instanceof " + name + ")) { print(\"class\", o.getClass().getSimpleName(), \"not instance of " + name + "\"); return false; }\n\n");
 		out.write("\t\t\t" + name + " msg = (" + name + ") o;\n\n");
-		out.write("\t\tif ( ! super.equals(msg) ) return false;\n\n");
+		out.write("\t\tif ( ! super.equals(msg) ) ret = false;\n\n");
 		printEquals(out, m.fieldsAndComponents);
 		out.write("\t}\n");
 
@@ -1644,7 +1664,8 @@ public class FixMessageGenerator {
 			name = capFirst(dom.type) + capFirst(m.name);
 		out.write("\t@Override\n");
 		out.write("\tpublic boolean equals(Object o) {\n");
-		out.write("\t\tif (! ( o instanceof " + name + ")) return false;\n\n");
+		out.write("\t\tboolean ret = true;\n\n");
+		out.write("\t\tif (! ( o instanceof " + name + ")) { print(\"class\", o.getClass().getSimpleName(), \"not instance of " + name + "\"); return false; }\n\n");
 		out.write("\t\t\t" + name + " msg = (" + name + ") o;\n\n");
 		//out.write("\t\tif ( ! super.equals(msg) ) return false;\n\n");
 		printEquals(out, m.fieldsAndComponents);
@@ -2083,18 +2104,21 @@ public class FixMessageGenerator {
 		for (final DomBase b : fieldsAndComponents) {
 			if (b instanceof DomFixField) {
 				DomFixField f = (DomFixField) b;
-				if (f.name.equalsIgnoreCase("BodyLength") || f.name.equalsIgnoreCase("CheckSum") || f.name.equalsIgnoreCase("MsgType")) continue;
+				if (f.name.equalsIgnoreCase("BodyLength") || f.name.equalsIgnoreCase("CheckSum") || f.name.equalsIgnoreCase("MsgType") || f.name.equalsIgnoreCase("SendingTime") || f.name.equalsIgnoreCase("OrigSendingTime")) continue;
 				if (isPartOfEqualCopmarison(f.type)) {
 					out.write("\t\tif (!" + getEqualExpression(uncapFirst(f.name), f.type, "msg." + uncapFirst(f.name)));
-					out.write(") return false;\n\n");
+					out.write(") {\n");
+					out.write("\t\t\tret=false;\n");
+					out.write("\t\t\tprint(\"" + capFirst(f.name) + "\", " + uncapFirst(f.name) + ", msg."+ uncapFirst(f.name) +");\n");
+					out.write("\t\t}\n");
 				}
 			}
 			if (b instanceof DomFixComponentRef) {
 				out.write("\t\tif (!" + uncapFirst(((DomFixComponentRef)b).name) + ".equals(msg." + uncapFirst(((DomFixComponentRef)b).name) + ")");
-				out.write(") return false;\n\n");
+				out.write(") ret = false;\n\n");
 			}
 		}
-		out.write("		return true;\n");
+		out.write("		return ret;\n");
 	}
 	
 	private void writeEnum(final BufferedWriter out, final DomFixField f, final DomFixValue v) throws IOException {
