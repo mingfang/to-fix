@@ -861,12 +861,12 @@ public class FixMessageGenerator {
 		
 		out.write("\tprotected void print(final String type, final Object msg, final Object compare) {\n");
 		out.write("\t\tif (FixMessage.STDOUT_EQ_DIFFERANCE) { \n");
+		out.write("\t\t\tString msgString = msg instanceof byte[] ? new String((byte[])msg).trim() : String.valueOf(msg).trim();\n");
+		out.write("\t\t\tString compareString = compare instanceof byte[] ? new String((byte[])compare).trim() : String.valueOf(compare).trim();\n");
 		out.write("\t\t\tbyte[] pad1 = new byte[24 - type.length() > 0 ? 24 - type.length() : 1];\n");
 		out.write("\t\t\tUtils.fill(pad1, (byte)' ');\n");
-		out.write("\t\t\tString msgString = msg instanceof byte[] ? new String((byte[])msg) : String.valueOf(msg);\n");
 		out.write("\t\t\tbyte[] pad2 = new byte[32 - msgString.length() > 0 ? 32 - msgString.length() : 1];\n");
 		out.write("\t\t\tUtils.fill(pad2, (byte)' ');\n");
-		out.write("\t\t\tString compareString = compare instanceof byte[] ? new String((byte[])compare) : String.valueOf(compare);\n");
 		out.write("\t\t\tSystem.out.println(type + new String(pad1) + msgString + new String(pad2) + compareString);\n");
 		out.write("\t\t}\n");
 		out.write("\t}\n\n");
