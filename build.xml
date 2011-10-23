@@ -2,6 +2,7 @@
 <!-- fix.version determinse which version to build. Current alternatives: 
 * fix50sp2 (default)
 * fix42nordic
+* fix42chixeurope
 Build by;
 ant clean
 ant -Dfix.version=whatever_version_you_want
@@ -100,6 +101,24 @@ optional set your junit path -Djunit.path=wherever_it_is
     <target name="gen-fix42nordic">
         <java classname="org.tomac.tools.messagegen.FixMessageGenerator" failonerror="true" fork="yes">
             <arg line="${basedir}/repository/FIX42Nordic.xml ${basedir}/src/main/java/"/>
+            <classpath refid="to-fix-gen.classpath"/>
+        </java>
+    </target>
+    <target name="gen-fix42chixeurope">
+        <java classname="org.tomac.tools.messagegen.FixMessageGenerator" failonerror="true" fork="yes">
+            <arg line="${basedir}/repository/FIX42ChiXEurope.xml ${basedir}/src/main/java/"/>
+            <classpath refid="to-fix-gen.classpath"/>
+        </java>
+    </target>
+    <target name="gen-fix42chieast">
+        <java classname="org.tomac.tools.messagegen.FixMessageGenerator" failonerror="true" fork="yes">
+            <arg line="${basedir}/repository/FIX42ChiEast.xml ${basedir}/src/main/java/"/>
+            <classpath refid="to-fix-gen.classpath"/>
+        </java>
+    </target>
+    <target name="gen-fix42chixjapan">
+        <java classname="org.tomac.tools.messagegen.FixMessageGenerator" failonerror="true" fork="yes">
+            <arg line="${basedir}/repository/FIX42ChiXJapan.xml ${basedir}/src/main/java/"/>
             <classpath refid="to-fix-gen.classpath"/>
         </java>
     </target>

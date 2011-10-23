@@ -470,47 +470,6 @@ public class FixUtils {
 		return val;
 	}	
 	
-	public static int crackNasdaqMsgType(int msgType, final ByteBuffer buf) throws FixSessionException {
-
-		if (! useNasdaqOmx) return msgType;
-		
-		final int pos = buf.position();
-
-		if (msgType == EXECUTIONREPORT_INT) { // this is Execution Report need to figure out sub type...
-
-			// get tag ExecType (150)
-			if (Utils.contains(buf,EXECTYPE_SCAN)) {
-
-				final byte c = getTagCharValue(EXECUTIONREPORT, 150, buf);
-
-				newMsgType[0] = (byte) '8';
-
-				newMsgType[1] = c;
-
-				msgType = getMsgTypeTagAsInt(newMsgType, 2);
-
-			} 
-			
-		} else if (msgType == ORDERCANCELREJECT_INT) { // this is order reject...
-
-			// 434 CxlRejResponseTo
-			if (Utils.contains(buf, CXLREJRESPONSETO_SCAN)) {
-
-				final byte c = getTagCharValue(ORDERCANCELREJECT, 434, buf);
-
-				newMsgType[0] = (byte) '9';
-				newMsgType[1] = c;
-				msgType = getMsgTypeTagAsInt(newMsgType, 2);
-
-			}
-
-		} 
-		
-		buf.position(pos);
-
-		return msgType;
-	}
-
 	public static byte[] getMsgType(final int msgType) {
 		if (msgType<255) 
 			return new byte[] { (byte)msgType};
