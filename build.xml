@@ -98,6 +98,12 @@ optional set your junit path -Djunit.path=wherever_it_is
             <src path="src/main/java"/>
         </javac>
     </target>
+    <target name="gen-fix42batseurope">
+        <java classname="org.tomac.tools.messagegen.FixMessageGenerator" failonerror="true" fork="yes">
+            <arg line="${basedir}/repository/FIX42BatsEurope.xml ${basedir}/src/main/java/"/>
+            <classpath refid="to-fix-gen.classpath"/>
+        </java>
+    </target>
     <target name="gen-fix42nordic">
         <java classname="org.tomac.tools.messagegen.FixMessageGenerator" failonerror="true" fork="yes">
             <arg line="${basedir}/repository/FIX42Nordic.xml ${basedir}/src/main/java/"/>
