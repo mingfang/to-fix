@@ -853,7 +853,17 @@ public class FixMessageGenerator {
 
 		out.write("\t@Override\n");
 		out.write("\tpublic abstract String toString();\n");
-		
+
+		print_print(out);
+
+		// write out the close to the class
+		out.write("}\n");
+
+		// done. close out the file
+		out.close();
+	}	
+	
+	private void print_print(BufferedWriter out) throws IOException {
 		out.write("\tprotected void print(final String type, final Object msg, final Object compare) {\n");
 		out.write("\t\tif (FixMessage.STDOUT_EQ_DIFFERANCE) { \n");
 		out.write("\t\t\tString msgString = msg instanceof byte[] ? new String((byte[])msg).trim() : String.valueOf(msg).trim();\n");
@@ -865,14 +875,8 @@ public class FixMessageGenerator {
 		out.write("\t\t\tSystem.out.println(type + new String(pad1) + msgString + new String(pad2) + compareString);\n");
 		out.write("\t\t}\n");
 		out.write("\t}\n\n");
+	}
 
-		// write out the close to the class
-		out.write("}\n");
-
-		// done. close out the file
-		out.close();
-	}	
-	
 	private void genGetMsgType(FixMessageDom dom, BufferedWriter out, boolean isCrackMsgType) throws Exception 
 	{
 		if (isCrackMsgType) 
@@ -1400,6 +1404,7 @@ public class FixMessageGenerator {
 		out.write(strConstants + "\n");
 		out.write(strBaseUtils + "\n");
 		out.write(strOtherUtils + "\n");
+		out.write("import org.tomac.protocol.fix.messaging.FixMessage;\n");
 		out.write("import " + dom.packageName + ".FixMessageInfo.SessionRejectReason;\n");
 		out.write("import " + dom.packageName + ".FixMessageInfo;\n");
 		out.write("import " + dom.packageName + ".FixTags;\n");
@@ -1454,7 +1459,9 @@ public class FixMessageGenerator {
 		out.write("\t\t\tif (!group[i].equals(msg.group[i])) return false;\n");
 		out.write("\t\treturn true;\n");
 		out.write("\t}\n\n");
-		
+
+		print_print(out);
+
 		out.write("\t@Override\n");
 		out.write("\tpublic String toString() {\n");
 		out.write("\t	String s = \"\";\n");
