@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <fix major="4" minor="2" servicepack="0" type="FIX"
-	package="org.tomac.protocol.fix.messaging" flavour="FIX 4.2 Chi-East">
+	package="org.tomac.protocol.fix.messaging" flavour="Chi-East">
 	<header>
 		<field name="BeginString" required="Y" />
 		<field name="BodyLength" required="Y" />
