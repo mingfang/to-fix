@@ -134,6 +134,13 @@ optional set your junit path -Djunit.path=wherever_it_is
             <classpath refid="to-fix-gen.classpath"/>
         </java>
     </target>
+    <target name="gen-fix50lse-order">
+        <java classname="org.tomac.tools.messagegen.FixMessageGenerator" failonerror="true" fork="yes">
+            <jvmarg line="-Xmx1024m -Xss4096k"/>
+            <arg line="${basedir}/repository/FIX50LSE-order.xml ${basedir}/src/main/java/"/>
+            <classpath refid="to-fix-gen.classpath"/>
+        </java>
+    </target>
     <target name="gen-fix50sp2">
         <java classname="org.tomac.tools.messagegen.FixMessageGenerator" failonerror="true" fork="yes">
             <jvmarg line="-Xmx1024m -Xss4096k"/>

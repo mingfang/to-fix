@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.SortedSet;
 
 import org.dom4j.Document;
@@ -66,14 +67,12 @@ public class FixMessageGenerator {
 	}
 
 	public static void main(final String[] args) {
-		boolean prettyformat = false;
 		
 		if (args.length < 1) {
-			System.out.println("Usage: FixMessageGenerator [spec file] [output directory]");
+			System.out.println("Usage: FixMessageGenerator [specFile] [outputDirectory]");
+			System.out.println("specFile:\tthe quickFix xml file.\noutputDirectory:\tthe java src root.\n");
 			return;
-		} else if (args[0].equals("-prettyformat") && args.length > 1) {
-			prettyformat = true;
-		}
+		} 
 
 		final File specFile = new File(args[0]);
 
@@ -91,7 +90,7 @@ public class FixMessageGenerator {
 			if (!outputDir.exists())
 				outputDir.mkdir();
 		}
-
+		
 		FixMessageDom fixDom = null;
 
 		try {
@@ -105,11 +104,42 @@ public class FixMessageGenerator {
 			return;
 		}
 		
-		if (prettyformat) {
+		/*if (prettyformat) {
 			new FixMessageGenerator().prettyformat(fixDom);
 			return;
-		}
+		}*/
+		// print missing fields.
+		if (args.length > 2) {
+			final File refFile = new File(args[2]);
+			try {
+				FixMessageDom refFixDom = fixLoadAndValidate(refFile);
+				Iterator<String> it = fixDom.missingFields.iterator();
+				while (it.hasNext()) {
+					String name = it.next();
+					DomFixField field = refFixDom.domFixNamedFields.get(name);
+					if (field!=null) {
+						if (field.domFixValues.size()==0) {
+							System.out.println("<field name=\""+field.name+"\" number=\""+field.number+"\" type=\""+field.type+"\"/>");
+						} else {
+							System.out.println("<field name=\""+field.name+"\" number=\""+field.number+"\" type=\""+field.type+"\">");
+							Iterator<DomFixValue> iv = field.domFixValues.iterator();
+							while (iv.hasNext()) {
+								DomFixValue v = iv.next();
+								System.out.println("\t<value enum=\"" + v.fixEnum + "\" description=\"" + v.description + "\"/>");
+							}
+							System.out.println("</field>");
+						}
+					}
+				}
+			} catch (final Exception e) {
+				e.printStackTrace();
+				return;
+			}
+			
+		}		
 
+
+		
 		try {
 			new FixMessageGenerator().generate(fixDom, outputDir);
 		} catch (final Exception e) {

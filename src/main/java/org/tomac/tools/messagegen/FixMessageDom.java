@@ -17,6 +17,7 @@ public class FixMessageDom {
 	public String servicepack;
 	public String minor;
 	public String flavour;
+	public ArrayList<String> missingFields = new ArrayList<String>();
 	public ArrayList<DomFixMessage> domFixMessages = new ArrayList<DomFixMessage>();
 	public ArrayList<DomFixComponent> domFixComponents = new ArrayList<DomFixComponent>();
 	public HashMap<String, DomFixComponent> domFixNamedComponents = new HashMap<String, DomFixComponent>();
@@ -299,7 +300,7 @@ public class FixMessageDom {
 						required = attribute.getValue();
 				}
 				DomFixField qf = domFixNamedFields.get(name);
-				if (qf == null) { System.out.println(name); continue; }
+				if (qf == null) { System.out.println(name); missingFields.add(name); continue; }
 				final DomFixField f = new DomFixField(qf, required, component.indexOf(field));
 				c.fields.add(f);
 				c.fieldsAndComponents.add(f);
@@ -439,8 +440,10 @@ public class FixMessageDom {
 						final DomFixField f = new DomFixField(domFixNamedFields.get(name), required, message.indexOf(value));
 						m.fields.add(f);
 						m.fieldsAndComponents.add(f);
-					} else
+					} else {
 						System.out.println("domFixNamedFields: " + name);
+						missingFields.add(name);
+					}
 				}
 
 				for (final Iterator<Element> k = message.elementIterator("component"); k.hasNext();) {
@@ -589,6 +592,10 @@ public class FixMessageDom {
 		
 		public boolean isRepeating() {
 			DomFixComponent  c = domFixNamedComponents.get(name);
+			if (c==null) {
+				System.out.println("Repeating Component: " + name);
+				return false;
+			}
 			if (c.isRepeating) return true;
 			return false;
 		}
