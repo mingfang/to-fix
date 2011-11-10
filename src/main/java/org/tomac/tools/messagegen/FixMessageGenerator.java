@@ -1534,6 +1534,7 @@ public class FixMessageGenerator {
 			out.write(strOtherUtils + "\n");
 			out.write("import " + dom.packageName + ".FixTags;\n");
 			out.write("import " + dom.packageName + ".FixMessageInfo.*;\n");
+			out.write("import " + dom.packageName + ".FixMessage;\n");
 			for (DomFixComponentRef c : m.components)
 				out.write("import " + dom.packageName + ".component.Fix" + capFirst(c.name) + ";\n");
 			out.write("\n");
@@ -1662,6 +1663,8 @@ public class FixMessageGenerator {
 		}
 	    out.write("\t}\n");
 		
+		print_print(out);
+
 		// toString
 		out.write("\t/**\n");
 		out.write("\t * If you use toString for any other purpose than administrative printout.\n");
