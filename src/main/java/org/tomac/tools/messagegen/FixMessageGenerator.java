@@ -88,7 +88,7 @@ public class FixMessageGenerator {
 			outputDir = new File(args[1]);
 
 			if (!outputDir.exists())
-				outputDir.mkdir();
+				outputDir.mkdirs();
 		}
 		
 		FixMessageDom fixDom = null;
