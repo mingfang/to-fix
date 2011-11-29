@@ -405,24 +405,6 @@ public class FixUtils {
 		buf.put( SOH );
 		
 	}
-	public static void putFixTagBuffer(final ByteBuffer buf, final int tag, final ByteBuffer value) {
-        if (value == null) {
-            throw new IllegalArgumentException("value is null");
-        }
-
-        if (tag >= TAGS.length) {
-            put(buf, tag);
-            buf.put(EQL);
-        }else {
-            buf.put(TAGS[tag]);
-        }
-
-
-        buf.put(value);
-
-        buf.put(SOH);
-
-    }
 
 
 	static void put(final ByteBuffer out, final byte b) {
